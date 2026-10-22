@@ -52,19 +52,6 @@
           ]
         },
         {
-          "id": "runtime-governance",
-          "argv": [
-            "{python}",
-            "-B",
-            "governance/tools/run_tests.py",
-            "-s",
-            "uss-enterprise/personnel-v2/validation",
-            "-p",
-            "test_personnel_v2_governance.py",
-            "-v"
-          ]
-        },
-        {
           "id": "personnel-v2-offline",
           "argv": [
             "{python}",

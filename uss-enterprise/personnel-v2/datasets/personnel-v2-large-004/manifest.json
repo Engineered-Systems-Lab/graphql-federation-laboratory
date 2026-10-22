@@ -1,0 +1,139 @@
+{
+  "composition": {
+    "civilians": {
+      "algorithm": "sha256-order-v1",
+      "canonInspired": [
+        "PRS-3001",
+        "PRS-3002",
+        "PRS-3003",
+        "PRS-3004"
+      ],
+      "count": 199,
+      "firstId": "PRS-3001",
+      "identity": "personnel-civilians-v1",
+      "lastId": "PRS-3199",
+      "seed": "enterprise-d-2366-civilians-v1",
+      "synthetic": "every other civilian of the range is generated and synthetic; the canon-inspired ones carry a name and a title only, with no episode facts"
+    },
+    "keptByName": {
+      "CRW-1047": "PRS-0001",
+      "CRW-1048": "PRS-1048",
+      "CRW-1049": "PRS-1049",
+      "CRW-1050": "PRS-0002",
+      "CRW-1051": "PRS-0004",
+      "CRW-1052": "PRS-0005",
+      "CRW-1053": "PRS-1053",
+      "CRW-1054": "PRS-1054",
+      "CRW-1055": "PRS-0714",
+      "CRW-1056": "PRS-0003",
+      "CRW-1057": "PRS-1057",
+      "CRW-1058": "PRS-1058",
+      "CRW-1100": "PRS-1100"
+    },
+    "migrated": 787,
+    "migratedRule": "a person not in the source snapshot by exact name keeps the number of the v1 id (CRW-1048 becomes PRS-1048)",
+    "sourceRecords": 14
+  },
+  "count": 1000,
+  "datasetVersion": "personnel-v2-large-004",
+  "formatVersion": 1,
+  "generator": {
+    "algorithm": "crew-mapping-batch-v1 + sha256-order-v1",
+    "identity": "personnel-v2-large-004-v1",
+    "source": {
+      "hashing": "sha256-crlf-to-lf-v1",
+      "path": "federation/personnel-mapping/civilians.py",
+      "sha256": "58d67553885eb85e62b32bd8a70bdce75a882e0c952791ca11277ddd15c69b8e"
+    },
+    "toolchain": {
+      "dependencies": "stdlib-only",
+      "implementation": "CPython",
+      "minimumVersion": "3.13"
+    }
+  },
+  "inputs": {
+    "v1Release": {
+      "hashing": "lf",
+      "path": "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/manifest.json",
+      "sha256": "c06125dbe6883981293b485497474c46a0128372056efca389d7421f35ba2690"
+    },
+    "v2Source": {
+      "hashing": "raw",
+      "path": "uss-enterprise/personnel-v2/datasets/personnel-v2-small-003.xml",
+      "sha256": "d89651c9966108a57e109f8bb0b4879109b7cdaad64825b85ba4093db795293b"
+    }
+  },
+  "pageSize": 100,
+  "pages": [
+    {
+      "byteLength": 37257,
+      "count": 100,
+      "filename": "page-000.xml",
+      "offset": 0,
+      "sha256": "0d5b60e81d0757eae3b208ee8b6fa04823004bd515d4091cc4f863c4c4ec931e"
+    },
+    {
+      "byteLength": 36822,
+      "count": 100,
+      "filename": "page-001.xml",
+      "offset": 100,
+      "sha256": "38439a7dcc414e913fbdf1bbcc82c337434cdd116980d6dd190f3bae09250e5d"
+    },
+    {
+      "byteLength": 37515,
+      "count": 100,
+      "filename": "page-002.xml",
+      "offset": 200,
+      "sha256": "6b98815625ecce7c46e9cdabe7f30caf080fed1364bb09b922456979548a9a7f"
+    },
+    {
+      "byteLength": 37717,
+      "count": 100,
+      "filename": "page-003.xml",
+      "offset": 300,
+      "sha256": "19a5da376a9fa0ee06126da4d3f253d7f9a8c6353cd31727d991fda3af5a087f"
+    },
+    {
+      "byteLength": 37072,
+      "count": 100,
+      "filename": "page-004.xml",
+      "offset": 400,
+      "sha256": "f5d1a3d150a78f65675384670c11e0acb4ef78bccb625956f38dec46ef8acb2d"
+    },
+    {
+      "byteLength": 36280,
+      "count": 100,
+      "filename": "page-005.xml",
+      "offset": 500,
+      "sha256": "b547a2bd06c6f7e18007ef387d756374580f0f7cf1f3586dba8553ce2e59da00"
+    },
+    {
+      "byteLength": 36810,
+      "count": 100,
+      "filename": "page-006.xml",
+      "offset": 600,
+      "sha256": "bb0035e30909040c2889c1f3140b63d08d40eb68306777af0d3068842d92880c"
+    },
+    {
+      "byteLength": 37460,
+      "count": 100,
+      "filename": "page-007.xml",
+      "offset": 700,
+      "sha256": "70af8313dafaf6ed98ec17969801922f573014e4170df4b1805a3063abc882ae"
+    },
+    {
+      "byteLength": 20579,
+      "count": 100,
+      "filename": "page-008.xml",
+      "offset": 800,
+      "sha256": "1a07850589a86f519aa76993e9202b3240dca5a6de722e4871db973a82405aac"
+    },
+    {
+      "byteLength": 20776,
+      "count": 100,
+      "filename": "page-009.xml",
+      "offset": 900,
+      "sha256": "3fc12bd1afb15d9e3efe3b0bff7ccc3dcf87d73b48fd295b9f58b3e43e1818ff"
+    }
+  ]
+}

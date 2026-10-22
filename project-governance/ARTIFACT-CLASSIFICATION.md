@@ -37,6 +37,18 @@ The template ships the rows of its own documents. A project that starts from it 
 | `uss-enterprise/crew-personnel/src/*.wsdl` | runtime | crew-offline | - | - | - | - | - | - |
 | `uss-enterprise/crew-personnel/validation/*.py` | tooling | crew-offline | - | - | - | - | - | - |
 | `uss-enterprise/crew-personnel/validation/runtime_acceptance.py` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/Dockerfile` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/README.md` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/compose.yaml` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/contracts/*.wsdl` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/contracts/*.xsd` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/datasets/*.json` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/datasets/*.xml` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/pom.xml` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/src/*.java` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/src/*.wsdl` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/validation/*.py` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
+| `uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py` | tooling | personnel-v2-runtime | - | - | - | - | - | - |
 | `uss-enterprise/requirements.txt` | tooling | crew-offline | - | - | - | - | - | - |
 
 ## Historical paths

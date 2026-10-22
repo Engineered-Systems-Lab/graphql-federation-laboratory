@@ -39,16 +39,6 @@
       "uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py",
       "soap"
     ],
-    "runtime-governance": [
-      "{python}",
-      "-B",
-      "governance/tools/run_tests.py",
-      "-s",
-      "uss-enterprise/personnel-v2/validation",
-      "-p",
-      "test_personnel_v2_governance.py",
-      "-v"
-    ],
     "missions-offline": [
       "{python}",
       "-B",

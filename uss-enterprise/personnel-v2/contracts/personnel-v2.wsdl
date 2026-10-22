@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ xmlns:tns="urn:graphql-federation-lab:personnel:v2"
+ targetNamespace="urn:graphql-federation-lab:personnel:v2"
+ name="PersonnelV2">
+  <wsdl:documentation>
+    SOAP 1.1 over HTTP; document/literal wrapped. Endpoint path:
+    /soap/personnel-v2. Host and port are deployment configuration;
+    this reusable binding contract intentionally has no deployment service/port.
+    Success: HTTP 200. Declared faults: HTTP 500, with one PersonnelServiceFault
+    in SOAP detail. InvalidRequest and PersonnelNotFound use SOAP Client;
+    ServiceUnavailable and InternalError use SOAP Server.
+  </wsdl:documentation>
+  <wsdl:types>
+    <xs:schema targetNamespace="urn:graphql-federation-lab:personnel:v2"
+      elementFormDefault="qualified" attributeFormDefault="unqualified">
+      <xs:include schemaLocation="personnel-v2.xsd"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetPersonnelMemberRequestMessage"><wsdl:part name="parameters" element="tns:GetPersonnelMemberRequest"/></wsdl:message>
+  <wsdl:message name="GetPersonnelMemberResponseMessage"><wsdl:part name="parameters" element="tns:GetPersonnelMemberResponse"/></wsdl:message>
+  <wsdl:message name="ListPersonnelMembersRequestMessage"><wsdl:part name="parameters" element="tns:ListPersonnelMembersRequest"/></wsdl:message>
+  <wsdl:message name="ListPersonnelMembersResponseMessage"><wsdl:part name="parameters" element="tns:ListPersonnelMembersResponse"/></wsdl:message>
+  <wsdl:message name="PersonnelServiceFaultMessage"><wsdl:part name="parameters" element="tns:PersonnelServiceFault"/></wsdl:message>
+  <wsdl:portType name="PersonnelPortType">
+    <wsdl:operation name="GetPersonnelMember">
+      <wsdl:input message="tns:GetPersonnelMemberRequestMessage"/>
+      <wsdl:output message="tns:GetPersonnelMemberResponseMessage"/>
+      <wsdl:fault name="PersonnelServiceFault" message="tns:PersonnelServiceFaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListPersonnelMembers">
+      <wsdl:input message="tns:ListPersonnelMembersRequestMessage"/>
+      <wsdl:output message="tns:ListPersonnelMembersResponseMessage"/>
+      <wsdl:fault name="PersonnelServiceFault" message="tns:PersonnelServiceFaultMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PersonnelSoap11Binding" type="tns:PersonnelPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetPersonnelMember">
+      <soap:operation soapAction="urn:graphql-federation-lab:personnel:v2:GetPersonnelMember" style="document"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+      <wsdl:fault name="PersonnelServiceFault"><soap:fault name="PersonnelServiceFault" use="literal"/></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListPersonnelMembers">
+      <soap:operation soapAction="urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers" style="document"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+      <wsdl:fault name="PersonnelServiceFault"><soap:fault name="PersonnelServiceFault" use="literal"/></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+</wsdl:definitions>

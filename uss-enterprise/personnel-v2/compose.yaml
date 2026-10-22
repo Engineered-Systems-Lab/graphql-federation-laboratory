@@ -1,0 +1,8 @@
+services:
+  personnel-v2:
+    build: .
+    ports:
+      - "127.0.0.1:8082:8082"
+    environment:
+      PERSONNEL_DATASET_VERSION: ${PERSONNEL_DATASET_VERSION:-personnel-v2-small-002}
+      PERSONNEL_FAILURE_PROFILE: ${PERSONNEL_FAILURE_PROFILE:-normal}

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="urn:graphql-federation-lab:personnel:v2"
+           targetNamespace="urn:graphql-federation-lab:personnel:v2"
+           elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+  <xs:annotation><xs:documentation>
+    Personnel v2. See ../../../docs/PERSONNEL-V2.md.
+    XSD 1.0 patterns match the whole lexical value. No application attributes,
+    defaults, extension wildcards, or nil values are defined. Omission alone
+    requests defaults. Reference integrity and pagination require separate validation.
+  </xs:documentation></xs:annotation>
+  <xs:simpleType name="PersonnelId"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:length value="8"/>
+    <xs:pattern value="PRS-([1-9][0-9]{3}|0[1-9][0-9]{2}|00[1-9][0-9]|000[1-9])"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="DisplayName"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="100"/>
+    <xs:pattern value="[\s\S]*[^ &#x9;&#xD;&#xA;][\s\S]*"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="PositionTitle"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="100"/>
+    <xs:pattern value="[\s\S]*[^ &#x9;&#xD;&#xA;][\s\S]*"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="FaultMessage"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="512"/>
+    <xs:pattern value="[\s\S]*[^ &#x9;&#xD;&#xA;][\s\S]*"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Rank"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="CAPTAIN"/>
+    <xs:enumeration value="COMMANDER"/>
+    <xs:enumeration value="LIEUTENANT_COMMANDER"/>
+    <xs:enumeration value="LIEUTENANT"/>
+    <xs:enumeration value="ENSIGN"/>
+    <xs:enumeration value="CHIEF_PETTY_OFFICER"/>
+    <xs:enumeration value="CREWMAN"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Department"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="COMMAND"/>
+    <xs:enumeration value="OPERATIONS"/>
+    <xs:enumeration value="ENGINEERING"/>
+    <xs:enumeration value="SCIENCE"/>
+    <xs:enumeration value="MEDICAL"/>
+    <xs:enumeration value="SECURITY"/>
+    <xs:enumeration value="FLIGHT_OPERATIONS"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="DutyStatus"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="ACTIVE"/>
+    <xs:enumeration value="ON_LEAVE"/>
+    <xs:enumeration value="INACTIVE"/>
+    <xs:enumeration value="DECEASED"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="FaultCode"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="InvalidRequest"/>
+    <xs:enumeration value="PersonnelNotFound"/>
+    <xs:enumeration value="ServiceUnavailable"/>
+    <xs:enumeration value="InternalError"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="RequestField"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="personnelId"/>
+    <xs:enumeration value="department"/>
+    <xs:enumeration value="dutyStatus"/>
+    <xs:enumeration value="offset"/>
+    <xs:enumeration value="limit"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="DatasetVersion"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="64"/>
+    <xs:pattern value="[a-z0-9]+(-[a-z0-9]+)*"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Offset"><xs:restriction base="xs:int">
+    <xs:minInclusive value="0"/>
+    <xs:maxInclusive value="2147483647"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Count"><xs:restriction base="xs:int">
+    <xs:minInclusive value="0"/>
+    <xs:maxInclusive value="2147483647"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Limit"><xs:restriction base="xs:int">
+    <xs:minInclusive value="1"/>
+    <xs:maxInclusive value="100"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="SecurityClearance"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="NONE"/><xs:enumeration value="SECRET"/><xs:enumeration value="TOP_SECRET"/>
+  </xs:restriction></xs:simpleType>
+  <xs:complexType name="CrewDetails"><xs:sequence>
+    <xs:element name="rank" type="tns:Rank" nillable="false"/>
+    <xs:element name="department" type="tns:Department" nillable="false"/>
+    <xs:element name="securityClearance" type="tns:SecurityClearance" nillable="false"/>
+    <xs:element name="supervisorPersonnelId" type="tns:PersonnelId" minOccurs="0" nillable="false"/>
+  </xs:sequence></xs:complexType>
+  <xs:complexType name="CivilianDetails"><xs:sequence/></xs:complexType>
+  <xs:complexType name="PersonnelMember"><xs:sequence>
+    <xs:element name="personnelId" type="tns:PersonnelId" nillable="false"/>
+    <xs:element name="displayName" type="tns:DisplayName" nillable="false"/>
+    <xs:element name="positionTitle" type="tns:PositionTitle" nillable="false"/>
+    <xs:element name="dutyStatus" type="tns:DutyStatus" nillable="false"/>
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:element name="crewDetails" type="tns:CrewDetails" nillable="false"/>
+      <xs:element name="civilianDetails" type="tns:CivilianDetails" nillable="false"/>
+    </xs:choice>
+  </xs:sequence></xs:complexType>
+  <xs:complexType name="GetPersonnelMemberRequestType"><xs:sequence>
+      <xs:element name="personnelId" type="tns:PersonnelId" minOccurs="1" maxOccurs="1" nillable="false"/>
+  </xs:sequence></xs:complexType>
+  <xs:element name="GetPersonnelMemberRequest" type="tns:GetPersonnelMemberRequestType" nillable="false"/>
+  <xs:complexType name="GetPersonnelMemberResponseType"><xs:sequence>
+      <xs:element name="datasetVersion" type="tns:DatasetVersion" minOccurs="1" maxOccurs="1" nillable="false"/>
+      <xs:element name="personnelMember" type="tns:PersonnelMember" minOccurs="1" maxOccurs="1" nillable="false"/>
+  </xs:sequence></xs:complexType>
+  <xs:element name="GetPersonnelMemberResponse" type="tns:GetPersonnelMemberResponseType" nillable="false"/>
+  <xs:complexType name="ListPersonnelMembersRequestType"><xs:sequence>
+      <xs:element name="department" type="tns:Department" minOccurs="0" maxOccurs="1" nillable="false"/>
+      <xs:element name="dutyStatus" type="tns:DutyStatus" minOccurs="0" maxOccurs="1" nillable="false"/>
+      <xs:element name="offset" type="tns:Offset" minOccurs="0" maxOccurs="1" nillable="false"/>
+      <xs:element name="limit" type="tns:Limit" minOccurs="0" maxOccurs="1" nillable="false"/>
+  </xs:sequence></xs:complexType>
+  <xs:element name="ListPersonnelMembersRequest" type="tns:ListPersonnelMembersRequestType" nillable="false"/>
+  <xs:complexType name="ListPersonnelMembersResponseType"><xs:sequence>
+      <xs:element name="datasetVersion" type="tns:DatasetVersion" minOccurs="1" maxOccurs="1" nillable="false"/>
+      <xs:element name="personnelMember" type="tns:PersonnelMember" minOccurs="0" maxOccurs="100" nillable="false"/>
+      <xs:element name="totalCount" type="tns:Count" minOccurs="1" maxOccurs="1" nillable="false"/>
+      <xs:element name="offset" type="tns:Offset" minOccurs="1" maxOccurs="1" nillable="false"/>
+      <xs:element name="limit" type="tns:Limit" minOccurs="1" maxOccurs="1" nillable="false"/>
+      <xs:element name="hasMore" type="xs:boolean" minOccurs="1" maxOccurs="1" nillable="false"/>
+  </xs:sequence></xs:complexType>
+  <xs:element name="ListPersonnelMembersResponse" type="tns:ListPersonnelMembersResponseType" nillable="false"/>
+  <xs:complexType name="PersonnelServiceFaultType"><xs:sequence>
+      <xs:element name="code" type="tns:FaultCode" minOccurs="1" maxOccurs="1" nillable="false"/>
+      <xs:element name="message" type="tns:FaultMessage" minOccurs="1" maxOccurs="1" nillable="false"/>
+      <xs:element name="field" type="tns:RequestField" minOccurs="0" maxOccurs="1" nillable="false"/>
+  </xs:sequence></xs:complexType>
+  <xs:element name="PersonnelServiceFault" type="tns:PersonnelServiceFaultType" nillable="false"/>
+</xs:schema>

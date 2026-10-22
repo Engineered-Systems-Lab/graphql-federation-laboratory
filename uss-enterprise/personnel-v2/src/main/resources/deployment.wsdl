@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Deployment metadata only. The imported v2 binding drives both code generation and runtime. -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:tns="urn:graphql-federation-lab:personnel:v2" targetNamespace="urn:graphql-federation-lab:personnel:v2">
+  <wsdl:import namespace="urn:graphql-federation-lab:personnel:v2" location="contracts/personnel-v2.wsdl"/>
+  <wsdl:service name="PersonnelService">
+    <wsdl:port name="PersonnelPort" binding="tns:PersonnelSoap11Binding">
+      <soap:address location="http://127.0.0.1:8082/soap/personnel-v2"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

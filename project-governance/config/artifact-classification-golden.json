@@ -1400,6 +1400,446 @@
       "why": "Crew & Personnel v1, imported under a temporary open row; freeze_systems blocks and freezes it",
       "approval_sensitivity": "low"
     },
+    "uss-enterprise/personnel-v2/Dockerfile": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/README.md": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/compose.yaml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/contracts/personnel-v2.wsdl": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/contracts/personnel-v2.xsd": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/manifest.json": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-000.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-001.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-002.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-003.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-004.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-005.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-006.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-007.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-008.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-009.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-small-001.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-small-002.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-small-003.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/pom.xml": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/main/java/lab/enterprise/personnel/Dataset.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/main/java/lab/enterprise/personnel/DatasetPackage.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/main/java/lab/enterprise/personnel/FaultMapping.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/main/java/lab/enterprise/personnel/Faults.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/main/java/lab/enterprise/personnel/Main.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/main/java/lab/enterprise/personnel/PersonnelService.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/main/java/lab/enterprise/personnel/RequestValidation.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/main/java/lab/enterprise/personnel/Xml.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/main/resources/deployment.wsdl": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/test/java/lab/enterprise/personnel/DatasetTest.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/test/java/lab/enterprise/personnel/LargeDatasetTest.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/src/test/java/lab/enterprise/personnel/SoapHttpTest.java": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py": {
+      "class": "tooling",
+      "profile": "personnel-v2-runtime",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2 runtime check, moved from the lab root; runs Maven in the pinned image (D4)",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/personnel-v2/validation/validate.py": {
+      "class": "runtime",
+      "profile": "personnel-v2-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
     "uss-enterprise/requirements.txt": {
       "class": "tooling",
       "profile": "crew-offline",
