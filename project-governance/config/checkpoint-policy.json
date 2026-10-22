@@ -157,6 +157,16 @@
       "-p",
       "test_missions_gates.py",
       "-v"
+    ],
+    "service-scripts-tests": [
+      "{python}",
+      "-B",
+      "governance/tools/run_tests.py",
+      "-s",
+      "scripts/tests",
+      "-p",
+      "test_service_scripts.py",
+      "-v"
     ]
   }
 }

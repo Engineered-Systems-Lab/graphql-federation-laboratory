@@ -80,6 +80,50 @@
       "why": "a committed timing export is a record",
       "approval_sensitivity": "low"
     },
+    "scripts/assets.sh": {
+      "class": "tooling",
+      "profile": "service-scripts",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "read-only service script, imported as a set-up commit under D051",
+      "approval_sensitivity": "low"
+    },
+    "scripts/missions.sh": {
+      "class": "tooling",
+      "profile": "service-scripts",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "read-only service script, imported as a set-up commit under D051",
+      "approval_sensitivity": "low"
+    },
+    "scripts/personnel.sh": {
+      "class": "tooling",
+      "profile": "service-scripts",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "read-only service script, imported as a set-up commit under D051",
+      "approval_sensitivity": "low"
+    },
+    "scripts/tests/test_service_scripts.py": {
+      "class": "tooling",
+      "profile": "service-scripts",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "test of the service scripts, moved from the lab root; own profile service-scripts",
+      "approval_sensitivity": "low"
+    },
     "uss-enterprise/assets/.dockerignore": {
       "class": "runtime",
       "profile": "assets-packaging",

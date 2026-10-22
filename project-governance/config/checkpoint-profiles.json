@@ -526,6 +526,32 @@
           ]
         }
       ]
+    },
+    "service-scripts": {
+      "limitations": "The service scripts and their offline test only (local fake HTTP servers); no running service.",
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "service-scripts-tests",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/run_tests.py",
+            "-s",
+            "scripts/tests",
+            "-p",
+            "test_service_scripts.py",
+            "-v"
+          ]
+        }
+      ]
     }
   }
 }
