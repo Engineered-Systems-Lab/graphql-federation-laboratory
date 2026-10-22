@@ -1,66 +1,49 @@
-# Governance template
+# GraphQL Federation Laboratory
 
-A reusable governance framework for projects that humans and AI agents work on together. It is the process, the rules and the tooling, with no project in it:
+A governed laboratory that federates heterogeneous legacy systems (SOAP/XML, REST/JSON, Oracle, PostgreSQL) behind one GraphQL graph with Apollo and Cosmo, and tests whether higher levels of abstraction give AI agents better tools for cross-system questions.
 
-- a **checkpoint workflow**: explicit scope, a sealed transaction, validation chosen from what changed, and a commit only after the exact approval of one person (the lead developer);
-- **transaction-owned Git worktrees**, so several workers can run in parallel without sharing a checkout or an index, with guarded integration;
-- **local job coordination**: JSON records of the work in flight, hand-offs between workers, and an execution status that shows overlaps before they collide;
-- **one classification table**, in two files read as one (the framework's rows in `governance/ARTIFACT-CLASSIFICATION.md`, yours in `project-governance/ARTIFACT-CLASSIFICATION.md`), that says what every path is and which validation a change to it needs, read by every tool;
-- a **continuity and recovery chain**: a deterministic check of the documents, links and logs, and a versioned way for a fresh agent to reconstruct the project state from the repository alone;
-- **Mission Control**: a read-only local terminal over the decisions, rationale, logs, documents and commits;
-- the **decision registry and rationale** for each of these rules, so you know why they are there before you change them.
+## Status
 
-The documents are written as rules: MUST and MUST NOT mark requirements, the lead developer is the person who holds final approval, and the Coordinator is the role that plans the work and hands out Jobs.
+This repository is being assembled. It starts from a governance template and receives the laboratory's content in slices, each one checked before the next:
 
-## Layout
+| Part | State |
+| --- | --- |
+| Governance framework (`governance/`, `project-governance/`) | in place, from the template |
+| Legacy systems (`uss-enterprise/`) | to be imported |
+| GraphQL federation (`federation/`) | to be imported |
+| Project decisions, rules and rationale (`project-governance/`) | to be imported |
+| Design and status documents (`docs/`) | to be imported |
+| The Abstraction ladder study (`study/`) | to be imported |
+| Development log (`devlog/`) | to be imported |
 
-`governance/` is the framework: do not edit it, because an upgrade replaces it wholesale. `project-governance/` is yours: the files the tools read beside the framework's, listed in [Project governance files](governance/PROJECT-GOVERNANCE.md); an upgrade never touches it. The project's own files are `AGENTS.md`, `docs/` and `devlog/`; every agent starts at `governance/AGENT-ORIENTATION.md`, which `AGENTS.md` points to.
+This section is updated as each part lands.
 
-| Folder | What it holds | Yours to edit? |
-| --- | --- | --- |
-| `AGENTS.md` | the project's own guidance: a pointer to the framework entry, what the project is and its authority map | yes |
-| `governance/` | the rules, workflow, decisions and rationale, with the folders below inside it | no: it is the framework, and an upgrade replaces it; your own rules and decisions go in `project-governance/` |
-| `governance/tools/` | the commands (checkpoint, worktree guard, local jobs, continuity, test runner, runtime guard and the adoption helper, each a script at this level) with their implementation in the packages `lifecycle/`, `worktrees/`, `coordination/`, `support/` and `continuity/` | no: this is what you update from the template |
-| `governance/tests/` | the tests of the tools, in folders named like the packages they test (`lifecycle/`, `worktrees/`, `coordination/`, `support/`, `continuity/`) | no: they come with the tools |
-| `governance/extensions/` | the optional pieces of the framework, each in its own folder (today Mission Control, a read-only local terminal), with the script that removes one; the core never depends on them | no: remove an extension you do not want with `python -B governance/extensions/remove_extension.py <name>` |
-| `governance/tests/extensions/` | the tests of the extensions, one folder each | no: they come with the extensions |
-| `governance/config/` | what the framework tells the tools: policy, profiles, the framework's classification golden pin, the framework part of the reconstruction contract, and the conformance tests that pin that content (`conformance/`); framework content only | no: it comes with the framework |
-| `project-governance/` | your side of the governance: your classification table and its golden pin, your rules, decisions and rationale, your feature switches, devlog settings, Mission Control inputs and port, and the optional additions to the policy, profiles and reconstruction contract; the template ships a starter for each, and [Project governance files](governance/PROJECT-GOVERNANCE.md) lists them with their keys and defaults | yes: it is yours, and an upgrade never touches it |
-| `docs/` | your architecture, plan and progress (placeholders here) | yes |
-| `devlog/` | the historical record of project-state transitions: your conventions (the style of an entry, yours to rewrite) and the index, no entries yet; the folder name and the date format are settings | yes |
-| `governance/scripts/` | the thin shell entry point for the claims status (committed executable, mode 100755) | rarely |
-| `governance/VERSION`, `governance/CHANGELOG.md` | the template version and what changed in it | no: they come with the template |
+## What the laboratory holds
 
-"Yours" in this README, and "the project's" or "owns" in the governance documents, say who maintains a file. They do not say who holds the rights in it: every file the template ships, the starter files included, is licensed material ([License](#license)).
+- **Legacy systems** of a fictional enterprise, each with its own technology and its own idea of the data: Personnel (Java, SOAP/XML), Missions (Java, REST/XML on Oracle) and Assets (REST/JSON on PostgreSQL), with versioned, hash-pinned datasets. Crew & Personnel v1, the first Personnel service, is kept frozen as a reference and is deprecated.
+- **A GraphQL federation layer**: one adapter per system and a shared identity mapping, composed into one supergraph and served by the Apollo Router and by WunderGraph Cosmo, checked against one shared acceptance suite.
+- **The Abstraction ladder study** ("The Abstraction Ladder: Evaluating AI-Agent Access to Legacy Systems"): AI agents answer the same cross-system questions through the raw systems, the raw systems with a written guide, the adapters alone, and the federated graph through each router. Study 1 is reported with its scored results and checksums.
+- **A governance framework** for work by a human lead developer and AI agents together: a sealed checkpoint workflow with one person's exact approval, transaction-owned worktrees, a classification of every path, continuity checks, decision registries and a read-only Mission Control terminal. Start at [Project lifecycle](governance/PROJECT-LIFECYCLE.md); agents start at [AGENTS.md](AGENTS.md).
 
-Python 3.13 or later and Git are the only requirements of the tools; Node.js is needed only for the Mission Control terminal checks. On Windows run the shell commands from Git Bash.
+## Prerequisites
 
-## Adopting and running a project
+To be confirmed as each part is imported. Expected: Git (on Windows, run the shell commands from Git Bash), Python 3.13 or later for the governance tools and the study, Docker with Docker Compose for the services and the federation stack, a JDK and Maven for local Java builds, and Node.js only for the Mission Control terminal checks.
 
-[Project lifecycle](governance/PROJECT-LIFECYCLE.md) is the one page for the lead developer, in six phases, each with the commands you run yourself and links to the sections that own the details:
+## History and provenance
 
-1. **Adopt.** Export the tracked files of `main` into a new empty folder (do not copy the template, which would take its `.git` history), run `git init -b main` and `git add -A`, run the adoption helper `python -B governance/tools/adopt.py` once, and make the first commit.
-2. **Set up.** Make the files yours (`AGENTS.md`, `docs/`, this README and `project-governance/`), run the continuity check and the test suite, and claim the Coordinator role with `local_jobs.py claim-coordinator`.
-3. **Run.** Give orders to the Coordinator, watch the work with `governance/scripts/claims.sh` and Mission Control, give the go and the Approve in the workers' own sessions, and push.
-4. **Repair.** Clear stale claims, check the claims database and remove a stale lock.
-5. **Change.** Turn a feature switch off or remove an extension.
-6. **Upgrade.** Replace `governance/` with a new release, read the Migration notes of the [changelog](governance/CHANGELOG.md) and run the checks.
-
-This README is yours to rewrite and an upgrade never replaces it, so the steps are kept in that page and not here. The export carries `LICENSE` and `governance/NOTICE`; keep both ([License](#license)).
+The laboratory was developed first in a private repository (the "lab"), which remains its archive. This repository was started from the governance template at template commit `733f65a11f2d2639c7015f6c4b491712773db50a` and receives the lab's content as it stood at lab commit `0f9b1dbd416bc90428d2dc1d3e4c700f19dd7e66`. The lab's Git history is not carried: commits of the lab or of the template are cited as `lab commit <id>` or `template commit <id>` and are never presented as commits of this repository. Development log entries migrated from the lab keep their original dates and say so. Files released before the migration call the lead developer "the Captain".
 
 ## License
 
-The template is licensed under the PolyForm Noncommercial License 1.0.0, with the Required Notice in the first line of [LICENSE](LICENSE). This summary does not replace the license text:
+Copyright (c) 2026 Gustavo Cavallin. Two sets of terms apply, by file:
 
-- **Permitted purposes.** You may use, copy, change and distribute the template, and make new works based on it, for a permitted purpose: any noncommercial purpose; personal use for research, experiment and testing for the benefit of public knowledge, personal study, private entertainment, hobby projects, amateur pursuits or religious observance, without any anticipated commercial application; and use by a charitable organization, an educational institution, a public research organization, a public safety or health organization, an environmental protection organization or a government institution, whatever the source of its funding.
-- **Other uses** need a separate permission from the licensor. The license gives none, and this repository makes no offer of one.
-- **Notices.** Anyone who gets a copy of any part of the template from you must also get the license terms or their URL, and every `Required Notice:` line. `LICENSE` carries both for the whole template, and [governance/NOTICE](governance/NOTICE) carries them for a copy of `governance/` or of any part of it, an extension included.
-- **Your project.** These terms do not cover material you write yourself. They keep covering what you retain from the template, whether or not you changed it, and owning your project does not change that.
-- **The rest of the license** includes a patent license that ends if you make a written claim that the software infringes a patent, no right to sublicense, a 32-day period to come into compliance after a first written notice of a violation, and no warranty and no liability as far as the law allows.
-- **What the license does not say.** It licenses the rights the licensor holds in the material. It does not protect the governance method or the ideas, it is not a statement that every part of the material is protected by copyright (parts were written with AI tools, as the [contribution record](governance/CONTRIBUTION-RECORD.md) says), and it is not a statement that the material is free of third-party rights. Third-party material would keep its own license and notice; none has been identified ([contribution register](governance/CONTRIBUTION-REGISTER.md)).
+- **The governance framework**: everything retained from the template, which is `governance/` and the starter files of the template that remain in this repository, is licensed under the PolyForm Noncommercial License 1.0.0 ([LICENSE](LICENSE), with its Required Notice in the first line; [governance/NOTICE](governance/NOTICE) for copies of `governance/`).
+- **Everything else** (the legacy systems, the federation layer, the study, the documents, the development log and the project's own governance files): all rights reserved, except this **evaluation permission**: anyone, including prospective employers and clients, may view this repository, build it and run it locally to evaluate the author's work. The permission does not include copying, redistribution, modification for another use, offering it as a service, or any commercial use.
 
-How contributions to the framework are handled is in [Contributing](governance/CONTRIBUTING.md). The framework was extracted from an earlier private project of the licensor.
+Third-party software and material keep their own licenses (see below). This summary is not legal advice.
 
-## What was left out
+## Third-party and fan material
 
-The template carries the governance framework only: it holds no project logs, services, datasets, design or plan documents, component validation gates or service scripts, and nothing machine-local. Those are yours to add. The framework's decisions are numbered with the prefix G, and the numbers that are not listed in its decisions document were retired before release; your project's decisions are D decisions in `project-governance/DECISIONS.md`.
+- **Star Trek.** This is an independent fan and learning project. Star Trek and all related names, characters, ships, episodes and marks belong to their owners; the project is not affiliated with or endorsed by them. The enterprise, its crew records, missions and assets are fictional data built for testing.
+- **Memory Alpha.** Some mission facts are paraphrased in the project's own words from [Memory Alpha](https://memory-alpha.fandom.com/), whose text is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/); each such record keeps its `sourceUrl` link to the page it came from.
+- **Software.** Third-party components keep their own licenses. The two routers: the Apollo Router and Apollo's composition library are under the Elastic License 2.0 (ELv2), source-available but not open source, and Apollo's subgraph library is under MIT; WunderGraph Cosmo (the router and its `wgc` tool) is under the Apache License 2.0 at the pinned version. The other libraries and base images are listed with the components when they are imported.
