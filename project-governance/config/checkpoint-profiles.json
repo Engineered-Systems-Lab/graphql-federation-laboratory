@@ -1,0 +1,518 @@
+{
+  "version": 4,
+  "profiles": {
+    "crew-offline": {
+      "limitations": "Crew component offline evidence only; not runtime acceptance.",
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "component-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/crew-personnel/validation/validate.py"
+          ]
+        },
+        {
+          "id": "component-regressions",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/run_tests.py",
+            "-s",
+            "uss-enterprise/crew-personnel/validation/tests",
+            "-p",
+            "test_portable_validation.py",
+            "-v"
+          ]
+        }
+      ]
+    },
+    "personnel-v2-runtime": {
+      "limitations": "Personnel v2 native/container/SOAP evidence. Existing Java gate also checks v1 compatibility; no Missions or human acceptance.",
+      "runtime_checks": [
+        "runtime-java",
+        "runtime-container",
+        "runtime-soap"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "runtime-governance",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/run_tests.py",
+            "-s",
+            "uss-enterprise/personnel-v2/validation",
+            "-p",
+            "test_personnel_v2_governance.py",
+            "-v"
+          ]
+        },
+        {
+          "id": "personnel-v2-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/personnel-v2/validation/validate.py"
+          ]
+        },
+        {
+          "id": "runtime-java",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py",
+            "java"
+          ]
+        },
+        {
+          "id": "runtime-container",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py",
+            "container"
+          ]
+        },
+        {
+          "id": "runtime-soap",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py",
+            "soap"
+          ]
+        }
+      ]
+    },
+    "missions-contract": {
+      "limitations": "Missions executable contract (XSD, fixtures, offline validator) evidence only; no Personnel gates, and no Missions service, dataset, container, Oracle or acceptance claim.",
+      "runtime_checks": [
+        "missions-offline"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "missions-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/validate.py"
+          ]
+        }
+      ]
+    },
+    "missions-data": {
+      "limitations": "Missions data evidence for the implemented slice only. Missing, empty or skipped suites fail; no Personnel or manual acceptance claim. See governance/CHECKPOINT-TOOL.md.",
+      "runtime_checks": [
+        "missions-offline",
+        "missions-data"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "missions-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/validate.py"
+          ]
+        },
+        {
+          "id": "missions-data",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/missions_runtime.py",
+            "data"
+          ]
+        }
+      ]
+    },
+    "missions-service": {
+      "limitations": "Missions service evidence for the implemented slice only. Missing, empty or skipped suites fail; no Personnel or manual acceptance claim. See governance/CHECKPOINT-TOOL.md.",
+      "runtime_checks": [
+        "missions-offline",
+        "missions-data",
+        "missions-service"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "missions-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/validate.py"
+          ]
+        },
+        {
+          "id": "missions-data",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/missions_runtime.py",
+            "data"
+          ]
+        },
+        {
+          "id": "missions-service",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/missions_runtime.py",
+            "service"
+          ]
+        }
+      ]
+    },
+    "missions-packaging": {
+      "limitations": "Missions packaging evidence for the implemented slice only. Missing, empty or skipped suites fail; no Personnel or manual acceptance claim. See governance/CHECKPOINT-TOOL.md.",
+      "runtime_checks": [
+        "missions-offline",
+        "missions-data",
+        "missions-service",
+        "missions-packaging"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "missions-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/validate.py"
+          ]
+        },
+        {
+          "id": "missions-data",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/missions_runtime.py",
+            "data"
+          ]
+        },
+        {
+          "id": "missions-service",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/missions_runtime.py",
+            "service"
+          ]
+        },
+        {
+          "id": "missions-packaging",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/missions/validation/missions_runtime.py",
+            "packaging"
+          ]
+        }
+      ]
+    },
+    "assets-contract": {
+      "limitations": "Assets executable contract and dataset (OpenAPI, fixtures, dataset release 1.0, offline validators and their tests, which include the service's database-free unit tests) evidence only; no Personnel or Missions gates, and no Assets service, database, container or acceptance claim.",
+      "runtime_checks": [
+        "assets-offline",
+        "assets-offline-tests"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "assets-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/assets/validation/validate.py"
+          ]
+        },
+        {
+          "id": "assets-offline-tests",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/run_tests.py",
+            "-s",
+            "uss-enterprise/assets/validation",
+            "-p",
+            "test_*.py",
+            "-v"
+          ]
+        }
+      ]
+    },
+    "assets-service": {
+      "limitations": "Assets read service evidence for the implemented slice only: the offline contract and dataset checks and the service against a real disposable PostgreSQL 17 container (Docker required; a missing Docker, image or driver is a failure, never a skip). No Personnel or Missions gates, and no packaging, federation or human acceptance claim (the packaging profile owns the Dockerfile and compose file).",
+      "runtime_checks": [
+        "assets-offline",
+        "assets-offline-tests",
+        "assets-service"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "assets-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/assets/validation/validate.py"
+          ]
+        },
+        {
+          "id": "assets-offline-tests",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/run_tests.py",
+            "-s",
+            "uss-enterprise/assets/validation",
+            "-p",
+            "test_*.py",
+            "-v"
+          ]
+        },
+        {
+          "id": "assets-service",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/assets/validation/run_service_gate.py"
+          ]
+        }
+      ]
+    },
+    "assets-packaging": {
+      "limitations": "Assets packaging evidence for the implemented slice only: the offline contract and dataset checks, the service against a real disposable PostgreSQL 17 container, and the committed Dockerfile, compose file and start script built and run through Docker Compose on an ephemeral loopback port (Docker required; a missing Docker or image is a failure, never a skip). No Personnel or Missions gates, and no federation, orchestration, registry or human acceptance claim.",
+      "runtime_checks": [
+        "assets-offline",
+        "assets-offline-tests",
+        "assets-service",
+        "assets-packaging"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "assets-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/assets/validation/validate.py"
+          ]
+        },
+        {
+          "id": "assets-offline-tests",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/run_tests.py",
+            "-s",
+            "uss-enterprise/assets/validation",
+            "-p",
+            "test_*.py",
+            "-v"
+          ]
+        },
+        {
+          "id": "assets-service",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/assets/validation/run_service_gate.py"
+          ]
+        },
+        {
+          "id": "assets-packaging",
+          "argv": [
+            "{python}",
+            "-B",
+            "uss-enterprise/assets/validation/run_service_gate.py",
+            "packaging"
+          ]
+        }
+      ]
+    },
+    "federation-adapter-runtime": {
+      "limitations": "Federation Assets, mapping, Missions and Personnel adapter evidence for the implemented slices only: the committed Dockerfiles build each adapter and the build stages run the offline unit and integration tests (against a stub of the Assets service, against fixture releases and the real mapping releases, against a stub of the Missions service that serves the real contract fixtures and the released dataset, and against a stub of the Personnel v2 service that serves the two registered snapshots and checks every request against the real XSD), the images, compose files and start scripts are checked and run on ephemeral loopback ports, the mapping release is checked against the files it was built for, the Assets adapter runs against the real Assets service and a disposable PostgreSQL 17, and the Personnel adapter runs against the real Personnel v2 service in a disposable container on a private network (Docker required; a missing Docker, image or build is a failure, never a skip). The Missions adapter service stage needs the reviewed Oracle container running and is run deliberately, not selected here; it was run once against the real Missions service on Oracle 18c with Missions dataset release 1.2 (9 tests, 125 s). Every federation path selects the four adapters' offline gates, the Assets and Personnel service gates, the Apollo router offline gate, the Cosmo router offline gate and the two whole-stack gates, the Apollo one and the Cosmo one: the stack in stub-backend mode (the four adapters, the real Assets service with PostgreSQL 17, the real Personnel v2 service, a stub of the Missions service that serves the released dataset 1.2, and one router, the Apollo router or the Cosmo router, self-hosted, with its execution config composed locally by wgc) with the acceptance questions 2 to 6 (the router-neutral shared suite under federation/acceptance), the controlled cases, the determinism of the composition and the outages run through the router; the Apollo gate needs APOLLO_ELV2_LICENSE=accept set by the person who runs it (Rover's composition plugin is under the Elastic License 2.0), and a missing acceptance is a failure; the Cosmo gate needs no license acceptance, account or token (its composition tool wgc is Apache-2.0). The stack serves the large data: Missions dataset release 1.2 (300 missions) and the Personnel v2 snapshot personnel-v2-large-004 (1,000 people), and the acceptance asks mapping release 1.3: every P-reference resolves to the non-crew person of that exact name, an O-reference has no entry, a reference the release has no entry for is UNMAPPED, a refused release is RELEASE_REFUSED, and a resolution is null only when the router cannot ask the owning adapter (the errors entry names the subgraph). It does not cover the whole stack against the real Missions service on Oracle (only the adapter's service stage runs against it), and it does not cover Hive; it makes no benchmark or human acceptance claim.",
+      "runtime_checks": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-offline",
+        "federation-router-cosmo-stack"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "federation-assets-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/assets/validation/run_adapter_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-assets-service",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/assets/validation/run_adapter_gate.py",
+            "service"
+          ]
+        },
+        {
+          "id": "federation-mapping-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/mapping/validation/run_adapter_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-missions-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/missions/validation/run_adapter_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-personnel-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/personnel/validation/run_adapter_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-personnel-service",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/personnel/validation/run_adapter_gate.py",
+            "service"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "stack"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "stack"
+          ]
+        }
+      ]
+    }
+  }
+}

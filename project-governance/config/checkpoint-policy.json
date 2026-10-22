@@ -1,0 +1,162 @@
+{
+  "version": 4,
+  "commands": {
+    "component-offline": [
+      "{python}",
+      "-B",
+      "uss-enterprise/crew-personnel/validation/validate.py"
+    ],
+    "component-regressions": [
+      "{python}",
+      "-B",
+      "governance/tools/run_tests.py",
+      "-s",
+      "uss-enterprise/crew-personnel/validation/tests",
+      "-p",
+      "test_portable_validation.py",
+      "-v"
+    ],
+    "personnel-v2-offline": [
+      "{python}",
+      "-B",
+      "uss-enterprise/personnel-v2/validation/validate.py"
+    ],
+    "runtime-java": [
+      "{python}",
+      "-B",
+      "uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py",
+      "java"
+    ],
+    "runtime-container": [
+      "{python}",
+      "-B",
+      "uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py",
+      "container"
+    ],
+    "runtime-soap": [
+      "{python}",
+      "-B",
+      "uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py",
+      "soap"
+    ],
+    "runtime-governance": [
+      "{python}",
+      "-B",
+      "governance/tools/run_tests.py",
+      "-s",
+      "uss-enterprise/personnel-v2/validation",
+      "-p",
+      "test_personnel_v2_governance.py",
+      "-v"
+    ],
+    "missions-offline": [
+      "{python}",
+      "-B",
+      "uss-enterprise/missions/validation/validate.py"
+    ],
+    "missions-data": [
+      "{python}",
+      "-B",
+      "uss-enterprise/missions/validation/missions_runtime.py",
+      "data"
+    ],
+    "missions-service": [
+      "{python}",
+      "-B",
+      "uss-enterprise/missions/validation/missions_runtime.py",
+      "service"
+    ],
+    "missions-packaging": [
+      "{python}",
+      "-B",
+      "uss-enterprise/missions/validation/missions_runtime.py",
+      "packaging"
+    ],
+    "assets-offline": [
+      "{python}",
+      "-B",
+      "uss-enterprise/assets/validation/validate.py"
+    ],
+    "assets-offline-tests": [
+      "{python}",
+      "-B",
+      "governance/tools/run_tests.py",
+      "-s",
+      "uss-enterprise/assets/validation",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "assets-service": [
+      "{python}",
+      "-B",
+      "uss-enterprise/assets/validation/run_service_gate.py"
+    ],
+    "assets-packaging": [
+      "{python}",
+      "-B",
+      "uss-enterprise/assets/validation/run_service_gate.py",
+      "packaging"
+    ],
+    "federation-assets-offline": [
+      "{python}",
+      "-B",
+      "federation/adapters/assets/validation/run_adapter_gate.py",
+      "offline"
+    ],
+    "federation-assets-service": [
+      "{python}",
+      "-B",
+      "federation/adapters/assets/validation/run_adapter_gate.py",
+      "service"
+    ],
+    "federation-mapping-offline": [
+      "{python}",
+      "-B",
+      "federation/adapters/mapping/validation/run_adapter_gate.py",
+      "offline"
+    ],
+    "federation-missions-offline": [
+      "{python}",
+      "-B",
+      "federation/adapters/missions/validation/run_adapter_gate.py",
+      "offline"
+    ],
+    "federation-personnel-offline": [
+      "{python}",
+      "-B",
+      "federation/adapters/personnel/validation/run_adapter_gate.py",
+      "offline"
+    ],
+    "federation-personnel-service": [
+      "{python}",
+      "-B",
+      "federation/adapters/personnel/validation/run_adapter_gate.py",
+      "service"
+    ],
+    "federation-router-apollo-offline": [
+      "{python}",
+      "-B",
+      "federation/routers/apollo/validation/run_router_gate.py",
+      "offline"
+    ],
+    "federation-router-apollo-stack": [
+      "{python}",
+      "-B",
+      "federation/routers/apollo/validation/run_router_gate.py",
+      "stack"
+    ],
+    "federation-router-cosmo-offline": [
+      "{python}",
+      "-B",
+      "federation/routers/cosmo/validation/run_router_gate.py",
+      "offline"
+    ],
+    "federation-router-cosmo-stack": [
+      "{python}",
+      "-B",
+      "federation/routers/cosmo/validation/run_router_gate.py",
+      "stack"
+    ]
+  }
+}

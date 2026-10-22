@@ -16,3 +16,40 @@ governance/CHECKPOINT-TOOL.md text eol=lf
 
 # Timing exports are committed by hand; keep their bytes identical in every checkout.
 docs/timings/*.jsonl text eol=lf
+
+# Released 003 retains the approved raw-byte identity.
+uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/*.xml -text
+uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/manifest.json -text
+
+# Personnel v2 snapshots have exact raw-byte identity.
+uss-enterprise/personnel-v2/datasets/*.xml -text
+# The paged package personnel-v2-large-004 (pages and manifest) keeps its exact bytes too; Dataset.java pins every page.
+uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/* -text
+
+# The Assets start script is a Bash script and requires LF on Windows checkouts.
+uss-enterprise/assets/start.sh text eol=lf
+
+# The Missions adapter start script is a Bash script and requires LF on Windows checkouts.
+federation/adapters/missions/start.sh text eol=lf
+
+# The Personnel adapter start script is a Bash script and requires LF on Windows checkouts.
+federation/adapters/personnel/start.sh text eol=lf
+
+# The Assets adapter start script is a Bash script and requires LF on Windows checkouts.
+federation/adapters/assets/start.sh text eol=lf
+
+# The mapping adapter start script is a Bash script and requires LF on Windows checkouts.
+federation/adapters/mapping/start.sh text eol=lf
+
+# The whole-stack start script is a Bash script and requires LF on Windows checkouts.
+federation/stack/start.sh text eol=lf
+
+# The composed supergraph is compared byte for byte with a fresh composition, so it keeps LF on Windows checkouts.
+federation/routers/apollo/supergraph.graphql text eol=lf
+
+# The Cosmo execution config is compared byte for byte with a fresh composition and mounted into the router, so it keeps LF on Windows checkouts.
+federation/routers/cosmo/execution-config.json text eol=lf
+
+# The mapping release files are hashed in their LF form (a published release never changes), so they keep LF on Windows checkouts.
+federation/mapping-releases/*/*.json text eol=lf
+federation/adapters/mapping/src/test/resources/releases/*/*.json text eol=lf

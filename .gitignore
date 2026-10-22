@@ -1,3 +1,13 @@
+# Java / Maven / Gradle generated files; preserve wrapper JARs and configuration.
+**/target/
+**/build/
+.gradle/
+*.class
+*.war
+*.ear
+hs_err_pid*
+replay_pid*
+
 # Python caches, virtual environments, packaging and test output.
 __pycache__/
 *.py[cod]
@@ -89,3 +99,24 @@ temp/
 *.pfx
 *.jks
 *.keystore
+
+# Local runtime data: keep database schemas, migrations, SQL and fixtures tracked.
+/local-data/
+/container-data/
+/volumes/
+/.volumes/
+/.docker/
+**/oracle-data/
+**/postgres-data/
+**/mysql-data/
+**/redis-data/
+**/docker/volumes/
+**/docker/data/
+**/runtime-data/
+*.db-journal
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
