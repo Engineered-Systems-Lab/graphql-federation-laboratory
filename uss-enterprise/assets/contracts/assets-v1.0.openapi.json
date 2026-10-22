@@ -1,0 +1,502 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Starfleet Assets service",
+    "version": "1.0",
+    "summary": "Read-only REST/JSON catalogue of starships, shuttles, ground vehicles and equipment.",
+    "description": "Contract 1.0 of the Assets bounded context. The service is read-only: it answers GET for one asset and for a filtered, ordered, paginated list, and answers every other method with 405. It owns asset facts only. It stores no location, makes no judgment about time, and never checks the assets that other services reference. The contract version is MAJOR.MINOR: a breaking change is a new major, a new component and a new endpoint; a compatible addition is a new minor published as a new immutable file. This file is never edited after publication. See docs/ASSETS-V1-DESIGN.md."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/assets": {
+      "get": {
+        "operationId": "listAssets",
+        "summary": "List assets, filtered, ordered and paginated.",
+        "description": "Filters (kind, category, status, parentAssetId) combine with AND; each takes exactly one token. Order is assetId ascending: the letter prefix first, then the numeric suffix as a number, so SH-2 comes before SH-17. Totals are counted after filtering. An offset at or beyond the total returns an empty items array and is not an error. An unknown query parameter, a repeated parameter or an invalid value is 400 INVALID_REQUEST. A parentAssetId filter that names no asset is not an error and selects nothing. The list is a live view: there is no snapshot between requests.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/KindFilter"
+          },
+          {
+            "$ref": "#/components/parameters/CategoryFilter"
+          },
+          {
+            "$ref": "#/components/parameters/StatusFilter"
+          },
+          {
+            "$ref": "#/components/parameters/ParentAssetIdFilter"
+          },
+          {
+            "$ref": "#/components/parameters/Offset"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One page of assets, possibly empty.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetList"
+                },
+                "examples": {
+                  "page": {
+                    "summary": "A page of three assets out of thirty-one.",
+                    "externalValue": "../fixtures/valid/asset-list.json"
+                  },
+                  "vehicles": {
+                    "summary": "The category filter: category=VEHICLE lists starships, shuttles, rovers and armored vehicles.",
+                    "externalValue": "../fixtures/valid/asset-list-category-vehicle.json"
+                  },
+                  "empty": {
+                    "summary": "No asset matches the filters.",
+                    "externalValue": "../fixtures/valid/asset-list-empty.json"
+                  },
+                  "beyondEnd": {
+                    "summary": "The offset is past the last asset: empty items, the total still reported.",
+                    "externalValue": "../fixtures/valid/asset-list-beyond-end.json"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      },
+      "x-unsupportedMethods": {
+        "methods": [
+          "POST",
+          "PUT",
+          "PATCH",
+          "DELETE",
+          "HEAD",
+          "OPTIONS"
+        ],
+        "response": {
+          "$ref": "#/components/responses/MethodNotAllowed"
+        }
+      }
+    },
+    "/assets/{assetId}": {
+      "get": {
+        "operationId": "getAsset",
+        "summary": "Read one asset.",
+        "description": "Any asset that exists answers 200 with its record, whatever its status: ACTIVE, MAINTENANCE, DECOMMISSIONED, DESTROYED and MISSING all resolve, and the service judges none of them. A well-formed identifier that names no asset is 404 ASSET_NOT_FOUND. A malformed identifier is 400 INVALID_ASSET_ID. The identifier is validated exactly as sent, with no case folding, trimming or other normalization.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AssetIdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The asset.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Asset"
+                },
+                "examples": {
+                  "starshipActive": {
+                    "summary": "A starship in service, with no parent.",
+                    "externalValue": "../fixtures/valid/asset-starship-active.json"
+                  },
+                  "equipmentAboard": {
+                    "summary": "Equipment aboard a starship: the parent is the starship.",
+                    "externalValue": "../fixtures/valid/asset-equipment-with-parent.json"
+                  },
+                  "equipmentAboardRover": {
+                    "summary": "Equipment aboard a rover: any VEHICLE can be a parent.",
+                    "externalValue": "../fixtures/valid/asset-equipment-aboard-rover.json"
+                  },
+                  "shuttleMaintenance": {
+                    "summary": "A shuttle under maintenance.",
+                    "externalValue": "../fixtures/valid/asset-shuttle-maintenance.json"
+                  },
+                  "roverActive": {
+                    "summary": "A ground exploration rover in service.",
+                    "externalValue": "../fixtures/valid/asset-rover-active.json"
+                  },
+                  "armoredVehicleActive": {
+                    "summary": "An armored ground vehicle built for combat.",
+                    "externalValue": "../fixtures/valid/asset-armored-vehicle-active.json"
+                  },
+                  "equipmentDecommissioned": {
+                    "summary": "Equipment retired in the normal way.",
+                    "externalValue": "../fixtures/valid/asset-equipment-decommissioned.json"
+                  },
+                  "shuttleDestroyed": {
+                    "summary": "A destroyed shuttle still resolves, with its status and its parent.",
+                    "externalValue": "../fixtures/valid/asset-shuttle-destroyed.json"
+                  },
+                  "equipmentMissing": {
+                    "summary": "Equipment whose whereabouts are unknown still resolves, with its status.",
+                    "externalValue": "../fixtures/valid/asset-equipment-missing.json"
+                  },
+                  "musicalInstrumentActive": {
+                    "summary": "A musical instrument is a plain asset like any other.",
+                    "externalValue": "../fixtures/valid/asset-musical-instrument-active.json"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidAssetId"
+          },
+          "404": {
+            "$ref": "#/components/responses/AssetNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      },
+      "x-unsupportedMethods": {
+        "methods": [
+          "POST",
+          "PUT",
+          "PATCH",
+          "DELETE",
+          "HEAD",
+          "OPTIONS"
+        ],
+        "response": {
+          "$ref": "#/components/responses/MethodNotAllowed"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AssetId": {
+        "type": "string",
+        "pattern": "^[A-Z]{2,5}-[1-9][0-9]*$",
+        "description": "An asset identifier: two to five capital letters, a hyphen and a positive decimal number without sign, padding or leading zeros. The same grammar the Missions contract uses for assignedAssetIds. The prefix carries no meaning: the kind is a field of the asset."
+      },
+      "AssetKind": {
+        "type": "string",
+        "enum": [
+          "STARSHIP",
+          "SHUTTLE",
+          "ROVER",
+          "ARMORED_VEHICLE",
+          "PHASER",
+          "TRICORDER",
+          "COMMUNICATOR",
+          "SCIENTIFIC_INSTRUMENT",
+          "MUSICAL_INSTRUMENT"
+        ],
+        "description": "What kind of asset this is. STARSHIP: a starship, a large crewed ship such as the Enterprise. SHUTTLE: a small craft that flies between ships and surfaces; a runabout counts as a SHUTTLE until a scenario needs a separate kind. ROVER: a ground exploration vehicle. ARMORED_VEHICLE: Land-based vehicles built for active combat zones and mechanized warfare (an armored ground vehicle built for combat, tracked or wheeled). PHASER: a hand-held energy weapon. TRICORDER: a hand-held scanner and recorder. COMMUNICATOR: a personal communication device such as a comm badge. SCIENTIFIC_INSTRUMENT: an instrument for measurement, analysis or research that is not a tricorder. MUSICAL_INSTRUMENT: an instrument for making music, such as a flute, a violin or a trombone. Every asset fits a named kind: there is no generic kind. A new kind is one enum value and one row of the kind-to-category table: a compatible minor change."
+      },
+      "AssetCategory": {
+        "type": "string",
+        "enum": [
+          "VEHICLE",
+          "EQUIPMENT"
+        ],
+        "description": "The category of an asset, derived from its kind and never stored apart from it: STARSHIP, SHUTTLE, ROVER and ARMORED_VEHICLE are VEHICLE; PHASER, TRICORDER, COMMUNICATOR, SCIENTIFIC_INSTRUMENT and MUSICAL_INSTRUMENT are EQUIPMENT. Only a VEHICLE can be a parent. The contract cannot state that the category agrees with the kind; the validator checks it and the design document owns the table."
+      },
+      "AssetStatus": {
+        "type": "string",
+        "enum": [
+          "ACTIVE",
+          "MAINTENANCE",
+          "DECOMMISSIONED",
+          "DESTROYED",
+          "MISSING"
+        ],
+        "description": "ACTIVE and MAINTENANCE describe an asset in the fleet. DECOMMISSIONED is a normal retirement. DESTROYED is confirmed and final: the asset cannot return. MISSING means the whereabouts are unknown: the asset can return to ACTIVE if it is found."
+      },
+      "Asset": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assetId",
+          "kind",
+          "category",
+          "name",
+          "description",
+          "status",
+          "parentAssetId"
+        ],
+        "properties": {
+          "assetId": {
+            "$ref": "#/components/schemas/AssetId"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/AssetKind"
+          },
+          "category": {
+            "$ref": "#/components/schemas/AssetCategory"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "description": "The asset's name, 1 to 120 Unicode code points."
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "Free text, 1 to 1000 Unicode code points."
+          },
+          "status": {
+            "$ref": "#/components/schemas/AssetStatus"
+          },
+          "parentAssetId": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AssetId"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The asset this one is aboard or part of, or null when it has none. Always present. A parent that is named exists in this service: it is a database foreign key, so a dangling parent cannot occur. Only an asset whose category is VEHICLE can be a parent; the contract cannot express that rule between records, so the design document states it."
+          }
+        },
+        "description": "One asset. category is computed from kind by the kind-to-category table of the design document: a record whose category disagrees with its kind is invalid."
+      },
+      "AssetList": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "offset",
+          "limit",
+          "total"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+              "$ref": "#/components/schemas/Asset"
+            }
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The offset the request used."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50,
+            "description": "The limit the request used."
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "How many assets match the filters, counted before paging."
+          }
+        }
+      },
+      "ErrorCode": {
+        "type": "string",
+        "enum": [
+          "INVALID_REQUEST",
+          "INVALID_ASSET_ID",
+          "ASSET_NOT_FOUND",
+          "METHOD_NOT_ALLOWED",
+          "INTERNAL_ERROR"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "Human-readable text, 1 to 1000 Unicode code points. Never a stack trace or framework detail, and not meant to be parsed: the HTTP status and the code are the contract."
+          }
+        }
+      }
+    },
+    "parameters": {
+      "AssetIdPath": {
+        "name": "assetId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/AssetId"
+        }
+      },
+      "KindFilter": {
+        "name": "kind",
+        "in": "query",
+        "required": false,
+        "description": "Select assets of this kind.",
+        "schema": {
+          "$ref": "#/components/schemas/AssetKind"
+        }
+      },
+      "CategoryFilter": {
+        "name": "category",
+        "in": "query",
+        "required": false,
+        "description": "Select assets of this category: VEHICLE or EQUIPMENT. Exactly one token.",
+        "schema": {
+          "$ref": "#/components/schemas/AssetCategory"
+        }
+      },
+      "StatusFilter": {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "description": "Select assets with this status.",
+        "schema": {
+          "$ref": "#/components/schemas/AssetStatus"
+        }
+      },
+      "ParentAssetIdFilter": {
+        "name": "parentAssetId",
+        "in": "query",
+        "required": false,
+        "description": "Select the assets whose parent is this asset, for example the equipment aboard a starship.",
+        "schema": {
+          "$ref": "#/components/schemas/AssetId"
+        }
+      },
+      "Offset": {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "description": "How many matching assets to skip. Canonical decimal text: 0, 20, 100; never 00, +5 or 1.5. The default is 0.",
+        "schema": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "default": "0"
+        }
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "description": "The most assets to return, 1 to 50, in canonical decimal text. The default is 20.",
+        "schema": {
+          "type": "string",
+          "pattern": "^([1-9]|[1-4][0-9]|50)$",
+          "default": "20"
+        }
+      }
+    },
+    "headers": {
+      "Allow": {
+        "description": "The only method the path supports.",
+        "schema": {
+          "type": "string",
+          "const": "GET"
+        }
+      }
+    },
+    "responses": {
+      "InvalidRequest": {
+        "description": "400 INVALID_REQUEST: an invalid recognized query value, an unknown query parameter or a repeated parameter.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "invalidRequest": {
+                "summary": "A limit above 50.",
+                "externalValue": "../fixtures/valid/error-invalid-request.json"
+              }
+            }
+          }
+        }
+      },
+      "InvalidAssetId": {
+        "description": "400 INVALID_ASSET_ID: the identifier in the path does not match the asset grammar.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "invalidAssetId": {
+                "summary": "A lower-case identifier.",
+                "externalValue": "../fixtures/valid/error-invalid-asset-id.json"
+              }
+            }
+          }
+        }
+      },
+      "AssetNotFound": {
+        "description": "404 ASSET_NOT_FOUND: the identifier is well formed and no asset has it.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "assetNotFound": {
+                "summary": "A well-formed identifier that names nothing.",
+                "externalValue": "../fixtures/valid/error-asset-not-found.json"
+              }
+            }
+          }
+        }
+      },
+      "MethodNotAllowed": {
+        "description": "405 METHOD_NOT_ALLOWED: the service is read-only; every method but GET is refused, with an Allow header.",
+        "headers": {
+          "Allow": {
+            "$ref": "#/components/headers/Allow"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "methodNotAllowed": {
+                "summary": "A write attempt.",
+                "externalValue": "../fixtures/valid/error-method-not-allowed.json"
+              }
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "500 INTERNAL_ERROR: an unexpected server or database failure.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "internalError": {
+                "summary": "An unexpected failure.",
+                "externalValue": "../fixtures/valid/error-internal-error.json"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

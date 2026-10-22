@@ -1,0 +1,256 @@
+{
+  "cases": [
+    {
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "expected": "A Missions-referenced asset that Assets holds with a live status. The reference resolves: the federation shows RESOLVED with the asset, and GET /assets/{id} answers 200."
+    },
+    {
+      "assetsAnswers": "404 ASSET_NOT_FOUND",
+      "case": "DANGLING",
+      "consumerShows": "UNRESOLVED with asset null, as data",
+      "expected": "A Missions-referenced id that Assets does not hold. GET /assets/{id} answers 404 ASSET_NOT_FOUND and the federation shows the reference as UNRESOLVED with asset null; nothing is hidden or guessed."
+    },
+    {
+      "assetsAnswers": "200 with the record, status DESTROYED",
+      "case": "DESTROYED",
+      "consumerShows": "RESOLVED with the asset and its status",
+      "expected": "A Missions-referenced asset with the status DESTROYED. It resolves with its status; no judgment is made about timing."
+    },
+    {
+      "assetsAnswers": "200 with the record, status MISSING",
+      "case": "MISSING",
+      "consumerShows": "RESOLVED with the asset and its status",
+      "expected": "A Missions-referenced asset with the status MISSING. It resolves with its status; no judgment is made about timing."
+    },
+    {
+      "assetsAnswers": "200 with the record",
+      "case": "UNREFERENCED",
+      "consumerShows": "RESOLVED when asked for; no mission lists it",
+      "expected": "An asset that no mission of the Missions release 1.0 uses. It resolves, and GET /missions?assignedAssetId=<id> returns no mission."
+    },
+    {
+      "assetsAnswers": "200 with the record, parentAssetId naming the next asset up",
+      "case": "PARENT_CHAIN",
+      "consumerShows": "each asset RESOLVED, with its parents in the same query",
+      "expected": "Each chain lists the assets from the child to the top. A mission, its assets and each asset's parents answer in one federated query; every parent exists and is a VEHICLE."
+    }
+  ],
+  "consumerRule": "Only a 404 ASSET_NOT_FOUND from Assets maps to UNRESOLVED. Any other failure of the lookup (a 500, a timeout, the service being down, or a 400 for a malformed id) is a lookup failure: the consumer shows an error entry with a null asset and never shows UNRESOLVED, so an outage cannot pass for a dataset of missing assets.",
+  "expectedReferences": [
+    {
+      "assetId": "EQ-64",
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "missionIds": [
+        "ST-00000LD4O",
+        "ST-00000LD4T",
+        "ST-00000LD4W",
+        "ST-00000LD4Z",
+        "ST-00000LD50",
+        "ST-00000LD51",
+        "ST-00000LD52",
+        "ST-00000LD55",
+        "ST-00000LD57",
+        "ST-00000LD5A",
+        "ST-00000LD5C",
+        "ST-00000LD5E",
+        "ST-00000LD5H",
+        "ST-00000LD5I"
+      ],
+      "referenceCount": 14,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "EQ-75",
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "missionIds": [
+        "ST-00000LD4S",
+        "ST-00000LD4U",
+        "ST-00000LD4Y",
+        "ST-00000LD54",
+        "ST-00000LD58",
+        "ST-00000LD59",
+        "ST-00000LD5H"
+      ],
+      "referenceCount": 7,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "EQ-86",
+      "assetsAnswers": "200 with the record",
+      "case": "MISSING",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "missionIds": [
+        "ST-00000LD52",
+        "ST-00000LD53",
+        "ST-00000LD5C",
+        "ST-00000LD5I"
+      ],
+      "referenceCount": 4,
+      "resolution": "RESOLVED",
+      "status": "MISSING"
+    },
+    {
+      "assetId": "EQ-97",
+      "assetsAnswers": "404 ASSET_NOT_FOUND",
+      "case": "DANGLING",
+      "consumerShows": "UNRESOLVED with asset null, as data",
+      "heldByAssets": false,
+      "missionIds": [
+        "ST-00000LD4U",
+        "ST-00000LD53",
+        "ST-00000LD58"
+      ],
+      "note": "An isolation kit that Assets leaves out on purpose.",
+      "referenceCount": 3,
+      "resolution": "UNRESOLVED",
+      "status": null
+    },
+    {
+      "assetId": "EQ-108",
+      "assetsAnswers": "404 ASSET_NOT_FOUND",
+      "case": "DANGLING",
+      "consumerShows": "UNRESOLVED with asset null, as data",
+      "heldByAssets": false,
+      "missionIds": [
+        "ST-00000LD4Y",
+        "ST-00000LD54",
+        "ST-00000LD5G"
+      ],
+      "note": "A cargo module: no equipment kind of the contract fits it, so Assets leaves it out on purpose.",
+      "referenceCount": 3,
+      "resolution": "UNRESOLVED",
+      "status": null
+    },
+    {
+      "assetId": "EQ-119",
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "missionIds": [
+        "ST-00000LD4P",
+        "ST-00000LD4R",
+        "ST-00000LD4X",
+        "ST-00000LD51",
+        "ST-00000LD56",
+        "ST-00000LD5B",
+        "ST-00000LD5E",
+        "ST-00000LD5F"
+      ],
+      "referenceCount": 8,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "SH-42",
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "missionIds": [
+        "ST-00000LD4Q",
+        "ST-00000LD4S",
+        "ST-00000LD4T",
+        "ST-00000LD4Z",
+        "ST-00000LD58",
+        "ST-00000LD5A"
+      ],
+      "referenceCount": 6,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "SH-53",
+      "assetsAnswers": "200 with the record",
+      "case": "DESTROYED",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "missionIds": [
+        "ST-00000LD4W",
+        "ST-00000LD5I"
+      ],
+      "referenceCount": 2,
+      "resolution": "RESOLVED",
+      "status": "DESTROYED"
+    },
+    {
+      "assetId": "VS-31",
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "missionIds": [
+        "ST-00000LD4O",
+        "ST-00000LD4P",
+        "ST-00000LD4R",
+        "ST-00000LD4S",
+        "ST-00000LD4T",
+        "ST-00000LD4X",
+        "ST-00000LD4Y",
+        "ST-00000LD4Z",
+        "ST-00000LD51",
+        "ST-00000LD54",
+        "ST-00000LD55",
+        "ST-00000LD56",
+        "ST-00000LD59",
+        "ST-00000LD5A",
+        "ST-00000LD5B",
+        "ST-00000LD5C",
+        "ST-00000LD5D",
+        "ST-00000LD5E",
+        "ST-00000LD5F",
+        "ST-00000LD5H",
+        "ST-00000LD5I"
+      ],
+      "referenceCount": 21,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    }
+  ],
+  "idConvention": {
+    "AV": "ARMORED_VEHICLE (the Captain's suggestion)",
+    "EQ": "any of the five equipment kinds (Missions release 1.0 uses EQ-64, EQ-75, EQ-86, EQ-97, EQ-108 and EQ-119)",
+    "RV": "ROVER",
+    "SH": "SHUTTLE (Missions release 1.0 uses SH-42 and SH-53)",
+    "VS": "STARSHIP (Missions release 1.0 uses VS-31 for the Enterprise)"
+  },
+  "limitations": [
+    "Synthetic lab content: no claim of canon.",
+    "Kinds, statuses and parents of the nine Missions-referenced assets are decided by this dataset; Missions holds ids only.",
+    "No timing judgment: DESTROYED and MISSING assets resolve with their status.",
+    "No location, no Personnel mapping and no cross-service rule beyond the references shown."
+  ],
+  "missionsRelease": {
+    "datasetVersion": "1.0",
+    "distinctAssets": 9,
+    "references": 68
+  },
+  "parentChains": [
+    [
+      "EQ-64",
+      "SH-17",
+      "VS-31"
+    ],
+    [
+      "EQ-211",
+      "RV-3",
+      "SH-70",
+      "VS-66"
+    ]
+  ],
+  "sources": {
+    "inspiration": "Names and roles are inspired by Star Trek: The Next Generation; reported from general knowledge and not verified against Memory Alpha during this slice.",
+    "synthetic": "Every description, status, parent and id is synthetic lab content. Nothing here claims canon."
+  }
+}

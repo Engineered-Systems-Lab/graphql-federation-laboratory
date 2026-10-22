@@ -80,6 +80,1527 @@
       "why": "a committed timing export is a record",
       "approval_sensitivity": "low"
     },
+    "uss-enterprise/assets/.dockerignore": {
+      "class": "runtime",
+      "profile": "assets-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/.env.example": {
+      "class": "runtime",
+      "profile": "assets-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/Dockerfile": {
+      "class": "runtime",
+      "profile": "assets-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/README.md": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/compose.yaml": {
+      "class": "runtime",
+      "profile": "assets-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/contracts/assets-v1.0.openapi.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/contracts/assets-v1.1.openapi.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/curation.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/generate.py": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.0/assets.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.0/curation.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.0/generate.py": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.0/manifest.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.0/provenance.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.1/assets.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.1/curation.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.1/generate.py": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.1/manifest.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/datasets/releases/1.1/provenance.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-category-missing.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-category-wrong-for-kind.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-category-wrong-for-phaser.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-empty-name.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-extra-property.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-invalid-id-leading-zero.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-invalid-id-lowercase.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-kind-equipment.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-kind-ground-vehicle.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-kind-ship.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-list-negative-total.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-missing-name.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-parent-not-an-id.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-parent-omitted.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/asset-unknown-status.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/invalid/error-unknown-code.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-category-missing.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-category-wrong-for-kind.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-category-wrong-for-phaser.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-empty-name.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-extra-property.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-invalid-id-all-zeros.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-invalid-id-double-underscore.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-invalid-id-leading-underscore.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-invalid-id-leading-zero.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-invalid-id-lowercase.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-invalid-id-number-too-short.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-invalid-id-old-style.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-invalid-id-trailing-underscore.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-kind-equipment.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-kind-ground-vehicle.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-kind-ship.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-list-negative-total.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-missing-name.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-parent-not-an-id.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-parent-omitted.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/asset-unknown-status.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/invalid/error-unknown-code.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-armored-vehicle-active.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-equipment-aboard-rover.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-equipment-decommissioned.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-equipment-missing.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-equipment-with-parent.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-list-beyond-end.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-list-category-vehicle.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-list-empty.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-list.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-musical-instrument-active.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-rover-active.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-shuttle-destroyed.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-shuttle-maintenance.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/asset-starship-active.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/error-asset-not-found.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/error-internal-error.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/error-invalid-asset-id.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/error-invalid-request.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/error-method-not-allowed.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/v1.1/valid/error-path-not-found.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-armored-vehicle-active.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-equipment-aboard-rover.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-equipment-decommissioned.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-equipment-missing.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-equipment-with-parent.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-list-beyond-end.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-list-category-vehicle.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-list-empty.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-list.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-musical-instrument-active.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-rover-active.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-shuttle-destroyed.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-shuttle-maintenance.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/asset-starship-active.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/error-asset-not-found.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/error-internal-error.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/error-invalid-asset-id.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/error-invalid-request.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/fixtures/valid/error-method-not-allowed.json": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/schema/schema.sql": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/service/assets_logic.py": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/service/assets_service.py": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/service/assets_store.py": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/service/bootstrap.py": {
+      "class": "runtime",
+      "profile": "assets-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/service/load_release.py": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/service/requirements.txt": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/start.sh": {
+      "class": "runtime",
+      "profile": "assets-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/jsonschema_subset.py": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/run_service_gate.py": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/runtime/packaging/test_packaging.py": {
+      "class": "runtime",
+      "profile": "assets-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/runtime/service/gate_support.py": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/runtime/service/test_service_gate.py": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/test_assets_contract.py": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/test_assets_dataset.py": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/test_jsonschema_subset.py": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/test_run_service_gate.py": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/test_service_logic.py": {
+      "class": "runtime",
+      "profile": "assets-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/test_start_script.py": {
+      "class": "runtime",
+      "profile": "assets-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/validate.py": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/assets/validation/validate_dataset.py": {
+      "class": "runtime",
+      "profile": "assets-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Assets, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
     "uss-enterprise/crew-personnel/.dockerignore": {
       "class": "runtime",
       "profile": "crew-offline",

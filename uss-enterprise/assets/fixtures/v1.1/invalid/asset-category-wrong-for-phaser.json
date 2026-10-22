@@ -1,0 +1,9 @@
+{
+  "assetId": "AST-0031",
+  "kind": "PHASER",
+  "category": "VEHICLE",
+  "name": "Example phaser",
+  "description": "A fictional example phaser used only to illustrate the contract.",
+  "status": "ACTIVE",
+  "parentAssetId": null
+}

@@ -1,0 +1,9 @@
+{
+  "assetId": "AST-0064",
+  "kind": "TRICORDER",
+  "category": "EQUIPMENT",
+  "name": "Example tricorder",
+  "description": "A fictional example tricorder aboard AST-0017.",
+  "status": "ACTIVE",
+  "parentAssetId": "AST-0017"
+}

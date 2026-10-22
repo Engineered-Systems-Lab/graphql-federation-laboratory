@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "assetId": "AST-0005",
+      "kind": "ARMORED_VEHICLE",
+      "category": "VEHICLE",
+      "name": "Example armored vehicle",
+      "description": "A fictional example armored ground vehicle built for combat.",
+      "status": "ACTIVE",
+      "parentAssetId": "AST-0017"
+    },
+    {
+      "assetId": "AST-0003",
+      "kind": "ROVER",
+      "category": "VEHICLE",
+      "name": "Example surface rover",
+      "description": "A fictional example ground exploration vehicle in service.",
+      "status": "ACTIVE",
+      "parentAssetId": "AST-0017"
+    },
+    {
+      "assetId": "AST-0017",
+      "kind": "STARSHIP",
+      "category": "VEHICLE",
+      "name": "USS Example",
+      "description": "A fictional example starship used only to illustrate the contract.",
+      "status": "ACTIVE",
+      "parentAssetId": null
+    }
+  ],
+  "offset": 0,
+  "limit": 20,
+  "total": 3
+}

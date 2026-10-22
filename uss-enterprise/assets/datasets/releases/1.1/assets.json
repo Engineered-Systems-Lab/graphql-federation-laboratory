@@ -1,0 +1,294 @@
+{
+  "assets": [
+    {
+      "assetId": "AST-0001",
+      "category": "VEHICLE",
+      "description": "A tracked armored personnel carrier that moves a security detail through an active combat zone. Stowed in a cargo bay of the Enterprise between deployments.",
+      "kind": "ARMORED_VEHICLE",
+      "name": "Armored personnel carrier Bulwark",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0002",
+      "category": "VEHICLE",
+      "description": "A heavy tracked assault vehicle from an earlier generation of ground combat equipment. Retired from service and kept in a depot.",
+      "kind": "ARMORED_VEHICLE",
+      "name": "Tracked assault vehicle Juggernaut",
+      "parentAssetId": null,
+      "status": "DECOMMISSIONED"
+    },
+    {
+      "assetId": "AST-0003",
+      "category": "VEHICLE",
+      "description": "A fast wheeled armored scout vehicle built to probe contested ground ahead of a landing party. Light armor, a sensor mast and a single mounted phaser emplacement.",
+      "kind": "ARMORED_VEHICLE",
+      "name": "Wheeled armored scout Vanguard",
+      "parentAssetId": null,
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0004",
+      "category": "EQUIPMENT",
+      "description": "A removable sensor suite for survey, search and recovery work: long-range scanners, a particle analyzer and a recording unit. Fitted aboard a shuttle when a mission calls for it.",
+      "kind": "SCIENTIFIC_INSTRUMENT",
+      "name": "Shuttle sensor suite",
+      "parentAssetId": "AST-0023",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0005",
+      "category": "EQUIPMENT",
+      "description": "A medical tricorder with its scanning probes, a hypospray tray and a case. Used for emergency treatment and relief missions.",
+      "kind": "TRICORDER",
+      "name": "Medical tricorder kit",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0006",
+      "category": "EQUIPMENT",
+      "description": "A kit of diagnostic probes and analyzers for tracing faults in ship systems and contaminated circuits. Its whereabouts are unknown.",
+      "kind": "SCIENTIFIC_INSTRUMENT",
+      "name": "Engineering diagnostic kit",
+      "parentAssetId": null,
+      "status": "MISSING"
+    },
+    {
+      "assetId": "AST-0007",
+      "category": "EQUIPMENT",
+      "description": "A portable kit of comm badges, a relay unit and spare power cells for an away team that has to keep a channel open far from its ship. Used in negotiation and contact missions.",
+      "kind": "COMMUNICATOR",
+      "name": "Away-team communications kit",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0008",
+      "category": "EQUIPMENT",
+      "description": "A standard hand-held phaser with stun, heat and disruptor settings. Issued from the Enterprise armory.",
+      "kind": "PHASER",
+      "name": "Type-2 hand phaser",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0009",
+      "category": "EQUIPMENT",
+      "description": "A long-barreled phaser rifle with a longer range and a heavier power cell than the hand phaser. Carried in the armored personnel carrier Bulwark.",
+      "kind": "PHASER",
+      "name": "Type-3 phaser rifle",
+      "parentAssetId": "AST-0001",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0010",
+      "category": "EQUIPMENT",
+      "description": "A small palm-sized phaser of the older Type-1 pattern. Withdrawn from issue and kept as a reference piece.",
+      "kind": "PHASER",
+      "name": "Type-1 phaser",
+      "parentAssetId": null,
+      "status": "DECOMMISSIONED"
+    },
+    {
+      "assetId": "AST-0011",
+      "category": "EQUIPMENT",
+      "description": "A hand-held tricorder for general scanning, recording and analysis. Part of the equipment locker of the exploration rover Wanderer.",
+      "kind": "TRICORDER",
+      "name": "Standard tricorder",
+      "parentAssetId": "AST-0021",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0012",
+      "category": "EQUIPMENT",
+      "description": "A tricorder tuned for rock, soil and mineral scans. Rides in the survey rover Pathfinder.",
+      "kind": "TRICORDER",
+      "name": "Geological tricorder",
+      "parentAssetId": "AST-0020",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0013",
+      "category": "EQUIPMENT",
+      "description": "A single comm badge of the standard pattern, worn on the uniform. Not assigned to a vehicle.",
+      "kind": "COMMUNICATOR",
+      "name": "Operations comm badge",
+      "parentAssetId": null,
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0014",
+      "category": "EQUIPMENT",
+      "description": "A comm unit with a built-in universal translator. Waiting for a replacement translation matrix.",
+      "kind": "COMMUNICATOR",
+      "name": "Universal translator comm unit",
+      "parentAssetId": null,
+      "status": "MAINTENANCE"
+    },
+    {
+      "assetId": "AST-0015",
+      "category": "EQUIPMENT",
+      "description": "A deep-field sensor array that feeds the stellar cartography lab of the Enterprise. Used to chart unexplored systems.",
+      "kind": "SCIENTIFIC_INSTRUMENT",
+      "name": "Stellar cartography sensor array",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0016",
+      "category": "EQUIPMENT",
+      "description": "A portable spectrometer for the analysis of samples in the field. Mounted in the geological rover Strata.",
+      "kind": "SCIENTIFIC_INSTRUMENT",
+      "name": "Portable spectrometer",
+      "parentAssetId": "AST-0022",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0017",
+      "category": "EQUIPMENT",
+      "description": "A small wooden flute of Ressikan make, kept by the captain. It plays a simple melody and carries a long story.",
+      "kind": "MUSICAL_INSTRUMENT",
+      "name": "Ressikan flute",
+      "parentAssetId": null,
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0018",
+      "category": "EQUIPMENT",
+      "description": "A well-kept violin from the instrument collection on the Enterprise. Lent out to crew who play.",
+      "kind": "MUSICAL_INSTRUMENT",
+      "name": "Violin from the ship's music collection",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0019",
+      "category": "EQUIPMENT",
+      "description": "A brass trombone played at off-duty jazz sessions in the ship's lounge.",
+      "kind": "MUSICAL_INSTRUMENT",
+      "name": "Trombone from the ship's music collection",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0020",
+      "category": "VEHICLE",
+      "description": "A small survey rover that a shuttle can carry down to a planet surface. Used to scout a landing zone before an away team follows.",
+      "kind": "ROVER",
+      "name": "Survey rover Pathfinder",
+      "parentAssetId": "AST-0027",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0021",
+      "category": "VEHICLE",
+      "description": "A pressurized exploration rover with room for a small team and its equipment. Stowed in a cargo bay of the Enterprise.",
+      "kind": "ROVER",
+      "name": "Exploration rover Wanderer",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0022",
+      "category": "VEHICLE",
+      "description": "A six-wheeled rover built for geological sampling. In the workshop for a drive repair.",
+      "kind": "ROVER",
+      "name": "Geological rover Strata",
+      "parentAssetId": null,
+      "status": "MAINTENANCE"
+    },
+    {
+      "assetId": "AST-0023",
+      "category": "VEHICLE",
+      "description": "A standard shuttlecraft carried in the shuttlebay of the Enterprise. The usual carrier of the shuttle sensor suite.",
+      "kind": "SHUTTLE",
+      "name": "Shuttlecraft Magellan",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0024",
+      "category": "VEHICLE",
+      "description": "A standard shuttlecraft carried in the shuttlebay of the Enterprise. Flown on many rescue, recovery and relief missions.",
+      "kind": "SHUTTLE",
+      "name": "Shuttlecraft Sakharov",
+      "parentAssetId": "AST-0029",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0025",
+      "category": "VEHICLE",
+      "description": "A standard shuttlecraft that was lost with all hands and confirmed destroyed. It is kept on record because earlier missions refer to it.",
+      "kind": "SHUTTLE",
+      "name": "Shuttlecraft Onizuka",
+      "parentAssetId": null,
+      "status": "DESTROYED"
+    },
+    {
+      "assetId": "AST-0026",
+      "category": "VEHICLE",
+      "description": "A standard shuttlecraft undergoing a thruster overhaul in the shuttlebay.",
+      "kind": "SHUTTLE",
+      "name": "Shuttlecraft Goddard",
+      "parentAssetId": "AST-0029",
+      "status": "MAINTENANCE"
+    },
+    {
+      "assetId": "AST-0027",
+      "category": "VEHICLE",
+      "description": "A standard shuttlecraft carried by the USS Phoenix. It can also carry the survey rover Pathfinder.",
+      "kind": "SHUTTLE",
+      "name": "Shuttlecraft Cousteau",
+      "parentAssetId": "AST-0031",
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0028",
+      "category": "VEHICLE",
+      "description": "A Constellation-class starship from an earlier era of the fleet. Retired and preserved.",
+      "kind": "STARSHIP",
+      "name": "USS Stargazer",
+      "parentAssetId": null,
+      "status": "DECOMMISSIONED"
+    },
+    {
+      "assetId": "AST-0029",
+      "category": "VEHICLE",
+      "description": "A Galaxy-class starship and the flagship of the fleet in this lab. Carries shuttles, rovers, armored vehicles and equipment, and appears in most of the missions.",
+      "kind": "STARSHIP",
+      "name": "USS Enterprise NCC-1701-D",
+      "parentAssetId": null,
+      "status": "ACTIVE"
+    },
+    {
+      "assetId": "AST-0030",
+      "category": "VEHICLE",
+      "description": "A starship reported overdue. Its whereabouts are unknown and a search is on record.",
+      "kind": "STARSHIP",
+      "name": "USS Brattain",
+      "parentAssetId": null,
+      "status": "MISSING"
+    },
+    {
+      "assetId": "AST-0031",
+      "category": "VEHICLE",
+      "description": "A starship in dry dock for a warp coil replacement. Carries the shuttlecraft Cousteau.",
+      "kind": "STARSHIP",
+      "name": "USS Phoenix",
+      "parentAssetId": null,
+      "status": "MAINTENANCE"
+    },
+    {
+      "assetId": "AST-0032",
+      "category": "VEHICLE",
+      "description": "A starship confirmed destroyed. Kept on record as a lost vessel.",
+      "kind": "STARSHIP",
+      "name": "USS Hood",
+      "parentAssetId": null,
+      "status": "DESTROYED"
+    }
+  ],
+  "contractRevision": "1.1",
+  "datasetVersion": "1.1"
+}

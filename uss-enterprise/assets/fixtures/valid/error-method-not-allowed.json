@@ -1,0 +1,4 @@
+{
+  "code": "METHOD_NOT_ALLOWED",
+  "message": "The Assets service is read-only; only GET is supported."
+}

@@ -1,0 +1,8 @@
+{
+  "assetId": "SH-17",
+  "kind": "STARSHIP",
+  "category": "VEHICLE",
+  "description": "A fictional example starship used only to illustrate the contract.",
+  "status": "ACTIVE",
+  "parentAssetId": null
+}

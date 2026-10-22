@@ -1,0 +1,26 @@
+{
+  "contractRevision": "1.1",
+  "contractSha256": "542e3c346e0223013486fa5fed89d2274716b915665efdfc20cd291505bf73d0",
+  "counts": {
+    "assets": 32,
+    "kinds": 9
+  },
+  "datasetVersion": "1.1",
+  "files": {
+    "assets.json": "733fdd51cd4e972b22b9d1b6074ce4b94286ab9680ed53e61babfae9c05ca738",
+    "curation.json": "ce58d26edcc3760f4dd00f981055cdb07b60518445bc2e89b73b8d478f96d557",
+    "generate.py": "ef92331ca41818fd97d9f8a1201011e66b6f8993451c9fff5659d2a6641428ad",
+    "provenance.json": "2a928e899dbcbac0d471efa3351e6c679ed62fa679f3ed95518deb965e4c60ed"
+  },
+  "generatorVersion": "assets-generator-2",
+  "missionsRelease": {
+    "datasetVersion": "1.0",
+    "manifestSha256": "ce5ca4ea6919492f2c162c1a172670487546d83e1b1bbfa95cbe3252f16d99c3",
+    "releaseSha256": "95f0ca0ea928032cb4db429037870358feec6e3f68d38a61a9ae58caf97ba55e"
+  },
+  "sourceRelease": {
+    "assetsSha256": "5edafdcd33a1a73ad033cbf09062a724a832cd8cb63b3a3e6bcfeba312b569a8",
+    "datasetVersion": "1.0",
+    "manifestSha256": "9abe88c249d144ecb5c9d498a346519518cb6812bc60efb359366f1436f74ad9"
+  }
+}

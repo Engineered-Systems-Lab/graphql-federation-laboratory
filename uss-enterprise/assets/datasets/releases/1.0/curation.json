@@ -1,0 +1,71 @@
+{
+  "assets": [
+    {"assetId": "AV-14", "kind": "ARMORED_VEHICLE", "name": "Wheeled armored scout Vanguard", "description": "A fast wheeled armored scout vehicle built to probe contested ground ahead of a landing party. Light armor, a sensor mast and a single mounted phaser emplacement.", "status": "ACTIVE", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "AV-2", "kind": "ARMORED_VEHICLE", "name": "Armored personnel carrier Bulwark", "description": "A tracked armored personnel carrier that moves a security detail through an active combat zone. Stowed in a cargo bay of the Enterprise between deployments.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "AV-9", "kind": "ARMORED_VEHICLE", "name": "Tracked assault vehicle Juggernaut", "description": "A heavy tracked assault vehicle from an earlier generation of ground combat equipment. Retired from service and kept in a depot.", "status": "DECOMMISSIONED", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-119", "kind": "COMMUNICATOR", "name": "Away-team communications kit", "description": "A portable kit of comm badges, a relay unit and spare power cells for an away team that has to keep a channel open far from its ship. Used in negotiation and contact missions.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "missions-referenced", "case": "NORMAL"},
+    {"assetId": "EQ-201", "kind": "PHASER", "name": "Type-2 hand phaser", "description": "A standard hand-held phaser with stun, heat and disruptor settings. Issued from the Enterprise armory.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-202", "kind": "PHASER", "name": "Type-3 phaser rifle", "description": "A long-barreled phaser rifle with a longer range and a heavier power cell than the hand phaser. Carried in the armored personnel carrier Bulwark.", "status": "ACTIVE", "parentAssetId": "AV-2", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-203", "kind": "PHASER", "name": "Type-1 phaser", "description": "A small palm-sized phaser of the older Type-1 pattern. Withdrawn from issue and kept as a reference piece.", "status": "DECOMMISSIONED", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-210", "kind": "TRICORDER", "name": "Standard tricorder", "description": "A hand-held tricorder for general scanning, recording and analysis. Part of the equipment locker of the exploration rover Wanderer.", "status": "ACTIVE", "parentAssetId": "RV-8", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-211", "kind": "TRICORDER", "name": "Geological tricorder", "description": "A tricorder tuned for rock, soil and mineral scans. Rides in the survey rover Pathfinder.", "status": "ACTIVE", "parentAssetId": "RV-3", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-220", "kind": "COMMUNICATOR", "name": "Operations comm badge", "description": "A single comm badge of the standard pattern, worn on the uniform. Not assigned to a vehicle.", "status": "ACTIVE", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-221", "kind": "COMMUNICATOR", "name": "Universal translator comm unit", "description": "A comm unit with a built-in universal translator. Waiting for a replacement translation matrix.", "status": "MAINTENANCE", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-230", "kind": "SCIENTIFIC_INSTRUMENT", "name": "Stellar cartography sensor array", "description": "A deep-field sensor array that feeds the stellar cartography lab of the Enterprise. Used to chart unexplored systems.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-231", "kind": "SCIENTIFIC_INSTRUMENT", "name": "Portable spectrometer", "description": "A portable spectrometer for the analysis of samples in the field. Mounted in the geological rover Strata.", "status": "ACTIVE", "parentAssetId": "RV-15", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-240", "kind": "MUSICAL_INSTRUMENT", "name": "Ressikan flute", "description": "A small wooden flute of Ressikan make, kept by the captain. It plays a simple melody and carries a long story.", "status": "ACTIVE", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-241", "kind": "MUSICAL_INSTRUMENT", "name": "Violin from the ship's music collection", "description": "A well-kept violin from the instrument collection on the Enterprise. Lent out to crew who play.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-242", "kind": "MUSICAL_INSTRUMENT", "name": "Trombone from the ship's music collection", "description": "A brass trombone played at off-duty jazz sessions in the ship's lounge.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "EQ-64", "kind": "SCIENTIFIC_INSTRUMENT", "name": "Shuttle sensor suite", "description": "A removable sensor suite for survey, search and recovery work: long-range scanners, a particle analyzer and a recording unit. Fitted aboard a shuttle when a mission calls for it.", "status": "ACTIVE", "parentAssetId": "SH-17", "origin": "missions-referenced", "case": "NORMAL"},
+    {"assetId": "EQ-75", "kind": "TRICORDER", "name": "Medical tricorder kit", "description": "A medical tricorder with its scanning probes, a hypospray tray and a case. Used for emergency treatment and relief missions.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "missions-referenced", "case": "NORMAL"},
+    {"assetId": "EQ-86", "kind": "SCIENTIFIC_INSTRUMENT", "name": "Engineering diagnostic kit", "description": "A kit of diagnostic probes and analyzers for tracing faults in ship systems and contaminated circuits. Its whereabouts are unknown.", "status": "MISSING", "parentAssetId": null, "origin": "missions-referenced", "case": "MISSING"},
+    {"assetId": "RV-15", "kind": "ROVER", "name": "Geological rover Strata", "description": "A six-wheeled rover built for geological sampling. In the workshop for a drive repair.", "status": "MAINTENANCE", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "RV-3", "kind": "ROVER", "name": "Survey rover Pathfinder", "description": "A small survey rover that a shuttle can carry down to a planet surface. Used to scout a landing zone before an away team follows.", "status": "ACTIVE", "parentAssetId": "SH-70", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "RV-8", "kind": "ROVER", "name": "Exploration rover Wanderer", "description": "A pressurized exploration rover with room for a small team and its equipment. Stowed in a cargo bay of the Enterprise.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "SH-17", "kind": "SHUTTLE", "name": "Shuttlecraft Magellan", "description": "A standard shuttlecraft carried in the shuttlebay of the Enterprise. The usual carrier of the shuttle sensor suite.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "SH-42", "kind": "SHUTTLE", "name": "Shuttlecraft Sakharov", "description": "A standard shuttlecraft carried in the shuttlebay of the Enterprise. Flown on many rescue, recovery and relief missions.", "status": "ACTIVE", "parentAssetId": "VS-31", "origin": "missions-referenced", "case": "NORMAL"},
+    {"assetId": "SH-53", "kind": "SHUTTLE", "name": "Shuttlecraft Onizuka", "description": "A standard shuttlecraft that was lost with all hands and confirmed destroyed. It is kept on record because earlier missions refer to it.", "status": "DESTROYED", "parentAssetId": null, "origin": "missions-referenced", "case": "DESTROYED"},
+    {"assetId": "SH-61", "kind": "SHUTTLE", "name": "Shuttlecraft Goddard", "description": "A standard shuttlecraft undergoing a thruster overhaul in the shuttlebay.", "status": "MAINTENANCE", "parentAssetId": "VS-31", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "SH-70", "kind": "SHUTTLE", "name": "Shuttlecraft Cousteau", "description": "A standard shuttlecraft carried by the USS Phoenix. It can also carry the survey rover Pathfinder.", "status": "ACTIVE", "parentAssetId": "VS-66", "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "VS-12", "kind": "STARSHIP", "name": "USS Stargazer", "description": "A Constellation-class starship from an earlier era of the fleet. Retired and preserved.", "status": "DECOMMISSIONED", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "VS-31", "kind": "STARSHIP", "name": "USS Enterprise NCC-1701-D", "description": "A Galaxy-class starship and the flagship of the fleet in this lab. Carries shuttles, rovers, armored vehicles and equipment, and appears in most of the missions.", "status": "ACTIVE", "parentAssetId": null, "origin": "missions-referenced", "case": "NORMAL"},
+    {"assetId": "VS-58", "kind": "STARSHIP", "name": "USS Brattain", "description": "A starship reported overdue. Its whereabouts are unknown and a search is on record.", "status": "MISSING", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "VS-66", "kind": "STARSHIP", "name": "USS Phoenix", "description": "A starship in dry dock for a warp coil replacement. Carries the shuttlecraft Cousteau.", "status": "MAINTENANCE", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"},
+    {"assetId": "VS-79", "kind": "STARSHIP", "name": "USS Hood", "description": "A starship confirmed destroyed. Kept on record as a lost vessel.", "status": "DESTROYED", "parentAssetId": null, "origin": "extra", "case": "UNREFERENCED"}
+  ],
+  "cases": [
+    {"case": "NORMAL", "assetsAnswers": "200 with the record", "consumerShows": "RESOLVED with the asset", "expected": "A Missions-referenced asset that Assets holds with a live status. The reference resolves: the federation shows RESOLVED with the asset, and GET /assets/{id} answers 200."},
+    {"case": "DANGLING", "assetsAnswers": "404 ASSET_NOT_FOUND", "consumerShows": "UNRESOLVED with asset null, as data", "expected": "A Missions-referenced id that Assets does not hold. GET /assets/{id} answers 404 ASSET_NOT_FOUND and the federation shows the reference as UNRESOLVED with asset null; nothing is hidden or guessed."},
+    {"case": "DESTROYED", "assetsAnswers": "200 with the record, status DESTROYED", "consumerShows": "RESOLVED with the asset and its status", "expected": "A Missions-referenced asset with the status DESTROYED. It resolves with its status; no judgment is made about timing."},
+    {"case": "MISSING", "assetsAnswers": "200 with the record, status MISSING", "consumerShows": "RESOLVED with the asset and its status", "expected": "A Missions-referenced asset with the status MISSING. It resolves with its status; no judgment is made about timing."},
+    {"case": "UNREFERENCED", "assetsAnswers": "200 with the record", "consumerShows": "RESOLVED when asked for; no mission lists it", "expected": "An asset that no mission of the Missions release 1.0 uses. It resolves, and GET /missions?assignedAssetId=<id> returns no mission."},
+    {"case": "PARENT_CHAIN", "assetsAnswers": "200 with the record, parentAssetId naming the next asset up", "consumerShows": "each asset RESOLVED, with its parents in the same query", "expected": "Each chain lists the assets from the child to the top. A mission, its assets and each asset's parents answer in one federated query; every parent exists and is a VEHICLE."}
+  ],
+  "consumerRule": "Only a 404 ASSET_NOT_FOUND from Assets maps to UNRESOLVED. Any other failure of the lookup (a 500, a timeout, the service being down, or a 400 for a malformed id) is a lookup failure: the consumer shows an error entry with a null asset and never shows UNRESOLVED, so an outage cannot pass for a dataset of missing assets.",
+  "parentChains": [
+    ["EQ-64", "SH-17", "VS-31"],
+    ["EQ-211", "RV-3", "SH-70", "VS-66"]
+  ],
+  "expectedReferences": {
+    "EQ-108": {"case": "DANGLING", "resolution": "UNRESOLVED", "status": null, "note": "A cargo module: no equipment kind of the contract fits it, so Assets leaves it out on purpose."},
+    "EQ-119": {"case": "NORMAL", "resolution": "RESOLVED", "status": "ACTIVE"},
+    "EQ-64": {"case": "NORMAL", "resolution": "RESOLVED", "status": "ACTIVE"},
+    "EQ-75": {"case": "NORMAL", "resolution": "RESOLVED", "status": "ACTIVE"},
+    "EQ-86": {"case": "MISSING", "resolution": "RESOLVED", "status": "MISSING"},
+    "EQ-97": {"case": "DANGLING", "resolution": "UNRESOLVED", "status": null, "note": "An isolation kit that Assets leaves out on purpose."},
+    "SH-42": {"case": "NORMAL", "resolution": "RESOLVED", "status": "ACTIVE"},
+    "SH-53": {"case": "DESTROYED", "resolution": "RESOLVED", "status": "DESTROYED"},
+    "VS-31": {"case": "NORMAL", "resolution": "RESOLVED", "status": "ACTIVE"}
+  },
+  "idConvention": {
+    "VS": "STARSHIP (Missions release 1.0 uses VS-31 for the Enterprise)",
+    "SH": "SHUTTLE (Missions release 1.0 uses SH-42 and SH-53)",
+    "RV": "ROVER",
+    "AV": "ARMORED_VEHICLE (the Captain's suggestion)",
+    "EQ": "any of the five equipment kinds (Missions release 1.0 uses EQ-64, EQ-75, EQ-86, EQ-97, EQ-108 and EQ-119)"
+  },
+  "sources": {
+    "inspiration": "Names and roles are inspired by Star Trek: The Next Generation; reported from general knowledge and not verified against Memory Alpha during this slice.",
+    "synthetic": "Every description, status, parent and id is synthetic lab content. Nothing here claims canon."
+  }
+}

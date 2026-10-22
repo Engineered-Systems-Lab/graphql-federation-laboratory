@@ -1,0 +1,36 @@
+{
+  "cases": [
+    {"case": "NORMAL", "mappingSays": "the Missions reference maps to an Assets id", "assetsAnswers": "200 with the record", "consumerShows": "RESOLVED with the asset", "expected": "A Missions reference that the mapping sends to an asset Assets holds with a live status. GET /assets/{id} answers 200 and the federation shows RESOLVED with the asset."},
+    {"case": "DESTROYED", "mappingSays": "the Missions reference maps to an Assets id", "assetsAnswers": "200 with the record, status DESTROYED", "consumerShows": "RESOLVED with the asset and its status", "expected": "A mapped asset with the status DESTROYED. It resolves with its status; no judgment is made about timing."},
+    {"case": "MISSING", "mappingSays": "the Missions reference maps to an Assets id", "assetsAnswers": "200 with the record, status MISSING", "consumerShows": "RESOLVED with the asset and its status", "expected": "A mapped asset with the status MISSING. It resolves with its status; no judgment is made about timing."},
+    {"case": "MAPPED_NOT_FOUND", "mappingSays": "the Missions reference maps to an Assets id that Assets does not hold", "assetsAnswers": "404 ASSET_NOT_FOUND", "consumerShows": "UNRESOLVED with asset null, as data", "expected": "The mapping points to a well-formed Assets id that the dataset does not hold. GET /assets/{id} answers 404 ASSET_NOT_FOUND and the federation shows the reference as UNRESOLVED with asset null; nothing is hidden or guessed."},
+    {"case": "UNMAPPED", "mappingSays": "no entry: the reference is not mapped", "assetsAnswers": "not asked: there is no Assets id to look up", "consumerShows": "NO MAPPING: a failure of the mapping layer, never UNRESOLVED", "expected": "The mapping has no entry for the Missions reference, so Assets is never asked. The federation reports that there is no mapping, as an error entry with a null asset; it is a failure of the mapping layer and is never shown as an unresolved asset."},
+    {"case": "UNREFERENCED", "mappingSays": "no Missions reference maps to it", "assetsAnswers": "200 with the record", "consumerShows": "RESOLVED when asked for; no mission lists it", "expected": "An asset that no mission of the Missions release 1.0 reaches through the expected mapping. It resolves when asked for, and no mission lists it."},
+    {"case": "PARENT_CHAIN", "mappingSays": "the Missions reference maps to the first asset of the chain", "assetsAnswers": "200 with the record, parentAssetId naming the next asset up", "consumerShows": "each asset RESOLVED, with its parents in the same query", "expected": "Each chain lists the assets from the child to the top. A mission, its assets and each asset's parents answer in one federated query; every parent exists and is a VEHICLE."}
+  ],
+  "consumerRule": "Only a 404 whose code is ASSET_NOT_FOUND from Assets maps to UNRESOLVED. Any other failure of the lookup (a 404 PATH_NOT_FOUND, a 500, a timeout, the service being down, or a 400 for a malformed id) is a lookup failure: the consumer shows an error entry with a null asset and never shows UNRESOLVED, so an outage or a wrong path cannot pass for a dataset of missing assets. A Missions reference with no entry in the mapping is a mapping failure: Assets is not asked, and the consumer never shows it as UNRESOLVED.",
+  "expectedMapping": {
+    "EQ-108": {"case": "UNMAPPED", "status": null, "note": "A cargo module that no equipment kind of the contract fits: the expected mapping has no entry for it."},
+    "EQ-119": {"case": "NORMAL", "status": "ACTIVE"},
+    "EQ-64": {"case": "NORMAL", "status": "ACTIVE"},
+    "EQ-75": {"case": "NORMAL", "status": "ACTIVE"},
+    "EQ-86": {"case": "MISSING", "status": "MISSING"},
+    "EQ-97": {"case": "MAPPED_NOT_FOUND", "mapsTo": "AST-0097", "status": null, "note": "An isolation kit: the expected mapping points to AST-0097, which Assets leaves out on purpose."},
+    "SH-42": {"case": "NORMAL", "status": "ACTIVE"},
+    "SH-53": {"case": "DESTROYED", "status": "DESTROYED"},
+    "VS-31": {"case": "NORMAL", "status": "ACTIVE"}
+  },
+  "idConvention": {
+    "AST": "every asset of the Assets system (the native prefix); the grammar allows other prefixes of capital letters joined by single underscores for the future",
+    "Missions-local references": "SH-17, EQ-64, VS-31 and the like belong to Missions, as C-85 does for crew: Assets neither stores nor accepts them, and the mapping to an Assets id belongs to the integration layer"
+  },
+  "idRule": "The assets of release 1.0, taken in the order of their release 1.0 identifiers (the letter prefix as text, then the number as a number), receive the native identifiers AST-0001, AST-0002 and so on, one step each. A parent keeps pointing at the same asset under its new identifier. The same rule gives the same identifiers every time, and the manifest pins the assets of release 1.0 it was applied to.",
+  "parentChains": [
+    ["EQ-64", "SH-17", "VS-31"],
+    ["EQ-211", "RV-3", "SH-70", "VS-66"]
+  ],
+  "sources": {
+    "inspiration": "Names and roles are inspired by Star Trek: The Next Generation; reported from general knowledge and not verified against Memory Alpha during this slice.",
+    "synthetic": "Every description, status, parent and id is synthetic lab content. Nothing here claims canon."
+  }
+}

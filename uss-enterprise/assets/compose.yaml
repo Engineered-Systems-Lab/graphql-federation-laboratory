@@ -1,0 +1,94 @@
+# The Assets read service with its own PostgreSQL 17 database, started by one command (see start.sh and the README).
+#
+# - The database is a separate container, published nowhere: only the other containers of this project reach it.
+# - The service is published on loopback only (127.0.0.1:8084 by default) and holds only the read-only login.
+# - The one-shot bootstrap container holds the admin login: it applies the schema, loads (or verifies) dataset
+#   release 1.1 and sets the service login. A second start finds the data and verifies it; it never duplicates it.
+# - Credentials come from the environment; compose refuses to start when one is missing or empty.
+# - Every container has explicit CPU and memory limits, so that every benchmark run starts from the same conditions.
+#   The machine has 15.6 GB of RAM (32 GB expected): database 1 CPU and 512 MB, service 0.5 CPU and 256 MB, bootstrap
+#   0.5 CPU and 256 MB. Memory and swap are limited to the same figure.
+# - The database image is pinned by the digest of its OCI image index, resolved on 2026-10-15 with
+#   `docker buildx imagetools inspect postgres:17-bookworm`.
+# - The data lives in a named volume: the dataset release stays the source of truth and the volume is disposable
+#   (docker compose down --volumes removes it; start.sh never does).
+name: starfleet-assets
+
+x-assets-image: &assets-image
+  build: .
+  image: ${ASSETS_IMAGE:-starfleet-assets-service:1.0.0}
+
+services:
+  database:
+    image: ${ASSETS_DB_IMAGE:-postgres:17-bookworm@sha256:3645570cccdfa447589da9f57dd740faa29b30938e861289a5574b6ca6b03826}
+    container_name: ${ASSETS_DB_CONTAINER_NAME:-starfleet-assets-database}
+    environment:
+      POSTGRES_DB: assets
+      POSTGRES_PASSWORD: ${ASSETS_DB_ADMIN_PASSWORD:?set ASSETS_DB_ADMIN_PASSWORD}
+    volumes:
+      - assets-pgdata:/var/lib/postgresql/data
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+    healthcheck:
+      # Over TCP: the temporary server of the first initialisation listens on its socket only.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d assets"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+    stop_grace_period: 60s
+
+  bootstrap:
+    <<: *assets-image
+    command: ["python", "-B", "/app/service/bootstrap.py"]
+    environment:
+      PGHOST: database
+      PGPORT: "5432"
+      PGDATABASE: assets
+      PGUSER: postgres
+      PGPASSWORD: ${ASSETS_DB_ADMIN_PASSWORD:?set ASSETS_DB_ADMIN_PASSWORD}
+      ASSETS_SERVICE_USER: assets_service
+      ASSETS_SERVICE_PASSWORD: ${ASSETS_DB_SERVICE_PASSWORD:?set ASSETS_DB_SERVICE_PASSWORD}
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: "no"
+    cpus: 0.5
+    mem_limit: 256m
+    memswap_limit: 256m
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  assets:
+    <<: *assets-image
+    container_name: ${ASSETS_CONTAINER_NAME:-starfleet-assets-service}
+    ports:
+      - "127.0.0.1:${ASSETS_HOST_PORT:-8084}:8084"
+    environment:
+      ASSETS_HOST: 0.0.0.0
+      ASSETS_PORT: "8084"
+      PGHOST: database
+      PGPORT: "5432"
+      PGDATABASE: assets
+      PGUSER: assets_service
+      PGPASSWORD: ${ASSETS_DB_SERVICE_PASSWORD:?set ASSETS_DB_SERVICE_PASSWORD}
+    depends_on:
+      bootstrap:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8084/assets?limit=1', timeout=3)"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 3s
+    cpus: 0.5
+    mem_limit: 256m
+    memswap_limit: 256m
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+volumes:
+  assets-pgdata:

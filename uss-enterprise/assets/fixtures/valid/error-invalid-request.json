@@ -1,0 +1,4 @@
+{
+  "code": "INVALID_REQUEST",
+  "message": "The limit parameter must be a whole number from 1 to 50."
+}

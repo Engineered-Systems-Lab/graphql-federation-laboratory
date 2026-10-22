@@ -1,0 +1,9 @@
+{
+  "assetId": "AV-5",
+  "kind": "ARMORED_VEHICLE",
+  "category": "VEHICLE",
+  "name": "Example armored vehicle",
+  "description": "A fictional example armored ground vehicle built for combat.",
+  "status": "ACTIVE",
+  "parentAssetId": "SH-17"
+}

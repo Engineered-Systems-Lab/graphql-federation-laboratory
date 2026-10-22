@@ -1,0 +1,9 @@
+{
+  "assetId": "AST-0086",
+  "kind": "SCIENTIFIC_INSTRUMENT",
+  "category": "EQUIPMENT",
+  "name": "Example survey instrument",
+  "description": "A fictional example scientific instrument carried aboard a rover.",
+  "status": "ACTIVE",
+  "parentAssetId": "AST-0003"
+}

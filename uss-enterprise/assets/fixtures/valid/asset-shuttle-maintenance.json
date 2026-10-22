@@ -1,0 +1,9 @@
+{
+  "assetId": "SHT-4",
+  "kind": "SHUTTLE",
+  "category": "VEHICLE",
+  "name": "Example shuttle",
+  "description": "A fictional example shuttle in for maintenance.",
+  "status": "MAINTENANCE",
+  "parentAssetId": "SH-17"
+}

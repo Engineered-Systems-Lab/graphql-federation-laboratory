@@ -1,0 +1,9 @@
+{
+  "assetId": "RV-3",
+  "kind": "ROVER",
+  "category": "VEHICLE",
+  "name": "Example surface rover",
+  "description": "A fictional example ground exploration vehicle in service.",
+  "status": "ACTIVE",
+  "parentAssetId": "SH-17"
+}

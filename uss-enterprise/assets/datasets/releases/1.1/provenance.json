@@ -1,0 +1,421 @@
+{
+  "cases": [
+    {
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "expected": "A Missions reference that the mapping sends to an asset Assets holds with a live status. GET /assets/{id} answers 200 and the federation shows RESOLVED with the asset.",
+      "mappingSays": "the Missions reference maps to an Assets id"
+    },
+    {
+      "assetsAnswers": "200 with the record, status DESTROYED",
+      "case": "DESTROYED",
+      "consumerShows": "RESOLVED with the asset and its status",
+      "expected": "A mapped asset with the status DESTROYED. It resolves with its status; no judgment is made about timing.",
+      "mappingSays": "the Missions reference maps to an Assets id"
+    },
+    {
+      "assetsAnswers": "200 with the record, status MISSING",
+      "case": "MISSING",
+      "consumerShows": "RESOLVED with the asset and its status",
+      "expected": "A mapped asset with the status MISSING. It resolves with its status; no judgment is made about timing.",
+      "mappingSays": "the Missions reference maps to an Assets id"
+    },
+    {
+      "assetsAnswers": "404 ASSET_NOT_FOUND",
+      "case": "MAPPED_NOT_FOUND",
+      "consumerShows": "UNRESOLVED with asset null, as data",
+      "expected": "The mapping points to a well-formed Assets id that the dataset does not hold. GET /assets/{id} answers 404 ASSET_NOT_FOUND and the federation shows the reference as UNRESOLVED with asset null; nothing is hidden or guessed.",
+      "mappingSays": "the Missions reference maps to an Assets id that Assets does not hold"
+    },
+    {
+      "assetsAnswers": "not asked: there is no Assets id to look up",
+      "case": "UNMAPPED",
+      "consumerShows": "NO MAPPING: a failure of the mapping layer, never UNRESOLVED",
+      "expected": "The mapping has no entry for the Missions reference, so Assets is never asked. The federation reports that there is no mapping, as an error entry with a null asset; it is a failure of the mapping layer and is never shown as an unresolved asset.",
+      "mappingSays": "no entry: the reference is not mapped"
+    },
+    {
+      "assetsAnswers": "200 with the record",
+      "case": "UNREFERENCED",
+      "consumerShows": "RESOLVED when asked for; no mission lists it",
+      "expected": "An asset that no mission of the Missions release 1.0 reaches through the expected mapping. It resolves when asked for, and no mission lists it.",
+      "mappingSays": "no Missions reference maps to it"
+    },
+    {
+      "assetsAnswers": "200 with the record, parentAssetId naming the next asset up",
+      "case": "PARENT_CHAIN",
+      "consumerShows": "each asset RESOLVED, with its parents in the same query",
+      "expected": "Each chain lists the assets from the child to the top. A mission, its assets and each asset's parents answer in one federated query; every parent exists and is a VEHICLE.",
+      "mappingSays": "the Missions reference maps to the first asset of the chain"
+    }
+  ],
+  "consumerRule": "Only a 404 whose code is ASSET_NOT_FOUND from Assets maps to UNRESOLVED. Any other failure of the lookup (a 404 PATH_NOT_FOUND, a 500, a timeout, the service being down, or a 400 for a malformed id) is a lookup failure: the consumer shows an error entry with a null asset and never shows UNRESOLVED, so an outage or a wrong path cannot pass for a dataset of missing assets. A Missions reference with no entry in the mapping is a mapping failure: Assets is not asked, and the consumer never shows it as UNRESOLVED.",
+  "expectedMapping": [
+    {
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "mappingSays": "maps to AST-0004",
+      "mapsTo": "AST-0004",
+      "missionIds": [
+        "ST-00000LD4O",
+        "ST-00000LD4T",
+        "ST-00000LD4W",
+        "ST-00000LD4Z",
+        "ST-00000LD50",
+        "ST-00000LD51",
+        "ST-00000LD52",
+        "ST-00000LD55",
+        "ST-00000LD57",
+        "ST-00000LD5A",
+        "ST-00000LD5C",
+        "ST-00000LD5E",
+        "ST-00000LD5H",
+        "ST-00000LD5I"
+      ],
+      "missionsReference": "EQ-64",
+      "referenceCount": 14,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    },
+    {
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "mappingSays": "maps to AST-0005",
+      "mapsTo": "AST-0005",
+      "missionIds": [
+        "ST-00000LD4S",
+        "ST-00000LD4U",
+        "ST-00000LD4Y",
+        "ST-00000LD54",
+        "ST-00000LD58",
+        "ST-00000LD59",
+        "ST-00000LD5H"
+      ],
+      "missionsReference": "EQ-75",
+      "referenceCount": 7,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    },
+    {
+      "assetsAnswers": "200 with the record, status MISSING",
+      "case": "MISSING",
+      "consumerShows": "RESOLVED with the asset and its status",
+      "heldByAssets": true,
+      "mappingSays": "maps to AST-0006",
+      "mapsTo": "AST-0006",
+      "missionIds": [
+        "ST-00000LD52",
+        "ST-00000LD53",
+        "ST-00000LD5C",
+        "ST-00000LD5I"
+      ],
+      "missionsReference": "EQ-86",
+      "referenceCount": 4,
+      "resolution": "RESOLVED",
+      "status": "MISSING"
+    },
+    {
+      "assetsAnswers": "404 ASSET_NOT_FOUND",
+      "case": "MAPPED_NOT_FOUND",
+      "consumerShows": "UNRESOLVED with asset null, as data",
+      "heldByAssets": false,
+      "mappingSays": "maps to AST-0097",
+      "mapsTo": "AST-0097",
+      "missionIds": [
+        "ST-00000LD4U",
+        "ST-00000LD53",
+        "ST-00000LD58"
+      ],
+      "missionsReference": "EQ-97",
+      "note": "An isolation kit: the expected mapping points to AST-0097, which Assets leaves out on purpose.",
+      "referenceCount": 3,
+      "resolution": "UNRESOLVED",
+      "status": null
+    },
+    {
+      "assetsAnswers": "not asked: there is no Assets id to look up",
+      "case": "UNMAPPED",
+      "consumerShows": "NO MAPPING: a failure of the mapping layer, never UNRESOLVED",
+      "heldByAssets": false,
+      "mappingSays": "no entry: the reference is not mapped",
+      "mapsTo": null,
+      "missionIds": [
+        "ST-00000LD4Y",
+        "ST-00000LD54",
+        "ST-00000LD5G"
+      ],
+      "missionsReference": "EQ-108",
+      "note": "A cargo module that no equipment kind of the contract fits: the expected mapping has no entry for it.",
+      "referenceCount": 3,
+      "resolution": "NO_MAPPING",
+      "status": null
+    },
+    {
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "mappingSays": "maps to AST-0007",
+      "mapsTo": "AST-0007",
+      "missionIds": [
+        "ST-00000LD4P",
+        "ST-00000LD4R",
+        "ST-00000LD4X",
+        "ST-00000LD51",
+        "ST-00000LD56",
+        "ST-00000LD5B",
+        "ST-00000LD5E",
+        "ST-00000LD5F"
+      ],
+      "missionsReference": "EQ-119",
+      "referenceCount": 8,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    },
+    {
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "mappingSays": "maps to AST-0024",
+      "mapsTo": "AST-0024",
+      "missionIds": [
+        "ST-00000LD4Q",
+        "ST-00000LD4S",
+        "ST-00000LD4T",
+        "ST-00000LD4Z",
+        "ST-00000LD58",
+        "ST-00000LD5A"
+      ],
+      "missionsReference": "SH-42",
+      "referenceCount": 6,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    },
+    {
+      "assetsAnswers": "200 with the record, status DESTROYED",
+      "case": "DESTROYED",
+      "consumerShows": "RESOLVED with the asset and its status",
+      "heldByAssets": true,
+      "mappingSays": "maps to AST-0025",
+      "mapsTo": "AST-0025",
+      "missionIds": [
+        "ST-00000LD4W",
+        "ST-00000LD5I"
+      ],
+      "missionsReference": "SH-53",
+      "referenceCount": 2,
+      "resolution": "RESOLVED",
+      "status": "DESTROYED"
+    },
+    {
+      "assetsAnswers": "200 with the record",
+      "case": "NORMAL",
+      "consumerShows": "RESOLVED with the asset",
+      "heldByAssets": true,
+      "mappingSays": "maps to AST-0029",
+      "mapsTo": "AST-0029",
+      "missionIds": [
+        "ST-00000LD4O",
+        "ST-00000LD4P",
+        "ST-00000LD4R",
+        "ST-00000LD4S",
+        "ST-00000LD4T",
+        "ST-00000LD4X",
+        "ST-00000LD4Y",
+        "ST-00000LD4Z",
+        "ST-00000LD51",
+        "ST-00000LD54",
+        "ST-00000LD55",
+        "ST-00000LD56",
+        "ST-00000LD59",
+        "ST-00000LD5A",
+        "ST-00000LD5B",
+        "ST-00000LD5C",
+        "ST-00000LD5D",
+        "ST-00000LD5E",
+        "ST-00000LD5F",
+        "ST-00000LD5H",
+        "ST-00000LD5I"
+      ],
+      "missionsReference": "VS-31",
+      "referenceCount": 21,
+      "resolution": "RESOLVED",
+      "status": "ACTIVE"
+    }
+  ],
+  "idAssignment": {
+    "pairs": [
+      {
+        "from": "AV-2",
+        "to": "AST-0001"
+      },
+      {
+        "from": "AV-9",
+        "to": "AST-0002"
+      },
+      {
+        "from": "AV-14",
+        "to": "AST-0003"
+      },
+      {
+        "from": "EQ-64",
+        "to": "AST-0004"
+      },
+      {
+        "from": "EQ-75",
+        "to": "AST-0005"
+      },
+      {
+        "from": "EQ-86",
+        "to": "AST-0006"
+      },
+      {
+        "from": "EQ-119",
+        "to": "AST-0007"
+      },
+      {
+        "from": "EQ-201",
+        "to": "AST-0008"
+      },
+      {
+        "from": "EQ-202",
+        "to": "AST-0009"
+      },
+      {
+        "from": "EQ-203",
+        "to": "AST-0010"
+      },
+      {
+        "from": "EQ-210",
+        "to": "AST-0011"
+      },
+      {
+        "from": "EQ-211",
+        "to": "AST-0012"
+      },
+      {
+        "from": "EQ-220",
+        "to": "AST-0013"
+      },
+      {
+        "from": "EQ-221",
+        "to": "AST-0014"
+      },
+      {
+        "from": "EQ-230",
+        "to": "AST-0015"
+      },
+      {
+        "from": "EQ-231",
+        "to": "AST-0016"
+      },
+      {
+        "from": "EQ-240",
+        "to": "AST-0017"
+      },
+      {
+        "from": "EQ-241",
+        "to": "AST-0018"
+      },
+      {
+        "from": "EQ-242",
+        "to": "AST-0019"
+      },
+      {
+        "from": "RV-3",
+        "to": "AST-0020"
+      },
+      {
+        "from": "RV-8",
+        "to": "AST-0021"
+      },
+      {
+        "from": "RV-15",
+        "to": "AST-0022"
+      },
+      {
+        "from": "SH-17",
+        "to": "AST-0023"
+      },
+      {
+        "from": "SH-42",
+        "to": "AST-0024"
+      },
+      {
+        "from": "SH-53",
+        "to": "AST-0025"
+      },
+      {
+        "from": "SH-61",
+        "to": "AST-0026"
+      },
+      {
+        "from": "SH-70",
+        "to": "AST-0027"
+      },
+      {
+        "from": "VS-12",
+        "to": "AST-0028"
+      },
+      {
+        "from": "VS-31",
+        "to": "AST-0029"
+      },
+      {
+        "from": "VS-58",
+        "to": "AST-0030"
+      },
+      {
+        "from": "VS-66",
+        "to": "AST-0031"
+      },
+      {
+        "from": "VS-79",
+        "to": "AST-0032"
+      }
+    ],
+    "rule": "The assets of release 1.0, taken in the order of their release 1.0 identifiers (the letter prefix as text, then the number as a number), receive the native identifiers AST-0001, AST-0002 and so on, one step each. A parent keeps pointing at the same asset under its new identifier. The same rule gives the same identifiers every time, and the manifest pins the assets of release 1.0 it was applied to.",
+    "sourceRelease": {
+      "datasetVersion": "1.0"
+    }
+  },
+  "idConvention": {
+    "AST": "every asset of the Assets system (the native prefix); the grammar allows other prefixes of capital letters joined by single underscores for the future",
+    "Missions-local references": "SH-17, EQ-64, VS-31 and the like belong to Missions, as C-85 does for crew: Assets neither stores nor accepts them, and the mapping to an Assets id belongs to the integration layer"
+  },
+  "limitations": [
+    "Synthetic lab content: no claim of canon.",
+    "The expected mapping is a statement of what the integration layer should do, written here so that its result can be checked; Assets stores no Missions reference and offers no mapping.",
+    "Kinds, statuses and parents of the Missions-referenced assets are decided by this dataset; Missions holds its own references only.",
+    "No timing judgment: DESTROYED and MISSING assets resolve with their status.",
+    "No location, no Personnel mapping and no cross-service rule beyond the references shown."
+  ],
+  "missionsRelease": {
+    "datasetVersion": "1.0",
+    "distinctReferences": 9,
+    "references": 68
+  },
+  "parentChains": [
+    [
+      "AST-0004",
+      "AST-0023",
+      "AST-0029"
+    ],
+    [
+      "AST-0012",
+      "AST-0020",
+      "AST-0027",
+      "AST-0031"
+    ]
+  ],
+  "sources": {
+    "inspiration": "Names and roles are inspired by Star Trek: The Next Generation; reported from general knowledge and not verified against Memory Alpha during this slice.",
+    "synthetic": "Every description, status, parent and id is synthetic lab content. Nothing here claims canon."
+  }
+}

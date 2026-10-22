@@ -1,0 +1,6 @@
+*
+!service/*.py
+!service/requirements.txt
+!schema/schema.sql
+!contracts/assets-v1.1.openapi.json
+!datasets/releases/1.1

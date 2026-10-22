@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "assetId": "EQ-64",
+      "kind": "TRICORDER",
+      "category": "EQUIPMENT",
+      "name": "Example tricorder",
+      "description": "A fictional example tricorder aboard SH-17.",
+      "status": "ACTIVE",
+      "parentAssetId": "SH-17"
+    },
+    {
+      "assetId": "SH-17",
+      "kind": "STARSHIP",
+      "category": "VEHICLE",
+      "name": "USS Example",
+      "description": "A fictional example starship used only to illustrate the contract.",
+      "status": "ACTIVE",
+      "parentAssetId": null
+    },
+    {
+      "assetId": "SHT-4",
+      "kind": "SHUTTLE",
+      "category": "VEHICLE",
+      "name": "Example shuttle",
+      "description": "A fictional example shuttle in for maintenance.",
+      "status": "MAINTENANCE",
+      "parentAssetId": "SH-17"
+    }
+  ],
+  "offset": 0,
+  "limit": 3,
+  "total": 31
+}

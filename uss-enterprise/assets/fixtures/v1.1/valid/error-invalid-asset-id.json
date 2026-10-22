@@ -1,0 +1,4 @@
+{
+  "code": "INVALID_ASSET_ID",
+  "message": "The asset identifier does not match the asset grammar."
+}

@@ -1,0 +1,9 @@
+{
+  "assetId": "EQ-75",
+  "kind": "COMMUNICATOR",
+  "category": "EQUIPMENT",
+  "name": "Example communicator",
+  "description": "A fictional example communicator whose whereabouts are unknown.",
+  "status": "MISSING",
+  "parentAssetId": "SH-17"
+}

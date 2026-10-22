@@ -1,0 +1,9 @@
+{
+  "assetId": "AST-0097",
+  "kind": "MUSICAL_INSTRUMENT",
+  "category": "EQUIPMENT",
+  "name": "Example flute",
+  "description": "A fictional example flute, a plain asset like any other.",
+  "status": "ACTIVE",
+  "parentAssetId": null
+}

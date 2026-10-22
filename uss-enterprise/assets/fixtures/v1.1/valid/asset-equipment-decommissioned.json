@@ -1,0 +1,9 @@
+{
+  "assetId": "AST-0031",
+  "kind": "PHASER",
+  "category": "EQUIPMENT",
+  "name": "Example phaser",
+  "description": "A fictional example phaser retired in the normal way.",
+  "status": "DECOMMISSIONED",
+  "parentAssetId": null
+}
