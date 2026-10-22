@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soap:Envelope xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <cp:ListCrewMembersRequest />
+  </soap:Body>
+</soap:Envelope>

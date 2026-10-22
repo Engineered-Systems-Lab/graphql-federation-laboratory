@@ -14,9 +14,30 @@ The template ships the rows of its own documents. A project that starts from it 
 | `devlog/CONVENTIONS.md` | governance | governance | - | yes | guidance | - | yes | - |
 | `devlog/README.md` | record | record-only | - | - | - |  | yes | - |
 | `docs/ARCHITECTURE.md` | governance | governance | - | - | guidance | architecture | yes | - |
+| `docs/CREW-PERSONNEL-V1.md` | runtime | crew-offline | - | - | - | - | - | - |
 | `docs/PLAN.md` | record | record-only | - | yes | guidance | plan | yes | - |
 | `docs/PROGRESS.md` | record | record-only | - | yes | - | progress | yes | - |
 | `docs/timings/*.jsonl` | record | record-only | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/.dockerignore` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/Dockerfile` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/README.md` | record | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/acceptance/*.sh` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/acceptance/*.xml` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/acceptance/manual/README.md` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/compose.yaml` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/contracts/*.wsdl` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/contracts/*.xsd` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/datasets/released/*.json` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/datasets/released/*.xml` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/fixtures/*.json` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/fixtures/*.xml` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/generator/*.py` | tooling | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/pom.xml` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/src/*.java` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/src/*.wsdl` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/validation/*.py` | tooling | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/crew-personnel/validation/runtime_acceptance.py` | runtime | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/requirements.txt` | tooling | crew-offline | - | - | - | - | - | - |
 
 ## Historical paths
 

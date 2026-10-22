@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:GetCrewMemberResponse xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:datasetVersion>crew-v1-small-001</cp:datasetVersion>
+  <cp:crewMember>
+    <cp:crewId>CRW-1052</cp:crewId>
+    <cp:displayName>Elias Renn</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Engineering Technician</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+</cp:GetCrewMemberResponse>

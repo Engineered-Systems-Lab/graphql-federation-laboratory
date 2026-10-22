@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soap:Envelope xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <soap:Fault>
+      <faultcode>soap:Client</faultcode>
+      <faultstring>CrewNotFound</faultstring>
+      <detail>
+        <cp:CrewServiceFault>
+          <cp:code>CrewNotFound</cp:code>
+          <cp:message>Crew member is absent from this dataset.</cp:message>
+          <cp:field>crewId</cp:field>
+        </cp:CrewServiceFault>
+      </detail>
+    </soap:Fault>
+  </soap:Body>
+</soap:Envelope>

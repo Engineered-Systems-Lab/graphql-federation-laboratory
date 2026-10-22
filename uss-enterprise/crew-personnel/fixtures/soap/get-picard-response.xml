@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soap:Envelope xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <cp:GetCrewMemberResponse>
+      <cp:datasetVersion>crew-v1-small-001</cp:datasetVersion>
+      <cp:crewMember>
+        <cp:crewId>CRW-1047</cp:crewId>
+        <cp:displayName>Jean-Luc Picard</cp:displayName>
+        <cp:rank>CAPTAIN</cp:rank>
+        <cp:department>COMMAND</cp:department>
+        <cp:positionTitle>Commanding Officer</cp:positionTitle>
+        <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+      </cp:crewMember>
+    </cp:GetCrewMemberResponse>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:ListCrewMembersRequest xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:offset>0</cp:offset>
+  <cp:limit>1</cp:limit>
+</cp:ListCrewMembersRequest>

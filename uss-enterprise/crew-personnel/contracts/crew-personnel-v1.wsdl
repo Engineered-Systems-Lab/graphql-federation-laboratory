@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ xmlns:tns="urn:graphql-federation-lab:crew-personnel:v1"
+ targetNamespace="urn:graphql-federation-lab:crew-personnel:v1"
+ name="CrewPersonnelV1">
+  <wsdl:documentation>
+    SOAP 1.1 over HTTP; document/literal wrapped. Endpoint path:
+    /soap/crew-personnel. Host and port are deployment configuration;
+    this reusable binding contract intentionally has no deployment service/port.
+    Success: HTTP 200. Declared faults: HTTP 500, with one CrewServiceFault
+    in SOAP detail. InvalidRequest and CrewNotFound use SOAP Client;
+    ServiceUnavailable and InternalError use SOAP Server.
+  </wsdl:documentation>
+  <wsdl:types>
+    <xs:schema targetNamespace="urn:graphql-federation-lab:crew-personnel:v1"
+      elementFormDefault="qualified" attributeFormDefault="unqualified">
+      <xs:include schemaLocation="crew-personnel-v1.xsd"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetCrewMemberRequestMessage"><wsdl:part name="parameters" element="tns:GetCrewMemberRequest"/></wsdl:message>
+  <wsdl:message name="GetCrewMemberResponseMessage"><wsdl:part name="parameters" element="tns:GetCrewMemberResponse"/></wsdl:message>
+  <wsdl:message name="ListCrewMembersRequestMessage"><wsdl:part name="parameters" element="tns:ListCrewMembersRequest"/></wsdl:message>
+  <wsdl:message name="ListCrewMembersResponseMessage"><wsdl:part name="parameters" element="tns:ListCrewMembersResponse"/></wsdl:message>
+  <wsdl:message name="CrewServiceFaultMessage"><wsdl:part name="parameters" element="tns:CrewServiceFault"/></wsdl:message>
+  <wsdl:portType name="CrewPersonnelPortType">
+    <wsdl:operation name="GetCrewMember">
+      <wsdl:input message="tns:GetCrewMemberRequestMessage"/>
+      <wsdl:output message="tns:GetCrewMemberResponseMessage"/>
+      <wsdl:fault name="CrewServiceFault" message="tns:CrewServiceFaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListCrewMembers">
+      <wsdl:input message="tns:ListCrewMembersRequestMessage"/>
+      <wsdl:output message="tns:ListCrewMembersResponseMessage"/>
+      <wsdl:fault name="CrewServiceFault" message="tns:CrewServiceFaultMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CrewPersonnelSoap11Binding" type="tns:CrewPersonnelPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetCrewMember">
+      <soap:operation soapAction="urn:graphql-federation-lab:crew-personnel:v1:GetCrewMember" style="document"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+      <wsdl:fault name="CrewServiceFault"><soap:fault name="CrewServiceFault" use="literal"/></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListCrewMembers">
+      <soap:operation soapAction="urn:graphql-federation-lab:crew-personnel:v1:ListCrewMembers" style="document"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+      <wsdl:fault name="CrewServiceFault"><soap:fault name="CrewServiceFault" use="literal"/></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+</wsdl:definitions>

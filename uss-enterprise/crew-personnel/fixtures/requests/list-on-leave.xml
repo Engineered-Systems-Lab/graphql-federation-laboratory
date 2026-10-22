@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:ListCrewMembersRequest xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+</cp:ListCrewMembersRequest>

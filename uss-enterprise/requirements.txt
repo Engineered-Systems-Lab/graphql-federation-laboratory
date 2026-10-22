@@ -1,0 +1,11 @@
+# Shared third-party dependency of the offline XML Schema (XSD) checks of the legacy systems.
+# The standard library cannot validate XSD; everything else these checks use is standard library.
+# Dependents as of 2026-10-22 (check again when a system's validation changes):
+# - Crew & Personnel v1: validation/xml_validation.py imports lxml.
+# - Personnel v2: its validator and its runtime check import the Crew & Personnel v1 helper above.
+# - Missions: its validator imports the same helper; datasets/validate_release.py, its
+#   read-service and packaging tests and their shared service test harness import lxml directly.
+# - The tests of the service scripts (scripts/*.sh) import lxml directly.
+# Not a dependent: Assets. Its offline checks use only the standard library, and its service
+# has its own uss-enterprise/assets/service/requirements.txt.
+lxml==6.1.1

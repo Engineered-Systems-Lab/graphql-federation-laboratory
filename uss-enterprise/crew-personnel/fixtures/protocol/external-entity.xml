@@ -1,0 +1,1 @@
+<!DOCTYPE test [<!ENTITY external SYSTEM "urn:crew-personnel:must-not-resolve">]><test>&external;</test>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:ListCrewMembersResponse xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:datasetVersion>crew-v1-small-002</cp:datasetVersion>
+  <cp:crewMember>
+    <cp:crewId>CRW-1047</cp:crewId>
+    <cp:displayName>Jean-Luc Picard</cp:displayName>
+    <cp:rank>CAPTAIN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Commanding Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1048</cp:crewId>
+    <cp:displayName>William Riker</cp:displayName>
+    <cp:rank>COMMANDER</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>First Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1047</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1049</cp:crewId>
+    <cp:displayName>Geordi La Forge</cp:displayName>
+    <cp:rank>LIEUTENANT_COMMANDER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Chief Engineer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1050</cp:crewId>
+    <cp:displayName>Data</cp:displayName>
+    <cp:rank>LIEUTENANT_COMMANDER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Operations Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1051</cp:crewId>
+    <cp:displayName>Mara Venn</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>FLIGHT_OPERATIONS</cp:department>
+    <cp:positionTitle>Shuttle Pilot</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1052</cp:crewId>
+    <cp:displayName>Elias Renn</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Engineering Technician</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1053</cp:crewId>
+    <cp:displayName>Beverly Crusher</cp:displayName>
+    <cp:rank>COMMANDER</cp:rank>
+    <cp:department>MEDICAL</cp:department>
+    <cp:positionTitle>Chief Medical Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1047</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1054</cp:crewId>
+    <cp:displayName>Deanna Troi</cp:displayName>
+    <cp:rank>LIEUTENANT_COMMANDER</cp:rank>
+    <cp:department>MEDICAL</cp:department>
+    <cp:positionTitle>Ship's Counselor</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1047</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1055</cp:crewId>
+    <cp:displayName>Wesley Crusher</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Acting Ensign</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1050</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1056</cp:crewId>
+    <cp:displayName>Guinan</cp:displayName>
+    <cp:rank>CIVILIAN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Bartender</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1057</cp:crewId>
+    <cp:displayName>Reginald Barclay</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Systems Diagnostic Engineer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1058</cp:crewId>
+    <cp:displayName>Worf</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>SECURITY</cp:department>
+    <cp:positionTitle>Chief of Security</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:totalCount>12</cp:totalCount>
+  <cp:offset>0</cp:offset>
+  <cp:limit>20</cp:limit>
+  <cp:hasMore>false</cp:hasMore>
+</cp:ListCrewMembersResponse>

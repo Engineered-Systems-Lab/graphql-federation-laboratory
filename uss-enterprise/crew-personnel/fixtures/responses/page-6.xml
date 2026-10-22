@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:ListCrewMembersResponse xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:datasetVersion>crew-v1-small-001</cp:datasetVersion>
+  <cp:totalCount>6</cp:totalCount>
+  <cp:offset>6</cp:offset>
+  <cp:limit>20</cp:limit>
+  <cp:hasMore>false</cp:hasMore>
+</cp:ListCrewMembersResponse>

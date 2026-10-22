@@ -1,0 +1,838 @@
+[
+  {
+    "name": "negative/requests/department-empty.xml",
+    "base": "requests/list-engineering.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:department[1]",
+        "value": ""
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/department-lexical-1.xml",
+    "base": "requests/list-engineering.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:department[1]",
+        "value": "engineering"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/department-lexical-2.xml",
+    "base": "requests/list-engineering.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:department[1]",
+        "value": "UNKNOWN"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/department-lexical-3.xml",
+    "base": "requests/list-engineering.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:department[1]",
+        "value": " ENGINEERING "
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/department-whitespace.xml",
+    "base": "requests/list-engineering.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:department[1]",
+        "value": " \t\n"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/dutyStatus-empty.xml",
+    "base": "requests/list-on-leave.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:dutyStatus[1]",
+        "value": ""
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/dutyStatus-lexical-1.xml",
+    "base": "requests/list-on-leave.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:dutyStatus[1]",
+        "value": "active"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/dutyStatus-lexical-2.xml",
+    "base": "requests/list-on-leave.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:dutyStatus[1]",
+        "value": "UNKNOWN"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/dutyStatus-lexical-3.xml",
+    "base": "requests/list-on-leave.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:dutyStatus[1]",
+        "value": " ACTIVE "
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/dutyStatus-whitespace.xml",
+    "base": "requests/list-on-leave.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:dutyStatus[1]",
+        "value": " \t\n"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/id-empty.xml",
+    "base": "requests/get-inactive.xml",
+    "payload": "GetCrewMemberRequest",
+    "mutations": [
+      {
+        "target": "/cp:GetCrewMemberRequest/cp:crewId[1]",
+        "value": ""
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/id-leading-space.xml",
+    "base": "requests/get-inactive.xml",
+    "payload": "GetCrewMemberRequest",
+    "mutations": [
+      {
+        "target": "/cp:GetCrewMemberRequest/cp:crewId[1]",
+        "value": " CRW-0007"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/id-long.xml",
+    "base": "requests/get-inactive.xml",
+    "payload": "GetCrewMemberRequest",
+    "mutations": [
+      {
+        "target": "/cp:GetCrewMemberRequest/cp:crewId[1]",
+        "value": "CRW-10470"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/id-lowercase.xml",
+    "base": "requests/get-inactive.xml",
+    "payload": "GetCrewMemberRequest",
+    "mutations": [
+      {
+        "target": "/cp:GetCrewMemberRequest/cp:crewId[1]",
+        "value": "crw-0007"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/id-short.xml",
+    "base": "requests/get-inactive.xml",
+    "payload": "GetCrewMemberRequest",
+    "mutations": [
+      {
+        "target": "/cp:GetCrewMemberRequest/cp:crewId[1]",
+        "value": "CRW-007"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/id-surrounding.xml",
+    "base": "requests/get-inactive.xml",
+    "payload": "GetCrewMemberRequest",
+    "mutations": [
+      {
+        "target": "/cp:GetCrewMemberRequest/cp:crewId[1]",
+        "value": "xCRW-0007y"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/id-trailing-space.xml",
+    "base": "requests/get-inactive.xml",
+    "payload": "GetCrewMemberRequest",
+    "mutations": [
+      {
+        "target": "/cp:GetCrewMemberRequest/cp:crewId[1]",
+        "value": "CRW-0007 "
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/id-unicode-digits.xml",
+    "base": "requests/get-inactive.xml",
+    "payload": "GetCrewMemberRequest",
+    "mutations": [
+      {
+        "target": "/cp:GetCrewMemberRequest/cp:crewId[1]",
+        "value": "CRW-０００７"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/id-zero.xml",
+    "base": "requests/get-inactive.xml",
+    "payload": "GetCrewMemberRequest",
+    "mutations": [
+      {
+        "target": "/cp:GetCrewMemberRequest/cp:crewId[1]",
+        "value": "CRW-0000"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/limit-empty.xml",
+    "base": "requests/list-defaults.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:limit[1]",
+        "value": "",
+        "append": "limit"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/limit-lexical-1.xml",
+    "base": "requests/list-defaults.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:limit[1]",
+        "value": "0",
+        "append": "limit"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/limit-lexical-2.xml",
+    "base": "requests/list-defaults.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:limit[1]",
+        "value": "101",
+        "append": "limit"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/limit-lexical-3.xml",
+    "base": "requests/list-defaults.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:limit[1]",
+        "value": "2147483648",
+        "append": "limit"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/limit-lexical-4.xml",
+    "base": "requests/list-defaults.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:limit[1]",
+        "value": "2.0",
+        "append": "limit"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/limit-lexical-5.xml",
+    "base": "requests/list-defaults.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:limit[1]",
+        "value": "2e0",
+        "append": "limit"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/limit-lexical-6.xml",
+    "base": "requests/list-defaults.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:limit[1]",
+        "value": "2 0",
+        "append": "limit"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/limit-whitespace.xml",
+    "base": "requests/list-defaults.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:limit[1]",
+        "value": " \t\n",
+        "append": "limit"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/offset-empty.xml",
+    "base": "requests/page-2147483647.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:offset[1]",
+        "value": ""
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/offset-lexical-1.xml",
+    "base": "requests/page-2147483647.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:offset[1]",
+        "value": "-1"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/offset-lexical-2.xml",
+    "base": "requests/page-2147483647.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:offset[1]",
+        "value": "2147483648"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/offset-lexical-3.xml",
+    "base": "requests/page-2147483647.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:offset[1]",
+        "value": "2.0"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/offset-lexical-4.xml",
+    "base": "requests/page-2147483647.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:offset[1]",
+        "value": "2e0"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/offset-lexical-5.xml",
+    "base": "requests/page-2147483647.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:offset[1]",
+        "value": "2 0"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/requests/offset-whitespace.xml",
+    "base": "requests/page-2147483647.xml",
+    "payload": "ListCrewMembersRequest",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersRequest/cp:offset[1]",
+        "value": " \t\n"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/count-negative.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:totalCount[1]",
+        "value": "-1"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/count-overflow.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:totalCount[1]",
+        "value": "2147483648"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/displayName-blank.xml",
+    "base": "validation/crew-v1-edge-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:displayName[1]",
+        "value": " \t\n"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/displayName-overlong.xml",
+    "base": "validation/crew-v1-edge-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:displayName[1]",
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/fault-field-empty.xml",
+    "base": "faults/InvalidRequest-limit.xml",
+    "payload": "CrewServiceFault",
+    "mutations": [
+      {
+        "target": "/cp:CrewServiceFault/cp:message[1]",
+        "value": "Invalid request."
+      },
+      {
+        "target": "/cp:CrewServiceFault/cp:field[1]",
+        "value": ""
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/fault-field-unknown.xml",
+    "base": "faults/InvalidRequest-limit.xml",
+    "payload": "CrewServiceFault",
+    "mutations": [
+      {
+        "target": "/cp:CrewServiceFault/cp:message[1]",
+        "value": "Invalid request."
+      },
+      {
+        "target": "/cp:CrewServiceFault/cp:field[1]",
+        "value": "name"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/fault-message-blank.xml",
+    "base": "faults/InvalidRequest.xml",
+    "payload": "CrewServiceFault",
+    "mutations": [
+      {
+        "target": "/cp:CrewServiceFault/cp:message[1]",
+        "value": " \t\n"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/fault-message-empty.xml",
+    "base": "faults/InvalidRequest.xml",
+    "payload": "CrewServiceFault",
+    "mutations": [
+      {
+        "target": "/cp:CrewServiceFault/cp:message[1]",
+        "value": ""
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/fault-message-overlong.xml",
+    "base": "faults/InvalidRequest.xml",
+    "payload": "CrewServiceFault",
+    "mutations": [
+      {
+        "target": "/cp:CrewServiceFault/cp:message[1]",
+        "value": "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/positionTitle-blank.xml",
+    "base": "validation/crew-v1-edge-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:positionTitle[1]",
+        "value": " \t\n"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/positionTitle-overlong.xml",
+    "base": "validation/crew-v1-edge-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:positionTitle[1]",
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/record-id-lower.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:crewId[1]",
+        "value": "crw-0007"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/record-id-padded.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:crewId[1]",
+        "value": " CRW-0007"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/record-id-wrong-length.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:crewId[1]",
+        "value": "CRW-007"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/record-id-zero.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:crewId[1]",
+        "value": "CRW-0000"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/supervisor-empty.xml",
+    "base": "validation/crew-v1-edge-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:supervisorCrewId[1]",
+        "value": ""
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/supervisor-whitespace.xml",
+    "base": "validation/crew-v1-edge-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:supervisorCrewId[1]",
+        "value": " \t\n"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/version-double-hyphen.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "crew--v1"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/version-empty.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": ""
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/version-leading-hyphen.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "-crew-v1"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/version-overlong.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/version-padded.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": " crew-v1 "
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/version-surrounding.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "!crew-v1!"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/version-trailing-hyphen.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "crew-v1-"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "negative/schema/version-upper.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "Crew-v1"
+      }
+    ],
+    "valid": false
+  },
+  {
+    "name": "validation/boolean-one.xml",
+    "base": "responses/page-0.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:hasMore[1]",
+        "value": "1"
+      }
+    ],
+    "valid": true
+  },
+  {
+    "name": "validation/boolean-zero.xml",
+    "base": "responses/list-medical.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:hasMore[1]",
+        "value": "0"
+      }
+    ],
+    "valid": true
+  },
+  {
+    "name": "validation/displayName-100.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "crew-v1-text-boundary-displayname"
+      },
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:displayName[1]",
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    ],
+    "valid": true
+  },
+  {
+    "name": "validation/fault-message-512.xml",
+    "base": "faults/InternalError.xml",
+    "payload": "CrewServiceFault",
+    "mutations": [
+      {
+        "target": "/cp:CrewServiceFault/cp:message[1]",
+        "value": "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+      }
+    ],
+    "valid": true
+  },
+  {
+    "name": "validation/non-xml-whitespace.xml",
+    "base": "validation/crew-v1-edge-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "crew-v1-nbsp-001"
+      },
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:displayName[1]",
+        "value": " "
+      }
+    ],
+    "valid": true
+  },
+  {
+    "name": "validation/positionTitle-100.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "crew-v1-text-boundary-positiontitle"
+      },
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:positionTitle[1]",
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    ],
+    "valid": true
+  },
+  {
+    "name": "validation/preserved-text.xml",
+    "base": "validation/crew-v1-edge-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "crew-v1-text-001"
+      },
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:crewMember[1]/cp:displayName[1]",
+        "value": " \t\nA\n "
+      }
+    ],
+    "valid": true
+  },
+  {
+    "name": "validation/version-64.xml",
+    "base": "canonical/crew-v1-small-001.xml",
+    "payload": "ListCrewMembersResponse",
+    "mutations": [
+      {
+        "target": "/cp:ListCrewMembersResponse/cp:datasetVersion[1]",
+        "value": "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      }
+    ],
+    "valid": true
+  }
+]

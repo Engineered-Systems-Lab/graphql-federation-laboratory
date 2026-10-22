@@ -1,0 +1,552 @@
+{
+  "canonical": "canonical/crew-v1-small-001.xml",
+  "cases": [
+    {
+      "path": "canonical/crew-v1-small-001.xml",
+      "kind": "dataset",
+      "valid": true
+    },
+    {
+      "path": "validation/crew-v1-edge-001.xml",
+      "kind": "dataset",
+      "valid": true
+    },
+    {
+      "path": "validation/crew-v1-replacement-001.xml",
+      "kind": "dataset",
+      "valid": true
+    },
+    {
+      "path": "requests/get-picard.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/get-picard.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/get-inactive.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/get-inactive.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/get-leading-zero.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/get-leading-zero.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/list-defaults.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/page-0.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/page-0.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/page-2.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/page-2.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/page-4.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/page-4.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/page-6.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/page-6.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/page-7.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/page-7.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/page-2147483647.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/page-2147483647.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/list-engineering.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/list-engineering.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/list-engineering-active.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/list-engineering-active.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/list-medical.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/list-medical.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/list-on-leave.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/list-on-leave.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/numeric-plus.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/numeric-zeroes.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/max-limit.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/max-limit.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "requests/min-limit.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/min-limit.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/replacement-page-2.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "responses/replacement-page-0.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "soap/get-picard-request.xml",
+      "kind": "soap",
+      "valid": true
+    },
+    {
+      "path": "soap/get-picard-response.xml",
+      "kind": "soap",
+      "valid": true
+    },
+    {
+      "path": "soap/list-defaults-request.xml",
+      "kind": "soap",
+      "valid": true
+    },
+    {
+      "path": "soap/list-defaults-response.xml",
+      "kind": "soap",
+      "valid": true
+    },
+    {
+      "path": "faults/InvalidRequest-limit.xml",
+      "kind": "soap",
+      "valid": true
+    },
+    {
+      "path": "faults/InvalidRequest.xml",
+      "kind": "soap",
+      "valid": true
+    },
+    {
+      "path": "faults/CrewNotFound-crewId.xml",
+      "kind": "soap",
+      "valid": true
+    },
+    {
+      "path": "faults/ServiceUnavailable.xml",
+      "kind": "soap",
+      "valid": true
+    },
+    {
+      "path": "faults/InternalError.xml",
+      "kind": "soap",
+      "valid": true
+    },
+    {
+      "path": "requests/get-not-found.xml",
+      "kind": "payload",
+      "valid": true
+    },
+    {
+      "path": "negative/requests/wrong-order.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "InvalidRequest"
+    },
+    {
+      "path": "negative/requests/duplicate.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "InvalidRequest; field=limit"
+    },
+    {
+      "path": "negative/requests/unknown.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "InvalidRequest; omit field"
+    },
+    {
+      "path": "negative/requests/unqualified.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "InvalidRequest"
+    },
+    {
+      "path": "negative/requests/wrong-namespace.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "InvalidRequest; omit field"
+    },
+    {
+      "path": "negative/requests/missing-id.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "InvalidRequest; field=crewId"
+    },
+    {
+      "path": "negative/requests/attribute.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "InvalidRequest; omit field"
+    },
+    {
+      "path": "negative/requests/mixed-content.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "InvalidRequest; omit field"
+    },
+    {
+      "path": "negative/datasets/duplicate-id.xml",
+      "kind": "dataset",
+      "valid": false,
+      "reason": "Readiness rejection: duplicate-id"
+    },
+    {
+      "path": "negative/datasets/dangling.xml",
+      "kind": "dataset",
+      "valid": false,
+      "reason": "Readiness rejection: dangling"
+    },
+    {
+      "path": "negative/datasets/self-reference.xml",
+      "kind": "dataset",
+      "valid": false,
+      "reason": "Readiness rejection: self-reference"
+    },
+    {
+      "path": "negative/datasets/cycle.xml",
+      "kind": "dataset",
+      "valid": false,
+      "reason": "Readiness rejection: cycle"
+    },
+    {
+      "path": "negative/schema/text-as-markup.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "Display text cannot contain child elements"
+    },
+    {
+      "path": "negative/schema/101-records.xml",
+      "kind": "payload",
+      "valid": false,
+      "reason": "List response exceeds 100 occurrences"
+    },
+    {
+      "path": "negative/soap/two-wrappers.xml",
+      "kind": "soap",
+      "valid": false,
+      "reason": "Exactly one body wrapper"
+    },
+    {
+      "path": "negative/soap/wrong-faultcode.xml",
+      "kind": "soap",
+      "valid": false,
+      "reason": "CrewNotFound requires SOAP Client"
+    },
+    {
+      "path": "negative/soap/missing-not-found-field.xml",
+      "kind": "soap",
+      "valid": false,
+      "reason": "CrewNotFound requires field=crewId"
+    },
+    {
+      "path": "negative/soap/two-details.xml",
+      "kind": "soap",
+      "valid": false,
+      "reason": "Exactly one CrewServiceFault"
+    },
+    {
+      "path": "protocol/malformed.xml",
+      "kind": "protocol",
+      "valid": false,
+      "reason": "Separate protocol/security case; no guaranteed declared fault"
+    },
+    {
+      "path": "protocol/soap12.xml",
+      "kind": "protocol",
+      "valid": false,
+      "reason": "Separate protocol/security case; no guaranteed declared fault"
+    },
+    {
+      "path": "protocol/dtd.xml",
+      "kind": "protocol",
+      "valid": false,
+      "reason": "Separate protocol/security case; no guaranteed declared fault"
+    },
+    {
+      "path": "protocol/external-entity.xml",
+      "kind": "protocol",
+      "valid": false,
+      "reason": "Separate protocol/security case; no guaranteed declared fault"
+    },
+    {
+      "path": "negative/datasets/count-mismatch.xml",
+      "kind": "dataset",
+      "valid": false,
+      "reason": "Readiness rejection: count differs from records; schema-valid maximum Count"
+    },
+    {
+      "path": "canonical/crew-v1-small-002.xml",
+      "kind": "dataset",
+      "valid": true
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "get-picard",
+      "request": "requests/get-picard.xml",
+      "response": "responses/get-picard.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "get-inactive",
+      "request": "requests/get-inactive.xml",
+      "response": "responses/get-inactive.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "get-leading-zero",
+      "request": "requests/get-leading-zero.xml",
+      "response": "responses/get-leading-zero.xml",
+      "dataset": "validation/crew-v1-edge-001.xml"
+    },
+    {
+      "name": "list-defaults",
+      "request": "requests/list-defaults.xml",
+      "response": "canonical/crew-v1-small-001.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "page-0",
+      "request": "requests/page-0.xml",
+      "response": "responses/page-0.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "page-2",
+      "request": "requests/page-2.xml",
+      "response": "responses/page-2.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "page-4",
+      "request": "requests/page-4.xml",
+      "response": "responses/page-4.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "page-6",
+      "request": "requests/page-6.xml",
+      "response": "responses/page-6.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "page-7",
+      "request": "requests/page-7.xml",
+      "response": "responses/page-7.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "page-2147483647",
+      "request": "requests/page-2147483647.xml",
+      "response": "responses/page-2147483647.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "list-engineering",
+      "request": "requests/list-engineering.xml",
+      "response": "responses/list-engineering.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "list-engineering-active",
+      "request": "requests/list-engineering-active.xml",
+      "response": "responses/list-engineering-active.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "list-medical",
+      "request": "requests/list-medical.xml",
+      "response": "responses/list-medical.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "list-on-leave",
+      "request": "requests/list-on-leave.xml",
+      "response": "responses/list-on-leave.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "numeric-plus",
+      "request": "requests/numeric-plus.xml",
+      "response": "responses/page-2.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "numeric-zeroes",
+      "request": "requests/numeric-zeroes.xml",
+      "response": "responses/page-2.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "max-limit",
+      "request": "requests/max-limit.xml",
+      "response": "responses/max-limit.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "min-limit",
+      "request": "requests/min-limit.xml",
+      "response": "responses/min-limit.xml",
+      "dataset": "canonical/crew-v1-small-001.xml"
+    },
+    {
+      "name": "replacement-page-2",
+      "request": "requests/page-2.xml",
+      "response": "responses/replacement-page-2.xml",
+      "dataset": "canonical/crew-v1-small-002.xml"
+    },
+    {
+      "name": "replacement-page-0",
+      "request": "requests/page-0.xml",
+      "response": "responses/replacement-page-0.xml",
+      "dataset": "canonical/crew-v1-small-002.xml"
+    }
+  ],
+  "datasetReplacement": {
+    "pages": [
+      "responses/page-0.xml",
+      "responses/replacement-page-2.xml"
+    ],
+    "expectedAction": "Discard accumulated pages and restart at offset 0",
+    "restartRequest": "requests/page-0.xml",
+    "restartResponse": "responses/replacement-page-0.xml"
+  },
+  "faultExpectations": [
+    {
+      "request": "requests/get-not-found.xml",
+      "response": "faults/CrewNotFound-crewId.xml",
+      "httpStatus": 500,
+      "code": "CrewNotFound",
+      "field": "crewId"
+    },
+    {
+      "response": "faults/InvalidRequest-limit.xml",
+      "httpStatus": 500,
+      "code": "InvalidRequest",
+      "field": "limit",
+      "requestProbe": "negative/requests/limit-lexical-1.xml"
+    },
+    {
+      "request": "negative/requests/unknown.xml",
+      "response": "faults/InvalidRequest.xml",
+      "httpStatus": 500,
+      "code": "InvalidRequest"
+    }
+  ],
+  "profiles": {
+    "normal": "No injected delay or fault; HTTP 200 success / HTTP 500 declared fault.",
+    "slow": "Otherwise valid operations delayed 2000 ms, including CrewNotFound; malformed requests fail immediately. Proposed client timeout 500 ms. No exact latency assertion.",
+    "unavailable": "Otherwise valid operations return ServiceUnavailable / HTTP 500; validation errors remain InvalidRequest. Restart normal to reset. Dataset content/version unchanged."
+  },
+  "scalarProbes": "scalar-probes.json",
+  "expanded": "canonical/crew-v1-small-002.xml",
+  "immutableSha256": {
+    "canonical/crew-v1-small-001.xml": "0b90d1ebad6fc977bfbc2fdf58a7562cc4a9f2301dc60b9990d62cb50602ea8b",
+    "canonical/crew-v1-small-002.xml": "0fbbd1fe95e61140175618ce169d7aafb5bc44dafe1b447e3214d9faab555334"
+  }
+}

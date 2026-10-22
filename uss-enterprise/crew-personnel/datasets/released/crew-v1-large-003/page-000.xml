@@ -1,0 +1,906 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:ListCrewMembersResponse xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:datasetVersion>crew-v1-large-003</cp:datasetVersion>
+  <cp:crewMember>
+    <cp:crewId>CRW-1047</cp:crewId>
+    <cp:displayName>Jean-Luc Picard</cp:displayName>
+    <cp:rank>CAPTAIN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Commanding Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1048</cp:crewId>
+    <cp:displayName>William Riker</cp:displayName>
+    <cp:rank>COMMANDER</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>First Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1047</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1049</cp:crewId>
+    <cp:displayName>Geordi La Forge</cp:displayName>
+    <cp:rank>LIEUTENANT_COMMANDER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Chief Engineer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1050</cp:crewId>
+    <cp:displayName>Data</cp:displayName>
+    <cp:rank>LIEUTENANT_COMMANDER</cp:rank>
+    <cp:department>SCIENCE</cp:department>
+    <cp:positionTitle>Science Department Lead</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1051</cp:crewId>
+    <cp:displayName>Mara Venn</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>FLIGHT_OPERATIONS</cp:department>
+    <cp:positionTitle>Shuttle Pilot</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1052</cp:crewId>
+    <cp:displayName>Elias Renn</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Engineering Technician</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1053</cp:crewId>
+    <cp:displayName>Beverly Crusher</cp:displayName>
+    <cp:rank>COMMANDER</cp:rank>
+    <cp:department>MEDICAL</cp:department>
+    <cp:positionTitle>Chief Medical Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1047</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1054</cp:crewId>
+    <cp:displayName>Deanna Troi</cp:displayName>
+    <cp:rank>LIEUTENANT_COMMANDER</cp:rank>
+    <cp:department>MEDICAL</cp:department>
+    <cp:positionTitle>Ship's Counselor</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1047</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1055</cp:crewId>
+    <cp:displayName>Wesley Crusher</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Acting Ensign</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1050</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1056</cp:crewId>
+    <cp:displayName>Guinan</cp:displayName>
+    <cp:rank>CIVILIAN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Bartender</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1057</cp:crewId>
+    <cp:displayName>Reginald Barclay</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Systems Diagnostic Engineer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1058</cp:crewId>
+    <cp:displayName>Worf</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>SECURITY</cp:department>
+    <cp:positionTitle>Chief of Security</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1100</cp:crewId>
+    <cp:displayName>Miles O'Brien</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Transporter Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-1101</cp:crewId>
+    <cp:displayName>Sonya Gomez</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Engineering Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2000</cp:crewId>
+    <cp:displayName>Ulan Orel</cp:displayName>
+    <cp:rank>LIEUTENANT_COMMANDER</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Senior Specialist</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2001</cp:crewId>
+    <cp:displayName>Cora Falin</cp:displayName>
+    <cp:rank>LIEUTENANT_COMMANDER</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Senior Specialist</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2002</cp:crewId>
+    <cp:displayName>Yori Orel</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Section Supervisor</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2003</cp:crewId>
+    <cp:displayName>Ulan Perrin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2004</cp:crewId>
+    <cp:displayName>Deni Dalen</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2005</cp:crewId>
+    <cp:displayName>Galen Faren</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2006</cp:crewId>
+    <cp:displayName>Jora Varen</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2007</cp:crewId>
+    <cp:displayName>Quin Irix</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2008</cp:crewId>
+    <cp:displayName>Miro Xorin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2009</cp:crewId>
+    <cp:displayName>Rena Yaren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2010</cp:crewId>
+    <cp:displayName>Wren Dalen</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2011</cp:crewId>
+    <cp:displayName>Bela Elrin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1048</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2012</cp:crewId>
+    <cp:displayName>Ulan Falin</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2013</cp:crewId>
+    <cp:displayName>Evin Bex</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2014</cp:crewId>
+    <cp:displayName>Lira Korr</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2015</cp:crewId>
+    <cp:displayName>Daro Merin</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2016</cp:crewId>
+    <cp:displayName>Tavi Varen</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2017</cp:crewId>
+    <cp:displayName>Yori Toren</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>COMMAND</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2002</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2018</cp:crewId>
+    <cp:displayName>Xara Irix</cp:displayName>
+    <cp:rank>LIEUTENANT_COMMANDER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Senior Specialist</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1100</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2019</cp:crewId>
+    <cp:displayName>Fenn Toren</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Section Supervisor</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1100</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2020</cp:crewId>
+    <cp:displayName>Galen Toren</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2021</cp:crewId>
+    <cp:displayName>Lira Doran</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2022</cp:crewId>
+    <cp:displayName>Daro Aster</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2023</cp:crewId>
+    <cp:displayName>Ulan Merin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2024</cp:crewId>
+    <cp:displayName>Lira Xorin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2025</cp:crewId>
+    <cp:displayName>Aven Elrin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2026</cp:crewId>
+    <cp:displayName>Pera Sarek</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2027</cp:crewId>
+    <cp:displayName>Fenn Arden</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2028</cp:crewId>
+    <cp:displayName>Galen Bex</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2029</cp:crewId>
+    <cp:displayName>Deni Varen</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1100</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2030</cp:crewId>
+    <cp:displayName>Zena Wex</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2031</cp:crewId>
+    <cp:displayName>Daro Eren</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2032</cp:crewId>
+    <cp:displayName>Wren Orel</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2033</cp:crewId>
+    <cp:displayName>Evin Arden</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2034</cp:crewId>
+    <cp:displayName>Daro Zorin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2035</cp:crewId>
+    <cp:displayName>Tavi Merin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2036</cp:crewId>
+    <cp:displayName>Tavi Dalen</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2037</cp:crewId>
+    <cp:displayName>Quin Orel</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2038</cp:crewId>
+    <cp:displayName>Fara Faren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2039</cp:crewId>
+    <cp:displayName>Galen Falin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1100</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2040</cp:crewId>
+    <cp:displayName>Hara Cadan</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2041</cp:crewId>
+    <cp:displayName>Bela Bex</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2042</cp:crewId>
+    <cp:displayName>Hara Halen</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2043</cp:crewId>
+    <cp:displayName>Ulan Zorin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2044</cp:crewId>
+    <cp:displayName>Esra Toren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2045</cp:crewId>
+    <cp:displayName>Esra Laren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2046</cp:crewId>
+    <cp:displayName>Nara Arden</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2047</cp:crewId>
+    <cp:displayName>Iven Perrin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2048</cp:crewId>
+    <cp:displayName>Xara Korr</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2049</cp:crewId>
+    <cp:displayName>Ceri Sarek</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1100</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2050</cp:crewId>
+    <cp:displayName>Fenn Eren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2051</cp:crewId>
+    <cp:displayName>Rena Perrin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2052</cp:crewId>
+    <cp:displayName>Orin Irix</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2053</cp:crewId>
+    <cp:displayName>Kalen Halen</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2054</cp:crewId>
+    <cp:displayName>Nara Wex</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2055</cp:crewId>
+    <cp:displayName>Xara Faren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2056</cp:crewId>
+    <cp:displayName>Bela Aster</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2057</cp:crewId>
+    <cp:displayName>Cora Doran</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2058</cp:crewId>
+    <cp:displayName>Fenn Xorin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2059</cp:crewId>
+    <cp:displayName>Esra Irix</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1100</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2060</cp:crewId>
+    <cp:displayName>Soren Falin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2061</cp:crewId>
+    <cp:displayName>Quin Laren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2062</cp:crewId>
+    <cp:displayName>Ceri Bex</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2063</cp:crewId>
+    <cp:displayName>Nara Urell</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2064</cp:crewId>
+    <cp:displayName>Miro Orel</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2065</cp:crewId>
+    <cp:displayName>Iven Falin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2066</cp:crewId>
+    <cp:displayName>Orin Bren</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2067</cp:crewId>
+    <cp:displayName>Evin Bren</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2068</cp:crewId>
+    <cp:displayName>Zena Cadan</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2069</cp:crewId>
+    <cp:displayName>Iven Elrin</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1100</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2070</cp:crewId>
+    <cp:displayName>Fenn Varen</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2071</cp:crewId>
+    <cp:displayName>Kalen Cadan</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2072</cp:crewId>
+    <cp:displayName>Fenn Elrin</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2073</cp:crewId>
+    <cp:displayName>Arlo Orel</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2074</cp:crewId>
+    <cp:displayName>Evin Merin</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2075</cp:crewId>
+    <cp:displayName>Ulan Goran</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2076</cp:crewId>
+    <cp:displayName>Daro Cadan</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2077</cp:crewId>
+    <cp:displayName>Esra Wex</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2078</cp:crewId>
+    <cp:displayName>Deni Irix</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2079</cp:crewId>
+    <cp:displayName>Rena Wex</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1100</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2080</cp:crewId>
+    <cp:displayName>Vela Varen</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2081</cp:crewId>
+    <cp:displayName>Evin Toren</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2082</cp:crewId>
+    <cp:displayName>Quin Faren</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2083</cp:crewId>
+    <cp:displayName>Hara Toren</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2084</cp:crewId>
+    <cp:displayName>Orin Perrin</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2085</cp:crewId>
+    <cp:displayName>Aven Quell</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>OPERATIONS</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2019</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:totalCount>800</cp:totalCount>
+  <cp:offset>0</cp:offset>
+  <cp:limit>100</cp:limit>
+  <cp:hasMore>true</cp:hasMore>
+</cp:ListCrewMembersResponse>

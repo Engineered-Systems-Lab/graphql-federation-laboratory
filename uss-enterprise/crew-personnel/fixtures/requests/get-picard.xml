@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:GetCrewMemberRequest xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:crewId>CRW-1047</cp:crewId>
+</cp:GetCrewMemberRequest>

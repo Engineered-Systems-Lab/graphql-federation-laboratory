@@ -1,0 +1,908 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:ListCrewMembersResponse xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:datasetVersion>crew-v1-large-003</cp:datasetVersion>
+  <cp:crewMember>
+    <cp:crewId>CRW-2186</cp:crewId>
+    <cp:displayName>Esra Perrin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2187</cp:crewId>
+    <cp:displayName>Daro Ralin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2188</cp:crewId>
+    <cp:displayName>Nara Perrin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2189</cp:crewId>
+    <cp:displayName>Arlo Corin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2190</cp:crewId>
+    <cp:displayName>Yori Wex</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2191</cp:crewId>
+    <cp:displayName>Aven Xorin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2192</cp:crewId>
+    <cp:displayName>Lira Jalen</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2193</cp:crewId>
+    <cp:displayName>Esra Bex</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2194</cp:crewId>
+    <cp:displayName>Xara Xorin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2195</cp:crewId>
+    <cp:displayName>Kalen Ralin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2196</cp:crewId>
+    <cp:displayName>Iven Halen</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2197</cp:crewId>
+    <cp:displayName>Galen Elrin</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2198</cp:crewId>
+    <cp:displayName>Tavi Doran</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2199</cp:crewId>
+    <cp:displayName>Jora Halen</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2200</cp:crewId>
+    <cp:displayName>Rena Sarek</cp:displayName>
+    <cp:rank>LIEUTENANT</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Officer</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2201</cp:crewId>
+    <cp:displayName>Kalen Irix</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2202</cp:crewId>
+    <cp:displayName>Tavi Jalen</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2203</cp:crewId>
+    <cp:displayName>Deni Aster</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2204</cp:crewId>
+    <cp:displayName>Pera Korr</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2205</cp:crewId>
+    <cp:displayName>Nara Xorin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2206</cp:crewId>
+    <cp:displayName>Tavi Korr</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2207</cp:crewId>
+    <cp:displayName>Vela Sarek</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2208</cp:crewId>
+    <cp:displayName>Evin Sarek</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2209</cp:crewId>
+    <cp:displayName>Brin Elrin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2210</cp:crewId>
+    <cp:displayName>Hara Xorin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2211</cp:crewId>
+    <cp:displayName>Orin Urell</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2212</cp:crewId>
+    <cp:displayName>Iven Zorin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2213</cp:crewId>
+    <cp:displayName>Xara Quell</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2214</cp:crewId>
+    <cp:displayName>Fenn Laren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2215</cp:crewId>
+    <cp:displayName>Aven Halen</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2216</cp:crewId>
+    <cp:displayName>Pera Ralin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2217</cp:crewId>
+    <cp:displayName>Fenn Goran</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2218</cp:crewId>
+    <cp:displayName>Ceri Corin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2219</cp:crewId>
+    <cp:displayName>Soren Aster</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2220</cp:crewId>
+    <cp:displayName>Deni Doran</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2221</cp:crewId>
+    <cp:displayName>Evin Xorin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2222</cp:crewId>
+    <cp:displayName>Jora Merin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2223</cp:crewId>
+    <cp:displayName>Galen Quell</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2224</cp:crewId>
+    <cp:displayName>Pera Xorin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2225</cp:crewId>
+    <cp:displayName>Xara Yaren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2226</cp:crewId>
+    <cp:displayName>Orin Falin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2227</cp:crewId>
+    <cp:displayName>Fara Arden</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2228</cp:crewId>
+    <cp:displayName>Daro Falin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2229</cp:crewId>
+    <cp:displayName>Aven Doran</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2230</cp:crewId>
+    <cp:displayName>Pera Cadan</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2231</cp:crewId>
+    <cp:displayName>Brin Zorin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2232</cp:crewId>
+    <cp:displayName>Rena Urell</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2233</cp:crewId>
+    <cp:displayName>Hara Dalen</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2234</cp:crewId>
+    <cp:displayName>Iven Urell</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2235</cp:crewId>
+    <cp:displayName>Jora Urell</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2236</cp:crewId>
+    <cp:displayName>Wren Quell</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2237</cp:crewId>
+    <cp:displayName>Deni Goran</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2238</cp:crewId>
+    <cp:displayName>Yori Laren</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2239</cp:crewId>
+    <cp:displayName>Daro Halen</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2240</cp:crewId>
+    <cp:displayName>Soren Doran</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2241</cp:crewId>
+    <cp:displayName>Ulan Corin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2242</cp:crewId>
+    <cp:displayName>Iven Corin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2243</cp:crewId>
+    <cp:displayName>Nara Elrin</cp:displayName>
+    <cp:rank>ENSIGN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Junior Officer</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2244</cp:crewId>
+    <cp:displayName>Zena Varen</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2245</cp:crewId>
+    <cp:displayName>Hara Sarek</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2246</cp:crewId>
+    <cp:displayName>Hara Irix</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2247</cp:crewId>
+    <cp:displayName>Yori Urell</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2248</cp:crewId>
+    <cp:displayName>Vela Wex</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2249</cp:crewId>
+    <cp:displayName>Xara Bren</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2250</cp:crewId>
+    <cp:displayName>Pera Elrin</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2251</cp:crewId>
+    <cp:displayName>Ulan Xorin</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2252</cp:crewId>
+    <cp:displayName>Esra Noran</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2253</cp:crewId>
+    <cp:displayName>Quin Aster</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2254</cp:crewId>
+    <cp:displayName>Pera Zorin</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2255</cp:crewId>
+    <cp:displayName>Xara Sarek</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2256</cp:crewId>
+    <cp:displayName>Ulan Irix</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2257</cp:crewId>
+    <cp:displayName>Arlo Dalen</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2258</cp:crewId>
+    <cp:displayName>Esra Eren</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2259</cp:crewId>
+    <cp:displayName>Tavi Quell</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2260</cp:crewId>
+    <cp:displayName>Iven Goran</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2261</cp:crewId>
+    <cp:displayName>Aven Irix</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2262</cp:crewId>
+    <cp:displayName>Cora Wex</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2263</cp:crewId>
+    <cp:displayName>Brin Irix</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2264</cp:crewId>
+    <cp:displayName>Xara Varen</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2265</cp:crewId>
+    <cp:displayName>Daro Bren</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2266</cp:crewId>
+    <cp:displayName>Hara Yaren</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2267</cp:crewId>
+    <cp:displayName>Evin Urell</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2268</cp:crewId>
+    <cp:displayName>Bela Urell</cp:displayName>
+    <cp:rank>CHIEF_PETTY_OFFICER</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Technical Chief</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2269</cp:crewId>
+    <cp:displayName>Yori Noran</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2270</cp:crewId>
+    <cp:displayName>Jora Laren</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2271</cp:crewId>
+    <cp:displayName>Esra Falin</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2272</cp:crewId>
+    <cp:displayName>Vela Dalen</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2273</cp:crewId>
+    <cp:displayName>Fara Corin</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2274</cp:crewId>
+    <cp:displayName>Kalen Zorin</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2275</cp:crewId>
+    <cp:displayName>Jora Bex</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2276</cp:crewId>
+    <cp:displayName>Wren Eren</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-1049</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2277</cp:crewId>
+    <cp:displayName>Orin Eren</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2278</cp:crewId>
+    <cp:displayName>Evin Laren</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2279</cp:crewId>
+    <cp:displayName>Vela Aster</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2280</cp:crewId>
+    <cp:displayName>Rena Elrin</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2281</cp:crewId>
+    <cp:displayName>Cora Laren</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2282</cp:crewId>
+    <cp:displayName>Iven Yaren</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2283</cp:crewId>
+    <cp:displayName>Hara Perrin</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2284</cp:crewId>
+    <cp:displayName>Hara Zorin</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-2285</cp:crewId>
+    <cp:displayName>Quin Eren</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>Department Technician</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-2167</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:totalCount>800</cp:totalCount>
+  <cp:offset>200</cp:offset>
+  <cp:limit>100</cp:limit>
+  <cp:hasMore>true</cp:hasMore>
+</cp:ListCrewMembersResponse>

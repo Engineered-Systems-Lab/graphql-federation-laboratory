@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:ListCrewMembersResponse xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:datasetVersion>crew-v1-invalid-duplicate-id</cp:datasetVersion>
+  <cp:crewMember>
+    <cp:crewId>CRW-0007</cp:crewId>
+    <cp:displayName>Alex Smith</cp:displayName>
+    <cp:rank>CAPTAIN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>R&amp;D &lt;Systems&gt;</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-0008</cp:supervisorCrewId>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-0007</cp:crewId>
+    <cp:displayName>Alex Smith</cp:displayName>
+    <cp:rank>CREWMAN</cp:rank>
+    <cp:department>SCIENCE</cp:department>
+    <cp:positionTitle>  Research Assistant  </cp:positionTitle>
+    <cp:dutyStatus>INACTIVE</cp:dutyStatus>
+  </cp:crewMember>
+  <cp:crewMember>
+    <cp:crewId>CRW-0009</cp:crewId>
+    <cp:displayName>Independent Root</cp:displayName>
+    <cp:rank>CIVILIAN</cp:rank>
+    <cp:department>MEDICAL</cp:department>
+    <cp:positionTitle>Consultant</cp:positionTitle>
+    <cp:dutyStatus>ON_LEAVE</cp:dutyStatus>
+  </cp:crewMember>
+  <cp:totalCount>3</cp:totalCount>
+  <cp:offset>0</cp:offset>
+  <cp:limit>20</cp:limit>
+  <cp:hasMore>false</cp:hasMore>
+</cp:ListCrewMembersResponse>

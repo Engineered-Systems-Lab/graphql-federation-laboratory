@@ -1,0 +1,1 @@
+<!DOCTYPE test [<!ENTITY harmless "blocked">]><test>&harmless;</test>

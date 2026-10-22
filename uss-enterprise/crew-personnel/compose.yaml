@@ -1,0 +1,8 @@
+services:
+  crew-personnel:
+    build: .
+    ports:
+      - "127.0.0.1:8081:8081"
+    environment:
+      CREW_DATASET_VERSION: ${CREW_DATASET_VERSION:-crew-v1-small-002}
+      CREW_FAILURE_PROFILE: ${CREW_FAILURE_PROFILE:-normal}

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<cp:GetCrewMemberResponse xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <cp:datasetVersion>crew-v1-edge-001</cp:datasetVersion>
+  <cp:crewMember>
+    <cp:crewId>CRW-0007</cp:crewId>
+    <cp:displayName>Alex Smith</cp:displayName>
+    <cp:rank>CAPTAIN</cp:rank>
+    <cp:department>ENGINEERING</cp:department>
+    <cp:positionTitle>R&amp;D &lt;Systems&gt;</cp:positionTitle>
+    <cp:dutyStatus>ACTIVE</cp:dutyStatus>
+    <cp:supervisorCrewId>CRW-0008</cp:supervisorCrewId>
+  </cp:crewMember>
+</cp:GetCrewMemberResponse>

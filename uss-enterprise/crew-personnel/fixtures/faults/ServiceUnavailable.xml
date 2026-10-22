@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soap:Envelope xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <soap:Fault>
+      <faultcode>soap:Server</faultcode>
+      <faultstring>ServiceUnavailable</faultstring>
+      <detail>
+        <cp:CrewServiceFault>
+          <cp:code>ServiceUnavailable</cp:code>
+          <cp:message>The unavailable profile is selected.</cp:message>
+        </cp:CrewServiceFault>
+      </detail>
+    </soap:Fault>
+  </soap:Body>
+</soap:Envelope>

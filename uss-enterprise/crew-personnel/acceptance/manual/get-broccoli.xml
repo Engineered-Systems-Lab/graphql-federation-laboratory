@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope
+    xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:cp="urn:graphql-federation-lab:crew-personnel:v1">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <cp:GetCrewMemberRequest>
+      <cp:crewId>CWR-5432</cp:crewId>
+    </cp:GetCrewMemberRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
