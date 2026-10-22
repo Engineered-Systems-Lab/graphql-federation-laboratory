@@ -619,43 +619,84 @@ class SealedClassificationTest(unittest.TestCase):
         self.assertTrue(view[rp.DECISIONS]['bound'])
         self.assertEqual(view['devlog/new.md']['subclass'], ['devlog'])
 
-    def refuse_a_tampered_project_table(self, project_profiles=None, project_row=None):
-        """Run the tampered-table refusal in a temporary root; the optional arguments give the root a project profiles
-        file and a project row, as an adopting project has them."""
+    FIXTURE_PROFILE = 'fixture-offline'
+
+    def refuse_a_tampered_project_table(self, project_profile=None, project_row=None, source=ROOT):
+        """Run the tampered-table refusal in a temporary root; the optional arguments give the root a project profile
+        and a project row, as an adopting project has them. The root starts as a copy of `source`, so every profile the
+        copied table names is kept: the fixture profile is merged into the source's own project profiles file, under a
+        name that file does not use, and `{profile}` in the row stands for that name."""
         manifest = [rp.PROGRESS]
         profile = self.selected(manifest)
         with tempfile.TemporaryDirectory() as temp:
             # the framework's table and profiles as they are, the project's table tampered with, and the project's profiles when it has any
             names = [c.TABLE, ac.PROFILES, ac.PROJECT_TABLE]
-            if project_profiles is None and (ROOT / ac.PROJECT_PROFILES).is_file():
+            if (source / ac.PROJECT_PROFILES).is_file():
                 names.append(ac.PROJECT_PROFILES)
             for name in names:
                 (Path(temp) / name).parent.mkdir(parents=True, exist_ok=True)
-                (Path(temp) / name).write_text((ROOT / name).read_text(encoding='ascii'), encoding='ascii', newline='\n')
-            text = (ROOT / ac.PROJECT_TABLE).read_text(encoding='ascii')
+                (Path(temp) / name).write_text((source / name).read_text(encoding='ascii'), encoding='ascii', newline='\n')
+            text = (source / ac.PROJECT_TABLE).read_text(encoding='ascii')
             tampered = text.replace('| `docs/PROGRESS.md` | record | record-only |', '| `docs/PROGRESS.md` | record | tooling |')
             self.assertNotEqual(text, tampered)
+            if project_profile is not None:
+                target = Path(temp) / ac.PROJECT_PROFILES
+                real = json.loads(target.read_bytes()) if target.is_file() else {
+                    'version': json.loads((source / ac.PROFILES).read_bytes())['version'], 'profiles': {}}
+                name = self.FIXTURE_PROFILE
+                while name in real['profiles']:
+                    name += '-x'
+                real['profiles'][name] = project_profile
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(json.dumps(real), encoding='ascii', newline='\n')
             if project_row:
-                last = '| `docs/timings/*.jsonl` | record | record-only | - | - | - | - | - | - |'
-                self.assertIn(last, tampered)
-                tampered = tampered.replace(last, last + '\n' + project_row)
+                tampered = self.insert_row(tampered, project_row.replace('{profile}', name))
             (Path(temp) / ac.PROJECT_TABLE).write_text(tampered, encoding='ascii', newline='\n')
-            if project_profiles is not None:
-                (Path(temp) / ac.PROJECT_PROFILES).parent.mkdir(parents=True, exist_ok=True)
-                (Path(temp) / ac.PROJECT_PROFILES).write_text(project_profiles, encoding='ascii', newline='\n')
             self.tool.root = Path(temp)
             with self.assertRaisesRegex(ValueError, 'disagrees with the checkpoint selection'):
                 self.tool.attach_classification(manifest, self.policy, self.profiles, profile)
+
+    @staticmethod
+    def insert_row(text, row):
+        """Put `row` into the first table of `text`, at its place in the ASCII order of the paths, whatever rows the table has."""
+        lines = text.split('\n')
+        start = lines.index(ac.SEPARATOR) + 1
+        end = start
+        while end < len(lines) and lines[end].startswith('| '):
+            end += 1
+        path = row.split('|')[1].strip()
+        at = end
+        for index in range(start, end):
+            if lines[index].split('|')[1].strip() > path:
+                at = index
+                break
+        return '\n'.join(lines[:at] + [row] + lines[at:])
 
     def test_disagreement_with_the_policy_refuses_preparation(self):
         self.refuse_a_tampered_project_table()
 
     def test_disagreement_is_refused_in_a_root_with_a_project_profile_and_a_row_naming_it(self):
-        framework = json.loads((ROOT / ac.PROFILES).read_bytes())
-        project_profiles = json.dumps({'version': framework['version'],
-                                       'profiles': {'sample-offline': ProjectProfileTest.PROJECT_PROFILE}})
         self.refuse_a_tampered_project_table(
-            project_profiles, '| `notes.md` | record | sample-offline | - | - | - | - | - | - |')
+            ProjectProfileTest.PROJECT_PROFILE, '| `notes.md` | record | {profile} | - | - | - | - | - | - |')
+
+    def test_disagreement_is_refused_where_the_project_table_already_names_its_own_profile(self):
+        """An adopting project's table names profiles of its own, and its other rows are not the template's."""
+        framework = json.loads((ROOT / ac.PROFILES).read_bytes())
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp)
+            for name in (c.TABLE, ac.PROFILES):
+                (source / name).parent.mkdir(parents=True, exist_ok=True)
+                (source / name).write_bytes((ROOT / name).read_bytes())
+            rows = ['| `docs/PROGRESS.md` | record | record-only | - | yes | - | progress | yes | - |',
+                    '| `zeta/*.txt` | record | other-offline | - | - | - | - | - | - |']
+            files = {ac.PROJECT_PROFILES: json.dumps({'version': framework['version'],
+                                                      'profiles': {'other-offline': ProjectProfileTest.PROJECT_PROFILE}}),
+                     ac.PROJECT_TABLE: '\n'.join(['# Project table', '', ac.HEADER, ac.SEPARATOR] + rows) + '\n'}
+            for name, text in files.items():
+                (source / name).parent.mkdir(parents=True, exist_ok=True)
+                (source / name).write_text(text, encoding='ascii', newline='\n')
+            self.refuse_a_tampered_project_table(
+                ProjectProfileTest.PROJECT_PROFILE, '| `notes.md` | record | {profile} | - | - | - | - | - | - |', source=source)
 
     def test_every_anchor_exists_and_the_table_must_exist_at_its_anchor(self):
         for anchor in (ac.POLICY, ac.PROFILES, ac.TABLE, ac.CONTRACT):

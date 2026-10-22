@@ -2,6 +2,10 @@
 
 This changelog is curated, not generated. An entry says what someone who has adopted the template must do or know; if it could be produced from `git log`, it does not belong here, and an entry points to a decision or a document instead of copying text. The version is in [VERSION](VERSION). A release that needs action from adopters gets a Migration note under it, written when that first change is made. A release heading carries the date the release was made, written `## <version> (YYYY-MM-DD)`.
 
+## 0.2.3 (2026-10-22)
+
+**One defect fixed; nothing to do but take the upgrade.** The 0.2.2 regression test in `test_artifact_classification.py` (`SealedClassificationTest.test_disagreement_is_refused_in_a_root_with_a_project_profile_and_a_row_naming_it`) replaced the project's real checkpoint profiles file with a synthetic one in its temporary root, so in a project whose table names a profile of its own it failed with `unknown profile`, and so did the two extension-removal tests that rerun that file. The temporary root now keeps every profile the copied table names: the fixture profile is merged into the project's own profiles file, under a name that file does not use. The test also no longer depends on one template row when it adds its project row, and a third test runs the same path in a root whose project table already names a profile of its own.
+
 ## 0.2.2 (2026-10-22)
 
 **One defect fixed; nothing to do but take the upgrade.** The 0.2.1 fix for project profiles left one conformance test failing in a project that has its own profiles: `SealedClassificationTest.test_disagreement_with_the_policy_refuses_preparation` copied the project's checkpoint profiles into its temporary root but not the framework's, and failed with `Checkpoint profiles are missing`. It now copies both, and a second test runs the same path with a project profile and a project row that names it, so the template's own suite covers what only an adopting project exercised.
