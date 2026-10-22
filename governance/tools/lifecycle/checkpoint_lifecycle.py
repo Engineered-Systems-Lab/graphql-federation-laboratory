@@ -295,7 +295,7 @@ class Lifecycle:
         self.ensure_key()
         self.save(packet)
         try:
-            self.git('add', '--', *manifest)
+            artifact_classification.stage_manifest(self.git, self.root, manifest)
             require(self.inventory() == manifest, 'Staged inventory does not equal manifest (unchanged entry or extra staging)')
             packet.update(tree=self.git('write-tree').decode().strip(),
                           index=digest(self.git('ls-files', '--stage', '-z')),

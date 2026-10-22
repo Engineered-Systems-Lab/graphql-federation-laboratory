@@ -127,6 +127,12 @@ class EarlyApprovalTest(unittest.TestCase):
         self.assertEqual(body['tree'], packet['tree'])  # the preview named the very tree that staging produced
         self.assertEqual(body['message_sha256'], packet['message_sha256'])
 
+    def test_the_candidate_tree_holds_a_new_script_as_executable_and_other_files_unchanged(self):
+        (self.root / 'new.sh').write_text('#!/bin/sh\n')
+        tree = ea.candidate_tree(self.tool, ['new.sh', 'a.txt'])
+        modes = {row.split('\t')[1]: row.split()[0] for row in self.git('ls-tree', '-r', tree).splitlines()}
+        self.assertEqual((modes['new.sh'], modes['a.txt']), ('100755', '100644'))
+
     def test_preview_is_read_only(self):
         before = (self.git('status', '--porcelain'), self.git('rev-parse', 'HEAD'), self.git('diff', '--cached'))
         self.preview()

@@ -145,7 +145,7 @@ def candidate_tree(tool, manifest):
                     result.stderr.decode('utf-8', 'replace'))
             return result.stdout
         git('read-tree', 'HEAD')
-        git('add', '--', *manifest)
+        artifact_classification.stage_manifest(git, tool.root, manifest)
         return git('write-tree').decode().strip()
 
 

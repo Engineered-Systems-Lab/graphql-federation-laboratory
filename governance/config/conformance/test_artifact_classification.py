@@ -29,16 +29,17 @@ ROOT = rp.ROOT
 FRAMEWORK_ROOT_ROWS = ('.gitattributes', '.gitignore', 'AGENTS.md')
 
 
-def real_data():
-    policy = json.loads((ROOT / ac.POLICY).read_bytes())
-    profiles = json.loads((ROOT / ac.PROFILES).read_bytes())
-    table = ac.load_table(ROOT, profiles)
+def real_data(root=ROOT):
+    """The policy, the profiles (the framework's plus the project's, as the tools read them) and the table of `root`."""
+    policy = json.loads((root / ac.POLICY).read_bytes())
+    profiles = ac.load_profiles(root)
+    table = ac.load_table(root, profiles)
     return policy, profiles, table
 
 
 def real_table_with(rows=(), historical=()):
     """The real table text with extra rows in sorted position and, when given, a Historical paths section."""
-    profiles = json.loads((ROOT / ac.PROFILES).read_bytes())
+    profiles = ac.load_profiles(ROOT)
     lines = (ROOT / c.TABLE).read_text(encoding='ascii').split(chr(10))
     start = next(i for i, line in enumerate(lines) if line.startswith('| Path | Class | Profile |')) + 2
     end = start
@@ -109,6 +110,34 @@ class RealTableTest(unittest.TestCase):
         self.assertIsNone(table.classify('docs/never-existed.md'))
         # The shipped template starts with no deleted paths, except the one notes file it removed before release.
         self.assertEqual(set(self.table.historical), {'REFACTORING-NOTES.md'})
+
+
+class ProjectProfileTest(unittest.TestCase):
+    """A project row may name a profile the project added (G045): what the tools read, these tests read too."""
+    PROJECT_PROFILE = {'limitations': 'Fixture only.',
+                       'checks': [{'id': 'continuity', 'argv': ['{python}', '-B', 'governance/tools/validate_continuity.py']}]}
+
+    def test_a_project_row_naming_a_project_profile_is_read_and_sealed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for name in (c.TABLE, ac.PROFILES, ac.POLICY):
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
+                (root / name).write_bytes((ROOT / name).read_bytes())
+            framework = json.loads((ROOT / ac.PROFILES).read_bytes())
+            files = {ac.PROJECT_PROFILES: json.dumps({'version': framework['version'],
+                                                      'profiles': {'sample-offline': self.PROJECT_PROFILE}}),
+                     ac.PROJECT_TABLE: '\n'.join(['# Project table', '', ac.HEADER, ac.SEPARATOR,
+                                                  '| `notes.md` | record | sample-offline | - | - | - | - | - | - |']) + '\n'}
+            for name, text in files.items():
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
+                (root / name).write_text(text, encoding='ascii', newline='\n')
+            policy, profiles, table = real_data(root)
+            self.assertEqual(table.resolve('notes.md').profile, 'sample-offline')
+            tool = object.__new__(c.Checkpoint)
+            tool.root = root
+            profile = tool.select_profile(['notes.md'], policy, profiles, 'auto')[1]
+            sealed = tool.attach_classification(['notes.md'], policy, profiles, profile)
+            self.assertEqual(sealed['artifact_classification']['notes.md']['profile'], 'sample-offline')
 
 
 class GoldenTest(unittest.TestCase):
@@ -590,20 +619,43 @@ class SealedClassificationTest(unittest.TestCase):
         self.assertTrue(view[rp.DECISIONS]['bound'])
         self.assertEqual(view['devlog/new.md']['subclass'], ['devlog'])
 
-    def test_disagreement_with_the_policy_refuses_preparation(self):
+    def refuse_a_tampered_project_table(self, project_profiles=None, project_row=None):
+        """Run the tampered-table refusal in a temporary root; the optional arguments give the root a project profiles
+        file and a project row, as an adopting project has them."""
         manifest = [rp.PROGRESS]
         profile = self.selected(manifest)
         with tempfile.TemporaryDirectory() as temp:
-            for name in (c.TABLE, ac.PROJECT_TABLE):  # the framework's table as it is, the project's tampered with
+            # the framework's table and profiles as they are, the project's table tampered with, and the project's profiles when it has any
+            names = [c.TABLE, ac.PROFILES, ac.PROJECT_TABLE]
+            if project_profiles is None and (ROOT / ac.PROJECT_PROFILES).is_file():
+                names.append(ac.PROJECT_PROFILES)
+            for name in names:
                 (Path(temp) / name).parent.mkdir(parents=True, exist_ok=True)
                 (Path(temp) / name).write_text((ROOT / name).read_text(encoding='ascii'), encoding='ascii', newline='\n')
             text = (ROOT / ac.PROJECT_TABLE).read_text(encoding='ascii')
             tampered = text.replace('| `docs/PROGRESS.md` | record | record-only |', '| `docs/PROGRESS.md` | record | tooling |')
             self.assertNotEqual(text, tampered)
+            if project_row:
+                last = '| `docs/timings/*.jsonl` | record | record-only | - | - | - | - | - | - |'
+                self.assertIn(last, tampered)
+                tampered = tampered.replace(last, last + '\n' + project_row)
             (Path(temp) / ac.PROJECT_TABLE).write_text(tampered, encoding='ascii', newline='\n')
+            if project_profiles is not None:
+                (Path(temp) / ac.PROJECT_PROFILES).parent.mkdir(parents=True, exist_ok=True)
+                (Path(temp) / ac.PROJECT_PROFILES).write_text(project_profiles, encoding='ascii', newline='\n')
             self.tool.root = Path(temp)
             with self.assertRaisesRegex(ValueError, 'disagrees with the checkpoint selection'):
                 self.tool.attach_classification(manifest, self.policy, self.profiles, profile)
+
+    def test_disagreement_with_the_policy_refuses_preparation(self):
+        self.refuse_a_tampered_project_table()
+
+    def test_disagreement_is_refused_in_a_root_with_a_project_profile_and_a_row_naming_it(self):
+        framework = json.loads((ROOT / ac.PROFILES).read_bytes())
+        project_profiles = json.dumps({'version': framework['version'],
+                                       'profiles': {'sample-offline': ProjectProfileTest.PROJECT_PROFILE}})
+        self.refuse_a_tampered_project_table(
+            project_profiles, '| `notes.md` | record | sample-offline | - | - | - | - | - | - |')
 
     def test_every_anchor_exists_and_the_table_must_exist_at_its_anchor(self):
         for anchor in (ac.POLICY, ac.PROFILES, ac.TABLE, ac.CONTRACT):

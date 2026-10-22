@@ -8,6 +8,7 @@ It is skipped, not failed, when the template is not inside a Git repository (for
 from pathlib import Path
 import subprocess
 import unittest
+from governance.tools.continuity import artifact_classification as ac
 import checkpoint as c
 import repo_paths as rp
 
@@ -17,14 +18,15 @@ REPO = rp.ROOT
 
 def indexed_scripts():
     try:
-        out = subprocess.run(['git', '-C', str(REPO), 'ls-files', '-s', '-z', '--', '*.sh'],
+        out = subprocess.run(['git', '-C', str(REPO), 'ls-files', '-s', '-z'],
                              capture_output=True, check=True).stdout.decode('utf-8')
     except (OSError, subprocess.CalledProcessError):
         return None
     rows = []
     for entry in filter(None, out.split('\0')):
         meta, path = entry.split('\t', 1)
-        rows.append((meta.split()[0], path))
+        if ac.is_script(path):
+            rows.append((meta.split()[0], path))
     return rows
 
 

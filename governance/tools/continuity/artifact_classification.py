@@ -756,6 +756,23 @@ def load_policy(root):
     return policy_from(file_reader(root))
 
 
+def is_script(path):
+    """The one rule for which committed paths are shell scripts, and so are committed at mode 100755."""
+    return path.endswith('.sh')
+
+
+def stage_manifest(git, root, manifest):
+    """Stage the manifest's whole files with `git`, a callable that runs one Git command in the repository at `root`.
+
+    `core.filemode` is false on Windows, so a plain add stages a new script at 100644; each regular script that exists
+    is staged again as executable. A script that was deleted, or is a link, keeps what the plain add made of it."""
+    git('add', '--', *manifest)
+    scripts = [path for path in manifest if is_script(path)
+               and (Path(root) / path).is_file() and not (Path(root) / path).is_symlink()]
+    if scripts:
+        git('add', '--chmod=+x', '--', *scripts)
+
+
 def reserved(path):
     return any(path == folder or path.startswith(folder + '/') for folder in RESERVED_FOLDERS)
 

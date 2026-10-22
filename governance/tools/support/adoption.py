@@ -64,7 +64,7 @@ def refuse_unless_first_commit(root):
 
 def executable_scripts(root, rows):
     """Set the executable bit of every staged regular `*.sh` that lacks it; return the paths changed."""
-    wrong = [path for mode, path in rows if path.endswith('.sh') and mode == REGULAR]
+    wrong = [path for mode, path in rows if ac.is_script(path) and mode == REGULAR]
     for start in range(0, len(wrong), 50):
         git(root, 'update-index', '--chmod=+x', '--', *wrong[start:start + 50])
     return wrong

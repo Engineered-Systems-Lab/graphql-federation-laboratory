@@ -26,6 +26,7 @@ FIXTURE_ROWS = [  # (path, class, profile, boundary), sorted by path
     ('frozen/', 'governance', 'test', 'frozen'),
     ('new-component/*.txt', 'tooling', 'test', '-'),
     ('runtime.txt', 'runtime', 'test', 'runtime'),
+    ('scripts/*.sh', 'tooling', 'test', '-'),
     ('governance/tools/*.py', 'tooling', 'test', '-'),
 ]
 FIXTURE_ROWS.sort()  # the table parser requires ASCII ordinal order
@@ -123,6 +124,19 @@ class CheckpointTest(unittest.TestCase):
                 'decision': decision or ('reject' if 'reject' in response.casefold() else 'approve'),
                 'transaction_id': presented['transaction_id'],
                 'prepared_sha256': presented['prepared_sha256']}
+
+    def test_prepare_stages_scripts_as_executable_and_keeps_every_other_mode(self):
+        (self.root / 'scripts').mkdir()
+        (self.root / 'scripts' / 'old.sh').write_text('#!/bin/sh\n')
+        self.git('add', '--chmod=+x', '--', 'scripts/old.sh')
+        self.git('commit', '-m', 'Track a script')
+        self.parent = self.git('rev-parse', 'HEAD').strip()
+        (self.root / 'scripts' / 'old.sh').write_text('#!/bin/sh\necho changed\n')
+        (self.root / 'scripts' / 'new.sh').write_text('#!/bin/sh\n')
+        self.prepare(['a.txt', 'scripts/new.sh', 'scripts/old.sh'])
+        modes = {row.split('\t')[1]: row.split()[0] for row in self.git('ls-files', '-s').splitlines()}
+        self.assertEqual((modes['scripts/new.sh'], modes['scripts/old.sh'], modes['a.txt']),
+                         ('100755', '100755', '100644'))
 
     def test_consent_present_receipt_commit_exact_identity(self):
         p = self.prepare()
