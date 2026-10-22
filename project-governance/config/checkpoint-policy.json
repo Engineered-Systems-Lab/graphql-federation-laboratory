@@ -147,6 +147,16 @@
       "-B",
       "federation/routers/cosmo/validation/run_router_gate.py",
       "stack"
+    ],
+    "missions-gates-tests": [
+      "{python}",
+      "-B",
+      "governance/tools/run_tests.py",
+      "-s",
+      "uss-enterprise/missions/validation",
+      "-p",
+      "test_missions_gates.py",
+      "-v"
     ]
   }
 }

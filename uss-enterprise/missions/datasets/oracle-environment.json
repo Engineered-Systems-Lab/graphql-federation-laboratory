@@ -1,0 +1,24 @@
+{
+  "charset": "AL32UTF8",
+  "container": "starfleet-missions-data-20261009",
+  "cpus": "2",
+  "digest": "sha256:b17a93fb201562ad142d267c0ac3eecb0e6207debafd6ed51a1da157b9cacab8",
+  "diskBudgetGiB": 20,
+  "documentation": [
+    "https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md",
+    "https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/index.html"
+  ],
+  "hostname": "missions-data",
+  "image": "container-registry.oracle.com/database/express:18.4.0-xe",
+  "memory": "4g",
+  "network": "starfleet-missions-data-20261009",
+  "networkDriver": "bridge",
+  "networkInternal": true,
+  "ownershipLabel": "starfleet.missions.data=20261009-missions-schema-dataset",
+  "pdb": "XEPDB1",
+  "platform": "linux/amd64",
+  "readyTimeoutSeconds": 900,
+  "schema": "MISSIONS_LAB",
+  "serviceContainer": "starfleet-missions-service",
+  "shmSize": "1g"
+}

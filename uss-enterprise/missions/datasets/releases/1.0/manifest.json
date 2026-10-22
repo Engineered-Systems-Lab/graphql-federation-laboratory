@@ -1,0 +1,147 @@
+{
+  "clock": {
+    "baseline": "2367-08-11T01:37:00.000Z",
+    "counter": 0,
+    "intervalMs": 1000
+  },
+  "contractRevision": "1.1",
+  "contractSha256": "d2a759b28c3d0825de99ce75006960ad6572fb002e600ea6cef1265ab41f7838",
+  "counts": {
+    "changes": 101,
+    "missions": 31
+  },
+  "datasetVersion": "1.0",
+  "files": {
+    "changes-1.xml": "0e5196ab53c9d00acb351310749a1249c93e4129d54428bee4f422b5c0adfcff",
+    "changes-2.xml": "286704c749eb1b9f10eff0b3b54a6009ced42900cc05f7ed2686f716cdaf909d",
+    "changes-3.xml": "52bf429c9db8d45a414d924e68ba1dc27b724c29991f368e222ea3bc8f410925",
+    "curation.json": "05e1f180b8217f0cf515657eaa6f3a7f3d14a62a4a85eddbb92ca7fb5d8300e0",
+    "generate.py": "d8c46e905ad7bafe42cae4ecfa508627d32fe93b6dc156dcd48b307691a44cd2",
+    "load.sql": "ce95d5412d0a1522101519eb4552ec2dc60cf6b7dd46f76d7ceb74883cace17b",
+    "missions.xml": "d0dede47bbe6f1c661873322686e0e207eb6557ad1c40ee2f08182da9d95f5e6",
+    "provenance.json": "7ba9f17cd302141e9b375902784cde28d7bcdf2728a7b8cc6f34450f71a4ee29",
+    "recipe.json": "3e3d5decbc93d1d4fde95c8aac42690fc99a633eab2f356181714f8944de21f0",
+    "release.json": "95f0ca0ea928032cb4db429037870358feec6e3f68d38a61a9ae58caf97ba55e",
+    "schema.sql": "484a9d216dd11f1e547a530b608b0e38ccb26dc8e1fc993a2c7a5454fc43fc21"
+  },
+  "firstChangeId": 9905383,
+  "firstMissionOrdinal": 996792,
+  "generatorVersion": "missions-generator-1",
+  "nextChangeId": 9905484,
+  "nextMissionOrdinal": 996823,
+  "preservedContract10Sha256": "edc3fca2519acf21eeca7c0d9775c3a73e9db8b9e0bed0fc819ac7cef8e60d6e",
+  "recipe": {
+    "algorithm": "sha256-counter-v1",
+    "canonicalBytes": "UTF-8, LF, JSON ensure_ascii=true/sort_keys=true/indent=2/final newline; XML ElementTree serialization UTF-8 declaration/LF final newline; SQL UTF-8/LF final newline. File integrity compares exact bytes after CRLF-to-LF checkout normalization only; no other normalization.",
+    "categories": [
+      "mission_id_start",
+      "change_id_start",
+      "history_timing",
+      "estimated_cost",
+      "estimate_revision",
+      "actual_cost"
+    ],
+    "causalEdges": [
+      {
+        "event": "event-2",
+        "from": "candidate-15",
+        "kind": "finding-before-remediation",
+        "to": "candidate-16"
+      },
+      {
+        "event": "event-3",
+        "from": "candidate-11",
+        "kind": "delivery-before-follow-on-recovery",
+        "to": "candidate-12"
+      }
+    ],
+    "clock": {
+      "baseline": "latest seeded changedAt",
+      "counter": 0,
+      "intervalMs": 1000
+    },
+    "contractRevision": "1.1",
+    "datasetVersion": "1.0",
+    "derivation": "UTF-8 compact JSON arrays, ensure_ascii=true, separators=(comma,colon), no newline. Seed = SHA256([\"missions-generator-1\",1701,category,mission-key,event-key]); mission-key is the canonical ST-... missionId for cost/timing streams and empty for initial offset streams; event-key is empty for initial offsets, \"initial\" for initial estimates, \"causal-start\" for causal start delay, otherwise the curated \"event-N\" key. Blocks = SHA256(seed bytes + unsigned 64-bit big-endian counter starting at zero). Uniform inclusive integer draw uses 256-bit rejection sampling.",
+    "generatorVersion": "missions-generator-1",
+    "masterSeed": 1701,
+    "ordering": "Fixed input roster; sequential mission ordinals; generate ascending missionId/local event order, then assign decimal changeIds by changedAt/missionId/local event index.",
+    "references": {
+      "assets": {
+        "Enterprise": "VS-31",
+        "cargoModule": "EQ-108",
+        "commsKit": "EQ-119",
+        "engineeringKit": "EQ-86",
+        "isolationKit": "EQ-97",
+        "medKit": "EQ-75",
+        "sensorSuite": "EQ-64",
+        "shuttleA": "SH-42",
+        "shuttleB": "SH-53"
+      },
+      "crew": {
+        "Barclay": "C-127",
+        "Beverly Crusher": "C-106",
+        "Data": "C-85",
+        "La Forge": "C-92",
+        "O'Brien": "C-134",
+        "Picard": "C-71",
+        "Riker": "C-78",
+        "Troi": "C-113",
+        "Wesley Crusher": "C-120",
+        "Worf": "C-99"
+      },
+      "limitation": "Missions-local opaque IDs; no suffix/alias-based Personnel mapping or canonical external registry claim.",
+      "participants": {
+        "O-224": "nanite collective",
+        "O-380": "Gomtuu",
+        "P-211": "Dr Paul Stubbs",
+        "P-237": "Ard'rian McKenzie",
+        "P-250": "Gosheven",
+        "P-263": "Sheliak representative",
+        "P-276": "Kevin Uxbridge",
+        "P-289": "Rishon Uxbridge as initially reported",
+        "P-302": "Bochra",
+        "P-315": "injured Romulan patient",
+        "P-328": "Barzan delegation",
+        "P-341": "Marouk",
+        "P-354": "Chorgan",
+        "P-367": "Tam Elbrun",
+        "P-393": "Sarek",
+        "P-406": "Perrin",
+        "P-419": "Legaran delegation",
+        "P-432": "unidentified survivor, locally John Doe",
+        "P-445": "Jono",
+        "P-458": "Talarian trainees as local group",
+        "P-471": "Ishara Yar",
+        "P-484": "K'mpec",
+        "P-497": "Gowron",
+        "P-510": "Duras",
+        "P-523": "T'Pel as initially asserted identity",
+        "P-536": "Cardassian liaison delegation",
+        "P-549": "Mirasta Yale",
+        "P-562": "Chancellor Durken",
+        "P-575": "Brattain survivor"
+      }
+    },
+    "terminalTiming": "Final terminal event is fixed to first event plus durationHours; closure dwell can exceed a draw band and is explicitly labeled duration-closure. Nonterminal draws are bounded by remaining duration and minimum future gaps.",
+    "timeBandsMinutes": {
+      "planning": [
+        360,
+        2880
+      ],
+      "routine": [
+        60,
+        480
+      ],
+      "urgent": [
+        5,
+        45
+      ]
+    }
+  },
+  "sources": {
+    "curation.json": "05e1f180b8217f0cf515657eaa6f3a7f3d14a62a4a85eddbb92ca7fb5d8300e0",
+    "generate.py": "d8c46e905ad7bafe42cae4ecfa508627d32fe93b6dc156dcd48b307691a44cd2",
+    "recipe.json": "3e3d5decbc93d1d4fde95c8aac42690fc99a633eab2f356181714f8944de21f0"
+  }
+}

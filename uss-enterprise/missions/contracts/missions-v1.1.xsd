@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="urn:starfleet:missions:v1"
+           targetNamespace="urn:starfleet:missions:v1"
+           elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
+  <xs:annotation><xs:documentation>
+    Missions contract 1.1 (major = namespace urn:starfleet:missions:v1; minor = this version attribute).
+    Normative design: ../../../docs/MISSIONS-V1-DESIGN.md (D027, D032, D033, D034).
+    This file is immutable once published; a compatible minor is a separate file.
+
+    XSD 1.0 patterns match the whole lexical value. Every scalar is an xs:string
+    restriction with whiteSpace=preserve, so no spelling other than the canonical one
+    is accepted and nothing is trimmed or normalized. No attributes, defaults,
+    wildcards or nil values exist: unknown content and xsi:nil are schema-invalid (400).
+    Length facets count Unicode code points (D034).
+
+    Deliberately NOT expressed here, because the design assigns them to domain
+    validation (422 DOMAIN_VALIDATION_FAILED) or to the service:
+    - whitespace-only values of minLength-1 request strings (Title, Objective, Outcome, LocationName, Opaque);
+      "whitespace" is the pinned set defined in the design. AuditSummary is the exception: it only
+      appears in responses, after the header check, so its non-whitespace rule is expressed here;
+    - duplicate references inside a collection;
+    - commandingOfficerId requiredness, outcome presence and the cost lifecycle, all of which
+      depend on status and cancellation provenance;
+    - presence of missionId and lastUpdated, which depends on the representation's role:
+      POST input omits both, PUT input carries missionId and omits lastUpdated, and every
+      response carries both;
+    - leap-year validity of a timestamp's February 29; the year itself is deliberately unconstrained
+      (which dates a deployment loads is dataset content, not contract);
+    - any cross-service existence, eligibility or Personnel identity claim.
+  </xs:documentation></xs:annotation>
+
+  <!-- Identifiers -->
+  <xs:simpleType name="MissionId"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:length value="12"/>
+    <xs:pattern value="ST-[A-Z0-9]{9}"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="ChangeId"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:pattern value="[1-9][0-9]*"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="CrewRef"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:pattern value="C-[1-9][0-9]*"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="ParticipantRef"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:pattern value="[PO]-[1-9][0-9]*"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="AssetRef"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:pattern value="[A-Z]{2,5}-[1-9][0-9]*"/>
+  </xs:restriction></xs:simpleType>
+
+  <!-- Text. Whitespace-only is a domain failure (422), not a schema failure. -->
+  <xs:simpleType name="Title"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="120"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="LocationName"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="120"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Opaque"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="120"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="LongText"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="2000"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="AuditSummary"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="256"/>
+    <!-- At least one non-whitespace character; the whitespace set is the Missions list in the design
+         (Java Character.isWhitespace, pinned). XML 1.0 cannot carry U+000B, U+000C or U+001C..U+001F,
+         so they are absent from this class and are enforced only for the request header. -->
+    <xs:pattern value="[\s\S]*[^&#x9;&#xA;&#xD;&#x20;&#x1680;&#x2000;-&#x2006;&#x2008;-&#x200A;&#x2028;&#x2029;&#x205F;&#x3000;][\s\S]*"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="ErrorMessage"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:minLength value="1"/>
+    <xs:maxLength value="1000"/>
+  </xs:restriction></xs:simpleType>
+
+  <!-- Numbers: one canonical spelling each -->
+  <xs:simpleType name="Priority"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:pattern value="[1-5]"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="DurationHours"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <!-- 1..8760 -->
+    <xs:pattern value="[1-9][0-9]{0,2}|[1-7][0-9]{3}|8[0-6][0-9]{2}|87[0-5][0-9]|8760"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Stardate"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <!-- 43000.00 .. 48999.95 in 0.05 steps -->
+    <xs:pattern value="4[3-8][0-9]{3}\.[0-9][05]"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Credits"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <!-- NUMBER(15,2), non-negative: 0.00 .. 9999999999999.99 -->
+    <xs:pattern value="(0|[1-9][0-9]{0,12})\.[0-9]{2}"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="CreditsChange"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <!-- Signed difference: no '+', no negative zero -->
+    <xs:pattern value="(0|[1-9][0-9]{0,12})\.[0-9]{2}|-(0\.(0[1-9]|[1-9][0-9])|[1-9][0-9]{0,12}\.[0-9]{2})"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Timestamp"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <!-- UTC, exactly three fractional digits, any year 0001..9999. Month-specific day ranges; Feb 29 is not leap-checked. -->
+    <xs:pattern value="(000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|[1-9][0-9]{3})-((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01])|(0[469]|11)-(0[1-9]|[12][0-9]|30)|02-(0[1-9]|1[0-9]|2[0-9]))T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\.[0-9]{3}Z"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="PageNumber"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:pattern value="[1-9][0-9]*"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="PageSize"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:pattern value="[1-9]|[1-4][0-9]|50"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Count"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:pattern value="0|[1-9][0-9]*"/>
+  </xs:restriction></xs:simpleType>
+
+  <!-- Enumerations: exact, case-sensitive tokens -->
+  <xs:simpleType name="MissionType"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="DIPLOMATIC"/>
+    <xs:enumeration value="EXPLORATION"/>
+    <xs:enumeration value="SCIENTIFIC"/>
+    <xs:enumeration value="FIRST_CONTACT"/>
+    <xs:enumeration value="MEDICAL"/>
+    <xs:enumeration value="RESCUE"/>
+    <xs:enumeration value="HUMANITARIAN"/>
+    <xs:enumeration value="SECURITY"/>
+    <xs:enumeration value="TACTICAL"/>
+    <xs:enumeration value="TRANSPORT"/>
+    <xs:enumeration value="MAINTENANCE"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Classification"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="UNCLASSIFIED"/>
+    <xs:enumeration value="SECRET"/>
+    <xs:enumeration value="TOP_SECRET"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Status"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="PLANNED"/>
+    <xs:enumeration value="AUTHORIZED"/>
+    <xs:enumeration value="ACTIVE"/>
+    <xs:enumeration value="POSTPONED"/>
+    <xs:enumeration value="COMPLETED"/>
+    <xs:enumeration value="FAILED"/>
+    <xs:enumeration value="CANCELLED"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="LocationType"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="PLANET"/>
+    <xs:enumeration value="STARBASE"/>
+    <xs:enumeration value="VESSEL"/>
+    <xs:enumeration value="SECTOR"/>
+    <xs:enumeration value="DEEP_SPACE"/>
+    <xs:enumeration value="ENTERPRISE"/>
+    <xs:enumeration value="OTHER"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="IssuingAuthority"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="STARFLEET_COMMAND"/>
+    <xs:enumeration value="ENTERPRISE_COMMAND"/>
+    <xs:enumeration value="STARFLEET_MEDICAL"/>
+    <xs:enumeration value="STARFLEET_SCIENCE"/>
+    <xs:enumeration value="STARFLEET_SECURITY"/>
+    <xs:enumeration value="FEDERATION_COUNCIL"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="Operation"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="CREATED"/>
+    <xs:enumeration value="UPDATED"/>
+  </xs:restriction></xs:simpleType>
+  <xs:simpleType name="ErrorCode"><xs:restriction base="xs:string">
+    <xs:whiteSpace value="preserve"/>
+    <xs:enumeration value="INVALID_REQUEST"/>
+    <xs:enumeration value="INVALID_MISSION_ID"/>
+    <xs:enumeration value="MISSION_NOT_FOUND"/>
+    <xs:enumeration value="METHOD_NOT_ALLOWED"/>
+    <xs:enumeration value="RESOURCE_CONFLICT"/>
+    <xs:enumeration value="ETAG_MISMATCH"/>
+    <xs:enumeration value="UNSUPPORTED_MEDIA_TYPE"/>
+    <xs:enumeration value="DOMAIN_VALIDATION_FAILED"/>
+    <xs:enumeration value="PRECONDITION_REQUIRED"/>
+    <xs:enumeration value="INTERNAL_ERROR"/>
+  </xs:restriction></xs:simpleType>
+
+  <!-- Structures. Child order is fixed and is the design's field-table order. -->
+  <xs:complexType name="Location"><xs:sequence>
+    <xs:element name="type" type="tns:LocationType"/>
+    <xs:element name="name" type="tns:LocationName"/>
+    <xs:element name="coordinates" type="tns:Opaque" minOccurs="0"/>
+    <xs:element name="travelVector" type="tns:Opaque" minOccurs="0"/>
+  </xs:sequence></xs:complexType>
+  <xs:complexType name="CrewIds"><xs:sequence>
+    <xs:element name="crewId" type="tns:CrewRef" minOccurs="0" maxOccurs="100"/>
+  </xs:sequence></xs:complexType>
+  <xs:complexType name="ParticipantIds"><xs:sequence>
+    <xs:element name="participantId" type="tns:ParticipantRef" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence></xs:complexType>
+  <xs:complexType name="AssetIds"><xs:sequence>
+    <xs:element name="assetId" type="tns:AssetRef" minOccurs="0" maxOccurs="50"/>
+  </xs:sequence></xs:complexType>
+
+  <xs:complexType name="Mission"><xs:sequence>
+    <xs:element name="missionId" type="tns:MissionId" minOccurs="0"/>
+    <xs:element name="title" type="tns:Title"/>
+    <xs:element name="type" type="tns:MissionType"/>
+    <xs:element name="classification" type="tns:Classification"/>
+    <xs:element name="status" type="tns:Status"/>
+    <xs:element name="priority" type="tns:Priority"/>
+    <xs:element name="stardate" type="tns:Stardate"/>
+    <xs:element name="durationHours" type="tns:DurationHours"/>
+    <xs:element name="objective" type="tns:LongText"/>
+    <xs:element name="location" type="tns:Location"/>
+    <xs:element name="issuingAuthority" type="tns:IssuingAuthority"/>
+    <xs:element name="commandingOfficerId" type="tns:CrewRef" minOccurs="0"/>
+    <xs:element name="assignedCrewIds" type="tns:CrewIds"/>
+    <xs:element name="participantIds" type="tns:ParticipantIds"/>
+    <xs:element name="assignedAssetIds" type="tns:AssetIds"/>
+    <xs:element name="estimatedCostCredits" type="tns:Credits" minOccurs="0"/>
+    <xs:element name="actualCostCredits" type="tns:Credits" minOccurs="0"/>
+    <xs:element name="outcome" type="tns:LongText" minOccurs="0"/>
+    <xs:element name="lastUpdated" type="tns:Timestamp" minOccurs="0"/>
+  </xs:sequence></xs:complexType>
+
+  <xs:complexType name="Change"><xs:sequence>
+    <xs:element name="changeId" type="tns:ChangeId"/>
+    <xs:element name="missionId" type="tns:MissionId"/>
+    <xs:element name="operation" type="tns:Operation"/>
+    <xs:element name="changedAt" type="tns:Timestamp"/>
+    <xs:element name="changedBy" type="tns:CrewRef"/>
+    <xs:element name="orderedBy" type="tns:CrewRef"/>
+    <xs:element name="previousStatus" type="tns:Status" minOccurs="0"/>
+    <xs:element name="newStatus" type="tns:Status"/>
+    <xs:element name="estimatedCostCredits" type="tns:Credits" minOccurs="0"/>
+    <xs:element name="estimatedCostCreditsChange" type="tns:CreditsChange" minOccurs="0"/>
+    <xs:element name="actualCostCredits" type="tns:Credits" minOccurs="0"/>
+    <xs:element name="actualCostCreditsChange" type="tns:CreditsChange" minOccurs="0"/>
+    <xs:element name="summary" type="tns:AuditSummary"/>
+  </xs:sequence></xs:complexType>
+
+  <xs:complexType name="MissionList"><xs:sequence>
+    <xs:element name="page" type="tns:PageNumber"/>
+    <xs:element name="pageSize" type="tns:PageSize"/>
+    <xs:element name="totalCount" type="tns:Count"/>
+    <xs:element name="totalPages" type="tns:Count"/>
+    <xs:element name="mission" type="tns:Mission" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence></xs:complexType>
+  <xs:complexType name="ChangeList"><xs:sequence>
+    <xs:element name="page" type="tns:PageNumber"/>
+    <xs:element name="pageSize" type="tns:PageSize"/>
+    <xs:element name="totalCount" type="tns:Count"/>
+    <xs:element name="totalPages" type="tns:Count"/>
+    <xs:element name="change" type="tns:Change" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence></xs:complexType>
+  <xs:complexType name="Error"><xs:sequence>
+    <xs:element name="code" type="tns:ErrorCode"/>
+    <xs:element name="message" type="tns:ErrorMessage"/>
+  </xs:sequence></xs:complexType>
+
+  <!-- Root representations -->
+  <xs:element name="mission" type="tns:Mission"/>
+  <xs:element name="missionList" type="tns:MissionList"/>
+  <xs:element name="changeList" type="tns:ChangeList"/>
+  <xs:element name="error" type="tns:Error"/>
+</xs:schema>

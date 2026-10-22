@@ -1,0 +1,598 @@
+{
+  "appendsTo": {
+    "changes": 865,
+    "datasetVersion": "1.1",
+    "earlierCuts": [
+      101
+    ],
+    "manifestSha256": "a0c89318ffc1676680629ed02171e37a8685731ebd45c7719f0782e0bd217417",
+    "missions": 300,
+    "nextChangeId": 9906248,
+    "nextMissionOrdinal": 997092
+  },
+  "clock": {
+    "baseline": "2368-12-23T10:47:00.000Z",
+    "counter": 0,
+    "intervalMs": 1000
+  },
+  "composition": {
+    "canonCarried": 31,
+    "canonNew": 57,
+    "maintenanceGenerated": 45,
+    "routineGenerated": 167,
+    "typeMaintenanceTotal": 50
+  },
+  "contractRevision": "1.1",
+  "contractSha256": "d2a759b28c3d0825de99ce75006960ad6572fb002e600ea6cef1265ab41f7838",
+  "corrections": {
+    "changedBy": "C-85",
+    "count": 108,
+    "firstChangeId": 9906248,
+    "firstChangedAt": "2368-12-23T09:00:00.000Z",
+    "lastChangedAt": "2368-12-23T10:47:00.000Z",
+    "orderedBy": "C-78"
+  },
+  "counts": {
+    "changes": 973,
+    "missions": 300
+  },
+  "datasetVersion": "1.2",
+  "files": {
+    "changes-1.xml": "cf472facb9e8d12e7128990ac43a327b31d076480b50c068400651dbd5a84b9e",
+    "changes-10.xml": "e464cb2d4001a0d735d56f53d692a449db4c421a0ce82a01778ceccd367ad72c",
+    "changes-11.xml": "0288ee0bab31182c11fbc9523a676899db38d25fe733949b23debfc7a5fcdad4",
+    "changes-12.xml": "aeb64796613a4c4a2ddb9b9fd848529c772e5e8bda2986e110884f2b0978d1a4",
+    "changes-13.xml": "25ed8aa07779a662dc71b046b7ea52b5ba779bfcbbcbb0863c83d299b3e26fd5",
+    "changes-14.xml": "64eab651c582eb35befceea170a7fae9d0a78fae1295ef42d819339816568a27",
+    "changes-15.xml": "4c5f93e863fe3ef235973af0435c06dac52e5b2749f2eca9ade48e1d7bc04167",
+    "changes-16.xml": "30a09695c60a5b9e75ffd149a7f1272737ff9a188f28ebc2b54bc3ff124bdbbd",
+    "changes-17.xml": "63ff5982c9f1ac1153e035676ee4e81c5c562808d51e6d8631123c7ff2609e5d",
+    "changes-18.xml": "265ee3c8b99f3d8804695e6d61cd7f22dd26979506471adfe4db87220dfab16b",
+    "changes-19.xml": "ce2e53825964ca46bab8af3414929fe3e0ca1979fcf7b23e3dd09f99e8ccbd7e",
+    "changes-2.xml": "f3adeaa2ed2d85cd9500d1f53ec27f0983ac04804d43705ee6c7cee7259dc55b",
+    "changes-20.xml": "5cc75aaa60f9cc19340c8cdea6ccf83293af67e0d69538abbb7b16aa0705e0be",
+    "changes-3.xml": "943203e72efda500727c6d4d8ae5e0b4b12627acf8044fd7216ba47df6393c2e",
+    "changes-4.xml": "e70a701c8835282d805e0041c3894537081014c53d844fdd8cf5bbc37875a16c",
+    "changes-5.xml": "1ba8b40f044735bed8412d55c47e56cd45c8b733b11bbed28f6d066aa8531be1",
+    "changes-6.xml": "d0eb25a8659d127425bfa92934df2c30cc78aaa4b07159aeb1be3bfab1480561",
+    "changes-7.xml": "383fea8fbc946192c1f58015b67f494cc454ecc07af9372ae89163940f5c9dd3",
+    "changes-8.xml": "cb26107524f4739b639c06f1e6d72d08c472876880ef17ca896d5ed7cfb739fd",
+    "changes-9.xml": "5d3bf355f0403d07de12228841179ba7873cc4eff59619732049ad14feabc23b",
+    "civilians.json": "5cf2d13000e05ba2dd8742fd0cdcafa0f2930e59d4568ea3448415ce5115196b",
+    "generate.py": "bcc000b52dd98d23d2e61c5ac400b6f6492144ee5f9dac930748c1c536bbf4b8",
+    "load.sql": "c5b67ff633698ddfe216da32100eee07e735be08a2d1415e9b9669f0b6aad74c",
+    "missions-1.xml": "fe16ff54c30689836eff9378a471fb71cedf0505269ec65dc812e04ecc9b01ee",
+    "missions-2.xml": "3173d43619d7e3c34bc02a6c5d679a989f27f62b12d9f35dc3d3476ecc6c8750",
+    "missions-3.xml": "da27dd2a076b14007b5ba6ab29a00eb451a8edf4e3c02b44dc0233b033a8b2f8",
+    "missions-4.xml": "d22090a201acedb7c2b3bdd97916efda2873ceb2346272575a4625c00651e84c",
+    "missions-5.xml": "8e4245f92abb70ef3fb7e3a04f04635d158083f570c9b8bc9c5512a28a503a61",
+    "missions-6.xml": "90ada39452706a52ff64513c7b30f89dc9a0da45e9ed05c79c67f6cb8774a19f",
+    "participants.json": "67980fce78ece4b48bb251fc3efa6718bb29845a06821f017140a971085e4cb6",
+    "provenance.json": "fcffc623982b9eb0765c239c0ae15967cd3a24171a6c8fdd407c3d296b8925e9",
+    "recipe.json": "1cbe8390ea1eedb40e289e44f46bb6eb51f45208be4ec947ae001f45147c5b6d",
+    "release.json": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f",
+    "schema.sql": "484a9d216dd11f1e547a530b608b0e38ccb26dc8e1fc993a2c7a5454fc43fc21"
+  },
+  "firstChangeId": 9905383,
+  "firstMissionOrdinal": 996792,
+  "generatorVersion": "missions-generator-3",
+  "nextChangeId": 9906356,
+  "nextMissionOrdinal": 997092,
+  "participantClasses": {
+    "civilians": 219,
+    "definitions": {
+      "C": "Crew: Starfleet crew members, assigned to missions with obligations. A C reference never appears in participantIds.",
+      "O": "Outsiders, the Others: anyone not on the ship's roster, such as colonists, delegates, patients, visiting cadets, and every kind of creature, humanoid or entity. An O reference is never mapped.",
+      "P": "Personnel: people on the Enterprise who work or live there and are not crew members, the civilians of the Personnel v2 roster. A P reference names one civilian of the pinned roster by exact display name, so a mapping can resolve it."
+    },
+    "personnelDataset": "personnel-v2-large-004",
+    "personnelManifestSha256": "d44e96b8853290b8423be5fe53dc8270f4e1155a52287ebe30e486c2eae7ef47",
+    "referencesO": 153,
+    "referencesP": 58
+  },
+  "preservedContract10Sha256": "edc3fca2519acf21eeca7c0d9775c3a73e9db8b9e0bed0fc819ac7cef8e60d6e",
+  "recipe": {
+    "algorithm": "sha256-counter-v1",
+    "appends": "1.1",
+    "canon": {
+      "O-1055": {
+        "class": "keep",
+        "name": "injured Borg drone"
+      },
+      "O-224": {
+        "class": "keep",
+        "name": "nanite collective"
+      },
+      "O-380": {
+        "class": "keep",
+        "name": "Gomtuu"
+      },
+      "O-639": {
+        "class": "keep",
+        "name": "Ventaxian government delegation"
+      },
+      "O-860": {
+        "class": "keep",
+        "name": "Wesley Crusher as a returning visitor (an outsider, not Crew)"
+      },
+      "O-938": {
+        "class": "keep",
+        "name": "Ullian delegation"
+      },
+      "O-951": {
+        "class": "keep",
+        "name": "colony council (lab label)"
+      },
+      "O-977": {
+        "class": "keep",
+        "name": "J'naii delegation"
+      },
+      "P-1003": {
+        "class": "keep",
+        "name": "Alexander Rozhenko"
+      },
+      "P-1016": {
+        "class": "O",
+        "name": "Kamala"
+      },
+      "P-1029": {
+        "class": "O",
+        "name": "Alrik"
+      },
+      "P-1042": {
+        "class": "O",
+        "name": "Clara Sutter",
+        "offRoster": true
+      },
+      "P-1068": {
+        "class": "keep",
+        "name": "Guinan"
+      },
+      "P-211": {
+        "class": "O",
+        "name": "Dr Paul Stubbs"
+      },
+      "P-237": {
+        "class": "O",
+        "name": "Ard'rian McKenzie"
+      },
+      "P-250": {
+        "class": "O",
+        "name": "Gosheven"
+      },
+      "P-263": {
+        "class": "O",
+        "name": "Sheliak representative"
+      },
+      "P-276": {
+        "class": "O",
+        "name": "Kevin Uxbridge"
+      },
+      "P-289": {
+        "class": "O",
+        "name": "Rishon Uxbridge as initially reported"
+      },
+      "P-302": {
+        "class": "O",
+        "name": "Bochra"
+      },
+      "P-315": {
+        "class": "O",
+        "name": "injured Romulan patient"
+      },
+      "P-328": {
+        "class": "O",
+        "name": "Barzan delegation"
+      },
+      "P-341": {
+        "class": "O",
+        "name": "Marouk"
+      },
+      "P-354": {
+        "class": "O",
+        "name": "Chorgan"
+      },
+      "P-367": {
+        "class": "O",
+        "name": "Tam Elbrun"
+      },
+      "P-393": {
+        "class": "O",
+        "name": "Sarek"
+      },
+      "P-406": {
+        "class": "O",
+        "name": "Perrin"
+      },
+      "P-419": {
+        "class": "O",
+        "name": "Legaran delegation"
+      },
+      "P-432": {
+        "class": "O",
+        "name": "unidentified survivor, locally John Doe"
+      },
+      "P-445": {
+        "class": "O",
+        "name": "Jono"
+      },
+      "P-458": {
+        "class": "O",
+        "name": "Talarian trainees as local group"
+      },
+      "P-471": {
+        "class": "O",
+        "name": "Ishara Yar"
+      },
+      "P-484": {
+        "class": "O",
+        "name": "K'mpec"
+      },
+      "P-497": {
+        "class": "O",
+        "name": "Gowron"
+      },
+      "P-510": {
+        "class": "O",
+        "name": "Duras"
+      },
+      "P-523": {
+        "class": "O",
+        "name": "T'Pel as initially asserted identity"
+      },
+      "P-536": {
+        "class": "O",
+        "name": "Cardassian liaison delegation"
+      },
+      "P-549": {
+        "class": "O",
+        "name": "Mirasta Yale"
+      },
+      "P-562": {
+        "class": "O",
+        "name": "Chancellor Durken"
+      },
+      "P-575": {
+        "class": "O",
+        "name": "Brattain survivor"
+      },
+      "P-600": {
+        "class": "O",
+        "name": "Willie Potts"
+      },
+      "P-613": {
+        "class": "O",
+        "name": "Jake Potts"
+      },
+      "P-626": {
+        "class": "O",
+        "name": "Dr Howard Clark"
+      },
+      "P-652": {
+        "class": "O",
+        "name": "Susanna Leijten"
+      },
+      "P-665": {
+        "class": "O",
+        "name": "J'Dan"
+      },
+      "P-678": {
+        "class": "O",
+        "name": "Admiral Norah Satie"
+      },
+      "P-691": {
+        "class": "O",
+        "name": "Dr Timicin"
+      },
+      "P-704": {
+        "class": "O",
+        "name": "Lwaxana Troi"
+      },
+      "P-717": {
+        "class": "O",
+        "name": "Ambassador Odan"
+      },
+      "P-730": {
+        "class": "O",
+        "name": "Ambassador Kell"
+      },
+      "P-743": {
+        "class": "O",
+        "name": "Governor Vagh"
+      },
+      "P-756": {
+        "class": "O",
+        "name": "Gowron"
+      },
+      "P-769": {
+        "class": "O",
+        "name": "Lursa"
+      },
+      "P-782": {
+        "class": "O",
+        "name": "B'Etor"
+      },
+      "P-795": {
+        "class": "O",
+        "name": "Sela"
+      },
+      "P-808": {
+        "class": "O",
+        "name": "Tamarian captain"
+      },
+      "P-821": {
+        "class": "O",
+        "name": "Admiral Kennelly"
+      },
+      "P-834": {
+        "class": "O",
+        "name": "Orta"
+      },
+      "P-847": {
+        "class": "O",
+        "name": "Dr Marr"
+      },
+      "P-873": {
+        "class": "O",
+        "name": "Fleet Admiral Brackett"
+      },
+      "P-886": {
+        "class": "O",
+        "name": "Ambassador Spock"
+      },
+      "P-899": {
+        "class": "O",
+        "name": "Proconsul Neral"
+      },
+      "P-912": {
+        "class": "O",
+        "name": "Rasmussen"
+      },
+      "P-925": {
+        "class": "O",
+        "name": "Timothy (child survivor)"
+      },
+      "P-964": {
+        "class": "O",
+        "name": "Dr Toby Russell"
+      },
+      "P-990": {
+        "class": "O",
+        "name": "Cadet Nicholas Locarno"
+      }
+    },
+    "canonicalBytes": "UTF-8, LF, JSON ensure_ascii=true/sort_keys=true/indent=2/final newline; XML ElementTree serialization UTF-8 declaration/LF final newline; SQL UTF-8/LF final newline. File integrity compares exact bytes after CRLF-to-LF checkout normalization only; no other normalization.",
+    "categories": [
+      "participant_outsider",
+      "participant_pool",
+      "participant_roster"
+    ],
+    "causalEdges": [
+      {
+        "event": "event-2",
+        "from": "candidate-15",
+        "kind": "finding-before-remediation",
+        "to": "candidate-16"
+      },
+      {
+        "event": "event-3",
+        "from": "candidate-11",
+        "kind": "delivery-before-follow-on-recovery",
+        "to": "candidate-12"
+      }
+    ],
+    "classes": {
+      "C": "Crew: Starfleet crew members, assigned to missions with obligations. A C reference never appears in participantIds.",
+      "O": "Outsiders, the Others: anyone not on the ship's roster, such as colonists, delegates, patients, visiting cadets, and every kind of creature, humanoid or entity. An O reference is never mapped.",
+      "P": "Personnel: people on the Enterprise who work or live there and are not crew members, the civilians of the Personnel v2 roster. A P reference names one civilian of the pinned roster by exact display name, so a mapping can resolve it."
+    },
+    "clock": {
+      "baseline": "latest changedAt of the release",
+      "counter": 0,
+      "intervalMs": 1000
+    },
+    "contractRevision": "1.1",
+    "correction": {
+      "intervalMinutes": 1,
+      "start": "2368-12-23T09:00:00.000Z",
+      "summary": "Records clean-up: participants reclassified under the P and O definitions (P references {p}, O references {o}); mission details unchanged."
+    },
+    "datasetVersion": "1.2",
+    "derivation": "UTF-8 compact JSON arrays, ensure_ascii=true, separators=(comma,colon), no newline. Seed = SHA256([missions-generator-3, 1701, category, key, item]); category is participant_pool or participant_roster with the missionId as key and an empty item, or participant_outsider with the pool name as key and the member index as item. Blocks = SHA256(seed bytes + unsigned 64-bit big-endian counter starting at zero). Uniform inclusive integer draw uses 256-bit rejection sampling; a draw of several different members takes them one by one without replacement.",
+    "generatorVersion": "missions-generator-3",
+    "masterSeed": 1701,
+    "numbering": {
+      "rule": "Reclassified canon people in the order of their old reference, then the outsiders drawn from the pools in pool order and index, then the civilians drawn in the order of the Personnel pages; each number once, step 13 after the largest number of release 1.1.",
+      "start": 2121,
+      "step": 13
+    },
+    "ordering": "Release 1.1 unchanged in mission and change order; correction entries appended in missionId order with consecutive change ids after 1.1's last.",
+    "outsiderPools": {
+      "colonist": {
+        "count": 12
+      },
+      "delegate": {
+        "count": 24
+      },
+      "passenger": {
+        "count": 30
+      },
+      "patient": {
+        "count": 24
+      },
+      "survivor": {
+        "count": 8
+      },
+      "trader": {
+        "count": 12
+      }
+    },
+    "references": {
+      "changedBy": "C-85",
+      "changedByName": "Data",
+      "orderedBy": "C-78",
+      "orderedByName": "William Riker"
+    },
+    "syllables": {
+      "family": [
+        "Ar",
+        "Be",
+        "Cal",
+        "Dov",
+        "Esh",
+        "Fen",
+        "Gar",
+        "Hal",
+        "Ith",
+        "Jor",
+        "Kel",
+        "Lun"
+      ],
+      "familyEnd": [
+        "voss",
+        "mere",
+        "tak",
+        "dran",
+        "lis",
+        "vane",
+        "nor",
+        "zeth",
+        "rik",
+        "sol"
+      ],
+      "given": [
+        "Ta",
+        "Or",
+        "Vel",
+        "Ka",
+        "Zen",
+        "Mar",
+        "Dru",
+        "Sel",
+        "Hav",
+        "Ny",
+        "Bre",
+        "Lor"
+      ],
+      "givenEnd": [
+        "vik",
+        "len",
+        "ra",
+        "mon",
+        "dis",
+        "tar",
+        "quin",
+        "sha",
+        "dor",
+        "neth"
+      ]
+    },
+    "templateRules": [
+      {
+        "class": "P",
+        "positions": [
+          "Civilian Technician",
+          "Holodeck Technician",
+          "Civilian Specialist"
+        ],
+        "templates": [
+          "Equipment shuttle to {place}",
+          "Cargo run to {place}"
+        ]
+      },
+      {
+        "class": "P",
+        "positions": [
+          "Civilian Specialist",
+          "Botanist",
+          "Civilian Technician"
+        ],
+        "templates": [
+          "Gravimetric mapping of {place}",
+          "{subject} survey at {place}",
+          "Spectral analysis of {subject}",
+          "{subject} sample collection at {place}",
+          "Survey of unexplored {subject} near {place}",
+          "Charting of {place}",
+          "Long-range probe release at {place}"
+        ]
+      },
+      {
+        "class": "O",
+        "pool": "passenger",
+        "templates": [
+          "Passenger transfer to {place}"
+        ]
+      },
+      {
+        "class": "O",
+        "pool": "delegate",
+        "templates": [
+          "Delegation escort to {place}",
+          "Envoy transfer to {place}",
+          "Trade talks support at {place}"
+        ]
+      },
+      {
+        "class": "O",
+        "pool": "colonist",
+        "templates": [
+          "Relief supply support at {place}"
+        ]
+      },
+      {
+        "class": "O",
+        "pool": "patient",
+        "templates": [
+          "Vaccination programme at {place}",
+          "Clinic support at {place}",
+          "Medical outreach at {place}",
+          "Medical supply delivery to {place}"
+        ]
+      },
+      {
+        "class": "O",
+        "pool": "survivor",
+        "templates": [
+          "Survivor search near {place}"
+        ]
+      },
+      {
+        "class": "O",
+        "pool": "trader",
+        "templates": [
+          "Convoy protection near {place}",
+          "Sector sweep of {place}",
+          "Station security audit at {place}"
+        ]
+      }
+    ],
+    "titleRules": [
+      {
+        "class": "P",
+        "positions": null,
+        "prefix": "Deck-by-deck emergency drill"
+      },
+      {
+        "class": "P",
+        "positions": null,
+        "prefix": "Fleet-wide medical screening"
+      },
+      {
+        "class": "P",
+        "positions": null,
+        "prefix": "Full-ship evacuation exercise"
+      },
+      {
+        "class": "O",
+        "pool": "passenger",
+        "prefix": "Starbase relocation convoy escort"
+      }
+    ]
+  },
+  "sources": {
+    "civilians.json": "5cf2d13000e05ba2dd8742fd0cdcafa0f2930e59d4568ea3448415ce5115196b",
+    "generate.py": "bcc000b52dd98d23d2e61c5ac400b6f6492144ee5f9dac930748c1c536bbf4b8",
+    "recipe.json": "1cbe8390ea1eedb40e289e44f46bb6eb51f45208be4ec947ae001f45147c5b6d"
+  }
+}

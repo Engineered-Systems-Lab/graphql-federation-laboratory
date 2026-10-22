@@ -1,0 +1,1069 @@
+{
+  "events": [
+    {
+      "changedAt": "2366-01-05T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4O",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-01-05T11:54:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4O",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-01-05T14:05:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD4O",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-01-05T17:19:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD4O",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-01-05T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4P",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-05T08:44:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4P",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-05T09:11:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD4P",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-06T02:00:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD4P",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-01-12T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4Q",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-12T08:29:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4Q",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-12T08:55:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD4Q",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-12T09:34:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD4Q",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-12T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4R",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-12T08:17:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4R",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-20T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4S",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-20T08:36:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4S",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-01-21T00:00:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD4S",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-03-05T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4T",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-03-05T08:38:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4T",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-03-05T08:46:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD4T",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-03-06T04:00:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD4T",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-03-05T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4U",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-03-05T08:31:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4U",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-03-05T16:00:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD4U",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-03-20T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4V",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "planning"
+    },
+    {
+      "changedAt": "2366-03-20T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4W",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-03-20T13:48:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4W",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-03-20T18:00:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD4W",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-04-03T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4X",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-04-03T12:43:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4X",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-05-01T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4Y",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-05-01T08:18:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4Y",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-05-01T16:00:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD4Y",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-05-01T16:06:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD4Z",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-05-01T16:19:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD4Z",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-05-01T16:29:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD4Z",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-05-01T16:37:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD4Z",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-05-02T10:06:00.000Z",
+      "eventKey": "event-5",
+      "missionId": "ST-00000LD4Z",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-07-01T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD50",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "planning"
+    },
+    {
+      "changedAt": "2366-07-01T20:42:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD50",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "planning"
+    },
+    {
+      "changedAt": "2366-07-01T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD51",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-07-01T08:17:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD51",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-07-01T08:40:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD51",
+      "objectiveRevision": true,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-07-15T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD52",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-07-15T08:30:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD52",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-07-15T08:58:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD52",
+      "objectiveRevision": true,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-07-16T04:00:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD52",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-07-15T08:42:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD53",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-07-15T09:17:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD53",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-07-15T09:35:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD53",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-07-15T20:42:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD53",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-08-10T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD54",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-08-10T08:41:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD54",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-08-11T14:00:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD54",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-08-10T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD55",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-08-10T08:13:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD55",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-08-10T08:24:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD55",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-08-11T12:00:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD55",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2366-09-01T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD56",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-09-01T13:15:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD56",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2366-10-01T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD57",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "planning"
+    },
+    {
+      "changedAt": "2366-10-01T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD58",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-10-01T08:21:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD58",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-10-01T08:59:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD58",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2366-10-04T08:00:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD58",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2367-01-07T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD59",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-01-07T08:25:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD59",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-01-07T20:00:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD59",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2367-02-01T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD5A",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-02-01T08:44:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD5A",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-02-01T09:14:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD5A",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-02-03T08:00:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD5A",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2367-02-20T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD5B",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-02-20T08:38:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD5B",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-02-21T20:00:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD5B",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2367-03-10T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD5C",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-03-10T08:12:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD5C",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-03-10T08:18:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD5C",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-03-11T00:00:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD5C",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2367-04-05T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD5D",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2367-04-05T11:57:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD5D",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2367-04-06T08:00:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD5D",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2367-04-20T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD5E",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-04-20T08:23:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD5E",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-04-20T08:43:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD5E",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-04-21T14:00:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD5E",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2367-06-01T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD5F",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2367-06-01T14:20:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD5F",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2367-06-01T19:08:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD5F",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2367-06-01T20:49:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD5F",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2367-07-01T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD5G",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "planning"
+    },
+    {
+      "changedAt": "2367-07-01T21:43:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD5G",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "planning"
+    },
+    {
+      "changedAt": "2367-07-15T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD5H",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-07-15T08:07:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD5H",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-07-15T08:19:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD5H",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-07-15T08:32:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD5H",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "urgent"
+    },
+    {
+      "changedAt": "2367-07-19T08:00:00.000Z",
+      "eventKey": "event-5",
+      "missionId": "ST-00000LD5H",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "duration-closure"
+    },
+    {
+      "changedAt": "2367-08-10T08:00:00.000Z",
+      "eventKey": "event-1",
+      "missionId": "ST-00000LD5I",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2367-08-10T13:49:00.000Z",
+      "eventKey": "event-2",
+      "missionId": "ST-00000LD5I",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2367-08-10T18:47:00.000Z",
+      "eventKey": "event-3",
+      "missionId": "ST-00000LD5I",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    },
+    {
+      "changedAt": "2367-08-11T01:37:00.000Z",
+      "eventKey": "event-4",
+      "missionId": "ST-00000LD5I",
+      "objectiveRevision": false,
+      "provenance": "Synthetic lab event/recorder/style/cost/timestamp.",
+      "timing": "routine"
+    }
+  ],
+  "limitations": [
+    "No canonical finance/mission-order claim.",
+    "Snapshot statuses are selected lab states.",
+    "Only two explicit modest objective revisions; narrative extraction is incomplete for arbitrary clients.",
+    "Physical external references limited to 50; wire grammar is not narrowed.",
+    "No Personnel mapping."
+  ],
+  "missionSources": [
+    {
+      "episode": "Evolution",
+      "key": "candidate-01",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Evolution_(episode)",
+      "stardateProvenance": "43125.80 source anchor"
+    },
+    {
+      "episode": "Evolution",
+      "key": "candidate-02",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Evolution_(episode)",
+      "stardateProvenance": "43125.85 lab offset"
+    },
+    {
+      "episode": "The Ensigns of Command",
+      "key": "candidate-03",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Ensigns_of_Command_(episode)",
+      "stardateProvenance": "43140.00 synthetic unknown-source date"
+    },
+    {
+      "episode": "The Ensigns of Command",
+      "key": "candidate-04",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Ensigns_of_Command_(episode)",
+      "stardateProvenance": "43140.05 synthetic unknown-source date"
+    },
+    {
+      "episode": "The Survivors",
+      "key": "candidate-05",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Survivors_(episode)",
+      "stardateProvenance": "43152.40 source anchor"
+    },
+    {
+      "episode": "The Enemy",
+      "key": "candidate-06",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Enemy_(episode)",
+      "stardateProvenance": "43349.20 source anchor"
+    },
+    {
+      "episode": "The Enemy",
+      "key": "candidate-07",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Enemy_(episode)",
+      "stardateProvenance": "43349.25 lab offset"
+    },
+    {
+      "episode": "The Price",
+      "key": "candidate-08",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Price_(episode)",
+      "stardateProvenance": "43385.60 source anchor"
+    },
+    {
+      "episode": "The Price",
+      "key": "candidate-09",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Price_(episode)",
+      "stardateProvenance": "43385.65 lab offset"
+    },
+    {
+      "episode": "The Vengeance Factor",
+      "key": "candidate-10",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Vengeance_Factor_(episode)",
+      "stardateProvenance": "43421.90 source anchor"
+    },
+    {
+      "episode": "The High Ground",
+      "key": "candidate-11",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_High_Ground_(episode)",
+      "stardateProvenance": "43510.70 source anchor"
+    },
+    {
+      "episode": "The High Ground",
+      "key": "candidate-12",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_High_Ground_(episode)",
+      "stardateProvenance": "43510.75 lab offset"
+    },
+    {
+      "episode": "Tin Man",
+      "key": "candidate-13",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Tin_Man_(episode)",
+      "stardateProvenance": "43779.30 source anchor used as lab scheduled commencement"
+    },
+    {
+      "episode": "Tin Man",
+      "key": "candidate-14",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Tin_Man_(episode)",
+      "stardateProvenance": "43779.35 lab offset"
+    },
+    {
+      "episode": "Hollow Pursuits",
+      "key": "candidate-15",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Hollow_Pursuits_(episode)",
+      "stardateProvenance": "43807.40 source anchor"
+    },
+    {
+      "episode": "Hollow Pursuits",
+      "key": "candidate-16",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Hollow_Pursuits_(episode)",
+      "stardateProvenance": "43807.45 lab offset"
+    },
+    {
+      "episode": "The Most Toys",
+      "key": "candidate-17",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Most_Toys_(episode)",
+      "stardateProvenance": "43872.20 source anchor"
+    },
+    {
+      "episode": "The Most Toys",
+      "key": "candidate-18",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Most_Toys_(episode)",
+      "stardateProvenance": "43872.25 lab offset"
+    },
+    {
+      "episode": "Sarek",
+      "key": "candidate-19",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Sarek_(episode)",
+      "stardateProvenance": "43917.40 source anchor"
+    },
+    {
+      "episode": "Transfigurations",
+      "key": "candidate-20",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Transfigurations_(episode)",
+      "stardateProvenance": "43957.20 source anchor used as lab scheduled commencement"
+    },
+    {
+      "episode": "Transfigurations",
+      "key": "candidate-21",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Transfigurations_(episode)",
+      "stardateProvenance": "43957.25 lab offset"
+    },
+    {
+      "episode": "Suddenly Human",
+      "key": "candidate-22",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Suddenly_Human_(episode)",
+      "stardateProvenance": "44143.70 source anchor"
+    },
+    {
+      "episode": "Legacy",
+      "key": "candidate-23",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Legacy_(episode)",
+      "stardateProvenance": "44215.20 source anchor"
+    },
+    {
+      "episode": "Reunion",
+      "key": "candidate-24",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Reunion_(episode)",
+      "stardateProvenance": "44246.30 source anchor"
+    },
+    {
+      "episode": "Final Mission",
+      "key": "candidate-25",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Final_Mission_(episode)",
+      "stardateProvenance": "44307.30 source anchor"
+    },
+    {
+      "episode": "Data's Day",
+      "key": "candidate-26",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Data%27s_Day_(episode)",
+      "stardateProvenance": "44390.10 source anchor"
+    },
+    {
+      "episode": "The Wounded",
+      "key": "candidate-27",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Wounded_(episode)",
+      "stardateProvenance": "44429.60 source anchor"
+    },
+    {
+      "episode": "First Contact",
+      "key": "candidate-28",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/First_Contact_(episode)",
+      "stardateProvenance": "44560.05 synthetic unknown-source date"
+    },
+    {
+      "episode": "Galaxy's Child",
+      "key": "candidate-29",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Galaxy%27s_Child_(episode)",
+      "stardateProvenance": "44614.60 source anchor used as lab scheduled commencement"
+    },
+    {
+      "episode": "Night Terrors",
+      "key": "candidate-30",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/Night_Terrors_(episode)",
+      "stardateProvenance": "44631.20 source anchor"
+    },
+    {
+      "episode": "The Nth Degree",
+      "key": "candidate-31",
+      "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+      "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+      "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Nth_Degree_(episode)",
+      "stardateProvenance": "44704.20 source anchor"
+    }
+  ]
+}

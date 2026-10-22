@@ -1400,6 +1400,1926 @@
       "why": "Crew & Personnel v1, imported under a temporary open row; freeze_systems blocks and freezes it",
       "approval_sensitivity": "low"
     },
+    "uss-enterprise/missions/.dockerignore": {
+      "class": "runtime",
+      "profile": "missions-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/Dockerfile": {
+      "class": "runtime",
+      "profile": "missions-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/README.md": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/compose.yaml": {
+      "class": "runtime",
+      "profile": "missions-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/contracts/missions-v1.0.xsd": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/contracts/missions-v1.1.xsd": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/curation.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/generate.py": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/missions_operator.py": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/oracle-environment.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/recipe.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/changes-1.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/changes-2.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/changes-3.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/curation.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/generate.py": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/load.sql": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/manifest.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/missions.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/provenance.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/recipe.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/release.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.0/schema.sql": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-1.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-10.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-11.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-12.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-13.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-14.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-15.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-16.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-17.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-18.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-2.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-3.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-4.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-5.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-6.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-7.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-8.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/changes-9.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/curation.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/generate.py": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/load.sql": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/manifest.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/missions-1.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/missions-2.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/missions-3.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/missions-4.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/missions-5.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/missions-6.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/provenance.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/recipe.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/release.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/roster.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.1/schema.sql": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-1.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-10.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-11.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-12.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-13.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-14.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-15.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-16.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-17.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-18.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-19.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-2.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-20.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-3.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-4.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-5.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-6.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-7.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-8.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/changes-9.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/civilians.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/generate.py": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/load.sql": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/manifest.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/missions-1.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/missions-2.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/missions-3.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/missions-4.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/missions-5.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/missions-6.xml": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/participants.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/provenance.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/recipe.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/release.json": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/releases/1.2/schema.sql": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/reset.sh": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/datasets/validate_release.py": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/fixtures/v1.1/maintenance-response.xml": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/fixtures/valid/change-list.xml": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/fixtures/valid/error.xml": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/fixtures/valid/mission-list-empty.xml": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/fixtures/valid/mission-list.xml": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/fixtures/valid/mission-post-input.xml": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/fixtures/valid/mission-response.xml": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/pom.xml": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/schema/schema.sql": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/ApiException.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/Config.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/Main.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/ErrorMapper.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/IfMatch.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/MissionsApplication.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/MissionsResource.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/MissionsServlet.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/MutationHeaders.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/Query.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/Responses.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/RouteFilter.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/api/XmlErrorReportValve.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/domain/CostAudit.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/domain/MissionIds.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/domain/MissionRules.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/domain/Text.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/negotiation/Accept.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/negotiation/ContentType.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/repository/Database.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/repository/MissionRepository.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/main/java/lab/enterprise/missions/xml/Codec.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/Samples.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/api/IfMatchTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/api/MissionsServletTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/api/MutationHeadersTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/api/QueryTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/api/RouteFilterTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/api/XmlErrorReportValveTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/domain/CostAuditTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/domain/MissionIdsTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/domain/MissionRulesTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/domain/TextTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/negotiation/AcceptTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/negotiation/ContentTypeTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/repository/PagingTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/xml/CodecParseTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/src/test/java/lab/enterprise/missions/xml/CodecTest.java": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/validation/missions_runtime.py": {
+      "class": "tooling",
+      "profile": "missions-gates",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions gate runner or its harness test, moved from the lab root; own profile missions-gates (F2)",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/validation/runtime/data/test_data.py": {
+      "class": "runtime",
+      "profile": "missions-data",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/validation/runtime/packaging/test_packaging.py": {
+      "class": "runtime",
+      "profile": "missions-packaging",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/validation/runtime/service/service_harness.py": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/validation/runtime/service/test_read_service.py": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/validation/runtime/service/test_write_service.py": {
+      "class": "runtime",
+      "profile": "missions-service",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/validation/test_missions_gates.py": {
+      "class": "tooling",
+      "profile": "missions-gates",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions gate runner or its harness test, moved from the lab root; own profile missions-gates (F2)",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/missions/validation/validate.py": {
+      "class": "runtime",
+      "profile": "missions-contract",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Missions, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
     "uss-enterprise/personnel-v2/Dockerfile": {
       "class": "runtime",
       "profile": "personnel-v2-runtime",

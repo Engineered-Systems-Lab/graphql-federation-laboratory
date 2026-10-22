@@ -1,0 +1,1292 @@
+{
+  "O-1055": {
+    "class": "O",
+    "name": "injured Borg drone",
+    "origin": "kept"
+  },
+  "O-2121": {
+    "class": "O",
+    "name": "Dr Paul Stubbs",
+    "origin": "reclassified",
+    "was": "P-211"
+  },
+  "O-2134": {
+    "class": "O",
+    "name": "Ard'rian McKenzie",
+    "origin": "reclassified",
+    "was": "P-237"
+  },
+  "O-2147": {
+    "class": "O",
+    "name": "Gosheven",
+    "origin": "reclassified",
+    "was": "P-250"
+  },
+  "O-2160": {
+    "class": "O",
+    "name": "Sheliak representative",
+    "origin": "reclassified",
+    "was": "P-263"
+  },
+  "O-2173": {
+    "class": "O",
+    "name": "Kevin Uxbridge",
+    "origin": "reclassified",
+    "was": "P-276"
+  },
+  "O-2186": {
+    "class": "O",
+    "name": "Rishon Uxbridge as initially reported",
+    "origin": "reclassified",
+    "was": "P-289"
+  },
+  "O-2199": {
+    "class": "O",
+    "name": "Bochra",
+    "origin": "reclassified",
+    "was": "P-302"
+  },
+  "O-2212": {
+    "class": "O",
+    "name": "injured Romulan patient",
+    "origin": "reclassified",
+    "was": "P-315"
+  },
+  "O-2225": {
+    "class": "O",
+    "name": "Barzan delegation",
+    "origin": "reclassified",
+    "was": "P-328"
+  },
+  "O-2238": {
+    "class": "O",
+    "name": "Marouk",
+    "origin": "reclassified",
+    "was": "P-341"
+  },
+  "O-224": {
+    "class": "O",
+    "name": "nanite collective",
+    "origin": "kept"
+  },
+  "O-2251": {
+    "class": "O",
+    "name": "Chorgan",
+    "origin": "reclassified",
+    "was": "P-354"
+  },
+  "O-2264": {
+    "class": "O",
+    "name": "Tam Elbrun",
+    "origin": "reclassified",
+    "was": "P-367"
+  },
+  "O-2277": {
+    "class": "O",
+    "name": "Sarek",
+    "origin": "reclassified",
+    "was": "P-393"
+  },
+  "O-2290": {
+    "class": "O",
+    "name": "Perrin",
+    "origin": "reclassified",
+    "was": "P-406"
+  },
+  "O-2303": {
+    "class": "O",
+    "name": "Legaran delegation",
+    "origin": "reclassified",
+    "was": "P-419"
+  },
+  "O-2316": {
+    "class": "O",
+    "name": "unidentified survivor, locally John Doe",
+    "origin": "reclassified",
+    "was": "P-432"
+  },
+  "O-2329": {
+    "class": "O",
+    "name": "Jono",
+    "origin": "reclassified",
+    "was": "P-445"
+  },
+  "O-2342": {
+    "class": "O",
+    "name": "Talarian trainees as local group",
+    "origin": "reclassified",
+    "was": "P-458"
+  },
+  "O-2355": {
+    "class": "O",
+    "name": "Ishara Yar",
+    "origin": "reclassified",
+    "was": "P-471"
+  },
+  "O-2368": {
+    "class": "O",
+    "name": "K'mpec",
+    "origin": "reclassified",
+    "was": "P-484"
+  },
+  "O-2381": {
+    "class": "O",
+    "name": "Gowron",
+    "origin": "reclassified",
+    "was": "P-497"
+  },
+  "O-2394": {
+    "class": "O",
+    "name": "Duras",
+    "origin": "reclassified",
+    "was": "P-510"
+  },
+  "O-2407": {
+    "class": "O",
+    "name": "T'Pel as initially asserted identity",
+    "origin": "reclassified",
+    "was": "P-523"
+  },
+  "O-2420": {
+    "class": "O",
+    "name": "Cardassian liaison delegation",
+    "origin": "reclassified",
+    "was": "P-536"
+  },
+  "O-2433": {
+    "class": "O",
+    "name": "Mirasta Yale",
+    "origin": "reclassified",
+    "was": "P-549"
+  },
+  "O-2446": {
+    "class": "O",
+    "name": "Chancellor Durken",
+    "origin": "reclassified",
+    "was": "P-562"
+  },
+  "O-2459": {
+    "class": "O",
+    "name": "Brattain survivor",
+    "origin": "reclassified",
+    "was": "P-575"
+  },
+  "O-2472": {
+    "class": "O",
+    "name": "Willie Potts",
+    "origin": "reclassified",
+    "was": "P-600"
+  },
+  "O-2485": {
+    "class": "O",
+    "name": "Jake Potts",
+    "origin": "reclassified",
+    "was": "P-613"
+  },
+  "O-2498": {
+    "class": "O",
+    "name": "Dr Howard Clark",
+    "origin": "reclassified",
+    "was": "P-626"
+  },
+  "O-2511": {
+    "class": "O",
+    "name": "Susanna Leijten",
+    "origin": "reclassified",
+    "was": "P-652"
+  },
+  "O-2524": {
+    "class": "O",
+    "name": "J'Dan",
+    "origin": "reclassified",
+    "was": "P-665"
+  },
+  "O-2537": {
+    "class": "O",
+    "name": "Admiral Norah Satie",
+    "origin": "reclassified",
+    "was": "P-678"
+  },
+  "O-2550": {
+    "class": "O",
+    "name": "Dr Timicin",
+    "origin": "reclassified",
+    "was": "P-691"
+  },
+  "O-2563": {
+    "class": "O",
+    "name": "Lwaxana Troi",
+    "origin": "reclassified",
+    "was": "P-704"
+  },
+  "O-2576": {
+    "class": "O",
+    "name": "Ambassador Odan",
+    "origin": "reclassified",
+    "was": "P-717"
+  },
+  "O-2589": {
+    "class": "O",
+    "name": "Ambassador Kell",
+    "origin": "reclassified",
+    "was": "P-730"
+  },
+  "O-2602": {
+    "class": "O",
+    "name": "Governor Vagh",
+    "origin": "reclassified",
+    "was": "P-743"
+  },
+  "O-2615": {
+    "class": "O",
+    "name": "Gowron",
+    "origin": "reclassified",
+    "was": "P-756"
+  },
+  "O-2628": {
+    "class": "O",
+    "name": "Lursa",
+    "origin": "reclassified",
+    "was": "P-769"
+  },
+  "O-2641": {
+    "class": "O",
+    "name": "B'Etor",
+    "origin": "reclassified",
+    "was": "P-782"
+  },
+  "O-2654": {
+    "class": "O",
+    "name": "Sela",
+    "origin": "reclassified",
+    "was": "P-795"
+  },
+  "O-2667": {
+    "class": "O",
+    "name": "Tamarian captain",
+    "origin": "reclassified",
+    "was": "P-808"
+  },
+  "O-2680": {
+    "class": "O",
+    "name": "Admiral Kennelly",
+    "origin": "reclassified",
+    "was": "P-821"
+  },
+  "O-2693": {
+    "class": "O",
+    "name": "Orta",
+    "origin": "reclassified",
+    "was": "P-834"
+  },
+  "O-2706": {
+    "class": "O",
+    "name": "Dr Marr",
+    "origin": "reclassified",
+    "was": "P-847"
+  },
+  "O-2719": {
+    "class": "O",
+    "name": "Fleet Admiral Brackett",
+    "origin": "reclassified",
+    "was": "P-873"
+  },
+  "O-2732": {
+    "class": "O",
+    "name": "Ambassador Spock",
+    "origin": "reclassified",
+    "was": "P-886"
+  },
+  "O-2745": {
+    "class": "O",
+    "name": "Proconsul Neral",
+    "origin": "reclassified",
+    "was": "P-899"
+  },
+  "O-2758": {
+    "class": "O",
+    "name": "Rasmussen",
+    "origin": "reclassified",
+    "was": "P-912"
+  },
+  "O-2771": {
+    "class": "O",
+    "name": "Timothy (child survivor)",
+    "origin": "reclassified",
+    "was": "P-925"
+  },
+  "O-2784": {
+    "class": "O",
+    "name": "Dr Toby Russell",
+    "origin": "reclassified",
+    "was": "P-964"
+  },
+  "O-2797": {
+    "class": "O",
+    "name": "Cadet Nicholas Locarno",
+    "origin": "reclassified",
+    "was": "P-990"
+  },
+  "O-2810": {
+    "class": "O",
+    "name": "Kamala",
+    "origin": "reclassified",
+    "was": "P-1016"
+  },
+  "O-2823": {
+    "class": "O",
+    "name": "Alrik",
+    "origin": "reclassified",
+    "was": "P-1029"
+  },
+  "O-2836": {
+    "class": "O",
+    "name": "Clara Sutter",
+    "offRosterOnBoardCivilian": true,
+    "origin": "reclassified",
+    "was": "P-1042"
+  },
+  "O-2849": {
+    "class": "O",
+    "kind": "colonist",
+    "name": "Taquin Ardran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2862": {
+    "class": "O",
+    "kind": "colonist",
+    "name": "Druneth Kelnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2875": {
+    "class": "O",
+    "kind": "colonist",
+    "name": "Kaneth Lunrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2888": {
+    "class": "O",
+    "kind": "colonist",
+    "name": "Velsha Lunvoss",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2901": {
+    "class": "O",
+    "kind": "colonist",
+    "name": "Kasha Jorlis",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2914": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Kadis Jordran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2927": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Orquin Artak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2940": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Martar Arlis",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2953": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Lordor Jordran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2966": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Druquin Keldran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2979": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Nymon Dovrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-2992": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Kalen Jorvoss",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3005": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Kasha Lunnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3018": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Tara Bedran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3031": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Kara Bemere",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3044": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Marsha Caltak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3057": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Nydis Fenzeth",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3070": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Lortar Arrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3083": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Selsha Berik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3096": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Bredis Jorzeth",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3109": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Brevik Lunvane",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3122": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Lorlen Arzeth",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3135": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Lorra Ithsol",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3148": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Tasha Fenvoss",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3161": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Orsha Dovnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3174": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Drura Ithzeth",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3187": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Havdor Eshvoss",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3200": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Havlen Ithrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3213": {
+    "class": "O",
+    "kind": "delegate",
+    "name": "Zenmon Caltak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3226": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Lortar Bemere",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3239": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Brera Eshrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3252": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Zentar Keldran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3265": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Kara Ithnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3278": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Zentar Jorvoss",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3291": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Orlen Caltak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3304": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Talen Bedran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3317": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Selquin Haldran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3330": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Selquin Eshtak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3343": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Brera Dovtak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3356": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Selvik Dovdran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3369": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Seltar Eshlis",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3382": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Marmon Fentak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3395": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Nydor Dovnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3408": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Brequin Betak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3421": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Havra Jormere",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3434": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Kadis Calnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3447": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Velneth Jorzeth",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3460": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Orra Ithsol",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3473": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Marsha Eshzeth",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3486": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Druneth Ithtak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3499": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Velvik Arnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3512": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Kador Dovnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3525": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Havdor Lundran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3538": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Drusha Gartak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3551": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Havdis Ithvane",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3564": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Zenlen Lunvoss",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3577": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Tadis Bedran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3590": {
+    "class": "O",
+    "kind": "passenger",
+    "name": "Tatar Dovsol",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3603": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Bretar Arvane",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3616": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Zenvik Caldran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3629": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Nylen Garsol",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3642": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Tadis Ithrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3655": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Orquin Bedran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3668": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Zenneth Bevane",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3681": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Drudis Garrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3694": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Selsha Halnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3707": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Bredor Kelmere",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3720": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Lorra Jortak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3733": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Havlen Calnor",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3746": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Havdor Gardran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3759": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Velmon Halrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3772": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Havra Luntak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3785": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Lorquin Ithdran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3798": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Drumon Haldran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-380": {
+    "class": "O",
+    "name": "Gomtuu",
+    "origin": "kept"
+  },
+  "O-3811": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Seltar Fenzeth",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3824": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Havdor Fentak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3837": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Nyneth Dovdran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3850": {
+    "class": "O",
+    "kind": "patient",
+    "name": "Brequin Lunsol",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3863": {
+    "class": "O",
+    "kind": "survivor",
+    "name": "Katar Kelsol",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3876": {
+    "class": "O",
+    "kind": "survivor",
+    "name": "Nytar Lunrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3889": {
+    "class": "O",
+    "kind": "survivor",
+    "name": "Tadis Calzeth",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3902": {
+    "class": "O",
+    "kind": "trader",
+    "name": "Orlen Dovtak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3915": {
+    "class": "O",
+    "kind": "trader",
+    "name": "Havdis Eshtak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3928": {
+    "class": "O",
+    "kind": "trader",
+    "name": "Brelen Artak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3941": {
+    "class": "O",
+    "kind": "trader",
+    "name": "Tadis Jorrik",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3954": {
+    "class": "O",
+    "kind": "trader",
+    "name": "Tadis Lunsol",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3967": {
+    "class": "O",
+    "kind": "trader",
+    "name": "Nysha Fendran",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3980": {
+    "class": "O",
+    "kind": "trader",
+    "name": "Lorra Garsol",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-3993": {
+    "class": "O",
+    "kind": "trader",
+    "name": "Kador Artak",
+    "origin": "synthetic-outsider",
+    "synthetic": true
+  },
+  "O-639": {
+    "class": "O",
+    "name": "Ventaxian government delegation",
+    "origin": "kept"
+  },
+  "O-860": {
+    "class": "O",
+    "name": "Wesley Crusher as a returning visitor (an outsider, not Crew)",
+    "origin": "kept"
+  },
+  "O-938": {
+    "class": "O",
+    "name": "Ullian delegation",
+    "origin": "kept"
+  },
+  "O-951": {
+    "class": "O",
+    "name": "colony council (lab label)",
+    "origin": "kept"
+  },
+  "O-977": {
+    "class": "O",
+    "name": "J'naii delegation",
+    "origin": "kept"
+  },
+  "P-1003": {
+    "class": "P",
+    "name": "Alexander Rozhenko",
+    "origin": "kept"
+  },
+  "P-1068": {
+    "class": "P",
+    "name": "Guinan",
+    "origin": "kept"
+  },
+  "P-4006": {
+    "class": "P",
+    "name": "Keiko O'Brien",
+    "origin": "personnel-roster"
+  },
+  "P-4019": {
+    "class": "P",
+    "name": "Hugo Kaplan",
+    "origin": "personnel-roster"
+  },
+  "P-4032": {
+    "class": "P",
+    "name": "Kenji Fontaine",
+    "origin": "personnel-roster"
+  },
+  "P-4045": {
+    "class": "P",
+    "name": "Nia Fischer",
+    "origin": "personnel-roster"
+  },
+  "P-4058": {
+    "class": "P",
+    "name": "Boris Fischer",
+    "origin": "personnel-roster"
+  },
+  "P-4071": {
+    "class": "P",
+    "name": "Idris Ivanova",
+    "origin": "personnel-roster"
+  },
+  "P-4084": {
+    "class": "P",
+    "name": "Sven Alvarez",
+    "origin": "personnel-roster"
+  },
+  "P-4097": {
+    "class": "P",
+    "name": "Carlos Mbeki",
+    "origin": "personnel-roster"
+  },
+  "P-4110": {
+    "class": "P",
+    "name": "Ingrid Santos",
+    "origin": "personnel-roster"
+  },
+  "P-4123": {
+    "class": "P",
+    "name": "Adaeze Santos",
+    "origin": "personnel-roster"
+  },
+  "P-4136": {
+    "class": "P",
+    "name": "Uma Moreau",
+    "origin": "personnel-roster"
+  },
+  "P-4149": {
+    "class": "P",
+    "name": "Yosef Okafor",
+    "origin": "personnel-roster"
+  },
+  "P-4162": {
+    "class": "P",
+    "name": "Jonas Castellano",
+    "origin": "personnel-roster"
+  },
+  "P-4175": {
+    "class": "P",
+    "name": "Dmitri Ibrahim",
+    "origin": "personnel-roster"
+  },
+  "P-4188": {
+    "class": "P",
+    "name": "Bram Ibrahim",
+    "origin": "personnel-roster"
+  },
+  "P-4201": {
+    "class": "P",
+    "name": "Ahmad Bianchi",
+    "origin": "personnel-roster"
+  },
+  "P-4214": {
+    "class": "P",
+    "name": "Uma Bianchi",
+    "origin": "personnel-roster"
+  },
+  "P-4227": {
+    "class": "P",
+    "name": "Willem Lombardi",
+    "origin": "personnel-roster"
+  },
+  "P-4240": {
+    "class": "P",
+    "name": "Pablo Tanaka",
+    "origin": "personnel-roster"
+  },
+  "P-4253": {
+    "class": "P",
+    "name": "Sanjay Eriksen",
+    "origin": "personnel-roster"
+  },
+  "P-4266": {
+    "class": "P",
+    "name": "Zora Eriksen",
+    "origin": "personnel-roster"
+  },
+  "P-4279": {
+    "class": "P",
+    "name": "Vera Zielinski",
+    "origin": "personnel-roster"
+  },
+  "P-4292": {
+    "class": "P",
+    "name": "Anders Ueda",
+    "origin": "personnel-roster"
+  },
+  "P-4305": {
+    "class": "P",
+    "name": "Willem Varga",
+    "origin": "personnel-roster"
+  },
+  "P-4318": {
+    "class": "P",
+    "name": "Ines Jovanovic",
+    "origin": "personnel-roster"
+  },
+  "P-4331": {
+    "class": "P",
+    "name": "Elodie Eze",
+    "origin": "personnel-roster"
+  },
+  "P-4344": {
+    "class": "P",
+    "name": "Yosef Quintero",
+    "origin": "personnel-roster"
+  },
+  "P-4357": {
+    "class": "P",
+    "name": "Mateo Quintero",
+    "origin": "personnel-roster"
+  },
+  "P-4370": {
+    "class": "P",
+    "name": "Bianca Hayashi",
+    "origin": "personnel-roster"
+  },
+  "P-4383": {
+    "class": "P",
+    "name": "Sven Okafor",
+    "origin": "personnel-roster"
+  },
+  "P-4396": {
+    "class": "P",
+    "name": "Kalinda Tanaka",
+    "origin": "personnel-roster"
+  },
+  "P-4409": {
+    "class": "P",
+    "name": "Carlos Lindqvist",
+    "origin": "personnel-roster"
+  },
+  "P-4422": {
+    "class": "P",
+    "name": "Boris Dahl",
+    "origin": "personnel-roster"
+  },
+  "P-4435": {
+    "class": "P",
+    "name": "Esme Ibrahim",
+    "origin": "personnel-roster"
+  },
+  "P-4448": {
+    "class": "P",
+    "name": "Jamal Cho",
+    "origin": "personnel-roster"
+  },
+  "P-4461": {
+    "class": "P",
+    "name": "Willem Ueda",
+    "origin": "personnel-roster"
+  },
+  "P-4474": {
+    "class": "P",
+    "name": "Mateo Abara",
+    "origin": "personnel-roster"
+  },
+  "P-4487": {
+    "class": "P",
+    "name": "Adaeze Brandt",
+    "origin": "personnel-roster"
+  },
+  "P-4500": {
+    "class": "P",
+    "name": "Farid Ueda",
+    "origin": "personnel-roster"
+  },
+  "P-4513": {
+    "class": "P",
+    "name": "Leila Eze",
+    "origin": "personnel-roster"
+  },
+  "P-4526": {
+    "class": "P",
+    "name": "Mei Jansen",
+    "origin": "personnel-roster"
+  },
+  "P-4539": {
+    "class": "P",
+    "name": "Bianca Ibrahim",
+    "origin": "personnel-roster"
+  },
+  "P-4552": {
+    "class": "P",
+    "name": "Dev Quintero",
+    "origin": "personnel-roster"
+  },
+  "P-4565": {
+    "class": "P",
+    "name": "Rania Okafor",
+    "origin": "personnel-roster"
+  },
+  "P-4578": {
+    "class": "P",
+    "name": "Zainab Ivanova",
+    "origin": "personnel-roster"
+  },
+  "P-4591": {
+    "class": "P",
+    "name": "Dmitri Dubois",
+    "origin": "personnel-roster"
+  },
+  "P-4604": {
+    "class": "P",
+    "name": "Ahmad Ivanova",
+    "origin": "personnel-roster"
+  },
+  "P-4617": {
+    "class": "P",
+    "name": "Viktor Santos",
+    "origin": "personnel-roster"
+  },
+  "P-4630": {
+    "class": "P",
+    "name": "Zora Tanaka",
+    "origin": "personnel-roster"
+  },
+  "P-4643": {
+    "class": "P",
+    "name": "Liam Quintero",
+    "origin": "personnel-roster"
+  },
+  "P-4656": {
+    "class": "P",
+    "name": "Rosa Okafor",
+    "origin": "personnel-roster"
+  },
+  "P-4669": {
+    "class": "P",
+    "name": "Olga Kowalski",
+    "origin": "personnel-roster"
+  },
+  "P-4682": {
+    "class": "P",
+    "name": "Leila Dahl",
+    "origin": "personnel-roster"
+  },
+  "P-4695": {
+    "class": "P",
+    "name": "Tariq Yilmaz",
+    "origin": "personnel-roster"
+  },
+  "P-4708": {
+    "class": "P",
+    "name": "Mei Santos",
+    "origin": "personnel-roster"
+  },
+  "P-4721": {
+    "class": "P",
+    "name": "Farid Jovanovic",
+    "origin": "personnel-roster"
+  }
+}

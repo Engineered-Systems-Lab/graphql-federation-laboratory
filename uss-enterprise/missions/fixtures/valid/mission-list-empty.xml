@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<missionList xmlns="urn:starfleet:missions:v1">
+  <page>1</page>
+  <pageSize>20</pageSize>
+  <totalCount>0</totalCount>
+  <totalPages>0</totalPages>
+</missionList>

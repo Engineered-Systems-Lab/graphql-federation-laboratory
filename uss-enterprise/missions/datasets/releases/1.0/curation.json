@@ -1,0 +1,1667 @@
+[
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-120",
+      "C-92"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-85",
+    "durationHours": 12,
+    "episode": "Evolution",
+    "events": [
+      {
+        "action": "observation plan approved with E100000.00",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "instruments aligned",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "computer instability increases contingency estimate to120000.00",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "observations suspended pending computer recovery; revised window awaiting approval",
+        "key": "event-4",
+        "status": "POSTPONED"
+      }
+    ],
+    "finalStatus": "POSTPONED",
+    "firstAuditDate": "2366-01-05T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_SCIENCE",
+    "key": "candidate-01",
+    "location": {
+      "name": "Kavis Alpha binary",
+      "type": "DEEP_SPACE"
+    },
+    "objective": "support the scheduled stellar observation window safely.",
+    "participantIds": [
+      "P-211"
+    ],
+    "plannedEstimate": false,
+    "priority": 3,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Evolution_(episode)",
+    "stardate": "43125.80",
+    "stardateProvenance": "43125.80 source anchor",
+    "title": "Stellar observation support",
+    "type": "SCIENTIFIC",
+    "worksheetContext": "Stellar observation support | Evolution |43125.80 source anchor |2366-01-05 |SCIENTIFIC/U/p3 |POSTPONED |dur12 |STARFLEET_SCIENCE |location DEEP_SPACE: Kavis Alpha binary |CO Data; crew La Forge,Wesley; P(Dr Paul Stubbs); assets Enterprise,sensorSuite |E120000.00/A-.\nObjective: support the scheduled stellar observation window safely. History(4): CREATED AUTHORIZED, observation plan approved with E100000.00 -> ACTIVE, instruments aligned -> ACTIVE, computer instability increases contingency estimate to120000.00 -> POSTPONED, observations suspended pending computer recovery; revised window awaiting approval. No outcome while postponed."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-119",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-113",
+      "C-120",
+      "C-85",
+      "C-92"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-71",
+    "durationHours": 18,
+    "episode": "Evolution",
+    "events": [
+      {
+        "action": "emergency contact assignment opened",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "Data establishes a communication channel",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "relocation arrangements accepted",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "relocation verified and contact report filed; modest communications overrun",
+        "key": "event-4",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-01-05T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-02",
+    "location": {
+      "name": "main computer",
+      "type": "ENTERPRISE"
+    },
+    "objective": "establish communication and arrange safe separation from ship systems.",
+    "participantIds": [
+      "O-224",
+      "P-211"
+    ],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Evolution_(episode)",
+    "stardate": "43125.85",
+    "stardateProvenance": "43125.85 lab offset",
+    "title": "Nanite contact and relocation",
+    "type": "FIRST_CONTACT",
+    "worksheetContext": "Nanite contact and relocation | Evolution |43125.85 lab offset |2366-01-05 |FIRST_CONTACT/U/p2 |COMPLETED |dur18 |ENTERPRISE_COMMAND |location ENTERPRISE: main computer |CO Picard; crew Data,La Forge,Troi,Wesley; P(Dr Paul Stubbs),O(nanite collective); assets Enterprise,commsKit |E45000.00/A48000.00.\nObjective: establish communication and arrange safe separation from ship systems. History(4): CREATED ACTIVE, emergency contact assignment opened -> ACTIVE, Data establishes a communication channel -> ACTIVE, relocation arrangements accepted -> COMPLETED, relocation verified and contact report filed; modest communications overrun. Outcome: communication and safe relocation achieved."
+  },
+  {
+    "assignedAssetIds": [
+      "SH-42"
+    ],
+    "assignedCrewIds": [],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-85",
+    "durationHours": 72,
+    "episode": "The Ensigns of Command",
+    "events": [
+      {
+        "action": "evacuation assignment approved with E200000.00",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "Data establishes colony contact",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "radiation constraints require shuttle plan and estimate240000.00",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "revised evacuation plan presented; local cooperation still being secured",
+        "key": "event-4",
+        "status": "ACTIVE"
+      }
+    ],
+    "finalStatus": "ACTIVE",
+    "firstAuditDate": "2366-01-12T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-03",
+    "location": {
+      "name": "Tau Cygna V",
+      "type": "PLANET"
+    },
+    "objective": "secure cooperation and organize removal of the threatened colony.",
+    "participantIds": [
+      "P-237",
+      "P-250"
+    ],
+    "plannedEstimate": false,
+    "priority": 1,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Ensigns_of_Command_(episode)",
+    "stardate": "43140.00",
+    "stardateProvenance": "43140.00 synthetic unknown-source date",
+    "title": "Tau Cygna V evacuation",
+    "type": "HUMANITARIAN",
+    "worksheetContext": "Tau Cygna V evacuation | The Ensigns of Command |43140.00 synthetic unknown-source date |2366-01-12 |HUMANITARIAN/U/p1 |ACTIVE |dur72 |ENTERPRISE_COMMAND |location PLANET: Tau Cygna V |CO Data; crew-; P(Ard'rian McKenzie),P(Gosheven); assets shuttleA |E240000.00/A-.\nObjective: secure cooperation and organize removal of the threatened colony. History(4): CREATED AUTHORIZED, evacuation assignment approved with E200000.00 -> ACTIVE, Data establishes colony contact -> ACTIVE, radiation constraints require shuttle plan and estimate240000.00 -> ACTIVE, revised evacuation plan presented; local cooperation still being secured. Outcome absent; do not claim evacuation completed."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-119",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-113"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-71",
+    "durationHours": 24,
+    "episode": "The Ensigns of Command",
+    "events": [
+      {
+        "action": "treaty negotiation brief registered without estimate",
+        "key": "event-1",
+        "status": "PLANNED"
+      },
+      {
+        "action": "Picard assigned and legal review funded18000.00; negotiation execution not yet recorded",
+        "key": "event-2",
+        "status": "AUTHORIZED"
+      }
+    ],
+    "finalStatus": "AUTHORIZED",
+    "firstAuditDate": "2366-01-12T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-04",
+    "location": {
+      "name": "Enterprise diplomatic channel",
+      "type": "VESSEL"
+    },
+    "objective": "obtain adequate evacuation time under the treaty.",
+    "participantIds": [
+      "P-263"
+    ],
+    "plannedEstimate": false,
+    "priority": 1,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Ensigns_of_Command_(episode)",
+    "stardate": "43140.05",
+    "stardateProvenance": "43140.05 synthetic unknown-source date",
+    "title": "Sheliak deadline negotiation",
+    "type": "DIPLOMATIC",
+    "worksheetContext": "Sheliak deadline negotiation | The Ensigns of Command |43140.05 synthetic unknown-source date |2366-01-12 |DIPLOMATIC/S/p1 |AUTHORIZED |dur24 |ENTERPRISE_COMMAND |location VESSEL: Enterprise diplomatic channel |CO Picard; crew Troi; P(Sheliak representative); assets Enterprise,commsKit |E18000.00/A-.\nObjective: obtain adequate evacuation time under the treaty. History(2): CREATED PLANNED, treaty negotiation brief registered without estimate -> AUTHORIZED, Picard assigned and legal review funded18000.00; negotiation execution not yet recorded. Outcome absent. SECRET reflects lab negotiating position, not a source classification."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-75",
+      "SH-42",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-106",
+      "C-99"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-78",
+    "durationHours": 16,
+    "episode": "The Survivors",
+    "events": [
+      {
+        "action": "relief team deployed",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "widespread destruction established and apparent survivors assessed",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "colony-rescue objective recorded unmet; assessment report filed",
+        "key": "event-3",
+        "status": "FAILED"
+      }
+    ],
+    "finalStatus": "FAILED",
+    "firstAuditDate": "2366-01-20T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-05",
+    "location": {
+      "name": "Rana IV",
+      "type": "PLANET"
+    },
+    "objective": "rescue the colony population and assess relief needs.",
+    "participantIds": [
+      "P-276",
+      "P-289"
+    ],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Survivors_(episode)",
+    "stardate": "43152.40",
+    "stardateProvenance": "43152.40 source anchor",
+    "title": "Rana IV relief and assessment",
+    "type": "HUMANITARIAN",
+    "worksheetContext": "Rana IV relief and assessment | The Survivors |43152.40 source anchor |2366-01-20 |HUMANITARIAN/U/p2 |FAILED |dur16 |ENTERPRISE_COMMAND |location PLANET: Rana IV |CO Riker; crew Beverly Crusher,Worf; P(Kevin Uxbridge),P(Rishon Uxbridge as initially reported); assets Enterprise,shuttleA,medKit |E85000.00/A62000.00.\nObjective: rescue the colony population and assess relief needs. History(3): CREATED ACTIVE, relief team deployed -> ACTIVE, widespread destruction established and apparent survivors assessed -> FAILED, colony-rescue objective recorded unmet; assessment report filed. Outcome: rescue objective could not be achieved despite completed assessment. Participant inventory preserves what this legacy assignment recorded, not an independently reconciled identity truth."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "SH-42",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-106",
+      "C-99"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-78",
+    "durationHours": 20,
+    "episode": "The Enemy",
+    "events": [
+      {
+        "action": "search opened with E75000.00",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "hazardous conditions require revised search pattern and E90000.00",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "recoverable lifesigns located",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "La Forge and Bochra recovered; difficult retrieval increases actual cost",
+        "key": "event-4",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-03-05T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-06",
+    "location": {
+      "name": "Galorndon Core",
+      "type": "PLANET"
+    },
+    "objective": "locate and recover the missing away-team officer and accessible survivor.",
+    "participantIds": [
+      "P-302"
+    ],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Enemy_(episode)",
+    "stardate": "43349.20",
+    "stardateProvenance": "43349.20 source anchor",
+    "title": "Galorndon Core search and recovery",
+    "type": "RESCUE",
+    "worksheetContext": "Galorndon Core search and recovery | The Enemy |43349.20 source anchor |2366-03-05 |RESCUE/S/p2 |COMPLETED |dur20 |ENTERPRISE_COMMAND |location PLANET: Galorndon Core |CO Riker; crew Worf,Beverly Crusher; P(Bochra); assets Enterprise,shuttleA,sensorSuite |E90000.00/A104000.00.\nObjective: locate and recover the missing away-team officer and accessible survivor. History(4): CREATED ACTIVE, search opened with E75000.00 -> ACTIVE, hazardous conditions require revised search pattern and E90000.00 -> ACTIVE, recoverable lifesigns located -> COMPLETED, La Forge and Bochra recovered; difficult retrieval increases actual cost. Outcome states both recovered, not success of the separate medical mission."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-75",
+      "EQ-97"
+    ],
+    "assignedCrewIds": [],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-106",
+    "durationHours": 8,
+    "episode": "The Enemy",
+    "events": [
+      {
+        "action": "emergency stabilization begins",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "compatibility testing identifies critical treatment constraint",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "patient dies despite treatment; clinical review filed",
+        "key": "event-3",
+        "status": "FAILED"
+      }
+    ],
+    "finalStatus": "FAILED",
+    "firstAuditDate": "2366-03-05T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_MEDICAL",
+    "key": "candidate-07",
+    "location": {
+      "name": "sickbay",
+      "type": "ENTERPRISE"
+    },
+    "objective": "stabilize the separately recovered critically injured Romulan patient.",
+    "participantIds": [
+      "P-315"
+    ],
+    "plannedEstimate": false,
+    "priority": 1,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Enemy_(episode)",
+    "stardate": "43349.25",
+    "stardateProvenance": "43349.25 lab offset",
+    "title": "Romulan survivor emergency treatment",
+    "type": "MEDICAL",
+    "worksheetContext": "Romulan survivor emergency treatment | The Enemy |43349.25 lab offset |2366-03-05 |MEDICAL/S/p1 |FAILED |dur8 |STARFLEET_MEDICAL |location ENTERPRISE: sickbay |CO Beverly Crusher; crew-; P(injured Romulan patient); assets medKit,isolationKit |E22000.00/A27000.00.\nObjective: stabilize the separately recovered critically injured Romulan patient. History(3): CREATED ACTIVE, emergency stabilization begins -> ACTIVE, compatibility testing identifies critical treatment constraint -> FAILED, patient dies despite treatment; clinical review filed. Outcome does not confuse this patient with Bochra. Costs include emergency diagnostics; no invented treatment success."
+  },
+  {
+    "assignedAssetIds": [],
+    "assignedCrewIds": [],
+    "classification": "SECRET",
+    "commandingOfficerId": null,
+    "durationHours": 48,
+    "episode": "The Price",
+    "events": [
+      {
+        "action": "support brief registered pending scope and staffing",
+        "key": "event-1",
+        "status": "PLANNED"
+      }
+    ],
+    "finalStatus": "PLANNED",
+    "firstAuditDate": "2366-03-20T08:00:00.000Z",
+    "issuingAuthority": "FEDERATION_COUNCIL",
+    "key": "candidate-08",
+    "location": {
+      "name": "conference facilities",
+      "type": "ENTERPRISE"
+    },
+    "objective": "prepare logistical support for the proposed negotiations.",
+    "participantIds": [
+      "P-328"
+    ],
+    "plannedEstimate": false,
+    "priority": 4,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Price_(episode)",
+    "stardate": "43385.60",
+    "stardateProvenance": "43385.60 source anchor",
+    "title": "Barzan negotiations support",
+    "type": "DIPLOMATIC",
+    "worksheetContext": "Barzan negotiations support | The Price |43385.60 source anchor |2366-03-20 |DIPLOMATIC/S/p4 |PLANNED |dur48 |FEDERATION_COUNCIL |location ENTERPRISE: conference facilities |CO-; crew-; P(Barzan delegation); assets- |E-/A-.\nObjective: prepare logistical support for the proposed negotiations. History(1): CREATED PLANNED, support brief registered pending scope and staffing. No artificial additional updates; empty collections/commander and absent estimate are intentional."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "SH-53"
+    ],
+    "assignedCrewIds": [
+      "C-92"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-85",
+    "durationHours": 10,
+    "episode": "The Price",
+    "events": [
+      {
+        "action": "survey funded",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "shuttle measurements collected",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "instability findings submitted with survey report",
+        "key": "event-3",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-03-20T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_SCIENCE",
+    "key": "candidate-09",
+    "location": {
+      "name": "Barzan wormhole",
+      "type": "DEEP_SPACE"
+    },
+    "objective": "assess endpoint stability and navigational suitability, not prove the wormhole commercially viable.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 3,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Price_(episode)",
+    "stardate": "43385.65",
+    "stardateProvenance": "43385.65 lab offset",
+    "title": "Barzan wormhole survey",
+    "type": "SCIENTIFIC",
+    "worksheetContext": "Barzan wormhole survey | The Price |43385.65 lab offset |2366-03-20 |SCIENTIFIC/U/p3 |COMPLETED |dur10 |STARFLEET_SCIENCE |location DEEP_SPACE: Barzan wormhole |CO Data; crew La Forge; participants-; assets shuttleB,sensorSuite |E38000.00/A34000.00.\nObjective: assess endpoint stability and navigational suitability, not prove the wormhole commercially viable. History(3): CREATED AUTHORIZED, survey funded -> ACTIVE, shuttle measurements collected -> COMPLETED, instability findings submitted with survey report. Outcome: suitability assessment completed; unfavorable finding is not mission failure."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-119",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-113",
+      "C-78",
+      "C-99"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-71",
+    "durationHours": 72,
+    "episode": "The Vengeance Factor",
+    "events": [
+      {
+        "action": "joint diplomatic/security scope proposed",
+        "key": "event-1",
+        "status": "PLANNED"
+      },
+      {
+        "action": "delegation support and security plan approved65000.00",
+        "key": "event-2",
+        "status": "AUTHORIZED"
+      }
+    ],
+    "finalStatus": "AUTHORIZED",
+    "firstAuditDate": "2366-04-03T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-10",
+    "location": {
+      "name": "Acamarian negotiation venue",
+      "type": "PLANET"
+    },
+    "objective": "support reunification talks with appropriate delegation security.",
+    "participantIds": [
+      "P-341",
+      "P-354"
+    ],
+    "plannedEstimate": false,
+    "priority": 3,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Vengeance_Factor_(episode)",
+    "stardate": "43421.90",
+    "stardateProvenance": "43421.90 source anchor",
+    "title": "Gatherer reunification and delegation security",
+    "type": "DIPLOMATIC",
+    "worksheetContext": "Gatherer reunification and delegation security | The Vengeance Factor |43421.90 source anchor |2366-04-03 |DIPLOMATIC/S/p3 |AUTHORIZED |dur72 |ENTERPRISE_COMMAND |location PLANET: Acamarian negotiation venue |CO Picard; crew Riker,Troi,Worf; P(Marouk),P(Chorgan); assets Enterprise,commsKit |E65000.00/A-.\nObjective: support reunification talks with appropriate delegation security. History(2): CREATED PLANNED, joint diplomatic/security scope proposed -> AUTHORIZED, delegation support and security plan approved65000.00. No fabricated incident resolution while still authorized."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-108",
+      "EQ-75",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-106",
+      "C-134"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-78",
+    "durationHours": 8,
+    "episode": "The High Ground",
+    "events": [
+      {
+        "action": "manifest and delivery authorized",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "cargo transferred under local security precautions",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "receiving inventory confirmed; delivery report filed",
+        "key": "event-3",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-05-01T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_MEDICAL",
+    "key": "candidate-11",
+    "location": {
+      "name": "Rutia IV",
+      "type": "PLANET"
+    },
+    "objective": "deliver and hand over medical supplies to the receiving facility.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_High_Ground_(episode)",
+    "stardate": "43510.70",
+    "stardateProvenance": "43510.70 source anchor",
+    "title": "Rutia IV medical-supply delivery",
+    "type": "TRANSPORT",
+    "worksheetContext": "Rutia IV medical-supply delivery | The High Ground |43510.70 source anchor |2366-05-01 |TRANSPORT/U/p2 |COMPLETED |dur8 |STARFLEET_MEDICAL |location PLANET: Rutia IV |CO Riker; crew Beverly Crusher,O'Brien; participants-; assets Enterprise,cargoModule,medKit |E30000.00/A28000.00.\nObjective: deliver and hand over medical supplies to the receiving facility. History(3): CREATED AUTHORIZED, manifest and delivery authorized -> ACTIVE, cargo transferred under local security precautions -> COMPLETED, receiving inventory confirmed; delivery report filed. Outcome limited to supply handover; later abduction belongs to the separate mission."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "SH-42",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-85",
+      "C-99"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-78",
+    "durationHours": 18,
+    "episode": "The High Ground",
+    "events": [
+      {
+        "action": "emergency recovery opened with E60000.00",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "transport mechanism investigation narrows search",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "security coordination adds resources and raises E80000.00",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "recovery team confirms captives located",
+        "key": "event-4",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "missing personnel recovered and medical handover recorded",
+        "key": "event-5",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-05-01T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-12",
+    "location": {
+      "name": "Rutia IV",
+      "type": "PLANET"
+    },
+    "objective": "locate and recover abducted Enterprise personnel.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 1,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_High_Ground_(episode)",
+    "stardate": "43510.75",
+    "stardateProvenance": "43510.75 lab offset",
+    "title": "Abducted-personnel recovery",
+    "type": "RESCUE",
+    "worksheetContext": "Abducted-personnel recovery | The High Ground |43510.75 lab offset |2366-05-01 |RESCUE/S/p1 |COMPLETED |dur18 |ENTERPRISE_COMMAND |location PLANET: Rutia IV |CO Riker; crew Worf,Data; participants-; assets Enterprise,sensorSuite,shuttleA |E80000.00/A96000.00.\nObjective: locate and recover abducted Enterprise personnel. History(5): CREATED ACTIVE, emergency recovery opened with E60000.00 -> ACTIVE, transport mechanism investigation narrows search -> ACTIVE, security coordination adds resources and raises E80000.00 -> ACTIVE, recovery team confirms captives located -> COMPLETED, missing personnel recovered and medical handover recorded. Outcome records recovery, not a claim to settle the planetary conflict."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64"
+    ],
+    "assignedCrewIds": [
+      "C-85"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": null,
+    "durationHours": 36,
+    "episode": "Tin Man",
+    "events": [
+      {
+        "action": "requested charting brief logged without estimate",
+        "key": "event-1",
+        "status": "PLANNED"
+      },
+      {
+        "action": "instrument requirements reviewed and estimate18000.00 entered",
+        "key": "event-2",
+        "status": "PLANNED"
+      }
+    ],
+    "finalStatus": "PLANNED",
+    "firstAuditDate": "2366-07-01T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_SCIENCE",
+    "key": "candidate-13",
+    "location": {
+      "name": "Hayashi",
+      "type": "PLANET"
+    },
+    "objective": "prepare and perform requested exospheric charts when scheduled.",
+    "participantIds": [],
+    "plannedEstimate": true,
+    "priority": 5,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Tin_Man_(episode)",
+    "stardate": "43779.30",
+    "stardateProvenance": "43779.30 source anchor used as lab scheduled commencement",
+    "title": "Hayashi exospheric survey",
+    "type": "SCIENTIFIC",
+    "worksheetContext": "Hayashi exospheric survey | Tin Man |43779.30 source anchor used as lab scheduled commencement |2366-07-01 |SCIENTIFIC/U/p5 |PLANNED |dur36 |STARFLEET_SCIENCE |location PLANET: Hayashi |CO-; crew Data; participants-; assets sensorSuite |E18000.00/A-.\nObjective: prepare and perform requested exospheric charts when scheduled. History(2): CREATED PLANNED, requested charting brief logged without estimate -> PLANNED, instrument requirements reviewed and estimate18000.00 entered. No authorization implied by a cost estimate."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-119",
+      "EQ-64",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-113",
+      "C-85"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-71",
+    "durationHours": 24,
+    "episode": "Tin Man",
+    "events": [
+      {
+        "action": "contact mission brief approved",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "contact team deployed",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "communication progress and tactical risks documented; contact remains underway",
+        "key": "event-3",
+        "status": "ACTIVE"
+      }
+    ],
+    "finalStatus": "ACTIVE",
+    "firstAuditDate": "2366-07-01T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_COMMAND",
+    "key": "candidate-14",
+    "location": {
+      "name": "Gomtuu encounter region",
+      "type": "DEEP_SPACE"
+    },
+    "objective": "establish safe communication and assess the encountered entity's intentions.",
+    "participantIds": [
+      "O-380",
+      "P-367"
+    ],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Tin_Man_(episode)",
+    "stardate": "43779.35",
+    "stardateProvenance": "43779.35 lab offset",
+    "title": "Gomtuu contact",
+    "type": "FIRST_CONTACT",
+    "worksheetContext": "Gomtuu contact | Tin Man |43779.35 lab offset |2366-07-01 |FIRST_CONTACT/S/p2 |ACTIVE |dur24 |STARFLEET_COMMAND |location DEEP_SPACE: Gomtuu encounter region |CO Picard; crew Data,Troi; P(Tam Elbrun),O(Gomtuu); assets Enterprise,commsKit,sensorSuite |E70000.00/A-.\nObjective: establish safe communication and assess the encountered entity's intentions. History(3): CREATED AUTHORIZED, contact mission brief approved -> ACTIVE, contact team deployed -> ACTIVE, communication progress and tactical risks documented; contact remains underway. No terminal outcome."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "EQ-86"
+    ],
+    "assignedCrewIds": [
+      "C-127",
+      "C-85"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-92",
+    "durationHours": 20,
+    "episode": "Hollow Pursuits",
+    "events": [
+      {
+        "action": "fault investigation opened",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "sample analysis identifies invidium",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "affected-system findings sent to decontamination team",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "diagnostic report and containment recommendations submitted",
+        "key": "event-4",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-07-15T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-15",
+    "location": {
+      "name": "affected engineering systems",
+      "type": "ENTERPRISE"
+    },
+    "objective": "identify the cause and spread of the shipboard systems contamination.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Hollow_Pursuits_(episode)",
+    "stardate": "43807.40",
+    "stardateProvenance": "43807.40 source anchor",
+    "title": "Shipboard contamination investigation",
+    "type": "SCIENTIFIC",
+    "worksheetContext": "Shipboard contamination investigation | Hollow Pursuits |43807.40 source anchor |2366-07-15 |SCIENTIFIC/U/p2 |COMPLETED |dur20 |ENTERPRISE_COMMAND |location ENTERPRISE: affected engineering systems |CO La Forge; crew Barclay,Data; participants-; assets engineeringKit,sensorSuite |E24000.00/A21000.00.\nObjective: identify the cause and spread of the shipboard systems contamination. History(4): CREATED ACTIVE, fault investigation opened -> ACTIVE, sample analysis identifies invidium -> ACTIVE, affected-system findings sent to decontamination team -> COMPLETED, diagnostic report and containment recommendations submitted. Outcome: cause established; remediation success belongs to16. This report may finish after decontamination begins."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-86",
+      "EQ-97"
+    ],
+    "assignedCrewIds": [
+      "C-127"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-92",
+    "durationHours": 12,
+    "episode": "Hollow Pursuits",
+    "events": [
+      {
+        "action": "remediation ordered after investigation finding",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "affected circuits isolated",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "removal complete and verification tests underway",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "clean samples and normal operation verified",
+        "key": "event-4",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-07-15T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-16",
+    "location": {
+      "name": "contaminated equipment circuits",
+      "type": "ENTERPRISE"
+    },
+    "objective": "remove identified contamination and return affected systems to service.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 1,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Hollow_Pursuits_(episode)",
+    "stardate": "43807.45",
+    "stardateProvenance": "43807.45 lab offset",
+    "title": "Invidium decontamination",
+    "type": "MAINTENANCE",
+    "worksheetContext": "Invidium decontamination | Hollow Pursuits |43807.45 lab offset |2366-07-15 |MAINTENANCE/U/p1 |COMPLETED |dur12 |ENTERPRISE_COMMAND |location ENTERPRISE: contaminated equipment circuits |CO La Forge; crew Barclay; participants-; assets engineeringKit,isolationKit |E45000.00/A51000.00.\nObjective: remove identified contamination and return affected systems to service. History(4): CREATED AUTHORIZED, remediation ordered after investigation finding -> ACTIVE, affected circuits isolated -> ACTIVE, removal complete and verification tests underway -> COMPLETED, clean samples and normal operation verified. Outcome names remediation; modest overrun from replacement materials. Four hours after15 begins is a suggested first-event offset; keep cross-mission finding dependency explicit during timestamp authoring."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-108",
+      "EQ-75",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-106",
+      "C-92"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-78",
+    "durationHours": 30,
+    "episode": "The Most Toys",
+    "events": [
+      {
+        "action": "emergency relief shipment funded",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "materials transferred for water treatment",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "relief handover confirmed and costs reconciled",
+        "key": "event-3",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-08-10T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-17",
+    "location": {
+      "name": "Beta Agni II",
+      "type": "PLANET"
+    },
+    "objective": "procure and deliver required water-treatment materials.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 1,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Most_Toys_(episode)",
+    "stardate": "43872.20",
+    "stardateProvenance": "43872.20 source anchor",
+    "title": "Beta Agni II water-contamination relief",
+    "type": "HUMANITARIAN",
+    "worksheetContext": "Beta Agni II water-contamination relief | The Most Toys |43872.20 source anchor |2366-08-10 |HUMANITARIAN/U/p1 |COMPLETED |dur30 |ENTERPRISE_COMMAND |location PLANET: Beta Agni II |CO Riker; crew Beverly Crusher,La Forge; participants-; assets Enterprise,cargoModule,medKit |E160000.00/A175000.00.\nObjective: procure and deliver required water-treatment materials. History(3): CREATED AUTHORIZED, emergency relief shipment funded -> ACTIVE, materials transferred for water treatment -> COMPLETED, relief handover confirmed and costs reconciled. Outcome confined to this relief assignment, not Data's recovery."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-92",
+      "C-99"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-78",
+    "durationHours": 28,
+    "episode": "The Most Toys",
+    "events": [
+      {
+        "action": "disappearance investigation opened",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "evidence contradicts presumed shuttle-loss explanation",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "recovery location established",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "Data recovered and report submitted",
+        "key": "event-4",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-08-10T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-18",
+    "location": {
+      "name": "suspected holding vessel",
+      "type": "VESSEL"
+    },
+    "objective": "establish Data's whereabouts and recover him if alive.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Most_Toys_(episode)",
+    "stardate": "43872.25",
+    "stardateProvenance": "43872.25 lab offset",
+    "title": "Missing Data recovery",
+    "type": "RESCUE",
+    "worksheetContext": "Missing Data recovery | The Most Toys |43872.25 lab offset |2366-08-10 |RESCUE/S/p2 |COMPLETED |dur28 |ENTERPRISE_COMMAND |location VESSEL: suspected holding vessel |CO Riker; crew Worf,La Forge; participants-; assets Enterprise,sensorSuite |E55000.00/A63000.00.\nObjective: establish Data's whereabouts and recover him if alive. History(4): CREATED ACTIVE, disappearance investigation opened -> ACTIVE, evidence contradicts presumed shuttle-loss explanation -> ACTIVE, recovery location established -> COMPLETED, Data recovered and report submitted. Data is not assigned to his own rescue; participation does not put C identities into P/O collection."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-119",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-113",
+      "C-78"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-71",
+    "durationHours": 48,
+    "episode": "Sarek",
+    "events": [
+      {
+        "action": "conference and incident-management brief prepared",
+        "key": "event-1",
+        "status": "PLANNED"
+      },
+      {
+        "action": "diplomatic facilities and support measures approved52000.00",
+        "key": "event-2",
+        "status": "AUTHORIZED"
+      }
+    ],
+    "finalStatus": "AUTHORIZED",
+    "firstAuditDate": "2366-09-01T08:00:00.000Z",
+    "issuingAuthority": "FEDERATION_COUNCIL",
+    "key": "candidate-19",
+    "location": {
+      "name": "Legaran conference facilities",
+      "type": "ENTERPRISE"
+    },
+    "objective": "support the delegation and protect conditions for the planned talks.",
+    "participantIds": [
+      "P-393",
+      "P-406",
+      "P-419"
+    ],
+    "plannedEstimate": false,
+    "priority": 3,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Sarek_(episode)",
+    "stardate": "43917.40",
+    "stardateProvenance": "43917.40 source anchor",
+    "title": "Legaran negotiations support",
+    "type": "DIPLOMATIC",
+    "worksheetContext": "Legaran negotiations support | Sarek |43917.40 source anchor |2366-09-01 |DIPLOMATIC/S/p3 |AUTHORIZED |dur48 |FEDERATION_COUNCIL |location ENTERPRISE: Legaran conference facilities |CO Picard; crew Troi,Riker; P(Sarek),P(Perrin),P(Legaran delegation); assets Enterprise,commsKit |E52000.00/A-.\nObjective: support the delegation and protect conditions for the planned talks. History(2): CREATED PLANNED, conference and incident-management brief prepared -> AUTHORIZED, diplomatic facilities and support measures approved52000.00. No completed talks or illness investigation is falsely recorded in this stopped history."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64"
+    ],
+    "assignedCrewIds": [],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": null,
+    "durationHours": 96,
+    "episode": "Transfigurations",
+    "events": [
+      {
+        "action": "survey task registered pending route and staffing",
+        "key": "event-1",
+        "status": "PLANNED"
+      }
+    ],
+    "finalStatus": "PLANNED",
+    "firstAuditDate": "2366-10-01T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_SCIENCE",
+    "key": "candidate-20",
+    "location": {
+      "name": "uncharted survey region",
+      "type": "SECTOR"
+    },
+    "objective": "chart the assigned unexplored system.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 5,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Transfigurations_(episode)",
+    "stardate": "43957.20",
+    "stardateProvenance": "43957.20 source anchor used as lab scheduled commencement",
+    "title": "Unexplored-system charting",
+    "type": "EXPLORATION",
+    "worksheetContext": "Unexplored-system charting | Transfigurations |43957.20 source anchor used as lab scheduled commencement |2366-10-01 |EXPLORATION/U/p5 |PLANNED |dur96 |STARFLEET_SCIENCE |location SECTOR: uncharted survey region |CO-; crew-; participants-; assets sensorSuite |E-/A-.\nObjective: chart the assigned unexplored system. History(1): CREATED PLANNED, survey task registered pending route and staffing. Location uses a lab descriptive name rather than invented canonical system coordinates."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-75",
+      "EQ-97",
+      "SH-42"
+    ],
+    "assignedCrewIds": [
+      "C-92",
+      "C-99"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-106",
+    "durationHours": 72,
+    "episode": "Transfigurations",
+    "events": [
+      {
+        "action": "crash survivor received for treatment",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "wreckage information incorporated in clinical assessment",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "recovery monitored and care plan revised",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "survivor safely discharged and clinical report filed",
+        "key": "event-4",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2366-10-01T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_MEDICAL",
+    "key": "candidate-21",
+    "location": {
+      "name": "sickbay",
+      "type": "ENTERPRISE"
+    },
+    "objective": "retrieve, stabilize and provide care through a safe discharge/handover.",
+    "participantIds": [
+      "P-432"
+    ],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Transfigurations_(episode)",
+    "stardate": "43957.25",
+    "stardateProvenance": "43957.25 lab offset",
+    "title": "Crash-survivor rescue and treatment",
+    "type": "MEDICAL",
+    "worksheetContext": "Crash-survivor rescue and treatment | Transfigurations |43957.25 lab offset |2366-10-01 |MEDICAL/U/p2 |COMPLETED |dur72 |STARFLEET_MEDICAL |location ENTERPRISE: sickbay; rescue originated at crash site |CO Beverly Crusher; crew La Forge,Worf; P(unidentified survivor, locally John Doe); assets medKit,shuttleA,isolationKit |E60000.00/A74000.00.\nObjective: retrieve, stabilize and provide care through a safe discharge/handover. History(4): CREATED ACTIVE, crash survivor received for treatment -> ACTIVE, wreckage information incorporated in clinical assessment -> ACTIVE, recovery monitored and care plan revised -> COMPLETED, survivor safely discharged and clinical report filed. Outcome does not require inventing a Personnel identity or recording medical details in audit summaries."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-75",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-106",
+      "C-99"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-78",
+    "durationHours": 12,
+    "episode": "Suddenly Human",
+    "events": [
+      {
+        "action": "distress response opened",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "survivors transferred for medical assessment",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "rescue handover confirmed",
+        "key": "event-3",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2367-01-07T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-22",
+    "location": {
+      "name": "Talarian training craft",
+      "type": "VESSEL"
+    },
+    "objective": "rescue distressed trainees and arrange medical handover.",
+    "participantIds": [
+      "P-445",
+      "P-458"
+    ],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Suddenly_Human_(episode)",
+    "stardate": "44143.70",
+    "stardateProvenance": "44143.70 source anchor",
+    "title": "Talarian training-craft emergency rescue",
+    "type": "RESCUE",
+    "worksheetContext": "Talarian training-craft emergency rescue | Suddenly Human |44143.70 source anchor |2367-01-07 |RESCUE/U/p2 |COMPLETED |dur12 |ENTERPRISE_COMMAND |location VESSEL: Talarian training craft |CO Riker; crew Beverly Crusher,Worf; P(Jono),P(Talarian trainees as local group); assets Enterprise,medKit |E40000.00/A36000.00.\nObjective: rescue distressed trainees and arrange medical handover. History(3): CREATED ACTIVE, distress response opened -> ACTIVE, survivors transferred for medical assessment -> COMPLETED, rescue handover confirmed. Outcome is rescue, not settlement of Jono's later custody question; P group is explicitly a lab participant representation, not a canonical person record."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "SH-42",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-106",
+      "C-85",
+      "C-99"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-78",
+    "durationHours": 48,
+    "episode": "Legacy",
+    "events": [
+      {
+        "action": "recovery mission approved with E80000.00",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "local liaison established and search begins",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "security complications require revised extraction and E95000.00",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "hostages recovered and extraction report filed",
+        "key": "event-4",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2367-02-01T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-23",
+    "location": {
+      "name": "Turkana IV",
+      "type": "PLANET"
+    },
+    "objective": "locate and recover the Arcos survivors held on Turkana IV.",
+    "participantIds": [
+      "P-471"
+    ],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Legacy_(episode)",
+    "stardate": "44215.20",
+    "stardateProvenance": "44215.20 source anchor",
+    "title": "Arcos survivors/hostage recovery",
+    "type": "RESCUE",
+    "worksheetContext": "Arcos survivors/hostage recovery | Legacy |44215.20 source anchor |2367-02-01 |RESCUE/S/p2 |COMPLETED |dur48 |ENTERPRISE_COMMAND |location PLANET: Turkana IV |CO Riker; crew Data,Worf,Beverly Crusher; P(Ishara Yar); assets Enterprise,shuttleA,sensorSuite |E95000.00/A118000.00.\nObjective: locate and recover the Arcos survivors held on Turkana IV. History(4): CREATED AUTHORIZED, recovery mission approved with E80000.00 -> ACTIVE, local liaison established and search begins -> ACTIVE, security complications require revised extraction and E95000.00 -> COMPLETED, hostages recovered and extraction report filed. Cost overrun reflects lab extraction resources."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-119",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-113",
+      "C-78",
+      "C-99"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-71",
+    "durationHours": 36,
+    "episode": "Reunion",
+    "events": [
+      {
+        "action": "arbitration-support assignment approved",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "proceedings supported under heightened security",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "support report and procedural disposition filed",
+        "key": "event-3",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2367-02-20T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_COMMAND",
+    "key": "candidate-24",
+    "location": {
+      "name": "arbitration facilities",
+      "type": "ENTERPRISE"
+    },
+    "objective": "support the requested arbitration proceedings and document the disposition.",
+    "participantIds": [
+      "P-484",
+      "P-497",
+      "P-510"
+    ],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Reunion_(episode)",
+    "stardate": "44246.30",
+    "stardateProvenance": "44246.30 source anchor",
+    "title": "Klingon succession arbitration support",
+    "type": "DIPLOMATIC",
+    "worksheetContext": "Klingon succession arbitration support | Reunion |44246.30 source anchor |2367-02-20 |DIPLOMATIC/S/p2 |COMPLETED |dur36 |STARFLEET_COMMAND |location ENTERPRISE: arbitration facilities |CO Picard; crew Riker,Troi,Worf; P(K'mpec),P(Gowron),P(Duras); assets Enterprise,commsKit |E42000.00/A47000.00.\nObjective: support the requested arbitration proceedings and document the disposition. History(3): CREATED AUTHORIZED, arbitration-support assignment approved -> ACTIVE, proceedings supported under heightened security -> COMPLETED, support report and procedural disposition filed. Completion means support work ended; it does not assert every political/security objective was met or erase the source's violent events."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "EQ-86",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-85",
+      "C-92"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-78",
+    "durationHours": 16,
+    "episode": "Final Mission",
+    "events": [
+      {
+        "action": "hazardous-barge response opened",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "containment/tow plan assessed",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "engineering resources increased and E revised from150000.00 to180000.00",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "threat removed and radiological checks reported",
+        "key": "event-4",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2367-03-10T08:00:00.000Z",
+    "issuingAuthority": "ENTERPRISE_COMMAND",
+    "key": "candidate-25",
+    "location": {
+      "name": "Gamelan V orbital region",
+      "type": "PLANET"
+    },
+    "objective": "remove the radiological threat to the inhabited planet.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 1,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Final_Mission_(episode)",
+    "stardate": "44307.30",
+    "stardateProvenance": "44307.30 source anchor",
+    "title": "Gamelan V radioactive-barge response",
+    "type": "HUMANITARIAN",
+    "worksheetContext": "Gamelan V radioactive-barge response | Final Mission |44307.30 source anchor |2367-03-10 |HUMANITARIAN/U/p1 |COMPLETED |dur16 |ENTERPRISE_COMMAND |location PLANET: Gamelan V orbital region |CO Riker; crew Data,La Forge; participants-; assets Enterprise,sensorSuite,engineeringKit |E180000.00/A205000.00.\nObjective: remove the radiological threat to the inhabited planet. History(4): CREATED ACTIVE, hazardous-barge response opened -> ACTIVE, containment/tow plan assessed -> ACTIVE, engineering resources increased and E revised from150000.00 to180000.00 -> COMPLETED, threat removed and radiological checks reported. Picard/Wesley are not assigned while separately away; final technical means should be source-checked before canonical wording."
+  },
+  {
+    "assignedAssetIds": [
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-85",
+      "C-99"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-71",
+    "durationHours": 24,
+    "episode": "Data's Day",
+    "events": [
+      {
+        "action": "escort assignment funded",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "delegation transport begins",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "identity/security discrepancy terminates further escort; incurred costs recorded9000.00",
+        "key": "event-3",
+        "status": "CANCELLED"
+      }
+    ],
+    "finalStatus": "CANCELLED",
+    "firstAuditDate": "2367-04-05T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_COMMAND",
+    "key": "candidate-26",
+    "location": {
+      "name": "Enterprise diplomatic transport",
+      "type": "VESSEL"
+    },
+    "objective": "provide the planned diplomatic escort under the asserted delegation identity.",
+    "participantIds": [
+      "P-523"
+    ],
+    "plannedEstimate": false,
+    "priority": 3,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Data%27s_Day_(episode)",
+    "stardate": "44390.10",
+    "stardateProvenance": "44390.10 source anchor",
+    "title": "Ambassador T'Pel diplomatic escort",
+    "type": "TRANSPORT",
+    "worksheetContext": "Ambassador T'Pel diplomatic escort | Data's Day |44390.10 source anchor |2367-04-05 |TRANSPORT/S/p3 |CANCELLED |dur24 |STARFLEET_COMMAND |location VESSEL: Enterprise diplomatic transport |CO Picard; crew Data,Worf; P(T'Pel as initially asserted identity); assets Enterprise |E30000.00/A9000.00.\nObjective: provide the planned diplomatic escort under the asserted delegation identity. History(3): CREATED AUTHORIZED, escort assignment funded -> ACTIVE, delegation transport begins -> CANCELLED, identity/security discrepancy terminates further escort; incurred costs recorded9000.00. Cancellation is explicitly LAB adaptation, not claimed episode status. Estimate retained because immediate predecessor ACTIVE; no PLANNED-origin exception. Outcome: escort terminated following identity concerns; assertion preserved without implicit identity reconciliation."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-119",
+      "EQ-64",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-134",
+      "C-78",
+      "C-99"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-71",
+    "durationHours": 30,
+    "episode": "The Wounded",
+    "events": [
+      {
+        "action": "interception assignment opened",
+        "key": "event-1",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "target vessel located and contact established",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "command intervention and stand-down arrangements recorded",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "immediate attacks halted and command report filed",
+        "key": "event-4",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2367-04-20T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_COMMAND",
+    "key": "candidate-27",
+    "location": {
+      "name": "USS Phoenix interception region",
+      "type": "VESSEL"
+    },
+    "objective": "stop unauthorized attacks and prevent further immediate escalation.",
+    "participantIds": [
+      "P-536"
+    ],
+    "plannedEstimate": false,
+    "priority": 1,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Wounded_(episode)",
+    "stardate": "44429.60",
+    "stardateProvenance": "44429.60 source anchor",
+    "title": "USS Phoenix interception",
+    "type": "TACTICAL",
+    "worksheetContext": "USS Phoenix interception | The Wounded |44429.60 source anchor |2367-04-20 |TACTICAL/S/p1 |COMPLETED |dur30 |STARFLEET_COMMAND |location VESSEL: USS Phoenix interception region |CO Picard; crew Riker,Worf,O'Brien; P(Cardassian liaison delegation); assets Enterprise,sensorSuite,commsKit |E130000.00/A122000.00.\nObjective: stop unauthorized attacks and prevent further immediate escalation. History(4): CREATED ACTIVE, interception assignment opened -> ACTIVE, target vessel located and contact established -> ACTIVE, command intervention and stand-down arrangements recorded -> COMPLETED, immediate attacks halted and command report filed. Outcome avoids claiming lasting diplomatic resolution. O'Brien is formally assigned Crew, never P participant."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-119",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-113",
+      "C-78"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-71",
+    "durationHours": 72,
+    "episode": "First Contact",
+    "events": [
+      {
+        "action": "discreet contact assessment approved",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "contact and readiness discussions underway",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "readiness concerns documented",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "further overt contact deferred pending local readiness; estimate retained, actual/outcome absent",
+        "key": "event-4",
+        "status": "POSTPONED"
+      }
+    ],
+    "finalStatus": "POSTPONED",
+    "firstAuditDate": "2367-06-01T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_COMMAND",
+    "key": "candidate-28",
+    "location": {
+      "name": "Malcor III",
+      "type": "PLANET"
+    },
+    "objective": "assess readiness and pursue a mutually acceptable contact process.",
+    "participantIds": [
+      "P-549",
+      "P-562"
+    ],
+    "plannedEstimate": false,
+    "priority": 3,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/First_Contact_(episode)",
+    "stardate": "44560.05",
+    "stardateProvenance": "44560.05 synthetic unknown-source date",
+    "title": "Malcorian first contact",
+    "type": "FIRST_CONTACT",
+    "worksheetContext": "Malcorian first contact | First Contact |44560.05 synthetic unknown-source date |2367-06-01 |FIRST_CONTACT/S/p3 |POSTPONED |dur72 |STARFLEET_COMMAND |location PLANET: Malcor III |CO Picard; crew Troi,Riker; P(Mirasta Yale),P(Chancellor Durken); assets Enterprise,commsKit |E68000.00/A-.\nObjective: assess readiness and pursue a mutually acceptable contact process. History(4): CREATED AUTHORIZED, discreet contact assessment approved -> ACTIVE, contact and readiness discussions underway -> ACTIVE, readiness concerns documented -> POSTPONED, further overt contact deferred pending local readiness; estimate retained, actual/outcome absent. The lab pending snapshot does not claim canonical later resumption."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-108"
+    ],
+    "assignedCrewIds": [
+      "C-134"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": null,
+    "durationHours": 48,
+    "episode": "Galaxy's Child",
+    "events": [
+      {
+        "action": "shipment request registered",
+        "key": "event-1",
+        "status": "PLANNED"
+      },
+      {
+        "action": "manifest reviewed and handling estimate12000.00 entered",
+        "key": "event-2",
+        "status": "PLANNED"
+      }
+    ],
+    "finalStatus": "PLANNED",
+    "firstAuditDate": "2367-07-01T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_SCIENCE",
+    "key": "candidate-29",
+    "location": {
+      "name": "Guernica-system outpost",
+      "type": "SECTOR"
+    },
+    "objective": "transport scientific equipment from Starbase313 to the outpost.",
+    "participantIds": [],
+    "plannedEstimate": true,
+    "priority": 5,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Galaxy%27s_Child_(episode)",
+    "stardate": "44614.60",
+    "stardateProvenance": "44614.60 source anchor used as lab scheduled commencement",
+    "title": "Guernica scientific-equipment delivery",
+    "type": "TRANSPORT",
+    "worksheetContext": "Guernica scientific-equipment delivery | Galaxy's Child |44614.60 source anchor used as lab scheduled commencement |2367-07-01 |TRANSPORT/U/p5 |PLANNED |dur48 |STARFLEET_SCIENCE |location SECTOR: Guernica-system outpost |CO-; crew O'Brien; participants-; assets cargoModule |E12000.00/A-.\nObjective: transport scientific equipment from Starbase313 to the outpost. History(2): CREATED PLANNED, shipment request registered -> PLANNED, manifest reviewed and handling estimate12000.00 entered. No completed delivery asserted; named destination context comes from prior browser findings, exact facility name not invented."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "EQ-75",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-106",
+      "C-113",
+      "C-85"
+    ],
+    "classification": "SECRET",
+    "commandingOfficerId": "C-78",
+    "durationHours": 96,
+    "episode": "Night Terrors",
+    "events": [
+      {
+        "action": "search mission approved with E85000.00",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "Brattain located and survivor assessed",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "unexpected environmental effects require revised retrieval plan and E110000.00",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "safe recovery route established",
+        "key": "event-4",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "survivor and recoverable evidence secured; report filed",
+        "key": "event-5",
+        "status": "COMPLETED"
+      }
+    ],
+    "finalStatus": "COMPLETED",
+    "firstAuditDate": "2367-07-15T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_COMMAND",
+    "key": "candidate-30",
+    "location": {
+      "name": "USS Brattain",
+      "type": "VESSEL"
+    },
+    "objective": "locate the missing vessel, recover survivors and resolve immediate retrieval hazards.",
+    "participantIds": [
+      "P-575"
+    ],
+    "plannedEstimate": false,
+    "priority": 2,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/Night_Terrors_(episode)",
+    "stardate": "44631.20",
+    "stardateProvenance": "44631.20 source anchor",
+    "title": "Missing USS Brattain search and recovery",
+    "type": "RESCUE",
+    "worksheetContext": "Missing USS Brattain search and recovery | Night Terrors |44631.20 source anchor |2367-07-15 |RESCUE/S/p2 |COMPLETED |dur96 |STARFLEET_COMMAND |location VESSEL: USS Brattain |CO Riker; crew Beverly Crusher,Data,Troi; P(Brattain survivor); assets Enterprise,sensorSuite,medKit |E110000.00/A136000.00.\nObjective: locate the missing vessel, recover survivors and resolve immediate retrieval hazards. History(5): CREATED AUTHORIZED, search mission approved with E85000.00 -> ACTIVE, Brattain located and survivor assessed -> ACTIVE, unexpected environmental effects require revised retrieval plan and E110000.00 -> ACTIVE, safe recovery route established -> COMPLETED, survivor and recoverable evidence secured; report filed. Outcome does not imply the lost crew survived."
+  },
+  {
+    "assignedAssetIds": [
+      "EQ-64",
+      "EQ-86",
+      "SH-53",
+      "VS-31"
+    ],
+    "assignedCrewIds": [
+      "C-127",
+      "C-85"
+    ],
+    "classification": "UNCLASSIFIED",
+    "commandingOfficerId": "C-92",
+    "durationHours": 72,
+    "episode": "The Nth Degree",
+    "events": [
+      {
+        "action": "repair investigation approved with E100000.00",
+        "key": "event-1",
+        "status": "AUTHORIZED"
+      },
+      {
+        "action": "diagnostic access established",
+        "key": "event-2",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "probe-related complications assessed and E145000.00 approved",
+        "key": "event-3",
+        "status": "ACTIVE"
+      },
+      {
+        "action": "restoration work proceeding under revised safeguards",
+        "key": "event-4",
+        "status": "ACTIVE"
+      }
+    ],
+    "finalStatus": "ACTIVE",
+    "firstAuditDate": "2367-08-10T08:00:00.000Z",
+    "issuingAuthority": "STARFLEET_SCIENCE",
+    "key": "candidate-31",
+    "location": {
+      "name": "Argus Array",
+      "type": "DEEP_SPACE"
+    },
+    "objective": "diagnose the array failure and restore usable operation.",
+    "participantIds": [],
+    "plannedEstimate": false,
+    "priority": 3,
+    "provenance": "All operational metadata, roles, costs, audit dates, histories and snapshot state are synthetic lab adaptation; source links explain inspiration, not canon orders.",
+    "sourceObservation": "Reported episode inspiration/anchor from prior design-worker research; not independently reverified during implementation.",
+    "sourceUrl": "https://memory-alpha.fandom.com/wiki/The_Nth_Degree_(episode)",
+    "stardate": "44704.20",
+    "stardateProvenance": "44704.20 source anchor",
+    "title": "Argus Array investigation/restoration",
+    "type": "MAINTENANCE",
+    "worksheetContext": "Argus Array investigation/restoration | The Nth Degree |44704.20 source anchor |2367-08-10 |MAINTENANCE/U/p3 |ACTIVE |dur72 |STARFLEET_SCIENCE |location DEEP_SPACE: Argus Array |CO La Forge; crew Barclay,Data; participants-; assets Enterprise,shuttleB,engineeringKit,sensorSuite |E145000.00/A-.\nObjective: diagnose the array failure and restore usable operation. History(4): CREATED AUTHORIZED, repair investigation approved with E100000.00 -> ACTIVE, diagnostic access established -> ACTIVE, probe-related complications assessed and E145000.00 approved -> ACTIVE, restoration work proceeding under revised safeguards. Outcome absent; do not copy final episode resolution into this accepted active snapshot."
+  }
+]

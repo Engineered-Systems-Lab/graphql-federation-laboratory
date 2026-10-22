@@ -1,0 +1,2272 @@
+{
+  "changes": [
+    {
+      "changeId": "9905383",
+      "changedAt": "2366-01-05T08:00:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "12852.23",
+      "missionId": "ST-00000LD4O",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: support the scheduled stellar observation window safely."
+    },
+    {
+      "changeId": "9905384",
+      "changedAt": "2366-01-05T08:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "30627.22",
+      "missionId": "ST-00000LD4P",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: establish communication and arrange safe separation from ship systems."
+    },
+    {
+      "changeId": "9905385",
+      "changedAt": "2366-01-05T08:44:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "30627.22",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4P",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: Data establishes a communication channel."
+    },
+    {
+      "changeId": "9905386",
+      "changedAt": "2366-01-05T09:11:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "30627.22",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4P",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: relocation arrangements accepted."
+    },
+    {
+      "changeId": "9905387",
+      "changedAt": "2366-01-05T11:54:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "12852.23",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4O",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Recorded: instruments aligned."
+    },
+    {
+      "changeId": "9905388",
+      "changedAt": "2366-01-05T14:05:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "14960.00",
+      "estimatedCostCreditsChange": "2107.77",
+      "missionId": "ST-00000LD4O",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: computer instability increases contingency estimate to14960.00."
+    },
+    {
+      "changeId": "9905389",
+      "changedAt": "2366-01-05T17:19:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "14960.00",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4O",
+      "newStatus": "POSTPONED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: observations suspended pending computer recovery."
+    },
+    {
+      "actualCostCredits": "28177.04",
+      "changeId": "9905390",
+      "changedAt": "2366-01-06T02:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "30627.22",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4P",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: relocation verified and contact report filed."
+    },
+    {
+      "changeId": "9905391",
+      "changedAt": "2366-01-12T08:00:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "165882.17",
+      "missionId": "ST-00000LD4Q",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: secure cooperation and organize removal of the threatened colony."
+    },
+    {
+      "changeId": "9905392",
+      "changedAt": "2366-01-12T08:00:00.000Z",
+      "changedBy": "C-71",
+      "missionId": "ST-00000LD4R",
+      "newStatus": "PLANNED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: obtain adequate evacuation time under the treaty."
+    },
+    {
+      "changeId": "9905393",
+      "changedAt": "2366-01-12T08:17:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "97392.90",
+      "missionId": "ST-00000LD4R",
+      "newStatus": "AUTHORIZED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "PLANNED",
+      "summary": "Recorded: Picard assigned and legal review funded97392.90."
+    },
+    {
+      "changeId": "9905394",
+      "changedAt": "2366-01-12T08:29:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "165882.17",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4Q",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Recorded: Data establishes colony contact."
+    },
+    {
+      "changeId": "9905395",
+      "changedAt": "2366-01-12T08:55:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "221286.81",
+      "estimatedCostCreditsChange": "55404.64",
+      "missionId": "ST-00000LD4Q",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: radiation constraints require shuttle plan and estimate221286.81."
+    },
+    {
+      "changeId": "9905396",
+      "changedAt": "2366-01-12T09:34:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "221286.81",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4Q",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: revised evacuation plan presented."
+    },
+    {
+      "changeId": "9905397",
+      "changedAt": "2366-01-20T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "144670.34",
+      "missionId": "ST-00000LD4S",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: rescue the colony population and assess relief needs."
+    },
+    {
+      "changeId": "9905398",
+      "changedAt": "2366-01-20T08:36:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "144670.34",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4S",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: widespread destruction established and apparent survivors assessed."
+    },
+    {
+      "actualCostCredits": "129335.28",
+      "changeId": "9905399",
+      "changedAt": "2366-01-21T00:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "144670.34",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4S",
+      "newStatus": "FAILED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: colony-rescue objective recorded unmet."
+    },
+    {
+      "changeId": "9905400",
+      "changedAt": "2366-03-05T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "152587.23",
+      "missionId": "ST-00000LD4T",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: locate and recover the missing away-team officer and accessible survivor."
+    },
+    {
+      "changeId": "9905401",
+      "changedAt": "2366-03-05T08:00:00.000Z",
+      "changedBy": "C-106",
+      "estimatedCostCredits": "140887.62",
+      "missionId": "ST-00000LD4U",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: stabilize the separately recovered critically injured Romulan patient."
+    },
+    {
+      "changeId": "9905402",
+      "changedAt": "2366-03-05T08:31:00.000Z",
+      "changedBy": "C-106",
+      "estimatedCostCredits": "140887.62",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4U",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: compatibility testing identifies critical treatment constraint."
+    },
+    {
+      "changeId": "9905403",
+      "changedAt": "2366-03-05T08:38:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "182036.57",
+      "estimatedCostCreditsChange": "29449.34",
+      "missionId": "ST-00000LD4T",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: hazardous conditions require revised search pattern and 182036.57."
+    },
+    {
+      "changeId": "9905404",
+      "changedAt": "2366-03-05T08:46:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "182036.57",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4T",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: recoverable lifesigns located."
+    },
+    {
+      "actualCostCredits": "147368.45",
+      "changeId": "9905405",
+      "changedAt": "2366-03-05T16:00:00.000Z",
+      "changedBy": "C-106",
+      "estimatedCostCredits": "140887.62",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4U",
+      "newStatus": "FAILED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: patient dies despite treatment."
+    },
+    {
+      "actualCostCredits": "179670.09",
+      "changeId": "9905406",
+      "changedAt": "2366-03-06T04:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "182036.57",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4T",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: La Forge and Bochra recovered."
+    },
+    {
+      "changeId": "9905407",
+      "changedAt": "2366-03-20T08:00:00.000Z",
+      "changedBy": "C-85",
+      "missionId": "ST-00000LD4V",
+      "newStatus": "PLANNED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: prepare logistical support for the proposed negotiations."
+    },
+    {
+      "changeId": "9905408",
+      "changedAt": "2366-03-20T08:00:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "43999.09",
+      "missionId": "ST-00000LD4W",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: assess endpoint stability and navigational suitability, not prove the wormhole commercially viable."
+    },
+    {
+      "changeId": "9905409",
+      "changedAt": "2366-03-20T13:48:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "43999.09",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4W",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Recorded: shuttle measurements collected."
+    },
+    {
+      "actualCostCredits": "36431.25",
+      "changeId": "9905410",
+      "changedAt": "2366-03-20T18:00:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "43999.09",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4W",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: instability findings submitted with survey report."
+    },
+    {
+      "changeId": "9905411",
+      "changedAt": "2366-04-03T08:00:00.000Z",
+      "changedBy": "C-71",
+      "missionId": "ST-00000LD4X",
+      "newStatus": "PLANNED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: support reunification talks with appropriate delegation security."
+    },
+    {
+      "changeId": "9905412",
+      "changedAt": "2366-04-03T12:43:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "104767.96",
+      "missionId": "ST-00000LD4X",
+      "newStatus": "AUTHORIZED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "PLANNED",
+      "summary": "Recorded: delegation support and security plan approved104767.96."
+    },
+    {
+      "changeId": "9905413",
+      "changedAt": "2366-05-01T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "40588.70",
+      "missionId": "ST-00000LD4Y",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: deliver and hand over medical supplies to the receiving facility."
+    },
+    {
+      "changeId": "9905414",
+      "changedAt": "2366-05-01T08:18:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "40588.70",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4Y",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Report: cargo transferred under local security precautions."
+    },
+    {
+      "actualCostCredits": "47488.78",
+      "changeId": "9905415",
+      "changedAt": "2366-05-01T16:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "40588.70",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4Y",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: receiving inventory confirmed."
+    },
+    {
+      "changeId": "9905416",
+      "changedAt": "2366-05-01T16:06:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "172720.92",
+      "missionId": "ST-00000LD4Z",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: locate and recover abducted Enterprise personnel. Follow-on to mission ST-00000LD4Y."
+    },
+    {
+      "changeId": "9905417",
+      "changedAt": "2366-05-01T16:19:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "172720.92",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4Z",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: transport mechanism investigation narrows search."
+    },
+    {
+      "changeId": "9905418",
+      "changedAt": "2366-05-01T16:29:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "227128.01",
+      "estimatedCostCreditsChange": "54407.09",
+      "missionId": "ST-00000LD4Z",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: security coordination adds resources and raises 227128.01."
+    },
+    {
+      "changeId": "9905419",
+      "changedAt": "2366-05-01T16:37:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "227128.01",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4Z",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: recovery team confirms captives located."
+    },
+    {
+      "actualCostCredits": "279821.71",
+      "changeId": "9905420",
+      "changedAt": "2366-05-02T10:06:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "227128.01",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD4Z",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: missing personnel recovered and medical handover recorded."
+    },
+    {
+      "changeId": "9905421",
+      "changedAt": "2366-07-01T08:00:00.000Z",
+      "changedBy": "C-85",
+      "missionId": "ST-00000LD50",
+      "newStatus": "PLANNED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: prepare and perform requested exospheric charts when scheduled."
+    },
+    {
+      "changeId": "9905422",
+      "changedAt": "2366-07-01T08:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "93500.84",
+      "missionId": "ST-00000LD51",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: establish safe communication and assess the encountered entity's intentions."
+    },
+    {
+      "changeId": "9905423",
+      "changedAt": "2366-07-01T08:17:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "93500.84",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD51",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Recorded: contact team deployed."
+    },
+    {
+      "changeId": "9905424",
+      "changedAt": "2366-07-01T08:40:00.000Z",
+      "changedBy": "C-113",
+      "estimatedCostCredits": "93500.84",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD51",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "The objective of the mission has drifted to: Establish safe communication and assess the entity's intentions with attention to contact risks."
+    },
+    {
+      "changeId": "9905425",
+      "changedAt": "2366-07-01T20:42:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "28670.13",
+      "missionId": "ST-00000LD50",
+      "newStatus": "PLANNED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "PLANNED",
+      "summary": "Recorded: instrument requirements reviewed and estimate28670.13 entered."
+    },
+    {
+      "changeId": "9905426",
+      "changedAt": "2366-07-15T08:00:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "37916.69",
+      "missionId": "ST-00000LD52",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: identify the cause and spread of the shipboard systems contamination."
+    },
+    {
+      "changeId": "9905427",
+      "changedAt": "2366-07-15T08:30:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "37916.69",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD52",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Log: sample analysis identifies invidium."
+    },
+    {
+      "changeId": "9905428",
+      "changedAt": "2366-07-15T08:42:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "48944.68",
+      "missionId": "ST-00000LD53",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: remove identified contamination and return affected systems to service. Follow-on to mission ST-00000LD52."
+    },
+    {
+      "changeId": "9905429",
+      "changedAt": "2366-07-15T08:58:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "37916.69",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD52",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Objective update: Identify the cause and spread of shipboard contamination and recommend containment."
+    },
+    {
+      "changeId": "9905430",
+      "changedAt": "2366-07-15T09:17:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "48944.68",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD53",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Log: affected circuits isolated."
+    },
+    {
+      "changeId": "9905431",
+      "changedAt": "2366-07-15T09:35:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "48944.68",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD53",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Log: removal complete and verification tests underway."
+    },
+    {
+      "actualCostCredits": "60985.07",
+      "changeId": "9905432",
+      "changedAt": "2366-07-15T20:42:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "48944.68",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD53",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Log: clean samples and normal operation verified."
+    },
+    {
+      "actualCostCredits": "30902.10",
+      "changeId": "9905433",
+      "changedAt": "2366-07-16T04:00:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "37916.69",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD52",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Log: diagnostic report and containment recommendations submitted."
+    },
+    {
+      "changeId": "9905434",
+      "changedAt": "2366-08-10T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "82976.47",
+      "missionId": "ST-00000LD54",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: procure and deliver required water-treatment materials."
+    },
+    {
+      "changeId": "9905435",
+      "changedAt": "2366-08-10T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "60436.33",
+      "missionId": "ST-00000LD55",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: establish Data's whereabouts and recover him if alive."
+    },
+    {
+      "changeId": "9905436",
+      "changedAt": "2366-08-10T08:13:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "60436.33",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD55",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: evidence contradicts presumed shuttle-loss explanation."
+    },
+    {
+      "changeId": "9905437",
+      "changedAt": "2366-08-10T08:24:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "60436.33",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD55",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: recovery location established."
+    },
+    {
+      "changeId": "9905438",
+      "changedAt": "2366-08-10T08:41:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "82976.47",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD54",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Report: materials transferred for water treatment."
+    },
+    {
+      "actualCostCredits": "73853.20",
+      "changeId": "9905439",
+      "changedAt": "2366-08-11T12:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "60436.33",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD55",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: Data recovered and report submitted."
+    },
+    {
+      "actualCostCredits": "89365.66",
+      "changeId": "9905440",
+      "changedAt": "2366-08-11T14:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "82976.47",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD54",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: relief handover confirmed and costs reconciled."
+    },
+    {
+      "changeId": "9905441",
+      "changedAt": "2366-09-01T08:00:00.000Z",
+      "changedBy": "C-71",
+      "missionId": "ST-00000LD56",
+      "newStatus": "PLANNED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: support the delegation and protect conditions for the planned talks."
+    },
+    {
+      "changeId": "9905442",
+      "changedAt": "2366-09-01T13:15:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "78694.73",
+      "missionId": "ST-00000LD56",
+      "newStatus": "AUTHORIZED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "PLANNED",
+      "summary": "Recorded: diplomatic facilities and support measures approved78694.73."
+    },
+    {
+      "changeId": "9905443",
+      "changedAt": "2366-10-01T08:00:00.000Z",
+      "changedBy": "C-85",
+      "missionId": "ST-00000LD57",
+      "newStatus": "PLANNED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: chart the assigned unexplored system."
+    },
+    {
+      "changeId": "9905444",
+      "changedAt": "2366-10-01T08:00:00.000Z",
+      "changedBy": "C-106",
+      "estimatedCostCredits": "28156.12",
+      "missionId": "ST-00000LD58",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: retrieve, stabilize and provide care through a safe discharge/handover."
+    },
+    {
+      "changeId": "9905445",
+      "changedAt": "2366-10-01T08:21:00.000Z",
+      "changedBy": "C-106",
+      "estimatedCostCredits": "28156.12",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD58",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: wreckage information incorporated in clinical assessment."
+    },
+    {
+      "changeId": "9905446",
+      "changedAt": "2366-10-01T08:59:00.000Z",
+      "changedBy": "C-106",
+      "estimatedCostCredits": "28156.12",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD58",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: recovery monitored and care plan revised."
+    },
+    {
+      "actualCostCredits": "22750.14",
+      "changeId": "9905447",
+      "changedAt": "2366-10-04T08:00:00.000Z",
+      "changedBy": "C-106",
+      "estimatedCostCredits": "28156.12",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD58",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: survivor safely discharged and clinical report filed."
+    },
+    {
+      "changeId": "9905448",
+      "changedAt": "2367-01-07T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "66301.93",
+      "missionId": "ST-00000LD59",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: rescue distressed trainees and arrange medical handover."
+    },
+    {
+      "changeId": "9905449",
+      "changedAt": "2367-01-07T08:25:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "66301.93",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD59",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: survivors transferred for medical assessment."
+    },
+    {
+      "actualCostCredits": "56688.15",
+      "changeId": "9905450",
+      "changedAt": "2367-01-07T20:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "66301.93",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD59",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: rescue handover confirmed."
+    },
+    {
+      "changeId": "9905451",
+      "changedAt": "2367-02-01T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "119258.06",
+      "missionId": "ST-00000LD5A",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: locate and recover the Arcos survivors held on Turkana IV."
+    },
+    {
+      "changeId": "9905452",
+      "changedAt": "2367-02-01T08:44:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "119258.06",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5A",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Report: local liaison established and search begins."
+    },
+    {
+      "changeId": "9905453",
+      "changedAt": "2367-02-01T09:14:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "153723.64",
+      "estimatedCostCreditsChange": "34465.58",
+      "missionId": "ST-00000LD5A",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: security complications require revised extraction and 153723.64."
+    },
+    {
+      "actualCostCredits": "170325.79",
+      "changeId": "9905454",
+      "changedAt": "2367-02-03T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "153723.64",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5A",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: hostages recovered and extraction report filed."
+    },
+    {
+      "changeId": "9905455",
+      "changedAt": "2367-02-20T08:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "63906.93",
+      "missionId": "ST-00000LD5B",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: support the requested arbitration proceedings and document the disposition."
+    },
+    {
+      "changeId": "9905456",
+      "changedAt": "2367-02-20T08:38:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "63906.93",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5B",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Recorded: proceedings supported under heightened security."
+    },
+    {
+      "actualCostCredits": "61414.56",
+      "changeId": "9905457",
+      "changedAt": "2367-02-21T20:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "63906.93",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5B",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: support report and procedural disposition filed."
+    },
+    {
+      "changeId": "9905458",
+      "changedAt": "2367-03-10T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "108571.34",
+      "missionId": "ST-00000LD5C",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: remove the radiological threat to the inhabited planet."
+    },
+    {
+      "changeId": "9905459",
+      "changedAt": "2367-03-10T08:12:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "108571.34",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5C",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: containment/tow plan assessed."
+    },
+    {
+      "changeId": "9905460",
+      "changedAt": "2367-03-10T08:18:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "137559.89",
+      "estimatedCostCreditsChange": "28988.55",
+      "missionId": "ST-00000LD5C",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: engineering resources increased and E revised from137559.89 to137559.89."
+    },
+    {
+      "actualCostCredits": "181303.94",
+      "changeId": "9905461",
+      "changedAt": "2367-03-11T00:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "137559.89",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5C",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: threat removed and radiological checks reported."
+    },
+    {
+      "changeId": "9905462",
+      "changedAt": "2367-04-05T08:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "47733.98",
+      "missionId": "ST-00000LD5D",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: provide the planned diplomatic escort under the asserted delegation identity."
+    },
+    {
+      "changeId": "9905463",
+      "changedAt": "2367-04-05T11:57:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "47733.98",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5D",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Recorded: delegation transport begins."
+    },
+    {
+      "actualCostCredits": "19905.07",
+      "changeId": "9905464",
+      "changedAt": "2367-04-06T08:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "47733.98",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5D",
+      "newStatus": "CANCELLED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: identity/security discrepancy terminates further escort."
+    },
+    {
+      "changeId": "9905465",
+      "changedAt": "2367-04-20T08:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "346371.40",
+      "missionId": "ST-00000LD5E",
+      "newStatus": "ACTIVE",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: stop unauthorized attacks and prevent further immediate escalation."
+    },
+    {
+      "changeId": "9905466",
+      "changedAt": "2367-04-20T08:23:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "346371.40",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5E",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: target vessel located and contact established."
+    },
+    {
+      "changeId": "9905467",
+      "changedAt": "2367-04-20T08:43:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "346371.40",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5E",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: command intervention and stand-down arrangements recorded."
+    },
+    {
+      "actualCostCredits": "463444.93",
+      "changeId": "9905468",
+      "changedAt": "2367-04-21T14:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "346371.40",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5E",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: immediate attacks halted and command report filed."
+    },
+    {
+      "changeId": "9905469",
+      "changedAt": "2367-06-01T08:00:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "41329.35",
+      "missionId": "ST-00000LD5F",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: assess readiness and pursue a mutually acceptable contact process."
+    },
+    {
+      "changeId": "9905470",
+      "changedAt": "2367-06-01T14:20:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "41329.35",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5F",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Recorded: contact and readiness discussions underway."
+    },
+    {
+      "changeId": "9905471",
+      "changedAt": "2367-06-01T19:08:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "41329.35",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5F",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: readiness concerns documented."
+    },
+    {
+      "changeId": "9905472",
+      "changedAt": "2367-06-01T20:49:00.000Z",
+      "changedBy": "C-71",
+      "estimatedCostCredits": "51661.69",
+      "estimatedCostCreditsChange": "10332.34",
+      "missionId": "ST-00000LD5F",
+      "newStatus": "POSTPONED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Recorded: further overt contact deferred pending local readiness."
+    },
+    {
+      "changeId": "9905473",
+      "changedAt": "2367-07-01T08:00:00.000Z",
+      "changedBy": "C-85",
+      "missionId": "ST-00000LD5G",
+      "newStatus": "PLANNED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: transport scientific equipment from Starbase313 to the outpost."
+    },
+    {
+      "changeId": "9905474",
+      "changedAt": "2367-07-01T21:43:00.000Z",
+      "changedBy": "C-85",
+      "estimatedCostCredits": "31347.82",
+      "missionId": "ST-00000LD5G",
+      "newStatus": "PLANNED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "PLANNED",
+      "summary": "Recorded: manifest reviewed and handling estimate31347.82 entered."
+    },
+    {
+      "changeId": "9905475",
+      "changedAt": "2367-07-15T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "125161.94",
+      "missionId": "ST-00000LD5H",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: locate the missing vessel, recover survivors and resolve immediate retrieval hazards."
+    },
+    {
+      "changeId": "9905476",
+      "changedAt": "2367-07-15T08:07:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "125161.94",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5H",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Report: Brattain located and survivor assessed."
+    },
+    {
+      "changeId": "9905477",
+      "changedAt": "2367-07-15T08:19:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "149568.52",
+      "estimatedCostCreditsChange": "24406.58",
+      "missionId": "ST-00000LD5H",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: unexpected environmental effects require revised retrieval plan and 149568.52."
+    },
+    {
+      "changeId": "9905478",
+      "changedAt": "2367-07-15T08:32:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "149568.52",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5H",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: safe recovery route established."
+    },
+    {
+      "actualCostCredits": "201917.50",
+      "changeId": "9905479",
+      "changedAt": "2367-07-19T08:00:00.000Z",
+      "changedBy": "C-78",
+      "estimatedCostCredits": "149568.52",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5H",
+      "newStatus": "COMPLETED",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Report: survivor and recoverable evidence secured."
+    },
+    {
+      "changeId": "9905480",
+      "changedAt": "2367-08-10T08:00:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "187866.86",
+      "missionId": "ST-00000LD5I",
+      "newStatus": "AUTHORIZED",
+      "operation": "CREATED",
+      "orderedBy": "C-71",
+      "summary": "Initial objective: diagnose the array failure and restore usable operation."
+    },
+    {
+      "changeId": "9905481",
+      "changedAt": "2367-08-10T13:49:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "187866.86",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5I",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "AUTHORIZED",
+      "summary": "Log: diagnostic access established."
+    },
+    {
+      "changeId": "9905482",
+      "changedAt": "2367-08-10T18:47:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "237275.84",
+      "estimatedCostCreditsChange": "49408.98",
+      "missionId": "ST-00000LD5I",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Log: probe-related complications assessed and 237275.84 approved."
+    },
+    {
+      "changeId": "9905483",
+      "changedAt": "2367-08-11T01:37:00.000Z",
+      "changedBy": "C-92",
+      "estimatedCostCredits": "237275.84",
+      "estimatedCostCreditsChange": "0.00",
+      "missionId": "ST-00000LD5I",
+      "newStatus": "ACTIVE",
+      "operation": "UPDATED",
+      "orderedBy": "C-71",
+      "previousStatus": "ACTIVE",
+      "summary": "Log: restoration work proceeding under revised safeguards."
+    }
+  ],
+  "contractRevision": "1.1",
+  "datasetVersion": "1.0",
+  "missions": [
+    {
+      "assignedAssetIds": [
+        "EQ-64",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-120",
+        "C-92"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-85",
+      "currentChangeId": "9905389",
+      "durationHours": 12,
+      "estimatedCostCredits": "14960.00",
+      "issuingAuthority": "STARFLEET_SCIENCE",
+      "lastUpdated": "2366-01-05T17:19:00.000Z",
+      "location": {
+        "name": "Kavis Alpha binary",
+        "type": "DEEP_SPACE"
+      },
+      "missionId": "ST-00000LD4O",
+      "objective": "support the scheduled stellar observation window safely.",
+      "participantIds": [
+        "P-211"
+      ],
+      "priority": 3,
+      "stardate": "43125.80",
+      "status": "POSTPONED",
+      "title": "Stellar observation support",
+      "type": "SCIENTIFIC"
+    },
+    {
+      "actualCostCredits": "28177.04",
+      "assignedAssetIds": [
+        "EQ-119",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-113",
+        "C-120",
+        "C-85",
+        "C-92"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-71",
+      "currentChangeId": "9905390",
+      "durationHours": 18,
+      "estimatedCostCredits": "30627.22",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-01-06T02:00:00.000Z",
+      "location": {
+        "name": "main computer",
+        "type": "ENTERPRISE"
+      },
+      "missionId": "ST-00000LD4P",
+      "objective": "establish communication and arrange safe separation from ship systems.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [
+        "O-224",
+        "P-211"
+      ],
+      "priority": 2,
+      "stardate": "43125.85",
+      "status": "COMPLETED",
+      "title": "Nanite contact and relocation",
+      "type": "FIRST_CONTACT"
+    },
+    {
+      "assignedAssetIds": [
+        "SH-42"
+      ],
+      "assignedCrewIds": [],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-85",
+      "currentChangeId": "9905396",
+      "durationHours": 72,
+      "estimatedCostCredits": "221286.81",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-01-12T09:34:00.000Z",
+      "location": {
+        "name": "Tau Cygna V",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD4Q",
+      "objective": "secure cooperation and organize removal of the threatened colony.",
+      "participantIds": [
+        "P-237",
+        "P-250"
+      ],
+      "priority": 1,
+      "stardate": "43140.00",
+      "status": "ACTIVE",
+      "title": "Tau Cygna V evacuation",
+      "type": "HUMANITARIAN"
+    },
+    {
+      "assignedAssetIds": [
+        "EQ-119",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-113"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-71",
+      "currentChangeId": "9905393",
+      "durationHours": 24,
+      "estimatedCostCredits": "97392.90",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-01-12T08:17:00.000Z",
+      "location": {
+        "name": "Enterprise diplomatic channel",
+        "type": "VESSEL"
+      },
+      "missionId": "ST-00000LD4R",
+      "objective": "obtain adequate evacuation time under the treaty.",
+      "participantIds": [
+        "P-263"
+      ],
+      "priority": 1,
+      "stardate": "43140.05",
+      "status": "AUTHORIZED",
+      "title": "Sheliak deadline negotiation",
+      "type": "DIPLOMATIC"
+    },
+    {
+      "actualCostCredits": "129335.28",
+      "assignedAssetIds": [
+        "EQ-75",
+        "SH-42",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-106",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905399",
+      "durationHours": 16,
+      "estimatedCostCredits": "144670.34",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-01-21T00:00:00.000Z",
+      "location": {
+        "name": "Rana IV",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD4S",
+      "objective": "rescue the colony population and assess relief needs.",
+      "outcome": "Objective unmet; assessment and incurred costs recorded.",
+      "participantIds": [
+        "P-276",
+        "P-289"
+      ],
+      "priority": 2,
+      "stardate": "43152.40",
+      "status": "FAILED",
+      "title": "Rana IV relief and assessment",
+      "type": "HUMANITARIAN"
+    },
+    {
+      "actualCostCredits": "179670.09",
+      "assignedAssetIds": [
+        "EQ-64",
+        "SH-42",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-106",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905406",
+      "durationHours": 20,
+      "estimatedCostCredits": "182036.57",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-03-06T04:00:00.000Z",
+      "location": {
+        "name": "Galorndon Core",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD4T",
+      "objective": "locate and recover the missing away-team officer and accessible survivor.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [
+        "P-302"
+      ],
+      "priority": 2,
+      "stardate": "43349.20",
+      "status": "COMPLETED",
+      "title": "Galorndon Core search and recovery",
+      "type": "RESCUE"
+    },
+    {
+      "actualCostCredits": "147368.45",
+      "assignedAssetIds": [
+        "EQ-75",
+        "EQ-97"
+      ],
+      "assignedCrewIds": [],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-106",
+      "currentChangeId": "9905405",
+      "durationHours": 8,
+      "estimatedCostCredits": "140887.62",
+      "issuingAuthority": "STARFLEET_MEDICAL",
+      "lastUpdated": "2366-03-05T16:00:00.000Z",
+      "location": {
+        "name": "sickbay",
+        "type": "ENTERPRISE"
+      },
+      "missionId": "ST-00000LD4U",
+      "objective": "stabilize the separately recovered critically injured Romulan patient.",
+      "outcome": "Objective unmet; assessment and incurred costs recorded.",
+      "participantIds": [
+        "P-315"
+      ],
+      "priority": 1,
+      "stardate": "43349.25",
+      "status": "FAILED",
+      "title": "Romulan survivor emergency treatment",
+      "type": "MEDICAL"
+    },
+    {
+      "assignedAssetIds": [],
+      "assignedCrewIds": [],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "currentChangeId": "9905407",
+      "durationHours": 48,
+      "issuingAuthority": "FEDERATION_COUNCIL",
+      "lastUpdated": "2366-03-20T08:00:00.000Z",
+      "location": {
+        "name": "conference facilities",
+        "type": "ENTERPRISE"
+      },
+      "missionId": "ST-00000LD4V",
+      "objective": "prepare logistical support for the proposed negotiations.",
+      "participantIds": [
+        "P-328"
+      ],
+      "priority": 4,
+      "stardate": "43385.60",
+      "status": "PLANNED",
+      "title": "Barzan negotiations support",
+      "type": "DIPLOMATIC"
+    },
+    {
+      "actualCostCredits": "36431.25",
+      "assignedAssetIds": [
+        "EQ-64",
+        "SH-53"
+      ],
+      "assignedCrewIds": [
+        "C-92"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-85",
+      "currentChangeId": "9905410",
+      "durationHours": 10,
+      "estimatedCostCredits": "43999.09",
+      "issuingAuthority": "STARFLEET_SCIENCE",
+      "lastUpdated": "2366-03-20T18:00:00.000Z",
+      "location": {
+        "name": "Barzan wormhole",
+        "type": "DEEP_SPACE"
+      },
+      "missionId": "ST-00000LD4W",
+      "objective": "assess endpoint stability and navigational suitability, not prove the wormhole commercially viable.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [],
+      "priority": 3,
+      "stardate": "43385.65",
+      "status": "COMPLETED",
+      "title": "Barzan wormhole survey",
+      "type": "SCIENTIFIC"
+    },
+    {
+      "assignedAssetIds": [
+        "EQ-119",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-113",
+        "C-78",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-71",
+      "currentChangeId": "9905412",
+      "durationHours": 72,
+      "estimatedCostCredits": "104767.96",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-04-03T12:43:00.000Z",
+      "location": {
+        "name": "Acamarian negotiation venue",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD4X",
+      "objective": "support reunification talks with appropriate delegation security.",
+      "participantIds": [
+        "P-341",
+        "P-354"
+      ],
+      "priority": 3,
+      "stardate": "43421.90",
+      "status": "AUTHORIZED",
+      "title": "Gatherer reunification and delegation security",
+      "type": "DIPLOMATIC"
+    },
+    {
+      "actualCostCredits": "47488.78",
+      "assignedAssetIds": [
+        "EQ-108",
+        "EQ-75",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-106",
+        "C-134"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905415",
+      "durationHours": 8,
+      "estimatedCostCredits": "40588.70",
+      "issuingAuthority": "STARFLEET_MEDICAL",
+      "lastUpdated": "2366-05-01T16:00:00.000Z",
+      "location": {
+        "name": "Rutia IV",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD4Y",
+      "objective": "deliver and hand over medical supplies to the receiving facility.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [],
+      "priority": 2,
+      "stardate": "43510.70",
+      "status": "COMPLETED",
+      "title": "Rutia IV medical-supply delivery",
+      "type": "TRANSPORT"
+    },
+    {
+      "actualCostCredits": "279821.71",
+      "assignedAssetIds": [
+        "EQ-64",
+        "SH-42",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-85",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905420",
+      "durationHours": 18,
+      "estimatedCostCredits": "227128.01",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-05-02T10:06:00.000Z",
+      "location": {
+        "name": "Rutia IV",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD4Z",
+      "objective": "locate and recover abducted Enterprise personnel.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [],
+      "priority": 1,
+      "stardate": "43510.75",
+      "status": "COMPLETED",
+      "title": "Abducted-personnel recovery",
+      "type": "RESCUE"
+    },
+    {
+      "assignedAssetIds": [
+        "EQ-64"
+      ],
+      "assignedCrewIds": [
+        "C-85"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "currentChangeId": "9905425",
+      "durationHours": 36,
+      "estimatedCostCredits": "28670.13",
+      "issuingAuthority": "STARFLEET_SCIENCE",
+      "lastUpdated": "2366-07-01T20:42:00.000Z",
+      "location": {
+        "name": "Hayashi",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD50",
+      "objective": "prepare and perform requested exospheric charts when scheduled.",
+      "participantIds": [],
+      "priority": 5,
+      "stardate": "43779.30",
+      "status": "PLANNED",
+      "title": "Hayashi exospheric survey",
+      "type": "SCIENTIFIC"
+    },
+    {
+      "assignedAssetIds": [
+        "EQ-119",
+        "EQ-64",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-113",
+        "C-85"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-71",
+      "currentChangeId": "9905424",
+      "durationHours": 24,
+      "estimatedCostCredits": "93500.84",
+      "issuingAuthority": "STARFLEET_COMMAND",
+      "lastUpdated": "2366-07-01T08:40:00.000Z",
+      "location": {
+        "name": "Gomtuu encounter region",
+        "type": "DEEP_SPACE"
+      },
+      "missionId": "ST-00000LD51",
+      "objective": "Establish safe communication and assess the entity's intentions with attention to contact risks.",
+      "participantIds": [
+        "O-380",
+        "P-367"
+      ],
+      "priority": 2,
+      "stardate": "43779.35",
+      "status": "ACTIVE",
+      "title": "Gomtuu contact",
+      "type": "FIRST_CONTACT"
+    },
+    {
+      "actualCostCredits": "30902.10",
+      "assignedAssetIds": [
+        "EQ-64",
+        "EQ-86"
+      ],
+      "assignedCrewIds": [
+        "C-127",
+        "C-85"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-92",
+      "currentChangeId": "9905433",
+      "durationHours": 20,
+      "estimatedCostCredits": "37916.69",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-07-16T04:00:00.000Z",
+      "location": {
+        "name": "affected engineering systems",
+        "type": "ENTERPRISE"
+      },
+      "missionId": "ST-00000LD52",
+      "objective": "Identify the cause and spread of shipboard contamination and recommend containment.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [],
+      "priority": 2,
+      "stardate": "43807.40",
+      "status": "COMPLETED",
+      "title": "Shipboard contamination investigation",
+      "type": "SCIENTIFIC"
+    },
+    {
+      "actualCostCredits": "60985.07",
+      "assignedAssetIds": [
+        "EQ-86",
+        "EQ-97"
+      ],
+      "assignedCrewIds": [
+        "C-127"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-92",
+      "currentChangeId": "9905432",
+      "durationHours": 12,
+      "estimatedCostCredits": "48944.68",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-07-15T20:42:00.000Z",
+      "location": {
+        "name": "contaminated equipment circuits",
+        "type": "ENTERPRISE"
+      },
+      "missionId": "ST-00000LD53",
+      "objective": "remove identified contamination and return affected systems to service.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [],
+      "priority": 1,
+      "stardate": "43807.45",
+      "status": "COMPLETED",
+      "title": "Invidium decontamination",
+      "type": "MAINTENANCE"
+    },
+    {
+      "actualCostCredits": "89365.66",
+      "assignedAssetIds": [
+        "EQ-108",
+        "EQ-75",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-106",
+        "C-92"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905440",
+      "durationHours": 30,
+      "estimatedCostCredits": "82976.47",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-08-11T14:00:00.000Z",
+      "location": {
+        "name": "Beta Agni II",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD54",
+      "objective": "procure and deliver required water-treatment materials.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [],
+      "priority": 1,
+      "stardate": "43872.20",
+      "status": "COMPLETED",
+      "title": "Beta Agni II water-contamination relief",
+      "type": "HUMANITARIAN"
+    },
+    {
+      "actualCostCredits": "73853.20",
+      "assignedAssetIds": [
+        "EQ-64",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-92",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905439",
+      "durationHours": 28,
+      "estimatedCostCredits": "60436.33",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2366-08-11T12:00:00.000Z",
+      "location": {
+        "name": "suspected holding vessel",
+        "type": "VESSEL"
+      },
+      "missionId": "ST-00000LD55",
+      "objective": "establish Data's whereabouts and recover him if alive.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [],
+      "priority": 2,
+      "stardate": "43872.25",
+      "status": "COMPLETED",
+      "title": "Missing Data recovery",
+      "type": "RESCUE"
+    },
+    {
+      "assignedAssetIds": [
+        "EQ-119",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-113",
+        "C-78"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-71",
+      "currentChangeId": "9905442",
+      "durationHours": 48,
+      "estimatedCostCredits": "78694.73",
+      "issuingAuthority": "FEDERATION_COUNCIL",
+      "lastUpdated": "2366-09-01T13:15:00.000Z",
+      "location": {
+        "name": "Legaran conference facilities",
+        "type": "ENTERPRISE"
+      },
+      "missionId": "ST-00000LD56",
+      "objective": "support the delegation and protect conditions for the planned talks.",
+      "participantIds": [
+        "P-393",
+        "P-406",
+        "P-419"
+      ],
+      "priority": 3,
+      "stardate": "43917.40",
+      "status": "AUTHORIZED",
+      "title": "Legaran negotiations support",
+      "type": "DIPLOMATIC"
+    },
+    {
+      "assignedAssetIds": [
+        "EQ-64"
+      ],
+      "assignedCrewIds": [],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "currentChangeId": "9905443",
+      "durationHours": 96,
+      "issuingAuthority": "STARFLEET_SCIENCE",
+      "lastUpdated": "2366-10-01T08:00:00.000Z",
+      "location": {
+        "name": "uncharted survey region",
+        "type": "SECTOR"
+      },
+      "missionId": "ST-00000LD57",
+      "objective": "chart the assigned unexplored system.",
+      "participantIds": [],
+      "priority": 5,
+      "stardate": "43957.20",
+      "status": "PLANNED",
+      "title": "Unexplored-system charting",
+      "type": "EXPLORATION"
+    },
+    {
+      "actualCostCredits": "22750.14",
+      "assignedAssetIds": [
+        "EQ-75",
+        "EQ-97",
+        "SH-42"
+      ],
+      "assignedCrewIds": [
+        "C-92",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-106",
+      "currentChangeId": "9905447",
+      "durationHours": 72,
+      "estimatedCostCredits": "28156.12",
+      "issuingAuthority": "STARFLEET_MEDICAL",
+      "lastUpdated": "2366-10-04T08:00:00.000Z",
+      "location": {
+        "name": "sickbay",
+        "type": "ENTERPRISE"
+      },
+      "missionId": "ST-00000LD58",
+      "objective": "retrieve, stabilize and provide care through a safe discharge/handover.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [
+        "P-432"
+      ],
+      "priority": 2,
+      "stardate": "43957.25",
+      "status": "COMPLETED",
+      "title": "Crash-survivor rescue and treatment",
+      "type": "MEDICAL"
+    },
+    {
+      "actualCostCredits": "56688.15",
+      "assignedAssetIds": [
+        "EQ-75",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-106",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905450",
+      "durationHours": 12,
+      "estimatedCostCredits": "66301.93",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2367-01-07T20:00:00.000Z",
+      "location": {
+        "name": "Talarian training craft",
+        "type": "VESSEL"
+      },
+      "missionId": "ST-00000LD59",
+      "objective": "rescue distressed trainees and arrange medical handover.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [
+        "P-445",
+        "P-458"
+      ],
+      "priority": 2,
+      "stardate": "44143.70",
+      "status": "COMPLETED",
+      "title": "Talarian training-craft emergency rescue",
+      "type": "RESCUE"
+    },
+    {
+      "actualCostCredits": "170325.79",
+      "assignedAssetIds": [
+        "EQ-64",
+        "SH-42",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-106",
+        "C-85",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905454",
+      "durationHours": 48,
+      "estimatedCostCredits": "153723.64",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2367-02-03T08:00:00.000Z",
+      "location": {
+        "name": "Turkana IV",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD5A",
+      "objective": "locate and recover the Arcos survivors held on Turkana IV.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [
+        "P-471"
+      ],
+      "priority": 2,
+      "stardate": "44215.20",
+      "status": "COMPLETED",
+      "title": "Arcos survivors/hostage recovery",
+      "type": "RESCUE"
+    },
+    {
+      "actualCostCredits": "61414.56",
+      "assignedAssetIds": [
+        "EQ-119",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-113",
+        "C-78",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-71",
+      "currentChangeId": "9905457",
+      "durationHours": 36,
+      "estimatedCostCredits": "63906.93",
+      "issuingAuthority": "STARFLEET_COMMAND",
+      "lastUpdated": "2367-02-21T20:00:00.000Z",
+      "location": {
+        "name": "arbitration facilities",
+        "type": "ENTERPRISE"
+      },
+      "missionId": "ST-00000LD5B",
+      "objective": "support the requested arbitration proceedings and document the disposition.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [
+        "P-484",
+        "P-497",
+        "P-510"
+      ],
+      "priority": 2,
+      "stardate": "44246.30",
+      "status": "COMPLETED",
+      "title": "Klingon succession arbitration support",
+      "type": "DIPLOMATIC"
+    },
+    {
+      "actualCostCredits": "181303.94",
+      "assignedAssetIds": [
+        "EQ-64",
+        "EQ-86",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-85",
+        "C-92"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905461",
+      "durationHours": 16,
+      "estimatedCostCredits": "137559.89",
+      "issuingAuthority": "ENTERPRISE_COMMAND",
+      "lastUpdated": "2367-03-11T00:00:00.000Z",
+      "location": {
+        "name": "Gamelan V orbital region",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD5C",
+      "objective": "remove the radiological threat to the inhabited planet.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [],
+      "priority": 1,
+      "stardate": "44307.30",
+      "status": "COMPLETED",
+      "title": "Gamelan V radioactive-barge response",
+      "type": "HUMANITARIAN"
+    },
+    {
+      "actualCostCredits": "19905.07",
+      "assignedAssetIds": [
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-85",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-71",
+      "currentChangeId": "9905464",
+      "durationHours": 24,
+      "estimatedCostCredits": "47733.98",
+      "issuingAuthority": "STARFLEET_COMMAND",
+      "lastUpdated": "2367-04-06T08:00:00.000Z",
+      "location": {
+        "name": "Enterprise diplomatic transport",
+        "type": "VESSEL"
+      },
+      "missionId": "ST-00000LD5D",
+      "objective": "provide the planned diplomatic escort under the asserted delegation identity.",
+      "outcome": "Further escort terminated following identity/security concerns; incurred costs recorded.",
+      "participantIds": [
+        "P-523"
+      ],
+      "priority": 3,
+      "stardate": "44390.10",
+      "status": "CANCELLED",
+      "title": "Ambassador T'Pel diplomatic escort",
+      "type": "TRANSPORT"
+    },
+    {
+      "actualCostCredits": "463444.93",
+      "assignedAssetIds": [
+        "EQ-119",
+        "EQ-64",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-134",
+        "C-78",
+        "C-99"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-71",
+      "currentChangeId": "9905468",
+      "durationHours": 30,
+      "estimatedCostCredits": "346371.40",
+      "issuingAuthority": "STARFLEET_COMMAND",
+      "lastUpdated": "2367-04-21T14:00:00.000Z",
+      "location": {
+        "name": "USS Phoenix interception region",
+        "type": "VESSEL"
+      },
+      "missionId": "ST-00000LD5E",
+      "objective": "stop unauthorized attacks and prevent further immediate escalation.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [
+        "P-536"
+      ],
+      "priority": 1,
+      "stardate": "44429.60",
+      "status": "COMPLETED",
+      "title": "USS Phoenix interception",
+      "type": "TACTICAL"
+    },
+    {
+      "assignedAssetIds": [
+        "EQ-119",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-113",
+        "C-78"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-71",
+      "currentChangeId": "9905472",
+      "durationHours": 72,
+      "estimatedCostCredits": "51661.69",
+      "issuingAuthority": "STARFLEET_COMMAND",
+      "lastUpdated": "2367-06-01T20:49:00.000Z",
+      "location": {
+        "name": "Malcor III",
+        "type": "PLANET"
+      },
+      "missionId": "ST-00000LD5F",
+      "objective": "assess readiness and pursue a mutually acceptable contact process.",
+      "participantIds": [
+        "P-549",
+        "P-562"
+      ],
+      "priority": 3,
+      "stardate": "44560.05",
+      "status": "POSTPONED",
+      "title": "Malcorian first contact",
+      "type": "FIRST_CONTACT"
+    },
+    {
+      "assignedAssetIds": [
+        "EQ-108"
+      ],
+      "assignedCrewIds": [
+        "C-134"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "currentChangeId": "9905474",
+      "durationHours": 48,
+      "estimatedCostCredits": "31347.82",
+      "issuingAuthority": "STARFLEET_SCIENCE",
+      "lastUpdated": "2367-07-01T21:43:00.000Z",
+      "location": {
+        "name": "Guernica-system outpost",
+        "type": "SECTOR"
+      },
+      "missionId": "ST-00000LD5G",
+      "objective": "transport scientific equipment from Starbase313 to the outpost.",
+      "participantIds": [],
+      "priority": 5,
+      "stardate": "44614.60",
+      "status": "PLANNED",
+      "title": "Guernica scientific-equipment delivery",
+      "type": "TRANSPORT"
+    },
+    {
+      "actualCostCredits": "201917.50",
+      "assignedAssetIds": [
+        "EQ-64",
+        "EQ-75",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-106",
+        "C-113",
+        "C-85"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "SECRET",
+      "commandingOfficerId": "C-78",
+      "currentChangeId": "9905479",
+      "durationHours": 96,
+      "estimatedCostCredits": "149568.52",
+      "issuingAuthority": "STARFLEET_COMMAND",
+      "lastUpdated": "2367-07-19T08:00:00.000Z",
+      "location": {
+        "name": "USS Brattain",
+        "type": "VESSEL"
+      },
+      "missionId": "ST-00000LD5H",
+      "objective": "locate the missing vessel, recover survivors and resolve immediate retrieval hazards.",
+      "outcome": "Objective achieved; operational report filed.",
+      "participantIds": [
+        "P-575"
+      ],
+      "priority": 2,
+      "stardate": "44631.20",
+      "status": "COMPLETED",
+      "title": "Missing USS Brattain search and recovery",
+      "type": "RESCUE"
+    },
+    {
+      "assignedAssetIds": [
+        "EQ-64",
+        "EQ-86",
+        "SH-53",
+        "VS-31"
+      ],
+      "assignedCrewIds": [
+        "C-127",
+        "C-85"
+      ],
+      "cancelledWithoutEstimateAllowed": false,
+      "classification": "UNCLASSIFIED",
+      "commandingOfficerId": "C-92",
+      "currentChangeId": "9905483",
+      "durationHours": 72,
+      "estimatedCostCredits": "237275.84",
+      "issuingAuthority": "STARFLEET_SCIENCE",
+      "lastUpdated": "2367-08-11T01:37:00.000Z",
+      "location": {
+        "name": "Argus Array",
+        "type": "DEEP_SPACE"
+      },
+      "missionId": "ST-00000LD5I",
+      "objective": "diagnose the array failure and restore usable operation.",
+      "participantIds": [],
+      "priority": 3,
+      "stardate": "44704.20",
+      "status": "ACTIVE",
+      "title": "Argus Array investigation/restoration",
+      "type": "MAINTENANCE"
+    }
+  ]
+}

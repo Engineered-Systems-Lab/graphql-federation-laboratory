@@ -1,0 +1,4020 @@
+{
+  "C-1008": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1011": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1017": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1025": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1042": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1046": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-106": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "COMMANDER"
+  },
+  "C-1076": {
+    "department": "SCIENCE",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "ENSIGN"
+  },
+  "C-1112": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-113": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-1154": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1155": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1157": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1171": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1186": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1196": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-120": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1200": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-1221": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1229": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-1240": {
+    "department": "SCIENCE",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-1262": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1268": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1269": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-127": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1274": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-1283": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1288": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1311": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1320": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1325": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-134": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-1373": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1386": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1392": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-140": {
+    "department": "SECURITY",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1421": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1423": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1437": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1458": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1492": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1515": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1534": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-1537": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1539": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-155": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1581": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1597": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1598": {
+    "department": "SECURITY",
+    "dutyStatus": "INACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-1610": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1615": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-1628": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1630": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1638": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-1652": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1671": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-1679": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1683": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1686": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1691": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-170": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1720": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1731": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1739": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1769": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1771": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1782": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1793": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1802": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1803": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1825": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1838": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-184": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1846": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1852": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-1862": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-1887": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1900": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1915": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1926": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1932": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1939": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1955": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-1982": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-1988": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-1998": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2006": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2011": {
+    "department": "MEDICAL",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2016": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2030": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-204": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2044": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "ENSIGN"
+  },
+  "C-2049": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2053": {
+    "department": "SECURITY",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2068": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-2072": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2074": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-2077": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2080": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2113": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2132": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2137": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2161": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2162": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2176": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2180": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2192": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2201": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2224": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-223": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2231": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2233": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2237": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2264": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-2268": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2272": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2275": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-2279": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-2280": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2289": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-231": {
+    "department": "OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2312": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2334": {
+    "department": "OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2339": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2342": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2354": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2360": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2364": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-2366": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2372": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "mapped": false,
+    "rank": "ENSIGN"
+  },
+  "C-2408": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-2422": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2423": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2425": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2455": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2470": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-2484": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2489": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2490": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2495": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2502": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2503": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2518": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2529": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2545": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2546": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2548": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2566": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-258": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-2581": {
+    "department": "MEDICAL",
+    "dutyStatus": "INACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-2610": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2615": {
+    "department": "SCIENCE",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2616": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2629": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-2642": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2676": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-268": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2699": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2702": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2708": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2722": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-2728": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2745": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2776": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-278": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-2782": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-2804": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2812": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2841": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2850": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-286": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2877": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2878": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2890": {
+    "department": "OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2932": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-2940": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2958": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2964": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-2980": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-2986": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-299": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-2990": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3001": {
+    "department": "OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3007": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-302": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3071": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3072": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3077": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3084": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3099": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3104": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-313": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3132": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3134": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3145": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3154": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3166": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3174": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3206": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3207": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3211": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3213": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3224": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3225": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3227": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3235": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3237": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3240": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3264": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3266": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3353": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3355": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3356": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3380": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3385": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-339": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3423": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "mapped": false,
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3427": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3434": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3452": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3459": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3462": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3470": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3481": {
+    "department": "MEDICAL",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3489": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3491": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3497": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3500": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-353": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3532": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3550": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3553": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3572": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3577": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3597": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-3626": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3628": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3630": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3635": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3641": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3653": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3679": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3685": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3686": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3690": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3691": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3703": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-371": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3716": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3717": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3723": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3727": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3729": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-374": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3741": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3754": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3755": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3758": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-3759": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3772": {
+    "department": "SCIENCE",
+    "dutyStatus": "INACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3773": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3776": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3782": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3791": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3792": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3798": {
+    "department": "SCIENCE",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3815": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-382": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3822": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3827": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3833": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-384": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3865": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3885": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-3887": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3915": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3916": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3943": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3950": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-3951": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-3970": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-3986": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4002": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4008": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4014": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4025": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4034": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4038": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4062": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4067": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4089": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4110": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4111": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4116": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4131": {
+    "department": "SECURITY",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4154": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4155": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4165": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-4168": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4174": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4183": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4203": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4219": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4225": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4228": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4262": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4265": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4267": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-428": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4280": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4333": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4340": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4343": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4344": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4353": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4368": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4391": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4408": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4421": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4439": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-4444": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4454": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4457": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4462": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4466": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4469": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4477": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4481": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4488": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4490": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-450": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-451": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4514": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4535": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-454": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4549": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4558": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4562": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4564": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-457": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4572": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4576": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4578": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4609": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4621": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4648": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4661": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4702": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4713": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4722": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-4743": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "ENSIGN"
+  },
+  "C-4752": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-476": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4766": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4770": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4803": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4809": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-481": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4822": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4828": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4830": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-4842": {
+    "department": "OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4852": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-4878": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4903": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4904": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4921": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-494": {
+    "department": "OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-4942": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4946": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4952": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4954": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-4982": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-4984": {
+    "department": "SCIENCE",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4986": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-4996": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-500": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5006": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-5007": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5015": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-502": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5034": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-504": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5050": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5051": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-5053": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5063": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5076": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5083": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5089": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5107": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-5110": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5115": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5124": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5133": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5151": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5158": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5161": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5170": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5180": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5193": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5198": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5216": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5236": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5248": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5251": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5275": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5279": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5280": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5284": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5292": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5314": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5322": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5355": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5386": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5390": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5408": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5412": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5438": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5445": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5475": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5488": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5490": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5514": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5530": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5531": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-554": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5548": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5557": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5566": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5572": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5576": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5577": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5578": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5609": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5610": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5621": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5652": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5673": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5677": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5687": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5696": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5718": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5723": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5736": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5754": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5756": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5766": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-5771": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5780": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5782": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5836": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5846": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5889": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5893": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5899": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-5908": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-5919": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5935": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-594": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5944": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-5983": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-599": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-5990": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-600": {
+    "department": "SECURITY",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-601": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-602": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6022": {
+    "department": "SECURITY",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "ENSIGN"
+  },
+  "C-6029": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6041": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6043": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6046": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6055": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6069": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6079": {
+    "department": "MEDICAL",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "ENSIGN"
+  },
+  "C-6081": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6087": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6095": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6115": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6134": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6151": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6161": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-6172": {
+    "department": "COMMAND",
+    "dutyStatus": "INACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-6206": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-6214": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6216": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6218": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6225": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6243": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6253": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6256": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6259": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6287": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6291": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6313": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6315": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-636": {
+    "department": "SCIENCE",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6362": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-6375": {
+    "department": "MEDICAL",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6407": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-641": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6419": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6447": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-646": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6463": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6504": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6506": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6557": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6569": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-660": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6608": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6622": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6651": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6670": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6671": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6695": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6721": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6722": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6732": {
+    "department": "SCIENCE",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6737": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6738": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6741": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-675": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-6769": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6773": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6798": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-680": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6806": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6811": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6812": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6814": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6817": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6833": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6849": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-6851": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6867": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6872": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-6873": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-6904": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-6909": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-693": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-694": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-6945": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-699": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-6991": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7008": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-701": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7011": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7019": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7020": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7037": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7042": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7074": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7076": {
+    "department": "SECURITY",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7083": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-71": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "CAPTAIN"
+  },
+  "C-7103": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7104": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7110": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7115": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7116": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7141": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7145": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7168": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7169": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7180": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7181": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-720": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7249": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7256": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7274": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7280": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-730": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7310": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7311": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7316": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-732": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7326": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7340": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7348": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7362": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-7369": {
+    "department": "MEDICAL",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-7390": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7395": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7401": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-7402": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7406": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7408": {
+    "department": "SECURITY",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-742": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7443": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7457": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7480": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7486": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7503": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-7542": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7597": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7611": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7624": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7653": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7680": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7720": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7723": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7738": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-775": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7765": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-777": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7783": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7785": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-78": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "COMMANDER"
+  },
+  "C-7816": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7822": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-7838": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7840": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-7881": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7884": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7885": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7892": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-7917": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7918": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "ENSIGN"
+  },
+  "C-7919": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-7927": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-794": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7940": {
+    "department": "SCIENCE",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-7950": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7952": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7961": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7969": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7970": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7976": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7977": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-7978": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-7989": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-7996": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8011": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8025": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8037": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8062": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8066": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8071": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8076": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-8103": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8112": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-8115": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-8116": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8145": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8158": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8160": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8163": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8167": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-8173": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8179": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-818": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8181": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8182": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-8229": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8233": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8242": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8280": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8281": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8306": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-832": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8327": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-8357": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8366": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8380": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8382": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8383": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8384": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8385": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-847": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-848": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-849": {
+    "department": "MEDICAL",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-8490": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-85": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-8508": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8512": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8527": {
+    "department": "COMMAND",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "ENSIGN"
+  },
+  "C-8536": {
+    "department": "OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-855": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-856": {
+    "department": "SECURITY",
+    "dutyStatus": "INACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8564": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8565": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-8587": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8594": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8603": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8607": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8611": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8629": {
+    "department": "MEDICAL",
+    "dutyStatus": "INACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-8633": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8638": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-8639": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8665": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8666": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8698": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-8725": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8734": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8745": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-8755": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8761": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8778": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8780": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8809": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-881": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8810": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-883": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8831": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8858": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-8881": {
+    "department": "SECURITY",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-8898": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8904": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8907": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8919": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-8951": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-8955": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9001": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9002": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-901": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-902": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9023": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-903": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9032": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9033": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9043": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-9050": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-9066": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9067": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9091": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-9094": {
+    "department": "SCIENCE",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9130": {
+    "department": "SCIENCE",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-9137": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9144": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9199": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-92": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT_COMMANDER"
+  },
+  "C-920": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9200": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9217": {
+    "department": "MEDICAL",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9219": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9220": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9221": {
+    "department": "SCIENCE",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-9226": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9258": {
+    "department": "ENGINEERING",
+    "dutyStatus": "INACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-9267": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-9275": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-9285": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9306": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9307": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9329": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9335": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-9337": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9341": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9357": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9366": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9373": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-9396": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9465": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-948": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9495": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9513": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-9530": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9540": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9579": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9588": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CHIEF_PETTY_OFFICER"
+  },
+  "C-960": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9609": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9612": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9625": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9626": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9635": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-9641": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9645": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-965": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9652": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9659": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9664": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9677": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9692": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9704": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9705": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9716": {
+    "department": "MEDICAL",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9725": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9727": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9732": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9737": {
+    "department": "SECURITY",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-975": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9789": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9803": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9829": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9853": {
+    "department": "SCIENCE",
+    "dutyStatus": "ACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-9858": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9859": {
+    "department": "OPERATIONS",
+    "dutyStatus": "INACTIVE",
+    "rank": "CIVILIAN"
+  },
+  "C-9865": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9899": {
+    "department": "COMMAND",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-99": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9916": {
+    "department": "SECURITY",
+    "dutyStatus": "ON_LEAVE",
+    "rank": "CREWMAN"
+  },
+  "C-9921": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-9925": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9927": {
+    "department": "SCIENCE",
+    "dutyStatus": "INACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9933": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9938": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "mapped": false,
+    "rank": "LIEUTENANT"
+  },
+  "C-9951": {
+    "department": "FLIGHT_OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "LIEUTENANT"
+  },
+  "C-998": {
+    "department": "ENGINEERING",
+    "dutyStatus": "ACTIVE",
+    "rank": "CREWMAN"
+  },
+  "C-9989": {
+    "department": "OPERATIONS",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  },
+  "C-9994": {
+    "department": "SECURITY",
+    "dutyStatus": "ACTIVE",
+    "rank": "ENSIGN"
+  }
+}

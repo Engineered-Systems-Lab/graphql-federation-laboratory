@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mission xmlns="urn:starfleet:missions:v1">
+  <missionId>ST-0000000A1</missionId>
+  <title>Contract example: survey of a border sector</title>
+  <type>MAINTENANCE</type>
+  <classification>SECRET</classification>
+  <status>COMPLETED</status>
+  <priority>3</priority>
+  <stardate>43125.80</stardate>
+  <durationHours>72</durationHours>
+  <objective>Illustrative contract example, not a dataset record.</objective>
+  <location>
+    <type>SECTOR</type>
+    <name>Example sector</name>
+    <coordinates>opaque-coordinates</coordinates>
+    <travelVector>opaque-vector</travelVector>
+  </location>
+  <issuingAuthority>STARFLEET_COMMAND</issuingAuthority>
+  <commandingOfficerId>C-2</commandingOfficerId>
+  <assignedCrewIds>
+    <crewId>C-10</crewId>
+    <crewId>C-2</crewId>
+  </assignedCrewIds>
+  <participantIds>
+    <participantId>O-7</participantId>
+    <participantId>P-3</participantId>
+  </participantIds>
+  <assignedAssetIds>
+    <assetId>SH-17</assetId>
+  </assignedAssetIds>
+  <estimatedCostCredits>140000.00</estimatedCostCredits>
+  <actualCostCredits>155000.00</actualCostCredits>
+  <outcome>Illustrative outcome text.</outcome>
+  <lastUpdated>2366-10-14T19:42:31.472Z</lastUpdated>
+</mission>

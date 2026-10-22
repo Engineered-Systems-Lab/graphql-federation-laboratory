@@ -1,0 +1,883 @@
+{
+  "civilians": [
+    {
+      "name": "Guinan",
+      "positionTitle": "Bartender"
+    },
+    {
+      "name": "Galen Dalen",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Miro Zorin",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Arlo Halen",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Deni Corin",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Cora Arden",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Yori Bex",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Iven Irix",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Vela Halen",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Rena Orel",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Quin Bren",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Soren Jalen",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Brin Yaren",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Deni Cadan",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Iven Arden",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Rena Quell",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Zena Corin",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Galen Jalen",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Kalen Sarek",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Orin Dalen",
+      "positionTitle": "Civilian Specialist"
+    },
+    {
+      "name": "Alexander Rozhenko",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Keiko O'Brien",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Molly O'Brien",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Mot",
+      "positionTitle": "Barber"
+    },
+    {
+      "name": "Zora Dubois",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Nikolai Dubois",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Ulrich Kowalski",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Liam Kowalski",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Thea Kowalski",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Emeka Kaplan",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Hugo Kaplan",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Liam Abara",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Pablo Abara",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Kenji Fontaine",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Ulrich Fontaine",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Olga Fontaine",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Ulrich Novak",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Rosa Novak",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Bram Petrov",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Kalinda Petrov",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Wanjiru Petrov",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Mateo Petrov",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Leila Lindqvist",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Beatriz Lindqvist",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Rania Lindqvist",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Ahmad Nakamura",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Boris Nakamura",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Leila Nakamura",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Ximena Fischer",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Nia Fischer",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Boris Fischer",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Idris Ivanova",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Liam Ivanova",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Freya Ivanova",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Sven Alvarez",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Freya Alvarez",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Carlos Alvarez",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Sanjay Alvarez",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Dalia Alvarez",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Dmitri Yilmaz",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Liam Yilmaz",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Carlos Mbeki",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Greta Mbeki",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Henrik Mbeki",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Aroha Gallagher",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Ingrid Santos",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Adaeze Santos",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Amara Santos",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Vera Cho",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Quentin Dahl",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Olga Dahl",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Rania Brandt",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Mateo Brandt",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Pablo Brandt",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Uma Brandt",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Zora Moreau",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Freya Moreau",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Uma Moreau",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Greta Moreau",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Tariq Moreau",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Finn Okafor",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Yosef Okafor",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Jonas Castellano",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Gael Castellano",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Mateo Castellano",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Adaeze Castellano",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Nikolai Ibrahim",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Dmitri Ibrahim",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Pablo Ibrahim",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Bram Ibrahim",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Willem Whitfield",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Liam Whitfield",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Rania Whitfield",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Ahmad Bianchi",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Emeka Bianchi",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Rania Bianchi",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Uma Bianchi",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Zainab Lombardi",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Willem Lombardi",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Carlos Gupta",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Ximena Gupta",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Pablo Tanaka",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Priya Tanaka",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Viktor Tanaka",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Quentin Jansen",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Rosa Jansen",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Ines Jansen",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Leila Rahman",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Yuki Rahman",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Sanjay Eriksen",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Zora Eriksen",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Anders Eriksen",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Willem Xu",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Dmitri Xu",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Amara Zielinski",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Vera Zielinski",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Camila Haddad",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Anders Ueda",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Carlos Ueda",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Bram Ueda",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Greta Ueda",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Bianca Varga",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Boris Varga",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Willem Varga",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Uma Varga",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Ines Jovanovic",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Thea Eze",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Elodie Eze",
+      "positionTitle": "Botanist"
+    },
+    {
+      "name": "Sven Quintero",
+      "positionTitle": "Counselor Aide"
+    },
+    {
+      "name": "Yosef Quintero",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Sanjay Quintero",
+      "positionTitle": "Preschooler"
+    },
+    {
+      "name": "Mateo Quintero",
+      "positionTitle": "Student"
+    },
+    {
+      "name": "Bianca Hayashi",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Liam Okafor",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Sven Okafor",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Ahmad Novak",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Jamal Whitfield",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Ahmad Gupta",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Mateo Hayashi",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Esme Lindqvist",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Kalinda Tanaka",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Carlos Lindqvist",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Boris Dahl",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Aroha Eriksen",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Viktor Novak",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Esme Ibrahim",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Hugo Yilmaz",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Leila Brandt",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Rania Quintero",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Xavier Fischer",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Jamal Cho",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Tariq Xu",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Rania Cho",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Ulrich Mbeki",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Liam Alvarez",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Gael Mbeki",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Adaeze Ibrahim",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Willem Ueda",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Dmitri Ueda",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Mateo Abara",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Freya Tanaka",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Pablo Eze",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Adaeze Brandt",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Tariq Gupta",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Anika Lindqvist",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Farid Ueda",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Leila Eze",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Vera Haddad",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Mei Jansen",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Bianca Nakamura",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Thea Moreau",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Zainab Varga",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Bianca Ibrahim",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Dev Quintero",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Kalinda Yilmaz",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Farid Hayashi",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Carlos Quintero",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Rania Okafor",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Dmitri Gallagher",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Carlos Xu",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Wanjiru Rahman",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Zainab Ivanova",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Zainab Eriksen",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Priya Santos",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Leila Varga",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Sven Kowalski",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Zora Ivanova",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Dmitri Dubois",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Ahmad Ivanova",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Viktor Santos",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Dev Abara",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Viktor Mbeki",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Yosef Rahman",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Beatriz Petrov",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Olga Whitfield",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Ximena Kowalski",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Sanjay Gupta",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Zora Tanaka",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Leila Alvarez",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Idris Eze",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Liam Quintero",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Rosa Okafor",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Anika Santos",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Olga Kowalski",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Leila Dahl",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Carlos Moreau",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Tariq Yilmaz",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Tariq Ivanova",
+      "positionTitle": "Holodeck Technician"
+    },
+    {
+      "name": "Mei Santos",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Sven Bianchi",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Kalinda Gallagher",
+      "positionTitle": "Resident"
+    },
+    {
+      "name": "Emeka Eriksen",
+      "positionTitle": "Teacher"
+    },
+    {
+      "name": "Nia Quintero",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Elodie Cho",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Jonas Cho",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Idris Moreau",
+      "positionTitle": "Shopkeeper"
+    },
+    {
+      "name": "Willem Jovanovic",
+      "positionTitle": "Ten Forward Server"
+    },
+    {
+      "name": "Farid Jovanovic",
+      "positionTitle": "Civilian Technician"
+    },
+    {
+      "name": "Thea Nakamura",
+      "positionTitle": "Teacher"
+    }
+  ],
+  "dataset": "personnel-v2-large-004",
+  "manifestSha256": "d44e96b8853290b8423be5fe53dc8270f4e1155a52287ebe30e486c2eae7ef47",
+  "note": "Display names and position titles of the civilians of the pinned snapshot, read once by the authoring step. No Personnel identifier is kept: a P reference names a civilian by exact display name only."
+}

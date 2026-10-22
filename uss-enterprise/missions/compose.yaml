@@ -1,0 +1,22 @@
+name: starfleet-missions
+services:
+  missions:
+    build: .
+    image: ${MISSIONS_IMAGE:-starfleet-missions-service:1.0.0}
+    container_name: ${MISSIONS_CONTAINER_NAME:-starfleet-missions-service}
+    ports:
+      - "127.0.0.1:${MISSIONS_HOST_PORT:-8083}:8083"
+    environment:
+      MISSIONS_BIND_HOST: 0.0.0.0
+      MISSIONS_PORT: "8083"
+      MISSIONS_JDBC_URL: ${MISSIONS_JDBC_URL:?set MISSIONS_JDBC_URL}
+      MISSIONS_DB_USER: ${MISSIONS_DB_USER:?set MISSIONS_DB_USER}
+      MISSIONS_DB_PASSWORD: ${MISSIONS_DB_PASSWORD:?set MISSIONS_DB_PASSWORD}
+      MISSIONS_DB_SCHEMA: ${MISSIONS_DB_SCHEMA:-MISSIONS_LAB}
+    networks:
+      - default
+      - oracle
+networks:
+  oracle:
+    external: true
+    name: starfleet-missions-data-20261009

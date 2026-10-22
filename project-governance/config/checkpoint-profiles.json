@@ -500,6 +500,32 @@
           ]
         }
       ]
+    },
+    "missions-gates": {
+      "limitations": "Missions gate runner and its harness tests only; no Missions data, service or packaging acceptance.",
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "missions-gates-tests",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/run_tests.py",
+            "-s",
+            "uss-enterprise/missions/validation",
+            "-p",
+            "test_missions_gates.py",
+            "-v"
+          ]
+        }
+      ]
     }
   }
 }

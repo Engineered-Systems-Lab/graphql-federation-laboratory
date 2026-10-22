@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<missionList xmlns="urn:starfleet:missions:v1">
+  <page>1</page>
+  <pageSize>20</pageSize>
+  <totalCount>1</totalCount>
+  <totalPages>1</totalPages>
+  <mission>
+    <missionId>ST-0000000A2</missionId>
+    <title>Contract example: minimal planned mission</title>
+    <type>DIPLOMATIC</type>
+    <classification>UNCLASSIFIED</classification>
+    <status>PLANNED</status>
+    <priority>4</priority>
+    <stardate>43130.05</stardate>
+    <durationHours>1</durationHours>
+    <objective>Illustrative contract example, not a dataset record.</objective>
+    <location>
+      <type>OTHER</type>
+      <name>Example location</name>
+    </location>
+    <issuingAuthority>FEDERATION_COUNCIL</issuingAuthority>
+    <assignedCrewIds/>
+    <participantIds/>
+    <assignedAssetIds/>
+    <lastUpdated>2366-10-14T19:42:31.472Z</lastUpdated>
+  </mission>
+</missionList>

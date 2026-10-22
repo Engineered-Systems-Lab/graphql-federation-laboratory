@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changeList xmlns="urn:starfleet:missions:v1">
+  <page>1</page>
+  <pageSize>20</pageSize>
+  <totalCount>2</totalCount>
+  <totalPages>1</totalPages>
+  <change>
+    <changeId>16</changeId>
+    <missionId>ST-0000000A1</missionId>
+    <operation>CREATED</operation>
+    <changedAt>2366-10-01T08:00:00.000Z</changedAt>
+    <changedBy>C-2</changedBy>
+    <orderedBy>C-2</orderedBy>
+    <newStatus>AUTHORIZED</newStatus>
+    <estimatedCostCredits>125000.00</estimatedCostCredits>
+    <summary>Illustrative creation entry.</summary>
+  </change>
+  <change>
+    <changeId>17</changeId>
+    <missionId>ST-0000000A1</missionId>
+    <operation>UPDATED</operation>
+    <changedAt>2366-10-14T19:42:31.472Z</changedAt>
+    <changedBy>C-10</changedBy>
+    <orderedBy>C-2</orderedBy>
+    <previousStatus>AUTHORIZED</previousStatus>
+    <newStatus>AUTHORIZED</newStatus>
+    <estimatedCostCredits>140000.00</estimatedCostCredits>
+    <estimatedCostCreditsChange>15000.00</estimatedCostCreditsChange>
+    <summary>Illustrative estimate revision.</summary>
+  </change>
+</changeList>

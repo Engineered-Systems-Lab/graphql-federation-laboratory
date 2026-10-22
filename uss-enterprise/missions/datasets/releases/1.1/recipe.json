@@ -1,0 +1,2068 @@
+{
+  "algorithm": "sha256-counter-v1",
+  "appends": "1.0",
+  "canonicalBytes": "UTF-8, LF, JSON ensure_ascii=true/sort_keys=true/indent=2/final newline; XML ElementTree serialization UTF-8 declaration/LF final newline; SQL UTF-8/LF final newline. File integrity compares exact bytes after CRLF-to-LF checkout normalization only; no other normalization.",
+  "categories": [
+    "mission_id_start",
+    "change_id_start",
+    "history_timing",
+    "estimated_cost",
+    "estimate_revision",
+    "actual_cost",
+    "recipe_maintenance",
+    "recipe_routine",
+    "staffing_commander",
+    "staffing_crew",
+    "staffing_participants",
+    "staffing_assets",
+    "crew_reference",
+    "edge_cases",
+    "change_density"
+  ],
+  "causalEdges": [
+    {
+      "event": "event-2",
+      "from": "candidate-15",
+      "kind": "finding-before-remediation",
+      "to": "candidate-16"
+    },
+    {
+      "event": "event-3",
+      "from": "candidate-11",
+      "kind": "delivery-before-follow-on-recovery",
+      "to": "candidate-12"
+    }
+  ],
+  "clock": {
+    "baseline": "latest seeded changedAt",
+    "counter": 0,
+    "intervalMs": 1000
+  },
+  "contractRevision": "1.1",
+  "datasetVersion": "1.1",
+  "derivation": "UTF-8 compact JSON arrays, ensure_ascii=true, separators=(comma,colon), no newline. Seed = SHA256([generator, 1701, category, mission-key, event-key]) where generator is \"missions-generator-1\" for the 31 missions carried from release 1.0 (so they are reproduced byte for byte) and \"missions-generator-2\" for everything else; mission-key is the canonical ST-... missionId for cost/timing streams of curated and generated missions, a recipe key (for example maint-007 or routine-042) for recipe, staffing and edge-case streams, the v1 crew id for crew_reference, and empty for initial offset streams; event-key is empty for initial offsets, \"initial\" for initial estimates, \"causal-start\" for causal start delay, otherwise the event key. Blocks = SHA256(seed bytes + unsigned 64-bit big-endian counter starting at zero). Uniform inclusive integer draw uses 256-bit rejection sampling.",
+  "generatorVersion": "missions-generator-2",
+  "maintenance": {
+    "classification": [
+      [
+        "UNCLASSIFIED",
+        92
+      ],
+      [
+        "SECRET",
+        8
+      ]
+    ],
+    "complexityCounts": {
+      "1": 18,
+      "2": 12,
+      "3": 9,
+      "4": 6
+    },
+    "issuingAuthority": [
+      [
+        "ENTERPRISE_COMMAND",
+        85
+      ],
+      [
+        "STARFLEET_COMMAND",
+        15
+      ]
+    ],
+    "locations": {
+      "names": [
+        "Deck {n} section {s}",
+        "Engineering main",
+        "Warp core chamber",
+        "Shuttlebay 2",
+        "Main deflector control",
+        "Jefferies tube {n}"
+      ],
+      "starbaseNumbers": [
+        117,
+        143,
+        211,
+        247,
+        301,
+        353
+      ],
+      "starbasePercent": 10
+    },
+    "namedCommanderTotals": {
+      "Geordi La Forge": 4
+    },
+    "statusCounts": {
+      "ACTIVE": 4,
+      "AUTHORIZED": 3,
+      "CANCELLED": 1,
+      "COMPLETED": 30,
+      "FAILED": 1,
+      "PLANNED": 4,
+      "POSTPONED": 2
+    },
+    "tasks": {
+      "1": {
+        "commanderRanks": [
+          [
+            "CHIEF_PETTY_OFFICER",
+            7
+          ],
+          [
+            "ENSIGN",
+            3
+          ]
+        ],
+        "crewRanks": [
+          [
+            "CREWMAN",
+            8
+          ],
+          [
+            "CHIEF_PETTY_OFFICER",
+            2
+          ]
+        ],
+        "crewSize": [
+          1,
+          2
+        ],
+        "durationHours": [
+          1,
+          6
+        ],
+        "estimateCredits": [
+          5000,
+          25000
+        ],
+        "priority": [
+          [
+            5,
+            8
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "taskClass": "ROUTINE_REPAIR",
+        "titles": [
+          "Corridor door actuator repair",
+          "Replicator output jam repair",
+          "Turbolift call-panel fault repair",
+          "Cabin lighting circuit replacement",
+          "Replicator pattern-buffer flush",
+          "Hatch seal replacement",
+          "Comm panel reseating",
+          "Deck plating reseal"
+        ]
+      },
+      "2": {
+        "commanderRanks": [
+          [
+            "CHIEF_PETTY_OFFICER",
+            5
+          ],
+          [
+            "ENSIGN",
+            5
+          ]
+        ],
+        "crewRanks": [
+          [
+            "CREWMAN",
+            5
+          ],
+          [
+            "ENSIGN",
+            3
+          ],
+          [
+            "CHIEF_PETTY_OFFICER",
+            2
+          ]
+        ],
+        "crewSize": [
+          2,
+          4
+        ],
+        "durationHours": [
+          3,
+          16
+        ],
+        "estimateCredits": [
+          15000,
+          60000
+        ],
+        "priority": [
+          [
+            5,
+            5
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "taskClass": "ROUTINE_REPAIR",
+        "titles": [
+          "Turbolift shaft guide realignment",
+          "Transporter pad recalibration",
+          "Plasma conduit leak repair",
+          "EPS tap replacement",
+          "Environmental control duct repair",
+          "Shuttlebay door actuator service",
+          "Holodeck emitter array swap",
+          "Waste reclamation pump overhaul"
+        ]
+      },
+      "3": {
+        "commanderRanks": [
+          [
+            "LIEUTENANT",
+            7
+          ],
+          [
+            "ENSIGN",
+            2
+          ],
+          [
+            "LIEUTENANT_COMMANDER",
+            1
+          ]
+        ],
+        "crewRanks": [
+          [
+            "CREWMAN",
+            3
+          ],
+          [
+            "ENSIGN",
+            4
+          ],
+          [
+            "LIEUTENANT",
+            3
+          ],
+          [
+            "CHIEF_PETTY_OFFICER",
+            2
+          ]
+        ],
+        "crewSize": [
+          3,
+          6
+        ],
+        "durationHours": [
+          8,
+          48
+        ],
+        "estimateCredits": [
+          40000,
+          120000
+        ],
+        "priority": [
+          [
+            4,
+            5
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        "taskClass": "SHIP_SYSTEM",
+        "titles": [
+          "Main deflector tuning",
+          "Sensor array calibration",
+          "Impulse engine tuning",
+          "Navigational deflector alignment",
+          "Communications array realignment",
+          "Life support balance recalibration"
+        ]
+      },
+      "4": {
+        "commanderRanks": [
+          [
+            "LIEUTENANT_COMMANDER",
+            6
+          ],
+          [
+            "LIEUTENANT",
+            4
+          ]
+        ],
+        "crewRanks": [
+          [
+            "ENSIGN",
+            3
+          ],
+          [
+            "LIEUTENANT",
+            4
+          ],
+          [
+            "CHIEF_PETTY_OFFICER",
+            3
+          ],
+          [
+            "CREWMAN",
+            2
+          ]
+        ],
+        "crewSize": [
+          5,
+          10
+        ],
+        "durationHours": [
+          24,
+          168
+        ],
+        "estimateCredits": [
+          80000,
+          200000
+        ],
+        "priority": [
+          [
+            3,
+            5
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        "taskClass": "SHIP_SYSTEM",
+        "titles": [
+          "Warp core alignment",
+          "Main deflector repair",
+          "Warp field coil replacement",
+          "EPS grid overhaul",
+          "Dilithium articulation frame service",
+          "Structural integrity field recalibration"
+        ]
+      }
+    }
+  },
+  "masterSeed": 1701,
+  "ordering": "Fixed input roster: the 31 carried missions, the 57 new curated canon missions, the 45 generated maintenance missions, the 167 generated routine missions. Sequential mission ordinals after release 1.0's last. Change ids: the 101 of release 1.0 unchanged, then the new entries numbered from 1.0's next change id in order of changedAt, missionId and local event index among themselves.",
+  "references": {
+    "assets": {
+      "Enterprise": "VS-31",
+      "cargoModule": "EQ-108",
+      "commsKit": "EQ-119",
+      "engineeringKit": "EQ-86",
+      "isolationKit": "EQ-97",
+      "medKit": "EQ-75",
+      "sensorSuite": "EQ-64",
+      "shuttleA": "SH-42",
+      "shuttleB": "SH-53"
+    },
+    "castKept": {
+      "Beverly Crusher": "C-106",
+      "Data": "C-85",
+      "Deanna Troi": "C-113",
+      "Geordi La Forge": "C-92",
+      "Jean-Luc Picard": "C-71",
+      "Miles O'Brien": "C-134",
+      "Reginald Barclay": "C-127",
+      "Wesley Crusher": "C-120",
+      "William Riker": "C-78",
+      "Worf": "C-99"
+    },
+    "crew": {
+      "Arlo Arden": "C-9329",
+      "Arlo Aster": "C-3099",
+      "Arlo Bex": "C-4984",
+      "Arlo Bren": "C-8810",
+      "Arlo Cadan": "C-5514",
+      "Arlo Corin": "C-9219",
+      "Arlo Dalen": "C-2068",
+      "Arlo Elrin": "C-4466",
+      "Arlo Falin": "C-9091",
+      "Arlo Faren": "C-2490",
+      "Arlo Goran": "C-8383",
+      "Arlo Halen": "C-5107",
+      "Arlo Irix": "C-8666",
+      "Arlo Jalen": "C-599",
+      "Arlo Korr": "C-5490",
+      "Arlo Laren": "C-7892",
+      "Arlo Merin": "C-9925",
+      "Arlo Noran": "C-1671",
+      "Arlo Orel": "C-7008",
+      "Arlo Perrin": "C-6256",
+      "Arlo Ralin": "C-2615",
+      "Arlo Sarek": "C-4477",
+      "Arlo Urell": "C-9677",
+      "Arlo Wex": "C-204",
+      "Arlo Xorin": "C-1683",
+      "Arlo Zorin": "C-5275",
+      "Aven Aster": "C-6557",
+      "Aven Bex": "C-4183",
+      "Aven Bren": "C-1598",
+      "Aven Corin": "C-7104",
+      "Aven Dalen": "C-3211",
+      "Aven Doran": "C-9645",
+      "Aven Elrin": "C-9921",
+      "Aven Eren": "C-3970",
+      "Aven Faren": "C-4942",
+      "Aven Halen": "C-3792",
+      "Aven Irix": "C-2470",
+      "Aven Jalen": "C-8881",
+      "Aven Noran": "C-1437",
+      "Aven Orel": "C-7180",
+      "Aven Perrin": "C-1311",
+      "Aven Quell": "C-1915",
+      "Aven Ralin": "C-1262",
+      "Aven Sarek": "C-7011",
+      "Aven Toren": "C-1652",
+      "Aven Urell": "C-948",
+      "Aven Varen": "C-2077",
+      "Aven Wex": "C-7103",
+      "Aven Xorin": "C-9609",
+      "Aven Yaren": "C-4661",
+      "Aven Zorin": "C-3754",
+      "Bela Arden": "C-4067",
+      "Bela Aster": "C-302",
+      "Bela Bex": "C-6670",
+      "Bela Bren": "C-2233",
+      "Bela Cadan": "C-4408",
+      "Bela Dalen": "C-6151",
+      "Bela Doran": "C-2231",
+      "Bela Elrin": "C-2986",
+      "Bela Faren": "C-1492",
+      "Bela Goran": "C-4766",
+      "Bela Halen": "C-6722",
+      "Bela Irix": "C-4111",
+      "Bela Jalen": "C-9865",
+      "Bela Korr": "C-5718",
+      "Bela Laren": "C-9951",
+      "Bela Merin": "C-9829",
+      "Bela Noran": "C-3717",
+      "Bela Orel": "C-2264",
+      "Bela Perrin": "C-9221",
+      "Bela Toren": "C-9335",
+      "Bela Urell": "C-9513",
+      "Bela Varen": "C-1638",
+      "Bela Wex": "C-7340",
+      "Bela Yaren": "C-3553",
+      "Bela Zorin": "C-8587",
+      "Beverly Crusher": "C-106",
+      "Brin Aster": "C-3916",
+      "Brin Bex": "C-7542",
+      "Brin Bren": "C-7408",
+      "Brin Cadan": "C-7316",
+      "Brin Dalen": "C-3915",
+      "Brin Elrin": "C-901",
+      "Brin Eren": "C-5089",
+      "Brin Falin": "C-601",
+      "Brin Faren": "C-9199",
+      "Brin Goran": "C-8907",
+      "Brin Halen": "C-7969",
+      "Brin Irix": "C-3452",
+      "Brin Korr": "C-775",
+      "Brin Merin": "C-6608",
+      "Brin Noran": "C-5007",
+      "Brin Orel": "C-8780",
+      "Brin Perrin": "C-3462",
+      "Brin Ralin": "C-9641",
+      "Brin Sarek": "C-8242",
+      "Brin Toren": "C-5355",
+      "Brin Urell": "C-5279",
+      "Brin Varen": "C-3773",
+      "Brin Yaren": "C-3885",
+      "Brin Zorin": "C-1157",
+      "Ceri Arden": "C-7624",
+      "Ceri Aster": "C-3791",
+      "Ceri Bex": "C-5170",
+      "Ceri Corin": "C-730",
+      "Ceri Dalen": "C-4203",
+      "Ceri Eren": "C-4165",
+      "Ceri Faren": "C-7037",
+      "Ceri Goran": "C-2676",
+      "Ceri Halen": "C-3782",
+      "Ceri Irix": "C-2354",
+      "Ceri Korr": "C-3235",
+      "Ceri Laren": "C-7145",
+      "Ceri Merin": "C-6029",
+      "Ceri Noran": "C-1196",
+      "Ceri Orel": "C-6022",
+      "Ceri Quell": "C-6081",
+      "Ceri Ralin": "C-6043",
+      "Ceri Sarek": "C-6833",
+      "Ceri Toren": "C-693",
+      "Ceri Urell": "C-1423",
+      "Ceri Varen": "C-5034",
+      "Ceri Xorin": "C-6798",
+      "Ceri Zorin": "C-4822",
+      "Cora Arden": "C-675",
+      "Cora Aster": "C-2566",
+      "Cora Bex": "C-7783",
+      "Cora Cadan": "C-5673",
+      "Cora Dalen": "C-7249",
+      "Cora Doran": "C-504",
+      "Cora Elrin": "C-2728",
+      "Cora Eren": "C-6315",
+      "Cora Falin": "C-2364",
+      "Cora Faren": "C-594",
+      "Cora Goran": "C-8761",
+      "Cora Halen": "C-1386",
+      "Cora Irix": "C-4481",
+      "Cora Laren": "C-1112",
+      "Cora Merin": "C-6407",
+      "Cora Orel": "C-6375",
+      "Cora Perrin": "C-454",
+      "Cora Quell": "C-8281",
+      "Cora Sarek": "C-6225",
+      "Cora Toren": "C-3470",
+      "Cora Urell": "C-8233",
+      "Cora Wex": "C-3755",
+      "Cora Xorin": "C-2113",
+      "Cora Yaren": "C-856",
+      "Daro Aster": "C-2642",
+      "Daro Bex": "C-2702",
+      "Daro Bren": "C-457",
+      "Daro Cadan": "C-4343",
+      "Daro Corin": "C-5754",
+      "Daro Dalen": "C-1686",
+      "Daro Doran": "C-7274",
+      "Daro Elrin": "C-6622",
+      "Daro Eren": "C-2030",
+      "Daro Falin": "C-2610",
+      "Daro Halen": "C-8382",
+      "Daro Irix": "C-4002",
+      "Daro Jalen": "C-6287",
+      "Daro Korr": "C-2518",
+      "Daro Laren": "C-6069",
+      "Daro Merin": "C-2489",
+      "Daro Noran": "C-8385",
+      "Daro Orel": "C-3691",
+      "Daro Quell": "C-2699",
+      "Daro Ralin": "C-3225",
+      "Daro Sarek": "C-7181",
+      "Daro Toren": "C-3759",
+      "Daro Urell": "C-7976",
+      "Daro Varen": "C-170",
+      "Daro Zorin": "C-9002",
+      "Data": "C-85",
+      "Deanna Troi": "C-113",
+      "Deni Arden": "C-4225",
+      "Deni Aster": "C-9337",
+      "Deni Bex": "C-2342",
+      "Deni Bren": "C-1825",
+      "Deni Cadan": "C-6206",
+      "Deni Corin": "C-5766",
+      "Deni Dalen": "C-8182",
+      "Deni Doran": "C-8384",
+      "Deni Elrin": "C-602",
+      "Deni Eren": "C-4089",
+      "Deni Falin": "C-7952",
+      "Deni Faren": "C-7169",
+      "Deni Goran": "C-4008",
+      "Deni Irix": "C-4564",
+      "Deni Jalen": "C-8357",
+      "Deni Korr": "C-1373",
+      "Deni Laren": "C-7919",
+      "Deni Noran": "C-975",
+      "Deni Orel": "C-1782",
+      "Deni Perrin": "C-6851",
+      "Deni Ralin": "C-7406",
+      "Deni Sarek": "C-4621",
+      "Deni Toren": "C-2503",
+      "Deni Urell": "C-4391",
+      "Deni Varen": "C-2360",
+      "Deni Wex": "C-7838",
+      "Deni Xorin": "C-3084",
+      "Deni Yaren": "C-371",
+      "Deni Zorin": "C-8629",
+      "Elias Renn": "C-818",
+      "Esra Arden": "C-9094",
+      "Esra Aster": "C-5566",
+      "Esra Bex": "C-9626",
+      "Esra Bren": "C-6214",
+      "Esra Dalen": "C-7611",
+      "Esra Elrin": "C-2176",
+      "Esra Eren": "C-3174",
+      "Esra Falin": "C-9200",
+      "Esra Faren": "C-4514",
+      "Esra Goran": "C-1597",
+      "Esra Halen": "C-5677",
+      "Esra Irix": "C-6737",
+      "Esra Jalen": "C-2776",
+      "Esra Korr": "C-3434",
+      "Esra Laren": "C-9989",
+      "Esra Merin": "C-2016",
+      "Esra Noran": "C-5445",
+      "Esra Orel": "C-9066",
+      "Esra Perrin": "C-1581",
+      "Esra Quell": "C-3459",
+      "Esra Toren": "C-2502",
+      "Esra Urell": "C-6041",
+      "Esra Varen": "C-7785",
+      "Esra Wex": "C-1200",
+      "Esra Xorin": "C-9220",
+      "Esra Yaren": "C-9994",
+      "Esra Zorin": "C-3104",
+      "Evin Arden": "C-2180",
+      "Evin Aster": "C-9306",
+      "Evin Bex": "C-1955",
+      "Evin Bren": "C-7840",
+      "Evin Cadan": "C-4267",
+      "Evin Corin": "C-9927",
+      "Evin Doran": "C-5063",
+      "Evin Elrin": "C-1539",
+      "Evin Eren": "C-3703",
+      "Evin Falin": "C-5578",
+      "Evin Faren": "C-9579",
+      "Evin Jalen": "C-5696",
+      "Evin Korr": "C-7765",
+      "Evin Laren": "C-4368",
+      "Evin Merin": "C-9050",
+      "Evin Noran": "C-8366",
+      "Evin Orel": "C-5475",
+      "Evin Perrin": "C-4648",
+      "Evin Quell": "C-1998",
+      "Evin Sarek": "C-2964",
+      "Evin Toren": "C-5899",
+      "Evin Urell": "C-2629",
+      "Evin Varen": "C-5935",
+      "Evin Xorin": "C-4280",
+      "Evin Zorin": "C-660",
+      "Fara Arden": "C-7310",
+      "Fara Aster": "C-8229",
+      "Fara Bex": "C-1171",
+      "Fara Cadan": "C-8831",
+      "Fara Corin": "C-3943",
+      "Fara Doran": "C-339",
+      "Fara Elrin": "C-8011",
+      "Fara Faren": "C-6253",
+      "Fara Halen": "C-8103",
+      "Fara Irix": "C-5944",
+      "Fara Jalen": "C-3206",
+      "Fara Korr": "C-1534",
+      "Fara Merin": "C-600",
+      "Fara Noran": "C-258",
+      "Fara Orel": "C-4770",
+      "Fara Perrin": "C-5530",
+      "Fara Ralin": "C-5531",
+      "Fara Sarek": "C-8809",
+      "Fara Wex": "C-3207",
+      "Fara Xorin": "C-4904",
+      "Fara Yaren": "C-7940",
+      "Fenn Arden": "C-6504",
+      "Fenn Aster": "C-8898",
+      "Fenn Bex": "C-4549",
+      "Fenn Bren": "C-1186",
+      "Fenn Corin": "C-3007",
+      "Fenn Dalen": "C-7885",
+      "Fenn Doran": "C-8280",
+      "Fenn Elrin": "C-8115",
+      "Fenn Eren": "C-2044",
+      "Fenn Faren": "C-4952",
+      "Fenn Goran": "C-6218",
+      "Fenn Halen": "C-7723",
+      "Fenn Irix": "C-3630",
+      "Fenn Korr": "C-9716",
+      "Fenn Laren": "C-4562",
+      "Fenn Merin": "C-5438",
+      "Fenn Noran": "C-4702",
+      "Fenn Orel": "C-313",
+      "Fenn Quell": "C-4174",
+      "Fenn Ralin": "C-9916",
+      "Fenn Sarek": "C-4110",
+      "Fenn Toren": "C-5158",
+      "Fenn Varen": "C-1274",
+      "Fenn Wex": "C-7653",
+      "Fenn Xorin": "C-374",
+      "Fenn Yaren": "C-641",
+      "Fenn Zorin": "C-1926",
+      "Galen Arden": "C-5248",
+      "Galen Bex": "C-3572",
+      "Galen Cadan": "C-5050",
+      "Galen Corin": "C-3071",
+      "Galen Dalen": "C-9859",
+      "Galen Elrin": "C-4903",
+      "Galen Eren": "C-6259",
+      "Galen Falin": "C-3815",
+      "Galen Faren": "C-9357",
+      "Galen Goran": "C-4168",
+      "Galen Halen": "C-6695",
+      "Galen Irix": "C-6362",
+      "Galen Jalen": "C-2275",
+      "Galen Korr": "C-832",
+      "Galen Laren": "C-646",
+      "Galen Merin": "C-8755",
+      "Galen Noran": "C-1076",
+      "Galen Orel": "C-1325",
+      "Galen Quell": "C-5412",
+      "Galen Ralin": "C-2224",
+      "Galen Toren": "C-4842",
+      "Galen Urell": "C-8607",
+      "Galen Wex": "C-1537",
+      "Galen Xorin": "C-3772",
+      "Galen Yaren": "C-6419",
+      "Geordi La Forge": "C-92",
+      "Guinan": "C-4752",
+      "Hara Arden": "C-4828",
+      "Hara Aster": "C-3822",
+      "Hara Bex": "C-998",
+      "Hara Bren": "C-4830",
+      "Hara Cadan": "C-231",
+      "Hara Dalen": "C-3134",
+      "Hara Doran": "C-7486",
+      "Hara Elrin": "C-3240",
+      "Hara Eren": "C-9933",
+      "Hara Goran": "C-9737",
+      "Hara Halen": "C-9858",
+      "Hara Irix": "C-3741",
+      "Hara Korr": "C-7042",
+      "Hara Laren": "C-6671",
+      "Hara Noran": "C-5893",
+      "Hara Orel": "C-1691",
+      "Hara Perrin": "C-6243",
+      "Hara Quell": "C-5314",
+      "Hara Ralin": "C-5846",
+      "Hara Sarek": "C-5133",
+      "Hara Toren": "C-1229",
+      "Hara Varen": "C-7311",
+      "Hara Xorin": "C-4743",
+      "Hara Yaren": "C-5216",
+      "Hara Zorin": "C-3723",
+      "Iven Arden": "C-4439",
+      "Iven Bex": "C-3532",
+      "Iven Cadan": "C-1268",
+      "Iven Corin": "C-3497",
+      "Iven Dalen": "C-9001",
+      "Iven Doran": "C-6087",
+      "Iven Elrin": "C-6945",
+      "Iven Eren": "C-5110",
+      "Iven Falin": "C-8145",
+      "Iven Faren": "C-4131",
+      "Iven Goran": "C-9258",
+      "Iven Halen": "C-2980",
+      "Iven Irix": "C-1852",
+      "Iven Jalen": "C-9803",
+      "Iven Korr": "C-5292",
+      "Iven Laren": "C-699",
+      "Iven Noran": "C-3685",
+      "Iven Orel": "C-7443",
+      "Iven Perrin": "C-4219",
+      "Iven Quell": "C-7996",
+      "Iven Ralin": "C-5990",
+      "Iven Sarek": "C-6814",
+      "Iven Toren": "C-7390",
+      "Iven Urell": "C-4462",
+      "Iven Wex": "C-636",
+      "Iven Xorin": "C-5015",
+      "Iven Yaren": "C-2137",
+      "Iven Zorin": "C-6569",
+      "Jean-Luc Picard": "C-71",
+      "Jora Arden": "C-7970",
+      "Jora Aster": "C-502",
+      "Jora Bex": "C-9692",
+      "Jora Bren": "C-4986",
+      "Jora Cadan": "C-902",
+      "Jora Dalen": "C-451",
+      "Jora Doran": "C-1932",
+      "Jora Elrin": "C-4340",
+      "Jora Eren": "C-3001",
+      "Jora Faren": "C-7074",
+      "Jora Goran": "C-8071",
+      "Jora Halen": "C-5621",
+      "Jora Laren": "C-7503",
+      "Jora Merin": "C-6741",
+      "Jora Noran": "C-2011",
+      "Jora Orel": "C-9705",
+      "Jora Quell": "C-4878",
+      "Jora Sarek": "C-4982",
+      "Jora Toren": "C-8025",
+      "Jora Urell": "C-6291",
+      "Jora Varen": "C-5083",
+      "Jora Wex": "C-4469",
+      "Jora Yaren": "C-5053",
+      "Jora Zorin": "C-5577",
+      "Kalen Arden": "C-7989",
+      "Kalen Aster": "C-1515",
+      "Kalen Bex": "C-8163",
+      "Kalen Bren": "C-2782",
+      "Kalen Cadan": "C-5115",
+      "Kalen Corin": "C-7369",
+      "Kalen Dalen": "C-1803",
+      "Kalen Doran": "C-1615",
+      "Kalen Elrin": "C-1630",
+      "Kalen Falin": "C-9033",
+      "Kalen Faren": "C-2850",
+      "Kalen Halen": "C-2049",
+      "Kalen Irix": "C-3227",
+      "Kalen Korr": "C-9130",
+      "Kalen Laren": "C-6506",
+      "Kalen Orel": "C-4154",
+      "Kalen Quell": "C-960",
+      "Kalen Ralin": "C-2495",
+      "Kalen Sarek": "C-4954",
+      "Kalen Toren": "C-9396",
+      "Kalen Urell": "C-903",
+      "Kalen Varen": "C-155",
+      "Kalen Wex": "C-7720",
+      "Kalen Xorin": "C-6134",
+      "Kalen Zorin": "C-353",
+      "Lira Arden": "C-8611",
+      "Lira Aster": "C-1802",
+      "Lira Bex": "C-5408",
+      "Lira Corin": "C-5983",
+      "Lira Dalen": "C-1739",
+      "Lira Doran": "C-2804",
+      "Lira Eren": "C-2201",
+      "Lira Falin": "C-4609",
+      "Lira Goran": "C-8037",
+      "Lira Irix": "C-2455",
+      "Lira Jalen": "C-3628",
+      "Lira Korr": "C-9652",
+      "Lira Merin": "C-1154",
+      "Lira Noran": "C-8951",
+      "Lira Orel": "C-3237",
+      "Lira Perrin": "C-8179",
+      "Lira Quell": "C-6055",
+      "Lira Ralin": "C-6867",
+      "Lira Toren": "C-3986",
+      "Lira Urell": "C-1008",
+      "Lira Varen": "C-450",
+      "Lira Xorin": "C-7950",
+      "Lira Zorin": "C-500",
+      "Mara Venn": "C-2132",
+      "Miles O'Brien": "C-134",
+      "Miro Cadan": "C-1320",
+      "Miro Doran": "C-6046",
+      "Miro Elrin": "C-7141",
+      "Miro Faren": "C-7256",
+      "Miro Goran": "C-1155",
+      "Miro Halen": "C-8173",
+      "Miro Jalen": "C-5771",
+      "Miro Korr": "C-7917",
+      "Miro Laren": "C-8698",
+      "Miro Merin": "C-5390",
+      "Miro Noran": "C-5193",
+      "Miro Orel": "C-1731",
+      "Miro Quell": "C-5756",
+      "Miro Ralin": "C-7884",
+      "Miro Sarek": "C-2192",
+      "Miro Toren": "C-5557",
+      "Miro Urell": "C-384",
+      "Miro Varen": "C-4578",
+      "Miro Xorin": "C-2958",
+      "Miro Yaren": "C-6216",
+      "Miro Zorin": "C-278",
+      "Nara Arden": "C-4353",
+      "Nara Bren": "C-7019",
+      "Nara Cadan": "C-2425",
+      "Nara Corin": "C-6651",
+      "Nara Doran": "C-1988",
+      "Nara Elrin": "C-5161",
+      "Nara Faren": "C-9067",
+      "Nara Goran": "C-794",
+      "Nara Halen": "C-3690",
+      "Nara Irix": "C-855",
+      "Nara Jalen": "C-4155",
+      "Nara Korr": "C-481",
+      "Nara Merin": "C-7680",
+      "Nara Orel": "C-3716",
+      "Nara Perrin": "C-7977",
+      "Nara Toren": "C-3213",
+      "Nara Urell": "C-3827",
+      "Nara Varen": "C-7362",
+      "Nara Wex": "C-9341",
+      "Nara Xorin": "C-881",
+      "Orin Arden": "C-4025",
+      "Orin Aster": "C-2162",
+      "Orin Bex": "C-6873",
+      "Orin Bren": "C-554",
+      "Orin Cadan": "C-2312",
+      "Orin Corin": "C-4803",
+      "Orin Dalen": "C-4852",
+      "Orin Doran": "C-4809",
+      "Orin Elrin": "C-2890",
+      "Orin Eren": "C-7961",
+      "Orin Falin": "C-4454",
+      "Orin Goran": "C-3641",
+      "Orin Halen": "C-1769",
+      "Orin Irix": "C-476",
+      "Orin Korr": "C-2339",
+      "Orin Laren": "C-8633",
+      "Orin Merin": "C-1679",
+      "Orin Orel": "C-2484",
+      "Orin Perrin": "C-3166",
+      "Orin Quell": "C-8181",
+      "Orin Sarek": "C-1288",
+      "Orin Urell": "C-4572",
+      "Orin Varen": "C-8380",
+      "Orin Xorin": "C-8158",
+      "Orin Yaren": "C-7822",
+      "Orin Zorin": "C-7020",
+      "Pera Arden": "C-8306",
+      "Pera Aster": "C-7881",
+      "Pera Bex": "C-5836",
+      "Pera Cadan": "C-7918",
+      "Pera Corin": "C-9307",
+      "Pera Dalen": "C-9275",
+      "Pera Doran": "C-5736",
+      "Pera Elrin": "C-7083",
+      "Pera Eren": "C-1042",
+      "Pera Falin": "C-6732",
+      "Pera Goran": "C-2074",
+      "Pera Halen": "C-5488",
+      "Pera Irix": "C-5280",
+      "Pera Jalen": "C-3577",
+      "Pera Korr": "C-3833",
+      "Pera Laren": "C-7927",
+      "Pera Merin": "C-8112",
+      "Pera Noran": "C-7978",
+      "Pera Orel": "C-5780",
+      "Pera Quell": "C-4946",
+      "Pera Ralin": "C-694",
+      "Pera Sarek": "C-9285",
+      "Pera Toren": "C-7395",
+      "Pera Urell": "C-3653",
+      "Pera Wex": "C-9727",
+      "Pera Xorin": "C-2072",
+      "Pera Yaren": "C-6817",
+      "Pera Zorin": "C-4457",
+      "Quin Arden": "C-5180",
+      "Quin Aster": "C-4996",
+      "Quin Bren": "C-9635",
+      "Quin Cadan": "C-3729",
+      "Quin Elrin": "C-2366",
+      "Quin Eren": "C-3154",
+      "Quin Faren": "C-9267",
+      "Quin Irix": "C-6738",
+      "Quin Laren": "C-9032",
+      "Quin Noran": "C-2940",
+      "Quin Orel": "C-7457",
+      "Quin Quell": "C-6904",
+      "Quin Ralin": "C-8076",
+      "Quin Sarek": "C-8594",
+      "Quin Toren": "C-7280",
+      "Quin Urell": "C-1900",
+      "Quin Wex": "C-2080",
+      "Quin Xorin": "C-3264",
+      "Quin Yaren": "C-268",
+      "Quin Zorin": "C-5687",
+      "Reginald Barclay": "C-127",
+      "Rena Arden": "C-8778",
+      "Rena Aster": "C-8734",
+      "Rena Bex": "C-299",
+      "Rena Bren": "C-1982",
+      "Rena Cadan": "C-3550",
+      "Rena Dalen": "C-7110",
+      "Rena Doran": "C-2745",
+      "Rena Elrin": "C-3356",
+      "Rena Falin": "C-920",
+      "Rena Goran": "C-3266",
+      "Rena Irix": "C-3145",
+      "Rena Jalen": "C-7326",
+      "Rena Korr": "C-7401",
+      "Rena Laren": "C-1240",
+      "Rena Merin": "C-9664",
+      "Rena Noran": "C-2272",
+      "Rena Orel": "C-8745",
+      "Rena Perrin": "C-5386",
+      "Rena Quell": "C-3597",
+      "Rena Ralin": "C-9217",
+      "Rena Sarek": "C-8638",
+      "Rena Toren": "C-6721",
+      "Rena Urell": "C-1610",
+      "Rena Varen": "C-9226",
+      "Rena Wex": "C-2722",
+      "Rena Xorin": "C-4576",
+      "Rena Yaren": "C-5908",
+      "Sonya Gomez": "C-1283",
+      "Soren Arden": "C-5124",
+      "Soren Aster": "C-2990",
+      "Soren Bex": "C-4014",
+      "Soren Bren": "C-1887",
+      "Soren Corin": "C-9704",
+      "Soren Dalen": "C-1793",
+      "Soren Doran": "C-720",
+      "Soren Elrin": "C-2237",
+      "Soren Eren": "C-3727",
+      "Soren Falin": "C-8536",
+      "Soren Faren": "C-9465",
+      "Soren Goran": "C-3865",
+      "Soren Irix": "C-1846",
+      "Soren Jalen": "C-4722",
+      "Soren Korr": "C-9144",
+      "Soren Laren": "C-3686",
+      "Soren Merin": "C-2878",
+      "Soren Noran": "C-8904",
+      "Soren Perrin": "C-5284",
+      "Soren Quell": "C-7738",
+      "Soren Ralin": "C-4444",
+      "Soren Sarek": "C-3950",
+      "Soren Toren": "C-3489",
+      "Soren Varen": "C-2422",
+      "Soren Wex": "C-3635",
+      "Soren Xorin": "C-6773",
+      "Soren Yaren": "C-3353",
+      "Soren Zorin": "C-4488",
+      "Tavi Arden": "C-6769",
+      "Tavi Bex": "C-9625",
+      "Tavi Cadan": "C-8955",
+      "Tavi Dalen": "C-6806",
+      "Tavi Doran": "C-2161",
+      "Tavi Elrin": "C-8508",
+      "Tavi Eren": "C-382",
+      "Tavi Falin": "C-2053",
+      "Tavi Goran": "C-5610",
+      "Tavi Halen": "C-2268",
+      "Tavi Jalen": "C-2708",
+      "Tavi Korr": "C-1046",
+      "Tavi Merin": "C-5652",
+      "Tavi Noran": "C-4333",
+      "Tavi Orel": "C-9495",
+      "Tavi Quell": "C-5151",
+      "Tavi Sarek": "C-3132",
+      "Tavi Toren": "C-2841",
+      "Tavi Varen": "C-8062",
+      "Tavi Wex": "C-3626",
+      "Tavi Zorin": "C-428",
+      "Ulan Arden": "C-9137",
+      "Ulan Bex": "C-3224",
+      "Ulan Bren": "C-3481",
+      "Ulan Cadan": "C-8490",
+      "Ulan Corin": "C-742",
+      "Ulan Dalen": "C-4421",
+      "Ulan Doran": "C-9366",
+      "Ulan Elrin": "C-2546",
+      "Ulan Eren": "C-5198",
+      "Ulan Falin": "C-6872",
+      "Ulan Faren": "C-8564",
+      "Ulan Goran": "C-6849",
+      "Ulan Irix": "C-8565",
+      "Ulan Jalen": "C-184",
+      "Ulan Korr": "C-7116",
+      "Ulan Laren": "C-4034",
+      "Ulan Merin": "C-5251",
+      "Ulan Noran": "C-3380",
+      "Ulan Orel": "C-6172",
+      "Ulan Perrin": "C-9899",
+      "Ulan Quell": "C-5236",
+      "Ulan Ralin": "C-2616",
+      "Ulan Toren": "C-2006",
+      "Ulan Urell": "C-9789",
+      "Ulan Xorin": "C-9588",
+      "Ulan Zorin": "C-7402",
+      "Vela Aster": "C-8725",
+      "Vela Bren": "C-849",
+      "Vela Cadan": "C-2545",
+      "Vela Corin": "C-2812",
+      "Vela Dalen": "C-286",
+      "Vela Eren": "C-1939",
+      "Vela Falin": "C-732",
+      "Vela Faren": "C-5076",
+      "Vela Halen": "C-2279",
+      "Vela Jalen": "C-6313",
+      "Vela Noran": "C-3951",
+      "Vela Orel": "C-7115",
+      "Vela Perrin": "C-5609",
+      "Vela Quell": "C-4558",
+      "Vela Ralin": "C-9373",
+      "Vela Sarek": "C-1025",
+      "Vela Urell": "C-1720",
+      "Vela Varen": "C-494",
+      "Vela Wex": "C-9043",
+      "Vela Xorin": "C-4713",
+      "Vela Yaren": "C-3887",
+      "Vela Zorin": "C-2529",
+      "Wesley Crusher": "C-120",
+      "William Riker": "C-78",
+      "Worf": "C-99",
+      "Wren Arden": "C-9023",
+      "Wren Aster": "C-4535",
+      "Wren Bren": "C-3798",
+      "Wren Cadan": "C-9612",
+      "Wren Corin": "C-3500",
+      "Wren Dalen": "C-8527",
+      "Wren Doran": "C-5572",
+      "Wren Eren": "C-8066",
+      "Wren Falin": "C-8116",
+      "Wren Faren": "C-223",
+      "Wren Goran": "C-2280",
+      "Wren Irix": "C-3072",
+      "Wren Jalen": "C-1628",
+      "Wren Noran": "C-6095",
+      "Wren Orel": "C-4262",
+      "Wren Perrin": "C-2548",
+      "Wren Quell": "C-680",
+      "Wren Ralin": "C-4921",
+      "Wren Sarek": "C-6991",
+      "Wren Toren": "C-2423",
+      "Wren Urell": "C-7480",
+      "Wren Varen": "C-9659",
+      "Wren Wex": "C-4344",
+      "Wren Xorin": "C-5919",
+      "Wren Zorin": "C-2581",
+      "Xara Arden": "C-5723",
+      "Xara Aster": "C-2289",
+      "Xara Bex": "C-6447",
+      "Xara Bren": "C-2932",
+      "Xara Dalen": "C-3776",
+      "Xara Doran": "C-1458",
+      "Xara Elrin": "C-1771",
+      "Xara Eren": "C-1011",
+      "Xara Falin": "C-5548",
+      "Xara Faren": "C-1862",
+      "Xara Goran": "C-9530",
+      "Xara Irix": "C-5006",
+      "Xara Jalen": "C-9732",
+      "Xara Korr": "C-8919",
+      "Xara Laren": "C-5889",
+      "Xara Merin": "C-7076",
+      "Xara Noran": "C-2877",
+      "Xara Perrin": "C-4228",
+      "Xara Quell": "C-8639",
+      "Xara Sarek": "C-4062",
+      "Xara Varen": "C-6161",
+      "Xara Wex": "C-6811",
+      "Xara Xorin": "C-9725",
+      "Xara Yaren": "C-9540",
+      "Xara Zorin": "C-7168",
+      "Yori Bex": "C-9853",
+      "Yori Doran": "C-8665",
+      "Yori Eren": "C-6079",
+      "Yori Falin": "C-5322",
+      "Yori Halen": "C-1838",
+      "Yori Irix": "C-8167",
+      "Yori Korr": "C-7597",
+      "Yori Laren": "C-883",
+      "Yori Noran": "C-6115",
+      "Yori Orel": "C-3077",
+      "Yori Perrin": "C-3355",
+      "Yori Quell": "C-8512",
+      "Yori Ralin": "C-5576",
+      "Yori Sarek": "C-8858",
+      "Yori Toren": "C-6909",
+      "Yori Urell": "C-3679",
+      "Yori Varen": "C-2408",
+      "Yori Wex": "C-777",
+      "Yori Xorin": "C-3385",
+      "Yori Yaren": "C-701",
+      "Yori Zorin": "C-8160",
+      "Zena Arden": "C-1221",
+      "Zena Aster": "C-1269",
+      "Zena Bex": "C-1017",
+      "Zena Bren": "C-1421",
+      "Zena Cadan": "C-8327",
+      "Zena Corin": "C-5051",
+      "Zena Dalen": "C-7816",
+      "Zena Elrin": "C-848",
+      "Zena Falin": "C-4116",
+      "Zena Goran": "C-7348",
+      "Zena Halen": "C-1392",
+      "Zena Irix": "C-965",
+      "Zena Korr": "C-847",
+      "Zena Merin": "C-8603",
+      "Zena Noran": "C-3491",
+      "Zena Orel": "C-5782",
+      "Zena Perrin": "C-140",
+      "Zena Quell": "C-4265",
+      "Zena Sarek": "C-2334",
+      "Zena Toren": "C-4490",
+      "Zena Urell": "C-6463",
+      "Zena Varen": "C-3758",
+      "Zena Wex": "C-3427",
+      "Zena Xorin": "C-6812",
+      "Zena Yaren": "C-4038"
+    },
+    "limitation": "Missions-local opaque IDs; no suffix/alias-based Personnel mapping or canonical external registry claim.",
+    "participantPool": [
+      "P-1081",
+      "P-1094",
+      "P-1107",
+      "P-1120",
+      "P-1133",
+      "P-1146",
+      "P-1159",
+      "P-1172",
+      "P-1185",
+      "P-1198",
+      "P-1211",
+      "P-1224",
+      "P-1237",
+      "P-1250",
+      "P-1263",
+      "P-1276",
+      "P-1289",
+      "P-1302",
+      "P-1315",
+      "P-1328",
+      "P-1341",
+      "P-1354",
+      "P-1367",
+      "P-1380",
+      "P-1393",
+      "P-1406",
+      "P-1419",
+      "P-1432",
+      "P-1445",
+      "P-1458",
+      "P-1471",
+      "P-1484",
+      "P-1497",
+      "P-1510",
+      "P-1523",
+      "P-1536",
+      "P-1549",
+      "P-1562",
+      "P-1575",
+      "P-1588",
+      "P-1601",
+      "P-1614",
+      "P-1627",
+      "P-1640",
+      "P-1653",
+      "P-1666",
+      "P-1679",
+      "P-1692",
+      "P-1705",
+      "P-1718",
+      "P-1731",
+      "P-1744",
+      "P-1757",
+      "P-1770",
+      "P-1783",
+      "P-1796",
+      "P-1809",
+      "P-1822",
+      "P-1835",
+      "P-1848",
+      "O-1861",
+      "O-1874",
+      "O-1887",
+      "O-1900",
+      "O-1913",
+      "O-1926",
+      "O-1939",
+      "O-1952",
+      "O-1965",
+      "O-1978",
+      "O-1991",
+      "O-2004",
+      "O-2017",
+      "O-2030",
+      "O-2043",
+      "O-2056",
+      "O-2069",
+      "O-2082",
+      "O-2095",
+      "O-2108"
+    ],
+    "participants": {
+      "O-1055": "injured Borg drone",
+      "O-1861": "synthetic group or object 01 (lab placeholder)",
+      "O-1874": "synthetic group or object 02 (lab placeholder)",
+      "O-1887": "synthetic group or object 03 (lab placeholder)",
+      "O-1900": "synthetic group or object 04 (lab placeholder)",
+      "O-1913": "synthetic group or object 05 (lab placeholder)",
+      "O-1926": "synthetic group or object 06 (lab placeholder)",
+      "O-1939": "synthetic group or object 07 (lab placeholder)",
+      "O-1952": "synthetic group or object 08 (lab placeholder)",
+      "O-1965": "synthetic group or object 09 (lab placeholder)",
+      "O-1978": "synthetic group or object 10 (lab placeholder)",
+      "O-1991": "synthetic group or object 11 (lab placeholder)",
+      "O-2004": "synthetic group or object 12 (lab placeholder)",
+      "O-2017": "synthetic group or object 13 (lab placeholder)",
+      "O-2030": "synthetic group or object 14 (lab placeholder)",
+      "O-2043": "synthetic group or object 15 (lab placeholder)",
+      "O-2056": "synthetic group or object 16 (lab placeholder)",
+      "O-2069": "synthetic group or object 17 (lab placeholder)",
+      "O-2082": "synthetic group or object 18 (lab placeholder)",
+      "O-2095": "synthetic group or object 19 (lab placeholder)",
+      "O-2108": "synthetic group or object 20 (lab placeholder)",
+      "O-224": "nanite collective",
+      "O-380": "Gomtuu",
+      "O-639": "Ventaxian government delegation",
+      "O-860": "Wesley Crusher as a returning visitor (an outsider, not Crew)",
+      "O-938": "Ullian delegation",
+      "O-951": "colony council (lab label)",
+      "O-977": "J'naii delegation",
+      "P-1003": "Alexander",
+      "P-1016": "Kamala",
+      "P-1029": "Alrik",
+      "P-1042": "Clara Sutter",
+      "P-1068": "Guinan",
+      "P-1081": "synthetic participant 01 (lab placeholder)",
+      "P-1094": "synthetic participant 02 (lab placeholder)",
+      "P-1107": "synthetic participant 03 (lab placeholder)",
+      "P-1120": "synthetic participant 04 (lab placeholder)",
+      "P-1133": "synthetic participant 05 (lab placeholder)",
+      "P-1146": "synthetic participant 06 (lab placeholder)",
+      "P-1159": "synthetic participant 07 (lab placeholder)",
+      "P-1172": "synthetic participant 08 (lab placeholder)",
+      "P-1185": "synthetic participant 09 (lab placeholder)",
+      "P-1198": "synthetic participant 10 (lab placeholder)",
+      "P-1211": "synthetic participant 11 (lab placeholder)",
+      "P-1224": "synthetic participant 12 (lab placeholder)",
+      "P-1237": "synthetic participant 13 (lab placeholder)",
+      "P-1250": "synthetic participant 14 (lab placeholder)",
+      "P-1263": "synthetic participant 15 (lab placeholder)",
+      "P-1276": "synthetic participant 16 (lab placeholder)",
+      "P-1289": "synthetic participant 17 (lab placeholder)",
+      "P-1302": "synthetic participant 18 (lab placeholder)",
+      "P-1315": "synthetic participant 19 (lab placeholder)",
+      "P-1328": "synthetic participant 20 (lab placeholder)",
+      "P-1341": "synthetic participant 21 (lab placeholder)",
+      "P-1354": "synthetic participant 22 (lab placeholder)",
+      "P-1367": "synthetic participant 23 (lab placeholder)",
+      "P-1380": "synthetic participant 24 (lab placeholder)",
+      "P-1393": "synthetic participant 25 (lab placeholder)",
+      "P-1406": "synthetic participant 26 (lab placeholder)",
+      "P-1419": "synthetic participant 27 (lab placeholder)",
+      "P-1432": "synthetic participant 28 (lab placeholder)",
+      "P-1445": "synthetic participant 29 (lab placeholder)",
+      "P-1458": "synthetic participant 30 (lab placeholder)",
+      "P-1471": "synthetic participant 31 (lab placeholder)",
+      "P-1484": "synthetic participant 32 (lab placeholder)",
+      "P-1497": "synthetic participant 33 (lab placeholder)",
+      "P-1510": "synthetic participant 34 (lab placeholder)",
+      "P-1523": "synthetic participant 35 (lab placeholder)",
+      "P-1536": "synthetic participant 36 (lab placeholder)",
+      "P-1549": "synthetic participant 37 (lab placeholder)",
+      "P-1562": "synthetic participant 38 (lab placeholder)",
+      "P-1575": "synthetic participant 39 (lab placeholder)",
+      "P-1588": "synthetic participant 40 (lab placeholder)",
+      "P-1601": "synthetic participant 41 (lab placeholder)",
+      "P-1614": "synthetic participant 42 (lab placeholder)",
+      "P-1627": "synthetic participant 43 (lab placeholder)",
+      "P-1640": "synthetic participant 44 (lab placeholder)",
+      "P-1653": "synthetic participant 45 (lab placeholder)",
+      "P-1666": "synthetic participant 46 (lab placeholder)",
+      "P-1679": "synthetic participant 47 (lab placeholder)",
+      "P-1692": "synthetic participant 48 (lab placeholder)",
+      "P-1705": "synthetic participant 49 (lab placeholder)",
+      "P-1718": "synthetic participant 50 (lab placeholder)",
+      "P-1731": "synthetic participant 51 (lab placeholder)",
+      "P-1744": "synthetic participant 52 (lab placeholder)",
+      "P-1757": "synthetic participant 53 (lab placeholder)",
+      "P-1770": "synthetic participant 54 (lab placeholder)",
+      "P-1783": "synthetic participant 55 (lab placeholder)",
+      "P-1796": "synthetic participant 56 (lab placeholder)",
+      "P-1809": "synthetic participant 57 (lab placeholder)",
+      "P-1822": "synthetic participant 58 (lab placeholder)",
+      "P-1835": "synthetic participant 59 (lab placeholder)",
+      "P-1848": "synthetic participant 60 (lab placeholder)",
+      "P-211": "Dr Paul Stubbs",
+      "P-237": "Ard'rian McKenzie",
+      "P-250": "Gosheven",
+      "P-263": "Sheliak representative",
+      "P-276": "Kevin Uxbridge",
+      "P-289": "Rishon Uxbridge as initially reported",
+      "P-302": "Bochra",
+      "P-315": "injured Romulan patient",
+      "P-328": "Barzan delegation",
+      "P-341": "Marouk",
+      "P-354": "Chorgan",
+      "P-367": "Tam Elbrun",
+      "P-393": "Sarek",
+      "P-406": "Perrin",
+      "P-419": "Legaran delegation",
+      "P-432": "unidentified survivor, locally John Doe",
+      "P-445": "Jono",
+      "P-458": "Talarian trainees as local group",
+      "P-471": "Ishara Yar",
+      "P-484": "K'mpec",
+      "P-497": "Gowron",
+      "P-510": "Duras",
+      "P-523": "T'Pel as initially asserted identity",
+      "P-536": "Cardassian liaison delegation",
+      "P-549": "Mirasta Yale",
+      "P-562": "Chancellor Durken",
+      "P-575": "Brattain survivor",
+      "P-600": "Willie Potts",
+      "P-613": "Jake Potts",
+      "P-626": "Dr Howard Clark",
+      "P-652": "Susanna Leijten",
+      "P-665": "J'Dan",
+      "P-678": "Admiral Norah Satie",
+      "P-691": "Dr Timicin",
+      "P-704": "Lwaxana Troi",
+      "P-717": "Ambassador Odan",
+      "P-730": "Ambassador Kell",
+      "P-743": "Governor Vagh",
+      "P-756": "Gowron",
+      "P-769": "Lursa",
+      "P-782": "B'Etor",
+      "P-795": "Sela",
+      "P-808": "Tamarian captain",
+      "P-821": "Admiral Kennelly",
+      "P-834": "Orta",
+      "P-847": "Dr Marr",
+      "P-873": "Fleet Admiral Brackett",
+      "P-886": "Ambassador Spock",
+      "P-899": "Proconsul Neral",
+      "P-912": "Rasmussen",
+      "P-925": "Timothy (child survivor)",
+      "P-964": "Dr Toby Russell",
+      "P-990": "Cadet Nicholas Locarno"
+    },
+    "unmappedCrew": {
+      "Alyssa Ogawa": "C-9938",
+      "Hubbell": "C-3423",
+      "Ro Laren": "C-2372"
+    },
+    "unmappedNames": [
+      "Alyssa Ogawa",
+      "Hubbell",
+      "Ro Laren"
+    ],
+    "unmappedRank": {
+      "Alyssa Ogawa": "LIEUTENANT",
+      "Hubbell": "CHIEF_PETTY_OFFICER",
+      "Ro Laren": "ENSIGN"
+    }
+  },
+  "routine": {
+    "assetPool": [
+      "SH-60",
+      "SH-61",
+      "SH-62",
+      "SH-63",
+      "SH-64",
+      "SH-65",
+      "SH-66",
+      "SH-67",
+      "SH-68",
+      "SH-69",
+      "SH-70",
+      "SH-71",
+      "SH-72",
+      "SH-73",
+      "SH-74",
+      "SH-75",
+      "SH-76",
+      "SH-77",
+      "SH-78",
+      "SH-79",
+      "EQ-130",
+      "EQ-131",
+      "EQ-132",
+      "EQ-133",
+      "EQ-134",
+      "EQ-135",
+      "EQ-136",
+      "EQ-137",
+      "EQ-138",
+      "EQ-139",
+      "EQ-140",
+      "EQ-141",
+      "EQ-142",
+      "EQ-143",
+      "EQ-144",
+      "EQ-145",
+      "EQ-146",
+      "EQ-147",
+      "EQ-148",
+      "EQ-149",
+      "VS-10",
+      "VS-11",
+      "VS-12",
+      "VS-13",
+      "VS-14",
+      "VS-15",
+      "VS-16",
+      "VS-17",
+      "VS-18",
+      "VS-19"
+    ],
+    "assetsByType": {
+      "DIPLOMATIC": [
+        "VS-31",
+        "EQ-119"
+      ],
+      "EXPLORATION": [
+        "VS-31",
+        "EQ-64"
+      ],
+      "HUMANITARIAN": [
+        "SH-42",
+        "EQ-75"
+      ],
+      "MEDICAL": [
+        "SH-53",
+        "EQ-75"
+      ],
+      "RESCUE": [
+        "SH-53",
+        "EQ-97"
+      ],
+      "SCIENTIFIC": [
+        "VS-31",
+        "EQ-64"
+      ],
+      "SECURITY": [
+        "VS-31"
+      ],
+      "TRANSPORT": [
+        "SH-42",
+        "EQ-108"
+      ]
+    },
+    "bigCrew": {
+      "objectives": [
+        "Exercise the evacuation of the whole ship and time every deck.",
+        "Screen the whole crew and civilian roster for the scheduled medical review.",
+        "Run the emergency drill on every deck and record the response times.",
+        "Escort the relocation convoy between starbases with a full complement."
+      ],
+      "titles": [
+        "Full-ship evacuation exercise",
+        "Fleet-wide medical screening",
+        "Deck-by-deck emergency drill",
+        "Starbase relocation convoy escort"
+      ]
+    },
+    "classification": [
+      [
+        "UNCLASSIFIED",
+        78
+      ],
+      [
+        "SECRET",
+        17
+      ],
+      [
+        "TOP_SECRET",
+        5
+      ]
+    ],
+    "commanderRanks": [
+      [
+        "LIEUTENANT",
+        56
+      ],
+      [
+        "ENSIGN",
+        15
+      ],
+      [
+        "LIEUTENANT_COMMANDER",
+        15
+      ],
+      [
+        "CHIEF_PETTY_OFFICER",
+        14
+      ]
+    ],
+    "crewRanks": [
+      [
+        "CREWMAN",
+        40
+      ],
+      [
+        "ENSIGN",
+        22
+      ],
+      [
+        "LIEUTENANT",
+        16
+      ],
+      [
+        "CHIEF_PETTY_OFFICER",
+        16
+      ],
+      [
+        "LIEUTENANT_COMMANDER",
+        4
+      ]
+    ],
+    "crewSize": [
+      [
+        [
+          1,
+          3
+        ],
+        25
+      ],
+      [
+        [
+          4,
+          8
+        ],
+        45
+      ],
+      [
+        [
+          9,
+          20
+        ],
+        22
+      ],
+      [
+        [
+          21,
+          40
+        ],
+        8
+      ]
+    ],
+    "departmentByType": {
+      "DIPLOMATIC": [
+        "COMMAND",
+        "OPERATIONS"
+      ],
+      "EXPLORATION": [
+        "SCIENCE",
+        "FLIGHT_OPERATIONS"
+      ],
+      "HUMANITARIAN": [
+        "MEDICAL",
+        "OPERATIONS",
+        "ENGINEERING"
+      ],
+      "MEDICAL": [
+        "MEDICAL"
+      ],
+      "RESCUE": [
+        "SECURITY",
+        "MEDICAL",
+        "FLIGHT_OPERATIONS"
+      ],
+      "SCIENTIFIC": [
+        "SCIENCE"
+      ],
+      "SECURITY": [
+        "SECURITY"
+      ],
+      "TRANSPORT": [
+        "FLIGHT_OPERATIONS",
+        "OPERATIONS"
+      ]
+    },
+    "durationHours": {
+      "DIPLOMATIC": [
+        24,
+        120
+      ],
+      "EXPLORATION": [
+        24,
+        240
+      ],
+      "HUMANITARIAN": [
+        24,
+        168
+      ],
+      "MEDICAL": [
+        12,
+        96
+      ],
+      "RESCUE": [
+        6,
+        48
+      ],
+      "SCIENTIFIC": [
+        12,
+        96
+      ],
+      "SECURITY": [
+        12,
+        168
+      ],
+      "TRANSPORT": [
+        6,
+        72
+      ]
+    },
+    "estimateBandsCredits": {
+      "DIPLOMATIC": [
+        10000,
+        120000
+      ],
+      "EXPLORATION": [
+        5000,
+        50000
+      ],
+      "HUMANITARIAN": [
+        25000,
+        200000
+      ],
+      "MEDICAL": [
+        25000,
+        200000
+      ],
+      "RESCUE": [
+        25000,
+        200000
+      ],
+      "SCIENTIFIC": [
+        5000,
+        50000
+      ],
+      "SECURITY": [
+        25000,
+        200000
+      ],
+      "TRANSPORT": [
+        5000,
+        50000
+      ]
+    },
+    "inventedAssets": [
+      "SH-61",
+      "SH-77",
+      "SH-90",
+      "EQ-130",
+      "EQ-201",
+      "EQ-247",
+      "VS-12",
+      "VS-44"
+    ],
+    "issuingAuthority": {
+      "DIPLOMATIC": [
+        [
+          "FEDERATION_COUNCIL",
+          60
+        ],
+        [
+          "STARFLEET_COMMAND",
+          40
+        ]
+      ],
+      "EXPLORATION": [
+        [
+          "STARFLEET_SCIENCE",
+          50
+        ],
+        [
+          "STARFLEET_COMMAND",
+          50
+        ]
+      ],
+      "HUMANITARIAN": [
+        [
+          "FEDERATION_COUNCIL",
+          50
+        ],
+        [
+          "STARFLEET_MEDICAL",
+          50
+        ]
+      ],
+      "MEDICAL": [
+        [
+          "STARFLEET_MEDICAL",
+          85
+        ],
+        [
+          "ENTERPRISE_COMMAND",
+          15
+        ]
+      ],
+      "RESCUE": [
+        [
+          "STARFLEET_COMMAND",
+          60
+        ],
+        [
+          "ENTERPRISE_COMMAND",
+          40
+        ]
+      ],
+      "SCIENTIFIC": [
+        [
+          "STARFLEET_SCIENCE",
+          80
+        ],
+        [
+          "ENTERPRISE_COMMAND",
+          20
+        ]
+      ],
+      "SECURITY": [
+        [
+          "STARFLEET_SECURITY",
+          70
+        ],
+        [
+          "ENTERPRISE_COMMAND",
+          30
+        ]
+      ],
+      "TRANSPORT": [
+        [
+          "STARFLEET_COMMAND",
+          50
+        ],
+        [
+          "ENTERPRISE_COMMAND",
+          50
+        ]
+      ]
+    },
+    "locationTypes": {
+      "DIPLOMATIC": [
+        "PLANET",
+        "STARBASE",
+        "VESSEL"
+      ],
+      "EXPLORATION": [
+        "SECTOR",
+        "DEEP_SPACE"
+      ],
+      "HUMANITARIAN": [
+        "PLANET"
+      ],
+      "MEDICAL": [
+        "PLANET",
+        "STARBASE"
+      ],
+      "RESCUE": [
+        "SECTOR",
+        "VESSEL",
+        "DEEP_SPACE"
+      ],
+      "SCIENTIFIC": [
+        "DEEP_SPACE",
+        "SECTOR",
+        "PLANET"
+      ],
+      "SECURITY": [
+        "SECTOR",
+        "STARBASE",
+        "VESSEL"
+      ],
+      "TRANSPORT": [
+        "STARBASE",
+        "PLANET",
+        "VESSEL"
+      ]
+    },
+    "namedCommanderTotals": {
+      "Beverly Crusher": 20,
+      "Data": 20,
+      "Jean-Luc Picard": 52,
+      "William Riker": 50,
+      "Worf": 10
+    },
+    "namedCommanderTypes": {
+      "Beverly Crusher": [
+        "MEDICAL",
+        "HUMANITARIAN",
+        "RESCUE"
+      ],
+      "Data": [
+        "SCIENTIFIC",
+        "EXPLORATION"
+      ],
+      "Jean-Luc Picard": [
+        "DIPLOMATIC",
+        "EXPLORATION",
+        "SCIENTIFIC",
+        "TRANSPORT",
+        "SECURITY"
+      ],
+      "William Riker": [
+        "SECURITY",
+        "RESCUE",
+        "TRANSPORT",
+        "SCIENTIFIC",
+        "EXPLORATION",
+        "DIPLOMATIC",
+        "HUMANITARIAN"
+      ],
+      "Worf": [
+        "SECURITY",
+        "RESCUE"
+      ]
+    },
+    "objectives": {
+      "DIPLOMATIC": [
+        "Escort the delegation to {place} and support the talks without taking a side.",
+        "Provide transport and protocol support for the envoy at {place}."
+      ],
+      "EXPLORATION": [
+        "Chart the region around {place}, release probes and record the findings.",
+        "Survey unexplored space near {place} and mark points of interest."
+      ],
+      "HUMANITARIAN": [
+        "Deliver relief supplies to {place} and help distribute them.",
+        "Plan and support the evacuation of residents from {place}."
+      ],
+      "MEDICAL": [
+        "Run the scheduled medical outreach at {place} and record the cases treated.",
+        "Support the local clinic at {place} with staff and supplies."
+      ],
+      "RESCUE": [
+        "Respond to the distress call near {place} and recover anyone found.",
+        "Search the area near {place} for survivors and report findings."
+      ],
+      "SCIENTIFIC": [
+        "Collect and analyse sensor data on {subject} near {place} and file a findings report.",
+        "Characterise {subject} at {place} and record the readings for the science archive."
+      ],
+      "SECURITY": [
+        "Patrol the approaches to {place}, challenge unidentified traffic and log all contacts.",
+        "Secure the area around {place} and report any incident to command."
+      ],
+      "TRANSPORT": [
+        "Move the assigned cargo and passengers to {place} on schedule and confirm delivery.",
+        "Carry the scheduled load to {place}, handle the transfer and report any loss."
+      ]
+    },
+    "optionalCommanderPercent": 35,
+    "participantPercent": 30,
+    "placeParts": {
+      "accentFirst": [
+        "\u00c9nd",
+        "\u00d8rr",
+        "\u00dcl",
+        "\u00c6r",
+        "\u00c5ld",
+        "\u010cer"
+      ],
+      "first": [
+        "Cal",
+        "Or",
+        "Ves",
+        "Mar",
+        "Tel",
+        "Dra",
+        "Sel",
+        "Kor",
+        "Ima",
+        "Bel",
+        "Zan",
+        "Ren"
+      ],
+      "second": [
+        "der",
+        "rin",
+        "sa",
+        "dun",
+        "vok",
+        "lea",
+        "tho",
+        "mir",
+        "nex",
+        "quar"
+      ],
+      "third": [
+        " Reach",
+        " Deep",
+        " Verge",
+        " Expanse",
+        " Station",
+        " Drift",
+        " Anchorage",
+        " Gate"
+      ]
+    },
+    "priority": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        14
+      ],
+      [
+        3,
+        26
+      ],
+      [
+        4,
+        34
+      ],
+      [
+        5,
+        22
+      ]
+    ],
+    "progressPercent": 50,
+    "revisionPercent": 25,
+    "statusCounts": {
+      "ACTIVE": 11,
+      "AUTHORIZED": 14,
+      "CANCELLED": 22,
+      "COMPLETED": 80,
+      "FAILED": 15,
+      "PLANNED": 17,
+      "POSTPONED": 8
+    },
+    "subjects": [
+      "a binary pulsar",
+      "a dust nebula",
+      "an ion storm front",
+      "a rogue planetoid",
+      "a stellar nursery",
+      "a comet swarm",
+      "a magnetar remnant",
+      "an asteroid belt"
+    ],
+    "templates": {
+      "DIPLOMATIC": [
+        "Delegation escort to {place}",
+        "Trade talks support at {place}",
+        "Envoy transfer to {place}"
+      ],
+      "EXPLORATION": [
+        "Charting of {place}",
+        "Long-range probe release at {place}",
+        "Survey of unexplored {subject} near {place}"
+      ],
+      "HUMANITARIAN": [
+        "Relief supply support at {place}",
+        "Evacuation planning at {place}"
+      ],
+      "MEDICAL": [
+        "Medical outreach at {place}",
+        "Vaccination programme at {place}",
+        "Clinic support at {place}"
+      ],
+      "RESCUE": [
+        "Distress call response near {place}",
+        "Survivor search near {place}"
+      ],
+      "SCIENTIFIC": [
+        "{subject} survey at {place}",
+        "Spectral analysis of {subject}",
+        "{subject} sample collection at {place}",
+        "Gravimetric mapping of {place}"
+      ],
+      "SECURITY": [
+        "Border patrol of {place}",
+        "Convoy protection near {place}",
+        "Sector sweep of {place}",
+        "Station security audit at {place}"
+      ],
+      "TRANSPORT": [
+        "Cargo run to {place}",
+        "Passenger transfer to {place}",
+        "Medical supply delivery to {place}",
+        "Equipment shuttle to {place}"
+      ]
+    },
+    "typeCounts": {
+      "DIPLOMATIC": 17,
+      "EXPLORATION": 22,
+      "HUMANITARIAN": 6,
+      "MEDICAL": 14,
+      "RESCUE": 4,
+      "SCIENTIFIC": 38,
+      "SECURITY": 31,
+      "TRANSPORT": 35
+    }
+  },
+  "terminalTiming": "Final terminal event is fixed to first event plus durationHours; closure dwell can exceed a draw band and is explicitly labeled duration-closure. Nonterminal draws are bounded by remaining duration and minimum future gaps.",
+  "timeBandsMinutes": {
+    "planning": [
+      360,
+      2880
+    ],
+    "routine": [
+      60,
+      480
+    ],
+    "urgent": [
+      5,
+      45
+    ]
+  }
+}

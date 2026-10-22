@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mission xmlns="urn:starfleet:missions:v1">
+  <title>Contract example: minimal planned mission</title>
+  <type>DIPLOMATIC</type>
+  <classification>UNCLASSIFIED</classification>
+  <status>PLANNED</status>
+  <priority>4</priority>
+  <stardate>43130.05</stardate>
+  <durationHours>8760</durationHours>
+  <objective>Illustrative contract example, not a dataset record.</objective>
+  <location>
+    <type>OTHER</type>
+    <name>Example location</name>
+  </location>
+  <issuingAuthority>FEDERATION_COUNCIL</issuingAuthority>
+  <assignedCrewIds/>
+  <participantIds/>
+  <assignedAssetIds/>
+</mission>
