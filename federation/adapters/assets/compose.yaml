@@ -1,0 +1,42 @@
+# The Assets adapter (the Assets subgraph), started by one command (see start.sh and the README).
+#
+# - It is published on loopback only (127.0.0.1:8184 by default; 8184 mirrors the legacy Assets port 8084).
+# - It has no state and no database. It reaches the Assets service at ASSETS_SERVICE_URL. The default points at the
+#   service on the host (8084) through host.docker.internal; set the variable to the service name when both run in one
+#   compose project. No secret is needed or kept in any file.
+# - Explicit CPU and memory limits, so that every benchmark run starts from the same conditions. They are PROVISIONAL: the
+#   container limits of the adapters wait for the benchmark environment record. The experiments saw about 220 MiB resident.
+# - The base images are pinned by digest in the Dockerfile (resolved 2026-10-16).
+name: starfleet-federation-assets-adapter
+
+services:
+  assets-adapter:
+    build:
+      context: ../..
+      dockerfile: adapters/assets/Dockerfile
+    image: ${ASSETS_ADAPTER_IMAGE:-starfleet-federation-assets-adapter:1.0.0}
+    container_name: ${ASSETS_ADAPTER_CONTAINER_NAME:-starfleet-federation-assets-adapter}
+    ports:
+      - "127.0.0.1:${ASSETS_ADAPTER_HOST_PORT:-8184}:8184"
+    environment:
+      ADAPTER_BIND_HOST: 0.0.0.0
+      ADAPTER_PORT: "8184"
+      ASSETS_SERVICE_URL: ${ASSETS_SERVICE_URL:-http://host.docker.internal:8084}
+      ASSETS_CONNECT_TIMEOUT_MS: ${ASSETS_CONNECT_TIMEOUT_MS:-1000}
+      ASSETS_READ_TIMEOUT_MS: ${ASSETS_READ_TIMEOUT_MS:-1500}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8184'"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

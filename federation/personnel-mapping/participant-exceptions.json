@@ -1,0 +1,9 @@
+{
+  "about": "The participant exceptions table: a Missions participant reference (P-n) to the Personnel v2 identifier (PRS-nnnn) of the same person, for every case the exact-name step cannot place. Every target MUST exist in the pinned Personnel v2 snapshot and MUST be a non-crew person (a participant reaches a civilian of the roster, never a crew member), and the table never names v1. An O-reference can never be named here: O-references are refused by class. The process (crew_mapping.py) reads this table first for a P-reference, and a match stops the process.",
+  "reasons": {
+    "P-1003": "Alexander: the Missions recipe writes only the first name of the child participant, the person is Alexander Rozhenko, the civilian PRS-3001 of personnel-v2-large-004."
+  },
+  "entries": {
+    "P-1003": "PRS-3001"
+  }
+}

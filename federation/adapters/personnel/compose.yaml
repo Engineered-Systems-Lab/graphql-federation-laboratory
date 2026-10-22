@@ -1,0 +1,43 @@
+# The Personnel adapter (the Personnel subgraph), started by one command (see start.sh and the README).
+#
+# - It is published on loopback only (127.0.0.1:8182 by default; 8182 mirrors the legacy Personnel v2 port 8082).
+# - It has no state and no database. It reaches the Personnel v2 service at PERSONNEL_SERVICE_URL (the SOAP endpoint). The default points at the
+#   service on the host (8082) through host.docker.internal; set the variable to the service name when both run in one
+#   compose project. No secret is needed or kept in any file.
+# - The build context is the repository root (the offline tests read the real Personnel v2 contract and snapshots).
+# - Explicit CPU and memory limits, so that every benchmark run starts from the same conditions. They are PROVISIONAL: the
+#   container limits of the adapters wait for the benchmark environment record. The experiments saw about 220 MiB resident.
+# - The base images are pinned by digest in the Dockerfile (resolved 2026-10-16).
+name: starfleet-federation-personnel-adapter
+
+services:
+  personnel-adapter:
+    build:
+      context: ../../..
+      dockerfile: federation/adapters/personnel/Dockerfile
+    image: ${PERSONNEL_ADAPTER_IMAGE:-starfleet-federation-personnel-adapter:1.0.0}
+    container_name: ${PERSONNEL_ADAPTER_CONTAINER_NAME:-starfleet-federation-personnel-adapter}
+    ports:
+      - "127.0.0.1:${PERSONNEL_ADAPTER_HOST_PORT:-8182}:8182"
+    environment:
+      ADAPTER_BIND_HOST: 0.0.0.0
+      ADAPTER_PORT: "8182"
+      PERSONNEL_SERVICE_URL: ${PERSONNEL_SERVICE_URL:-http://host.docker.internal:8082/soap/personnel-v2}
+      PERSONNEL_CONNECT_TIMEOUT_MS: ${PERSONNEL_CONNECT_TIMEOUT_MS:-1000}
+      PERSONNEL_READ_TIMEOUT_MS: ${PERSONNEL_READ_TIMEOUT_MS:-1500}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8182'"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

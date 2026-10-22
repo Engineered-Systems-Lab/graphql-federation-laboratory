@@ -80,6 +80,2073 @@
       "why": "a committed timing export is a record",
       "approval_sensitivity": "low"
     },
+    "federation/acceptance/README.md": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/acceptance/derive_expected.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/acceptance/expected-outcomes.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/acceptance/graphql_client.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/acceptance/shared_suite.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/Dockerfile": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/Dockerfile.dockerignore": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/README.md": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/compose.yaml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/pom.xml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/src/main/java/lab/federation/adapters/assets/AssetReferenceEntity.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/src/main/java/lab/federation/adapters/assets/AssetsAdapterApplication.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/src/main/java/lab/federation/adapters/assets/AssetsClient.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/src/main/java/lab/federation/adapters/assets/AssetsGraph.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/src/main/resources/application.properties": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/src/main/resources/graphql/schema.graphqls": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/src/test/java/lab/federation/adapters/assets/AssetsAdapterTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/src/test/java/lab/federation/adapters/assets/StubAssets.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/start.sh": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/validation/run_adapter_gate.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/validation/runtime/adapter_support.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/validation/runtime/offline/test_packaging.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/validation/runtime/offline/test_start_script.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/assets/validation/runtime/service/test_service_gate.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/Dockerfile": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/Dockerfile.dockerignore": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/README.md": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/compose.yaml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/pom.xml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/main/java/lab/federation/adapters/mapping/MappingAdapterApplication.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/main/java/lab/federation/adapters/mapping/MappingGraph.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/main/java/lab/federation/adapters/mapping/MappingReleases.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/main/resources/application.properties": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/main/resources/graphql/schema.graphqls": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/java/lab/federation/adapters/mapping/MappingAdapterTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/java/lab/federation/adapters/mapping/MappingReleasesTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/java/lab/federation/adapters/mapping/RealReleaseTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/resources/releases/0.1/assets.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/resources/releases/0.1/crew.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/resources/releases/0.1/manifest.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/resources/releases/0.2/assets.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/resources/releases/0.2/manifest.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/resources/releases/0.3/crew.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/src/test/resources/releases/0.3/manifest.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/start.sh": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/run_adapter_gate.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/runtime/adapter_support.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/runtime/offline/test_crew_mapping.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/runtime/offline/test_large_snapshot.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/runtime/offline/test_packaging.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/runtime/offline/test_release.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/runtime/offline/test_release_1_2.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/runtime/offline/test_release_1_3.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/runtime/offline/test_start_script.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/mapping/validation/runtime/release_check.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/Dockerfile": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/Dockerfile.dockerignore": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/README.md": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/compose.yaml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/pom.xml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/main/java/lab/federation/adapters/missions/MissionPaging.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/main/java/lab/federation/adapters/missions/MissionXml.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/main/java/lab/federation/adapters/missions/MissionsAdapterApplication.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/main/java/lab/federation/adapters/missions/MissionsClient.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/main/java/lab/federation/adapters/missions/MissionsGraph.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/main/resources/application.properties": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/main/resources/graphql/schema.graphqls": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/test/java/lab/federation/adapters/missions/MissionPagingTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/test/java/lab/federation/adapters/missions/MissionXmlTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/test/java/lab/federation/adapters/missions/MissionsAdapterTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/src/test/java/lab/federation/adapters/missions/StubMissions.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/start.sh": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/validation/run_adapter_gate.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/validation/runtime/adapter_support.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/validation/runtime/offline/test_packaging.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/validation/runtime/offline/test_start_script.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/missions/validation/runtime/service/test_service_gate.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/Dockerfile": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/Dockerfile.dockerignore": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/README.md": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/compose.yaml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/pom.xml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/java/lab/federation/adapters/personnel/PersonnelAdapterApplication.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/java/lab/federation/adapters/personnel/PersonnelCalls.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/java/lab/federation/adapters/personnel/PersonnelClient.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/java/lab/federation/adapters/personnel/PersonnelGraph.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/java/lab/federation/adapters/personnel/PersonnelLookup.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/java/lab/federation/adapters/personnel/PersonnelReferenceEntity.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/java/lab/federation/adapters/personnel/PersonnelSnapshots.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/java/lab/federation/adapters/personnel/PersonnelXml.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/resources/application.properties": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/main/resources/graphql/schema.graphqls": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/test/java/lab/federation/adapters/personnel/PersonnelAdapterTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/test/java/lab/federation/adapters/personnel/PersonnelXmlTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/src/test/java/lab/federation/adapters/personnel/StubPersonnel.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/start.sh": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/validation/run_adapter_gate.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/validation/runtime/adapter_support.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/validation/runtime/offline/test_packaging.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/validation/runtime/offline/test_start_script.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/adapters/personnel/validation/runtime/service/test_service_gate.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/pom.xml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/src/main/java/lab/federation/common/ErrorCode.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/src/main/java/lab/federation/common/FederationErrors.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/src/main/java/lab/federation/common/HttpResult.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/src/main/java/lab/federation/common/Json.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/src/main/java/lab/federation/common/MappingOutcome.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/src/main/java/lab/federation/common/Outcome.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/src/main/java/lab/federation/common/Outcomes.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/src/main/java/lab/federation/common/Resolution.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/common/src/test/java/lab/federation/common/OutcomesTest.java": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.0/assets.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.0/manifest.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.1/assets.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.1/crew.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.1/manifest.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.2/assets.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.2/crew.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.2/manifest.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.2/participants.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.3/assets.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.3/crew.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.3/manifest.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/mapping-releases/1.3/participants.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/README.md": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/civilians.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/crew_mapping.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/large-pins.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/mapping-exceptions.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/migration-exceptions.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/participant-exceptions.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/pins.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/release-1-3-pins.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/personnel-mapping/release-large-pins.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/pom.xml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/README.md": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/compose_supergraph.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/router.yaml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/rover/Dockerfile": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/rover/seed.graphql": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/rover/seed.yaml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/supergraph.graphql": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/validation/run_router_gate.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/validation/runtime/offline/test_packaging.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/validation/runtime/stack/test_stack.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/apollo/validation/runtime/stack_support.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/cosmo/README.md": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/cosmo/compose_execution_config.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/cosmo/config.yaml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/cosmo/execution-config.json": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/cosmo/validation/run_router_gate.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/cosmo/validation/runtime/offline/test_packaging.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/cosmo/validation/runtime/stack/test_stack.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/cosmo/validation/runtime/stack_support.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/routers/cosmo/wgc/Dockerfile": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/stack/README.md": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/stack/compose.yaml": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/stack/missions-stub/server.py": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
+    "federation/stack/start.sh": {
+      "class": "runtime",
+      "profile": "federation-adapter-runtime",
+      "boundary": [
+        "runtime"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Federation, imported as a set-up commit under D051; runtime boundary",
+      "approval_sensitivity": "low"
+    },
     "scripts/assets.sh": {
       "class": "tooling",
       "profile": "service-scripts",

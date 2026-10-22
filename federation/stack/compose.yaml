@@ -1,0 +1,315 @@
+# The whole federation stack in STUB-BACKEND mode: the Apollo router, the four adapters (missions, mapping, assets, personnel) and
+# their backends, with NO Oracle.
+#
+#   missions-stub      a tiny stub that serves the RELEASED Missions dataset 1.2 (300 missions, six pages of 50) as the Missions service
+#                      lists them (federation/stack/missions-stub/server.py)
+#   assets-service     the REAL Assets read service (Python) with its own PostgreSQL 17 (assets-db), loaded from Assets dataset release 1.1
+#   personnel-service  the REAL Personnel v2 SOAP service (Java 17, no database), serving the snapshot personnel-v2-large-004 (1,000 people)
+#
+# The REAL-SERVICE mode (the real Missions service on Oracle, about 9 GB, minutes to start) is not this file: it is started
+# separately and the missions adapter pointed at it with MISSIONS_SERVICE_URL. It was not run by the Job that wrote this file.
+#
+# - Everything is published on loopback only. The router is 127.0.0.1:8170. The adapters are published too (8182, 8183, 8184, 8190) so
+#   that the composition script can fetch their SDL; the backends are published nowhere.
+# - The supergraph is a build product, checked in as evidence of the composition: start.sh composes it again from the running adapters
+#   (federation/routers/apollo/compose_supergraph.py) and the router mounts it from SUPERGRAPH_FILE.
+# - The routing URL of every subgraph in the supergraph is its service name on this project's network (for example
+#   http://assets-adapter:8184/graphql), the same in every mode, so the supergraph does not change with the host's ports.
+# - Credentials of the Assets database come from the environment; compose refuses to start when one is missing. start.sh makes random
+#   ones for the run. The database lives in the container: `docker compose down` discards it and the next start loads dataset 1.1 again.
+# - Explicit CPU and memory limits. They are PROVISIONAL: the limits wait for the benchmark environment record.
+# - ONE ROUTER AT A TIME. `router` (Apollo, port 8170) is always part of the file. `cosmo-router` (Cosmo, port 8171) belongs to the
+#   compose profile `cosmo`, so a plain `docker compose config` and a plain `up router` are the Apollo stack exactly as before, and the
+#   Cosmo router is started by name with the profile (`--profile cosmo up -d cosmo-router`; start.sh does it with ROUTER=cosmo). The
+#   two routers share the four adapters and the backends and are never started together by the scripts of this folder. Because
+#   `router` stays in the file, compose still asks for SUPERGRAPH_FILE when it reads it, even for a Cosmo run.
+# - Base images are pinned by digest (resolved 2026-10-16 with `docker buildx imagetools inspect`; tags move).
+name: starfleet-federation-stack
+
+x-assets-image: &assets-image
+  build:
+    context: ../../uss-enterprise/assets
+  image: ${STACK_ASSETS_SERVICE_IMAGE:-starfleet-federation-stack-assets-service:1.0.0}
+
+services:
+  assets-db:
+    image: postgres:17-bookworm@sha256:3645570cccdfa447589da9f57dd740faa29b30938e861289a5574b6ca6b03826
+    environment:
+      POSTGRES_DB: assets
+      POSTGRES_PASSWORD: ${STACK_ASSETS_DB_ADMIN_PASSWORD:?set STACK_ASSETS_DB_ADMIN_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d assets"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
+    stop_grace_period: 60s
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+
+  assets-bootstrap:
+    <<: *assets-image
+    command: ["python", "-B", "/app/service/bootstrap.py"]
+    environment:
+      PGHOST: assets-db
+      PGPORT: "5432"
+      PGDATABASE: assets
+      PGUSER: postgres
+      PGPASSWORD: ${STACK_ASSETS_DB_ADMIN_PASSWORD:?set STACK_ASSETS_DB_ADMIN_PASSWORD}
+      ASSETS_SERVICE_USER: assets_service
+      ASSETS_SERVICE_PASSWORD: ${STACK_ASSETS_DB_SERVICE_PASSWORD:?set STACK_ASSETS_DB_SERVICE_PASSWORD}
+    depends_on:
+      assets-db:
+        condition: service_healthy
+    restart: "no"
+    cpus: 0.5
+    mem_limit: 256m
+    memswap_limit: 256m
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  assets-service:
+    <<: *assets-image
+    environment:
+      ASSETS_HOST: 0.0.0.0
+      ASSETS_PORT: "8084"
+      PGHOST: assets-db
+      PGPORT: "5432"
+      PGDATABASE: assets
+      PGUSER: assets_service
+      PGPASSWORD: ${STACK_ASSETS_DB_SERVICE_PASSWORD:?set STACK_ASSETS_DB_SERVICE_PASSWORD}
+    depends_on:
+      assets-bootstrap:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8084/assets?limit=1', timeout=3)"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 3s
+    cpus: 0.5
+    mem_limit: 256m
+    memswap_limit: 256m
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  personnel-service:
+    build:
+      context: ../../uss-enterprise/personnel-v2
+    image: ${STACK_PERSONNEL_SERVICE_IMAGE:-starfleet-federation-stack-personnel-service:2.0.0}
+    environment:
+      PERSONNEL_DATASET_VERSION: ${STACK_PERSONNEL_DATASET_VERSION:-personnel-v2-large-004}
+      PERSONNEL_FAILURE_PROFILE: normal
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8082'"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+      start_period: 5s
+    cpus: 0.5
+    mem_limit: 384m
+    memswap_limit: 384m
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  missions-stub:
+    image: python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641
+    command: ["python", "-B", "/stub/server.py", "/data/release", "8083"]
+    volumes:
+      - ./missions-stub/server.py:/stub/server.py:ro
+      - ../../uss-enterprise/missions/datasets/releases/1.2:/data/release:ro
+    user: "10001:10001"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8083/missions?pageSize=1', timeout=3)"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 2s
+    cpus: 0.25
+    mem_limit: 128m
+    memswap_limit: 128m
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  missions-adapter:
+    build:
+      context: ../..
+      dockerfile: federation/adapters/missions/Dockerfile
+    image: ${STACK_MISSIONS_ADAPTER_IMAGE:-starfleet-federation-stack-missions-adapter:1.0.0}
+    ports:
+      - "127.0.0.1:${MISSIONS_ADAPTER_HOST_PORT:-8183}:8183"
+    environment:
+      ADAPTER_BIND_HOST: 0.0.0.0
+      ADAPTER_PORT: "8183"
+      MISSIONS_SERVICE_URL: ${MISSIONS_SERVICE_URL:-http://missions-stub:8083}
+      MISSIONS_CONNECT_TIMEOUT_MS: ${MISSIONS_CONNECT_TIMEOUT_MS:-1000}
+      MISSIONS_READ_TIMEOUT_MS: ${MISSIONS_READ_TIMEOUT_MS:-1500}
+    depends_on:
+      missions-stub:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8183'"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  personnel-adapter:
+    build:
+      context: ../..
+      dockerfile: federation/adapters/personnel/Dockerfile
+    image: ${STACK_PERSONNEL_ADAPTER_IMAGE:-starfleet-federation-stack-personnel-adapter:1.0.0}
+    ports:
+      - "127.0.0.1:${PERSONNEL_ADAPTER_HOST_PORT:-8182}:8182"
+    environment:
+      ADAPTER_BIND_HOST: 0.0.0.0
+      ADAPTER_PORT: "8182"
+      PERSONNEL_SERVICE_URL: ${PERSONNEL_SERVICE_URL:-http://personnel-service:8082/soap/personnel-v2}
+      PERSONNEL_CONNECT_TIMEOUT_MS: ${PERSONNEL_CONNECT_TIMEOUT_MS:-1000}
+      PERSONNEL_READ_TIMEOUT_MS: ${PERSONNEL_READ_TIMEOUT_MS:-1500}
+    depends_on:
+      personnel-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8182'"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  assets-adapter:
+    build:
+      context: ..
+      dockerfile: adapters/assets/Dockerfile
+    image: ${STACK_ASSETS_ADAPTER_IMAGE:-starfleet-federation-stack-assets-adapter:1.0.0}
+    ports:
+      - "127.0.0.1:${ASSETS_ADAPTER_HOST_PORT:-8184}:8184"
+    environment:
+      ADAPTER_BIND_HOST: 0.0.0.0
+      ADAPTER_PORT: "8184"
+      ASSETS_SERVICE_URL: ${ASSETS_SERVICE_URL:-http://assets-service:8084}
+      ASSETS_CONNECT_TIMEOUT_MS: ${ASSETS_CONNECT_TIMEOUT_MS:-1000}
+      ASSETS_READ_TIMEOUT_MS: ${ASSETS_READ_TIMEOUT_MS:-1500}
+    depends_on:
+      assets-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8184'"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  mapping-adapter:
+    build:
+      context: ..
+      dockerfile: adapters/mapping/Dockerfile
+    image: ${STACK_MAPPING_ADAPTER_IMAGE:-starfleet-federation-stack-mapping-adapter:1.0.0}
+    ports:
+      - "127.0.0.1:${MAPPING_ADAPTER_HOST_PORT:-8190}:8190"
+    environment:
+      ADAPTER_BIND_HOST: 0.0.0.0
+      ADAPTER_PORT: "8190"
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8190'"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  # The Apollo router v2.18.0, the newest release that is not a preview on 2026-10-16 (v3.0.0-preview.0 and v2.19.0-rc.0 exist).
+  # It starts only after start.sh (or the gate) has composed the supergraph into SUPERGRAPH_FILE.
+  router:
+    image: ghcr.io/apollographql/router@sha256:5b02af03e8f0268b8fcf85132c9e54ea36a1029b0823b00bb9151f698a991215
+    command: ["--config", "/config/router.yaml", "--supergraph", "/config/supergraph.graphql"]
+    ports:
+      - "127.0.0.1:${ROUTER_HOST_PORT:-8170}:4000"
+    environment:
+      APOLLO_TELEMETRY_DISABLED: "true"
+    volumes:
+      - ../routers/apollo/router.yaml:/config/router.yaml:ro
+      - ${SUPERGRAPH_FILE:?set SUPERGRAPH_FILE to the composed supergraph}:/config/supergraph.graphql:ro
+    depends_on:
+      missions-adapter:
+        condition: service_healthy
+      personnel-adapter:
+        condition: service_healthy
+      assets-adapter:
+        condition: service_healthy
+      mapping-adapter:
+        condition: service_healthy
+    cpus: 1.0
+    mem_limit: 256m
+    memswap_limit: 256m
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  # The Cosmo router 0.359.0 (self-hosted, Apache-2.0), the newest release on 2026-10-18; the digest is that of the OCI image index.
+  # It runs from a STATIC execution config composed locally by wgc (federation/routers/cosmo/compose_execution_config.py), with no
+  # graph token, no control plane and no CDN. It starts only after start.sh (or the gate) has composed the execution config into
+  # EXECUTION_CONFIG_FILE (default: the committed file next to the router's other files).
+  # The image has no shell, so there is no container health check; the scripts wait for GraphQL on its port.
+  cosmo-router:
+    image: ghcr.io/wundergraph/cosmo/router@sha256:a125c80b7c759837901a080bb9f64518eb5826a979f7b2f512661cacf1caff6d
+    profiles: ["cosmo"]
+    ports:
+      - "127.0.0.1:${COSMO_ROUTER_HOST_PORT:-8171}:4000"
+    environment:
+      COSMO_TELEMETRY_DISABLED: "true"
+      CONFIG_PATH: /config/config.yaml
+      EXECUTION_CONFIG_FILE_PATH: /config/execution-config.json
+    volumes:
+      - ../routers/cosmo/config.yaml:/config/config.yaml:ro
+      - ${EXECUTION_CONFIG_FILE:-../routers/cosmo/execution-config.json}:/config/execution-config.json:ro
+    depends_on:
+      missions-adapter:
+        condition: service_healthy
+      personnel-adapter:
+        condition: service_healthy
+      assets-adapter:
+        condition: service_healthy
+      mapping-adapter:
+        condition: service_healthy
+    cpus: 1.0
+    mem_limit: 256m
+    memswap_limit: 256m
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

@@ -1,0 +1,36 @@
+{
+  "section": "assets",
+  "description": "The Missions-local asset reference to the native Assets identifier AST-nnnn.",
+  "source": "uss-enterprise/assets/datasets/releases/1.1/provenance.json, key expectedMapping: every entry that has a mapsTo, in the order of the source. A reference with no entry in the source has no entry here (UNMAPPED).",
+  "controlledCases": {
+    "NORMAL": [
+      "EQ-64",
+      "EQ-75",
+      "EQ-119",
+      "SH-42",
+      "VS-31"
+    ],
+    "MISSING": [
+      "EQ-86"
+    ],
+    "MAPPED_NOT_FOUND": [
+      "EQ-97"
+    ],
+    "UNMAPPED": [
+      "EQ-108"
+    ],
+    "DESTROYED": [
+      "SH-53"
+    ]
+  },
+  "entries": {
+    "EQ-64": "AST-0004",
+    "EQ-75": "AST-0005",
+    "EQ-86": "AST-0006",
+    "EQ-97": "AST-0097",
+    "EQ-119": "AST-0007",
+    "SH-42": "AST-0024",
+    "SH-53": "AST-0025",
+    "VS-31": "AST-0029"
+  }
+}

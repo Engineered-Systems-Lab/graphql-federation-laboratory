@@ -1,0 +1,458 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.3", for: EXECUTION)
+  @link(url: "https://specs.apollo.dev/inaccessible/v0.2", for: SECURITY)
+{
+  query: Query
+}
+
+directive @inaccessible on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
+
+directive @join__enumValue(graph: join__Graph!) repeatable on ENUM_VALUE
+
+directive @join__field(graph: join__Graph, requires: join__FieldSet, provides: join__FieldSet, type: String, external: Boolean, override: String, usedOverridden: Boolean) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__implements(graph: join__Graph!, interface: String!) repeatable on OBJECT | INTERFACE
+
+directive @join__type(graph: join__Graph!, key: join__FieldSet, extension: Boolean! = false, resolvable: Boolean! = true, isInterfaceObject: Boolean! = false) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @join__unionMember(graph: join__Graph!, member: String!) repeatable on UNION
+
+directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
+
+type Asset
+  @join__type(graph: ASSETS, key: "assetId", resolvable: true)
+{
+  assetId: ID!
+  category: AssetCategory!
+  description: String!
+  kind: AssetKind!
+  name: String!
+
+  """
+  The parent asset, read from the Assets service with ONE call per level and only when the client selects it. A parent id that
+  does not exist is null with no errors entry; a failed call is null with one SERVICE_UNAVAILABLE entry. No caching, no batching.
+  """
+  parent: Asset
+  parentAssetId: ID
+  status: AssetStatus!
+}
+
+enum AssetCategory
+  @join__type(graph: ASSETS)
+{
+  EQUIPMENT @join__enumValue(graph: ASSETS)
+  VEHICLE @join__enumValue(graph: ASSETS)
+}
+
+enum AssetKind
+  @join__type(graph: ASSETS)
+{
+  ARMORED_VEHICLE @join__enumValue(graph: ASSETS)
+  COMMUNICATOR @join__enumValue(graph: ASSETS)
+  MUSICAL_INSTRUMENT @join__enumValue(graph: ASSETS)
+  PHASER @join__enumValue(graph: ASSETS)
+  ROVER @join__enumValue(graph: ASSETS)
+  SCIENTIFIC_INSTRUMENT @join__enumValue(graph: ASSETS)
+  SHUTTLE @join__enumValue(graph: ASSETS)
+  STARSHIP @join__enumValue(graph: ASSETS)
+  TRICORDER @join__enumValue(graph: ASSETS)
+}
+
+"""
+What a mission's asset reference becomes. The mapping subgraph supplies assetId and mappingOutcome; this adapter produces the
+whole outcome with at most one call to the Assets service. The mapping release is a key field. The identifier the mapping found
+is assetId (the confirmed asset is asset.assetId); there is no separate id field.
+"""
+type AssetReference
+  @join__type(graph: ASSETS, key: "localRef release", resolvable: true)
+  @join__type(graph: MAPPING, key: "localRef release", resolvable: true)
+  @join__type(graph: MISSIONS, key: "localRef release", resolvable: false)
+{
+  asset: Asset @join__field(graph: ASSETS, requires: "assetId mappingOutcome")
+
+  """ The Assets identifier the release maps the reference to; null unless mappingOutcome is MAPPED.
+  """
+  assetId: ID @join__field(graph: ASSETS, external: true) @join__field(graph: MAPPING)
+  localRef: ID!
+  mappingOutcome: MappingOutcome! @join__field(graph: ASSETS, external: true) @join__field(graph: MAPPING)
+  release: String!
+
+  """
+  Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this
+  adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.
+  """
+  resolution: Resolution @join__field(graph: ASSETS, requires: "assetId mappingOutcome")
+}
+
+enum AssetStatus
+  @join__type(graph: ASSETS)
+{
+  ACTIVE @join__enumValue(graph: ASSETS)
+  DECOMMISSIONED @join__enumValue(graph: ASSETS)
+  DESTROYED @join__enumValue(graph: ASSETS)
+  MAINTENANCE @join__enumValue(graph: ASSETS)
+  MISSING @join__enumValue(graph: ASSETS)
+}
+
+type CheckedAgainst
+  @join__type(graph: MAPPING)
+{
+  artifact: String!
+  sha256: String!
+  system: String!
+  version: String!
+}
+
+type CivilianDetails
+  @join__type(graph: PERSONNEL)
+{
+  """
+  The contract's CivilianDetails has no fields, and GraphQL does not allow an object type without fields. This field is a placeholder:
+  it is always null and carries no fact. A civilian has no rank, department, clearance or supervisor.
+  """
+  placeholder: Boolean
+}
+
+enum Classification
+  @join__type(graph: MISSIONS)
+{
+  SECRET @join__enumValue(graph: MISSIONS)
+  TOP_SECRET @join__enumValue(graph: MISSIONS)
+  UNCLASSIFIED @join__enumValue(graph: MISSIONS)
+}
+
+type CrewDetails
+  @join__type(graph: PERSONNEL)
+{
+  department: Department!
+  rank: Rank!
+  securityClearance: SecurityClearance!
+  supervisorPersonnelId: ID
+}
+
+enum Department
+  @join__type(graph: PERSONNEL)
+{
+  COMMAND @join__enumValue(graph: PERSONNEL)
+  ENGINEERING @join__enumValue(graph: PERSONNEL)
+  FLIGHT_OPERATIONS @join__enumValue(graph: PERSONNEL)
+  MEDICAL @join__enumValue(graph: PERSONNEL)
+  OPERATIONS @join__enumValue(graph: PERSONNEL)
+  SCIENCE @join__enumValue(graph: PERSONNEL)
+  SECURITY @join__enumValue(graph: PERSONNEL)
+}
+
+enum DutyStatus
+  @join__type(graph: PERSONNEL)
+{
+  ACTIVE @join__enumValue(graph: PERSONNEL)
+  DECEASED @join__enumValue(graph: PERSONNEL)
+  INACTIVE @join__enumValue(graph: PERSONNEL)
+  ON_LEAVE @join__enumValue(graph: PERSONNEL)
+}
+
+enum IssuingAuthority
+  @join__type(graph: MISSIONS)
+{
+  ENTERPRISE_COMMAND @join__enumValue(graph: MISSIONS)
+  FEDERATION_COUNCIL @join__enumValue(graph: MISSIONS)
+  STARFLEET_COMMAND @join__enumValue(graph: MISSIONS)
+  STARFLEET_MEDICAL @join__enumValue(graph: MISSIONS)
+  STARFLEET_SCIENCE @join__enumValue(graph: MISSIONS)
+  STARFLEET_SECURITY @join__enumValue(graph: MISSIONS)
+}
+
+scalar join__FieldSet
+
+enum join__Graph {
+  ASSETS @join__graph(name: "assets", url: "http://assets-adapter:8184/graphql")
+  MAPPING @join__graph(name: "mapping", url: "http://mapping-adapter:8190/graphql")
+  MISSIONS @join__graph(name: "missions", url: "http://missions-adapter:8183/graphql")
+  PERSONNEL @join__graph(name: "personnel", url: "http://personnel-adapter:8182/graphql")
+}
+
+scalar link__Import
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+enum LocationType
+  @join__type(graph: MISSIONS)
+{
+  DEEP_SPACE @join__enumValue(graph: MISSIONS)
+  ENTERPRISE @join__enumValue(graph: MISSIONS)
+  OTHER @join__enumValue(graph: MISSIONS)
+  PLANET @join__enumValue(graph: MISSIONS)
+  SECTOR @join__enumValue(graph: MISSIONS)
+  STARBASE @join__enumValue(graph: MISSIONS)
+  VESSEL @join__enumValue(graph: MISSIONS)
+}
+
+""" What the mapping did with the reference; the mapping subgraph owns it.
+"""
+enum MappingOutcome
+  @join__type(graph: ASSETS)
+  @join__type(graph: MAPPING)
+  @join__type(graph: PERSONNEL)
+{
+  """ The named release has an entry: the identifier is set."""
+  MAPPED @join__enumValue(graph: ASSETS) @join__enumValue(graph: MAPPING) @join__enumValue(graph: PERSONNEL)
+
+  """ A valid release without an entry for the reference, or without a section for the kind (for example crew in release 1.0).
+  """
+  NO_ENTRY @join__enumValue(graph: ASSETS) @join__enumValue(graph: MAPPING) @join__enumValue(graph: PERSONNEL)
+
+  """ The release was refused (blank or unknown). The errors entry MAPPING_RELEASE_REQUIRED or MAPPING_RELEASE_NOT_FOUND says which.
+  """
+  RELEASE_REFUSED @join__enumValue(graph: ASSETS) @join__enumValue(graph: MAPPING) @join__enumValue(graph: PERSONNEL)
+}
+
+type MappingRelease
+  @join__type(graph: MAPPING)
+{
+  checkedAgainst: [CheckedAgainst!]!
+  release: String!
+
+  """ The kinds of reference the release holds (assets; crew from release 1.1).
+  """
+  sections: [String!]!
+}
+
+type Mission
+  @join__type(graph: MISSIONS, key: "missionId", resolvable: true)
+{
+  actualCostCredits: String
+
+  """
+  One stub per assigned asset. This adapter does not call Assets or the mapping: it supplies the Missions-local reference as
+  stored and the mapping release the client named. The owning adapter and the mapping subgraph do the rest.
+  """
+  assets(release: String!): [AssetReference!]!
+
+  """ Kept for diagnostics: the same references as `assets` returns, without the release.
+  """
+  assignedAssetIds: [String!]!
+
+  """ Missions-local references as stored, with no owning service behind them yet: plain data.
+  """
+  assignedCrewIds: [String!]!
+  classification: Classification!
+
+  """
+  The commanding officer as the same kind of reference, so that a client can check the mission's Starfleet personnel (the commanding
+  officer and the assigned crew). Null when the mission has no commanding officer (the contract requires one from AUTHORIZED on; a
+  PLANNED or CANCELLED mission may have none). The plain commandingOfficerId above is unchanged. No call is made.
+  """
+  commandingOfficer(release: String!): PersonnelReference
+  commandingOfficerId: String
+
+  """
+  The same for the assigned crew (assignedCrewIds only, not the commanding officer and not the participants). The owning adapter
+  is Personnel; the mapping subgraph supplies personnelId, which is null in every release until a crew section is served.
+  """
+  crew(release: String!): [PersonnelReference!]!
+  durationHours: Int!
+  estimatedCostCredits: String
+  issuingAuthority: IssuingAuthority!
+  lastUpdated: String!
+  location: MissionLocation!
+  missionId: ID!
+  objective: String!
+  outcome: String
+  participantIds: [String!]!
+  priority: Int!
+  stardate: String!
+  status: MissionStatus!
+  title: String!
+  type: MissionType!
+}
+
+type MissionLocation
+  @join__type(graph: MISSIONS)
+{
+  coordinates: String
+  name: String!
+  travelVector: String
+  type: LocationType!
+}
+
+enum MissionStatus
+  @join__type(graph: MISSIONS)
+{
+  ACTIVE @join__enumValue(graph: MISSIONS)
+  AUTHORIZED @join__enumValue(graph: MISSIONS)
+  CANCELLED @join__enumValue(graph: MISSIONS)
+  COMPLETED @join__enumValue(graph: MISSIONS)
+  FAILED @join__enumValue(graph: MISSIONS)
+  PLANNED @join__enumValue(graph: MISSIONS)
+  POSTPONED @join__enumValue(graph: MISSIONS)
+}
+
+enum MissionType
+  @join__type(graph: MISSIONS)
+{
+  DIPLOMATIC @join__enumValue(graph: MISSIONS)
+  EXPLORATION @join__enumValue(graph: MISSIONS)
+  FIRST_CONTACT @join__enumValue(graph: MISSIONS)
+  HUMANITARIAN @join__enumValue(graph: MISSIONS)
+  MAINTENANCE @join__enumValue(graph: MISSIONS)
+  MEDICAL @join__enumValue(graph: MISSIONS)
+  RESCUE @join__enumValue(graph: MISSIONS)
+  SCIENTIFIC @join__enumValue(graph: MISSIONS)
+  SECURITY @join__enumValue(graph: MISSIONS)
+  TACTICAL @join__enumValue(graph: MISSIONS)
+  TRANSPORT @join__enumValue(graph: MISSIONS)
+}
+
+""" One person. details is the contract's choice: exactly one of crewDetails and civilianDetails.
+"""
+type Personnel
+  @join__type(graph: PERSONNEL, key: "personnelId", resolvable: true)
+{
+  details: PersonnelDetails!
+  displayName: String!
+  dutyStatus: DutyStatus!
+  personnelId: ID!
+  positionTitle: String!
+}
+
+union PersonnelDetails
+  @join__type(graph: PERSONNEL)
+  @join__unionMember(graph: PERSONNEL, member: "CivilianDetails")
+  @join__unionMember(graph: PERSONNEL, member: "CrewDetails")
+ = CivilianDetails | CrewDetails
+
+"""
+A page of the roster. datasetVersion is the opaque, immutable identifier of the snapshot that answered. The adapter holds no state,
+so it cannot see a change between two pages of a client: the client compares datasetVersion on every page and restarts at offset 0
+when it changes (the contract says so).
+"""
+type PersonnelPage
+  @join__type(graph: PERSONNEL)
+{
+  datasetVersion: String!
+  hasMore: Boolean!
+  items: [Personnel!]!
+  limit: Int!
+  offset: Int!
+  totalCount: Int!
+}
+
+"""
+The crew reference. The Personnel adapter declares personnelId and mappingOutcome @external and uses
+@requires(fields: "personnelId mappingOutcome"). The crew section of release 1.1 gives the Personnel v2 identifier PRS-nnnn; a
+release without a crew section (1.0) or without an entry for the reference is NO_ENTRY.
+"""
+type PersonnelReference
+  @join__type(graph: MAPPING, key: "localRef release", resolvable: true)
+  @join__type(graph: MISSIONS, key: "localRef release", resolvable: false)
+  @join__type(graph: PERSONNEL, key: "localRef release", resolvable: true)
+{
+  localRef: ID!
+  mappingOutcome: MappingOutcome! @join__field(graph: MAPPING) @join__field(graph: PERSONNEL, external: true)
+  personnelId: ID @join__field(graph: MAPPING) @join__field(graph: PERSONNEL, external: true)
+  release: String!
+  personnel: Personnel @join__field(graph: PERSONNEL, requires: "personnelId mappingOutcome")
+
+  """
+  Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this
+  adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.
+  """
+  resolution: Resolution @join__field(graph: PERSONNEL, requires: "personnelId mappingOutcome")
+}
+
+""" The Assets subgraph. The names are those of the Assets contract 1.1 (assets-v1.1.openapi.json).
+"""
+type Query
+  @join__type(graph: ASSETS)
+  @join__type(graph: MAPPING)
+  @join__type(graph: MISSIONS)
+  @join__type(graph: PERSONNEL)
+{
+  asset(assetId: ID!): Asset @join__field(graph: ASSETS)
+
+  """
+  Offset and limit at the graph level: the default limit is 20, the maximum 100. A page above 50 takes two calls to the
+  service. All or nothing: if any call of the page fails the whole list is null, with one errors entry.
+  """
+  assets(category: AssetCategory, kind: AssetKind, limit: Int = 20, offset: Int = 0, parentAssetId: ID, status: AssetStatus): [Asset!] @join__field(graph: ASSETS)
+
+  """
+  Missions-local asset references (for example EQ-64) to Assets identifiers (AST-nnnn) in the named mapping release: for each
+  reference, in the order given, its assetId and mappingOutcome. The release is required (there is no implicit latest; a blank or
+  unknown release is RELEASE_REFUSED). At most 100 references in one call; more is BAD_USER_INPUT and the list is null.
+  """
+  assetReferences(localRefs: [ID!]!, release: String!): [AssetReference!] @inaccessible @join__field(graph: MAPPING)
+
+  """ A diagnostic list of the releases this adapter serves."""
+  mappingReleases: [MappingRelease!]! @join__field(graph: MAPPING)
+
+  """
+  Missions-local crew references (C-n) to Personnel v2 identifiers (PRS-nnnn) from the crew section of the named mapping release:
+  for each reference, in the order given, its personnelId and mappingOutcome, with the same release rule and limit. A participant
+  reference (P-n) is not resolved by the graph and an outsider reference (O-n) is refused by class: both answer NO_ENTRY, with the
+  errors entry MAPPING_CLASS_REFUSED.
+  """
+  personnelReferences(localRefs: [ID!]!, release: String!): [PersonnelReference!] @inaccessible @join__field(graph: MAPPING)
+
+  """ A mission that does not exist is null with no errors entry: not-found is data. A malformed id is BAD_USER_INPUT.
+  """
+  mission(missionId: ID!): Mission @join__field(graph: MISSIONS)
+
+  """
+  Offset and limit at the graph level: the default limit is 20, the maximum 100. The service pages by page and pageSize (1 to 50),
+  so the adapter fetches the covering pages and slices. All or nothing: if any call of the page fails the whole list is null,
+  with one errors entry. The order is the service's: stardate, priority, missionId, ascending.
+  """
+  missions(assignedAssetId: String, assignedCrewId: String, classification: Classification, commandingOfficerId: String, issuingAuthority: IssuingAuthority, limit: Int = 20, locationType: LocationType, offset: Int = 0, priority: Int, status: MissionStatus, type: MissionType): [Mission!] @join__field(graph: MISSIONS)
+  personnel(personnelId: ID!): Personnel @join__field(graph: PERSONNEL)
+
+  """
+  Offset and limit at the graph level: the default limit is 20, the maximum 100, and the service allows 100 per call, so a page
+  is one call. All or nothing: if the call fails the whole result is null, with one errors entry.
+  """
+  personnelMembers(department: Department, dutyStatus: DutyStatus, limit: Int = 20, offset: Int = 0): PersonnelPage @join__field(graph: PERSONNEL)
+}
+
+enum Rank
+  @join__type(graph: PERSONNEL)
+{
+  CAPTAIN @join__enumValue(graph: PERSONNEL)
+  CHIEF_PETTY_OFFICER @join__enumValue(graph: PERSONNEL)
+  COMMANDER @join__enumValue(graph: PERSONNEL)
+  CREWMAN @join__enumValue(graph: PERSONNEL)
+  ENSIGN @join__enumValue(graph: PERSONNEL)
+  LIEUTENANT @join__enumValue(graph: PERSONNEL)
+  LIEUTENANT_COMMANDER @join__enumValue(graph: PERSONNEL)
+}
+
+enum Resolution
+  @join__type(graph: ASSETS)
+  @join__type(graph: PERSONNEL)
+{
+  RELEASE_REFUSED @join__enumValue(graph: ASSETS) @join__enumValue(graph: PERSONNEL)
+  RESOLVED @join__enumValue(graph: ASSETS) @join__enumValue(graph: PERSONNEL)
+  UNAVAILABLE @join__enumValue(graph: ASSETS) @join__enumValue(graph: PERSONNEL)
+  UNMAPPED @join__enumValue(graph: ASSETS) @join__enumValue(graph: PERSONNEL)
+  UNRESOLVED @join__enumValue(graph: ASSETS) @join__enumValue(graph: PERSONNEL)
+}
+
+enum SecurityClearance
+  @join__type(graph: PERSONNEL)
+{
+  NONE @join__enumValue(graph: PERSONNEL)
+  SECRET @join__enumValue(graph: PERSONNEL)
+  TOP_SECRET @join__enumValue(graph: PERSONNEL)
+}

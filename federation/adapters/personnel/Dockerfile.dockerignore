@@ -1,0 +1,8 @@
+*
+!federation/pom.xml
+!federation/common/pom.xml
+!federation/common/src
+!federation/adapters/*/pom.xml
+!federation/adapters/*/src
+!uss-enterprise/personnel-v2/contracts
+!uss-enterprise/personnel-v2/datasets

@@ -1,0 +1,17 @@
+{
+  "about": "The migration exceptions table: a Missions crew reference (C-n) to the v1 identifier (CRW-nnnn) of the person to migrate to Personnel v2, for every case where the recipe name is not an exact name in the pinned v1 release. It is used by the migration only and does not ship in a mapping release. Every target MUST exist in the pinned v1 release. A migration exception wins over a name match.",
+  "reasons": {
+    "C-78": "Riker: the v1 release writes William Riker (CRW-1048).",
+    "C-92": "La Forge: the v1 release writes Geordi La Forge (CRW-1049).",
+    "C-113": "Troi: the v1 release writes Deanna Troi (CRW-1054).",
+    "C-127": "Barclay: the v1 release writes Reginald Barclay (CRW-1057).",
+    "C-134": "O'Brien: the v1 release writes Miles O'Brien (CRW-1100)."
+  },
+  "entries": {
+    "C-78": "CRW-1048",
+    "C-92": "CRW-1049",
+    "C-113": "CRW-1054",
+    "C-127": "CRW-1057",
+    "C-134": "CRW-1100"
+  }
+}

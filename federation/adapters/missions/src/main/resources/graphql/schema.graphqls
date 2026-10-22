@@ -1,0 +1,133 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+
+# The Missions subgraph. The names are those of the Missions contract 1.1 (missions-v1.1.xsd): the element names are the field
+# names and the enum tokens are the contract's exact values. Two contract type names are prefixed with Mission, because the
+# graph is shared by every subgraph: Status is MissionStatus and Location is MissionLocation.
+#
+# Credits and the stardate are strings: they carry the contract's canonical decimal spelling (two fractional digits for credits,
+# for example "140000.00"; the stardate "43125.80") exactly as the service sent it. A binary float would change the text
+# (43125.80 would become 43125.8) and cannot hold every decimal, and a scalar of our own would be one more thing for every
+# router to agree on. The timestamp is the contract's UTC text with three fractional digits.
+
+type Query {
+  # A mission that does not exist is null with no errors entry: not-found is data. A malformed id is BAD_USER_INPUT.
+  mission(missionId: ID!): Mission
+  # Offset and limit at the graph level: the default limit is 20, the maximum 100. The service pages by page and pageSize (1 to 50),
+  # so the adapter fetches the covering pages and slices. All or nothing: if any call of the page fails the whole list is null,
+  # with one errors entry. The order is the service's: stardate, priority, missionId, ascending.
+  missions(
+    type: MissionType
+    classification: Classification
+    status: MissionStatus
+    priority: Int
+    issuingAuthority: IssuingAuthority
+    commandingOfficerId: String
+    assignedCrewId: String
+    assignedAssetId: String
+    locationType: LocationType
+    offset: Int = 0
+    limit: Int = 20
+  ): [Mission!]
+}
+
+type Mission @key(fields: "missionId") {
+  missionId: ID!
+  title: String!
+  type: MissionType!
+  classification: Classification!
+  status: MissionStatus!
+  priority: Int!
+  stardate: String!
+  durationHours: Int!
+  objective: String!
+  location: MissionLocation!
+  issuingAuthority: IssuingAuthority!
+  commandingOfficerId: String
+  # Missions-local references as stored, with no owning service behind them yet: plain data.
+  assignedCrewIds: [String!]!
+  participantIds: [String!]!
+  # Kept for diagnostics: the same references as `assets` returns, without the release.
+  assignedAssetIds: [String!]!
+  estimatedCostCredits: String
+  actualCostCredits: String
+  outcome: String
+  lastUpdated: String!
+  # One stub per assigned asset. This adapter does not call Assets or the mapping: it supplies the Missions-local reference as
+  # stored and the mapping release the client named. The owning adapter and the mapping subgraph do the rest.
+  assets(release: String!): [AssetReference!]!
+  # The same for the assigned crew (assignedCrewIds only, not the commanding officer and not the participants). The owning adapter
+  # is Personnel; the mapping subgraph supplies personnelId, which is null in every release until a crew section is served.
+  crew(release: String!): [PersonnelReference!]!
+  # The commanding officer as the same kind of reference, so that a client can check the mission's Starfleet personnel (the commanding
+  # officer and the assigned crew). Null when the mission has no commanding officer (the contract requires one from AUTHORIZED on; a
+  # PLANNED or CANCELLED mission may have none). The plain commandingOfficerId above is unchanged. No call is made.
+  commandingOfficer(release: String!): PersonnelReference
+}
+
+type MissionLocation {
+  type: LocationType!
+  name: String!
+  coordinates: String
+  travelVector: String
+}
+
+# The stub of direction B. It is owned and resolved by the Assets adapter; here it is only a key, never fetched.
+type AssetReference @key(fields: "localRef release", resolvable: false) {
+  localRef: ID!
+  release: String!
+}
+
+# The stub of the crew reference, the same direction B. It is owned and resolved by the Personnel adapter; here it is only a key.
+type PersonnelReference @key(fields: "localRef release", resolvable: false) {
+  localRef: ID!
+  release: String!
+}
+
+enum MissionType {
+  DIPLOMATIC
+  EXPLORATION
+  SCIENTIFIC
+  FIRST_CONTACT
+  MEDICAL
+  RESCUE
+  HUMANITARIAN
+  SECURITY
+  TACTICAL
+  TRANSPORT
+  MAINTENANCE
+}
+
+enum Classification {
+  UNCLASSIFIED
+  SECRET
+  TOP_SECRET
+}
+
+enum MissionStatus {
+  PLANNED
+  AUTHORIZED
+  ACTIVE
+  POSTPONED
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum LocationType {
+  PLANET
+  STARBASE
+  VESSEL
+  SECTOR
+  DEEP_SPACE
+  ENTERPRISE
+  OTHER
+}
+
+enum IssuingAuthority {
+  STARFLEET_COMMAND
+  ENTERPRISE_COMMAND
+  STARFLEET_MEDICAL
+  STARFLEET_SCIENCE
+  STARFLEET_SECURITY
+  FEDERATION_COUNCIL
+}

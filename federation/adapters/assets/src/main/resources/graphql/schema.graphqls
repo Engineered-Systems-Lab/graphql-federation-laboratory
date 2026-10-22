@@ -1,0 +1,77 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@requires", "@external"])
+
+# The Assets subgraph. The names are those of the Assets contract 1.1 (assets-v1.1.openapi.json).
+
+type Query {
+  asset(assetId: ID!): Asset
+  # Offset and limit at the graph level: the default limit is 20, the maximum 100. A page above 50 takes two calls to the
+  # service. All or nothing: if any call of the page fails the whole list is null, with one errors entry.
+  assets(kind: AssetKind, category: AssetCategory, status: AssetStatus, parentAssetId: ID, offset: Int = 0, limit: Int = 20): [Asset!]
+}
+
+type Asset @key(fields: "assetId") {
+  assetId: ID!
+  kind: AssetKind!
+  category: AssetCategory!
+  name: String!
+  description: String!
+  status: AssetStatus!
+  parentAssetId: ID
+  # The parent asset, read from the Assets service with ONE call per level and only when the client selects it. A parent id that
+  # does not exist is null with no errors entry; a failed call is null with one SERVICE_UNAVAILABLE entry. No caching, no batching.
+  parent: Asset
+}
+
+# What a mission's asset reference becomes. The mapping subgraph supplies assetId and mappingOutcome; this adapter produces the
+# whole outcome with at most one call to the Assets service. The mapping release is a key field. The identifier the mapping found
+# is assetId (the confirmed asset is asset.assetId); there is no separate id field.
+type AssetReference @key(fields: "localRef release") {
+  localRef: ID!
+  release: String!
+  assetId: ID @external
+  mappingOutcome: MappingOutcome! @external
+  # Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this
+  # adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.
+  resolution: Resolution @requires(fields: "assetId mappingOutcome")
+  asset: Asset @requires(fields: "assetId mappingOutcome")
+}
+
+# What the mapping did with the reference; the mapping subgraph owns it.
+enum MappingOutcome {
+  MAPPED
+  NO_ENTRY
+  RELEASE_REFUSED
+}
+
+enum Resolution {
+  RESOLVED
+  UNRESOLVED
+  UNAVAILABLE
+  UNMAPPED
+  RELEASE_REFUSED
+}
+
+enum AssetKind {
+  STARSHIP
+  SHUTTLE
+  ROVER
+  ARMORED_VEHICLE
+  PHASER
+  TRICORDER
+  COMMUNICATOR
+  SCIENTIFIC_INSTRUMENT
+  MUSICAL_INSTRUMENT
+}
+
+enum AssetCategory {
+  VEHICLE
+  EQUIPMENT
+}
+
+enum AssetStatus {
+  ACTIVE
+  MAINTENANCE
+  DECOMMISSIONED
+  DESTROYED
+  MISSING
+}

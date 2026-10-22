@@ -1,0 +1,14 @@
+{
+  "release": "0.3",
+  "files": {
+    "crew.json": "ae706f3e798e74e0f51a3fcc05cc545487d564b48dd083180dcf16b25d1c39eb"
+  },
+  "checkedAgainst": [
+    {
+      "system": "fixture",
+      "artifact": "test data",
+      "version": "0",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}

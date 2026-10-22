@@ -1,0 +1,43 @@
+# The Missions adapter (the Missions subgraph), started by one command (see start.sh and the README).
+#
+# - It is published on loopback only (127.0.0.1:8183 by default; 8183 mirrors the legacy Missions port 8083).
+# - It has no state and no database. It reaches the Missions service at MISSIONS_SERVICE_URL. The default points at the
+#   service on the host (8083) through host.docker.internal; set the variable to the service name when both run in one
+#   compose project. No secret is needed or kept in any file.
+# - The build context is the repository root (the offline tests read the real Missions fixtures and the released dataset).
+# - Explicit CPU and memory limits, so that every benchmark run starts from the same conditions. They are PROVISIONAL: the
+#   container limits of the adapters wait for the benchmark environment record. The experiments saw about 220 MiB resident.
+# - The base images are pinned by digest in the Dockerfile (resolved 2026-10-16).
+name: starfleet-federation-missions-adapter
+
+services:
+  missions-adapter:
+    build:
+      context: ../../..
+      dockerfile: federation/adapters/missions/Dockerfile
+    image: ${MISSIONS_ADAPTER_IMAGE:-starfleet-federation-missions-adapter:1.0.0}
+    container_name: ${MISSIONS_ADAPTER_CONTAINER_NAME:-starfleet-federation-missions-adapter}
+    ports:
+      - "127.0.0.1:${MISSIONS_ADAPTER_HOST_PORT:-8183}:8183"
+    environment:
+      ADAPTER_BIND_HOST: 0.0.0.0
+      ADAPTER_PORT: "8183"
+      MISSIONS_SERVICE_URL: ${MISSIONS_SERVICE_URL:-http://host.docker.internal:8083}
+      MISSIONS_CONNECT_TIMEOUT_MS: ${MISSIONS_CONNECT_TIMEOUT_MS:-1000}
+      MISSIONS_READ_TIMEOUT_MS: ${MISSIONS_READ_TIMEOUT_MS:-1500}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8183'"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

@@ -1,0 +1,33 @@
+{
+  "release": "1.1",
+  "files": {
+    "assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+    "crew.json": "a40a0f38ac586a18eac8766bedddd81e6aeec75bb889a37a76a0f412bdde2cb0"
+  },
+  "checkedAgainst": [
+    {
+      "system": "missions",
+      "artifact": "dataset release manifest",
+      "version": "1.0",
+      "sha256": "ce5ca4ea6919492f2c162c1a172670487546d83e1b1bbfa95cbe3252f16d99c3"
+    },
+    {
+      "system": "assets",
+      "artifact": "contract file",
+      "version": "1.1",
+      "sha256": "542e3c346e0223013486fa5fed89d2274716b915665efdfc20cd291505bf73d0"
+    },
+    {
+      "system": "assets",
+      "artifact": "dataset release manifest",
+      "version": "1.1",
+      "sha256": "b59ec52d13e8f71e76f7a4da65f371875172e59e766a5a0c89bed03e3f3d68b7"
+    },
+    {
+      "system": "personnel",
+      "artifact": "dataset snapshot",
+      "version": "personnel-v2-small-003",
+      "sha256": "d89651c9966108a57e109f8bb0b4879109b7cdaad64825b85ba4093db795293b"
+    }
+  ]
+}

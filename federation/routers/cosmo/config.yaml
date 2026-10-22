@@ -1,0 +1,39 @@
+# The Cosmo router configuration of the federation layer (Cosmo router 0.359.0, self-hosted, no account, token, control plane or CDN).
+#
+# - It listens on 4000 inside the container; the stack publishes that on loopback as 127.0.0.1:8171 (8171 is the Cosmo router's port in
+#   the block 8170 to 8179 for routers; Apollo is 8170 and Hive 8172). The GraphQL path is the router's default, /graphql.
+# - The router runs from a STATIC execution config (execution-config.json, composed locally by `wgc router compose`), so it needs no
+#   graph token. It logs "No graph token provided" and names five Cosmo Cloud features that stay off for that reason: Schema Usage
+#   Tracking, Persistent operations, Advanced Request Tracing, Cosmo Cloud Tracing and Cosmo Cloud Metrics. That warning is expected.
+# - subgraph_error_propagation.mode: pass-through is the smallest setting that delivers the decided errors entry: the subgraph's own
+#   error reaches the client with its message, path and extensions.code (SERVICE_UNAVAILABLE) at the top level, and the router adds
+#   extensions.serviceName. The default mode, wrapped, puts the subgraph's errors one level down (extensions.errors) under the message
+#   "Failed to fetch from Subgraph 'assets' at Path 'mission.assets'.", with no code at the top level (federation experiment 2; the
+#   same on 0.359.0, measured again on 2026-10-18). The setting is the router's own; the subgraphs are unchanged by it.
+# - traffic_shaping.all.request_timeout is the time the router waits for ONE subgraph request: the same 5 s as the Apollo router
+#   (federation/routers/apollo/router.yaml, traffic_shaping.all.timeout), so that the two routers are compared with the same patience.
+#   The execution config carries its own 10 s per subgraph; this setting is the router's, and the router's value wins.
+# - traffic_shaping.all.retry.enabled: false. Cosmo retries a failed subgraph request by default (5 attempts, 3 s interval, a random
+#   wait of up to 10 s), which made the answer for a dead adapter take 5 s one time and 21 s the next in the first measurement on
+#   2026-10-18. The Apollo router does not retry in the measured configuration, so the retry is switched off to keep the two timeouts
+#   equivalent. The lead developer decided on 2026-10-18 to keep it off for the comparison; it is recorded in the README and in the design.
+# - introspection.enabled: true turns GraphQL introspection ON, explicitly. The pinned router 0.359.0 has it on by default (measured on
+#   2026-10-20: the start log says introspection true and a __schema query answers with no setting at all); it is written here so that
+#   the setting has a name and a value to record, and does not depend on a default that a version change could flip. It is on because
+#   the Abstraction ladder study's Epsilon scenario discovers the schema through the router; production deployments usually keep it off. The
+#   Apollo router's default is the opposite (off) and it has its own setting (router.yaml, supergraph.introspection).
+# - Telemetry: the router's anonymous usage tracking is off through COSMO_TELEMETRY_DISABLED=true, set in the stack compose file (the
+#   name was read in router/core/router.go at the tag router@0.359.0). Both routers run with anonymous
+#   telemetry off in the stack (APOLLO_TELEMETRY_DISABLED and COSMO_TELEMETRY_DISABLED, both "true" in the same file); the run
+#   manifest must record it.
+version: "1"
+listen_addr: "0.0.0.0:4000"
+introspection:
+  enabled: true
+subgraph_error_propagation:
+  mode: pass-through
+traffic_shaping:
+  all:
+    request_timeout: 5s
+    retry:
+      enabled: false

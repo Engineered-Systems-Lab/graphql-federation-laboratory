@@ -1,0 +1,30 @@
+# The Personnel adapter image: the executable jar and a Java 21 runtime, nothing else (no sources, no tests, no credentials).
+#
+# The build context is the REPOSITORY ROOT, not federation/: the offline tests read the real Personnel v2 contract (the XSD that
+# validates every request the adapter sends) and the two registered snapshots (uss-enterprise/personnel-v2), and a copy of those
+# files would be a second source. Build with
+#   docker build -f federation/adapters/personnel/Dockerfile .      (from the repository root; compose does this)
+# Dockerfile.dockerignore keeps the context to the federation poms and sources, the contract and the snapshots.
+# The build stage runs the offline unit and integration tests (`mvn verify`): an image never exists for code whose tests fail.
+# No JDK or Maven is needed on the machine.
+#
+# Both bases are pinned by the digest of their OCI image index; they are the digests of the other adapter images, resolved on
+# 2026-10-16 with `docker buildx imagetools inspect <tag>` (read again the same day, unchanged).
+# Tags move: resolve the digests again before changing a pin, and record the date here and in the README.
+#   maven:3.9-eclipse-temurin-21   Maven 3.9 with Temurin 21 (build)
+#   eclipse-temurin:21-jre         Temurin 21 JRE (runtime)
+FROM maven:3.9-eclipse-temurin-21@sha256:99e61abcff91a9b1333463bd8451fb18495d6eba9250ac66a338b518f8278320 AS build
+WORKDIR /build
+COPY federation ./federation
+COPY uss-enterprise/personnel-v2/contracts ./uss-enterprise/personnel-v2/contracts
+COPY uss-enterprise/personnel-v2/datasets ./uss-enterprise/personnel-v2/datasets
+WORKDIR /build/federation
+RUN --mount=type=cache,target=/root/.m2 mvn -B -ntp -pl adapters/personnel -am verify
+
+FROM eclipse-temurin:21-jre@sha256:ccbad9e7cb84c27092b12c40a4143e5733e050db9c3784d84f632dcf423fb2ef
+WORKDIR /app
+COPY --from=build /build/federation/adapters/personnel/target/federation-personnel-adapter-1.0.0.jar ./adapter.jar
+ENV ADAPTER_BIND_HOST=0.0.0.0 ADAPTER_PORT=8182
+USER 10001:10001
+EXPOSE 8182
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=70", "-jar", "/app/adapter.jar"]

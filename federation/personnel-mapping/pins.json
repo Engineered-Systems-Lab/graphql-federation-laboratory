@@ -1,0 +1,33 @@
+{
+  "about": "Every input of the crew mapping process, pinned by hash. A run refuses to start when one differs, and a mapping release repeats these pins. LF hashing is the SHA-256 of the file with CRLF turned into LF (the repository's canonical Git-content form); raw hashing is the SHA-256 of the bytes (the Personnel v2 snapshots have exact raw-byte identity). Changing a pin is a deliberate act: python -B federation/personnel-mapping/crew_mapping.py pins --write.",
+  "recipe": {
+    "path": "uss-enterprise/missions/datasets/recipe.json",
+    "hashing": "lf",
+    "sha256": "3e3d5decbc93d1d4fde95c8aac42690fc99a633eab2f356181714f8944de21f0"
+  },
+  "v1Release": {
+    "path": "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/manifest.json",
+    "hashing": "lf",
+    "sha256": "c06125dbe6883981293b485497474c46a0128372056efca389d7421f35ba2690"
+  },
+  "v2Source": {
+    "path": "uss-enterprise/personnel-v2/datasets/personnel-v2-small-002.xml",
+    "hashing": "raw",
+    "sha256": "c7550f57350846f3a7833caf23461916ebef12ab26f34c631d92a115299168f8"
+  },
+  "v2Target": {
+    "path": "uss-enterprise/personnel-v2/datasets/personnel-v2-small-003.xml",
+    "hashing": "raw",
+    "sha256": "d89651c9966108a57e109f8bb0b4879109b7cdaad64825b85ba4093db795293b"
+  },
+  "mappingExceptions": {
+    "path": "federation/personnel-mapping/mapping-exceptions.json",
+    "hashing": "lf",
+    "sha256": "4852f0e9bc740fe99b10f91447129d6300a427c22fa854d63c9335739a74d51a"
+  },
+  "migrationExceptions": {
+    "path": "federation/personnel-mapping/migration-exceptions.json",
+    "hashing": "lf",
+    "sha256": "501072921f5b8bcb450ed0747c4882d94e99c133f93227ff91312cefef0d8bc8"
+  }
+}

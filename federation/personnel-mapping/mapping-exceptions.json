@@ -1,0 +1,19 @@
+{
+  "about": "The mapping exceptions table: a Missions crew reference (C-n) to the Personnel v2 identifier (PRS-nnnn) of the same person, for every case the exact-name step cannot place. It records known discrepancies of name and is reused by every later mapping release. Every target MUST exist in the pinned Personnel v2 snapshot, and the table never names a v1 identifier (CRW-nnnn). The process (crew_mapping.py) reads it first, and a match stops the process.",
+  "reasons": {
+    "C-71": "Picard: the Missions recipe writes Picard, Personnel v2 writes Jean-Luc Picard (already in Personnel v2 as PRS-0001).",
+    "C-78": "Riker: the recipe writes Riker, the person is William Riker, migrated from CRW-1048 and so PRS-1048.",
+    "C-92": "La Forge: the recipe writes La Forge, the person is Geordi La Forge, migrated from CRW-1049 and so PRS-1049.",
+    "C-113": "Troi: the recipe writes Troi, the person is Deanna Troi, migrated from CRW-1054 and so PRS-1054.",
+    "C-127": "Barclay: the recipe writes Barclay, the person is Reginald Barclay, migrated from CRW-1057 and so PRS-1057.",
+    "C-134": "O'Brien: the recipe writes O'Brien, the person is Miles O'Brien, migrated from CRW-1100 and so PRS-1100."
+  },
+  "entries": {
+    "C-71": "PRS-0001",
+    "C-78": "PRS-1048",
+    "C-92": "PRS-1049",
+    "C-113": "PRS-1054",
+    "C-127": "PRS-1057",
+    "C-134": "PRS-1100"
+  }
+}

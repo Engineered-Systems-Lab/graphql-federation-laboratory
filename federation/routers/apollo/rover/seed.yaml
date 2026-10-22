@@ -1,0 +1,6 @@
+federation_version: =2.9.3
+subgraphs:
+  seed:
+    routing_url: http://seed:1/graphql
+    schema:
+      file: /seed/seed.graphql

@@ -1,0 +1,61 @@
+{
+  "section": "crew",
+  "description": "The Missions-local crew reference to the Personnel v2 identifier PRS-nnnn: the full resulting table.",
+  "source": "Built by federation/personnel-mapping/crew_mapping.py from the pinned inputs below: the Missions recipe, the mapping exceptions table and the Personnel v2 snapshot personnel-v2-small-003 (the migration of the cast from the v1 release is described in federation/personnel-mapping/README.md). A reference with no entry has no mapping (UNMAPPED).",
+  "inputs": {
+    "recipe": {
+      "hashing": "lf",
+      "sha256": "3e3d5decbc93d1d4fde95c8aac42690fc99a633eab2f356181714f8944de21f0"
+    },
+    "v1Release": {
+      "hashing": "lf",
+      "sha256": "c06125dbe6883981293b485497474c46a0128372056efca389d7421f35ba2690"
+    },
+    "v2Source": {
+      "hashing": "raw",
+      "sha256": "c7550f57350846f3a7833caf23461916ebef12ab26f34c631d92a115299168f8"
+    },
+    "v2Target": {
+      "hashing": "raw",
+      "sha256": "d89651c9966108a57e109f8bb0b4879109b7cdaad64825b85ba4093db795293b"
+    },
+    "mappingExceptions": {
+      "hashing": "lf",
+      "sha256": "4852f0e9bc740fe99b10f91447129d6300a427c22fa854d63c9335739a74d51a"
+    },
+    "migrationExceptions": {
+      "hashing": "lf",
+      "sha256": "501072921f5b8bcb450ed0747c4882d94e99c133f93227ff91312cefef0d8bc8"
+    }
+  },
+  "controlledCases": {
+    "NORMAL": [
+      "C-85",
+      "C-120"
+    ],
+    "EXCEPTION": [
+      "C-71"
+    ],
+    "MIGRATED": [
+      "C-78",
+      "C-92",
+      "C-99",
+      "C-106",
+      "C-113",
+      "C-127",
+      "C-134"
+    ]
+  },
+  "entries": {
+    "C-71": "PRS-0001",
+    "C-78": "PRS-1048",
+    "C-85": "PRS-0002",
+    "C-92": "PRS-1049",
+    "C-99": "PRS-1058",
+    "C-106": "PRS-1053",
+    "C-113": "PRS-1054",
+    "C-120": "PRS-0714",
+    "C-127": "PRS-1057",
+    "C-134": "PRS-1100"
+  }
+}

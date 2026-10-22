@@ -1,0 +1,62 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@inaccessible"])
+
+# The mapping subgraph. It contributes assetId and mappingOutcome to AssetReference; the Assets subgraph declares both @external
+# and uses @requires(fields: "assetId mappingOutcome"). The mapping release is a key field: the router sends { localRef, release }
+# and there is NO implicit latest. The subgraph states what it did in mappingOutcome, so that no owning adapter has to infer the
+# cause from a null assetId.
+
+type Query {
+  # A diagnostic list of the releases this adapter serves.
+  mappingReleases: [MappingRelease!]!
+  # Missions-local asset references (for example EQ-64) to Assets identifiers (AST-nnnn) in the named mapping release: for each
+  # reference, in the order given, its assetId and mappingOutcome. The release is required (there is no implicit latest; a blank or
+  # unknown release is RELEASE_REFUSED). At most 100 references in one call; more is BAD_USER_INPUT and the list is null.
+  assetReferences(release: String!, localRefs: [ID!]!): [AssetReference!] @inaccessible
+  # Missions-local crew references (C-n) to Personnel v2 identifiers (PRS-nnnn) from the crew section of the named mapping release:
+  # for each reference, in the order given, its personnelId and mappingOutcome, with the same release rule and limit. A participant
+  # reference (P-n) is not resolved by the graph and an outsider reference (O-n) is refused by class: both answer NO_ENTRY, with the
+  # errors entry MAPPING_CLASS_REFUSED.
+  personnelReferences(release: String!, localRefs: [ID!]!): [PersonnelReference!] @inaccessible
+}
+
+type AssetReference @key(fields: "localRef release") {
+  localRef: ID!
+  release: String!
+  # The Assets identifier the release maps the reference to; null unless mappingOutcome is MAPPED.
+  assetId: ID
+  mappingOutcome: MappingOutcome!
+}
+
+# The crew reference. The Personnel adapter declares personnelId and mappingOutcome @external and uses
+# @requires(fields: "personnelId mappingOutcome"). The crew section of release 1.1 gives the Personnel v2 identifier PRS-nnnn; a
+# release without a crew section (1.0) or without an entry for the reference is NO_ENTRY.
+type PersonnelReference @key(fields: "localRef release") {
+  localRef: ID!
+  release: String!
+  personnelId: ID
+  mappingOutcome: MappingOutcome!
+}
+
+# What the mapping did with a reference. One enum for both kinds of reference.
+enum MappingOutcome {
+  # The named release has an entry: the identifier is set.
+  MAPPED
+  # A valid release without an entry for the reference, or without a section for the kind (for example crew in release 1.0).
+  NO_ENTRY
+  # The release was refused (blank or unknown). The errors entry MAPPING_RELEASE_REQUIRED or MAPPING_RELEASE_NOT_FOUND says which.
+  RELEASE_REFUSED
+}
+
+type MappingRelease {
+  release: String!
+  # The kinds of reference the release holds (assets; crew from release 1.1).
+  sections: [String!]!
+  checkedAgainst: [CheckedAgainst!]!
+}
+
+type CheckedAgainst {
+  system: String!
+  artifact: String!
+  version: String!
+  sha256: String!
+}

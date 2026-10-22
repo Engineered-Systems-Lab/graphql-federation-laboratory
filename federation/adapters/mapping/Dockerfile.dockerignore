@@ -1,0 +1,7 @@
+*
+!pom.xml
+!common/pom.xml
+!common/src
+!adapters/*/pom.xml
+!adapters/*/src
+!mapping-releases

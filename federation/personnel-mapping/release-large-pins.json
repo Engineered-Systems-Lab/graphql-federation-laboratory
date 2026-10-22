@@ -1,0 +1,33 @@
+{
+  "about": "Every input of mapping release 1.2 (crew_mapping.py release-large), pinned by hash like pins.json and large-pins.json. The Missions recipe is that of dataset release 1.1; the target is the manifest of the large Personnel v2 snapshot, whose pages are checked against the hashes in it. A run refuses to start when a pin differs; the release repeats the pins in crew.json and participants.json. Changing a pin is a deliberate act: python -B federation/personnel-mapping/crew_mapping.py pins --write --pins-file federation/personnel-mapping/release-large-pins.json.",
+  "recipe": {
+    "path": "uss-enterprise/missions/datasets/releases/1.1/recipe.json",
+    "hashing": "lf",
+    "sha256": "34fdb9ca29786a5351311681681d5790a017d1dc543cbb3940e5bf6d55bcb4eb"
+  },
+  "v1Release": {
+    "path": "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/manifest.json",
+    "hashing": "lf",
+    "sha256": "c06125dbe6883981293b485497474c46a0128372056efca389d7421f35ba2690"
+  },
+  "v2Target": {
+    "path": "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/manifest.json",
+    "hashing": "lf",
+    "sha256": "d44e96b8853290b8423be5fe53dc8270f4e1155a52287ebe30e486c2eae7ef47"
+  },
+  "mappingExceptions": {
+    "path": "federation/personnel-mapping/mapping-exceptions.json",
+    "hashing": "lf",
+    "sha256": "4852f0e9bc740fe99b10f91447129d6300a427c22fa854d63c9335739a74d51a"
+  },
+  "migrationExceptions": {
+    "path": "federation/personnel-mapping/migration-exceptions.json",
+    "hashing": "lf",
+    "sha256": "501072921f5b8bcb450ed0747c4882d94e99c133f93227ff91312cefef0d8bc8"
+  },
+  "participantExceptions": {
+    "path": "federation/personnel-mapping/participant-exceptions.json",
+    "hashing": "lf",
+    "sha256": "18325a8c73fd6fb7ba913f027f3acff210c04d031686981f21a1c76ed2b78611"
+  }
+}

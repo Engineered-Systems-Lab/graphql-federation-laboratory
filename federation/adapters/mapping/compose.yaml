@@ -1,0 +1,37 @@
+# The mapping adapter (the mapping subgraph), started by one command (see start.sh and the README).
+#
+# - It is published on loopback only (127.0.0.1:8190 by default). 8190 is the first port of the block for federation-only services:
+#   the mapping adapter has no legacy twin, so it does not mirror a legacy port.
+# - It has no state, no database and makes no outbound call. The mapping releases are baked into the image, read-only; set
+#   MAPPING_RELEASES_DIR only to point at another folder inside the image. No secret is needed or kept in any file.
+# - Explicit CPU and memory limits, so that every benchmark run starts from the same conditions. They are PROVISIONAL, the same as
+#   the Assets adapter's: the container limits of the adapters wait for the benchmark environment record.
+# - The base images are pinned by digest in the Dockerfile (resolved 2026-10-16).
+name: starfleet-federation-mapping-adapter
+
+services:
+  mapping-adapter:
+    build:
+      context: ../..
+      dockerfile: adapters/mapping/Dockerfile
+    image: ${MAPPING_ADAPTER_IMAGE:-starfleet-federation-mapping-adapter:1.0.0}
+    container_name: ${MAPPING_ADAPTER_CONTAINER_NAME:-starfleet-federation-mapping-adapter}
+    ports:
+      - "127.0.0.1:${MAPPING_ADAPTER_HOST_PORT:-8190}:8190"
+    environment:
+      ADAPTER_BIND_HOST: 0.0.0.0
+      ADAPTER_PORT: "8190"
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8190'"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+    cpus: 1.0
+    mem_limit: 512m
+    memswap_limit: 512m
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

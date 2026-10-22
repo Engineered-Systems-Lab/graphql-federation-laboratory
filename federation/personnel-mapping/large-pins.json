@@ -1,0 +1,13 @@
+{
+  "about": "The inputs of the batch that builds the large Personnel v2 snapshot (crew_mapping.py large), pinned by hash like pins.json. The generator of the civilians (civilians.py) is bound in the manifest of the package it builds. A run refuses to start when a pin differs.",
+  "v1Release": {
+    "path": "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/manifest.json",
+    "hashing": "lf",
+    "sha256": "c06125dbe6883981293b485497474c46a0128372056efca389d7421f35ba2690"
+  },
+  "v2Source": {
+    "path": "uss-enterprise/personnel-v2/datasets/personnel-v2-small-003.xml",
+    "hashing": "raw",
+    "sha256": "d89651c9966108a57e109f8bb0b4879109b7cdaad64825b85ba4093db795293b"
+  }
+}

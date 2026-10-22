@@ -1,0 +1,27 @@
+# The Apollo router configuration of the federation layer.
+#
+# - It listens on 4000 inside the container; the stack publishes that on loopback as 127.0.0.1:8170 (8170 is the Apollo router's
+#   port in the block 8170 to 8179 for routers; Cosmo is 8171 and Hive 8172).
+# - include_subgraph_errors passes the subgraphs' errors (message and extensions) to the client. Without it the router redacts them
+#   ("Subgraph errors redacted") and the code SERVICE_UNAVAILABLE never reaches the client (federation experiment 2, in
+#   docs/INTEGRATION-NOTES.md). The setting is the router's own; the subgraphs are unchanged by it.
+# - traffic_shaping.all.timeout is the time the router waits for ONE subgraph request. The router's default is 30 s, and with an
+#   adapter that is itself down (not answering, not its backend service) the client then waited 30 s for an HTTP 504 GATEWAY_TIMEOUT
+#   with data null. With 5 s the router answers HTTP 200 after 5 s with one GATEWAY_TIMEOUT errors entry per failed fetch (the
+#   "service" extension names the subgraph). `resolution` is nullable in the Assets and Personnel subgraphs, so the null stops at that
+#   field and the rest of the mission is kept; a null resolution means ONLY that the router could not ask the owning adapter, and the
+#   errors entry says why (see the table in README.md). 5 s is about four times the slowest normal answer measured (a whole-list query
+#   took 1.3 s) and far below 30 s. Cosmo has its own settings (its own router configuration); Hive is not built.
+# - supergraph.introspection: true turns GraphQL introspection ON. The router's default is off: every __schema or __type query is
+#   answered with the code INTROSPECTION_DISABLED. It is on here only because the Abstraction ladder study's Delta scenario discovers the schema
+#   through the router; production deployments usually keep it off. The subgraphs and the supergraph are unchanged by it. Cosmo has
+#   its own setting (config.yaml, introspection.enabled).
+# - The router needs no account, key or graph reference: it is started with a supergraph file and this file only.
+supergraph:
+  listen: 0.0.0.0:4000
+  introspection: true
+include_subgraph_errors:
+  all: true
+traffic_shaping:
+  all:
+    timeout: 5s

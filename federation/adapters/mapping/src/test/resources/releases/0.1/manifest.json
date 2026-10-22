@@ -1,0 +1,15 @@
+{
+  "release": "0.1",
+  "files": {
+    "assets.json": "c1643c4162ad9ed5c98841f66f3ceb1c2225be3ddd5586320ff66b3cf58d2e5e",
+    "crew.json": "66706ef397b25afb27b851186fcaa0a792fca26e85d31852d3df703f29636c71"
+  },
+  "checkedAgainst": [
+    {
+      "system": "fixture",
+      "artifact": "test data",
+      "version": "0",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}

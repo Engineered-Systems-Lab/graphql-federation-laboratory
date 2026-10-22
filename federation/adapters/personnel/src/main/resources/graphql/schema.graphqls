@@ -1,0 +1,110 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@requires", "@external"])
+
+# The Personnel subgraph. The names are those of the Personnel v2 contract (personnel-v2.xsd): the element names are the field names.
+
+type Query {
+  personnel(personnelId: ID!): Personnel
+  # Offset and limit at the graph level: the default limit is 20, the maximum 100, and the service allows 100 per call, so a page
+  # is one call. All or nothing: if the call fails the whole result is null, with one errors entry.
+  personnelMembers(department: Department, dutyStatus: DutyStatus, offset: Int = 0, limit: Int = 20): PersonnelPage
+}
+
+# A page of the roster. datasetVersion is the opaque, immutable identifier of the snapshot that answered. The adapter holds no state,
+# so it cannot see a change between two pages of a client: the client compares datasetVersion on every page and restarts at offset 0
+# when it changes (the contract says so).
+type PersonnelPage {
+  datasetVersion: String!
+  items: [Personnel!]!
+  totalCount: Int!
+  offset: Int!
+  limit: Int!
+  hasMore: Boolean!
+}
+
+# One person. details is the contract's choice: exactly one of crewDetails and civilianDetails.
+type Personnel @key(fields: "personnelId") {
+  personnelId: ID!
+  displayName: String!
+  positionTitle: String!
+  dutyStatus: DutyStatus!
+  details: PersonnelDetails!
+}
+
+union PersonnelDetails = CrewDetails | CivilianDetails
+
+type CrewDetails {
+  rank: Rank!
+  department: Department!
+  securityClearance: SecurityClearance!
+  supervisorPersonnelId: ID
+}
+
+type CivilianDetails {
+  """
+  The contract's CivilianDetails has no fields, and GraphQL does not allow an object type without fields. This field is a placeholder:
+  it is always null and carries no fact. A civilian has no rank, department, clearance or supervisor.
+  """
+  placeholder: Boolean
+}
+
+# What a mission's crew reference becomes. The mapping subgraph supplies personnelId and mappingOutcome; this adapter produces the
+# whole outcome with at most one call to the Personnel v2 service. The mapping release is a key field. The identifier the mapping
+# found is personnelId (the confirmed person is personnel.personnelId); there is no separate id field.
+type PersonnelReference @key(fields: "localRef release") {
+  localRef: ID!
+  release: String!
+  personnelId: ID @external
+  mappingOutcome: MappingOutcome! @external
+  # Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this
+  # adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.
+  resolution: Resolution @requires(fields: "personnelId mappingOutcome")
+  personnel: Personnel @requires(fields: "personnelId mappingOutcome")
+}
+
+# What the mapping did with the reference; the mapping subgraph owns it.
+enum MappingOutcome {
+  MAPPED
+  NO_ENTRY
+  RELEASE_REFUSED
+}
+
+enum Resolution {
+  RESOLVED
+  UNRESOLVED
+  UNAVAILABLE
+  UNMAPPED
+  RELEASE_REFUSED
+}
+
+enum Rank {
+  CAPTAIN
+  COMMANDER
+  LIEUTENANT_COMMANDER
+  LIEUTENANT
+  ENSIGN
+  CHIEF_PETTY_OFFICER
+  CREWMAN
+}
+
+enum Department {
+  COMMAND
+  OPERATIONS
+  ENGINEERING
+  SCIENCE
+  MEDICAL
+  SECURITY
+  FLIGHT_OPERATIONS
+}
+
+enum SecurityClearance {
+  NONE
+  SECRET
+  TOP_SECRET
+}
+
+enum DutyStatus {
+  ACTIVE
+  ON_LEAVE
+  INACTIVE
+  DECEASED
+}

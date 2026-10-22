@@ -1,0 +1,633 @@
+{
+  "engineConfig": {
+    "defaultFlushInterval": "500",
+    "datasourceConfigurations": [
+      {
+        "kind": "GRAPHQL",
+        "rootNodes": [
+          {
+            "typeName": "Asset",
+            "fieldNames": [
+              "assetId",
+              "category",
+              "description",
+              "kind",
+              "name",
+              "parent",
+              "parentAssetId",
+              "status"
+            ]
+          },
+          {
+            "typeName": "AssetReference",
+            "fieldNames": [
+              "asset",
+              "localRef",
+              "release",
+              "resolution"
+            ],
+            "externalFieldNames": [
+              "assetId",
+              "mappingOutcome"
+            ]
+          },
+          {
+            "typeName": "Query",
+            "fieldNames": [
+              "asset",
+              "assets"
+            ]
+          }
+        ],
+        "overrideFieldPathFromAlias": true,
+        "customGraphql": {
+          "fetch": {
+            "url": {
+              "staticVariableContent": "http://assets-adapter:8184/graphql"
+            },
+            "method": "POST",
+            "body": {},
+            "baseUrl": {},
+            "path": {}
+          },
+          "subscription": {
+            "enabled": true,
+            "url": {
+              "staticVariableContent": "http://assets-adapter:8184/graphql"
+            },
+            "protocol": "GRAPHQL_SUBSCRIPTION_PROTOCOL_WS",
+            "websocketSubprotocol": "GRAPHQL_WEBSOCKET_SUBPROTOCOL_AUTO"
+          },
+          "federation": {
+            "enabled": true,
+            "serviceSdl": "schema @link(import : [\"@key\", \"@requires\", \"@external\"], url : \"https://specs.apollo.dev/federation/v2.0\"){\n  query: Query\n}\n\ndirective @external on OBJECT | FIELD_DEFINITION\n\ndirective @federation__extends on OBJECT | INTERFACE\n\ndirective @federation__override(from: String!) on FIELD_DEFINITION\n\ndirective @federation__provides(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__shareable on OBJECT | FIELD_DEFINITION\n\ndirective @inaccessible on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | INTERFACE | UNION | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION\n\ndirective @key(fields: federation__FieldSet!, resolvable: Boolean = true) repeatable on OBJECT | INTERFACE\n\ndirective @link(as: String, for: link__Purpose, import: [link__Import], url: String!) repeatable on SCHEMA\n\ndirective @requires(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @tag(name: String!) repeatable on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | INTERFACE | UNION | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION\n\nunion _Entity = Asset | AssetReference\n\ntype Asset @key(fields : \"assetId\", resolvable : true) {\n  assetId: ID!\n  category: AssetCategory!\n  description: String!\n  kind: AssetKind!\n  name: String!\n  \"\"\"\n   The parent asset, read from the Assets service with ONE call per level and only when the client selects it. A parent id that\n   does not exist is null with no errors entry; a failed call is null with one SERVICE_UNAVAILABLE entry. No caching, no batching.\n  \"\"\"\n  parent: Asset\n  parentAssetId: ID\n  status: AssetStatus!\n}\n\n\"\"\"\n What a mission's asset reference becomes. The mapping subgraph supplies assetId and mappingOutcome; this adapter produces the\n whole outcome with at most one call to the Assets service. The mapping release is a key field. The identifier the mapping found\n is assetId (the confirmed asset is asset.assetId); there is no separate id field.\n\"\"\"\ntype AssetReference @key(fields : \"localRef release\", resolvable : true) {\n  asset: Asset @requires(fields : \"assetId mappingOutcome\")\n  assetId: ID @external\n  localRef: ID!\n  mappingOutcome: MappingOutcome! @external\n  release: String!\n  \"\"\"\n   Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this\n   adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.\n  \"\"\"\n  resolution: Resolution @requires(fields : \"assetId mappingOutcome\")\n}\n\n\" The Assets subgraph. The names are those of the Assets contract 1.1 (assets-v1.1.openapi.json).\"\ntype Query {\n  _entities(representations: [_Any!]!): [_Entity]!\n  _service: _Service!\n  asset(assetId: ID!): Asset\n  \"\"\"\n   Offset and limit at the graph level: the default limit is 20, the maximum 100. A page above 50 takes two calls to the\n   service. All or nothing: if any call of the page fails the whole list is null, with one errors entry.\n  \"\"\"\n  assets(category: AssetCategory, kind: AssetKind, limit: Int = 20, offset: Int = 0, parentAssetId: ID, status: AssetStatus): [Asset!]\n}\n\ntype _Service {\n  sdl: String!\n}\n\nenum AssetCategory {\n  EQUIPMENT\n  VEHICLE\n}\n\nenum AssetKind {\n  ARMORED_VEHICLE\n  COMMUNICATOR\n  MUSICAL_INSTRUMENT\n  PHASER\n  ROVER\n  SCIENTIFIC_INSTRUMENT\n  SHUTTLE\n  STARSHIP\n  TRICORDER\n}\n\nenum AssetStatus {\n  ACTIVE\n  DECOMMISSIONED\n  DESTROYED\n  MAINTENANCE\n  MISSING\n}\n\n\" What the mapping did with the reference; the mapping subgraph owns it.\"\nenum MappingOutcome {\n  MAPPED\n  NO_ENTRY\n  RELEASE_REFUSED\n}\n\nenum Resolution {\n  RELEASE_REFUSED\n  RESOLVED\n  UNAVAILABLE\n  UNMAPPED\n  UNRESOLVED\n}\n\nenum link__Purpose {\n  EXECUTION\n  SECURITY\n}\n\nscalar _Any\n\nscalar federation__FieldSet\n\nscalar link__Import\n"
+          },
+          "upstreamSchema": {
+            "key": "68408fb10bb17cf94ac7d567d26ffa834b38ead6"
+          }
+        },
+        "requestTimeoutSeconds": "10",
+        "id": "0",
+        "keys": [
+          {
+            "typeName": "Asset",
+            "selectionSet": "assetId"
+          },
+          {
+            "typeName": "AssetReference",
+            "selectionSet": "localRef release"
+          }
+        ],
+        "requires": [
+          {
+            "typeName": "AssetReference",
+            "fieldName": "asset",
+            "selectionSet": "assetId mappingOutcome"
+          },
+          {
+            "typeName": "AssetReference",
+            "fieldName": "resolution",
+            "selectionSet": "assetId mappingOutcome"
+          }
+        ]
+      },
+      {
+        "kind": "GRAPHQL",
+        "rootNodes": [
+          {
+            "typeName": "AssetReference",
+            "fieldNames": [
+              "assetId",
+              "localRef",
+              "mappingOutcome",
+              "release"
+            ]
+          },
+          {
+            "typeName": "PersonnelReference",
+            "fieldNames": [
+              "localRef",
+              "mappingOutcome",
+              "personnelId",
+              "release"
+            ]
+          },
+          {
+            "typeName": "Query",
+            "fieldNames": [
+              "assetReferences",
+              "mappingReleases",
+              "personnelReferences"
+            ]
+          }
+        ],
+        "childNodes": [
+          {
+            "typeName": "CheckedAgainst",
+            "fieldNames": [
+              "artifact",
+              "sha256",
+              "system",
+              "version"
+            ]
+          },
+          {
+            "typeName": "MappingRelease",
+            "fieldNames": [
+              "checkedAgainst",
+              "release",
+              "sections"
+            ]
+          }
+        ],
+        "overrideFieldPathFromAlias": true,
+        "customGraphql": {
+          "fetch": {
+            "url": {
+              "staticVariableContent": "http://mapping-adapter:8190/graphql"
+            },
+            "method": "POST",
+            "body": {},
+            "baseUrl": {},
+            "path": {}
+          },
+          "subscription": {
+            "enabled": true,
+            "url": {
+              "staticVariableContent": "http://mapping-adapter:8190/graphql"
+            },
+            "protocol": "GRAPHQL_SUBSCRIPTION_PROTOCOL_WS",
+            "websocketSubprotocol": "GRAPHQL_WEBSOCKET_SUBPROTOCOL_AUTO"
+          },
+          "federation": {
+            "enabled": true,
+            "serviceSdl": "schema @link(import : [\"@key\", \"@inaccessible\"], url : \"https://specs.apollo.dev/federation/v2.0\"){\n  query: Query\n}\n\ndirective @federation__extends on OBJECT | INTERFACE\n\ndirective @federation__external on OBJECT | FIELD_DEFINITION\n\ndirective @federation__override(from: String!) on FIELD_DEFINITION\n\ndirective @federation__provides(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__requires(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__shareable on OBJECT | FIELD_DEFINITION\n\ndirective @inaccessible on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | INTERFACE | UNION | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION\n\ndirective @key(fields: federation__FieldSet!, resolvable: Boolean = true) repeatable on OBJECT | INTERFACE\n\ndirective @link(as: String, for: link__Purpose, import: [link__Import], url: String!) repeatable on SCHEMA\n\ndirective @tag(name: String!) repeatable on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | INTERFACE | UNION | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION\n\nunion _Entity = AssetReference | PersonnelReference\n\ntype AssetReference @key(fields : \"localRef release\", resolvable : true) {\n  \" The Assets identifier the release maps the reference to; null unless mappingOutcome is MAPPED.\"\n  assetId: ID\n  localRef: ID!\n  mappingOutcome: MappingOutcome!\n  release: String!\n}\n\ntype CheckedAgainst {\n  artifact: String!\n  sha256: String!\n  system: String!\n  version: String!\n}\n\ntype MappingRelease {\n  checkedAgainst: [CheckedAgainst!]!\n  release: String!\n  \" The kinds of reference the release holds (assets; crew from release 1.1).\"\n  sections: [String!]!\n}\n\n\"\"\"\n The crew reference. The Personnel adapter declares personnelId and mappingOutcome @external and uses\n @requires(fields: \"personnelId mappingOutcome\"). The crew section of release 1.1 gives the Personnel v2 identifier PRS-nnnn; a\n release without a crew section (1.0) or without an entry for the reference is NO_ENTRY.\n\"\"\"\ntype PersonnelReference @key(fields : \"localRef release\", resolvable : true) {\n  localRef: ID!\n  mappingOutcome: MappingOutcome!\n  personnelId: ID\n  release: String!\n}\n\n\"\"\"\n The mapping subgraph. It contributes assetId and mappingOutcome to AssetReference; the Assets subgraph declares both @external\n and uses @requires(fields: \"assetId mappingOutcome\"). The mapping release is a key field: the router sends { localRef, release }\n and there is NO implicit latest. The subgraph states what it did in mappingOutcome, so that no owning adapter has to infer the\n cause from a null assetId.\n\"\"\"\ntype Query {\n  _entities(representations: [_Any!]!): [_Entity]!\n  _service: _Service!\n  \"\"\"\n   Missions-local asset references (for example EQ-64) to Assets identifiers (AST-nnnn) in the named mapping release: for each\n   reference, in the order given, its assetId and mappingOutcome. The release is required (there is no implicit latest; a blank or\n   unknown release is RELEASE_REFUSED). At most 100 references in one call; more is BAD_USER_INPUT and the list is null.\n  \"\"\"\n  assetReferences(localRefs: [ID!]!, release: String!): [AssetReference!] @inaccessible\n  \" A diagnostic list of the releases this adapter serves.\"\n  mappingReleases: [MappingRelease!]!\n  \"\"\"\n   Missions-local crew references (C-n) to Personnel v2 identifiers (PRS-nnnn) from the crew section of the named mapping release:\n   for each reference, in the order given, its personnelId and mappingOutcome, with the same release rule and limit. A participant\n   reference (P-n) is not resolved by the graph and an outsider reference (O-n) is refused by class: both answer NO_ENTRY, with the\n   errors entry MAPPING_CLASS_REFUSED.\n  \"\"\"\n  personnelReferences(localRefs: [ID!]!, release: String!): [PersonnelReference!] @inaccessible\n}\n\ntype _Service {\n  sdl: String!\n}\n\n\" What the mapping did with a reference. One enum for both kinds of reference.\"\nenum MappingOutcome {\n  \" The named release has an entry: the identifier is set.\"\n  MAPPED\n  \" A valid release without an entry for the reference, or without a section for the kind (for example crew in release 1.0).\"\n  NO_ENTRY\n  \" The release was refused (blank or unknown). The errors entry MAPPING_RELEASE_REQUIRED or MAPPING_RELEASE_NOT_FOUND says which.\"\n  RELEASE_REFUSED\n}\n\nenum link__Purpose {\n  EXECUTION\n  SECURITY\n}\n\nscalar _Any\n\nscalar federation__FieldSet\n\nscalar link__Import\n"
+          },
+          "upstreamSchema": {
+            "key": "a3fce4c2942ce21c897765a29bfa15732117677a"
+          }
+        },
+        "requestTimeoutSeconds": "10",
+        "id": "1",
+        "keys": [
+          {
+            "typeName": "AssetReference",
+            "selectionSet": "localRef release"
+          },
+          {
+            "typeName": "PersonnelReference",
+            "selectionSet": "localRef release"
+          }
+        ]
+      },
+      {
+        "kind": "GRAPHQL",
+        "rootNodes": [
+          {
+            "typeName": "AssetReference",
+            "fieldNames": [
+              "localRef",
+              "release"
+            ]
+          },
+          {
+            "typeName": "Mission",
+            "fieldNames": [
+              "actualCostCredits",
+              "assets",
+              "assignedAssetIds",
+              "assignedCrewIds",
+              "classification",
+              "commandingOfficer",
+              "commandingOfficerId",
+              "crew",
+              "durationHours",
+              "estimatedCostCredits",
+              "issuingAuthority",
+              "lastUpdated",
+              "location",
+              "missionId",
+              "objective",
+              "outcome",
+              "participantIds",
+              "priority",
+              "stardate",
+              "status",
+              "title",
+              "type"
+            ]
+          },
+          {
+            "typeName": "PersonnelReference",
+            "fieldNames": [
+              "localRef",
+              "release"
+            ]
+          },
+          {
+            "typeName": "Query",
+            "fieldNames": [
+              "mission",
+              "missions"
+            ]
+          }
+        ],
+        "childNodes": [
+          {
+            "typeName": "MissionLocation",
+            "fieldNames": [
+              "coordinates",
+              "name",
+              "travelVector",
+              "type"
+            ]
+          }
+        ],
+        "overrideFieldPathFromAlias": true,
+        "customGraphql": {
+          "fetch": {
+            "url": {
+              "staticVariableContent": "http://missions-adapter:8183/graphql"
+            },
+            "method": "POST",
+            "body": {},
+            "baseUrl": {},
+            "path": {}
+          },
+          "subscription": {
+            "enabled": true,
+            "url": {
+              "staticVariableContent": "http://missions-adapter:8183/graphql"
+            },
+            "protocol": "GRAPHQL_SUBSCRIPTION_PROTOCOL_WS",
+            "websocketSubprotocol": "GRAPHQL_WEBSOCKET_SUBPROTOCOL_AUTO"
+          },
+          "federation": {
+            "enabled": true,
+            "serviceSdl": "schema @link(import : [\"@key\"], url : \"https://specs.apollo.dev/federation/v2.0\"){\n  query: Query\n}\n\ndirective @federation__extends on OBJECT | INTERFACE\n\ndirective @federation__external on OBJECT | FIELD_DEFINITION\n\ndirective @federation__override(from: String!) on FIELD_DEFINITION\n\ndirective @federation__provides(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__requires(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__shareable on OBJECT | FIELD_DEFINITION\n\ndirective @inaccessible on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | INTERFACE | UNION | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION\n\ndirective @key(fields: federation__FieldSet!, resolvable: Boolean = true) repeatable on OBJECT | INTERFACE\n\ndirective @link(as: String, for: link__Purpose, import: [link__Import], url: String!) repeatable on SCHEMA\n\ndirective @tag(name: String!) repeatable on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | INTERFACE | UNION | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION\n\nunion _Entity = AssetReference | Mission | PersonnelReference\n\n\" The stub of direction B. It is owned and resolved by the Assets adapter; here it is only a key, never fetched.\"\ntype AssetReference @key(fields : \"localRef release\", resolvable : false) {\n  localRef: ID!\n  release: String!\n}\n\ntype Mission @key(fields : \"missionId\", resolvable : true) {\n  actualCostCredits: String\n  \"\"\"\n   One stub per assigned asset. This adapter does not call Assets or the mapping: it supplies the Missions-local reference as\n   stored and the mapping release the client named. The owning adapter and the mapping subgraph do the rest.\n  \"\"\"\n  assets(release: String!): [AssetReference!]!\n  \" Kept for diagnostics: the same references as `assets` returns, without the release.\"\n  assignedAssetIds: [String!]!\n  \" Missions-local references as stored, with no owning service behind them yet: plain data.\"\n  assignedCrewIds: [String!]!\n  classification: Classification!\n  \"\"\"\n   The commanding officer as the same kind of reference, so that a client can check the mission's Starfleet personnel (the commanding\n   officer and the assigned crew). Null when the mission has no commanding officer (the contract requires one from AUTHORIZED on; a\n   PLANNED or CANCELLED mission may have none). The plain commandingOfficerId above is unchanged. No call is made.\n  \"\"\"\n  commandingOfficer(release: String!): PersonnelReference\n  commandingOfficerId: String\n  \"\"\"\n   The same for the assigned crew (assignedCrewIds only, not the commanding officer and not the participants). The owning adapter\n   is Personnel; the mapping subgraph supplies personnelId, which is null in every release until a crew section is served.\n  \"\"\"\n  crew(release: String!): [PersonnelReference!]!\n  durationHours: Int!\n  estimatedCostCredits: String\n  issuingAuthority: IssuingAuthority!\n  lastUpdated: String!\n  location: MissionLocation!\n  missionId: ID!\n  objective: String!\n  outcome: String\n  participantIds: [String!]!\n  priority: Int!\n  stardate: String!\n  status: MissionStatus!\n  title: String!\n  type: MissionType!\n}\n\ntype MissionLocation {\n  coordinates: String\n  name: String!\n  travelVector: String\n  type: LocationType!\n}\n\n\" The stub of the crew reference, the same direction B. It is owned and resolved by the Personnel adapter; here it is only a key.\"\ntype PersonnelReference @key(fields : \"localRef release\", resolvable : false) {\n  localRef: ID!\n  release: String!\n}\n\n\"\"\"\n Credits and the stardate are strings: they carry the contract's canonical decimal spelling (two fractional digits for credits,\n for example \"140000.00\"; the stardate \"43125.80\") exactly as the service sent it. A binary float would change the text\n (43125.80 would become 43125.8) and cannot hold every decimal, and a scalar of our own would be one more thing for every\n router to agree on. The timestamp is the contract's UTC text with three fractional digits.\n\"\"\"\ntype Query {\n  _entities(representations: [_Any!]!): [_Entity]!\n  _service: _Service!\n  \" A mission that does not exist is null with no errors entry: not-found is data. A malformed id is BAD_USER_INPUT.\"\n  mission(missionId: ID!): Mission\n  \"\"\"\n   Offset and limit at the graph level: the default limit is 20, the maximum 100. The service pages by page and pageSize (1 to 50),\n   so the adapter fetches the covering pages and slices. All or nothing: if any call of the page fails the whole list is null,\n   with one errors entry. The order is the service's: stardate, priority, missionId, ascending.\n  \"\"\"\n  missions(assignedAssetId: String, assignedCrewId: String, classification: Classification, commandingOfficerId: String, issuingAuthority: IssuingAuthority, limit: Int = 20, locationType: LocationType, offset: Int = 0, priority: Int, status: MissionStatus, type: MissionType): [Mission!]\n}\n\ntype _Service {\n  sdl: String!\n}\n\nenum Classification {\n  SECRET\n  TOP_SECRET\n  UNCLASSIFIED\n}\n\nenum IssuingAuthority {\n  ENTERPRISE_COMMAND\n  FEDERATION_COUNCIL\n  STARFLEET_COMMAND\n  STARFLEET_MEDICAL\n  STARFLEET_SCIENCE\n  STARFLEET_SECURITY\n}\n\nenum LocationType {\n  DEEP_SPACE\n  ENTERPRISE\n  OTHER\n  PLANET\n  SECTOR\n  STARBASE\n  VESSEL\n}\n\nenum MissionStatus {\n  ACTIVE\n  AUTHORIZED\n  CANCELLED\n  COMPLETED\n  FAILED\n  PLANNED\n  POSTPONED\n}\n\nenum MissionType {\n  DIPLOMATIC\n  EXPLORATION\n  FIRST_CONTACT\n  HUMANITARIAN\n  MAINTENANCE\n  MEDICAL\n  RESCUE\n  SCIENTIFIC\n  SECURITY\n  TACTICAL\n  TRANSPORT\n}\n\nenum link__Purpose {\n  EXECUTION\n  SECURITY\n}\n\nscalar _Any\n\nscalar federation__FieldSet\n\nscalar link__Import\n"
+          },
+          "upstreamSchema": {
+            "key": "b84f60550a5a42ae881ac84e748e6074033d13b9"
+          }
+        },
+        "requestTimeoutSeconds": "10",
+        "id": "2",
+        "keys": [
+          {
+            "typeName": "AssetReference",
+            "selectionSet": "localRef release",
+            "disableEntityResolver": true
+          },
+          {
+            "typeName": "Mission",
+            "selectionSet": "missionId"
+          },
+          {
+            "typeName": "PersonnelReference",
+            "selectionSet": "localRef release",
+            "disableEntityResolver": true
+          }
+        ]
+      },
+      {
+        "kind": "GRAPHQL",
+        "rootNodes": [
+          {
+            "typeName": "Personnel",
+            "fieldNames": [
+              "details",
+              "displayName",
+              "dutyStatus",
+              "personnelId",
+              "positionTitle"
+            ]
+          },
+          {
+            "typeName": "PersonnelReference",
+            "fieldNames": [
+              "localRef",
+              "personnel",
+              "release",
+              "resolution"
+            ],
+            "externalFieldNames": [
+              "mappingOutcome",
+              "personnelId"
+            ]
+          },
+          {
+            "typeName": "Query",
+            "fieldNames": [
+              "personnel",
+              "personnelMembers"
+            ]
+          }
+        ],
+        "childNodes": [
+          {
+            "typeName": "CivilianDetails",
+            "fieldNames": [
+              "placeholder"
+            ]
+          },
+          {
+            "typeName": "CrewDetails",
+            "fieldNames": [
+              "department",
+              "rank",
+              "securityClearance",
+              "supervisorPersonnelId"
+            ]
+          },
+          {
+            "typeName": "PersonnelPage",
+            "fieldNames": [
+              "datasetVersion",
+              "hasMore",
+              "items",
+              "limit",
+              "offset",
+              "totalCount"
+            ]
+          }
+        ],
+        "overrideFieldPathFromAlias": true,
+        "customGraphql": {
+          "fetch": {
+            "url": {
+              "staticVariableContent": "http://personnel-adapter:8182/graphql"
+            },
+            "method": "POST",
+            "body": {},
+            "baseUrl": {},
+            "path": {}
+          },
+          "subscription": {
+            "enabled": true,
+            "url": {
+              "staticVariableContent": "http://personnel-adapter:8182/graphql"
+            },
+            "protocol": "GRAPHQL_SUBSCRIPTION_PROTOCOL_WS",
+            "websocketSubprotocol": "GRAPHQL_WEBSOCKET_SUBPROTOCOL_AUTO"
+          },
+          "federation": {
+            "enabled": true,
+            "serviceSdl": "schema @link(import : [\"@key\", \"@requires\", \"@external\"], url : \"https://specs.apollo.dev/federation/v2.0\"){\n  query: Query\n}\n\ndirective @external on OBJECT | FIELD_DEFINITION\n\ndirective @federation__extends on OBJECT | INTERFACE\n\ndirective @federation__override(from: String!) on FIELD_DEFINITION\n\ndirective @federation__provides(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__shareable on OBJECT | FIELD_DEFINITION\n\ndirective @inaccessible on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | INTERFACE | UNION | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION\n\ndirective @key(fields: federation__FieldSet!, resolvable: Boolean = true) repeatable on OBJECT | INTERFACE\n\ndirective @link(as: String, for: link__Purpose, import: [link__Import], url: String!) repeatable on SCHEMA\n\ndirective @requires(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @tag(name: String!) repeatable on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | INTERFACE | UNION | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION\n\nunion PersonnelDetails = CivilianDetails | CrewDetails\n\nunion _Entity = Personnel | PersonnelReference\n\ntype CivilianDetails {\n  \"\"\"\n  The contract's CivilianDetails has no fields, and GraphQL does not allow an object type without fields. This field is a placeholder:\n  it is always null and carries no fact. A civilian has no rank, department, clearance or supervisor.\n  \"\"\"\n  placeholder: Boolean\n}\n\ntype CrewDetails {\n  department: Department!\n  rank: Rank!\n  securityClearance: SecurityClearance!\n  supervisorPersonnelId: ID\n}\n\n\" One person. details is the contract's choice: exactly one of crewDetails and civilianDetails.\"\ntype Personnel @key(fields : \"personnelId\", resolvable : true) {\n  details: PersonnelDetails!\n  displayName: String!\n  dutyStatus: DutyStatus!\n  personnelId: ID!\n  positionTitle: String!\n}\n\n\"\"\"\n A page of the roster. datasetVersion is the opaque, immutable identifier of the snapshot that answered. The adapter holds no state,\n so it cannot see a change between two pages of a client: the client compares datasetVersion on every page and restarts at offset 0\n when it changes (the contract says so).\n\"\"\"\ntype PersonnelPage {\n  datasetVersion: String!\n  hasMore: Boolean!\n  items: [Personnel!]!\n  limit: Int!\n  offset: Int!\n  totalCount: Int!\n}\n\n\"\"\"\n What a mission's crew reference becomes. The mapping subgraph supplies personnelId and mappingOutcome; this adapter produces the\n whole outcome with at most one call to the Personnel v2 service. The mapping release is a key field. The identifier the mapping\n found is personnelId (the confirmed person is personnel.personnelId); there is no separate id field.\n\"\"\"\ntype PersonnelReference @key(fields : \"localRef release\", resolvable : true) {\n  localRef: ID!\n  mappingOutcome: MappingOutcome! @external\n  personnel: Personnel @requires(fields : \"personnelId mappingOutcome\")\n  personnelId: ID @external\n  release: String!\n  \"\"\"\n   Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this\n   adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.\n  \"\"\"\n  resolution: Resolution @requires(fields : \"personnelId mappingOutcome\")\n}\n\n\" The Personnel subgraph. The names are those of the Personnel v2 contract (personnel-v2.xsd): the element names are the field names.\"\ntype Query {\n  _entities(representations: [_Any!]!): [_Entity]!\n  _service: _Service!\n  personnel(personnelId: ID!): Personnel\n  \"\"\"\n   Offset and limit at the graph level: the default limit is 20, the maximum 100, and the service allows 100 per call, so a page\n   is one call. All or nothing: if the call fails the whole result is null, with one errors entry.\n  \"\"\"\n  personnelMembers(department: Department, dutyStatus: DutyStatus, limit: Int = 20, offset: Int = 0): PersonnelPage\n}\n\ntype _Service {\n  sdl: String!\n}\n\nenum Department {\n  COMMAND\n  ENGINEERING\n  FLIGHT_OPERATIONS\n  MEDICAL\n  OPERATIONS\n  SCIENCE\n  SECURITY\n}\n\nenum DutyStatus {\n  ACTIVE\n  DECEASED\n  INACTIVE\n  ON_LEAVE\n}\n\n\" What the mapping did with the reference; the mapping subgraph owns it.\"\nenum MappingOutcome {\n  MAPPED\n  NO_ENTRY\n  RELEASE_REFUSED\n}\n\nenum Rank {\n  CAPTAIN\n  CHIEF_PETTY_OFFICER\n  COMMANDER\n  CREWMAN\n  ENSIGN\n  LIEUTENANT\n  LIEUTENANT_COMMANDER\n}\n\nenum Resolution {\n  RELEASE_REFUSED\n  RESOLVED\n  UNAVAILABLE\n  UNMAPPED\n  UNRESOLVED\n}\n\nenum SecurityClearance {\n  NONE\n  SECRET\n  TOP_SECRET\n}\n\nenum link__Purpose {\n  EXECUTION\n  SECURITY\n}\n\nscalar _Any\n\nscalar federation__FieldSet\n\nscalar link__Import\n"
+          },
+          "upstreamSchema": {
+            "key": "310e72b2ff6bc7d1a0a8cbaea9d392ad39816d97"
+          }
+        },
+        "requestTimeoutSeconds": "10",
+        "id": "3",
+        "keys": [
+          {
+            "typeName": "Personnel",
+            "selectionSet": "personnelId"
+          },
+          {
+            "typeName": "PersonnelReference",
+            "selectionSet": "localRef release"
+          }
+        ],
+        "requires": [
+          {
+            "typeName": "PersonnelReference",
+            "fieldName": "personnel",
+            "selectionSet": "mappingOutcome personnelId"
+          },
+          {
+            "typeName": "PersonnelReference",
+            "fieldName": "resolution",
+            "selectionSet": "mappingOutcome personnelId"
+          }
+        ]
+      }
+    ],
+    "fieldConfigurations": [
+      {
+        "typeName": "Query",
+        "fieldName": "asset",
+        "argumentsConfiguration": [
+          {
+            "name": "assetId",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Query",
+        "fieldName": "assets",
+        "argumentsConfiguration": [
+          {
+            "name": "category",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "kind",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "limit",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "offset",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "parentAssetId",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "status",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Query",
+        "fieldName": "assetReferences",
+        "argumentsConfiguration": [
+          {
+            "name": "localRefs",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "release",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Query",
+        "fieldName": "personnelReferences",
+        "argumentsConfiguration": [
+          {
+            "name": "localRefs",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "release",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Query",
+        "fieldName": "mission",
+        "argumentsConfiguration": [
+          {
+            "name": "missionId",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Query",
+        "fieldName": "missions",
+        "argumentsConfiguration": [
+          {
+            "name": "assignedAssetId",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "assignedCrewId",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "classification",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "commandingOfficerId",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "issuingAuthority",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "limit",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "locationType",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "offset",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "priority",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "status",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "type",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Query",
+        "fieldName": "personnel",
+        "argumentsConfiguration": [
+          {
+            "name": "personnelId",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Query",
+        "fieldName": "personnelMembers",
+        "argumentsConfiguration": [
+          {
+            "name": "department",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "dutyStatus",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "limit",
+            "sourceType": "FIELD_ARGUMENT"
+          },
+          {
+            "name": "offset",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Mission",
+        "fieldName": "assets",
+        "argumentsConfiguration": [
+          {
+            "name": "release",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Mission",
+        "fieldName": "commandingOfficer",
+        "argumentsConfiguration": [
+          {
+            "name": "release",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      },
+      {
+        "typeName": "Mission",
+        "fieldName": "crew",
+        "argumentsConfiguration": [
+          {
+            "name": "release",
+            "sourceType": "FIELD_ARGUMENT"
+          }
+        ]
+      }
+    ],
+    "graphqlSchema": "schema {\n  query: Query\n}\n\ndirective @inaccessible on ARGUMENT_DEFINITION | ENUM | ENUM_VALUE | FIELD_DEFINITION | INPUT_FIELD_DEFINITION | INPUT_OBJECT | INTERFACE | OBJECT | SCALAR | UNION\n\ntype Asset {\n  assetId: ID!\n  category: AssetCategory!\n  description: String!\n  kind: AssetKind!\n  name: String!\n  \"\"\"\n  The parent asset, read from the Assets service with ONE call per level and only when the client selects it. A parent id that\n  does not exist is null with no errors entry; a failed call is null with one SERVICE_UNAVAILABLE entry. No caching, no batching.\n  \"\"\"\n  parent: Asset\n  parentAssetId: ID\n  status: AssetStatus!\n}\n\n\"\"\"\nWhat a mission's asset reference becomes. The mapping subgraph supplies assetId and mappingOutcome; this adapter produces the\nwhole outcome with at most one call to the Assets service. The mapping release is a key field. The identifier the mapping found\nis assetId (the confirmed asset is asset.assetId); there is no separate id field.\n\"\"\"\ntype AssetReference {\n  asset: Asset\n  \"\"\" The Assets identifier the release maps the reference to; null unless mappingOutcome is MAPPED.\n  \"\"\"\n  assetId: ID\n  localRef: ID!\n  mappingOutcome: MappingOutcome!\n  release: String!\n  \"\"\"\n  Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this\n  adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.\n  \"\"\"\n  resolution: Resolution\n}\n\n\"\"\"\nCredits and the stardate are strings: they carry the contract's canonical decimal spelling (two fractional digits for credits,\nfor example \"140000.00\"; the stardate \"43125.80\") exactly as the service sent it. A binary float would change the text\n(43125.80 would become 43125.8) and cannot hold every decimal, and a scalar of our own would be one more thing for every\nrouter to agree on. The timestamp is the contract's UTC text with three fractional digits.\n\"\"\"\ntype Query {\n  asset(assetId: ID!): Asset\n  \"\"\"\n  Offset and limit at the graph level: the default limit is 20, the maximum 100. A page above 50 takes two calls to the\n  service. All or nothing: if any call of the page fails the whole list is null, with one errors entry.\n  \"\"\"\n  assets(category: AssetCategory, kind: AssetKind, limit: Int = 20, offset: Int = 0, parentAssetId: ID, status: AssetStatus): [Asset!]\n  \"\"\"\n  Missions-local asset references (for example EQ-64) to Assets identifiers (AST-nnnn) in the named mapping release: for each\n  reference, in the order given, its assetId and mappingOutcome. The release is required (there is no implicit latest; a blank or\n  unknown release is RELEASE_REFUSED). At most 100 references in one call; more is BAD_USER_INPUT and the list is null.\n  \"\"\"\n  assetReferences(localRefs: [ID!]!, release: String!): [AssetReference!] @inaccessible\n  \"\"\" A diagnostic list of the releases this adapter serves.\"\"\"\n  mappingReleases: [MappingRelease!]!\n  \"\"\"\n  Missions-local crew references (C-n) to Personnel v2 identifiers (PRS-nnnn) from the crew section of the named mapping release:\n  for each reference, in the order given, its personnelId and mappingOutcome, with the same release rule and limit. A participant\n  reference (P-n) is not resolved by the graph and an outsider reference (O-n) is refused by class: both answer NO_ENTRY, with the\n  errors entry MAPPING_CLASS_REFUSED.\n  \"\"\"\n  personnelReferences(localRefs: [ID!]!, release: String!): [PersonnelReference!] @inaccessible\n  \"\"\" A mission that does not exist is null with no errors entry: not-found is data. A malformed id is BAD_USER_INPUT.\n  \"\"\"\n  mission(missionId: ID!): Mission\n  \"\"\"\n  Offset and limit at the graph level: the default limit is 20, the maximum 100. The service pages by page and pageSize (1 to 50),\n  so the adapter fetches the covering pages and slices. All or nothing: if any call of the page fails the whole list is null,\n  with one errors entry. The order is the service's: stardate, priority, missionId, ascending.\n  \"\"\"\n  missions(assignedAssetId: String, assignedCrewId: String, classification: Classification, commandingOfficerId: String, issuingAuthority: IssuingAuthority, limit: Int = 20, locationType: LocationType, offset: Int = 0, priority: Int, status: MissionStatus, type: MissionType): [Mission!]\n  personnel(personnelId: ID!): Personnel\n  \"\"\"\n  Offset and limit at the graph level: the default limit is 20, the maximum 100, and the service allows 100 per call, so a page\n  is one call. All or nothing: if the call fails the whole result is null, with one errors entry.\n  \"\"\"\n  personnelMembers(department: Department, dutyStatus: DutyStatus, limit: Int = 20, offset: Int = 0): PersonnelPage\n}\n\nenum AssetCategory {\n  EQUIPMENT\n  VEHICLE\n}\n\nenum AssetKind {\n  ARMORED_VEHICLE\n  COMMUNICATOR\n  MUSICAL_INSTRUMENT\n  PHASER\n  ROVER\n  SCIENTIFIC_INSTRUMENT\n  SHUTTLE\n  STARSHIP\n  TRICORDER\n}\n\nenum AssetStatus {\n  ACTIVE\n  DECOMMISSIONED\n  DESTROYED\n  MAINTENANCE\n  MISSING\n}\n\n\"\"\" What the mapping did with a reference. One enum for both kinds of reference.\n\"\"\"\nenum MappingOutcome {\n  \"\"\" The named release has an entry: the identifier is set.\"\"\"\n  MAPPED\n  \"\"\" A valid release without an entry for the reference, or without a section for the kind (for example crew in release 1.0).\n  \"\"\"\n  NO_ENTRY\n  \"\"\" The release was refused (blank or unknown). The errors entry MAPPING_RELEASE_REQUIRED or MAPPING_RELEASE_NOT_FOUND says which.\n  \"\"\"\n  RELEASE_REFUSED\n}\n\nenum Resolution {\n  RELEASE_REFUSED\n  RESOLVED\n  UNAVAILABLE\n  UNMAPPED\n  UNRESOLVED\n}\n\nscalar federation__FieldSet\n\ntype CheckedAgainst {\n  artifact: String!\n  sha256: String!\n  system: String!\n  version: String!\n}\n\ntype MappingRelease {\n  checkedAgainst: [CheckedAgainst!]!\n  release: String!\n  \"\"\" The kinds of reference the release holds (assets; crew from release 1.1).\n  \"\"\"\n  sections: [String!]!\n}\n\n\"\"\"\nWhat a mission's crew reference becomes. The mapping subgraph supplies personnelId and mappingOutcome; this adapter produces the\nwhole outcome with at most one call to the Personnel v2 service. The mapping release is a key field. The identifier the mapping\nfound is personnelId (the confirmed person is personnel.personnelId); there is no separate id field.\n\"\"\"\ntype PersonnelReference {\n  localRef: ID!\n  mappingOutcome: MappingOutcome!\n  personnelId: ID\n  release: String!\n  personnel: Personnel\n  \"\"\"\n  Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this\n  adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.\n  \"\"\"\n  resolution: Resolution\n}\n\ntype Mission {\n  actualCostCredits: String\n  \"\"\"\n  One stub per assigned asset. This adapter does not call Assets or the mapping: it supplies the Missions-local reference as\n  stored and the mapping release the client named. The owning adapter and the mapping subgraph do the rest.\n  \"\"\"\n  assets(release: String!): [AssetReference!]!\n  \"\"\" Kept for diagnostics: the same references as `assets` returns, without the release.\n  \"\"\"\n  assignedAssetIds: [String!]!\n  \"\"\" Missions-local references as stored, with no owning service behind them yet: plain data.\n  \"\"\"\n  assignedCrewIds: [String!]!\n  classification: Classification!\n  \"\"\"\n  The commanding officer as the same kind of reference, so that a client can check the mission's Starfleet personnel (the commanding\n  officer and the assigned crew). Null when the mission has no commanding officer (the contract requires one from AUTHORIZED on; a\n  PLANNED or CANCELLED mission may have none). The plain commandingOfficerId above is unchanged. No call is made.\n  \"\"\"\n  commandingOfficer(release: String!): PersonnelReference\n  commandingOfficerId: String\n  \"\"\"\n  The same for the assigned crew (assignedCrewIds only, not the commanding officer and not the participants). The owning adapter\n  is Personnel; the mapping subgraph supplies personnelId, which is null in every release until a crew section is served.\n  \"\"\"\n  crew(release: String!): [PersonnelReference!]!\n  durationHours: Int!\n  estimatedCostCredits: String\n  issuingAuthority: IssuingAuthority!\n  lastUpdated: String!\n  location: MissionLocation!\n  missionId: ID!\n  objective: String!\n  outcome: String\n  participantIds: [String!]!\n  priority: Int!\n  stardate: String!\n  status: MissionStatus!\n  title: String!\n  type: MissionType!\n}\n\ntype MissionLocation {\n  coordinates: String\n  name: String!\n  travelVector: String\n  type: LocationType!\n}\n\nenum Classification {\n  SECRET\n  TOP_SECRET\n  UNCLASSIFIED\n}\n\nenum IssuingAuthority {\n  ENTERPRISE_COMMAND\n  FEDERATION_COUNCIL\n  STARFLEET_COMMAND\n  STARFLEET_MEDICAL\n  STARFLEET_SCIENCE\n  STARFLEET_SECURITY\n}\n\nenum LocationType {\n  DEEP_SPACE\n  ENTERPRISE\n  OTHER\n  PLANET\n  SECTOR\n  STARBASE\n  VESSEL\n}\n\nenum MissionStatus {\n  ACTIVE\n  AUTHORIZED\n  CANCELLED\n  COMPLETED\n  FAILED\n  PLANNED\n  POSTPONED\n}\n\nenum MissionType {\n  DIPLOMATIC\n  EXPLORATION\n  FIRST_CONTACT\n  HUMANITARIAN\n  MAINTENANCE\n  MEDICAL\n  RESCUE\n  SCIENTIFIC\n  SECURITY\n  TACTICAL\n  TRANSPORT\n}\n\nunion PersonnelDetails = CivilianDetails | CrewDetails\n\ntype CivilianDetails {\n  \"\"\"\n  The contract's CivilianDetails has no fields, and GraphQL does not allow an object type without fields. This field is a placeholder:\n  it is always null and carries no fact. A civilian has no rank, department, clearance or supervisor.\n  \"\"\"\n  placeholder: Boolean\n}\n\ntype CrewDetails {\n  department: Department!\n  rank: Rank!\n  securityClearance: SecurityClearance!\n  supervisorPersonnelId: ID\n}\n\n\"\"\" One person. details is the contract's choice: exactly one of crewDetails and civilianDetails.\n\"\"\"\ntype Personnel {\n  details: PersonnelDetails!\n  displayName: String!\n  dutyStatus: DutyStatus!\n  personnelId: ID!\n  positionTitle: String!\n}\n\n\"\"\"\nA page of the roster. datasetVersion is the opaque, immutable identifier of the snapshot that answered. The adapter holds no state,\nso it cannot see a change between two pages of a client: the client compares datasetVersion on every page and restarts at offset 0\nwhen it changes (the contract says so).\n\"\"\"\ntype PersonnelPage {\n  datasetVersion: String!\n  hasMore: Boolean!\n  items: [Personnel!]!\n  limit: Int!\n  offset: Int!\n  totalCount: Int!\n}\n\nenum Department {\n  COMMAND\n  ENGINEERING\n  FLIGHT_OPERATIONS\n  MEDICAL\n  OPERATIONS\n  SCIENCE\n  SECURITY\n}\n\nenum DutyStatus {\n  ACTIVE\n  DECEASED\n  INACTIVE\n  ON_LEAVE\n}\n\nenum Rank {\n  CAPTAIN\n  CHIEF_PETTY_OFFICER\n  COMMANDER\n  CREWMAN\n  ENSIGN\n  LIEUTENANT\n  LIEUTENANT_COMMANDER\n}\n\nenum SecurityClearance {\n  NONE\n  SECRET\n  TOP_SECRET\n}",
+    "stringStorage": {
+      "68408fb10bb17cf94ac7d567d26ffa834b38ead6": "schema @link(import: [\"@key\", \"@requires\", \"@external\"], url: \"https://specs.apollo.dev/federation/v2.0\") {\n  query: Query\n}\n\ndirective @external on FIELD_DEFINITION | OBJECT\n\ndirective @federation__extends on INTERFACE | OBJECT\n\ndirective @federation__override(from: String!) on FIELD_DEFINITION\n\ndirective @federation__provides(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__shareable on FIELD_DEFINITION | OBJECT\n\ndirective @key(fields: openfed__FieldSet!, resolvable: Boolean = true) repeatable on INTERFACE | OBJECT\n\ndirective @link(as: String, for: link__Purpose, import: [link__Import], url: String!) repeatable on SCHEMA\n\ndirective @requires(fields: openfed__FieldSet!) on FIELD_DEFINITION\n\ntype Asset @key(fields: \"assetId\", resolvable: true) {\n  assetId: ID!\n  category: AssetCategory!\n  description: String!\n  kind: AssetKind!\n  name: String!\n  \"\"\"\n  The parent asset, read from the Assets service with ONE call per level and only when the client selects it. A parent id that\n  does not exist is null with no errors entry; a failed call is null with one SERVICE_UNAVAILABLE entry. No caching, no batching.\n  \"\"\"\n  parent: Asset\n  parentAssetId: ID\n  status: AssetStatus!\n}\n\nenum AssetCategory {\n  EQUIPMENT\n  VEHICLE\n}\n\nenum AssetKind {\n  ARMORED_VEHICLE\n  COMMUNICATOR\n  MUSICAL_INSTRUMENT\n  PHASER\n  ROVER\n  SCIENTIFIC_INSTRUMENT\n  SHUTTLE\n  STARSHIP\n  TRICORDER\n}\n\n\"\"\"\nWhat a mission's asset reference becomes. The mapping subgraph supplies assetId and mappingOutcome; this adapter produces the\nwhole outcome with at most one call to the Assets service. The mapping release is a key field. The identifier the mapping found\nis assetId (the confirmed asset is asset.assetId); there is no separate id field.\n\"\"\"\ntype AssetReference @key(fields: \"localRef release\", resolvable: true) {\n  asset: Asset @requires(fields: \"assetId mappingOutcome\")\n  assetId: ID @external\n  localRef: ID!\n  mappingOutcome: MappingOutcome! @external\n  release: String!\n  \"\"\"\n  Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this\n  adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.\n  \"\"\"\n  resolution: Resolution @requires(fields: \"assetId mappingOutcome\")\n}\n\nenum AssetStatus {\n  ACTIVE\n  DECOMMISSIONED\n  DESTROYED\n  MAINTENANCE\n  MISSING\n}\n\n\"\"\" What the mapping did with the reference; the mapping subgraph owns it.\n\"\"\"\nenum MappingOutcome {\n  MAPPED\n  NO_ENTRY\n  RELEASE_REFUSED\n}\n\n\"\"\" The Assets subgraph. The names are those of the Assets contract 1.1 (assets-v1.1.openapi.json).\n\"\"\"\ntype Query {\n  asset(assetId: ID!): Asset\n  \"\"\"\n  Offset and limit at the graph level: the default limit is 20, the maximum 100. A page above 50 takes two calls to the\n  service. All or nothing: if any call of the page fails the whole list is null, with one errors entry.\n  \"\"\"\n  assets(category: AssetCategory, kind: AssetKind, limit: Int = 20, offset: Int = 0, parentAssetId: ID, status: AssetStatus): [Asset!]\n}\n\nenum Resolution {\n  RELEASE_REFUSED\n  RESOLVED\n  UNAVAILABLE\n  UNMAPPED\n  UNRESOLVED\n}\n\nscalar federation__FieldSet\n\nscalar link__Import\n\nenum link__Purpose {\n  EXECUTION\n  SECURITY\n}\n\nscalar openfed__FieldSet",
+      "a3fce4c2942ce21c897765a29bfa15732117677a": "schema @link(import: [\"@key\", \"@inaccessible\"], url: \"https://specs.apollo.dev/federation/v2.0\") {\n  query: Query\n}\n\ndirective @federation__extends on INTERFACE | OBJECT\n\ndirective @federation__external on FIELD_DEFINITION | OBJECT\n\ndirective @federation__override(from: String!) on FIELD_DEFINITION\n\ndirective @federation__provides(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__requires(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__shareable on FIELD_DEFINITION | OBJECT\n\ndirective @inaccessible on ARGUMENT_DEFINITION | ENUM | ENUM_VALUE | FIELD_DEFINITION | INPUT_FIELD_DEFINITION | INPUT_OBJECT | INTERFACE | OBJECT | SCALAR | UNION\n\ndirective @key(fields: openfed__FieldSet!, resolvable: Boolean = true) repeatable on INTERFACE | OBJECT\n\ndirective @link(as: String, for: link__Purpose, import: [link__Import], url: String!) repeatable on SCHEMA\n\ntype AssetReference @key(fields: \"localRef release\", resolvable: true) {\n  \"\"\" The Assets identifier the release maps the reference to; null unless mappingOutcome is MAPPED.\n  \"\"\"\n  assetId: ID\n  localRef: ID!\n  mappingOutcome: MappingOutcome!\n  release: String!\n}\n\ntype CheckedAgainst {\n  artifact: String!\n  sha256: String!\n  system: String!\n  version: String!\n}\n\n\"\"\" What the mapping did with a reference. One enum for both kinds of reference.\n\"\"\"\nenum MappingOutcome {\n  \"\"\" The named release has an entry: the identifier is set.\"\"\"\n  MAPPED\n  \"\"\" A valid release without an entry for the reference, or without a section for the kind (for example crew in release 1.0).\n  \"\"\"\n  NO_ENTRY\n  \"\"\" The release was refused (blank or unknown). The errors entry MAPPING_RELEASE_REQUIRED or MAPPING_RELEASE_NOT_FOUND says which.\n  \"\"\"\n  RELEASE_REFUSED\n}\n\ntype MappingRelease {\n  checkedAgainst: [CheckedAgainst!]!\n  release: String!\n  \"\"\" The kinds of reference the release holds (assets; crew from release 1.1).\n  \"\"\"\n  sections: [String!]!\n}\n\n\"\"\"\nThe crew reference. The Personnel adapter declares personnelId and mappingOutcome @external and uses\n@requires(fields: \"personnelId mappingOutcome\"). The crew section of release 1.1 gives the Personnel v2 identifier PRS-nnnn; a\nrelease without a crew section (1.0) or without an entry for the reference is NO_ENTRY.\n\"\"\"\ntype PersonnelReference @key(fields: \"localRef release\", resolvable: true) {\n  localRef: ID!\n  mappingOutcome: MappingOutcome!\n  personnelId: ID\n  release: String!\n}\n\n\"\"\"\nThe mapping subgraph. It contributes assetId and mappingOutcome to AssetReference; the Assets subgraph declares both @external\nand uses @requires(fields: \"assetId mappingOutcome\"). The mapping release is a key field: the router sends { localRef, release }\nand there is NO implicit latest. The subgraph states what it did in mappingOutcome, so that no owning adapter has to infer the\ncause from a null assetId.\n\"\"\"\ntype Query {\n  \"\"\"\n  Missions-local asset references (for example EQ-64) to Assets identifiers (AST-nnnn) in the named mapping release: for each\n  reference, in the order given, its assetId and mappingOutcome. The release is required (there is no implicit latest; a blank or\n  unknown release is RELEASE_REFUSED). At most 100 references in one call; more is BAD_USER_INPUT and the list is null.\n  \"\"\"\n  assetReferences(localRefs: [ID!]!, release: String!): [AssetReference!] @inaccessible\n  \"\"\" A diagnostic list of the releases this adapter serves.\"\"\"\n  mappingReleases: [MappingRelease!]!\n  \"\"\"\n  Missions-local crew references (C-n) to Personnel v2 identifiers (PRS-nnnn) from the crew section of the named mapping release:\n  for each reference, in the order given, its personnelId and mappingOutcome, with the same release rule and limit. A participant\n  reference (P-n) is not resolved by the graph and an outsider reference (O-n) is refused by class: both answer NO_ENTRY, with the\n  errors entry MAPPING_CLASS_REFUSED.\n  \"\"\"\n  personnelReferences(localRefs: [ID!]!, release: String!): [PersonnelReference!] @inaccessible\n}\n\nscalar federation__FieldSet\n\nscalar link__Import\n\nenum link__Purpose {\n  EXECUTION\n  SECURITY\n}\n\nscalar openfed__FieldSet",
+      "b84f60550a5a42ae881ac84e748e6074033d13b9": "schema @link(import: [\"@key\"], url: \"https://specs.apollo.dev/federation/v2.0\") {\n  query: Query\n}\n\ndirective @federation__extends on INTERFACE | OBJECT\n\ndirective @federation__external on FIELD_DEFINITION | OBJECT\n\ndirective @federation__override(from: String!) on FIELD_DEFINITION\n\ndirective @federation__provides(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__requires(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__shareable on FIELD_DEFINITION | OBJECT\n\ndirective @key(fields: openfed__FieldSet!, resolvable: Boolean = true) repeatable on INTERFACE | OBJECT\n\ndirective @link(as: String, for: link__Purpose, import: [link__Import], url: String!) repeatable on SCHEMA\n\n\"\"\" The stub of direction B. It is owned and resolved by the Assets adapter; here it is only a key, never fetched.\n\"\"\"\ntype AssetReference @key(fields: \"localRef release\", resolvable: false) {\n  localRef: ID!\n  release: String!\n}\n\nenum Classification {\n  SECRET\n  TOP_SECRET\n  UNCLASSIFIED\n}\n\nenum IssuingAuthority {\n  ENTERPRISE_COMMAND\n  FEDERATION_COUNCIL\n  STARFLEET_COMMAND\n  STARFLEET_MEDICAL\n  STARFLEET_SCIENCE\n  STARFLEET_SECURITY\n}\n\nenum LocationType {\n  DEEP_SPACE\n  ENTERPRISE\n  OTHER\n  PLANET\n  SECTOR\n  STARBASE\n  VESSEL\n}\n\ntype Mission @key(fields: \"missionId\", resolvable: true) {\n  actualCostCredits: String\n  \"\"\"\n  One stub per assigned asset. This adapter does not call Assets or the mapping: it supplies the Missions-local reference as\n  stored and the mapping release the client named. The owning adapter and the mapping subgraph do the rest.\n  \"\"\"\n  assets(release: String!): [AssetReference!]!\n  \"\"\" Kept for diagnostics: the same references as `assets` returns, without the release.\n  \"\"\"\n  assignedAssetIds: [String!]!\n  \"\"\" Missions-local references as stored, with no owning service behind them yet: plain data.\n  \"\"\"\n  assignedCrewIds: [String!]!\n  classification: Classification!\n  \"\"\"\n  The commanding officer as the same kind of reference, so that a client can check the mission's Starfleet personnel (the commanding\n  officer and the assigned crew). Null when the mission has no commanding officer (the contract requires one from AUTHORIZED on; a\n  PLANNED or CANCELLED mission may have none). The plain commandingOfficerId above is unchanged. No call is made.\n  \"\"\"\n  commandingOfficer(release: String!): PersonnelReference\n  commandingOfficerId: String\n  \"\"\"\n  The same for the assigned crew (assignedCrewIds only, not the commanding officer and not the participants). The owning adapter\n  is Personnel; the mapping subgraph supplies personnelId, which is null in every release until a crew section is served.\n  \"\"\"\n  crew(release: String!): [PersonnelReference!]!\n  durationHours: Int!\n  estimatedCostCredits: String\n  issuingAuthority: IssuingAuthority!\n  lastUpdated: String!\n  location: MissionLocation!\n  missionId: ID!\n  objective: String!\n  outcome: String\n  participantIds: [String!]!\n  priority: Int!\n  stardate: String!\n  status: MissionStatus!\n  title: String!\n  type: MissionType!\n}\n\ntype MissionLocation {\n  coordinates: String\n  name: String!\n  travelVector: String\n  type: LocationType!\n}\n\nenum MissionStatus {\n  ACTIVE\n  AUTHORIZED\n  CANCELLED\n  COMPLETED\n  FAILED\n  PLANNED\n  POSTPONED\n}\n\nenum MissionType {\n  DIPLOMATIC\n  EXPLORATION\n  FIRST_CONTACT\n  HUMANITARIAN\n  MAINTENANCE\n  MEDICAL\n  RESCUE\n  SCIENTIFIC\n  SECURITY\n  TACTICAL\n  TRANSPORT\n}\n\n\"\"\" The stub of the crew reference, the same direction B. It is owned and resolved by the Personnel adapter; here it is only a key.\n\"\"\"\ntype PersonnelReference @key(fields: \"localRef release\", resolvable: false) {\n  localRef: ID!\n  release: String!\n}\n\n\"\"\"\nCredits and the stardate are strings: they carry the contract's canonical decimal spelling (two fractional digits for credits,\nfor example \"140000.00\"; the stardate \"43125.80\") exactly as the service sent it. A binary float would change the text\n(43125.80 would become 43125.8) and cannot hold every decimal, and a scalar of our own would be one more thing for every\nrouter to agree on. The timestamp is the contract's UTC text with three fractional digits.\n\"\"\"\ntype Query {\n  \"\"\" A mission that does not exist is null with no errors entry: not-found is data. A malformed id is BAD_USER_INPUT.\n  \"\"\"\n  mission(missionId: ID!): Mission\n  \"\"\"\n  Offset and limit at the graph level: the default limit is 20, the maximum 100. The service pages by page and pageSize (1 to 50),\n  so the adapter fetches the covering pages and slices. All or nothing: if any call of the page fails the whole list is null,\n  with one errors entry. The order is the service's: stardate, priority, missionId, ascending.\n  \"\"\"\n  missions(assignedAssetId: String, assignedCrewId: String, classification: Classification, commandingOfficerId: String, issuingAuthority: IssuingAuthority, limit: Int = 20, locationType: LocationType, offset: Int = 0, priority: Int, status: MissionStatus, type: MissionType): [Mission!]\n}\n\nscalar federation__FieldSet\n\nscalar link__Import\n\nenum link__Purpose {\n  EXECUTION\n  SECURITY\n}\n\nscalar openfed__FieldSet",
+      "310e72b2ff6bc7d1a0a8cbaea9d392ad39816d97": "schema @link(import: [\"@key\", \"@requires\", \"@external\"], url: \"https://specs.apollo.dev/federation/v2.0\") {\n  query: Query\n}\n\ndirective @external on FIELD_DEFINITION | OBJECT\n\ndirective @federation__extends on INTERFACE | OBJECT\n\ndirective @federation__override(from: String!) on FIELD_DEFINITION\n\ndirective @federation__provides(fields: federation__FieldSet!) on FIELD_DEFINITION\n\ndirective @federation__shareable on FIELD_DEFINITION | OBJECT\n\ndirective @key(fields: openfed__FieldSet!, resolvable: Boolean = true) repeatable on INTERFACE | OBJECT\n\ndirective @link(as: String, for: link__Purpose, import: [link__Import], url: String!) repeatable on SCHEMA\n\ndirective @requires(fields: openfed__FieldSet!) on FIELD_DEFINITION\n\ntype CivilianDetails {\n  \"\"\"\n  The contract's CivilianDetails has no fields, and GraphQL does not allow an object type without fields. This field is a placeholder:\n  it is always null and carries no fact. A civilian has no rank, department, clearance or supervisor.\n  \"\"\"\n  placeholder: Boolean\n}\n\ntype CrewDetails {\n  department: Department!\n  rank: Rank!\n  securityClearance: SecurityClearance!\n  supervisorPersonnelId: ID\n}\n\nenum Department {\n  COMMAND\n  ENGINEERING\n  FLIGHT_OPERATIONS\n  MEDICAL\n  OPERATIONS\n  SCIENCE\n  SECURITY\n}\n\nenum DutyStatus {\n  ACTIVE\n  DECEASED\n  INACTIVE\n  ON_LEAVE\n}\n\n\"\"\" What the mapping did with the reference; the mapping subgraph owns it.\n\"\"\"\nenum MappingOutcome {\n  MAPPED\n  NO_ENTRY\n  RELEASE_REFUSED\n}\n\n\"\"\" One person. details is the contract's choice: exactly one of crewDetails and civilianDetails.\n\"\"\"\ntype Personnel @key(fields: \"personnelId\", resolvable: true) {\n  details: PersonnelDetails!\n  displayName: String!\n  dutyStatus: DutyStatus!\n  personnelId: ID!\n  positionTitle: String!\n}\n\nunion PersonnelDetails = CivilianDetails | CrewDetails\n\n\"\"\"\nA page of the roster. datasetVersion is the opaque, immutable identifier of the snapshot that answered. The adapter holds no state,\nso it cannot see a change between two pages of a client: the client compares datasetVersion on every page and restarts at offset 0\nwhen it changes (the contract says so).\n\"\"\"\ntype PersonnelPage {\n  datasetVersion: String!\n  hasMore: Boolean!\n  items: [Personnel!]!\n  limit: Int!\n  offset: Int!\n  totalCount: Int!\n}\n\n\"\"\"\nWhat a mission's crew reference becomes. The mapping subgraph supplies personnelId and mappingOutcome; this adapter produces the\nwhole outcome with at most one call to the Personnel v2 service. The mapping release is a key field. The identifier the mapping\nfound is personnelId (the confirmed person is personnel.personnelId); there is no separate id field.\n\"\"\"\ntype PersonnelReference @key(fields: \"localRef release\", resolvable: true) {\n  localRef: ID!\n  mappingOutcome: MappingOutcome! @external\n  personnel: Personnel @requires(fields: \"personnelId mappingOutcome\")\n  personnelId: ID @external\n  release: String!\n  \"\"\"\n  Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this\n  adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.\n  \"\"\"\n  resolution: Resolution @requires(fields: \"personnelId mappingOutcome\")\n}\n\n\"\"\" The Personnel subgraph. The names are those of the Personnel v2 contract (personnel-v2.xsd): the element names are the field names.\n\"\"\"\ntype Query {\n  personnel(personnelId: ID!): Personnel\n  \"\"\"\n  Offset and limit at the graph level: the default limit is 20, the maximum 100, and the service allows 100 per call, so a page\n  is one call. All or nothing: if the call fails the whole result is null, with one errors entry.\n  \"\"\"\n  personnelMembers(department: Department, dutyStatus: DutyStatus, limit: Int = 20, offset: Int = 0): PersonnelPage\n}\n\nenum Rank {\n  CAPTAIN\n  CHIEF_PETTY_OFFICER\n  COMMANDER\n  CREWMAN\n  ENSIGN\n  LIEUTENANT\n  LIEUTENANT_COMMANDER\n}\n\nenum Resolution {\n  RELEASE_REFUSED\n  RESOLVED\n  UNAVAILABLE\n  UNMAPPED\n  UNRESOLVED\n}\n\nenum SecurityClearance {\n  NONE\n  SECRET\n  TOP_SECRET\n}\n\nscalar federation__FieldSet\n\nscalar link__Import\n\nenum link__Purpose {\n  EXECUTION\n  SECURITY\n}\n\nscalar openfed__FieldSet"
+    },
+    "graphqlClientSchema": "schema {\n  query: Query\n}\n\ntype Asset {\n  assetId: ID!\n  category: AssetCategory!\n  description: String!\n  kind: AssetKind!\n  name: String!\n  \"\"\"\n  The parent asset, read from the Assets service with ONE call per level and only when the client selects it. A parent id that\n  does not exist is null with no errors entry; a failed call is null with one SERVICE_UNAVAILABLE entry. No caching, no batching.\n  \"\"\"\n  parent: Asset\n  parentAssetId: ID\n  status: AssetStatus!\n}\n\n\"\"\"\nWhat a mission's asset reference becomes. The mapping subgraph supplies assetId and mappingOutcome; this adapter produces the\nwhole outcome with at most one call to the Assets service. The mapping release is a key field. The identifier the mapping found\nis assetId (the confirmed asset is asset.assetId); there is no separate id field.\n\"\"\"\ntype AssetReference {\n  asset: Asset\n  \"\"\" The Assets identifier the release maps the reference to; null unless mappingOutcome is MAPPED.\n  \"\"\"\n  assetId: ID\n  localRef: ID!\n  mappingOutcome: MappingOutcome!\n  release: String!\n  \"\"\"\n  Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this\n  adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.\n  \"\"\"\n  resolution: Resolution\n}\n\n\"\"\"\nCredits and the stardate are strings: they carry the contract's canonical decimal spelling (two fractional digits for credits,\nfor example \"140000.00\"; the stardate \"43125.80\") exactly as the service sent it. A binary float would change the text\n(43125.80 would become 43125.8) and cannot hold every decimal, and a scalar of our own would be one more thing for every\nrouter to agree on. The timestamp is the contract's UTC text with three fractional digits.\n\"\"\"\ntype Query {\n  asset(assetId: ID!): Asset\n  \"\"\"\n  Offset and limit at the graph level: the default limit is 20, the maximum 100. A page above 50 takes two calls to the\n  service. All or nothing: if any call of the page fails the whole list is null, with one errors entry.\n  \"\"\"\n  assets(category: AssetCategory, kind: AssetKind, limit: Int = 20, offset: Int = 0, parentAssetId: ID, status: AssetStatus): [Asset!]\n  \"\"\" A diagnostic list of the releases this adapter serves.\"\"\"\n  mappingReleases: [MappingRelease!]!\n  \"\"\" A mission that does not exist is null with no errors entry: not-found is data. A malformed id is BAD_USER_INPUT.\n  \"\"\"\n  mission(missionId: ID!): Mission\n  \"\"\"\n  Offset and limit at the graph level: the default limit is 20, the maximum 100. The service pages by page and pageSize (1 to 50),\n  so the adapter fetches the covering pages and slices. All or nothing: if any call of the page fails the whole list is null,\n  with one errors entry. The order is the service's: stardate, priority, missionId, ascending.\n  \"\"\"\n  missions(assignedAssetId: String, assignedCrewId: String, classification: Classification, commandingOfficerId: String, issuingAuthority: IssuingAuthority, limit: Int = 20, locationType: LocationType, offset: Int = 0, priority: Int, status: MissionStatus, type: MissionType): [Mission!]\n  personnel(personnelId: ID!): Personnel\n  \"\"\"\n  Offset and limit at the graph level: the default limit is 20, the maximum 100, and the service allows 100 per call, so a page\n  is one call. All or nothing: if the call fails the whole result is null, with one errors entry.\n  \"\"\"\n  personnelMembers(department: Department, dutyStatus: DutyStatus, limit: Int = 20, offset: Int = 0): PersonnelPage\n}\n\nenum AssetCategory {\n  EQUIPMENT\n  VEHICLE\n}\n\nenum AssetKind {\n  ARMORED_VEHICLE\n  COMMUNICATOR\n  MUSICAL_INSTRUMENT\n  PHASER\n  ROVER\n  SCIENTIFIC_INSTRUMENT\n  SHUTTLE\n  STARSHIP\n  TRICORDER\n}\n\nenum AssetStatus {\n  ACTIVE\n  DECOMMISSIONED\n  DESTROYED\n  MAINTENANCE\n  MISSING\n}\n\n\"\"\" What the mapping did with a reference. One enum for both kinds of reference.\n\"\"\"\nenum MappingOutcome {\n  MAPPED\n  NO_ENTRY\n  RELEASE_REFUSED\n}\n\nenum Resolution {\n  RELEASE_REFUSED\n  RESOLVED\n  UNAVAILABLE\n  UNMAPPED\n  UNRESOLVED\n}\n\nscalar federation__FieldSet\n\ntype CheckedAgainst {\n  artifact: String!\n  sha256: String!\n  system: String!\n  version: String!\n}\n\ntype MappingRelease {\n  checkedAgainst: [CheckedAgainst!]!\n  release: String!\n  \"\"\" The kinds of reference the release holds (assets; crew from release 1.1).\n  \"\"\"\n  sections: [String!]!\n}\n\n\"\"\"\nWhat a mission's crew reference becomes. The mapping subgraph supplies personnelId and mappingOutcome; this adapter produces the\nwhole outcome with at most one call to the Personnel v2 service. The mapping release is a key field. The identifier the mapping\nfound is personnelId (the confirmed person is personnel.personnelId); there is no separate id field.\n\"\"\"\ntype PersonnelReference {\n  localRef: ID!\n  mappingOutcome: MappingOutcome!\n  personnelId: ID\n  release: String!\n  personnel: Personnel\n  \"\"\"\n  Nullable on purpose: this adapter never returns null here. A null resolution means ONLY that the router could not ask this\n  adapter (a dead subgraph); the errors entry says why and names the subgraph. Every other case is an explicit value.\n  \"\"\"\n  resolution: Resolution\n}\n\ntype Mission {\n  actualCostCredits: String\n  \"\"\"\n  One stub per assigned asset. This adapter does not call Assets or the mapping: it supplies the Missions-local reference as\n  stored and the mapping release the client named. The owning adapter and the mapping subgraph do the rest.\n  \"\"\"\n  assets(release: String!): [AssetReference!]!\n  \"\"\" Kept for diagnostics: the same references as `assets` returns, without the release.\n  \"\"\"\n  assignedAssetIds: [String!]!\n  \"\"\" Missions-local references as stored, with no owning service behind them yet: plain data.\n  \"\"\"\n  assignedCrewIds: [String!]!\n  classification: Classification!\n  \"\"\"\n  The commanding officer as the same kind of reference, so that a client can check the mission's Starfleet personnel (the commanding\n  officer and the assigned crew). Null when the mission has no commanding officer (the contract requires one from AUTHORIZED on; a\n  PLANNED or CANCELLED mission may have none). The plain commandingOfficerId above is unchanged. No call is made.\n  \"\"\"\n  commandingOfficer(release: String!): PersonnelReference\n  commandingOfficerId: String\n  \"\"\"\n  The same for the assigned crew (assignedCrewIds only, not the commanding officer and not the participants). The owning adapter\n  is Personnel; the mapping subgraph supplies personnelId, which is null in every release until a crew section is served.\n  \"\"\"\n  crew(release: String!): [PersonnelReference!]!\n  durationHours: Int!\n  estimatedCostCredits: String\n  issuingAuthority: IssuingAuthority!\n  lastUpdated: String!\n  location: MissionLocation!\n  missionId: ID!\n  objective: String!\n  outcome: String\n  participantIds: [String!]!\n  priority: Int!\n  stardate: String!\n  status: MissionStatus!\n  title: String!\n  type: MissionType!\n}\n\ntype MissionLocation {\n  coordinates: String\n  name: String!\n  travelVector: String\n  type: LocationType!\n}\n\nenum Classification {\n  SECRET\n  TOP_SECRET\n  UNCLASSIFIED\n}\n\nenum IssuingAuthority {\n  ENTERPRISE_COMMAND\n  FEDERATION_COUNCIL\n  STARFLEET_COMMAND\n  STARFLEET_MEDICAL\n  STARFLEET_SCIENCE\n  STARFLEET_SECURITY\n}\n\nenum LocationType {\n  DEEP_SPACE\n  ENTERPRISE\n  OTHER\n  PLANET\n  SECTOR\n  STARBASE\n  VESSEL\n}\n\nenum MissionStatus {\n  ACTIVE\n  AUTHORIZED\n  CANCELLED\n  COMPLETED\n  FAILED\n  PLANNED\n  POSTPONED\n}\n\nenum MissionType {\n  DIPLOMATIC\n  EXPLORATION\n  FIRST_CONTACT\n  HUMANITARIAN\n  MAINTENANCE\n  MEDICAL\n  RESCUE\n  SCIENTIFIC\n  SECURITY\n  TACTICAL\n  TRANSPORT\n}\n\nunion PersonnelDetails = CivilianDetails | CrewDetails\n\ntype CivilianDetails {\n  \"\"\"\n  The contract's CivilianDetails has no fields, and GraphQL does not allow an object type without fields. This field is a placeholder:\n  it is always null and carries no fact. A civilian has no rank, department, clearance or supervisor.\n  \"\"\"\n  placeholder: Boolean\n}\n\ntype CrewDetails {\n  department: Department!\n  rank: Rank!\n  securityClearance: SecurityClearance!\n  supervisorPersonnelId: ID\n}\n\n\"\"\" One person. details is the contract's choice: exactly one of crewDetails and civilianDetails.\n\"\"\"\ntype Personnel {\n  details: PersonnelDetails!\n  displayName: String!\n  dutyStatus: DutyStatus!\n  personnelId: ID!\n  positionTitle: String!\n}\n\n\"\"\"\nA page of the roster. datasetVersion is the opaque, immutable identifier of the snapshot that answered. The adapter holds no state,\nso it cannot see a change between two pages of a client: the client compares datasetVersion on every page and restarts at offset 0\nwhen it changes (the contract says so).\n\"\"\"\ntype PersonnelPage {\n  datasetVersion: String!\n  hasMore: Boolean!\n  items: [Personnel!]!\n  limit: Int!\n  offset: Int!\n  totalCount: Int!\n}\n\nenum Department {\n  COMMAND\n  ENGINEERING\n  FLIGHT_OPERATIONS\n  MEDICAL\n  OPERATIONS\n  SCIENCE\n  SECURITY\n}\n\nenum DutyStatus {\n  ACTIVE\n  DECEASED\n  INACTIVE\n  ON_LEAVE\n}\n\nenum Rank {\n  CAPTAIN\n  CHIEF_PETTY_OFFICER\n  COMMANDER\n  CREWMAN\n  ENSIGN\n  LIEUTENANT\n  LIEUTENANT_COMMANDER\n}\n\nenum SecurityClearance {\n  NONE\n  SECRET\n  TOP_SECRET\n}"
+  },
+  "version": "00000000-0000-0000-0000-000000000000",
+  "subgraphs": [
+    {
+      "id": "0",
+      "name": "assets",
+      "routingUrl": "http://assets-adapter:8184/graphql"
+    },
+    {
+      "id": "1",
+      "name": "mapping",
+      "routingUrl": "http://mapping-adapter:8190/graphql"
+    },
+    {
+      "id": "2",
+      "name": "missions",
+      "routingUrl": "http://missions-adapter:8183/graphql"
+    },
+    {
+      "id": "3",
+      "name": "personnel",
+      "routingUrl": "http://personnel-adapter:8182/graphql"
+    }
+  ],
+  "featureFlagConfigs": {},
+  "compatibilityVersion": "1:0.65.2"
+}
