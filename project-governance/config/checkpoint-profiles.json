@@ -387,7 +387,7 @@
       ]
     },
     "federation-adapter-runtime": {
-      "limitations": "Federation Assets, mapping, Missions and Personnel adapter evidence for the implemented slices only: the committed Dockerfiles build each adapter and the build stages run the offline unit and integration tests (against a stub of the Assets service, against fixture releases and the real mapping releases, against a stub of the Missions service that serves the real contract fixtures and the released dataset, and against a stub of the Personnel v2 service that serves the two registered snapshots and checks every request against the real XSD), the images, compose files and start scripts are checked and run on ephemeral loopback ports, the mapping release is checked against the files it was built for, the Assets adapter runs against the real Assets service and a disposable PostgreSQL 17, and the Personnel adapter runs against the real Personnel v2 service in a disposable container on a private network (Docker required; a missing Docker, image or build is a failure, never a skip). The Missions adapter service stage needs the reviewed Oracle container running and is run deliberately, not selected here; it was run once against the real Missions service on Oracle 18c with Missions dataset release 1.2 (9 tests, 125 s). Every federation path selects the four adapters' offline gates, the Assets and Personnel service gates, the Apollo router offline gate, the Cosmo router offline gate and the two whole-stack gates, the Apollo one and the Cosmo one: the stack in stub-backend mode (the four adapters, the real Assets service with PostgreSQL 17, the real Personnel v2 service, a stub of the Missions service that serves the released dataset 1.2, and one router, the Apollo router or the Cosmo router, self-hosted, with its execution config composed locally by wgc) with the acceptance questions 2 to 6 (the router-neutral shared suite under federation/acceptance), the controlled cases, the determinism of the composition and the outages run through the router; the Apollo gate needs APOLLO_ELV2_LICENSE=accept set by the person who runs it (Rover's composition plugin is under the Elastic License 2.0), and a missing acceptance is a failure; the Cosmo gate needs no license acceptance, account or token (its composition tool wgc is Apache-2.0). The stack serves the large data: Missions dataset release 1.2 (300 missions) and the Personnel v2 snapshot personnel-v2-large-004 (1,000 people), and the acceptance asks mapping release 1.3: every P-reference resolves to the non-crew person of that exact name, an O-reference has no entry, a reference the release has no entry for is UNMAPPED, a refused release is RELEASE_REFUSED, and a resolution is null only when the router cannot ask the owning adapter (the errors entry names the subgraph). It does not cover the whole stack against the real Missions service on Oracle (only the adapter's service stage runs against it), and it does not cover Hive; it makes no benchmark or human acceptance claim.",
+      "limitations": "Federation Assets, mapping, Missions and Personnel adapter evidence for the implemented slices only: the committed Dockerfiles build each adapter and the build stages run the offline unit and integration tests (against a stub of the Assets service, against fixture releases and the real mapping releases, against a stub of the Missions service that serves the real contract fixtures and the released dataset, and against a stub of the Personnel v2 service that serves the two registered snapshots and checks every request against the real XSD), the images, compose files and start scripts are checked and run on ephemeral loopback ports, the mapping release is checked against the files it was built for, the Assets adapter runs against the real Assets service and a disposable PostgreSQL 17, and the Personnel adapter runs against the real Personnel v2 service in a disposable container on a private network (Docker required; a missing Docker, image or build is a failure, never a skip). The Missions adapter service stage needs the reviewed Oracle container running and is run deliberately, not selected here; it was run once against the real Missions service on Oracle 18c with Missions dataset release 1.2 (9 tests, 125 s). This profile covers only the shared build inputs that every adapter image reads (federation/pom.xml, federation/common/ and the four adapter module poms) and is the conservative fallback with all ten federation gates; each adapter, router, the stack and acceptance suite and the mapping data have their own component profile. It selects the four adapters' offline gates, the Assets and Personnel service gates, the Apollo router offline gate, the Cosmo router offline gate and the two whole-stack gates, the Apollo one and the Cosmo one: the stack in stub-backend mode (the four adapters, the real Assets service with PostgreSQL 17, the real Personnel v2 service, a stub of the Missions service that serves the released dataset 1.2, and one router, the Apollo router or the Cosmo router, self-hosted, with its execution config composed locally by wgc) with the acceptance questions 2 to 6 (the router-neutral shared suite under federation/acceptance), the controlled cases, the determinism of the composition and the outages run through the router; the Apollo gate needs APOLLO_ELV2_LICENSE=accept set by the person who runs it (Rover's composition plugin is under the Elastic License 2.0), and a missing acceptance is a failure; the Cosmo gate needs no license acceptance, account or token (its composition tool wgc is Apache-2.0). The stack serves the large data: Missions dataset release 1.2 (300 missions) and the Personnel v2 snapshot personnel-v2-large-004 (1,000 people), and the acceptance asks mapping release 1.3: every P-reference resolves to the non-crew person of that exact name, an O-reference has no entry, a reference the release has no entry for is UNMAPPED, a refused release is RELEASE_REFUSED, and a resolution is null only when the router cannot ask the owning adapter (the errors entry names the subgraph). It does not cover the whole stack against the real Missions service on Oracle (only the adapter's service stage runs against it), and it does not cover Hive; it makes no benchmark or human acceptance claim.",
       "runtime_checks": [
         "federation-assets-offline",
         "federation-assets-service",
@@ -497,6 +497,414 @@
             "-B",
             "federation/routers/cosmo/validation/run_router_gate.py",
             "stack"
+          ]
+        }
+      ]
+    },
+    "federation-assets-adapter": {
+      "limitations": "The federation Assets adapter's own files (not its pom.xml, which the reactor shares): its offline gate, its gate against the real Assets service, and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "runtime_checks": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "federation-assets-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/assets/validation/run_adapter_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-assets-service",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/assets/validation/run_adapter_gate.py",
+            "service"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "stack"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "stack"
+          ]
+        }
+      ]
+    },
+    "federation-mapping-adapter": {
+      "limitations": "The federation mapping adapter's own files (not its pom.xml, which the reactor shares): its offline gate and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "runtime_checks": [
+        "federation-mapping-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "federation-mapping-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/mapping/validation/run_adapter_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "stack"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "stack"
+          ]
+        }
+      ]
+    },
+    "federation-missions-adapter": {
+      "limitations": "The federation Missions adapter's own files (not its pom.xml, which the reactor shares): its offline gate and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. The adapter's service stage against the real Missions service on Oracle is run deliberately, not selected here. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "runtime_checks": [
+        "federation-missions-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "federation-missions-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/missions/validation/run_adapter_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "stack"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "stack"
+          ]
+        }
+      ]
+    },
+    "federation-personnel-adapter": {
+      "limitations": "The federation Personnel adapter's own files (not its pom.xml, which the reactor shares): its offline gate, its gate against the real Personnel v2 service, and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "runtime_checks": [
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "federation-personnel-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/personnel/validation/run_adapter_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-personnel-service",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/personnel/validation/run_adapter_gate.py",
+            "service"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "stack"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "stack"
+          ]
+        }
+      ]
+    },
+    "federation-apollo": {
+      "limitations": "The Apollo router's files and its README (the offline gate asserts README facts): the Apollo router offline gate and both whole-stack gates, because the Cosmo stack also reads the committed Apollo supergraph. The Apollo stack gate needs APOLLO_ELV2_LICENSE=accept set by the person who runs it. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "runtime_checks": [
+        "federation-router-apollo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "stack"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "stack"
+          ]
+        }
+      ]
+    },
+    "federation-cosmo": {
+      "limitations": "The Cosmo router's files and its README (the offline gate asserts README facts): the Cosmo router offline gate and the Cosmo whole-stack gate. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "runtime_checks": [
+        "federation-router-cosmo-offline",
+        "federation-router-cosmo-stack"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "stack"
+          ]
+        }
+      ]
+    },
+    "federation-integration": {
+      "limitations": "The federation stack (compose file, start script, Missions stub) and the shared acceptance suite: both router offline gates and both whole-stack gates. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "runtime_checks": [
+        "federation-router-apollo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-offline",
+        "federation-router-cosmo-stack"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "stack"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "stack"
+          ]
+        }
+      ]
+    },
+    "federation-mapping-data": {
+      "limitations": "The mapping releases and the Personnel mapping data and scripts: the mapping adapter offline gate, both router offline gates (the acceptance outcomes are derived from mapping release 1.3), both whole-stack gates, and the study tests, because the study corpus is derived from mapping release 1.3. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "runtime_checks": [
+        "federation-mapping-offline",
+        "federation-router-apollo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-offline",
+        "federation-router-cosmo-stack"
+      ],
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "federation-mapping-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/adapters/mapping/validation/run_adapter_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-apollo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/apollo/validation/run_router_gate.py",
+            "stack"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-offline",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "offline"
+          ]
+        },
+        {
+          "id": "federation-router-cosmo-stack",
+          "argv": [
+            "{python}",
+            "-B",
+            "federation/routers/cosmo/validation/run_router_gate.py",
+            "stack"
+          ]
+        },
+        {
+          "id": "study-tests",
+          "argv": [
+            "{python}",
+            "-B",
+            "study/harness/study_gate.py"
           ]
         }
       ]
