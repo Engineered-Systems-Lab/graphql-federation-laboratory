@@ -16,6 +16,7 @@ These current-state fields keep the exact table format consumed by [continuity v
 | --- | --- |
 | service | None yet: the project has no runtime component |
 | manual_acceptance | Not recorded |
+| implementation_checkpoint | 94f7e34494876b2953ee099b1b2a7653f380d91d |
 | next_authorized_action | None recorded here: each action requires its own applicable checkpoint authorization |
 
 A project that declares a runtime boundary in the classification table also adds an `implementation_checkpoint` row (a full Git SHA) and the matching fact in the reconstruction contract; see [Command continuity](../governance/COMMAND-CONTINUITY.md#adopting-the-recovery-chain). Record, governance and tooling transactions do not advance the implementation checkpoint.

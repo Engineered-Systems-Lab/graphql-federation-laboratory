@@ -6,4 +6,6 @@ The [conventions](CONVENTIONS.md) own entry authoring, the date formats and time
 
 ## Recorded transitions
 
-No transition has been recorded yet. When a project-state transition is worth keeping, add one dated entry file beside this index and list it here, newest last, with a one-line description. Continuity requires every entry to be indexed here and to carry the metadata the conventions name.
+When a project-state transition is worth keeping, add one dated entry file beside this index and list it here, newest last, with a one-line description. Continuity requires every entry to be indexed here and to carry the metadata the conventions name.
+
+- [2026-10-22T23:42Z: the lab's systems, federation layer and study are in the repository, and the recovery chain is adopted](2026-10-22T2342Z-recovery-chain-adopted.md): the set-up imports, the bootstrap exception they were made under, and the implementation checkpoint at the federation import.
