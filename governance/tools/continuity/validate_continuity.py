@@ -140,6 +140,14 @@ def validate_coverage(root, table):
             'add a row for each:\n  ' + '\n  '.join(uncovered))
 
 
+def missing_row_files(root, table):
+    """The live exact-file rows whose file is absent. A row under `project-governance/` classifies a file the project may
+    leave out (an optional overlay or setting), so it is not one."""
+    folder = artifact_classification.PROJECT_GOVERNANCE + '/'
+    return [row.path for row in table.rows
+            if row.kind == 'file' and not row.path.startswith(folder) and not (root / row.path).is_file()]
+
+
 def validate_docs(root):
     current = governance_layout(root)
     table = classification(root)
@@ -148,10 +156,8 @@ def validate_docs(root):
         read(root, path)
     if table is not None:
         # Rows are never dirt: a live file row names a file that exists; a deleted file's row lives under Historical paths.
-        for row in table.rows:
-            if row.kind == 'file':
-                require((root / row.path).is_file(),
-                        f'Classification row names a missing file; move it to Historical paths: {row.path}')
+        missing = missing_row_files(root, table)
+        require(not missing, f'Classification row names a missing file; move it to Historical paths: {missing[0] if missing else ""}')
         for path in table.historical:
             require(not (root / path).exists(), f'Historical classification path still exists: {path}')
         validate_coverage(root, table)
@@ -201,6 +207,10 @@ def validate_docs(root):
         except ValueError:
             dt = None
         require(dt is not None and dt.strftime(pattern) == found[1], f'Invalid date: {p}')
+        for line in text.splitlines():
+            if line.startswith('Repository checkpoint:'):
+                refusal = artifact_classification.checkpoint_line_refusal(line)
+                require(refusal is None, refusal)
         cited = artifact_classification.split_citations(text, labels)
         require(not cited.malformed, f'Log has a label without a valid id: {p}')
         refs = [token for _, token in cited.local if len(token) == 40]
@@ -286,6 +296,12 @@ def frozen_invariants(root, checkpoint=None):
     return True
 
 
+def frozen_in_force(root):
+    """Whether the frozen comparison applies: the classification table has a frozen row. It does not depend on the
+    reconstruction contract."""
+    return bool(scope(root)[0])
+
+
 def freeze(root, refreeze=()):
     """Record the frozen files in the manifest. Files with no entry get one from their current content, whatever their
     history: freezing only adds a restriction. An existing entry changes or goes only when its path is named in `refreeze`
@@ -333,9 +349,10 @@ def extract_facts(root, contract):
 def verify_repository(root=ROOT):
     """Verify the recovery chain of a repository.
 
-    The runtime-checkpoint, completion-evidence and frozen-invariant checks apply only to what the adopter's
-    reconstruction contract declares: a project with no runtime boundary has no `implementation_checkpoint` fact and
-    is verified by its documents, links, logs and the facts it does declare.
+    The runtime-checkpoint and completion-evidence checks apply only to what the adopter's reconstruction contract
+    declares: a project with no runtime boundary has no `implementation_checkpoint` fact and is verified by its
+    documents, links, logs and the facts it does declare. The frozen comparison with the manifest does not wait for the
+    contract: it runs whenever the classification table has a frozen row (`frozen_in_force`).
     """
     root = root.resolve()
     logs = validate_docs(root)
@@ -345,6 +362,8 @@ def verify_repository(root=ROOT):
     facts = extract_facts(root, contract)
     if 'implementation_checkpoint' not in facts:
         require(FROZEN_FACT not in contract['facts'], 'Frozen invariants need an implementation_checkpoint fact')
+        if frozen_in_force(root):
+            frozen_invariants(root)
         return contract, facts
     checkpoint = facts['implementation_checkpoint']
     require(re.fullmatch(r'[a-f0-9]{40}', checkpoint), 'Checkpoint must be a full Git SHA')
@@ -368,6 +387,8 @@ def verify_repository(root=ROOT):
         require(completion.strip() in committed, 'Completion evidence no longer matches checkpoint report')
     if FROZEN_FACT in contract['facts']:
         facts[FROZEN_FACT] = frozen_invariants(root)
+    elif frozen_in_force(root):
+        frozen_invariants(root)
     return contract, facts
 
 
@@ -409,6 +430,17 @@ def validate_reconstruction(root, artifact, contract, expected):
     require(set(contract['governance_evidence']) <= all_evidence, 'Missing governance citations')
 
 
+def pass_line(root, facts):
+    """The PASS line names only the checks that ran: the checkpoint and evidence checks need the checkpoint fact, the
+    frozen comparison needs a frozen row."""
+    ran = ['recovery documents', 'links', 'logs']
+    if 'implementation_checkpoint' in facts:
+        ran.append('checkpoint/evidence')
+    if frozen_in_force(root):
+        ran.append('frozen invariants')
+    return 'PASS: ' + ', '.join(ran[:-1]) + (' and ' if len(ran) > 1 else '') + ran[-1] + '.'
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--reconstruction', type=Path)
@@ -432,7 +464,7 @@ def main():
             print(f'Frozen manifest {FROZEN_MANIFEST}: {len(added)} added, {len(changed)} changed, {len(removed)} removed.')
             return 0
         contract, facts = verify_repository()
-        print('PASS: recovery documents, links, logs, checkpoint/evidence and frozen invariants.')
+        print(pass_line(ROOT, facts))
         if args.reconstruction:
             artifact = json.loads(args.reconstruction.read_text(encoding='utf-8-sig'))
             validate_reconstruction(ROOT, artifact, contract, facts)
