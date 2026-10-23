@@ -11,6 +11,11 @@
       "pattern": "^\\| manual_acceptance \\| ([^|]+?) \\|$",
       "type": "string"
     },
+    "implementation_checkpoint": {
+      "source": "docs/PROGRESS.md#recovery-facts",
+      "pattern": "^\\| implementation_checkpoint \\| `?([0-9a-f]{40})`? \\|$",
+      "type": "string"
+    },
     "next_authorized_action": {
       "source": "docs/PROGRESS.md#recovery-facts",
       "pattern": "^\\| next_authorized_action \\| ([^|]+?) \\|$",
