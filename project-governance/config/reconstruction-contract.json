@@ -20,6 +20,10 @@
       "source": "docs/PROGRESS.md#recovery-facts",
       "pattern": "^\\| next_authorized_action \\| ([^|]+?) \\|$",
       "type": "string"
+    },
+    "frozen_contracts_and_fixtures_unchanged": {
+      "source": "git:frozen-invariants",
+      "type": "boolean"
     }
   },
   "governance_evidence": [

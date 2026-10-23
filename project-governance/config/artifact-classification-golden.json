@@ -2348,7 +2348,9 @@
     "study/corpus/expected.json": {
       "class": "tooling",
       "profile": "study",
-      "boundary": [],
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -2381,7 +2383,9 @@
     "study/corpus/tasks.json": {
       "class": "tooling",
       "profile": "study",
-      "boundary": [],
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -2909,6 +2913,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3091,6 +3096,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3104,6 +3110,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3117,6 +3124,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3130,6 +3138,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3143,6 +3152,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3156,6 +3166,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3169,6 +3180,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3182,6 +3194,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3195,6 +3208,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3208,6 +3222,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3221,6 +3236,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3234,6 +3250,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3247,6 +3264,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3260,6 +3278,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3273,6 +3292,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3286,6 +3306,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3845,6 +3866,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3858,6 +3880,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3871,6 +3894,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3884,6 +3908,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3897,6 +3922,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3910,6 +3936,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3923,6 +3950,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3936,6 +3964,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3949,6 +3978,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3962,6 +3992,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3975,6 +4006,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -3988,6 +4020,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -4001,6 +4034,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -4014,6 +4048,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -4027,6 +4062,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -4040,6 +4076,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -4053,6 +4090,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -4066,6 +4104,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -4079,6 +4118,7 @@
       "class": "runtime",
       "profile": "assets-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -4363,8 +4403,10 @@
     },
     "uss-enterprise/crew-personnel/.dockerignore": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4374,8 +4416,10 @@
     },
     "uss-enterprise/crew-personnel/Dockerfile": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4385,8 +4429,10 @@
     },
     "uss-enterprise/crew-personnel/README.md": {
       "class": "record",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4396,8 +4442,10 @@
     },
     "uss-enterprise/crew-personnel/acceptance/manual/List_test_1.sh": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4407,8 +4455,10 @@
     },
     "uss-enterprise/crew-personnel/acceptance/manual/Picard_test_1.sh": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4418,8 +4468,10 @@
     },
     "uss-enterprise/crew-personnel/acceptance/manual/Picard_test_2.sh": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4429,8 +4481,10 @@
     },
     "uss-enterprise/crew-personnel/acceptance/manual/Picard_test_3.sh": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4440,8 +4494,10 @@
     },
     "uss-enterprise/crew-personnel/acceptance/manual/README.md": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4451,8 +4507,10 @@
     },
     "uss-enterprise/crew-personnel/acceptance/manual/get-broccoli.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4462,8 +4520,10 @@
     },
     "uss-enterprise/crew-personnel/acceptance/manual/get-picard.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4473,8 +4533,10 @@
     },
     "uss-enterprise/crew-personnel/acceptance/manual/get-unknown.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4484,8 +4546,10 @@
     },
     "uss-enterprise/crew-personnel/acceptance/manual/list-crew.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4495,8 +4559,10 @@
     },
     "uss-enterprise/crew-personnel/compose.yaml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4506,8 +4572,10 @@
     },
     "uss-enterprise/crew-personnel/contracts/crew-personnel-v1.wsdl": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4517,8 +4585,10 @@
     },
     "uss-enterprise/crew-personnel/contracts/crew-personnel-v1.xsd": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4528,8 +4598,10 @@
     },
     "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/manifest.json": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4539,8 +4611,10 @@
     },
     "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/page-000.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4550,8 +4624,10 @@
     },
     "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/page-001.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4561,8 +4637,10 @@
     },
     "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/page-002.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4572,8 +4650,10 @@
     },
     "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/page-003.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4583,8 +4663,10 @@
     },
     "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/page-004.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4594,8 +4676,10 @@
     },
     "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/page-005.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4605,8 +4689,10 @@
     },
     "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/page-006.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4616,8 +4702,10 @@
     },
     "uss-enterprise/crew-personnel/datasets/released/crew-v1-large-003/page-007.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4627,8 +4715,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/canonical/crew-v1-small-001.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4638,8 +4728,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/canonical/crew-v1-small-002.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4649,8 +4741,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/faults/CrewNotFound-crewId.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4660,8 +4754,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/faults/InternalError.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4671,8 +4767,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/faults/InvalidRequest-limit.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4682,8 +4780,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/faults/InvalidRequest.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4693,8 +4793,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/faults/ServiceUnavailable.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4704,8 +4806,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/manifest.json": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4715,8 +4819,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/datasets/count-mismatch.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4726,8 +4832,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/datasets/cycle.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4737,8 +4845,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/datasets/dangling.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4748,8 +4858,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/datasets/duplicate-id.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4759,8 +4871,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/datasets/self-reference.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4770,8 +4884,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/requests/attribute.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4781,8 +4897,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/requests/duplicate.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4792,8 +4910,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/requests/missing-id.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4803,8 +4923,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/requests/mixed-content.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4814,8 +4936,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/requests/unknown.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4825,8 +4949,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/requests/unqualified.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4836,8 +4962,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/requests/wrong-namespace.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4847,8 +4975,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/requests/wrong-order.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4858,8 +4988,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/schema/101-records.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4869,8 +5001,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/schema/text-as-markup.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4880,8 +5014,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/soap/missing-not-found-field.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4891,8 +5027,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/soap/two-details.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4902,8 +5040,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/soap/two-wrappers.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4913,8 +5053,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/negative/soap/wrong-faultcode.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4924,8 +5066,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/protocol/dtd.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4935,8 +5079,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/protocol/external-entity.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4946,8 +5092,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/protocol/malformed.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4957,8 +5105,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/protocol/soap12.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4968,8 +5118,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/get-inactive.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4979,8 +5131,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/get-leading-zero.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -4990,8 +5144,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/get-not-found.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5001,8 +5157,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/get-picard.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5012,8 +5170,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/list-defaults.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5023,8 +5183,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/list-engineering-active.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5034,8 +5196,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/list-engineering.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5045,8 +5209,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/list-medical.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5056,8 +5222,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/list-on-leave.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5067,8 +5235,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/max-limit.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5078,8 +5248,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/min-limit.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5089,8 +5261,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/numeric-plus.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5100,8 +5274,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/numeric-zeroes.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5111,8 +5287,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/page-0.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5122,8 +5300,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/page-2.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5133,8 +5313,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/page-2147483647.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5144,8 +5326,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/page-4.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5155,8 +5339,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/page-6.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5166,8 +5352,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/requests/page-7.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5177,8 +5365,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/get-inactive.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5188,8 +5378,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/get-leading-zero.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5199,8 +5391,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/get-picard.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5210,8 +5404,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/list-engineering-active.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5221,8 +5417,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/list-engineering.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5232,8 +5430,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/list-medical.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5243,8 +5443,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/list-on-leave.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5254,8 +5456,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/max-limit.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5265,8 +5469,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/min-limit.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5276,8 +5482,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/page-0.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5287,8 +5495,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/page-2.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5298,8 +5508,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/page-2147483647.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5309,8 +5521,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/page-4.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5320,8 +5534,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/page-6.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5331,8 +5547,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/page-7.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5342,8 +5560,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/replacement-page-0.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5353,8 +5573,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/responses/replacement-page-2.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5364,8 +5586,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/scalar-probes.json": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5375,8 +5599,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/soap/get-picard-request.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5386,8 +5612,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/soap/get-picard-response.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5397,8 +5625,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/soap/list-defaults-request.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5408,8 +5638,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/soap/list-defaults-response.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5419,8 +5651,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/validation/crew-v1-edge-001.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5430,8 +5664,10 @@
     },
     "uss-enterprise/crew-personnel/fixtures/validation/crew-v1-replacement-001.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5441,8 +5677,10 @@
     },
     "uss-enterprise/crew-personnel/generator/generate_003.py": {
       "class": "tooling",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5452,8 +5690,10 @@
     },
     "uss-enterprise/crew-personnel/pom.xml": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5463,8 +5703,10 @@
     },
     "uss-enterprise/crew-personnel/src/main/java/lab/enterprise/crew/CrewService.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5474,8 +5716,10 @@
     },
     "uss-enterprise/crew-personnel/src/main/java/lab/enterprise/crew/Dataset.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5485,8 +5729,10 @@
     },
     "uss-enterprise/crew-personnel/src/main/java/lab/enterprise/crew/DatasetPackage.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5496,8 +5742,10 @@
     },
     "uss-enterprise/crew-personnel/src/main/java/lab/enterprise/crew/FaultMapping.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5507,8 +5755,10 @@
     },
     "uss-enterprise/crew-personnel/src/main/java/lab/enterprise/crew/Faults.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5518,8 +5768,10 @@
     },
     "uss-enterprise/crew-personnel/src/main/java/lab/enterprise/crew/Main.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5529,8 +5781,10 @@
     },
     "uss-enterprise/crew-personnel/src/main/java/lab/enterprise/crew/RequestValidation.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5540,8 +5794,10 @@
     },
     "uss-enterprise/crew-personnel/src/main/java/lab/enterprise/crew/Xml.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5551,8 +5807,10 @@
     },
     "uss-enterprise/crew-personnel/src/main/resources/deployment.wsdl": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5562,8 +5820,10 @@
     },
     "uss-enterprise/crew-personnel/src/test/java/lab/enterprise/crew/DatasetPackageTest.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5573,8 +5833,10 @@
     },
     "uss-enterprise/crew-personnel/src/test/java/lab/enterprise/crew/DatasetServiceTest.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5584,8 +5846,10 @@
     },
     "uss-enterprise/crew-personnel/src/test/java/lab/enterprise/crew/SoapHttpTest.java": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5595,8 +5859,10 @@
     },
     "uss-enterprise/crew-personnel/validation/runtime_acceptance.py": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5606,8 +5872,10 @@
     },
     "uss-enterprise/crew-personnel/validation/smoke.py": {
       "class": "tooling",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5617,8 +5885,10 @@
     },
     "uss-enterprise/crew-personnel/validation/tests/test_dataset_003.py": {
       "class": "tooling",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5628,8 +5898,10 @@
     },
     "uss-enterprise/crew-personnel/validation/tests/test_portable_validation.py": {
       "class": "tooling",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5639,8 +5911,10 @@
     },
     "uss-enterprise/crew-personnel/validation/validate.py": {
       "class": "tooling",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5650,8 +5924,10 @@
     },
     "uss-enterprise/crew-personnel/validation/validate_003.py": {
       "class": "tooling",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5661,8 +5937,10 @@
     },
     "uss-enterprise/crew-personnel/validation/validate_structure.py": {
       "class": "tooling",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5672,8 +5950,10 @@
     },
     "uss-enterprise/crew-personnel/validation/xml_validation.py": {
       "class": "tooling",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
@@ -5737,6 +6017,7 @@
       "class": "runtime",
       "profile": "missions-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -5750,6 +6031,7 @@
       "class": "runtime",
       "profile": "missions-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -6894,6 +7176,7 @@
       "class": "runtime",
       "profile": "missions-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -6907,6 +7190,7 @@
       "class": "runtime",
       "profile": "missions-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -6920,6 +7204,7 @@
       "class": "runtime",
       "profile": "missions-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -6933,6 +7218,7 @@
       "class": "runtime",
       "profile": "missions-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -6946,6 +7232,7 @@
       "class": "runtime",
       "profile": "missions-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -6959,6 +7246,7 @@
       "class": "runtime",
       "profile": "missions-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
@@ -6972,6 +7260,7 @@
       "class": "runtime",
       "profile": "missions-contract",
       "boundary": [
+        "frozen",
         "runtime"
       ],
       "bound": false,
