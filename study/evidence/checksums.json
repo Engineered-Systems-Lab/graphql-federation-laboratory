@@ -1,0 +1,41 @@
+{
+  "about": "Checksums that tie the committed evidence of the agent study to the raw run bundles kept outside the repository. bundleChecksum is the runner's checksum over the bundle's file list (study/harness/runner.py, write_bundle); bundleJsonSha256, the archive and sums-file digests and the evidence-file digests are SHA-256 of the exact bytes as the run and the archive wrote them. The evidence files were written with LF line ends; a Windows checkout may hold them with CRLF, so they are compared in their LF form.",
+  "runs": {
+    "gamma-prime-1": {
+      "archive": {
+        "name": "gamma-prime-1-2026-10-21.zip",
+        "sha256": "1c394bd06edfc98bb7556c7a6af02f08b1f28de86d8ec9042131aa59e2aa8ff6"
+      },
+      "bundleChecksum": "ff31d2bb752ef1df5b3fb28f7be767c2862b53b197b9ae441a6b9f078329390c",
+      "bundleJsonSha256": "3d3f3cf08501fb1f996e025b8d16ad3a518b0c88cca7241934fa19f4152eb3fa",
+      "bundleWrittenAt": "2026-10-21T13:10:41.085+00:00",
+      "evidenceFiles": {
+        "manifest.json": "41779532c771be3671ecf3d1651383bfd010bae5e0630ff591d572920bbf8d09",
+        "scores.csv": "9c6c0ad4be8b567a2232f7284183793390b017092c9de57ae68f5f2709ec2f8c"
+      },
+      "filesInRun": 135,
+      "sumsFile": {
+        "name": "SHA256SUMS-gamma-prime-1.txt",
+        "sha256": "79fc19169762d55e05a2db9b742fbd974967c8a4aa032131c193feefcce80075"
+      }
+    },
+    "study-1": {
+      "archive": {
+        "name": "lab-results-2026-10-21.zip",
+        "sha256": "1b74534e0a3238fef1ca46bdd8d8a1c9c262ef8c3f5a10f6926187e4e39885ab"
+      },
+      "bundleChecksum": "b914cafa2528a3b62feaabdab3af32727c2e2dcb14238cf489e421fd2b70a6b2",
+      "bundleJsonSha256": "9327449127461417df269b080759071673d7490d149f993670b3433a81264fd8",
+      "bundleWrittenAt": "2026-10-21T02:42:48.684+00:00",
+      "evidenceFiles": {
+        "manifest.json": "5c4cc17569129e9ead476758f78e5794bf9844acac435763cf37761f4a07b3ff",
+        "scores.csv": "5dc06fc023c73083686e36ecb37a2a51c9d1f69ecb247179f7e428905f447798"
+      },
+      "filesInRun": 647,
+      "sumsFile": {
+        "name": "SHA256SUMS-2026-10-21.txt",
+        "sha256": "80f75af12fbc67e76e5787406f0cfe81b8f21e8d3d89cd39a7387b90695c0e69"
+      }
+    }
+  }
+}

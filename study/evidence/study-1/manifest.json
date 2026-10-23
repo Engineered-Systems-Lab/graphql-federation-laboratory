@@ -1,0 +1,1479 @@
+{
+  "commit": "20610ada0cb3a05e2193f6ecd485e83d099fe879",
+  "createdAt": "2026-10-20T23:05:42.984+00:00",
+  "datasetHashes": {
+    "mapping_release_1_3_manifest": "5c2b99f17211abd4add46cddc400b15961608172dd8f62eb56c3683a7639c39d"
+  },
+  "declaredSettings": {
+    "adapters": "answer __schema on their own endpoints unchanged; the MCP servers hide _service and _entities",
+    "apollo_router": {
+      "default": "off",
+      "supergraph.introspection": true,
+      "version": "v2.18.0"
+    },
+    "cosmo_router": {
+      "default": "on",
+      "introspection.enabled": true,
+      "version": "0.359.0"
+    }
+  },
+  "harnessFiles": {
+    "agent.py": "552f9a97aa9a405c440003e4fa49cc30a0f5d4f9150b01cb9712a2e9247961f5",
+    "budget.py": "42c9b17b94b03620b9c52d2f7b1ffc492259a34a4813e9fe126201165e98e333",
+    "credentials.py": "0ecca4363c9bf6f1ac085e884fe16188937d1a7986105a35f6fcc0c7faf0a3cd",
+    "fakes.py": "de1bf39f3b0a5b0c65898275baa2b4a19c532479887884ae1ff7b7e880388933",
+    "launcher.py": "f913faa651886768699e402d5765cefcee8a47b47693519e7b47d460636c8bc5",
+    "mcp_client.py": "611601ff8d4037c288bf57f78cf6140096b8880965d8b4d85ec4ed044fba16ae",
+    "runner.py": "8c1250d972294653f63bb5c6bbff5bf3ad1acd99da68d4a2638b331cd553e9c7",
+    "study_common.py": "be0ba9b824fd22d07ad68cbb671ad9537e9bbb761132d99475000af225ee8b92",
+    "study_gate.py": "6415e60ce66c952565f6955e325d7143d5ae2a2decaea864372c55e7a37acfa3",
+    "vendors.py": "ca4b946baf6540979fecb686259aada9254ab145249c0fcb75dca514fb96255a"
+  },
+  "identity": {
+    "corpusFreeze": "33ff065e213cf69d53fda8da83db5433ec7ec199961f4021cbd5734bc92c25f4",
+    "guides": {
+      "alpha": null,
+      "beta": "4a128a26e6c6f45e94cfea892e10d765e60c190ee095f8b863c7192cab64171e",
+      "delta": null,
+      "epsilon": null,
+      "gamma": null
+    },
+    "limits": {
+      "max_nudges": 2,
+      "max_retries": 3,
+      "max_task_tokens": 1000000,
+      "max_tool_calls": 80,
+      "max_wall_seconds": 900,
+      "retry_backoff_seconds": 5
+    },
+    "models": {
+      "claude-sonnet-5-5": {
+        "max_output_tokens": 16000,
+        "request": {
+          "output_config": {
+            "effort": "medium"
+          },
+          "thinking": {
+            "type": "adaptive"
+          }
+        },
+        "vendor": "anthropic"
+      },
+      "gpt-6.1-sol": {
+        "max_output_tokens": 16000,
+        "request": {
+          "include": [
+            "reasoning.encrypted_content"
+          ],
+          "reasoning": {
+            "effort": "medium"
+          },
+          "store": false
+        },
+        "vendor": "openai"
+      }
+    },
+    "plan": [
+      {
+        "scenario": "alpha",
+        "units": [
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T07",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T15",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T15",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T09",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T13",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T12",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T01",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T14",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T11",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T09",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T06",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T06",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T10",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T16",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T16",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T08",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T01",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T02",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T05",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T11",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T03",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T04",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T12",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T02",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T04",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T03",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T07",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T05",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T10",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T13",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T08",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T14",
+            "trial": 2
+          }
+        ]
+      },
+      {
+        "scenario": "beta",
+        "units": [
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T10",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T01",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T06",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T03",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T11",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T16",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T05",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T05",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T09",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T02",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T11",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T07",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T13",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T02",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T01",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T15",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T10",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T16",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T08",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T12",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T06",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T15",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T14",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T14",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T08",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T12",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T03",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T09",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T04",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T04",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T07",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T13",
+            "trial": 2
+          }
+        ]
+      },
+      {
+        "scenario": "gamma",
+        "units": [
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T07",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T10",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T11",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T15",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T09",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T07",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T12",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T09",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T06",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T10",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T16",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T03",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T14",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T06",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T04",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T16",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T01",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T03",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T05",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T04",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T14",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T01",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T08",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T02",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T11",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T08",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T05",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T02",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T12",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T13",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T13",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T15",
+            "trial": 1
+          }
+        ]
+      },
+      {
+        "scenario": "delta",
+        "units": [
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T13",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T02",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T04",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T07",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T02",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T11",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T03",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T13",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T12",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T15",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T10",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T05",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T01",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T16",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T06",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T09",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T01",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T05",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T10",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T09",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T04",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T06",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T08",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T08",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T14",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T07",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T11",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T14",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T03",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T12",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T16",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T15",
+            "trial": 2
+          }
+        ]
+      },
+      {
+        "scenario": "epsilon",
+        "units": [
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T09",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T07",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T02",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T06",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T01",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T08",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T16",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T10",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T01",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T05",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T12",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T04",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T11",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T16",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T04",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T10",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T13",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T11",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T15",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T14",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T03",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T14",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T08",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T09",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T06",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T07",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T05",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T02",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T13",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T15",
+            "trial": 2
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "T03",
+            "trial": 2
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "T12",
+            "trial": 2
+          }
+        ]
+      }
+    ],
+    "pricesDated": "2026-10-20",
+    "seed": 20261021,
+    "systemPrompt": "You answer questions about the legacy systems of the USS Enterprise using only the tools you have. Work out the answer with the tools, then call submit_answer with it. If something cannot be determined with your tools, or a service does not answer, say so in the answer instead of guessing. Finish every task by calling submit_answer exactly once.",
+    "taskSet": "scored",
+    "trials": 2
+  },
+  "limits": {
+    "max_nudges": 2,
+    "max_retries": 3,
+    "max_task_tokens": 1000000,
+    "max_tool_calls": 80,
+    "max_wall_seconds": 900,
+    "retry_backoff_seconds": 5
+  },
+  "machine": {
+    "cpuCount": 16,
+    "machine": "AMD64",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 167 Stepping 1, GenuineIntel",
+    "python": "3.14.8",
+    "totalMemoryBytes": 33912258560
+  },
+  "models": {
+    "claude-sonnet-5-5": {
+      "max_output_tokens": 16000,
+      "priceEntry": {
+        "cache_write": 2.5,
+        "cached_read": 0.1,
+        "input": 2.0,
+        "output": 10.0,
+        "source": "read from the Anthropic pricing page on 2026-10-20: input 2, five-minute cache write 2.50, cache hit 0.10 (0.05 times the input price for this model), output 10",
+        "vendor": "anthropic"
+      },
+      "request": {
+        "output_config": {
+          "effort": "medium"
+        },
+        "thinking": {
+          "type": "adaptive"
+        }
+      },
+      "vendor": "anthropic"
+    },
+    "gpt-6.1-sol": {
+      "max_output_tokens": 16000,
+      "priceEntry": {
+        "cache_write": 0.0,
+        "cached_read": 0.1,
+        "input": 2.0,
+        "output": 10.0,
+        "source": "OpenAI pricing page read 2026-10-20 (standard tier); the Responses API reports no cache-write tokens",
+        "vendor": "openai"
+      },
+      "request": {
+        "include": [
+          "reasoning.encrypted_content"
+        ],
+        "reasoning": {
+          "effort": "medium"
+        },
+        "store": false
+      },
+      "vendor": "openai"
+    }
+  },
+  "planHash": "fae83d28f3f0b341b09f690edf0ad3f01613876a9b526e386215c6e2e34d442d",
+  "pricesTableDate": "2026-10-20",
+  "resultsRootSetting": "LAB_RESULTS_DIR",
+  "sdkVersions": {
+    "anthropic": "1.16.0",
+    "mcp": "2.3.0",
+    "openai": "3.35.1"
+  },
+  "stackFacts": {
+    "cpu_name": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+    "docker_share_ncpu_memtotal_bytes": "16 16548519936",
+    "docker_version": "29.8.0",
+    "free_memory_kb_at_start": "16357160"
+  },
+  "stackRunsPerScenario": 1,
+  "studyRunId": "study-1",
+  "telemetry": {
+    "apollo_router": "anonymous telemetry off (APOLLO_TELEMETRY_DISABLED)",
+    "cosmo_router": "anonymous telemetry off (COSMO_TELEMETRY_DISABLED)"
+  },
+  "tokenBudgets": {
+    "anthropic": {
+      "dollar_ceiling": 75.0,
+      "tokens": 150000000
+    },
+    "openai": {
+      "dollar_ceiling": 22.0,
+      "tokens": 100000000
+    }
+  },
+  "treeDirty": false
+}

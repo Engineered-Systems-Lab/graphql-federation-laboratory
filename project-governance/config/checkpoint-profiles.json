@@ -552,6 +552,27 @@
           ]
         }
       ]
+    },
+    "study": {
+      "limitations": "The Abstraction ladder study's offline tests only, through its gate (harness, corpus, MCP servers offline, analysis); no stack, no API call. The MCP and analysis suites need the pinned packages in the interpreter named by STUDY_MCP_PYTHON, else they are reported NOT RUN.",
+      "checks": [
+        {
+          "id": "continuity",
+          "argv": [
+            "{python}",
+            "-B",
+            "governance/tools/validate_continuity.py"
+          ]
+        },
+        {
+          "id": "study-tests",
+          "argv": [
+            "{python}",
+            "-B",
+            "study/harness/study_gate.py"
+          ]
+        }
+      ]
     }
   }
 }

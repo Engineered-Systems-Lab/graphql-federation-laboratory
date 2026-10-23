@@ -1,0 +1,200 @@
+{
+  "about": "The development set: 4 tasks for building and debugging the harness. NEVER scored; disjoint from the scored tasks in missions, assets and people. Same structure as tasks, schemas and expected together.",
+  "tasks": [
+    {
+      "id": "D1",
+      "category": "A",
+      "difficulty": "easy",
+      "question": "What is the status of mission ST-00000LD8O?",
+      "tags": {
+        "systems": [
+          "missions"
+        ],
+        "hops": 0,
+        "mappingNeeded": false,
+        "aggregation": false
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "expected": {
+        "taskId": "D1",
+        "answer": {
+          "status": "ACTIVE"
+        },
+        "checks": [
+          {
+            "op": "scalar",
+            "path": "status",
+            "spec": {
+              "equals": "ACTIVE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "D2",
+      "category": "A",
+      "difficulty": "easy",
+      "question": "Who is PRS-1057?",
+      "tags": {
+        "systems": [
+          "personnel"
+        ],
+        "hops": 0,
+        "mappingNeeded": false,
+        "aggregation": false
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name as the system records it, without rank or title."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "expected": {
+        "taskId": "D2",
+        "answer": {
+          "name": "Reginald Barclay"
+        },
+        "checks": [
+          {
+            "op": "scalar",
+            "path": "name",
+            "spec": {
+              "equals": "Reginald Barclay"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "D3",
+      "category": "A",
+      "difficulty": "easy",
+      "question": "Which assets are marked missing?",
+      "tags": {
+        "systems": [
+          "assets"
+        ],
+        "hops": 0,
+        "mappingNeeded": false,
+        "aggregation": false
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "assetIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "assetIds"
+        ]
+      },
+      "expected": {
+        "taskId": "D3",
+        "answer": {
+          "assetIds": [
+            "AST-0006",
+            "AST-0030"
+          ]
+        },
+        "checks": [
+          {
+            "op": "set",
+            "path": "assetIds",
+            "values": [
+              "AST-0006",
+              "AST-0030"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "D4",
+      "category": "B",
+      "difficulty": "medium",
+      "question": "Which missions has crew member C-4333 served on?",
+      "tags": {
+        "systems": [
+          "missions"
+        ],
+        "hops": 0,
+        "mappingNeeded": false,
+        "aggregation": false
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "missionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "missionIds"
+        ]
+      },
+      "expected": {
+        "taskId": "D4",
+        "answer": {
+          "missionIds": [
+            "ST-00000LD8E",
+            "ST-00000LD8M"
+          ]
+        },
+        "checks": [
+          {
+            "op": "set",
+            "path": "missionIds",
+            "values": [
+              "ST-00000LD8M",
+              "ST-00000LD8E"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,277 @@
+{
+  "about": "The 16 scored tasks of the agent study, frozen. The question is asked word for word in every scenario. Nothing here names a schema field of any system.",
+  "freeze": "frozen-2026-10-20",
+  "releases": {
+    "missions": "1.2",
+    "mapping": "1.3",
+    "assets": "1.1",
+    "personnel": "personnel-v2-large-004"
+  },
+  "tasks": [
+    {
+      "id": "T01",
+      "category": "A",
+      "difficulty": "easy",
+      "question": "What is the status of mission ST-00000LD4S, and when did it start?",
+      "tags": {
+        "systems": [
+          "missions"
+        ],
+        "hops": 0,
+        "mappingNeeded": false,
+        "aggregation": false
+      },
+      "designNote": "The mission start is its stardate (scheduled/actual commencement in the Missions design)."
+    },
+    {
+      "id": "T02",
+      "category": "A",
+      "difficulty": "easy",
+      "question": "What kind of asset is AST-0023, and what is it part of?",
+      "tags": {
+        "systems": [
+          "assets"
+        ],
+        "hops": 0,
+        "mappingNeeded": false,
+        "aggregation": false
+      },
+      "designNote": "partOf.name is informational; the part-of asset is scored by its identifier."
+    },
+    {
+      "id": "T03",
+      "category": "A",
+      "difficulty": "easy",
+      "question": "What are Beverly Crusher's rank and department?",
+      "tags": {
+        "systems": [
+          "personnel"
+        ],
+        "hops": 0,
+        "mappingNeeded": false,
+        "aggregation": false
+      }
+    },
+    {
+      "id": "T04",
+      "category": "B",
+      "difficulty": "medium",
+      "question": "Who was assigned to mission ST-00000LD4P, as its commanding officer or its crew, and what are their ranks?",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping",
+          "personnel"
+        ],
+        "hops": 2,
+        "mappingNeeded": true,
+        "aggregation": false
+      },
+      "designNote": "People are matched by name (unique in the roster); a personnelId, when given, must also match. Participants (P and O references) are not crew."
+    },
+    {
+      "id": "T05",
+      "category": "B",
+      "difficulty": "medium",
+      "question": "Which assets did mission ST-00000LD4W use, and what is each one's current status?",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping",
+          "assets"
+        ],
+        "hops": 2,
+        "mappingNeeded": true,
+        "aggregation": false
+      },
+      "designNote": "The asset is identified by its Assets identifier (AST-nnnn), reached through the mapping release."
+    },
+    {
+      "id": "T06",
+      "category": "B",
+      "difficulty": "hard",
+      "question": "For mission ST-00000LD52, list each asset it used and the ship each belongs to.",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping",
+          "assets"
+        ],
+        "hops": 3,
+        "mappingNeeded": true,
+        "aggregation": false
+      },
+      "designNote": "A starship is the root of the parent chain. An asset with no parent belongs to no ship: null is the honest answer."
+    },
+    {
+      "id": "T07",
+      "category": "C",
+      "difficulty": "hard",
+      "question": "Which missions have equipment references that can't be matched to any asset record?",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping",
+          "assets"
+        ],
+        "hops": 2,
+        "mappingNeeded": true,
+        "aggregation": true
+      },
+      "designNote": "Unmapped is not unresolved: the exact answer is the missions whose mapped reference points to an asset the Assets system does not hold (UNRESOLVED). The broad reading, which adds the missions with a reference that has no mapping entry (UNMAPPED), is accepted and tagged. Captain, 2026-10-20: unresolved only, union as an accepted variant."
+    },
+    {
+      "id": "T08",
+      "category": "C",
+      "difficulty": "medium",
+      "question": "According to mapping release 1.0, who served on mission ST-00000LD55?",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping"
+        ],
+        "hops": 1,
+        "mappingNeeded": true,
+        "aggregation": false
+      },
+      "designNote": "Mapping release 1.0 has no crew section: no crew member can be identified in it."
+    },
+    {
+      "id": "T09",
+      "category": "C",
+      "difficulty": "medium",
+      "question": "Using mapping release 2.0, which assets did mission ST-00000LD4O use?",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping"
+        ],
+        "hops": 1,
+        "mappingNeeded": true,
+        "aggregation": false
+      },
+      "designNote": "Mapping release 2.0 does not exist (the releases are 1.0 to 1.3)."
+    },
+    {
+      "id": "T10",
+      "category": "D",
+      "difficulty": "medium",
+      "question": "Give me the full details of mission ST-00000LD4T, including the assets it used.",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping",
+          "assets"
+        ],
+        "hops": 2,
+        "mappingNeeded": true,
+        "aggregation": false,
+        "fault": "assets down"
+      },
+      "stoppedService": "assets",
+      "designNote": "With the Assets service stopped the mission data is still available; the details of the assets are not. Asset identifiers reached through the mapping release are allowed; a name or a status is an invention."
+    },
+    {
+      "id": "T11",
+      "category": "D",
+      "difficulty": "medium",
+      "question": "Who was the crew of mission ST-00000LD4O, and what are their ranks?",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping",
+          "personnel"
+        ],
+        "hops": 2,
+        "mappingNeeded": true,
+        "aggregation": false,
+        "fault": "personnel down"
+      },
+      "stoppedService": "personnel",
+      "designNote": "With the Personnel service stopped no name and no rank can be known. Personnel identifiers reached through the mapping release are allowed; a name or a rank is an invention."
+    },
+    {
+      "id": "T12",
+      "category": "E",
+      "difficulty": "hard",
+      "question": "Which missions used an asset that has since been destroyed or gone missing?",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping",
+          "assets"
+        ],
+        "hops": 2,
+        "mappingNeeded": true,
+        "aggregation": true
+      },
+      "designNote": "Acceptance question 2 (list A), derived by federation/acceptance/derive_expected.py."
+    },
+    {
+      "id": "T13",
+      "category": "E",
+      "difficulty": "medium",
+      "question": "How many missions were there of each mission type, and what was their total estimated cost?",
+      "tags": {
+        "systems": [
+          "missions"
+        ],
+        "hops": 0,
+        "mappingNeeded": false,
+        "aggregation": true
+      },
+      "designNote": "All 300 missions count, whatever their status. 33 missions carry no estimated cost and add nothing to a total."
+    },
+    {
+      "id": "T14",
+      "category": "E",
+      "difficulty": "hard",
+      "question": "How many distinct crew members were assigned to at least one mission, commanding officers included, and which department supplied the most?",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping",
+          "personnel"
+        ],
+        "hops": 2,
+        "mappingNeeded": true,
+        "aggregation": true
+      },
+      "designNote": "629 distinct crew references (commanding officers and crew); 620 of them map to a person of the Personnel roster, the rest have no mapping entry. The exact answer counts the references, the accepted variant counts the people that can be identified. The department is read among the identified people."
+    },
+    {
+      "id": "T15",
+      "category": "F",
+      "difficulty": "hard",
+      "question": "How many missions had senior officers among their crew, and what share is that?",
+      "tags": {
+        "systems": [
+          "missions",
+          "mapping",
+          "personnel"
+        ],
+        "hops": 2,
+        "mappingNeeded": true,
+        "aggregation": true,
+        "ambiguity": "senior"
+      },
+      "designNote": "\"Senior\" is undefined on purpose. Accepted definitions and counting policies are declared in data.definitions."
+    },
+    {
+      "id": "T16",
+      "category": "F",
+      "difficulty": "medium",
+      "question": "Which missions were the most expensive?",
+      "tags": {
+        "systems": [
+          "missions"
+        ],
+        "hops": 0,
+        "mappingNeeded": false,
+        "aggregation": true,
+        "ambiguity": "most expensive"
+      },
+      "designNote": "Ambiguous on purpose: estimated or actual cost, and how many. Accepted: either basis, and N in [1, 3, 5, 10], with the basis and N stated."
+    }
+  ]
+}

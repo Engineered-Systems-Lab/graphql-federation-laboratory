@@ -1,0 +1,591 @@
+{
+  "about": "The fixed submit_answer JSON Schema of each scored task (a subset of JSON Schema: type, properties, required, additionalProperties, items, enum, pattern).",
+  "schemas": {
+    "T01": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "stardate": {
+          "type": "string",
+          "pattern": "[0-9]{5}(\\.[0-9]{1,2})?"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "status",
+        "stardate"
+      ]
+    },
+    "T02": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "partOf": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "assetId": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name as the system records it, without rank or title."
+            }
+          },
+          "required": [
+            "assetId",
+            "name"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "kind",
+        "partOf"
+      ]
+    },
+    "T03": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rank": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "rank",
+        "department"
+      ]
+    },
+    "T04": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "people": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name as the system records it, without rank or title."
+              },
+              "rank": {
+                "type": "string"
+              },
+              "personnelId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "rank"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "people"
+      ]
+    },
+    "T05": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "assetId": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "assetId",
+              "status"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "assets"
+      ]
+    },
+    "T06": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "assetId": {
+                "type": "string"
+              },
+              "shipAssetId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "shipName": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The name as the system records it, without rank or title."
+              }
+            },
+            "required": [
+              "assetId",
+              "shipAssetId"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "assets"
+      ]
+    },
+    "T07": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "missionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "missionIds"
+      ]
+    },
+    "T08": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED"
+          ]
+        },
+        "personnelIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "personnelIds"
+      ]
+    },
+    "T09": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED"
+          ]
+        },
+        "assetIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "assetIds"
+      ]
+    },
+    "T10": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mission": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "stardate": {
+              "type": "string",
+              "pattern": "[0-9]{5}(\\.[0-9]{1,2})?"
+            }
+          },
+          "required": [
+            "title",
+            "type",
+            "status",
+            "stardate"
+          ]
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "assetId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The name as the system records it, without rank or title."
+              },
+              "status": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "assetId"
+            ]
+          }
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          }
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "mission",
+        "assets",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "T11": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "people": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "personnelId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The name as the system records it, without rank or title."
+              },
+              "rank": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "personnelId"
+            ]
+          }
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          }
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "people",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "T12": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "missionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "missionIds"
+      ]
+    },
+    "T13": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "missionCount": {
+                "type": "integer"
+              },
+              "totalEstimatedCostCredits": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "type",
+              "missionCount",
+              "totalEstimatedCostCredits"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "types"
+      ]
+    },
+    "T14": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "distinctCrewMembers": {
+          "type": "integer"
+        },
+        "topDepartment": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "distinctCrewMembers",
+        "topDepartment"
+      ]
+    },
+    "T15": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "withSeniorOfficer": {
+          "type": "integer"
+        },
+        "outOf": {
+          "type": "integer"
+        },
+        "percentage": {
+          "type": "number"
+        },
+        "definitionUsed": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "seniorRanks": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "seniorRanks"
+          ]
+        },
+        "askedOrStated": {
+          "type": "string",
+          "enum": [
+            "ASKED",
+            "STATED",
+            "NONE"
+          ],
+          "description": "STATED: the definition used is stated in definitionUsed. ASKED: the question was put to the requester and definitionUsed is the working assumption. NONE: the term was taken as obvious."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "withSeniorOfficer",
+        "outOf",
+        "percentage",
+        "definitionUsed",
+        "askedOrStated"
+      ]
+    },
+    "T16": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "costBasis": {
+          "type": "string",
+          "enum": [
+            "ESTIMATED",
+            "ACTUAL"
+          ]
+        },
+        "topN": {
+          "type": "integer"
+        },
+        "missionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "definitionUsed": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "costMeaning": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "costMeaning"
+          ]
+        },
+        "askedOrStated": {
+          "type": "string",
+          "enum": [
+            "ASKED",
+            "STATED",
+            "NONE"
+          ],
+          "description": "STATED: the definition used is stated in definitionUsed. ASKED: the question was put to the requester and definitionUsed is the working assumption. NONE: the term was taken as obvious."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "costBasis",
+        "topN",
+        "missionIds",
+        "definitionUsed",
+        "askedOrStated"
+      ]
+    }
+  }
+}

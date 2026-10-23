@@ -1,0 +1,7 @@
+{
+  "services": {
+    "personnel-service": {"ports": ["127.0.0.1:8082:8082"]},
+    "missions-stub": {"ports": ["127.0.0.1:8083:8083"]},
+    "assets-service": {"ports": ["127.0.0.1:8084:8084"]}
+  }
+}

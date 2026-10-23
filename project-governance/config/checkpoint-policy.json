@@ -167,6 +167,11 @@
       "-p",
       "test_service_scripts.py",
       "-v"
+    ],
+    "study-tests": [
+      "{python}",
+      "-B",
+      "study/harness/study_gate.py"
     ]
   }
 }

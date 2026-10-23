@@ -1,0 +1,27 @@
+{
+  "about": "The two models of the study round, each through its own vendor API with the model id pinned and one fixed request setting per model (the vendor's recommended setting for agentic tool use, medium effort, chosen by the lead developer on 2026-10-20). `request` is passed to the SDK call as it stands and is recorded in every manifest. Nothing here is tuned per scenario or per task.",
+  "models": {
+    "claude-sonnet-5-5": {
+      "vendor": "anthropic",
+      "request": {
+        "thinking": {"type": "adaptive"},
+        "output_config": {"effort": "medium"}
+      },
+      "max_output_tokens": 16000
+    },
+    "gpt-6.1-sol": {
+      "vendor": "openai",
+      "request": {
+        "reasoning": {"effort": "medium"},
+        "store": false,
+        "include": ["reasoning.encrypted_content"]
+      },
+      "max_output_tokens": 16000
+    }
+  },
+  "sdk_pins": {
+    "anthropic": "1.16.0",
+    "openai": "3.35.1",
+    "mcp": "2.3.0"
+  }
+}
