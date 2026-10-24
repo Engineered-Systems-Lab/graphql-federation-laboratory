@@ -84,10 +84,6 @@ The template ships the rows of its own documents. A project that starts from it 
 | `federation/stack/*.yaml` | runtime | federation-integration | runtime | - | - | - | - | - |
 | `federation/stack/README.md` | record | record-only | - | - | - | - | - | - |
 | `federation/stack/start.sh` | runtime | federation-integration | runtime | - | - | - | - | - |
-| `scripts/assets.sh` | tooling | service-scripts | - | - | - | - | - | - |
-| `scripts/missions.sh` | tooling | service-scripts | - | - | - | - | - | - |
-| `scripts/personnel.sh` | tooling | service-scripts | - | - | - | - | - | - |
-| `scripts/tests/test_service_scripts.py` | tooling | service-scripts | - | - | - | - | - | - |
 | `study/README.md` | record | record-only | - | - | - | - | - | - |
 | `study/analysis/*.py` | tooling | study | - | - | - | - | - | - |
 | `study/analysis/*.txt` | tooling | study | - | - | - | - | - | - |
@@ -192,6 +188,10 @@ The template ships the rows of its own documents. A project that starts from it 
 | `uss-enterprise/personnel-v2/validation/*.py` | runtime | personnel-v2-runtime | runtime | - | - | - | - | - |
 | `uss-enterprise/personnel-v2/validation/personnel_v2_runtime.py` | tooling | personnel-v2-runtime | - | - | - | - | - | - |
 | `uss-enterprise/requirements.txt` | tooling | crew-offline | - | - | - | - | - | - |
+| `uss-enterprise/scripts/assets.sh` | tooling | service-scripts | - | - | - | - | - | - |
+| `uss-enterprise/scripts/missions.sh` | tooling | service-scripts | - | - | - | - | - | - |
+| `uss-enterprise/scripts/personnel.sh` | tooling | service-scripts | - | - | - | - | - | - |
+| `uss-enterprise/scripts/tests/test_service_scripts.py` | tooling | service-scripts | - | - | - | - | - | - |
 
 ## Historical paths
 
@@ -200,3 +200,7 @@ A deleted file keeps its Class and Subclass here, as the framework's [table](../
 | Path | Class | Subclass |
 | --- | --- | --- |
 | `REFACTORING-NOTES.md` | record | - |
+| `scripts/assets.sh` | tooling | - |
+| `scripts/missions.sh` | tooling | - |
+| `scripts/personnel.sh` | tooling | - |
+| `scripts/tests/test_service_scripts.py` | tooling | - |

@@ -8,7 +8,7 @@ URL="${URL%/}"
 
 usage() {
   cat <<'USAGE'
-Usage: scripts/assets.sh [--dry-run] <command> [args...]
+Usage: uss-enterprise/scripts/assets.sh [--dry-run] <command> [args...]
   list [name=value ...]    GET /assets; names: kind, category, status, parentAssetId, offset, limit
   get <assetId>            GET /assets/{id}, for example: get AST-0017
 Environment: ASSETS_URL (default http://127.0.0.1:8084)

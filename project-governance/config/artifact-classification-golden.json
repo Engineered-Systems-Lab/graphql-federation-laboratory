@@ -2129,50 +2129,6 @@
       "why": "Federation stack and shared acceptance suite; both router offline gates and both stacks; runtime boundary",
       "approval_sensitivity": "low"
     },
-    "scripts/assets.sh": {
-      "class": "tooling",
-      "profile": "service-scripts",
-      "boundary": [],
-      "bound": false,
-      "invariants": null,
-      "subclass": [],
-      "reachable": false,
-      "why": "read-only service script, imported as a set-up commit under D051",
-      "approval_sensitivity": "low"
-    },
-    "scripts/missions.sh": {
-      "class": "tooling",
-      "profile": "service-scripts",
-      "boundary": [],
-      "bound": false,
-      "invariants": null,
-      "subclass": [],
-      "reachable": false,
-      "why": "read-only service script, imported as a set-up commit under D051",
-      "approval_sensitivity": "low"
-    },
-    "scripts/personnel.sh": {
-      "class": "tooling",
-      "profile": "service-scripts",
-      "boundary": [],
-      "bound": false,
-      "invariants": null,
-      "subclass": [],
-      "reachable": false,
-      "why": "read-only service script, imported as a set-up commit under D051",
-      "approval_sensitivity": "low"
-    },
-    "scripts/tests/test_service_scripts.py": {
-      "class": "tooling",
-      "profile": "service-scripts",
-      "boundary": [],
-      "bound": false,
-      "invariants": null,
-      "subclass": [],
-      "reachable": false,
-      "why": "test of the service scripts, moved from the lab root; own profile service-scripts",
-      "approval_sensitivity": "low"
-    },
     "study/README.md": {
       "class": "record",
       "profile": "record-only",
@@ -8655,6 +8611,50 @@
       "subclass": [],
       "reachable": false,
       "why": "shared lxml pin of the legacy offline XSD checks; not frozen",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/scripts/assets.sh": {
+      "class": "tooling",
+      "profile": "service-scripts",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "read-only service script of the Assets system, moved from scripts/ to uss-enterprise/scripts/",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/scripts/missions.sh": {
+      "class": "tooling",
+      "profile": "service-scripts",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "read-only service script of the Missions system, moved from scripts/ to uss-enterprise/scripts/",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/scripts/personnel.sh": {
+      "class": "tooling",
+      "profile": "service-scripts",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "read-only service script of the Personnel v2 system, moved from scripts/ to uss-enterprise/scripts/",
+      "approval_sensitivity": "low"
+    },
+    "uss-enterprise/scripts/tests/test_service_scripts.py": {
+      "class": "tooling",
+      "profile": "service-scripts",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "test of the service scripts, moved from scripts/tests/ to uss-enterprise/scripts/tests/; own profile service-scripts",
       "approval_sensitivity": "low"
     }
   }

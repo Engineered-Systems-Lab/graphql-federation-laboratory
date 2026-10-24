@@ -8,7 +8,7 @@ URL="${URL%/}"
 
 usage() {
   cat <<'USAGE'
-Usage: scripts/missions.sh [--dry-run] <command> [args...]
+Usage: uss-enterprise/scripts/missions.sh [--dry-run] <command> [args...]
   list [name=value ...]    GET /missions; names: type, classification, status, priority, issuingAuthority,
                            commandingOfficerId, assignedCrewId, assignedAssetId, locationType, page, pageSize
   get <missionId>          GET /missions/{id}

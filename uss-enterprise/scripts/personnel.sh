@@ -10,7 +10,7 @@ URL="${URL%/}"
 
 usage() {
   cat <<'USAGE'
-Usage: scripts/personnel.sh [--dry-run] <command> [args...]
+Usage: uss-enterprise/scripts/personnel.sh [--dry-run] <command> [args...]
   get <personnelId>              GetPersonnelMember, for example: get PRS-0001
   list [name=value ...]          ListPersonnelMembers; names: department, dutyStatus, offset, limit
 Environment: PERSONNEL_URL (default http://127.0.0.1:8082/soap/personnel-v2)

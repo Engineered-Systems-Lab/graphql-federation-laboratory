@@ -1,4 +1,4 @@
-"""scripts/personnel.sh, scripts/missions.sh and scripts/assets.sh: the requests they build, their usage and exit codes, and the down message.
+"""uss-enterprise/scripts/personnel.sh, uss-enterprise/scripts/missions.sh and uss-enterprise/scripts/assets.sh: the requests they build, their usage and exit codes, and the down message.
 
 The Personnel request is compared with the one the acceptance test sends: the namespaces come from the service's own
 Xml.java, and the test first checks that SoapHttpTest.java still builds its envelope and request elements the way this
@@ -17,8 +17,8 @@ import unittest
 
 from lxml import etree
 
-ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / 'scripts'
+ROOT = Path(__file__).resolve().parents[3]
+SCRIPTS = ROOT / 'uss-enterprise' / 'scripts'
 PERSONNEL = ROOT / 'uss-enterprise' / 'personnel-v2'
 JAVA = PERSONNEL / 'src' / 'test' / 'java' / 'lab' / 'enterprise' / 'personnel' / 'SoapHttpTest.java'
 XML_JAVA = PERSONNEL / 'src' / 'main' / 'java' / 'lab' / 'enterprise' / 'personnel' / 'Xml.java'
@@ -192,7 +192,7 @@ class ServiceScriptsTest(unittest.TestCase):
                 with self.subTest(name=name, flag=flag):
                     result = self.run_script(name, [flag])
                     self.assertEqual(result.returncode, 0)
-                    self.assertIn('Usage: scripts/' + name, result.stdout)
+                    self.assertIn('Usage: uss-enterprise/scripts/' + name, result.stdout)
                     self.assertIn('--dry-run', result.stdout)
                     self.assertEqual(result.stderr, '')
 
@@ -211,7 +211,7 @@ class ServiceScriptsTest(unittest.TestCase):
                     result = self.run_script(name, args)
                     self.assertEqual(result.returncode, 2, result.stderr)
                     self.assertEqual(result.stdout, '')
-                    self.assertIn('Usage: scripts/' + name, result.stderr)
+                    self.assertIn('Usage: uss-enterprise/scripts/' + name, result.stderr)
 
     # --- a service that is not running ------------------------------------------------------------------------------
 
