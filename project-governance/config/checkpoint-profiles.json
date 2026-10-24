@@ -36,7 +36,7 @@
       ]
     },
     "personnel-v2-runtime": {
-      "limitations": "Personnel v2 native/container/SOAP evidence. Existing Java gate also checks v1 compatibility; no Missions or human acceptance.",
+      "limitations": "Personnel v2 native/container/SOAP evidence. Existing Java gate also checks v1 compatibility; no Missions or human acceptance. The rows of the service code, pom.xml, Dockerfile and compose file also add, through their invariants, the federation Personnel service gate and both whole-stack gates (Apollo and Cosmo); the contract rows add the federation Personnel adapter offline and service gates and both whole-stack gates; and the dataset rows add those and the federation mapping offline gate, both router offline gates and the study tests, which read the snapshot personnel-v2-large-004.",
       "runtime_checks": [
         "runtime-java",
         "runtime-container",
@@ -113,7 +113,7 @@
       ]
     },
     "missions-data": {
-      "limitations": "Missions data evidence for the implemented slice only. Missing, empty or skipped suites fail; no Personnel or manual acceptance claim. See governance/CHECKPOINT-TOOL.md.",
+      "limitations": "Missions data evidence for the implemented slice only. Missing, empty or skipped suites fail; no Personnel or manual acceptance claim. See governance/CHECKPOINT-TOOL.md. The rows of the released dataset (its XML and JSON files) also add, through their invariant, the federation Missions adapter offline gate, the federation mapping offline gate, both router offline gates, both whole-stack gates (Apollo and Cosmo) and the study tests, which read release 1.2.",
       "runtime_checks": [
         "missions-offline",
         "missions-data"
@@ -245,7 +245,7 @@
       ]
     },
     "assets-contract": {
-      "limitations": "Assets executable contract and dataset (OpenAPI, fixtures, dataset release 1.0, offline validators and their tests, which include the service's database-free unit tests) evidence only; no Personnel or Missions gates, and no Assets service, database, container or acceptance claim.",
+      "limitations": "Assets executable contract and dataset (OpenAPI, fixtures, dataset release 1.0, offline validators and their tests, which include the service's database-free unit tests) evidence only; no Personnel or Missions gates, and no Assets service, database, container or acceptance claim. The rows of the open contract and fixtures also add, through their invariant, the federation Assets adapter offline and service gates and both whole-stack gates (Apollo and Cosmo), and the row of the released dataset adds the federation mapping offline gate, both router offline gates, both whole-stack gates and the study tests, which read release 1.1.",
       "runtime_checks": [
         "assets-offline",
         "assets-offline-tests"
@@ -283,7 +283,7 @@
       ]
     },
     "assets-service": {
-      "limitations": "Assets read service evidence for the implemented slice only: the offline contract and dataset checks and the service against a real disposable PostgreSQL 17 container (Docker required; a missing Docker, image or driver is a failure, never a skip). No Personnel or Missions gates, and no packaging, federation or human acceptance claim (the packaging profile owns the Dockerfile and compose file).",
+      "limitations": "Assets read service evidence for the implemented slice only: the offline contract and dataset checks and the service against a real disposable PostgreSQL 17 container (Docker required; a missing Docker, image or driver is a failure, never a skip). No Personnel or Missions gates, and no packaging, federation or human acceptance claim (the packaging profile owns the Dockerfile and compose file). The rows of the service code, the schema and the requirements also add, through their invariant, the federation gates that run this service: the federation Assets service gate and both whole-stack gates (Apollo and Cosmo).",
       "runtime_checks": [
         "assets-offline",
         "assets-offline-tests",
@@ -330,7 +330,7 @@
       ]
     },
     "assets-packaging": {
-      "limitations": "Assets packaging evidence for the implemented slice only: the offline contract and dataset checks, the service against a real disposable PostgreSQL 17 container, and the committed Dockerfile, compose file and start script built and run through Docker Compose on an ephemeral loopback port (Docker required; a missing Docker or image is a failure, never a skip). No Personnel or Missions gates, and no federation, orchestration, registry or human acceptance claim.",
+      "limitations": "Assets packaging evidence for the implemented slice only: the offline contract and dataset checks, the service against a real disposable PostgreSQL 17 container, and the committed Dockerfile, compose file and start script built and run through Docker Compose on an ephemeral loopback port (Docker required; a missing Docker or image is a failure, never a skip). No Personnel or Missions gates, and no federation, orchestration, registry or human acceptance claim. The rows of the image files (the Dockerfile, .dockerignore, compose file, start script and .env.example) and of the bootstrap also add, through their invariant, the federation gates that run this service: the federation Assets service gate and both whole-stack gates (Apollo and Cosmo).",
       "runtime_checks": [
         "assets-offline",
         "assets-offline-tests",
@@ -502,7 +502,7 @@
       ]
     },
     "federation-assets-adapter": {
-      "limitations": "The federation Assets adapter's own files (not its pom.xml, which the reactor shares): its offline gate, its gate against the real Assets service, and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "limitations": "The federation Assets adapter's own files (not its pom.xml, which the reactor shares): its offline gate, its gate against the real Assets service, and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. Docker required; a missing Docker, image or build is a failure, never a skip. No benchmark or human acceptance claim.",
       "runtime_checks": [
         "federation-assets-offline",
         "federation-assets-service",
@@ -557,7 +557,7 @@
       ]
     },
     "federation-mapping-adapter": {
-      "limitations": "The federation mapping adapter's own files (not its pom.xml, which the reactor shares): its offline gate and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "limitations": "The federation mapping adapter's own files (not its pom.xml, which the reactor shares): its offline gate and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. Docker required; a missing Docker, image or build is a failure, never a skip. No benchmark or human acceptance claim.",
       "runtime_checks": [
         "federation-mapping-offline",
         "federation-router-apollo-stack",
@@ -602,7 +602,7 @@
       ]
     },
     "federation-missions-adapter": {
-      "limitations": "The federation Missions adapter's own files (not its pom.xml, which the reactor shares): its offline gate and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. The adapter's service stage against the real Missions service on Oracle is run deliberately, not selected here. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "limitations": "The federation Missions adapter's own files (not its pom.xml, which the reactor shares): its offline gate and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. The adapter's service stage against the real Missions service on Oracle is run deliberately, not selected here. Docker required; a missing Docker, image or build is a failure, never a skip. No benchmark or human acceptance claim.",
       "runtime_checks": [
         "federation-missions-offline",
         "federation-router-apollo-stack",
@@ -647,7 +647,7 @@
       ]
     },
     "federation-personnel-adapter": {
-      "limitations": "The federation Personnel adapter's own files (not its pom.xml, which the reactor shares): its offline gate, its gate against the real Personnel v2 service, and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "limitations": "The federation Personnel adapter's own files (not its pom.xml, which the reactor shares): its offline gate, its gate against the real Personnel v2 service, and both whole-stack gates (Apollo and Cosmo), which build all four adapter images and run the acceptance through each router. Docker required; a missing Docker, image or build is a failure, never a skip. No benchmark or human acceptance claim.",
       "runtime_checks": [
         "federation-personnel-offline",
         "federation-personnel-service",
@@ -702,7 +702,7 @@
       ]
     },
     "federation-apollo": {
-      "limitations": "The Apollo router's files and its README (the offline gate asserts README facts): the Apollo router offline gate and both whole-stack gates, because the Cosmo stack also reads the committed Apollo supergraph. The Apollo stack gate needs APOLLO_ELV2_LICENSE=accept set by the person who runs it. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "limitations": "The Apollo router's files and its README (the offline gate asserts README facts): the Apollo router offline gate and both whole-stack gates, because the Cosmo stack also reads the committed Apollo supergraph. The Apollo stack gate needs APOLLO_ELV2_LICENSE=accept set by the person who runs it. Docker required; a missing Docker, image or build is a failure, never a skip. No benchmark or human acceptance claim.",
       "runtime_checks": [
         "federation-router-apollo-offline",
         "federation-router-apollo-stack",
@@ -747,7 +747,7 @@
       ]
     },
     "federation-cosmo": {
-      "limitations": "The Cosmo router's files and its README (the offline gate asserts README facts): the Cosmo router offline gate and the Cosmo whole-stack gate. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "limitations": "The Cosmo router's files and its README (the offline gate asserts README facts): the Cosmo router offline gate and the Cosmo whole-stack gate. Docker required; a missing Docker, image or build is a failure, never a skip. No benchmark or human acceptance claim.",
       "runtime_checks": [
         "federation-router-cosmo-offline",
         "federation-router-cosmo-stack"
@@ -782,7 +782,7 @@
       ]
     },
     "federation-integration": {
-      "limitations": "The federation stack (compose file, start script, Missions stub) and the shared acceptance suite: both router offline gates and both whole-stack gates. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "limitations": "The federation stack (compose file, start script, Missions stub) and the shared acceptance suite: both router offline gates and both whole-stack gates. Docker required; a missing Docker, image or build is a failure, never a skip. No benchmark or human acceptance claim.",
       "runtime_checks": [
         "federation-router-apollo-offline",
         "federation-router-apollo-stack",
@@ -837,7 +837,7 @@
       ]
     },
     "federation-mapping-data": {
-      "limitations": "The mapping releases and the Personnel mapping data and scripts: the mapping adapter offline gate, both router offline gates (the acceptance outcomes are derived from mapping release 1.3), both whole-stack gates, and the study tests, because the study corpus is derived from mapping release 1.3. Docker required; a missing Docker, image or build is a failure, never a skip. The cross-system dependencies (the Assets and Personnel v2 services, the Missions release and the released data the gates read) are not yet mapped: until they are, a change to them runs the dependent federation gates by hand. No benchmark or human acceptance claim.",
+      "limitations": "The mapping releases and the Personnel mapping data and scripts: the mapping adapter offline gate, both router offline gates (the acceptance outcomes are derived from mapping release 1.3), both whole-stack gates, and the study tests, because the study corpus is derived from mapping release 1.3. Docker required; a missing Docker, image or build is a failure, never a skip. No benchmark or human acceptance claim.",
       "runtime_checks": [
         "federation-mapping-offline",
         "federation-router-apollo-offline",
@@ -981,6 +981,81 @@
           ]
         }
       ]
+    }
+  },
+  "impact": {
+    "invariants": {
+      "federation-stacks": {
+        "groups": [
+          "federation-router-apollo-stack",
+          "federation-router-cosmo-stack"
+        ]
+      },
+      "federation-router-offline": {
+        "groups": [
+          "federation-router-apollo-offline",
+          "federation-router-cosmo-offline"
+        ]
+      },
+      "federation-assets-service-readers": {
+        "groups": [
+          "federation-assets-service"
+        ],
+        "requires": [
+          "federation-stacks"
+        ]
+      },
+      "federation-assets-adapter-readers": {
+        "groups": [
+          "federation-assets-offline",
+          "federation-assets-service"
+        ],
+        "requires": [
+          "federation-stacks"
+        ]
+      },
+      "federation-personnel-service-readers": {
+        "groups": [
+          "federation-personnel-service"
+        ],
+        "requires": [
+          "federation-stacks"
+        ]
+      },
+      "federation-personnel-adapter-readers": {
+        "groups": [
+          "federation-personnel-offline",
+          "federation-personnel-service"
+        ],
+        "requires": [
+          "federation-stacks"
+        ]
+      },
+      "released-data-readers": {
+        "groups": [
+          "federation-mapping-offline",
+          "study-tests"
+        ],
+        "requires": [
+          "federation-router-offline",
+          "federation-stacks"
+        ]
+      },
+      "missions-release-readers": {
+        "groups": [
+          "federation-missions-offline"
+        ],
+        "requires": [
+          "released-data-readers"
+        ]
+      },
+      "personnel-data-readers": {
+        "groups": [],
+        "requires": [
+          "federation-personnel-adapter-readers",
+          "released-data-readers"
+        ]
+      }
     }
   }
 }

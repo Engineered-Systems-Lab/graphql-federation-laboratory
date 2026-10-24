@@ -2835,7 +2835,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -2848,7 +2850,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -2861,7 +2865,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -2885,7 +2891,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -2912,7 +2920,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -2925,7 +2935,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "released-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -2951,7 +2963,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "released-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -2964,7 +2978,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "released-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -2990,7 +3006,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "released-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3003,7 +3021,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "released-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3016,7 +3036,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "released-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3029,7 +3051,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "released-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3055,7 +3079,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "released-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3068,7 +3094,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "released-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3305,7 +3333,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3318,7 +3348,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3331,7 +3363,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3344,7 +3378,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3357,7 +3393,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3370,7 +3408,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3383,7 +3423,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3396,7 +3438,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3409,7 +3453,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3422,7 +3468,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3435,7 +3483,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3448,7 +3498,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3461,7 +3513,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3474,7 +3528,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3487,7 +3543,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3500,7 +3558,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3513,7 +3573,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3526,7 +3588,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3539,7 +3603,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3552,7 +3618,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3565,7 +3633,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3578,7 +3648,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3591,7 +3663,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3604,7 +3678,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3617,7 +3693,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3630,7 +3708,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3643,7 +3723,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3656,7 +3738,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3669,7 +3753,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3682,7 +3768,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3695,7 +3783,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3708,7 +3798,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3721,7 +3813,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3734,7 +3828,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3747,7 +3843,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3760,7 +3858,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3773,7 +3873,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3786,7 +3888,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3799,7 +3903,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3812,7 +3918,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3825,7 +3933,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -3838,7 +3948,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -4117,7 +4229,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -4130,7 +4244,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -4143,7 +4259,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -4156,7 +4274,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -4169,7 +4289,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -4182,7 +4304,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -4195,7 +4319,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -4208,7 +4334,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-assets-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Assets, imported as a set-up commit under D051; runtime boundary",
@@ -6028,7 +6156,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6067,7 +6197,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6080,7 +6212,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6093,7 +6227,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6106,7 +6242,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6119,7 +6257,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6132,7 +6272,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6171,7 +6313,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6184,7 +6328,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6197,7 +6343,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6210,7 +6358,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6223,7 +6373,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6249,7 +6401,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6262,7 +6416,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6275,7 +6431,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6288,7 +6446,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6301,7 +6461,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6314,7 +6476,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6327,7 +6491,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6340,7 +6506,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6353,7 +6521,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6366,7 +6536,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6379,7 +6551,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6392,7 +6566,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6405,7 +6581,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6418,7 +6596,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6431,7 +6611,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6444,7 +6626,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6457,7 +6641,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6470,7 +6656,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6483,7 +6671,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6522,7 +6712,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6535,7 +6727,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6548,7 +6742,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6561,7 +6757,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6574,7 +6772,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6587,7 +6787,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6600,7 +6802,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6613,7 +6817,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6626,7 +6832,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6639,7 +6847,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6652,7 +6862,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6678,7 +6890,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6691,7 +6905,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6704,7 +6920,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6717,7 +6935,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6730,7 +6950,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6743,7 +6965,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6756,7 +6980,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6769,7 +6995,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6782,7 +7010,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6795,7 +7025,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6808,7 +7040,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6821,7 +7055,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6834,7 +7070,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6847,7 +7085,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6860,7 +7100,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6873,7 +7115,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6886,7 +7130,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6899,7 +7145,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6912,7 +7160,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6925,7 +7175,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6938,7 +7190,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6977,7 +7231,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -6990,7 +7246,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7003,7 +7261,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7016,7 +7276,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7029,7 +7291,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7042,7 +7306,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7055,7 +7321,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7068,7 +7336,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7081,7 +7351,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7094,7 +7366,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7107,7 +7381,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "missions-release-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Missions, imported as a set-up commit under D051; runtime boundary",
@@ -7877,7 +8153,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -7901,7 +8179,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -7914,7 +8194,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -7927,7 +8209,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-adapter-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -7940,7 +8224,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -7953,7 +8239,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -7966,7 +8254,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -7979,7 +8269,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -7992,7 +8284,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8005,7 +8299,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8018,7 +8314,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8031,7 +8329,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8044,7 +8344,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8057,7 +8359,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8070,7 +8374,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8083,7 +8389,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8096,7 +8404,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8109,7 +8419,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "personnel-data-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8122,7 +8434,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8135,7 +8449,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8148,7 +8464,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8161,7 +8479,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8174,7 +8494,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8187,7 +8509,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8200,7 +8524,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8213,7 +8539,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8226,7 +8554,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8239,7 +8569,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8252,7 +8584,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8265,7 +8599,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
@@ -8278,7 +8614,9 @@
         "runtime"
       ],
       "bound": false,
-      "invariants": null,
+      "invariants": [
+        "federation-personnel-service-readers"
+      ],
       "subclass": [],
       "reachable": false,
       "why": "Personnel v2, imported as a set-up commit under D051; runtime boundary",
