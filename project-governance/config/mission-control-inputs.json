@@ -11,9 +11,22 @@
         "README.md",
         "devlog/CONVENTIONS.md",
         "devlog/README.md",
+        "docs/AGENT-STUDY-REPORT.md",
         "docs/ARCHITECTURE.md",
+        "docs/ASSETS-V1-DESIGN.md",
+        "docs/CREW-PERSONNEL-DATASET-003-DESIGN.md",
+        "docs/CREW-PERSONNEL-JAVA-V1-VALIDATION.md",
+        "docs/CREW-PERSONNEL-V1.md",
+        "docs/FEDERATION-DESIGN.md",
+        "docs/FUTURE-SOA-BPM-REQUIREMENTS.md",
+        "docs/INTEGRATION-NOTES.md",
+        "docs/MISSIONS-V1-DESIGN.md",
+        "docs/PERSONNEL-V2-MISSIONS-IDENTITY-DESIGN.md",
+        "docs/PERSONNEL-V2-VALIDATION.md",
+        "docs/PERSONNEL-V2.md",
         "docs/PLAN.md",
         "docs/PROGRESS.md",
+        "docs/SERVICE-SCRIPTS.md",
         "project-governance/CONSTRAINTS.md"
       ]
     },
@@ -23,5 +36,65 @@
       ]
     }
   },
+  "groups": [
+    {
+      "label": "Crew & Personnel v1 (deprecated)",
+      "paths": [
+        "docs/CREW-PERSONNEL-V1.md",
+        "docs/CREW-PERSONNEL-DATASET-003-DESIGN.md",
+        "docs/CREW-PERSONNEL-JAVA-V1-VALIDATION.md"
+      ]
+    },
+    {
+      "label": "Personnel v2",
+      "paths": [
+        "docs/PERSONNEL-V2.md",
+        "docs/PERSONNEL-V2-VALIDATION.md"
+      ]
+    },
+    {
+      "label": "Missions",
+      "paths": [
+        "docs/MISSIONS-V1-DESIGN.md"
+      ]
+    },
+    {
+      "label": "Assets",
+      "paths": [
+        "docs/ASSETS-V1-DESIGN.md"
+      ]
+    },
+    {
+      "label": "Cross-system identity",
+      "paths": [
+        "docs/PERSONNEL-V2-MISSIONS-IDENTITY-DESIGN.md"
+      ]
+    },
+    {
+      "label": "GraphQL Federation",
+      "paths": [
+        "docs/FEDERATION-DESIGN.md",
+        "docs/INTEGRATION-NOTES.md"
+      ]
+    },
+    {
+      "label": "Abstraction ladder study",
+      "paths": [
+        "docs/AGENT-STUDY-REPORT.md"
+      ]
+    },
+    {
+      "label": "Future SOA/BPM",
+      "paths": [
+        "docs/FUTURE-SOA-BPM-REQUIREMENTS.md"
+      ]
+    },
+    {
+      "label": "Operations",
+      "paths": [
+        "docs/SERVICE-SCRIPTS.md"
+      ]
+    }
+  ],
   "version": 1
 }

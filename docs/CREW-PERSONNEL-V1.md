@@ -2,6 +2,8 @@
 
 Status: **FROZEN**, confirmed 2026-09-30. Executable XSD/WSDL, fixtures and offline checks now exist; no service exists yet. The wire semantics and six-record baseline below are unchanged. These are lab design choices, not claims about Star Trek canon.
 
+**Deprecated (2026-10-21).** Crew & Personnel v1 is deprecated and frozen under [D050](../project-governance/DECISIONS.md#d050---crew--personnel-v1-is-deprecated-and-frozen-2026-10-21-accepted): it stays readable and runnable as a reference, its released datasets and this contract keep their identity, and no new work builds on it. Personnel v2 ([its design](PERSONNEL-V2.md)) is the current Personnel system. The rest of this specification is unchanged.
+
 ## Purpose and ownership
 
 Crew & Personnel is the ship's legacy personnel roster, implemented in Java with a SOAP/XML interface. Its planned component path is `uss-enterprise/crew-personnel/` inside `graphql-federation-lab`.

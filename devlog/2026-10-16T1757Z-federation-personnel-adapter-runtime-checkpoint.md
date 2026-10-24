@@ -1,0 +1,35 @@
+# The federation Personnel adapter is built over the SOAP service
+
+Date: 2026-10-16T17:57Z
+Subject: Committed the Personnel subgraph of the federation layer, read from the real SOAP service
+Status: Historical / non-normative
+Lab checkpoint: lab commit `21a76328252304759b761001eb0c2ffa6a54ec0f`
+Provenance: Git committer timestamp `2026-10-16T13:57:01-04:00` (2026-10-16 17:57:01 UTC), converted to the prescribed UTC minute. This dates the runtime commit, not the design talks that decided the content or this later record preparation. The lead developer answered in the session that Docker builds and disposable containers were approved for both gate stages, typed a go at the preview (the manifest was not eligible for early approval, so the go only staged and sealed; a first go, given before the preview had been shown in the conversation, was not used) and selected Approve on the sealed review through the host's control.
+Migrated from lab log SD-2026.289-1757Z; originally written in the lab on 2026-10-16 (lab commit `ac600909bc9b0280ccf67fc776d1c2aee7fabe91`).
+
+## Meaningful transition
+
+The federation layer gained its fourth adapter and the first one that reads a SOAP service. The commit is on the owned branch `tx/20261016-federation-personnel-adapter`, parent lab commit `3ae138237becd5352ca9e63de315842c38dae596`, tree `09e0b24`, 28 paths, +3057/-5. Exact subject: **Add the federation Personnel adapter and extend the federation check profile for it**. At the time of this record the commit is not integrated into main.
+
+The adapter `federation/adapters/personnel` serves the Personnel v2 SOAP service as a subgraph on port 8182: the entity `Personnel` (`@key personnelId`) with `details`, a union of `CrewDetails` and `CivilianDetails` that mirrors the contract's choice; the list type `PersonnelPage`; the reference type `PersonnelReference` (`@key(fields: "localRef release")`, `personnelId` external and `id`, `resolution` and `personnel` each `@requires(fields: "personnelId")`); the queries `personnel` and `personnelMembers`. Only the Federation features `@key`, `@requires` and `@external` are used.
+
+## Choices recorded
+
+- **The SOAP client** is hand-written SOAP 1.1 envelopes sent with the JDK HTTP client and the JDK DOM parser, so no dependency was added. A client generated from the WSDL (JAX-WS with Apache CXF, or Spring Web Services) was not chosen: it would add a SOAP stack, a generation step and libraries to pin for two small operations. The cost is that the adapter's reading of the contract is its own code, which the tests check against the real XSD and snapshots.
+- **The parser** refuses any DOCTYPE, as the Missions adapter's does, and accepts a body only if it reads as the contract says (the envelope, the element order, no attribute, the id grammar, the enum tokens, names of 1 to 100 code points, exactly one of the two details, an empty `civilianDetails`, ascending order, a page that agrees with its own counts). The member must be the one asked for and the page must echo the offset and the limit asked for.
+- **`CivilianDetails` has one nullable placeholder field**, always null, because GraphQL has no object type without fields. A non-null always-true field was not chosen because a client would then read a value the service never sent.
+- **The list result is a page type** carrying `datasetVersion`, because the contract says a consumer restarts at offset 0 when the version changes and the adapter holds no state; it exposes the version on every page and the candidate code DATASET_CHANGED is not used. Only a list page carries it: the entity has no such field.
+- **Outcomes:** the fault PersonnelNotFound is UNRESOLVED with no errors entry and a null `personnel(personnelId)`; a connection failure, a timeout and any other 5xx (the faults ServiceUnavailable and InternalError included) are SERVICE_UNAVAILABLE with one entry per failed call; a body the adapter cannot use is UPSTREAM_BAD_RESPONSE; the fault InvalidRequest is BAD_USER_INPUT for a client's id and UPSTREAM_BAD_RESPONSE for an id the mapping handed on; a reference with no `personnelId` is UNMAPPED with no call. An id with a character outside printable ASCII is BAD_USER_INPUT and is never sent, because a control character cannot be written in XML; any other malformed id is sent escaped and the service owns the verdict.
+- **Paging** is one call per page (the service allows 100); a limit above 100 or below 1 or a negative offset is BAD_USER_INPUT without a call; a null offset or limit means the default; a page is all or nothing.
+- **Found:** the first request of a cold JVM can exceed the adapter's 1.5 s read timeout, so the service gate warms the service up before its first assertion; the first service run failed for that reason alone.
+- **Checks:** the profile `federation-adapter-runtime` gained `federation-personnel-offline` and `federation-personnel-service`. The service gate is selected, like the Assets one, because the service is light and needs no database; the lead developer was shown this in the preview. The gate builds the service image from the component's Dockerfile and runs it on a private network with no published port, because the component's compose file publishes the fixed host port 8082.
+
+## Retained evidence and limits
+
+Pre-commit checks of the seal, all exit 0: staged whitespace (0.9 s), continuity (171.7 s), `mission-control-generator` (328.4 s), `federation-assets-offline` (73.1 s), `federation-assets-service` (77.5 s), `federation-mapping-offline` (65.0 s), `federation-missions-offline` (71.8 s), `federation-personnel-offline` (75.2 s, 14 tests, of which 44 Java tests run inside the image build), `federation-personnel-service` (70.3 s, 8 tests), `checkpoint-selector` (72.0 s), `classification-tests` (12.4 s), `checkpoint-invariants` (270.5 s) and `commit-metadata` (71.8 s); the seal took 22 m 41 s, slower than usual because the machine was busy. The service gate covered every member of the default snapshot, the page and the filters, the Wesley case across a restart with the first snapshot (one personnel identity, a civilian in one and a crew ensign in the other), the four outcomes of a reference, the failure profiles `unavailable` and `slow` and a stopped service.
+
+Limits: **the live crew path through the mapping subgraph is not built**. The mapping release 1.0 holds assets only, so no subgraph contributes `personnelId` and every crew reference is UNMAPPED in the graph; the reference logic was tested with a stub and with representations that carry the id directly. Composition with the other subgraphs was not tested. No router and no whole-stack compose exist, and the Missions adapter's crew references stay raw strings. The nested supervisor object is not built. Nothing is marked `frozen`.
+
+## Follow-up
+
+The verified runtime commit entered the continuity-follow-up-pending state until this separately approved Progress and index change advanced `implementation_checkpoint`. [Progress](../docs/PROGRESS.md) owns current state. Integration of the exact tip and removal of the owned worktree follow after continuity passes. No push.

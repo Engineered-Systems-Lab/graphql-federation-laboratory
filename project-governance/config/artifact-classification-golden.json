@@ -45,6 +45,54 @@
       "boundary": [],
       "why": "only .md files are accepted under devlog; anything else fails closed"
     },
+    "docs/AGENT-STUDY-REPORT.md": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "the Abstraction ladder study report; results, not rules",
+      "approval_sensitivity": "low"
+    },
+    "docs/ASSETS-V1-DESIGN.md": {
+      "class": "governance",
+      "profile": "governance",
+      "boundary": [],
+      "bound": false,
+      "invariants": [
+        "guidance"
+      ],
+      "subclass": [],
+      "reachable": false,
+      "why": "the Assets design; normative for the component",
+      "approval_sensitivity": "low"
+    },
+    "docs/CREW-PERSONNEL-DATASET-003-DESIGN.md": {
+      "class": "governance",
+      "profile": "governance",
+      "boundary": [],
+      "bound": false,
+      "invariants": [
+        "guidance"
+      ],
+      "subclass": [],
+      "reachable": true,
+      "why": "the design of Crew & Personnel dataset 003; normative for the release",
+      "approval_sensitivity": "low"
+    },
+    "docs/CREW-PERSONNEL-JAVA-V1-VALIDATION.md": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": true,
+      "why": "the Crew & Personnel v1 validation report; evidence, not rules",
+      "approval_sensitivity": "low"
+    },
     "docs/CREW-PERSONNEL-V1.md": {
       "class": "runtime",
       "profile": "crew-offline",
@@ -54,6 +102,93 @@
       "subclass": [],
       "reachable": false,
       "why": "Crew & Personnel v1, imported under a temporary open row; freeze_systems blocks and freezes it",
+      "approval_sensitivity": "low"
+    },
+    "docs/FEDERATION-DESIGN.md": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": [
+        "guidance"
+      ],
+      "subclass": [],
+      "reachable": true,
+      "why": "the federation design record; it decides nothing of its own",
+      "approval_sensitivity": "low"
+    },
+    "docs/FUTURE-SOA-BPM-REQUIREMENTS.md": {
+      "class": "governance",
+      "profile": "governance",
+      "boundary": [],
+      "bound": false,
+      "invariants": [
+        "guidance"
+      ],
+      "subclass": [],
+      "reachable": false,
+      "why": "the future SOA/BPM responsibility boundary and requirements",
+      "approval_sensitivity": "low"
+    },
+    "docs/INTEGRATION-NOTES.md": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": true,
+      "why": "non-normative integration notes and findings",
+      "approval_sensitivity": "low"
+    },
+    "docs/MISSIONS-V1-DESIGN.md": {
+      "class": "governance",
+      "profile": "governance",
+      "boundary": [],
+      "bound": false,
+      "invariants": [
+        "guidance"
+      ],
+      "subclass": [],
+      "reachable": false,
+      "why": "the Missions design; normative for the component",
+      "approval_sensitivity": "low"
+    },
+    "docs/PERSONNEL-V2-MISSIONS-IDENTITY-DESIGN.md": {
+      "class": "governance",
+      "profile": "governance",
+      "boundary": [],
+      "bound": false,
+      "invariants": [
+        "guidance"
+      ],
+      "subclass": [],
+      "reachable": false,
+      "why": "the cross-system identity design of Personnel v2 and Missions",
+      "approval_sensitivity": "low"
+    },
+    "docs/PERSONNEL-V2-VALIDATION.md": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "the Personnel v2 validation report; evidence, not rules",
+      "approval_sensitivity": "low"
+    },
+    "docs/PERSONNEL-V2.md": {
+      "class": "governance",
+      "profile": "governance",
+      "boundary": [],
+      "bound": false,
+      "invariants": [
+        "guidance"
+      ],
+      "subclass": [],
+      "reachable": false,
+      "why": "the Personnel v2 design; normative for the component",
       "approval_sensitivity": "low"
     },
     "docs/PROGRESS.md": {
@@ -67,6 +202,61 @@
       ],
       "reachable": true,
       "why": "current status; a record that is sealed into approvals",
+      "approval_sensitivity": "low"
+    },
+    "docs/SERVICE-SCRIPTS.md": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "what the read-only service scripts are for",
+      "approval_sensitivity": "low"
+    },
+    "docs/agent-study/accuracy.svg": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "figures of the Abstraction ladder study report",
+      "approval_sensitivity": "low"
+    },
+    "docs/agent-study/comparisons.svg": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "figures of the Abstraction ladder study report",
+      "approval_sensitivity": "low"
+    },
+    "docs/agent-study/cost.svg": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "figures of the Abstraction ladder study report",
+      "approval_sensitivity": "low"
+    },
+    "docs/agent-study/seconds.svg": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "figures of the Abstraction ladder study report",
       "approval_sensitivity": "low"
     },
     "docs/timings/example.jsonl": {

@@ -1,0 +1,32 @@
+# Assets settles nine named kinds and contract 1.0
+
+Date: 2026-10-15T15:19Z
+Subject: Committed rename of the Assets kind SHIP to STARSHIP, the five named equipment kinds that replace the generic kind EQUIPMENT, and the numbered decision D036 that settles the Assets contract 1.0
+Status: Historical / non-normative
+Lab checkpoint: lab commit `a4437f373bca3ec23a87c4d2e8f90d5225f9513d`
+Provenance: Git committer timestamp `2026-10-15T11:19:37-04:00` (2026-10-15 15:19:37 UTC), converted to the prescribed UTC minute. This dates the runtime commit, not the review talks that decided the content or this later record preparation. The lead developer's typed go at the preview (preview `50e8ebcf75c7d004d5f99d1eae924411`, early conditional approval) was accepted by the tool because the sealed result equalled the previewed candidate and every check passed.
+Migrated from lab log SD-2026.288-1519Z; originally written in the lab on 2026-10-15 (lab commit `5e46c038ff33158adc7df98f8423ec22d319f3ba`).
+
+## Meaningful transition
+
+Two questions of the lead developer changed the kind list before the Assets contract was settled. They asked whether a shuttle is a ship, since a shuttle is a small craft and the kind SHIP read as the generic word, and agreed that the Enterprise is a starship: the kind became STARSHIP. Later they recalled that phaser and tricorder were meant to be kinds of their own under the category EQUIPMENT; the Coordinator checked that no recorded decision listed equipment kinds and that the landed contract had one kind EQUIPMENT with those two only as examples, and the lead developer chose to fix it before settling the contract. They found a generic INSTRUMENT ambiguous between musical and scientific and asked for MUSICAL_INSTRUMENT, and kept COMMUNICATOR.
+
+The commit is the closing slice of the Assets contract, on the owned branch `tx/assets-freeze-2`, parent lab commit `4419d0774bde324744fdf40a08e71cec7e2d3682`, tree `e7cafd3`, 30 paths, +196/-81. Exact subject: **Replace the Assets kinds SHIP and EQUIPMENT with nine named kinds and record the Assets contract 1.0 decision**. At the time of this record the commit is not integrated into main.
+
+What changed: the kind enum is STARSHIP, SHUTTLE, ROVER, ARMORED_VEHICLE, PHASER, TRICORDER, COMMUNICATOR, SCIENTIFIC_INSTRUMENT and MUSICAL_INSTRUMENT, with one definition each in the contract and in [the design document](../docs/ASSETS-V1-DESIGN.md); the first four map to the category VEHICLE and can carry other assets, the other five to the category EQUIPMENT and cannot; there is no generic kind, and the category name EQUIPMENT stays. The SHUTTLE definition says that a runabout counts as a SHUTTLE until a scenario needs a separate kind. Every equipment example now carries a specific kind, a musical instrument example was added and the starship example file was renamed (19 valid examples); invalid examples were added for the old values SHIP and EQUIPMENT and for a phaser with the category VEHICLE, beside the existing starship with the category EQUIPMENT (16 invalid in all). The offline validator checks the nine-kind table, rejects the old values and requires an example of every kind, with 51 tests. D036 with its audit row and rationale entry, the design and README, and the Plan line that called Assets open were updated. The identifier prefix still carries no meaning: an EQ id may name a phaser or a flute. The dataset slice needs at least one asset of each kind.
+
+## How the mission was redone
+
+A first runtime commit of this Job, lab commit `e4c1e915205b6a23214f4d507dec06798efeee9b` on the branch `tx/assets-freeze`, held the rename alone with the generic kind EQUIPMENT and its own records, which were sealed and never approved. The second scope change and a moved main made it stale, and a committed runtime commit whose follow-up is pending can be neither carried nor integrated. The unapproved records packet was abandoned and the work was reapplied on a new mission from the current main, as one runtime commit. The first branch and its worktree were left untouched for the lead developer to dispose of; that commit is not part of the landed history and no devlog entry records it.
+
+## The freeze, as decided
+
+The worker found that the Missions contract is not frozen by a mechanism: its table rows carry only the runtime boundary and the `missions-contract` profile, and it is immutable by decision and by the evolution rule, while Crew & Personnel carries the `frozen` boundary that the continuity checker enforces. The lead developer's words as recorded by the Coordinator, typos corrected, were that the worker should avoid freezing Assets if possible, and that the freeze is reasonable once the implementation exists. The contract is therefore settled in words in the design document and D036: a published contract file is immutable, a compatible addition is a new minor in a new file and a breaking change is a new major. The planned hardening, after the service exists, is to mark the exact contract and fixture files `frozen, runtime` rather than their enclosing folders, so that a later minor can be added beside them. No `frozen` mark, golden pin or approval-sensitive file was touched.
+
+## Retained evidence and limits
+
+Pre-commit checks, all exit 0: staged whitespace (0.1 s), continuity (14.8 s), `assets-offline` (0.2 s) and `assets-offline-tests` (3.9 s); the profile was `assets-contract+governance`. The validator proves the contract is well-formed OpenAPI of the decided surface and that its examples, rejected fixtures and probes behave, including the nine-kind table and the old values; it does not establish service behavior or any rule across records. The nine definitions and the category name VEHICLE were shown to the lead developer at the preview; they answered with the go and raised no objection. No dataset, PostgreSQL schema, service, container, `frozen` mark or manual acceptance exists.
+
+## Follow-up
+
+The verified runtime commit entered the continuity-follow-up-pending state until this separately approved Progress and index change advanced `implementation_checkpoint`. [Progress](../docs/PROGRESS.md) owns current state. Integration of the exact tip and removal of the owned worktree follow after continuity passes. The first branch `tx/assets-freeze` and its worktree await the lead developer's disposal order. The `frozen` mark is a later one-row step after the service exists. No push.

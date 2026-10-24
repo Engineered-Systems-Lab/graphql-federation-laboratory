@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 302" width="720" height="302" role="img" aria-label="Confirmatory comparisons">
+<style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;fill:var(--fig-text,#222)}.t{font-size:15px;font-weight:600}.s{font-size:11px;fill:var(--fig-muted,#6b6b6b)}</style>
+<rect x="0" y="0" width="720" height="302" fill="var(--fig-bg,#ffffff)"/>
+<text class="t" x="16" y="26">Confirmatory comparisons</text>
+<rect x="387.5" y="48" width="135.0" height="188" fill="var(--fig-band,#1f4e79)" fill-opacity="0.07"/>
+<rect x="410.0" y="48" width="90.0" height="188" fill="var(--fig-band,#1f4e79)" fill-opacity="0.10"/>
+<line x1="230.0" y1="48" x2="230.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="230.0" y="252" text-anchor="middle">-50</text>
+<line x1="275.0" y1="48" x2="275.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="275.0" y="252" text-anchor="middle">-40</text>
+<line x1="320.0" y1="48" x2="320.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="320.0" y="252" text-anchor="middle">-30</text>
+<line x1="365.0" y1="48" x2="365.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="365.0" y="252" text-anchor="middle">-20</text>
+<line x1="410.0" y1="48" x2="410.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="410.0" y="252" text-anchor="middle">-10</text>
+<line x1="455.0" y1="48" x2="455.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="455.0" y="252" text-anchor="middle">0</text>
+<line x1="500.0" y1="48" x2="500.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="500.0" y="252" text-anchor="middle">10</text>
+<line x1="545.0" y1="48" x2="545.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="545.0" y="252" text-anchor="middle">20</text>
+<line x1="590.0" y1="48" x2="590.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="590.0" y="252" text-anchor="middle">30</text>
+<line x1="635.0" y1="48" x2="635.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="635.0" y="252" text-anchor="middle">40</text>
+<line x1="680.0" y1="48" x2="680.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="680.0" y="252" text-anchor="middle">50</text>
+<text class="s" x="455.0" y="270" text-anchor="middle">percentage points, second minus first (95% interval)</text>
+<text x="218" y="67.0" text-anchor="end" dominant-baseline="middle">i Alpha vs Beta</text>
+<line x1="473.8" y1="67.0" x2="635.3" y2="67.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="554.5" cy="67.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text x="218" y="97.0" text-anchor="end" dominant-baseline="middle">ii Alpha vs Delta</text>
+<line x1="512.1" y1="97.0" x2="627.7" y2="97.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="569.9" cy="97.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text x="218" y="127.0" text-anchor="end" dominant-baseline="middle">iii Beta vs Delta</text>
+<line x1="412.1" y1="127.0" x2="528.6" y2="127.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="470.4" cy="127.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text x="218" y="157.0" text-anchor="end" dominant-baseline="middle">iv Delta vs Epsilon</text>
+<line x1="422.5" y1="157.0" x2="470.8" y2="157.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="446.7" cy="157.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text x="218" y="187.0" text-anchor="end" dominant-baseline="middle">v Claude vs GPT</text>
+<line x1="438.8" y1="187.0" x2="501.9" y2="187.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="470.3" cy="187.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text x="218" y="217.0" text-anchor="end" dominant-baseline="middle">vi Beta vs Epsilon</text>
+<line x1="415.9" y1="217.0" x2="508.1" y2="217.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="462.0" cy="217.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text class="s" x="16" y="292">Shaded: equivalence margins +/-10 (primary) and +/-15 (secondary).</text>
+</svg>

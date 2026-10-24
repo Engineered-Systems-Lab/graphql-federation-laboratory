@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 302" width="720" height="302" role="img" aria-label="Correct answers by scenario">
+<style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;fill:var(--fig-text,#222)}.t{font-size:15px;font-weight:600}.s{font-size:11px;fill:var(--fig-muted,#6b6b6b)}</style>
+<rect x="0" y="0" width="720" height="302" fill="var(--fig-bg,#ffffff)"/>
+<text class="t" x="16" y="26">Correct answers by scenario</text>
+<line x1="230.0" y1="48" x2="230.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="230.0" y="252" text-anchor="middle">0</text>
+<line x1="320.0" y1="48" x2="320.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="320.0" y="252" text-anchor="middle">20</text>
+<line x1="410.0" y1="48" x2="410.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="410.0" y="252" text-anchor="middle">40</text>
+<line x1="500.0" y1="48" x2="500.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="500.0" y="252" text-anchor="middle">60</text>
+<line x1="590.0" y1="48" x2="590.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="590.0" y="252" text-anchor="middle">80</text>
+<line x1="680.0" y1="48" x2="680.0" y2="236" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="680.0" y="252" text-anchor="middle">100</text>
+<text class="s" x="455.0" y="270" text-anchor="middle">percent correct (GEE marginal, 95% interval)</text>
+<text x="218" y="67.0" text-anchor="end" dominant-baseline="middle">Alpha</text>
+<line x1="426.0" y1="67.0" x2="571.7" y2="67.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="504.2" cy="67.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text x="218" y="97.0" text-anchor="end" dominant-baseline="middle">Beta</text>
+<line x1="492.4" y1="97.0" x2="655.2" y2="97.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="603.7" cy="97.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text x="218" y="127.0" text-anchor="end" dominant-baseline="middle">Delta</text>
+<line x1="512.4" y1="127.0" x2="662.2" y2="127.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="619.1" cy="127.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text x="218" y="157.0" text-anchor="end" dominant-baseline="middle">Epsilon</text>
+<line x1="508.5" y1="157.0" x2="657.1" y2="157.0" stroke="var(--fig-ink, #1f4e79)" stroke-width="2.5" stroke-dasharray="none"/>
+<circle cx="610.8" cy="157.0" r="5" fill="var(--fig-ink, #1f4e79)"/>
+<text x="218" y="187.0" text-anchor="end" dominant-baseline="middle">Gamma-prime (exploratory)</text>
+<line x1="481.0" y1="187.0" x2="639.5" y2="187.0" stroke="var(--fig-accent, #b35900)" stroke-width="2.5" stroke-dasharray="4 3"/>
+<circle cx="581.6" cy="187.0" r="5" fill="var(--fig-accent, #b35900)"/>
+<text x="218" y="217.0" text-anchor="end" dominant-baseline="middle">Gamma as built (no test)</text>
+<circle cx="426.9" cy="217.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text class="s" x="16" y="292">Gamma as built: share of runs, no interval (design error, not tested).</text>
+</svg>

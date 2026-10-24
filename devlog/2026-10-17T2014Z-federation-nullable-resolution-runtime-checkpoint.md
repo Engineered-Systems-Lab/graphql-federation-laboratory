@@ -1,0 +1,32 @@
+# Nullable resolution lets a dead subgraph keep the rest of the mission
+
+Date: 2026-10-17T20:14Z
+Subject: Committed the nullable resolution of the federation graph, so that a dead subgraph keeps the rest of the mission, and the corrected limits text of the federation checkpoint profile
+Status: Historical / non-normative
+Lab checkpoint: lab commit `f86e4a61ead2f752a212931d0ae0352c820548ef`
+Provenance: Git committer timestamp `2026-10-17T16:14:11-04:00` (2026-10-17 20:14:11 UTC), converted to the prescribed UTC minute. This dates the runtime commit, not the decision that led to it (recorded in the Job `federation_design`, the follow-up rulings of 2026-10-17) or this later record preparation. The lead developer typed "approved" at the preview of the candidate; the first sealed attempt failed on a trailing-whitespace row and on the worker's own leftover test stack holding the ports, so that preview was abandoned, the fault fixed and a second preview shown, and their second "approved" approved the exact candidate once every check passed. They also provided JDK 17 and the Elastic License 2.0 acceptance of Rover's composition plugin to the worker's environment in `.claude/settings.local.json`.
+Migrated from lab log SD-2026.290-2014Z; originally written in the lab on 2026-10-17 (lab commit `782a9933d9f485566f93c8d8880aefc284284934`).
+
+## Meaningful transition
+
+A dead subgraph now costs the fields it owns and not the mission. The commit is on the owned branch `tx/20261017-federation-nullable-resolution`, parent lab commit `cea57cd3f6158dc8523e4dac3a90d3cac55421f9`, tree `c665488`, 12 paths, +176/-26. Exact subject: **Make resolution nullable in the federation graph so a dead subgraph keeps the rest of the mission**. At the time of this record the commit is not integrated into main.
+
+Before this commit, with the 5 s router subgraph timeout, a dead adapter gave HTTP 200 and one `GATEWAY_TIMEOUT` entry per failed fetch, but `data.mission` was null, because `resolution` was non-null (`Resolution!`) and the null climbed to the nearest nullable ancestor. Apollo has no setting that changes that.
+
+## Choices recorded
+
+- **Nullable resolution.** `resolution` is nullable on `AssetReference` (Assets subgraph) and on `PersonnelReference` (Personnel subgraph); `asset` and `personnel` already were. The lead developer decided it after the Coordinator confirmed their reading with the trade-off. A null `resolution` means ONLY that the router could not ask the owning adapter (or the mapping subgraph that supplies its `@requires` input); the errors entry says why and names the subgraph. Every other case stays an explicit value as data (RESOLVED, UNRESOLVED, UNAVAILABLE, UNMAPPED, RELEASE_REFUSED) and the adapters never return a null `resolution`. The price is the guarantee that `resolution` is always present; a client must check the errors list whenever it is null. The README of the Apollo router carries that sentence.
+- **Measured with the Apollo router v2.18.0, one run on 2026-10-17.** With the Assets adapter stopped: HTTP 200 after about 5 s, the mission, its crew and the other subgraphs' fields kept, each asset reference with `assetId` and `mappingOutcome` from the mapping and `resolution` and `asset` null, one `GATEWAY_TIMEOUT` entry per failed fetch naming `assets`; the whole list of 31 missions kept every mission (68 entries, one per asset reference). The same for the Personnel adapter stopped (crew references) and for both stopped. The backend-outage, refused-release and earlier cases are unchanged.
+- **Found, not decided:** after adapters were stopped and started again, the router kept failing to connect (`SUBREQUEST_HTTP_ERROR`, `tcp connect error`) for at least 60 s, probably because the restarted containers got new addresses, until the router container itself was restarted; the gate restarts it. This is a property of the stack and the router, not of the graph.
+- **The profile text.** The `limitations` string of the `federation-adapter-runtime` profile in `validation/checkpoint-profiles.json` said that every crew reference stays UNMAPPED and that the mapping release holds assets only. It now states what the stack covers (mapping release 1.1 with the crew section, the migrated cast resolving through the router against snapshot 003, UNMAPPED, RELEASE_REFUSED, a null resolution only when the owning adapter cannot be asked) and what it does not (no real Missions service or Oracle, no Cosmo or Hive, no benchmark or human acceptance claim). It was the only change to that file, made by the lead developer's order of 2026-10-17 under the lab's governance freeze. The classification table grades the file `medium`, not HIGH as the Job record said.
+- **Not done, by decision:** the router timeout as an environment variable (the lead developer kept it for later), Cosmo and Hive, the Oracle run, question 6 and the design update, which are other Jobs.
+
+## Retained evidence and limits
+
+Checks of the seal, all passed (times from the retained handoff): staged whitespace, continuity (13.0 s), `federation-assets-offline` (55.9 s), `federation-assets-service` (70.7 s), `federation-mapping-offline` (54.7 s), `federation-missions-offline` (56.1 s), `federation-personnel-offline` (59.7 s), `federation-personnel-service` (59.1 s), `federation-router-apollo-offline` (24.6 s), `federation-router-apollo-stack` (255.4 s), `checkpoint-invariants` (77.8 s), `checkpoint-selector` (32.9 s) and `commit-metadata` (15.2 s). The worker ran the router stack gate four times before sealing; the first three failed only on the new test that the graph answers again after the adapters are back (the router had to be restarted, then an errors list that is absent had to be allowed) and the fourth passed all 27 tests, including the committed supergraph being the fresh composition.
+
+Limits: stub-backend mode only; the real Missions service on Oracle was not run. Cosmo and Hive are not built, so the nullable-field behavior is an Apollo fact only. Times are informal, from one run. No benchmark, human acceptance or `frozen` mark is claimed.
+
+## Follow-up
+
+The verified runtime commit entered the continuity-follow-up-pending state until this separately approved Progress and index change advanced `implementation_checkpoint`. [Progress](../docs/PROGRESS.md) owns current state. Integration of the exact tip and removal of the owned worktree follow after continuity passes. No push.
