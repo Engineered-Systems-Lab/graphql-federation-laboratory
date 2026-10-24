@@ -27,6 +27,7 @@ With every project file absent, the tools behave exactly as with the framework a
 | `config/mission-control-inputs.json` | the project's part of the inventory of the Mission Control extension | the terminal shows the framework alone |
 | `config/mission-control.json` | override of a code default of the Mission Control extension | the default port |
 | `config/reconstruction-contract.json` | overlay of the framework's reconstruction contract | the framework's part alone |
+| `config/selector-expectations.json` | the project's expectations of which checks its paths select | none ([selector expectations](#selector-expectations)) |
 | `CONSTRAINTS.md` | the project's rules | no project rules |
 | `DECISIONS.md` | the project's decision registry (prefix D) | no project decisions |
 | `RATIONALE.md` | the rationale of the project's decisions | none |
@@ -64,6 +65,23 @@ The starter files Comitas ships hold the values Comitas itself runs with, which 
 ## The golden pin
 
 `config/artifact-classification-golden.json` pins rows of the project's table independently of the document, so that a table edit alone cannot reclassify a path the project cares about. It is `{"version": 1, "paths": {...}}` with the keys of `paths` sorted by ASCII ordinal. Each entry is either the resolved row, with the keys `class`, `profile`, `boundary`, `bound`, `invariants`, `subclass`, `reachable`, `approval_sensitivity` and a `why`, or a refused path, `{"refused": true, "boundary": [...], "why": "..."}`, for a path that must stay unclassified or blocked. A path is pinned on one side only: a path the framework's golden pins is not pinned here. The conformance test of Comitas, which reads this file against the union of the tables, wants at least five entries. Change the pin in the same transaction as the row it pins; a project's own conformance tests may add lists of sensitive paths beside it.
+
+## Selector expectations
+
+`config/selector-expectations.json` lets a project assert which checks its paths select, so that a new row with the wrong profile fails instead of passing together with its matching golden pin. It is optional: only an absent file means no expectation. Anything at that name that is not a readable, good file (a directory, a link to nothing, an empty or unparsable file) fails the conformance test, and the conformance test refuses it otherwise, because a guard that is silently off guards nothing.
+
+```json
+{"version": 1, "expectations": [
+  {"paths": "docs/api/*.md", "selects": ["continuity", "docs-lint"], "never": ["docs-build"], "why": "api pages are linted, not built"}
+]}
+```
+
+- `paths`: a [git pathspec](https://git-scm.com/docs/gitglossary#def_pathspec) on one line, matched against `git ls-files` from the repository root. In the default syntax `*` also crosses `/`; use `:(glob)` for the strict form. It must match at least one tracked file.
+- `selects`, `never`: lists of distinct check ids, each a command of the merged policy (the framework's or the project's), at least one in the two together and none in both. `selects` is a floor: each matched file must select at least those checks, and may select others. `never` is a ban: no matched file may select any of the named checks. Both are assertions about each file on its own, so one file that differs fails the expectation.
+- `why`: optional text for the reader.
+- `version`: `1` when present. Any other key is refused.
+
+Each tracked file is judged by the selection the checkpoint tool makes for a change to that file alone, so its row, the profile, `narrowable` and the impact invariants of the project all count; the mandatory checks (`continuity`) are in it. A file with no usable row fails the expectation. A row whose Invariants cell is `symbol-map` is always judged with the whole envelope of its profile, whatever the working tree holds: the test switches the comparison with HEAD that picks mapped symbols off, so an edit never changes the verdict. A failure is one message per expectation naming each file with its profile and its selection (the first twenty, then a count). The test is `governance/config/conformance/test_selector_expectations.py`; it runs with the conformance folder, which any change under `governance/` or `project-governance/` selects, the project's table and profiles included. See [G056](DECISIONS.md#g056---a-project-may-declare-which-checks-its-paths-select-2026-10-23-accepted).
 
 ## The policy and the profiles
 
@@ -147,7 +165,9 @@ Freezing is always allowed and takes the content as it is. `python -B governance
 
 These two files belong to the optional Mission Control [extension](extensions/README.md): without the extension they are not read, and removing the extension removes them.
 
-`config/mission-control-inputs.json` is `{"version": 1, "datasets": {...}}` and lists the project's own documents that the terminal shows, with the same selectors as the extension's framework part: for each of the datasets `documents`, `decisions` and `rationale`, a `paths` list of exact documents, a `markdownDirectories` list of folders of Markdown documents and an `excludePaths` list. The two parts are merged as sets. The project may declare its own `project-governance/DECISIONS.md` as a decisions input and `project-governance/RATIONALE.md` as a rationale input; the decisions dataset then lists them beside the framework's registry. The devlog dataset comes from the devlog settings, not from this file. Unknown datasets and selectors are refused.
+`config/mission-control-inputs.json` is `{"version": 1, "datasets": {...}, "groups": [...]}` and lists the project's own documents that the terminal shows, with the same selectors as the extension's framework part: for each of the datasets `documents`, `decisions` and `rationale`, a `paths` list of exact documents, a `markdownDirectories` list of folders of Markdown documents and an `excludePaths` list. The two parts are merged as sets. The project may declare its own `project-governance/DECISIONS.md` as a decisions input and `project-governance/RATIONALE.md` as a rationale input; the decisions dataset then lists them beside the framework's registry. The devlog dataset comes from the devlog settings, not from this file. Unknown datasets and selectors are refused.
+
+The optional `groups` key, `[{"label": "<group name>", "paths": ["<exact document path>", ...]}, ...]`, names the display groups of the Status briefing for the project's own documents; without it they all show under Other implementation. A group holds the documents whose exact path it lists, in the order the groups are declared, and only changes how the briefing is arranged. The groups of the project follow those of Mission Control and of the other installed extensions, which each declare theirs in their own manifest (the `group` of `extension.json`). Mission Control refuses, with one message and until the file is corrected, a label used twice in any of these sources, a path in two groups, a path that is not a relative forward-slash repository path and a path of the project that is not among the inputs of Mission Control (a document in a declared folder counts), and no group is shown meanwhile. The version stays 1.
 
 `config/mission-control.json` is `{"version": 1, "port": 8765}`. Several projects on one host need distinct ports, because the server binds exclusively and stops with one line when the port is taken, without trying another. `--port` overrides the file. A file that cannot be read, or that holds another key or a port that is not a whole number from 1 to 65535, means the default, and the server says so in one line.
 
@@ -187,4 +207,5 @@ The bootstrap prompt and the required sections are the framework's alone. A proj
 | a declared label followed by a backticked token that is not 7 to 40 lowercase hexadecimal characters | continuity | continuity fails |
 | a labeled commit on a `Repository checkpoint:` line | Mission Control generator | refused with one message |
 | a project document not reachable from `AGENTS.md`, or with a link that does not resolve | continuity | continuity fails |
+| a selector expectation that is unreadable, has an unknown key or check, lists a check twice or in both lists, matches no tracked file, or is not met by a matched file | `config/selector-expectations.json` | the conformance test fails |
 | a feature value that is not exactly one of the listed ones, or a file that does not parse | feature switches | the feature is off |

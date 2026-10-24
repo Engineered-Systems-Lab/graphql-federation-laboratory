@@ -1,6 +1,6 @@
 # Extensions
 
-This folder is the home of the optional pieces of the framework. An extension is shipped by default, and a project that does not want it removes it without refactoring anything. Today there is one: [Mission Control](mission_control/README.md), the read-only local terminal over the decisions, rationale, logs, documents and commits.
+This folder is the home of the optional pieces of the framework. An extension is shipped by default, and a project that does not want it removes it without refactoring anything. Today there are two: [Mission Control](mission_control/README.md), the read-only local terminal over the decisions, rationale, logs, documents and commits, and the [diff viewer](diff_viewer/README.md), which writes the exact preview or sealed candidate as one readable HTML page beside the review.
 
 ## The rule
 
@@ -17,7 +17,7 @@ The decision is [G042](../DECISIONS.md#g042---the-core-never-depends-on-an-exten
 | --- | --- |
 | Code, scripts, user interface, its own README and design | `governance/extensions/<name>/` |
 | Its tests | `governance/tests/extensions/<name>/`, a package like the other test folders |
-| Its manifest | `governance/extensions/<name>/extension.json`: the folder, the test folder, the policy commands, impact invariants and commit subclasses it owns, the project files it reads, and the names that mark it in files (`markers`) and in prose (`prose`) |
+| Its manifest | `governance/extensions/<name>/extension.json`: the folder, the test folder, the policy commands, impact invariants and commit subclasses it owns, the project files it reads, and the names that mark it in files (`markers`) and in prose (`prose`); optionally a `group`, `{"label": "<name>", "paths": ["<exact document path>", ...]}`, that names the extension's documents for a document browser such as Mission Control, which shows them as one group and reads them as inputs, and loses both when the manifest goes |
 | Its rows | the rows of the [artifact classification table](../ARTIFACT-CLASSIFICATION.md) under its two folders, with their entries in the golden pin; the commands in the policy; the invariants and the subclass in the profiles |
 | Its project part, if any | a file in `project-governance/` that the extension reads when it is present |
 
@@ -55,6 +55,7 @@ Then edit by hand the document lines that name the extension (the script prints 
 - `governance/CHECKPOINT-WORKFLOW.md`: the sentence about the generator tests that an edit of the rationale or the decisions runs.
 - `governance/CONSTRAINTS.md`: the sentence about the datasets as an example of generated artifacts.
 - `governance/WORKER-HAZARDS.md`: H7, the server that loads its code once.
+- `governance/ROLE-WORKER.md`: the section about the optional diff viewer.
 - `governance/CHANGELOG.md`: add the removal to the note for your release.
 - `governance/PROJECT-GOVERNANCE.md`: the section about the Mission Control inputs and port, the two rows of its files and the row of the port in the defaults table, and the clause about the declared log documents in the folder rename paragraph of the devlog section.
 
