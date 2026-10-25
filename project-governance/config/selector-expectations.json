@@ -1,0 +1,539 @@
+{
+  "version": 1,
+  "expectations": [
+    {
+      "paths": ":(glob)federation/adapters/assets/*/**",
+      "selects": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the assets adapter code and its gate files select its own gates and both stacks, never another adapter's offline gate"
+    },
+    {
+      "paths": ":(glob)federation/adapters/assets/[!Rp]*",
+      "selects": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the assets adapter image files at its root (README.md and pom.xml are judged by their own expectations)"
+    },
+    {
+      "paths": ":(glob)federation/adapters/mapping/*/**",
+      "selects": [
+        "federation-mapping-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the mapping adapter code and its gate files select its own gates and both stacks, never another adapter's offline gate"
+    },
+    {
+      "paths": ":(glob)federation/adapters/mapping/[!Rp]*",
+      "selects": [
+        "federation-mapping-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the mapping adapter image files at its root (README.md and pom.xml are judged by their own expectations)"
+    },
+    {
+      "paths": ":(glob)federation/adapters/missions/*/**",
+      "selects": [
+        "federation-missions-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-mapping-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the missions adapter code and its gate files select its own gates and both stacks, never another adapter's offline gate"
+    },
+    {
+      "paths": ":(glob)federation/adapters/missions/[!Rp]*",
+      "selects": [
+        "federation-missions-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-mapping-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the missions adapter image files at its root (README.md and pom.xml are judged by their own expectations)"
+    },
+    {
+      "paths": ":(glob)federation/adapters/personnel/*/**",
+      "selects": [
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-mapping-offline",
+        "federation-missions-offline"
+      ],
+      "why": "the personnel adapter code and its gate files select its own gates and both stacks, never another adapter's offline gate"
+    },
+    {
+      "paths": ":(glob)federation/adapters/personnel/[!Rp]*",
+      "selects": [
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-mapping-offline",
+        "federation-missions-offline"
+      ],
+      "why": "the personnel adapter image files at its root (README.md and pom.xml are judged by their own expectations)"
+    },
+    {
+      "paths": "federation/routers/apollo",
+      "selects": [
+        "federation-router-apollo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline",
+        "federation-router-cosmo-offline"
+      ],
+      "why": "the Apollo router files, its README included, select the Apollo offline gate and both stacks, never an adapter's or the other router's offline gate"
+    },
+    {
+      "paths": "federation/routers/cosmo",
+      "selects": [
+        "federation-router-cosmo-offline",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline",
+        "federation-router-apollo-offline"
+      ],
+      "why": "the Cosmo router files, its README included, select the Cosmo offline gate and the Cosmo stack, never an adapter's or the other router's offline gate"
+    },
+    {
+      "paths": ":(glob)federation/stack/[!R]*",
+      "selects": [
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the federation stack files at its root select both router offline gates and both stacks, never an adapter's offline gate (README.md is a record)"
+    },
+    {
+      "paths": ":(glob)federation/acceptance/[!R]*",
+      "selects": [
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the federation acceptance files at its root select both router offline gates and both stacks, never an adapter's offline gate (README.md is a record)"
+    },
+    {
+      "paths": ":(glob)federation/stack/*/**",
+      "selects": [
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the federation stack's subfolders (the Missions stub) select both router offline gates and both stacks"
+    },
+    {
+      "paths": "federation/mapping-releases",
+      "selects": [
+        "federation-mapping-offline",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "study-tests"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the released mapping data selects the mapping offline gate, both router offline gates, both stacks and the study tests"
+    },
+    {
+      "paths": ":(glob)federation/personnel-mapping/[!R]*",
+      "selects": [
+        "federation-mapping-offline",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "study-tests"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline"
+      ],
+      "why": "the Personnel mapping data and its scripts select the mapping offline gate, both router offline gates, both stacks and the study tests (README.md is a record)"
+    },
+    {
+      "paths": ":(glob)federation/**/pom.xml",
+      "selects": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the shared build inputs (the federation, common and adapter module poms) select all ten federation gates"
+    },
+    {
+      "paths": "federation/common",
+      "selects": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the shared common module selects all ten federation gates"
+    },
+    {
+      "paths": ":(glob)federation/*/README.md",
+      "selects": [
+        "continuity"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "assets-offline",
+        "assets-offline-tests",
+        "assets-service",
+        "assets-packaging",
+        "missions-offline",
+        "missions-data",
+        "missions-service",
+        "missions-packaging",
+        "personnel-v2-offline",
+        "runtime-java",
+        "runtime-container",
+        "runtime-soap",
+        "component-offline",
+        "component-regressions"
+      ],
+      "why": "the acceptance, Personnel mapping and stack READMEs are records: no federation gate and no system gate"
+    },
+    {
+      "paths": ":(glob)federation/adapters/*/README.md",
+      "selects": [
+        "continuity"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "assets-offline",
+        "assets-offline-tests",
+        "assets-service",
+        "assets-packaging",
+        "missions-offline",
+        "missions-data",
+        "missions-service",
+        "missions-packaging",
+        "personnel-v2-offline",
+        "runtime-java",
+        "runtime-container",
+        "runtime-soap",
+        "component-offline",
+        "component-regressions"
+      ],
+      "why": "the four adapter READMEs are records: no federation gate and no system gate"
+    },
+    {
+      "paths": "uss-enterprise/missions/README.md",
+      "selects": [
+        "continuity"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "assets-offline",
+        "assets-offline-tests",
+        "assets-service",
+        "assets-packaging",
+        "missions-offline",
+        "missions-data",
+        "missions-service",
+        "missions-packaging",
+        "personnel-v2-offline",
+        "runtime-java",
+        "runtime-container",
+        "runtime-soap",
+        "component-offline",
+        "component-regressions"
+      ],
+      "why": "the Missions README is a record: no federation gate and no system gate"
+    },
+    {
+      "paths": "uss-enterprise/personnel-v2/README.md",
+      "selects": [
+        "continuity"
+      ],
+      "never": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-mapping-offline",
+        "federation-missions-offline",
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "assets-offline",
+        "assets-offline-tests",
+        "assets-service",
+        "assets-packaging",
+        "missions-offline",
+        "missions-data",
+        "missions-service",
+        "missions-packaging",
+        "personnel-v2-offline",
+        "runtime-java",
+        "runtime-container",
+        "runtime-soap",
+        "component-offline",
+        "component-regressions"
+      ],
+      "why": "the Personnel v2 README is a record: no federation gate and no system gate"
+    },
+    {
+      "paths": ":(glob)uss-enterprise/assets/[!R]*",
+      "selects": [
+        "federation-assets-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the Assets image files at the system root add the federation Assets service gate and both stacks (README.md is not a cross-system row)"
+    },
+    {
+      "paths": "uss-enterprise/assets/service",
+      "selects": [
+        "federation-assets-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the Assets service code adds the federation Assets service gate and both stacks"
+    },
+    {
+      "paths": "uss-enterprise/assets/schema",
+      "selects": [
+        "federation-assets-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the Assets database schema adds the federation Assets service gate and both stacks"
+    },
+    {
+      "paths": "uss-enterprise/assets/contracts/assets-v1.1.openapi.json",
+      "selects": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the open Assets contract adds the federation Assets adapter gates and both stacks (v1.0 is frozen and left out)"
+    },
+    {
+      "paths": ":(glob)uss-enterprise/assets/fixtures/v1.1/**",
+      "selects": [
+        "federation-assets-offline",
+        "federation-assets-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the open Assets fixtures add the federation Assets adapter gates and both stacks (the frozen valid and invalid fixtures are left out)"
+    },
+    {
+      "paths": ":(glob)uss-enterprise/assets/datasets/**/*.json",
+      "selects": [
+        "federation-mapping-offline",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "study-tests"
+      ],
+      "never": [],
+      "why": "the released Assets data adds the mapping offline gate, both router offline gates, both stacks and the study tests (the generator scripts are unmapped and left out)"
+    },
+    {
+      "paths": ":(glob)uss-enterprise/missions/datasets/**/*.json",
+      "selects": [
+        "federation-missions-offline",
+        "federation-mapping-offline",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "study-tests"
+      ],
+      "never": [],
+      "why": "the released Missions data (json) adds the federation Missions offline gate and the released-data gates (the dataset scripts such as load.sql are unmapped and left out)"
+    },
+    {
+      "paths": ":(glob)uss-enterprise/missions/datasets/**/*.xml",
+      "selects": [
+        "federation-missions-offline",
+        "federation-mapping-offline",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "study-tests"
+      ],
+      "never": [],
+      "why": "the released Missions data (xml) adds the federation Missions offline gate and the released-data gates (the dataset scripts such as load.sql are unmapped and left out)"
+    },
+    {
+      "paths": ":(glob)uss-enterprise/personnel-v2/[!R]*",
+      "selects": [
+        "federation-personnel-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the Personnel v2 image and build files at the system root add the federation Personnel service gate and both stacks (README.md is a record)"
+    },
+    {
+      "paths": "uss-enterprise/personnel-v2/src",
+      "selects": [
+        "federation-personnel-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the Personnel v2 service code adds the federation Personnel service gate and both stacks"
+    },
+    {
+      "paths": "uss-enterprise/personnel-v2/contracts",
+      "selects": [
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack"
+      ],
+      "never": [],
+      "why": "the Personnel v2 contract adds the federation Personnel adapter gates and both stacks"
+    },
+    {
+      "paths": "uss-enterprise/personnel-v2/datasets",
+      "selects": [
+        "federation-personnel-offline",
+        "federation-personnel-service",
+        "federation-mapping-offline",
+        "federation-router-apollo-offline",
+        "federation-router-cosmo-offline",
+        "federation-router-apollo-stack",
+        "federation-router-cosmo-stack",
+        "study-tests"
+      ],
+      "never": [],
+      "why": "the Personnel v2 data adds the federation Personnel adapter gates and the released-data gates"
+    }
+  ]
+}

@@ -95,13 +95,15 @@
     },
     "docs/CREW-PERSONNEL-V1.md": {
       "class": "runtime",
-      "profile": "crew-offline",
-      "boundary": [],
+      "profile": "blocked",
+      "boundary": [
+        "frozen"
+      ],
       "bound": false,
       "invariants": null,
       "subclass": [],
       "reachable": false,
-      "why": "Crew & Personnel v1, imported under a temporary open row; freeze_systems blocks and freezes it",
+      "why": "the Crew & Personnel v1 specification, blocked and frozen with the rest of Crew & Personnel v1 (D050)",
       "approval_sensitivity": "low"
     },
     "docs/FEDERATION-DESIGN.md": {

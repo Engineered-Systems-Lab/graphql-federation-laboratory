@@ -1,6 +1,7 @@
 {
   "version": 1,
   "files": {
+    "docs/CREW-PERSONNEL-V1.md": "224bac8185aef3537d29b80fe9d22e9f7632cc284d36dca3db089e77ee3f3940",
     "study/corpus/expected.json": "4b58093ea38cc2a8c6a00cff28d9b4f401c3f6d13a20352ad20797ea8e6fc754",
     "study/corpus/tasks.json": "38ed88bdc5c2fde3be337c241af573182d9b0c96170a7bf5e7a5f5acb046034c",
     "study/guide/enterprise-legacy-systems-guide.md": "5bc461baab56a1ec16e8c87481387b43a0535c25000d25716d67e367b271101b",
