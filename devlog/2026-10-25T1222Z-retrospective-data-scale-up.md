@@ -1,0 +1,38 @@
+# Retrospective: the data scale-up
+
+Date: 2026-10-25T12:22Z
+Subject: A retrospective of the lab's data scale-up of 2026-10-19 and 2026-10-20, from 31 missions and 14 people to 300 missions and 1,000 people, in eight runtime commits, with the stop at the 5 s subgraph timeout that it caused
+Status: Historical / non-normative
+Provenance: Written in the laboratory on 2026-10-25 as a retrospective of events in the lab, from the evidence listed at the end. The date is the time of writing; the events it describes are dated in the text (UTC). The figures of the stop come from a measurement note of the work, kept outside the repository; only its figures are quoted. Nothing was run again for this entry.
+
+## Why
+
+Before the scale-up the federation's paging was built but never needed: the 31 missions of Missions release 1.0 fit one call, and the graph's Personnel snapshot held 14 people. The lead developer's reasons, on 2026-10-18 ([the federation design](../docs/FEDERATION-DESIGN.md#the-data-scale-up)): Missions should get more edge cases and use all the people that had been created; the data must need paging, or a single call returns everything and the approaches may show no striking differences; and nobody would build such a complex personnel system for fewer than 30 entries.
+
+## The steps
+
+1. **2026-10-19, the Personnel v2 snapshot of 1,000 people**, `personnel-v2-large-004` (lab commit `493d930d48983c12f1181616f04e735df4d8637c`; [its retrospective](2026-10-25T1219Z-retrospective-personnel-v2-large-snapshot.md)).
+2. **2026-10-19, Missions release 1.1** (lab commit `b86c765001d443af94a60c53950ec53e547e59c8`, [entry](2026-10-19T1258Z-missions-release-1-1-runtime-checkpoint.md), [D044](../project-governance/DECISIONS.md#d044---missions-dataset-release-11-300-missions-appended-to-release-10-2026-10-18-accepted-scope)): 300 missions in six pages of 50, appended to release 1.0, which stays byte for byte. 57 new missions are curated from TNG Seasons 4 and 5 and written in the lab's own words; 212 are generated from a recipe and labelled synthetic, with the deliberate edge cases listed in a ledger. The lead developer chose an append (a MINOR) over a new MAJOR release with new identities.
+3. **2026-10-19, mapping release 1.2** (lab commit `60ac091090f41690097075851705a4c124036176`, [entry](2026-10-19T1418Z-mapping-release-1-2-runtime-checkpoint.md)): the 800 crew references of release 1.1 mapped to the large snapshot by the existing process, 794 by exact name and 6 by exception, with every O reference refused by class.
+4. **2026-10-19, the stack on the large data** (lab commit `e68dbc0f06a1c41b31832a1a9e5b4f1193a9e025`, [entry](2026-10-19T2056Z-large-data-stack-runtime-checkpoint.md)): the whole-stack compose serves the large data by default, the expected outcomes of the acceptance suite were derived again from the released files, the suite pages every whole-list check (offsets 0, 100 and 200 with the largest limit, 100), and the container SOAP gate covers the large snapshot. This step stopped first, and the cache (step 4a below) came between its stop and its commit.
+5. **2026-10-20, Missions release 1.2** (lab commit `1740ef3ca4cb484a66b12028366d56c9e776d22a`, [entry](2026-10-20T0044Z-missions-release-1-2-runtime-checkpoint.md), [D045](../project-governance/DECISIONS.md#d045---missions-dataset-release-12-participants-reclassified-as-p-and-o-2026-10-19-accepted-scope)): the lead developer found that P, meant for people on the ship who are not crew, had been used for outsiders since release 1.0. Release 1.2 appends 108 correction entries, one per mission it changes; every P now names one civilian of the large snapshot, and outsiders are O.
+6. **2026-10-20, mapping release 1.3 and the stack on release 1.2** (lab commit `0b7ee2481dc7b9e5af7f30a364abef04e678714d`, [entry](2026-10-20T0222Z-mapping-release-1-3-runtime-checkpoint.md)): all 58 P references resolve to non-crew people of the roster and the 153 O references stay refused. The expected outcomes derived again differed only in release names and input hashes.
+7. **2026-10-20, the Missions adapter on the real Oracle service** (lab commit `f2f76f78985a68549898507a637c177a131952c2`, [entry](2026-10-20T0325Z-missions-oracle-large-runtime-checkpoint.md)): the one federation test still pinned to release 1.0 moved to release 1.2 and passed once against the Oracle-backed Missions service, 9 tests in 125.1 s. The lead developer chose the adapter stage only, not the whole stack on Oracle.
+
+## The stop at the timeout
+
+Step 4 had a condition in its scope: if a normal full page comes near or over the routers' 5 s subgraph timeout, stop and report. It did. On a cold stack the first full pages of 100 missions with assets, commanding officer and crew took 5.61, 5.12 and 5.15 s under Cosmo and 5.64, 5.18 and 5.13 s under Apollo, with timeout entries and partial data; warm, 0.8 to 3.5 s. The main cost was the Personnel adapter's one SOAP call per person. Four options were offered, none taken by the worker. The lead developer kept the 5 s timeout and chose two: the suite warms the stack before its first assertion, and the Personnel adapter caches each snapshot ([D049](../project-governance/DECISIONS.md#d049---federation-personnel-adapter-snapshot-cache-and-the-warm-up-of-the-acceptance-suite-2026-10-19-accepted-scope)). The cache landed on 2026-10-19 as lab commit `32279dc6bb407a9b8a0d8be5f6e13f5d92a015d4` (step 4a; [its retrospective](2026-10-25T1222Z-retrospective-personnel-adapter-cache.md)), and step 4 then landed with the warm-up.
+
+## What the large data showed
+
+Derived from the released files, not from a run: the 300 missions use 56 distinct asset references (7 RESOLVED, 1 UNRESOLVED, 48 UNMAPPED) and 626 distinct crew references (617 resolved, 9 UNMAPPED), some of which reach migrated civilians. Only 16 of the 800 crew are senior, so [question 6](2026-10-25T1221Z-retrospective-question-6.md) changed character: 182 missions confirmed with a senior officer, 65 confirmed without, 26 unconfirmed, 73.7 percent, and 27 cancelled missions not counted. From single runs of the built stack: a dead adapter on a paged list kept all 300 missions with partial data under both routers; some pages answered in about 3 s where the timeout was expected, and the cause of those 3 s is not verified; and the Apollo router wrote `SUBREQUEST_HTTP_ERROR` for a connection refused at once, which the shared suite now lets a router declare for lists only.
+
+## Limits
+
+The real Missions service on Oracle served only the adapter's own stage; the whole stack ran on the simulator of the Missions service. The times are informal, from one machine, and no benchmark or human acceptance is claimed. The Missions releases and the snapshot are published datasets and are not edited; changes are new releases.
+
+## Evidence
+
+- The migrated entries linked above, with their lab checkpoints lab commit `493d930d48983c12f1181616f04e735df4d8637c`, lab commit `b86c765001d443af94a60c53950ec53e547e59c8`, lab commit `60ac091090f41690097075851705a4c124036176`, lab commit `32279dc6bb407a9b8a0d8be5f6e13f5d92a015d4`, lab commit `e68dbc0f06a1c41b31832a1a9e5b4f1193a9e025`, lab commit `1740ef3ca4cb484a66b12028366d56c9e776d22a`, lab commit `0b7ee2481dc7b9e5af7f30a364abef04e678714d` and lab commit `f2f76f78985a68549898507a637c177a131952c2`.
+- D044, D045 and D049, and [the data scale-up](../docs/FEDERATION-DESIGN.md#the-data-scale-up) and [what the large data found](../docs/FEDERATION-DESIGN.md#what-the-large-data-found) in the federation design.
+- The measurement note of the stop, kept outside the repository; its figures agree with the migrated entries and D049.
