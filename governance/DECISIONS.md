@@ -36,6 +36,8 @@ For the evidence audit, explanations and open rationale gaps, see [Why these dec
 | G054 | 2026-10-21 | Accepted | [Freezing is always allowed and only changing a freeze is restricted](#g054---freezing-is-always-allowed-and-only-changing-a-freeze-is-restricted-2026-10-21-accepted) |
 | G055 | 2026-10-23 | Accepted | [A project may add impact invariants and name the checks an impact mapping may replace](#g055---a-project-may-add-impact-invariants-and-name-the-checks-an-impact-mapping-may-replace-2026-10-23-accepted) |
 | G056 | 2026-10-23 | Accepted | [A project may declare which checks its paths select](#g056---a-project-may-declare-which-checks-its-paths-select-2026-10-23-accepted) |
+| G057 | 2026-10-25 | Accepted | [How a release is made](#g057---how-a-release-is-made-2026-10-25-accepted) |
+| G058 | 2026-10-25 | Accepted | [Review aids never affect approval](#g058---review-aids-never-affect-approval-2026-10-25-accepted) |
 
 ## G018 - Delegated checkpoint authority and continuity (2026-10-01, Accepted)
 
@@ -163,6 +165,10 @@ The Coordinator owns Epic membership, Job-level dependencies and scheduling prio
 
 Explicit RP, roleplay, role-play or role-playing markers exclude the marked playful/exploratory message or passage from Job, decision, rationale and devlog capture unless the lead developer later explicitly promotes it for recording. RP is scoped, grants no authority and does not erase history. See AGENTS and the local coordination procedure.
 
+### G025 Epic closure policy extension (2026-10-25)
+
+An Epic has an optional closure policy: `automatic` closes through normal completion/pruning after its Jobs are removed; `explicit` keeps it open, even when empty, until the lead developer confirms closure and the Coordinator removes it. An absent policy means automatic. At the lead developer's direction, the Coordinator may change an existing Epic’s policy in either direction through the guarded update; an empty Epic changed to automatic is removed on the next prune. Both policies allow adding Jobs while the Epic exists and neither fixes membership. This supersedes the unconditional empty-Epic disposal rule in the local job coordination extension above. Job completion, dependencies, disposal and approval boundaries remain unchanged. See the [procedure](LOCAL-COORDINATION.md#epics-dependencies-and-priority) and [rationale](RATIONALE.md#epic-closure-policy-g025-epic-closure-policy-extension).
+
 ### G025 worktree container extension (2026-10-10)
 
 Transaction worktrees live in one container outside every checkout: `<parent>/_worktrees/<repo>/<mission-id>/` is the workspace and `<parent>/_worktrees/<repo>/_review/<mission-id>/` holds the external review inputs, where `<parent>/<repo>` is the main checkout. The lifecycle guard derives the workspace when no path is given and accepts an explicit path only when it equals the derived one. The existing rules are unchanged: no nesting inside any registered worktree, main included, a clean idle main, a locked worktree and the `tx/<mission-id>` branch. The app's own session folders are out of scope. See the [layout](WORKTREE-WORKFLOW.md#container-layout) and the [rationale](RATIONALE.md#transaction-owned-worktrees-g025).
@@ -234,6 +240,12 @@ Which checks a transaction runs does not change: G023 and this decision's classi
 The `Approval-critical` column of the artifact classification table became `Approval-sensitivity`, and the boolean feature key `early_conditional_approval` became the string key `early_approval_reach`, with no change of behavior at the committed reach `low`. The column grades a path in three levels: a hyphen is low, `medium` is the former `yes`, and `high` marks the approval machinery, an explicit list that never carries a go. The key takes `off`, `low` or `medium` and says which levels an early go may reach; a cell or a value the tool does not know is read as the most restrictive one, so every failure stays on the sealed Approve.
 
 This renames and grades what the G018 early conditional approval extension and the G026 approval-critical column extension decided, and adds no rule of its own. Both extensions stay as written, with one later-context sentence added to the first. See [the table](ARTIFACT-CLASSIFICATION.md#approval-sensitive-paths), [the tool](CHECKPOINT-TOOL.md#feature-switches) and the [rationale](RATIONALE.md#change-classification-and-validation-scope-g026).
+
+### G026 project artifact classification extension (2026-10-25)
+
+Supported files of `project-governance/` have explicit framework-owned rows in the [artifact classification table](ARTIFACT-CLASSIFICATION.md). This supersedes G045/G050 only where they say every file in that folder is high sensitivity or the optional document homes need no dedicated rows. The project's constraints and decisions mirror their framework counterparts at `medium`; its non-normative rationale and the optional extension's input and port settings are low (`-`). The project's classification table and core configuration remain `high`, as does the unchanged directory fallback. Projects still may not classify paths under `governance/` or `project-governance/`.
+
+Class, validation invariants and subclasses follow each artifact's role; the golden pin is tooling and rationale is a record. All fifteen supported rows keep Boundary and Reachable unset, so optional files remain optional without a change to presence or reachability rules. The project's classification table, constraints and decisions are Bound; the existing policy/profile snapshot binding remains. The framework golden pins every supported row, including optional absent files. Extension removal also removes the rows and pins for its declared project files. G018, the higher-of-HEAD/candidate rule, committed reach and approval defaults are unchanged; this reclassification cannot lower its own effective sensitivity. See the [rationale](RATIONALE.md#project-artifact-classification-g026-project-artifact-classification-extension).
 
 ## G029 - Governance artifact organization (2026-10-03, Accepted)
 
@@ -452,3 +464,19 @@ The project may keep `project-governance/config/selector-expectations.json`, an 
 **What it is not.** It is a test, not a gate: it adds no check to any profile, changes no selection and no approval rule, and a project edits only its own declaration, which is a file of `project-governance/` graded `high`, so it is shown in the seal. The check runs whenever a change under `governance/` or `project-governance/` selects the conformance folder, which includes every change to the project's table or profiles, the two places where a wrong selection is introduced.
 
 See the [rationale](RATIONALE.md#project-selector-expectations-g056) and [project governance](PROJECT-GOVERNANCE.md#selector-expectations).
+
+## G057 - How a release is made (2026-10-25, Accepted)
+
+**Changes collect under `## Unreleased`; a release Job cuts them, and readiness precedes the public tag.** A change adds its changelog entry without changing [VERSION](VERSION). The release Job sets VERSION, dates the release heading and includes a Migration note when an adopter must act. A fix that blocks an adopting project ships at once as a patch. Fixes and wording take a patch version; a project gaining something new takes a minor version.
+
+The release commit passes the [readiness step](PROJECT-LIFECYCLE.md#releasing-comitas) before the lead developer declares it ready: continuity and the full suite on `main`; continuity and the conformance folder in both a fresh adopted export and a copy made the way "Use this template" makes one; and any scenario the release calls for in the export. Keep the full logs until the declaration. A failure before the declaration is fixed by a governed change and the runs start over from the new release commit. Only after the lead developer declares readiness does the Coordinator create the annotated tag `v<version>` on their word; the lead developer pushes it. A public tag never moves: a failure discovered after publication is fixed in the next release.
+
+This records the procedure first written with release 0.4.0 (template commit `c789d56f562721aa38a600c253c6e3d0a1a416c0`), with readiness added in template commit `11b55811dca9cd24f0a06d0fb00df0037398cdee` and released as 0.5.1 in template commit `6ea3f849ca3ef367b725d6855f20edea97385fda`. See the [rationale](RATIONALE.md#release-procedure-g057) for the choices and their reasons; this recording creates no release or tag.
+
+## G058 - Review aids never affect approval (2026-10-25, Accepted)
+
+**A page or view that helps the lead developer read a candidate is a display aid, never an approval mechanism.** Build it only from the recorded parent commit and candidate tree, never from working-tree contents. It is never part of what is sealed, approved, carried or compared. It changes neither the checkpoint tool nor any approval rule: [G018](#g018---delegated-checkpoint-authority-and-continuity-2026-10-01-accepted) retains exact approval, and [G042](#g042---the-core-never-depends-on-an-extension-2026-10-18-accepted) keeps the core independent of an extension. Rename detection, for example, belongs only on the display page; the sealed diff and the core review keep `--no-renames`.
+
+The current aid is the optional [diff viewer](extensions/diff_viewer/README.md). Its page identifies a PREVIEW (no approval) or a SEALED REVIEW and the Job it shows. While `governance/extensions/diff_viewer/` exists, every worker preview or sealed-review message ends with exactly one `Diff page: <file:// link>` line, or `Diff page: not available (<reason>)` when rendering failed, placed last immediately before the go or Approve question. The page never replaces the tool-rendered review in the conversation and adds no approval control, review history or comparison between candidates. The core works unchanged when the extension is absent.
+
+The extension landed in template commit `4c4321acba3934705f22be0339898909a802f2ed`; its compact header and complete-file toggle in template commit `36a8894d7a3db83783087f5d71d4887911f69728`; display-only renames and the Job in the title and header in template commit `472515ce6afc1a6e9086f817fac7eea34883b085`; and the link-placement rule in template commit `af40c3ba3e629a6d1b5fcb73fb998f94804c54e9`. See the [rationale](RATIONALE.md#review-aids-and-approval-g058).

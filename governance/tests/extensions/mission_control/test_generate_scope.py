@@ -65,7 +65,89 @@ class ExtensionScopeTest(unittest.TestCase):
             self.assertIn(invariant, self.profiles['impact']['invariants'])
         known = {entry['value'] for entry in self.profiles['commit_metadata']['subclasses']}
         self.assertTrue(set(manifest['subclasses']) <= known)
-        self.assertTrue((rp.ROOT / manifest['project_files'][0]).is_file())
+        # Ownership declarations cover optional files, even before a project creates them.
+        table = self.tool.table(self.policy, self.profiles)
+        for path in manifest['project_files']:
+            self.assertIn(path, table.by_path)
+
+
+class ProjectSettingsScopeTest(unittest.TestCase):
+    def test_project_consumer_fixture_needs_no_optional_project_settings(self):
+        import tempfile
+        from pathlib import Path
+        from unittest.mock import patch
+        from governance.tools.continuity import artifact_classification as ac
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder)
+            for relative in (ac.TABLE, ac.POLICY, ac.PROFILES, EXTENSION + 'extension.json'):
+                target = source / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text((rp.ROOT / relative).read_text(encoding='utf-8'),
+                                  encoding='utf-8', newline=chr(10))
+            self.assertFalse((source / ac.PROJECT_GOVERNANCE).exists())
+            with patch.object(rp, 'ROOT', source):
+                self.test_project_consumers_select_the_exact_checks_present_or_absent()
+                manifest_case = ExtensionScopeTest('test_the_manifest_names_what_the_policy_and_the_profiles_hold')
+                manifest_case.setUp()
+                manifest_case.test_the_manifest_names_what_the_policy_and_the_profiles_hold()
+
+    def test_project_consumers_select_the_exact_checks_present_or_absent(self):
+        import tempfile
+        from pathlib import Path
+        from unittest.mock import patch
+        from governance.tests.fake_git import FakeGit, bare_tool
+        from governance.tools.continuity import artifact_classification as ac
+        base = {'continuity', 'continuity-regressions'}
+        worktrees = {'checkpoint-worktrees', 'checkpoint-reconcile', 'checkpoint-evidence', 'checkpoint-invariants'}
+        expected = {
+            'DECISIONS.md': base | {'mission-control-generator'},
+            'RATIONALE.md': base | {'mission-control-generator'},
+            'config/citations.json': base | {'mission-control-generator'},
+            'config/devlog.json': base | worktrees | {'mission-control-generator'},
+            'config/mission-control-inputs.json': base | {'mission-control-generator'},
+            'config/mission-control.json': base | {'mission-control-ui'},
+        }
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            contents = {path: (rp.ROOT / path).read_text(encoding='utf-8')
+                        for path in (ac.TABLE, ac.POLICY, ac.PROFILES)}
+            # These settings are optional and their contents do not select checks.
+            contents.update({'project-governance/' + name: '{}\n' if name.endswith('.json') else '# Fixture\n'
+                             for name in expected})
+            for path, text in contents.items():
+                target = root / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(text, encoding='utf-8', newline=chr(10))
+            tool = bare_tool(root, FakeGit(contents))
+            for name, checks in expected.items():
+                path = 'project-governance/' + name
+                for present in (False, True):
+                    with self.subTest(path=path, present=present):
+                        if present:
+                            (root / path).write_text(contents[path], encoding='utf-8', newline=chr(10))
+                        else:
+                            (root / path).unlink(missing_ok=True)
+                        policy, profiles = tool.data()
+                        with patch.object(tool, 'link_retargets', return_value={}):
+                            selected = tool.select_profile([path], policy, profiles, 'auto')[1]
+                        self.assertEqual({check['id'] for check in selected['checks']}, checks)
+                (root / path).write_text(contents[path], encoding='utf-8', newline=chr(10))
+
+    def test_project_settings_are_independently_low_tooling_rows(self):
+        tool = object.__new__(c.Checkpoint)
+        tool.root = rp.ROOT
+        policy, profiles = tool.data()
+        table = tool.table(policy, profiles)
+        for name in ('mission-control-inputs.json', 'mission-control.json'):
+            path = 'project-governance/config/' + name
+            with self.subTest(path=path):
+                row = table.resolve(path)
+                self.assertEqual((row.klass, row.profile, row.approval_sensitivity), ('tooling', 'tooling', 'low'))
+                self.assertEqual(row.subclasses, ['mission-control'])
+                self.assertEqual(row.boundary, [])
+                self.assertFalse(row.bound)
+                self.assertFalse(row.reachable)
+                self.assertEqual(table.ineligible_paths([path], 'low', table), [])
 
 
 if __name__ == '__main__':

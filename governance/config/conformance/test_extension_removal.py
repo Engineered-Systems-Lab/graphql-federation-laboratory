@@ -11,7 +11,7 @@ of the areas most likely to depend on an extension run in it, each through the r
 - the continuity checker on the copy (links, reachability, devlog settings);
 - the checkpoint scope selector, which selects checks from the real table, policy and profiles;
 - the shared repository paths and the commit-metadata vocabulary read from the real profiles;
-- the modes of the shipped scripts, link retargeting and the agent pointer.
+- the modes of the shipped scripts, link retargeting, the agent pointer and the local Job helper, including its brief.
 
 A full-suite run would be far too slow for a test; these are the modules that read the real configuration, which is where
 a hidden dependency shows. The test skips when there is no usable Git checkout or no extension layer to remove. It never
@@ -44,6 +44,7 @@ AREAS = (
     ('test_script_modes.py', ('governance/config',)),
     ('test_link_retarget.py', ('governance/tests',)),
     ('test_agent_pointer.py', ('governance/config',)),
+    ('test_local_jobs.py', ('governance/tests',)),
 )
 IDENTITY = {'GIT_AUTHOR_NAME': 'Scratch', 'GIT_COMMITTER_NAME': 'Scratch',
             'GIT_AUTHOR_EMAIL': 'noreply@example.invalid', 'GIT_COMMITTER_EMAIL': 'noreply@example.invalid'}
@@ -153,15 +154,24 @@ class RemovalTest(unittest.TestCase):
         self.repository()
         self.core_tests(AREAS)
 
-    def test_removing_one_extension_keeps_the_layer_and_the_core_consistent(self):
-        manifest = self.manifests[0]
-        run([sys.executable, '-B', SCRIPT, manifest['name']], self.root)
-        self.assertFalse((self.root / manifest['folder']).exists())
-        self.assertFalse((self.root / manifest['tests']).exists())
-        self.assertTrue((self.root / LAYER / 'README.md').is_file())
-        self.repository()
-        run([sys.executable, '-B', 'governance/tools/validate_continuity.py'], self.root)
-        self.core_tests(AREAS[:1])
+    def test_removing_each_extension_keeps_the_layer_and_the_core_consistent(self):
+        source = self.root
+        for manifest in self.manifests:
+            with self.subTest(extension=manifest['name']):
+                self.root = self.parent / manifest['name']
+                shutil.copytree(source, self.root)
+                run([sys.executable, '-B', SCRIPT, manifest['name']], self.root)
+                self.assertFalse((self.root / manifest['folder']).exists())
+                self.assertFalse((self.root / manifest['tests']).exists())
+                self.assertTrue((self.root / LAYER / 'README.md').is_file())
+                pins = json.loads((self.root / 'governance/config/artifact-classification-golden.json').read_text(encoding='utf-8'))['paths']
+                for path in manifest['project_files']:
+                    self.assertFalse((self.root / path).exists())
+                    self.assertNotIn(path, pins)
+                self.repository()
+                run([sys.executable, '-B', 'governance/tools/validate_continuity.py'], self.root)
+                self.core_tests(AREAS[:3])
+        self.root = source
 
 
 class ScratchRepositoryTest(unittest.TestCase):

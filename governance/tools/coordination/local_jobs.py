@@ -197,8 +197,10 @@ def validate(data):
         for name, epic in epics.items():
             handle(name)
             require(name in data['queue'], 'Epic must be queued')
-            require(isinstance(epic, dict) and set(epic) == {'jobs'} and
-                    isinstance(epic['jobs'], list) and epic['jobs'], 'Epic requires nonempty jobs')
+            require(isinstance(epic, dict) and {'jobs'} <= set(epic) <= {'jobs', 'closure_policy'}
+                    and isinstance(epic['jobs'], list), 'Epic requires jobs and optional closure_policy')
+            policy = epic.get('closure_policy', 'automatic')
+            require(isinstance(policy, str) and policy in ('automatic', 'explicit'), 'Unknown Epic closure policy')
             for job in epic['jobs']:
                 handle(job)
                 require(job not in epics and job not in data['queue'],
@@ -432,8 +434,9 @@ def queued(directory):
     for name in coordinator['queue']:
         if name in epics:
             jobs = [row(job) for job in sorted(epics[name]['jobs'], key=lambda h: rank[h])]
-            entry = {'handle': name, 'kind': 'epic', 'priority': priorities.get(name), 'jobs': jobs}
-            entries.append((min(standing(job) for job in jobs), entry))
+            entry = {'handle': name, 'kind': 'epic', 'priority': priorities.get(name), 'jobs': jobs,
+                     'closure_policy': epics[name].get('closure_policy', 'automatic')}
+            entries.append((min((standing(job) for job in jobs), default=(True, True)), entry))
         else:
             entry = dict(row(name), kind='job', priority=priorities.get(name))
             entries.append((standing(entry), entry))
@@ -540,7 +543,7 @@ def prune(directory, primary):
             removed_epics = set()
             for name, epic in list(queue.get('epics', {}).items()):
                 epic['jobs'] = [job for job in epic['jobs'] if job not in handles]
-                if not epic['jobs']:
+                if not epic['jobs'] and epic.get('closure_policy', 'automatic') == 'automatic':
                     removed_epics.add(name)
                     del queue['epics'][name]
             removed = handles | removed_epics
@@ -671,10 +674,8 @@ def brief(primary, name, stagger=False, extra_file=None):
               '- Report follow-up to the Coordinator; do not create successor workers or Jobs. Keep your Job record '
               'current by its handle (the `note` command, or `put` with --expected-sha256). Report anything beyond '
               'scope instead of adding it.',
-              '- While the diff viewer extension is installed (its folder under governance/extensions exists), every message in which you present a preview or a sealed '
-              'review ENDS with exactly one line, placed last, immediately before the go or Approve question: '
-              '`Diff page: <file:// link>`, or `Diff page: not available (<reason>)` when rendering failed; never '
-              'omitted, never elsewhere in the message.',
+              '- If a README under `governance/extensions/` sets a rule for how you present a preview or a sealed review, '
+              'follow it.',
               '- Do NOT close or complete your own Job: the Coordinator closes it with `dispose` and `complete` after '
               'reading every pending entry.',
               "- Stale lock files, killing a process, or touching branches and worktrees other than your own: only with "
