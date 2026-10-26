@@ -2,22 +2,6 @@
 
 A governed laboratory that federates heterogeneous legacy systems (SOAP/XML, REST/JSON, Oracle, PostgreSQL) behind one GraphQL graph with Apollo and Cosmo, and tests whether higher levels of abstraction give AI agents better tools for cross-system questions.
 
-## Status
-
-This repository is being assembled. It starts from a governance template and receives the laboratory's content in slices, each one checked before the next:
-
-| Part | State |
-| --- | --- |
-| Governance framework (`governance/`, `project-governance/`) | in place, from the template |
-| Legacy systems (`uss-enterprise/`) | to be imported |
-| GraphQL federation (`federation/`) | to be imported |
-| Project decisions, rules and rationale (`project-governance/`) | to be imported |
-| Design and status documents (`docs/`) | to be imported |
-| The Abstraction ladder study (`study/`) | to be imported |
-| Development log (`devlog/`) | to be imported |
-
-This section is updated as each part lands.
-
 ## What the laboratory holds
 
 - **Legacy systems** of a fictional enterprise, each with its own technology and its own idea of the data: Personnel (Java, SOAP/XML), Missions (Java, REST/XML on Oracle) and Assets (REST/JSON on PostgreSQL), with versioned, hash-pinned datasets. Crew & Personnel v1, the first Personnel service, is kept frozen as a reference and is deprecated.
@@ -25,9 +9,77 @@ This section is updated as each part lands.
 - **The Abstraction ladder study** ("The Abstraction Ladder: Evaluating AI-Agent Access to Legacy Systems"): AI agents answer the same cross-system questions through the raw systems, the raw systems with a written guide, the adapters alone, and the federated graph through each router. Study 1 is reported with its scored results and checksums.
 - **A governance framework** for work by a human lead developer and AI agents together: a sealed checkpoint workflow with one person's exact approval, transaction-owned worktrees, a classification of every path, continuity checks, decision registries and a read-only Mission Control terminal. Start at [Project lifecycle](governance/PROJECT-LIFECYCLE.md); agents start at [AGENTS.md](AGENTS.md).
 
+## Architecture in short
+
+The legacy systems live in `uss-enterprise/` and know nothing of GraphQL, federation or AI: the integration adapts to them, never the other way round. Each system keeps its own identifiers and meanings. The federation layer in `federation/` puts one Java adapter in front of each system (Missions, Assets, Personnel) and one more for the shared external-ID mapping, which owns the versioned mapping releases that say which Missions reference names which asset or person. The four adapters are subgraphs of one supergraph, served by either router, one at a time. The study in `study/` puts AI agents on top of each level of that ladder through local MCP servers. The whole picture, with the logical boundaries and the controlled failures, is in [Architecture](docs/ARCHITECTURE.md); the federation itself is in [the federation design](docs/FEDERATION-DESIGN.md).
+
 ## Prerequisites
 
-To be confirmed as each part is imported. Expected: Git (on Windows, run the shell commands from Git Bash), Python 3.13 or later for the governance tools and the study, Docker with Docker Compose for the services and the federation stack, a JDK and Maven for local Java builds, and Node.js only for the Mission Control terminal checks.
+- **Git**, and on Windows **Git Bash** for every shell command in this repository.
+- **Python 3.13 or later** for the governance tools, the gates and the study's offline tests.
+- **Docker with Docker Compose** for the services, the federation stack and the stack gates. The Java services and adapters are built inside their images, so the stack needs no JDK or Maven on the machine.
+- **A JDK and Maven** only for local Java builds outside Docker (JDK 17 for the legacy Java services, JDK 21 for the adapters; Maven 3.9 or later).
+- **Node.js** only for the Mission Control terminal checks.
+- **The study environment** only for the study's MCP part and its analysis: a Python with the study's pinned packages (`mcp` for the MCP servers, `statsmodels` and `scipy` for the analysis), named by the machine-local variable `STUDY_MCP_PYTHON`. Scored runs also need the vendors' API keys, from the environment only.
+
+## Starting the stack
+
+The whole federation layer runs on one machine in stub-backend mode, with no Oracle: the real Assets service on PostgreSQL, the real Personnel v2 service, a stub that serves the released Missions dataset, the four adapters and one router, all on loopback. One router runs at a time, because the two share the adapters' ports: start one of the two below, and stop it before starting the other. From Git Bash, with Docker running.
+
+With the Apollo router, on 127.0.0.1:8170:
+
+```sh
+APOLLO_ELV2_LICENSE=accept bash federation/stack/start.sh start
+```
+
+and to stop it:
+
+```sh
+bash federation/stack/start.sh stop
+```
+
+Or with the Cosmo router, on 127.0.0.1:8171:
+
+```sh
+FEDERATION_ROUTER=cosmo bash federation/stack/start.sh start
+```
+
+and to stop it:
+
+```sh
+FEDERATION_ROUTER=cosmo bash federation/stack/start.sh stop
+```
+
+**The ELv2 note:** the Apollo Router and Apollo's composition library are under the Elastic License 2.0; `APOLLO_ELV2_LICENSE=accept` is your own acceptance of it for Rover's composition plugin, and the script refuses an Apollo start without it. Cosmo needs no license acceptance and no account. `stop` keeps the containers, and the Assets data lives only while its database container runs, so the next start loads it again. Ports, data and images are in [the stack README](federation/stack/README.md).
+
+## Demonstrations
+
+- **The cross-system questions.** The router-neutral [acceptance suite](federation/acceptance/README.md) asks questions 2 to 6 of the federation design through a router (which missions used a destroyed or missing asset, which have unresolved assets, the parent chain of an asset in one query, a mission that still answers with partial data while the Assets service is down, and how many missions are confirmed with a senior officer among their crew) and runs the controlled cases: an outage of the Assets service, dead adapters and the recovery when they come back, each answered with errors entries beside the data that is still there, never with a guess. The stack gates below run it against each router on a disposable stack.
+- **The Abstraction ladder study.** The [study](study/README.md) holds the task corpus, the MCP servers, the harness, the written guide, the analysis and the compact evidence; the results are in [the study report](docs/AGENT-STUDY-REPORT.md).
+
+## Validation
+
+Each command runs from the repository root in Git Bash; its result is what it prints.
+
+| Check | Command |
+| --- | --- |
+| Continuity (documents, links, records, frozen files) | `python -B governance/tools/validate_continuity.py` |
+| The full governance suite | `python -B governance/tools/run_tests.py -s governance/tests -s governance/config -p 'test_*.py'` |
+| The Apollo router gates, offline and on a disposable stack | `python -B federation/routers/apollo/validation/run_router_gate.py offline` and `APOLLO_ELV2_LICENSE=accept python -B federation/routers/apollo/validation/run_router_gate.py stack` |
+| The Cosmo router gates | `python -B federation/routers/cosmo/validation/run_router_gate.py offline` and `python -B federation/routers/cosmo/validation/run_router_gate.py stack` |
+| The study gate (offline; the MCP part runs under `STUDY_MCP_PYTHON`, `--require-mcp` makes its absence a failure) | `python -B study/harness/study_gate.py` |
+| The analysis reproduction (needs the raw run bundles) | the command in [the analysis README](study/analysis/README.md#running-it) |
+
+The gates of every other component are named in the project's checkpoint policy (`project-governance/config/checkpoint-policy.json`) and in each component's README.
+
+## Limitations
+
+- In study 1 and gamma-prime-1, the study's Missions was a simulator, not the Oracle-backed Missions service ([the report's correction](docs/AGENT-STUDY-REPORT.md#correction-2026-10-21-the-study-testbed)).
+- The stack's default Missions is a stub serving the released dataset; the real-service mode (Missions on Oracle) has not been run in this repository.
+- The raw study bundles stay outside the repository and are cited by checksum, so the analysis cannot be reproduced without them.
+- The container limits are provisional: they wait for the benchmark environment record.
+- Crew & Personnel v1 is frozen and deprecated: it stays readable and runnable as a reference, and no new work builds on it.
+- The MCP part of the study gate needs the study environment.
 
 ## History and provenance
 

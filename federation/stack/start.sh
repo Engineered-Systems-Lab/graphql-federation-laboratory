@@ -33,9 +33,15 @@ Environment: FEDERATION_ROUTER=apollo|cosmo (default apollo; one router at a tim
   SUPERGRAPH_FILE (default federation/routers/apollo/supergraph.graphql, the committed file: start composes it again, so a changed
   schema shows up as a Git diff), EXECUTION_CONFIG_FILE (Cosmo; default federation/routers/cosmo/execution-config.json, the committed
   file, composed again the same way), COMPOSE_PROJECT_NAME, PYTHON (default python).
-  Random database credentials are made for the run unless STACK_ASSETS_DB_ADMIN_PASSWORD and STACK_ASSETS_DB_SERVICE_PASSWORD are set.
+  Random database credentials are made for the run unless STACK_ASSETS_DB_ADMIN_PASSWORD and STACK_ASSETS_DB_SERVICE_PASSWORD are set;
+  the scripts create no credentials file.
 --dry-run checks the ports and prints the commands it would run, and runs nothing.
-Reset the data (your command, not this script's): docker compose -f federation/stack/compose.yaml down --volumes
+The data: the Assets database lives in memory only while its container runs, so the next start after a stop loads dataset 1.1 again.
+Remove the stack (your command, not this script's; compose needs the file's variables, placeholders here, and --profile cosmo removes a Cosmo router too;
+set the same COMPOSE_PROJECT_NAME as the start, if you set one):
+  SUPERGRAPH_FILE=./unused STACK_ASSETS_DB_ADMIN_PASSWORD=unused STACK_ASSETS_DB_SERVICE_PASSWORD=unused \
+    docker compose -f federation/stack/compose.yaml --profile cosmo down --volumes
+See federation/stack/README.md, "Status, stop and reset".
 USAGE
 }
 fail_usage() { usage >&2; exit 2; }

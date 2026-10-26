@@ -16,7 +16,8 @@
 # - The routing URL of every subgraph in the supergraph is its service name on this project's network (for example
 #   http://assets-adapter:8184/graphql), the same in every mode, so the supergraph does not change with the host's ports.
 # - Credentials of the Assets database come from the environment; compose refuses to start when one is missing. start.sh makes random
-#   ones for the run. The database lives in the container: `docker compose down` discards it and the next start loads dataset 1.1 again.
+#   ones for the run. The database lives in memory (a tmpfs) only while assets-db runs: after it stops, the next start loads dataset
+#   1.1 again.
 # - Explicit CPU and memory limits. They are PROVISIONAL: the limits wait for the benchmark environment record.
 # - ONE ROUTER AT A TIME. `router` (Apollo, port 8170) is always part of the file. `cosmo-router` (Cosmo, port 8171) belongs to the
 #   compose profile `cosmo`, so a plain `docker compose config` and a plain `up router` are the Apollo stack exactly as before, and the
@@ -44,6 +45,10 @@ services:
       retries: 30
       start_period: 5s
     stop_grace_period: 60s
+    # The data directory of the pinned image (its PGDATA) is in memory: it lives only while this container runs, so every start,
+    # random credentials included, initializes it and the bootstrap loads dataset 1.1 again. Its pages count against mem_limit.
+    tmpfs:
+      - /var/lib/postgresql/data:size=128m
     cpus: 1.0
     mem_limit: 512m
     memswap_limit: 512m

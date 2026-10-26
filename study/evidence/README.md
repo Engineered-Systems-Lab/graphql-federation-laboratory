@@ -12,7 +12,7 @@ The compact evidence files of the [Abstraction ladder study](../README.md) kept 
 | `gamma-prime-1/manifest.json` | The run manifest of gamma-prime-1. |
 | `checksums.json` | Per run: the bundle checksum, the SHA-256 of `bundle.json`, of the archive zip and of the archive's per-file sums file, and of each evidence file. |
 
-Each score table and manifest is a byte copy of the file in the run folder, taken from a copy verified against the archive's per-file sums on 2026-10-21. A Windows checkout may hold them with CRLF line ends; their checksums are of the LF bytes the run wrote. The [analysis](../analysis/README.md) refuses to run when its copies of the run folders differ from these files or from these checksums, and its tests check these files against `checksums.json`.
+Each score table and manifest is a byte copy of the file in the run folder, taken from a copy verified against the archive's per-file sums on 2026-10-21. A Windows checkout may hold them with CRLF line ends; their checksums are of the LF bytes the run wrote. The [analysis](../analysis/README.md) refuses to run when its copies of the run folders differ from these files or from these checksums, and its tests check these files against `checksums.json`. The `commit` field of each run manifest is a lab commit: the commit of the original lab repository, where the harness ran, not a commit of this repository.
 
 ## Where the raw data are
 
