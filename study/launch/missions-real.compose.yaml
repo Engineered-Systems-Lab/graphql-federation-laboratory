@@ -1,0 +1,25 @@
+# The real-Missions mode of the study launch kit: an overlay of federation/stack/compose.yaml, which it never changes.
+# launch.py adds it to every compose call of the real mode (-f federation/stack/compose.yaml -f study/launch/missions-real.compose.yaml).
+#
+# - The Missions adapter calls the real Missions service instead of missions-stub, by its container name on the service's own bridge
+#   network. uss-enterprise/missions/compose.yaml (project starfleet-missions) creates that network as its default network, beside
+#   Oracle's internal network starfleet-missions-data-20261009; the adapter joins the bridge only, so it cannot reach Oracle.
+# - depends_on is reset, so starting the adapter (or the routers, which depend on it) never starts missions-stub. !reset needs
+#   Docker Compose 2.24.4 or later; launch.py checks the version.
+# - Nothing is published here: every port stays as federation/stack/compose.yaml publishes it, on 127.0.0.1. The real service
+#   publishes 127.0.0.1:8083 itself, where the raw MCP server of alpha and beta reaches it.
+# - The operator starts Oracle and the Missions service; this file and launch.py never start, create or remove either. The network is
+#   external, so compose refuses to start the adapter when the service's network does not exist.
+services:
+  missions-adapter:
+    environment:
+      MISSIONS_SERVICE_URL: http://starfleet-missions-service:8083
+    depends_on: !reset {}
+    networks:
+      - default
+      - missions-service
+
+networks:
+  missions-service:
+    external: true
+    name: starfleet-missions_default

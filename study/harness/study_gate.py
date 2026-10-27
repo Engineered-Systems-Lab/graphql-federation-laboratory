@@ -28,6 +28,7 @@ SUITES = [
     ('corpus', 'corpus', 'test_corpus.py', 'no'),
     ('mcp', 'mcp', 'test_mcp_offline.py', 'require'),
     ('analysis', 'analysis', 'test_*.py', 'stats'),
+    ('launch', 'launch', 'test_*.py', 'no'),
 ]
 PROBES = {'mcp': 'from mcp import Client', 'stats': 'import statsmodels, scipy'}
 NEEDS = {'require': 'the mcp package', 'stats': 'statsmodels and scipy'}
