@@ -2,6 +2,24 @@
 
 This changelog is curated, not generated. An entry says what someone who has adopted Comitas must do or know; if it could be produced from `git log`, it does not belong here, and an entry points to a decision or a document instead of copying text. The version is in [VERSION](VERSION). A release that needs action from adopters gets a Migration note under it, written when that first change is made. A release heading carries the date the release was made, written `## <version> (YYYY-MM-DD)`. Entries collect under `## Unreleased` until the lead developer cuts a release, which dates the heading and sets VERSION.
 
+## 0.7.0 (2026-10-27)
+
+**Selector expectations can exclude exact filenames.** After upgrading, replace broad character-class workarounds
+with an optional per-expectation `exclude` list so future files remain checked. Stale entries and exclusions leaving
+nothing to check fail conformance; existing declarations need no change. See
+[Selector expectations](PROJECT-GOVERNANCE.md#selector-expectations).
+
+**Commit-history coverage now uses repository-owned boundaries.** Existing adopters must add their own reviewed
+declaration; fresh exports and template copies must replace the inherited Comitas IDs. Migration: initialize
+`project-governance/config/commit-history.json` after the first commit exists, following
+[Commit history](PROJECT-GOVERNANCE.md#commit-history).
+
+**Mission Control shows the project's name and optional tagline.** After upgrading, set `project_name` in the primary checkout's
+`project-governance/config/mission-control.json`; missing or blank falls back to the primary folder name, including
+when launched from a linked worktree. The optional `tagline` follows the name and a middle dot; missing or blank means
+the name alone. Comitas ships `Comitas · Governed work for AI agents`. Restart a running server after upgrading;
+see the [terminal instructions](extensions/mission_control/ui/README.md#run-locally).
+
 ## 0.6.2 (2026-10-26)
 
 **Runtime post-commit verification reads the merged reconstruction contract.** Facts declared only in the project's

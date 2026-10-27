@@ -90,6 +90,8 @@ DEVLOG_DEFAULTS = {'folder': 'devlog', 'date_format': '%Y-%m-%dT%H:%MZ', 'enable
 # must resolve here. The code default is no label, and a missing file or one that does not parse means the default.
 CITATIONS = PROJECT_CONFIG + '/citations.json'
 CITATIONS_DEFAULTS = {'external_repositories': []}
+# Required by the history conformance test in a repository with complete history; no framework IDs are defaults.
+COMMIT_HISTORY = PROJECT_CONFIG + '/commit-history.json'
 # The project's expectations of which checks its paths select (G056). One optional file in the project's configuration folder,
 # with no framework copy: {"version": 1, "expectations": [{"paths": <git pathspec>, "selects": [<checks>], "never": [<checks>]}]}.
 # The conformance test of the framework reads it against every tracked file a pathspec matches. Unlike the settings above, a
@@ -216,11 +218,12 @@ def citation_labels(root):
 
 
 def selector_expectations(root, commands):
-    """The project's selector expectations at `root`: a list of {'paths': pathspec, 'selects': [...], 'never': [...]}.
+    """The project's selector expectations at `root`: a list of pathspecs, check assertions and exact filename exclusions.
 
     The file is optional and only an absent one means none. A path that exists must be a readable file holding a JSON
     object with only "version" (1, optional) and "expectations", a nonempty list of objects that hold only "paths" (a nonempty one-line git pathspec),
-    "selects" and "never" (lists of distinct check ids, each a command of `commands`, the merged policy's) and "why" (text,
+    "exclude" (optional distinct canonical repository-relative filenames), "selects" and "never" (lists of distinct check ids,
+    each a command of `commands`, the merged policy's) and "why" (text,
     optional); each needs at least one check and no check may be in both lists. `selects` is a floor (a file must select at least
     those checks, others may run too), `never` a ban, and both are asserted for each matched file alone. Anything else is refused with one message
     naming the file and the expectation, because a misspelt key or check must not turn the guard off."""
@@ -241,12 +244,20 @@ def selector_expectations(root, commands):
     found = []
     for number, item in enumerate(listed, 1):
         label = where + ', expectation %d' % number
-        require(isinstance(item, dict) and set(item) <= {'paths', 'selects', 'never', 'why'}, label +
-                ' must be an object that holds only "paths", "selects", "never" and "why"')
+        require(isinstance(item, dict) and set(item) <= {'paths', 'exclude', 'selects', 'never', 'why'}, label +
+                ' must be an object that holds only "paths", "exclude", "selects", "never" and "why"')
         spec = item.get('paths')
         require(isinstance(spec, str) and spec.strip() and spec.isprintable(),
                 label + ': "paths" must be one git pathspec on one line')
         require(isinstance(item.get('why', ''), str), label + ': "why" must be text')
+        excluded = item.get('exclude', [])
+        require(isinstance(excluded, list) and all(isinstance(n, str) for n in excluded)
+                and len(set(excluded)) == len(excluded),
+                label + ': "exclude" must be a list of distinct exact repository-relative filenames')
+        for name in excluded:
+            require(name and name.isprintable() and not any(c in name for c in '\\:*?[]')
+                    and all(part not in ('', '.', '..') for part in name.split('/')),
+                    label + ': "exclude" needs a canonical exact repository-relative filename: ' + repr(name))
         lists = {}
         for key in ('selects', 'never'):
             names = item.get(key, [])
@@ -258,7 +269,7 @@ def selector_expectations(root, commands):
         require(lists['selects'] or lists['never'], label + ' needs at least one check in "selects" or "never"')
         both = sorted(set(lists['selects']) & set(lists['never']))
         require(not both, label + ' lists the same check in "selects" and "never": ' + ', '.join(both))
-        found.append({'paths': spec, **lists})
+        found.append({'paths': spec, **lists, 'exclude': excluded})
     return found
 
 

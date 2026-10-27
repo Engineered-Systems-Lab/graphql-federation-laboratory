@@ -10,7 +10,9 @@ This document is the one place that says what a project keeps in `project-govern
 - **Override of code defaults.** The feature switches, the devlog settings and the Mission Control port are one file each, with no framework copy. The framework's code holds the default of every key: a key the file leaves out takes it. How a file that is missing or does not parse is treated is stated per file below.
 - **Registries and documents.** The project's rules, decisions and rationale are documents beside the framework's. Each is optional, and an absent one means none.
 
-With every project file absent, the tools behave exactly as with the framework alone.
+The optional overlays above retain framework-only behavior when absent. This does not supply history boundaries:
+`config/commit-history.json` is required by the history test in a full repository, and its absence fails that test.
+History that is genuinely unavailable is handled as described under [Commit history](#commit-history).
 
 ## The files
 
@@ -21,11 +23,12 @@ With every project file absent, the tools behave exactly as with the framework a
 | `config/checkpoint-policy.json` | overlay of the framework's policy | the framework's policy alone |
 | `config/checkpoint-profiles.json` | overlay of the framework's profiles | the framework's profiles alone |
 | `config/checkpoint-features.toml` | override of code defaults | every feature off |
+| `config/commit-history.json` | repository history declaration | fails the history test in a full repository; no framework boundary default |
 | `config/citations.json` | override of code defaults | no label (the adoption helper writes the label `template` into a new project's file) |
 | `config/devlog.json` | override of code defaults | the defaults below |
 | `config/frozen-manifest.json` | the checksums of the frozen files | no frozen file may exist: every file under a `frozen` row needs an entry ([the manifest](#the-frozen-manifest)) |
 | `config/mission-control-inputs.json` | the project's part of the inventory of the Mission Control extension | the terminal shows the framework alone |
-| `config/mission-control.json` | override of a code default of the Mission Control extension | the default port |
+| `config/mission-control.json` | override of code defaults of the Mission Control extension | the default port, primary folder name and no tagline |
 | `config/reconstruction-contract.json` | overlay of the framework's reconstruction contract | the framework's part alone |
 | `config/selector-expectations.json` | the project's expectations of which checks its paths select | none ([selector expectations](#selector-expectations)) |
 | `CONSTRAINTS.md` | the project's rules | no project rules |
@@ -47,8 +50,47 @@ The code supplies these. The table is read by a conformance test that compares e
 | `config/checkpoint-features.toml` | `parallel_tests` | `false` |
 | `config/checkpoint-features.toml` | `test_workers` | `0` |
 | `config/mission-control.json` | `port` | `8765` |
+| `config/mission-control.json` | `project_name` | `""` |
+| `config/mission-control.json` | `tagline` | `""` |
 
 The starter files Comitas ships hold the values Comitas itself runs with, which are not always the defaults (for example `early_approval_reach` is `"medium"` and `parallel_tests` is `true` there). A project keeps the values it wants. An upgrade that adds an optional key announces it in the [changelog](CHANGELOG.md), and the default in the code keeps old project files working.
+
+## Commit history
+
+`config/commit-history.json` is owned by the project and preserved on framework upgrades. It declares the last exempt
+commits for two forward-only convention epochs ([G059](DECISIONS.md#g059---repository-owned-commit-history-boundaries-2026-10-26-accepted)):
+
+```json
+{"version": 1, "convention_after": "<full lowercase 40-hex commit ID>"}
+```
+
+`version` is exactly the integer `1`; `convention_after` is required. The only optional field is
+`trailer_allowlist_after`; omission means equal to `convention_after`. A present value is another full lowercase
+40-hex commit ID. Null, abbreviated IDs, `HEAD`, branch/tag names, unknown keys and other defaults are refused.
+Both IDs must name commit objects ancestral to a single captured HEAD, and `convention_after` must be ancestral to
+or equal to `trailer_allowlist_after`. A boundary excludes itself and its ancestors. Every reachable commit in
+`convention_after..HEAD`, including merged side branches, receives strict metadata and Status-placement checks.
+Only commits in `convention_after..trailer_allowlist_after` may retain historical extra trailer keys; the rest may
+hold only Class, Subclass and Worker. Equal boundaries enable both rules together. A boundary equal to HEAD is valid:
+the check reports an explicit zero count rather than inventing coverage.
+
+Present configuration is checked before history availability. Unreadable, malformed, nonregular or indirect files
+fail even in an archive or shallow clone. Non-Git exports, unborn repositories and shallow clones skip history with
+an explicit unavailable-history reason; synthetic checks still run. A shallow clone makes no completeness claim even
+when a boundary is present. Missing configuration in full history, either missing/non-commit/non-ancestor object,
+reversed epochs and unexpected Git failures fail, never becoming a skip or changing exemptions. Missing Git is an
+explicit unavailable-tooling failure. Obtain complete history before resolving unavailable shallow ancestry.
+
+For an existing project, choose boundaries from its contemporary adoption and rule-start evidence. Do not choose its
+root or current HEAD automatically, rewrite history or advance boundaries to hide a failed commit. Comitas exempts
+its initial import, with both epochs starting afterwards; that declaration is specific to Comitas.
+
+A fresh export or GitHub template copy inherits Comitas's IDs and **fails the history test until those IDs are
+replaced**. After the first commit exists, read its ID with `git rev-parse HEAD`, replace `convention_after` with that
+ID and omit `trailer_allowlist_after` to start both epochs together. Commit this project configuration during the
+subsequent setup transaction. The first commit cannot contain its own hash; the later setup commit records it.
+`adopt.py` reminds an export adopter of this step but still runs only before the first commit and never initializes
+history metadata after HEAD exists. The template route already has its first commit and does not run `adopt.py`.
 
 ## The project's classification table
 
@@ -72,16 +114,19 @@ The starter files Comitas ships hold the values Comitas itself runs with, which 
 
 ```json
 {"version": 1, "expectations": [
-  {"paths": "docs/api/*.md", "selects": ["continuity", "docs-lint"], "never": ["docs-build"], "why": "api pages are linted, not built"}
+  {"paths": "docs/api/*.md", "exclude": ["docs/api/README.md"], "selects": ["continuity", "docs-lint"], "never": ["docs-build"], "why": "api pages are linted, not built"}
 ]}
 ```
 
 - `paths`: a [git pathspec](https://git-scm.com/docs/gitglossary#def_pathspec) on one line, matched against `git ls-files` from the repository root. In the default syntax `*` also crosses `/`; use `:(glob)` for the strict form. It must match at least one tracked file.
-- `selects`, `never`: lists of distinct check ids, each a command of the merged policy (the framework's or the project's), at least one in the two together and none in both. `selects` is a floor: each matched file must select at least those checks, and may select others. `never` is a ban: no matched file may select any of the named checks. Both are assertions about each file on its own, so one file that differs fails the expectation.
+- `exclude`: optional list of distinct exact repository-relative filenames, default `[]`. Each must be among this expectation's tracked matches; stale, untracked, wrong-case or out-of-scope entries fail. Subtract only these names, for this expectation only, and fail if none remain. Use printable strings of nonempty `/`-separated segments, neither `.` nor `..`; absolute paths, backslashes, colons and glob tokens `*`, `?`, `[` and `]` are refused. Match Git spelling exactly: no trimming, case folding, Unicode normalization or filesystem resolution. Spaces and Unicode are literal. Another expectation may still check an excluded file.
+- `selects`, `never`: lists of distinct check ids, each a command of the merged policy (the framework's or the project's), at least one in the two together and none in both. `selects` is a floor: each matched file must select at least those checks, and may select others. `never` is a ban: no matched file may select any of the named checks. Both are assertions about each remaining file on its own, so one file that differs fails the expectation.
 - `why`: optional text for the reader.
 - `version`: `1` when present. Any other key is refused.
 
-Each tracked file is judged by the selection the checkpoint tool makes for a change to that file alone, so its row, the profile, `narrowable` and the impact invariants of the project all count; the mandatory checks (`continuity`) are in it. A file with no usable row fails the expectation. A row whose Invariants cell is `symbol-map` is always judged with the whole envelope of its profile, whatever the working tree holds: the test switches the comparison with HEAD that picks mapped symbols off, so an edit never changes the verdict. A failure is one message per expectation naming each file with its profile and its selection (the first twenty, then a count). The test is `governance/config/conformance/test_selector_expectations.py`; it runs with the conformance folder, which any change under `governance/` or `project-governance/` selects, the project's table and profiles included. See [G056](DECISIONS.md#g056---a-project-may-declare-which-checks-its-paths-select-2026-10-23-accepted).
+Each remaining tracked file is judged by the selection the checkpoint tool makes for a change to that file alone, so its row, the profile, `narrowable` and the impact invariants of the project all count; the mandatory checks (`continuity`) are in it. A file with no usable row fails the expectation. A row whose Invariants cell is `symbol-map` is always judged with the whole envelope of its profile, whatever the working tree holds: the test switches the comparison with HEAD that picks mapped symbols off, so an edit never changes the verdict. A failure is one message per expectation naming each file with its profile and its selection (the first twenty, then a count). The test is `governance/config/conformance/test_selector_expectations.py`; it runs with the conformance folder, which any change under `governance/` or `project-governance/` selects, the project's table and profiles included. See [G056](DECISIONS.md#g056---a-project-may-declare-which-checks-its-paths-select-2026-10-23-accepted).
+
+To replace a broad workaround such as `:(glob)assets/[!Rp]*`, use `:(glob)assets/*` with exact `assets/README.md` and `assets/pom.xml` exclusions. Future `Report.java` and `parser.java` stay checked. This does not require another expectation for every excluded file and does not change production selection. Existing declarations keep version `1` and their behavior; upgrade the framework before using `exclude`, because older readers reject the new key.
 
 ## The policy and the profiles
 
@@ -173,7 +218,7 @@ These two files belong to the optional Mission Control [extension](extensions/RE
 
 The optional `groups` key, `[{"label": "<group name>", "paths": ["<exact document path>", ...]}, ...]`, names the display groups of the Status briefing for the project's own documents; without it they all show under Other implementation. A group holds the documents whose exact path it lists, in the order the groups are declared, and only changes how the briefing is arranged. The groups of the project follow those of Mission Control and of the other installed extensions, which each declare theirs in their own manifest (the `group` of `extension.json`). Mission Control refuses, with one message and until the file is corrected, a label used twice in any of these sources, a path in two groups, a path that is not a relative forward-slash repository path and a path of the project that is not among the inputs of Mission Control (a document in a declared folder counts), and no group is shown meanwhile. The version stays 1.
 
-`config/mission-control.json` is `{"version": 1, "port": 8765}`. Several projects on one host need distinct ports, because the server binds exclusively and stops with one line when the port is taken, without trying another. `--port` overrides the file. A file that cannot be read, or that holds another key or a port that is not a whole number from 1 to 65535, means the default, and the server says so in one line.
+`config/mission-control.json` may hold `{"version": 1, "port": 8765, "project_name": "Comitas", "tagline": "Governed work for AI agents"}`. Every key is optional. Several projects on one host need distinct ports, because the server binds exclusively and stops with one line when the port is taken, without trying another. `--port` overrides the file. `project_name` and `tagline` are optional single-line strings, trimmed for display. A nonblank `project_name` replaces the primary checkout folder name; absent, empty or whitespace-only means the folder name. A nonblank tagline follows that name and a middle dot; absent or blank means the name alone. Both strings are read from the primary checkout's setting, including when the server runs from a linked worktree; neither is extracted from the README or fetched from GitHub. A file that cannot be read, or that holds another key, an invalid port or a name/tagline of another type or containing a line break, means the defaults (port 8765, primary folder name and no tagline), with the problem reported. The version stays 1.
 
 ## Rules, decisions and rationale
 
@@ -211,5 +256,5 @@ The bootstrap prompt and the required sections are the framework's alone. A proj
 | a declared label followed by a backticked token that is not 7 to 40 lowercase hexadecimal characters | continuity | continuity fails |
 | a labeled commit on a `Repository checkpoint:` line | Mission Control generator | refused with one message |
 | a project document not reachable from `AGENTS.md`, or with a link that does not resolve | continuity | continuity fails |
-| a selector expectation that is unreadable, has an unknown key or check, lists a check twice or in both lists, matches no tracked file, or is not met by a matched file | `config/selector-expectations.json` | the conformance test fails |
+| a selector expectation that is unreadable, has an unknown key or check, lists a check twice or in both lists, matches no tracked file, has invalid or unmatched exclusions, leaves no checked files, or is not met by a remaining file | `config/selector-expectations.json` | the conformance test fails |
 | a feature value that is not exactly one of the listed ones, or a file that does not parse | feature switches | the feature is off |
