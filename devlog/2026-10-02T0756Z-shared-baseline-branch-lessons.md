@@ -17,7 +17,7 @@ Commit content and ancestry established semantic ownership despite the branch na
 
 ## Discovery and later context
 
-The reconstruction fixture in `validation/test_continuity.py` still expected old runtime checkpoint lab commit `b77b23acaa84178931b2cd1cc09b4d14dd956d5b` after Personnel recovery status advanced. Lab commit `f8b31eb` changed only that current expectation to lab commit `03abf8c17c1a78dec88885fdc77392577a2ade9a`; historical b77b23a references were preserved. Its recorded evidence reports continuity and all 17 continuity regressions passing, with full-profile limits from missing lxml and Python subprocess launch errors; those are historical results, not new executions by this log.
+The reconstruction fixture in `validation/test_continuity.py` still expected old runtime checkpoint lab commit `b77b23acaa84178931b2cd1cc09b4d14dd956d5b` after Personnel recovery status advanced. Lab commit `f8b31eb` changed only that current expectation to lab commit `03abf8c17c1a78dec88885fdc77392577a2ade9a`; historical references to lab commit `b77b23a` were preserved. Its recorded evidence reports continuity and all 17 continuity regressions passing, with full-profile limits from missing lxml and Python subprocess launch errors; those are historical results, not new executions by this log.
 
 Earlier PLAN/PROGRESS working-tree or deferred wording was narration drift across completed checkpoints, not a circular implementation dependency. The Personnel runtime commit precedes its continuity record and fixture correction; the preserved Missions design is separate. No circular dependency was introduced. Current truth remains owned by [Progress](../docs/PROGRESS.md); this record neither revises design nor rewrites contemporary history.
 
