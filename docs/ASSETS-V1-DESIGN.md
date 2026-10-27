@@ -4,7 +4,7 @@ Status: **design and executable contracts 1.0 and 1.1, the service implements 1.
 
 ## Purpose and hypothesis
 
-Assets is a bounded context that owns the facts of the fleet's assets: starships, shuttles, ground vehicles (rovers and armored vehicles) and equipment such as phasers, tricorders and scientific instruments. The [Missions design](MISSIONS-V1-DESIGN.md#ownership-and-identifiers) keeps asset references as identifiers only and leaves their facts to "asset-owning services"; Assets is that service. It stands beside Personnel (SOAP, an immutable in-memory dataset) and Missions (REST with XML, Oracle) as a third legacy system built differently on purpose: REST with JSON, an OpenAPI contract and PostgreSQL. The [Prime Directive](../project-governance/CONSTRAINTS.md#legacy-systems-stay-unaware-of-the-integration-layer) applies: Assets knows nothing of GraphQL, federation, MCP or AI.
+Assets is a bounded context that owns the facts of the fleet's assets: starships, shuttles, ground vehicles (rovers and armored vehicles) and equipment such as phasers, tricorders and scientific instruments. The [Missions design](MISSIONS-V1-DESIGN.md#ownership-and-identifiers) keeps asset references as identifiers only and leaves their facts to "asset-owning services"; Assets is that service. It stands beside Personnel (SOAP, an immutable in-memory dataset) and Missions (REST with XML, Oracle) as a third legacy system built differently on purpose: REST with JSON, an OpenAPI contract and PostgreSQL. The project constraint [Legacy systems stay unaware of the integration layer](../project-governance/CONSTRAINTS.md#legacy-systems-stay-unaware-of-the-integration-layer) applies: Assets knows nothing of GraphQL, federation, MCP or AI.
 
 A bounded context is added only for a defined hypothesis (see [Integration notes](INTEGRATION-NOTES.md)). The hypothesis of Assets is:
 
@@ -148,6 +148,8 @@ This is the expectation of the federation layer, not behavior of Assets, which k
 
 Ideas for later, parked and not part of any slice: the federation could answer "when was this asset last seen?" with the asset's last recorded mission (its mission and stardate, labeled as a fact, never as the loss date) by reading `totalPages` of `GET /missions?assignedAssetId=...` and fetching the last page, and it could answer which missions used a DESTROYED or MISSING asset and which missions have unresolved assets. Each needs two or three services together, which is why they are good demonstration questions for the GraphQL explorer. An optional `statusStardate` field in Assets was considered and not chosen; it would be a compatible minor addition if a scenario ever needed it.
 
+Note 2026-10-27: the built graph differs; a reference has no `id` field (D043) and five resolution values; [Failure semantics](FEDERATION-DESIGN.md#failure-semantics) owns the shape.
+
 ## Technology and images
 
 Python with psycopg 3 for the service (the web layer is the standard library, see [the read service](#the-read-service)), PostgreSQL for the data. Heterogeneity is on purpose: Oracle for Missions, PostgreSQL for Assets, an immutable in-memory dataset for Personnel. Legacy systems stay independent by design: no code, identifiers or tables are shared with another service, and the duplication that follows is intentional.
@@ -221,7 +223,7 @@ Each has its own continuity records, in the order Missions followed.
 2. Done: the read service with its gate: the two endpoints against PostgreSQL, checked against this contract.
 3. Done: packaging, a Dockerfile and a compose file like the other services, the database as a separate pinned container, the service on loopback and credentials from the environment, with the start script and the packaging gate. Both image digests were resolved again on 2026-10-15.
 4. Next, the federation layer, which belongs to a later stage.
-5. After the service exists, the planned `frozen` mark of the exact contract and fixture files (see [the evolution rule](#contract-evolution)); it is a separate decision and is not part of the read service slice.
+5. After the service exists, the planned `frozen` mark of the exact contract and fixture files (see [the evolution rule](#contract-evolution)); it is a separate decision and is not part of the read service slice. Done: contract 1.0 and its fixtures are in the frozen set since commit `8224a5784dd7c6156f205e2949a1b00e14b6136d`.
 
 ## Points of the lead developer's review
 

@@ -1,6 +1,6 @@
 # Personnel v2
 
-Status: implementation prepared for lead developer review; not frozen or committed by this work. This specification and the sibling executable WSDL/XSD define v2. The earlier [identity design](PERSONNEL-V2-MISSIONS-IDENTITY-DESIGN.md) remains dated provenance. G018/G019/D021/D022 apply. Frozen v1 and all v1 datasets remain unchanged.
+Status (2026-10-27): implemented; in this repository since commit `7ff9121406f3f9dfa0221cfe1abbb770780eaa44` (the set-up import under D051); open, not frozen. This specification and the sibling executable WSDL/XSD define v2. The earlier [identity design](PERSONNEL-V2-MISSIONS-IDENTITY-DESIGN.md) remains dated provenance. G018/G019/D021/D022 apply. Frozen v1 and all v1 datasets remain unchanged.
 
 ## Model and ownership
 

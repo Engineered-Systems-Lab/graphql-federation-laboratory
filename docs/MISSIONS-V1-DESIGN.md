@@ -188,7 +188,7 @@ Order: stardate ASC, priority ASC, missionId ASC. No fuzzy title search, full-te
 
 ## Errors
 
-Use the common namespaced XML error below, except for the explicitly bodyless 406 response. HTTP status is authoritative; codes are deterministic and human messages are not intended for parsing. Never expose Java/Jersey internals. The `message` is 1..1000 Unicode code points of human-readable text, never a stack trace or framework detail; the service shortens a message that would exceed the bound rather than emit an invalid body.
+Use the common namespaced XML error below, except for the explicitly bodyless 406 response. An unknown path, which the frozen contract does not define, answers a bodyless 404, an open contract question left as decided ([Missions README](../uss-enterprise/missions/README.md)). HTTP status is authoritative; codes are deterministic and human messages are not intended for parsing. Never expose Java/Jersey internals. The `message` is 1..1000 Unicode code points of human-readable text, never a stack trace or framework detail; the service shortens a message that would exceed the bound rather than emit an invalid body.
 
 ```xml
 <error xmlns="urn:starfleet:missions:v1">
