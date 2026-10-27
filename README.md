@@ -87,6 +87,21 @@ The gates of every other component are named in the project's checkpoint policy 
 
 The laboratory was developed first in a private repository (the "lab"), which remains its archive. This repository was started from the governance template at template commit `733f65a11f2d2639c7015f6c4b491712773db50a` and receives the lab's content as it stood at lab commit `0f9b1dbd416bc90428d2dc1d3e4c700f19dd7e66`. The lab's Git history is not carried: commits of the lab or of the template are cited as `lab commit <id>` or `template commit <id>` and are never presented as commits of this repository. Development log entries migrated from the lab keep their original dates and say so. Files released before the migration call the lead developer "the Captain".
 
+The governance framework was taken in these commits of this repository:
+
+| Framework release | Taken in commit | From |
+| --- | --- | --- |
+| Template 0.2.0 | `8e5ad2e1372d4f75da9a47a89a5d20569258917e` (the start) | template commit `733f65a11f2d2639c7015f6c4b491712773db50a` |
+| Template 0.2.2 | `a9f7cb0e1e4c35ea86d59dc0af8fb029701824aa` | template commit `b855b24347e40af711e32b4607d93f131cf27b20` |
+| Template 0.2.3 | `d99e64fec7373104963d1c2874e0fab699ba91b1` | template commit `bb721a95b04d2398dc2c912e2ed6e97b25c1efc5` |
+| Comitas 0.3.1 | `5187f6fd58ba7a40cd00f7e31266a2b05ca48593` | comitas commit `74091f01d1671ebd9e84642ce21f82bec570f620` |
+| Comitas 0.4.0 | `2c47271ca319319e804c3867dbd04241f8ecf233` | comitas commit `c789d56f562721aa38a600c253c6e3d0a1a416c0` |
+| Comitas 0.5.0 | `0dfb47dca9b9fe7f59caf6bf0f2538bff38e16b3` | comitas commit `77cf783c26fdc080863e263e04b37b8f8957f1bf` |
+| Comitas 0.5.3 | `11c0bdefd5c968b522d0af8e2a46d64c877f9b3f` | comitas commit `1ba8333f7c55c1195d7ea9fff61eea9b58fbbd46` |
+| Comitas 0.6.1 | `3fdb0d5bdd44faa98ca833113a10a7b00a173eb5` | comitas commit `86417dc6f66f3f364774d0697a53c2c5f3e49462` |
+| Comitas 0.6.2 | `b52f9affb1709e550ed2a8a9bdfb70d022b9f559` | comitas commit `09d433ebaacbbd8a76a2935551a0eb885d196f87` |
+| Comitas 0.7.0 | `0aaf56c0b040b642fb382f75741ee61b81e47973` | comitas commit `b3c928347b8c58fa7b6f2f9e8d1084123e4018a0` |
+
 ## License
 
 Copyright (c) 2026 Gustavo Cavallin. Two sets of terms apply, by file:
