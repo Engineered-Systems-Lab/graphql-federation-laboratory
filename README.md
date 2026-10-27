@@ -102,6 +102,10 @@ The governance framework was taken in these commits of this repository:
 | Comitas 0.6.2 | `b52f9affb1709e550ed2a8a9bdfb70d022b9f559` | comitas commit `09d433ebaacbbd8a76a2935551a0eb885d196f87` |
 | Comitas 0.7.0 | `0aaf56c0b040b642fb382f75741ee61b81e47973` | comitas commit `b3c928347b8c58fa7b6f2f9e8d1084123e4018a0` |
 
+## Contributions
+
+External contributions are not accepted at this time. Please do not submit code or patches. Questions and bug reports are welcome through Issues.
+
 ## License
 
 Copyright (c) 2026 Gustavo Cavallin. Two sets of terms apply, by file:
