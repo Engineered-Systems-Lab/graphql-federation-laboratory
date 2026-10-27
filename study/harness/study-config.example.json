@@ -1,5 +1,5 @@
 {
-  "about": "Example of the machine-local study config (copy it outside the repository, fill the placeholders, point STUDY_CONFIG or --config at the copy). A command is {argv, cwd?, env?, background?}; the stack commands run with the API keys stripped from their environment. Placeholders in angle brackets are filled on the machine; nothing here names a repository path.",
+  "about": "Example of the machine-local study config (copy it outside the repository, fill the placeholders, point STUDY_CONFIG or --config at the copy). A command is {argv, cwd?, env?, background?}; the stack commands run with the API keys stripped from their environment. Placeholders in angle brackets are filled on the machine; nothing here names a repository path. Every scenario declares its provenance: the compose projects to observe, the intended backends (mode real or simulated, the compose service, the image id and/or ref from docker inspect, the dataset with its SHA-256), the routing (each upstream URL the MCP server calls with the compose service that publishes it, and each adapter's backend URL variables) and the launch files to hash. The harness compares them with the running stack before any paid request.",
   "task_set": "dev",
   "scenario_order": ["alpha", "beta", "gamma", "delta", "epsilon"],
   "models": ["claude-sonnet-5-5", "gpt-6.1-sol"],
@@ -24,12 +24,40 @@
         "stop_service": {"assets": [{"argv": ["<stop the assets service>"]}], "personnel": [{"argv": ["<stop the personnel service>"]}]},
         "start_service": {"assets": [{"argv": ["<start the assets service>"]}], "personnel": [{"argv": ["<start the personnel service>"]}]},
         "teardown": [{"argv": ["<stack teardown command>"], "cwd": "<stack folder>"}]
+      },
+      "provenance": {
+        "compose_projects": ["starfleet-missions", "starfleet-federation-stack"],
+        "backends": {
+          "missions": {"mode": "real", "service": "starfleet-missions/missions", "image_id": "<sha256:... image id of the Missions service>",
+                       "image_ref": "starfleet-missions-service:1.0.0"},
+          "assets": {"mode": "real", "service": "assets-service", "image_id": "<sha256:... image id>",
+                     "dataset": {"id": "assets-1.1", "path": "<assets dataset release folder>", "sha256": "<its SHA-256 as the harness hashes it>"}},
+          "personnel": {"mode": "real", "service": "personnel-service", "image_ref": "starfleet-federation-stack-personnel-service:2.0.0"}
+        },
+        "routing": {
+          "endpoints": {"http://127.0.0.1:8083/": "starfleet-missions/missions"}
+        },
+        "launch_files": {"stack_start": "<path of the stack start script>", "compose": "<path of the compose file>"}
       }
     },
-    "beta": {"mcp_url": "http://127.0.0.1:8191/mcp", "guide_file": "<path of the frozen guide>", "stack": {}},
-    "gamma": {"mcp_url": "http://127.0.0.1:8192/mcp", "stack": {}},
-    "delta": {"mcp_url": "http://127.0.0.1:8193/mcp", "stack": {}},
-    "epsilon": {"mcp_url": "http://127.0.0.1:8194/mcp", "stack": {}}
+    "beta": {"mcp_url": "http://127.0.0.1:8191/mcp", "guide_file": "<path of the frozen guide>", "stack": {},
+             "provenance": {"compose_projects": ["starfleet-missions"],
+                            "backends": {"missions": {"mode": "real", "service": "missions", "image_ref": "starfleet-missions-service:1.0.0"}}}},
+    "gamma": {"mcp_url": "http://127.0.0.1:8192/mcp", "stack": {},
+              "provenance": {"compose_projects": ["starfleet-missions", "starfleet-federation-stack"],
+                             "backends": {"missions": {"mode": "real", "service": "starfleet-missions/missions", "image_ref": "starfleet-missions-service:1.0.0"}},
+                             "routing": {"endpoints": {"http://127.0.0.1:8183/graphql": "missions-adapter"},
+                                         "env": {"missions-adapter": {"MISSIONS_SERVICE_URL": "http://host.docker.internal:8083"}}}}},
+    "delta": {"mcp_url": "http://127.0.0.1:8193/mcp", "stack": {},
+              "provenance": {"compose_projects": ["starfleet-missions", "starfleet-federation-stack"],
+                             "backends": {"missions": {"mode": "real", "service": "starfleet-missions/missions", "image_ref": "starfleet-missions-service:1.0.0"}},
+                             "routing": {"endpoints": {"http://127.0.0.1:8170/": "router"},
+                                         "env": {"missions-adapter": {"MISSIONS_SERVICE_URL": "http://host.docker.internal:8083"}}}}},
+    "epsilon": {"mcp_url": "http://127.0.0.1:8194/mcp", "stack": {},
+                "provenance": {"compose_projects": ["starfleet-missions", "starfleet-federation-stack"],
+                               "backends": {"missions": {"mode": "real", "service": "starfleet-missions/missions", "image_ref": "starfleet-missions-service:1.0.0"}},
+                               "routing": {"endpoints": {"http://127.0.0.1:8171/": "cosmo-router"},
+                                           "env": {"missions-adapter": {"MISSIONS_SERVICE_URL": "http://host.docker.internal:8083"}}}}}
   },
   "telemetry": {"apollo_router": "anonymous telemetry off (APOLLO_TELEMETRY_DISABLED)", "cosmo_router": "anonymous telemetry off (COSMO_TELEMETRY_DISABLED)"},
   "declared_settings": {

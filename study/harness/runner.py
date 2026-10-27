@@ -6,8 +6,12 @@ and trials is shuffled from a recorded seed; the model order is interleaved per 
 carries its phase (cold, warm-up, measurement). After each run its result is written at once; a budget stop ends the study cleanly with
 everything completed kept, and a resume runs only the missing or incomplete runs.
 
+Before the warm-up and the first paid request of each scenario (dry runs included), the running stack is observed read-only and compared
+with the scenario's declared provenance (provenance.py); a mismatch, or on resume a drift from the stored observation, refuses the run.
+
 Records go to LAB_RESULTS_DIR/<study run id>/ : manifest.json (immutable), samples.jsonl, one budget ledger per vendor, runs/<key>/
-(transcript.jsonl, result.json), scores.jsonl and scores.csv, bundle.json with the checksum. Nothing written holds an absolute path or a key.
+(transcript.jsonl, result.json), provenance/ (one observation per scenario and the resume checks), scores.jsonl and scores.csv, bundle.json
+with the checksum. Nothing written holds an absolute path or a key.
 """
 import argparse
 import csv
@@ -23,6 +27,7 @@ import sys
 import time
 from pathlib import Path
 
+import provenance
 from agent import SYSTEM_PROMPT, TERMINAL, AgentRun, Limits
 from budget import Budget
 from study_common import (Redactor, append_jsonl, child_environment, read_jsonl, results_dir, sha256_bytes, sha256_file, sha256_json, utc_now,
@@ -197,8 +202,13 @@ def git_commit(repo_dir):
 # ---------------------------------------------------------------------------------------------------------------- the study
 class Study:
     def __init__(self, config, models_config, prices, study_run_id, root=None, corpus_dir=DEFAULT_CORPUS, client_factory=None,
-                 session_factory=None, stack_factory=None, clock=time.monotonic, sleep=time.sleep, redactor=None, repo_dir=None):
+                 session_factory=None, stack_factory=None, clock=time.monotonic, sleep=time.sleep, redactor=None, repo_dir=None, docker=None,
+                 hasher=provenance.hash_path):
         self.config, self.models_config, self.prices = config, models_config, prices
+        for scenario in config['scenario_order']:
+            provenance.validate(scenario, config['scenarios'][scenario].get('provenance'))
+        self.docker = docker or provenance.DockerCli()
+        self.hasher = hasher
         self.study_run_id = study_run_id
         self.dir = Path(root or results_dir()) / study_run_id
         self.corpus_dir = Path(corpus_dir)
@@ -244,7 +254,41 @@ class Study:
             'declaredSettings': self.config.get('declared_settings'), 'datasetHashes': hashed,
             'machine': machine_facts(), 'stackFacts': run_fact_commands(self.config.get('facts_commands')),
             'stackRunsPerScenario': 1, 'resultsRootSetting': 'LAB_RESULTS_DIR',
+            'provenance': {'schema': provenance.SCHEMA, 'intended': self.intended_provenance(),
+                           'observationCommands': provenance.OBSERVATION_COMMANDS},
         }
+
+    def intended_provenance(self):
+        return {s: provenance.intended(self.config['scenarios'][s]['provenance']) for s in self.config['scenario_order']}
+
+    # ---------------------------------------------------------------- provenance
+    def check_provenance(self, scenario):
+        """Observe the running stack of `scenario` and refuse it unless it matches the declaration and, on resume, the stored observation.
+        The first matching observation is kept as provenance/<scenario>.json; every later check is a line of provenance/checks.jsonl."""
+        sconfig = self.config['scenarios'][scenario]
+        folder = self.dir / 'provenance'
+        checks = folder / 'checks.jsonl'
+        try:
+            observation = self.redactor.deep(provenance.observe(scenario, sconfig, self.docker, self.hasher))
+        except Exception as error:
+            problems = self.redactor.deep(['the stack could not be observed: %s: %s' % (type(error).__name__, provenance.redact_value(error))])
+            append_jsonl(checks, {'at': utc_now(), 'scenario': scenario, 'result': 'unobserved', 'problems': problems})
+            raise provenance.ProvenanceRefused(scenario, 'unobserved', problems)
+        problems = self.redactor.deep(provenance.compare(sconfig['provenance'], observation))
+        stored_path = folder / ('%s.json' % scenario)
+        stored = json.loads(stored_path.read_text(encoding='utf-8')) if stored_path.exists() else None
+        changes = self.redactor.deep(provenance.drift(stored['stable'], observation['stable'])) if stored else []
+        if problems or stored:
+            result = 'mismatch' if problems else ('drift' if changes else 'match')
+            append_jsonl(checks, {'at': observation['observedAt'], 'scenario': scenario, 'result': result,
+                                  'fingerprint': observation['fingerprint'], 'problems': problems, 'changes': changes})
+        if problems:
+            raise provenance.ProvenanceRefused(scenario, 'mismatch', problems)
+        if changes:
+            raise provenance.ProvenanceRefused(scenario, 'drift since the stored observation', changes)
+        if not stored:
+            write_json_atomic(stored_path, {**observation, 'comparison': {'result': 'match', 'problems': []}})
+        return observation
 
     # ---------------------------------------------------------------- budgets and clients
     def budget_for(self, model):
@@ -317,6 +361,7 @@ class Study:
             stack.start()
             stack.wait_ready('%s__ready' % scenario, sconfig.get('ready_timeout_seconds', 300))
             append_jsonl(samples, {'phase': 'cold', 'scenario': scenario, 'kind': 'cold_start', 'seconds': round(self.clock() - began, 3)})
+            self.check_provenance(scenario)
             calls = sconfig.get('warmup_calls', [])
             first = True
             for pass_number in range(1, self.config.get('warmup_passes', 3) + 1):
@@ -362,18 +407,31 @@ class Study:
             if stored['planHash'] != sha256_json(self.plan_identity()):
                 raise RuntimeError('The plan, models, limits, prompt, guides or corpus differ from the stored manifest: a resume repeats the '
                                    'same study. Start a new study run instead.')
+            stored_intended = (stored.get('provenance') or {}).get('intended')
+            if stored_intended is None:
+                raise RuntimeError('The stored manifest records no provenance, so a resume cannot verify the backends. Start a new study run '
+                                   'instead.')
+            changes = provenance.drift(stored_intended, self.redactor.deep(self.intended_provenance()))
+            if changes:
+                raise RuntimeError('The declared provenance differs from the stored manifest, so a resume would run against other backends. '
+                                   'Start a new study run instead. Changes:\n- ' + '\n- '.join(changes))
             skipped = sum(1 for p in (self.dir / 'runs').glob('*/result.json') if self.completed(p.parent.name))
             append_jsonl(self.dir / 'resumes.jsonl', {'at': utc_now(), 'completedRunsKept': skipped})
         else:
             self.dir.mkdir(parents=True, exist_ok=True)
-            write_json_atomic(manifest_path, self.manifest())
+            write_json_atomic(manifest_path, self.redactor.deep(self.manifest()))
         status = 'complete'
         stop = None
-        for scenario_plan in self.plan:
-            stop = self.run_scenario(scenario_plan)
-            if stop:
-                status = 'budget_stop'
-                break
+        try:
+            for scenario_plan in self.plan:
+                stop = self.run_scenario(scenario_plan)
+                if stop:
+                    status = 'budget_stop'
+                    break
+        except provenance.ProvenanceRefused:
+            self.write_scores()
+            self.write_bundle('provenance_refused')
+            raise
         self.write_scores()
         self.write_bundle(status)
         return status
@@ -452,7 +510,12 @@ def main(argv=None):
     except MissingCredentialError as error:
         print('STOP: ' + str(error))
         return 2
-    status = study.run(resume=args.resume)
+    try:
+        status = study.run(resume=args.resume)
+    except provenance.ProvenanceRefused as error:
+        print('STOP: ' + str(error))
+        print('Study run %s: provenance_refused' % args.run_id)
+        return 3
     for vendor, budget in study.budgets.items():
         print(json.dumps(budget.snapshot()))
     print('Study run %s: %s' % (args.run_id, status))

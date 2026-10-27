@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from fakes import FakeVendorClient, submit, turn
+from fakes import FakeDocker, FakeVendorClient, container, submit, turn
 from mcp_client import FakeToolSession
 from runner import Study, build_plan, load_tasks, run_key
 from study_common import Redactor, child_environment, read_jsonl, sha256_file
@@ -23,6 +23,13 @@ def task(task_id, category='A', stopped=None):
 
 MODELS = {'models': {'model-a': {'vendor': 'va', 'request': {}, 'max_output_tokens': 100}, 'model-b': {'vendor': 'vb', 'request': {}, 'max_output_tokens': 100}}}
 PRICES = {'dated': '2026-10-20', 'models': {m: {'input': 2.0, 'cached_read': 0.2, 'cache_write': 2.5, 'output': 10.0} for m in ('model-a', 'model-b')}}
+STUB_ID = 'sha256:' + 'a' * 64
+PROVENANCE = {'compose_projects': ['lab'], 'backends': {'missions': {'mode': 'simulated', 'service': 'missions-stub', 'image_id': STUB_ID}}}
+
+
+def fake_docker():
+    """The scripted stack every scenario of these tests declares: one simulated Missions backend."""
+    return FakeDocker([container('lab', 'missions-stub', 'stub:1', STUB_ID)])
 
 
 class FakeStack:
@@ -65,8 +72,8 @@ class RunnerTests(unittest.TestCase):
         (self.corpus / 'dev.json').write_text(json.dumps({'tasks': [{k: v for k, v in t.items()} for t in tasks]}), encoding='utf-8')
 
     def config(self, **over):
-        base = {'scenarios': {'alpha': {'mcp_url': 'x', 'stack': {}, 'warmup_calls': [{'tool': 'lookup', 'arguments': {}}]},
-                              'beta': {'mcp_url': 'y', 'stack': {}, 'guide_file': str(self.guide())}},
+        base = {'scenarios': {'alpha': {'mcp_url': 'x', 'stack': {}, 'warmup_calls': [{'tool': 'lookup', 'arguments': {}}], 'provenance': PROVENANCE},
+                              'beta': {'mcp_url': 'y', 'stack': {}, 'guide_file': str(self.guide()), 'provenance': PROVENANCE}},
                 'scenario_order': ['alpha', 'beta'], 'models': ['model-a', 'model-b'], 'trials': 2, 'seed': 7, 'task_set': 'dev',
                 'warmup_passes': 2, 'budgets': {'va': {'tokens': 1_000_000}, 'vb': {'tokens': 1_000_000}},
                 'limits': {'max_tool_calls': 5, 'retry_backoff_seconds': 0}, 'telemetry': {'apollo': 'off', 'cosmo': 'off'},
@@ -100,7 +107,7 @@ class RunnerTests(unittest.TestCase):
     def study(self, config=None, run_id='r1', factory=None, **kw):
         return Study(config or self.config(), MODELS, PRICES, run_id, root=self.root, corpus_dir=self.corpus,
                      client_factory=factory or self.clients(), session_factory=self.session_factory, stack_factory=FakeStack,
-                     redactor=Redactor(['sk-ant-SECRETSECRETSECRET']), sleep=lambda s: None, **kw)
+                     redactor=Redactor(['sk-ant-SECRETSECRETSECRET']), sleep=lambda s: None, docker=kw.pop('docker', fake_docker()), **kw)
 
     # ------------------------------------------------------------------ the plan
     def test_plan_is_deterministic_and_models_are_counterbalanced(self):
@@ -223,7 +230,7 @@ class RunnerTests(unittest.TestCase):
         text = (study.dir / 'manifest.json').read_text(encoding='utf-8')
         manifest = json.loads(text)
         for field in ('commit', 'treeDirty', 'sdkVersions', 'models', 'pricesTableDate', 'limits', 'tokenBudgets', 'telemetry', 'declaredSettings', 'machine',
-                      'planHash', 'harnessFiles', 'datasetHashes'):
+                      'planHash', 'harnessFiles', 'datasetHashes', 'provenance'):
             self.assertIn(field, manifest)
         self.assertEqual(manifest['models']['model-a']['priceEntry']['output'], 10.0)
         self.assertEqual(manifest['pricesTableDate'], '2026-10-20')

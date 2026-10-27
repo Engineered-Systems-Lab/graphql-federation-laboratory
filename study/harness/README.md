@@ -13,12 +13,13 @@ The tests use fake vendor clients and fake stacks. The first real calls were the
 | `vendors.py` | The two vendor clients (Claude Sonnet 5.5 through the Messages API, GPT-6.1 Sol through the Responses API) behind one neutral interface. |
 | `mcp_client.py` | The harness as the MCP client of a scenario's server, one session per run. |
 | `budget.py` | The token budget with a reservation before each request. |
+| `provenance.py` | The run provenance: the declared backends, the read-only observation of the running stack, the comparison and the redaction. |
 | `credentials.py`, `launcher.py` | The two API keys in Windows Credential Manager and the launcher that supplies them to the child process. |
 | `study_gate.py` | The study test gate. |
 | `models.json`, `prices.json` | The pinned models with their fixed request settings, and the dated price table. |
 | `study-config.example.json` | The shape of the machine-local config. |
 | `requirements.txt` | The pinned SDKs. Install them into a virtual environment outside the repository. |
-| `test_*.py`, `fakes.py` | The tests and their fakes. |
+| `test_*.py`, `fakes.py` | The tests and their fakes (vendor clients, stacks and the Docker command line). |
 
 ## Models and settings
 
@@ -42,14 +43,38 @@ The budget is in tokens per vendor, with input, cached read, cache write and out
 - Before each request the harness reserves its possible cost (the estimated current input plus the maximum output). A request that does not fit is a clean **budget stop**.
 - Every reservation, settlement and retry is appended to the ledger (`budget-<vendor>.jsonl`) at once, and every vendor request is timed on its own (`requestStart`, `requestEnd` and `requestSeconds`, with no tool, ledger or scoring time in it) on the assistant turn of the transcript, on each retry event and on its settlement entry. A reservation that was never settled (the process died during a request) is charged in full on resume.
 - A completed run is saved the moment it finishes. A budget stop ends the study cleanly with everything kept and the incomplete run archived under `attempts/`, never overwritten.
-- `--resume` runs only the missing or incomplete runs and refuses a study whose plan, models, limits, prompt, guides, corpus or prices differ from the stored manifest.
+- `--resume` runs only the missing or incomplete runs and refuses a study whose plan, models, limits, prompt, guides, corpus or prices differ from the stored manifest, and one whose [provenance](#run-provenance) differs from what was declared or observed before.
 - The pilot budget is 20 dollars per vendor; put the matching token figure in the config (`budgets.<vendor>.tokens`, no default) and the dollar figure in `dollar_ceiling`. Verify that each vendor console enforces its own cap; the harness enforces its own stop regardless.
 
 ## The run protocol
 
 One stack run per scenario (the whole plot), with the models nested inside it (the sub-plot), sequentially. Per scenario: start the stack through the config's commands, wait until the MCP server answers, record the cold start and the cold first request, run the declared warm-up (`warmup_passes` passes over `warmup_calls`), then run every task and trial of the set with every model, and tear down. The order of the tasks and trials is shuffled from the recorded seed. The model order is interleaved per task and counterbalanced by cycling the model permutations from a seeded start. A category D task stops its service before its runs and restores it after. Every sample carries its phase (`cold`, `warm-up`, `measurement`) in `samples.jsonl`. A budget stop ends the whole study, so the order stays balanced for the resume. Subprocesses of the stack get an environment without the API keys.
 
-Records, in `LAB_RESULTS_DIR/<study run id>/`: `manifest.json` (the commit, SDK versions, harness file hashes, models with their settings and price entries, prices date, limits, budgets, telemetry and router settings, dataset hashes, machine facts, stack facts, the plan and its hash), `samples.jsonl`, `budget-<vendor>.jsonl`, `runs/<key>/transcript.jsonl` and `result.json`, `scores.jsonl`, `scores.csv` and `bundle.json` with the checksum. Nothing written holds an absolute path or a key; the exact key values are also redacted from everything the harness writes. The MCP servers' call logs are matched to a run by the `X-Study-Run-Id` header, which carries the run key.
+Records, in `LAB_RESULTS_DIR/<study run id>/`: `manifest.json` (the commit, SDK versions, harness file hashes, models with their settings and price entries, prices date, limits, budgets, telemetry and router settings, dataset hashes, machine facts, stack facts, the declared provenance, the plan and its hash), `samples.jsonl`, `budget-<vendor>.jsonl`, `runs/<key>/transcript.jsonl` and `result.json`, `provenance/<scenario>.json` and `provenance/checks.jsonl`, `scores.jsonl`, `scores.csv` and `bundle.json` with the checksum. Nothing written holds an absolute path or a key; the exact key values are also redacted from everything the harness writes. The MCP servers' call logs are matched to a run by the `X-Study-Run-Id` header, which carries the run key.
+
+## Run provenance
+
+Study-1 ran against a Missions simulator instead of the Oracle-backed service, and nothing in its manifest said so. Every run now declares the backends it means to use, observes the ones it actually uses, and refuses to spend anything when the two differ.
+
+**Declare.** Every scenario of the config has a `provenance` block, and a scenario without one is refused when the config loads. `study-config.example.json` shows the shape:
+
+| Key | Holds |
+| --- | --- |
+| `compose_projects` | The compose projects the harness observes. |
+| `backends.<logical service>` | `mode` (`real` or `simulated`); `service`, the compose service that serves it, as `name` or, when two projects have that name, `project/name`; `image_id` (`sha256:...` from `docker inspect`) and/or `image_ref` (the image name the container was started from); optionally `dataset`: `id`, `path` (a file or a folder the harness hashes), `sha256` (expected) and `mount` (the container path of a bind mount that must exist on that service and whose source the harness must be able to read and hash; leave `mount` out where it cannot, as with some Docker Desktop paths). |
+| `routing.endpoints` | Each upstream URL the MCP server calls, with the compose service that must publish its port on the host. The host must be `127.0.0.1`, `localhost` or `[::1]`, and the port must be published on an address that serves it. |
+| `routing.env` | Per compose service, the backend URL variables and their expected values (for example `MISSIONS_SERVICE_URL`). |
+| `launch_files` | Label and path of the launch scripts and config files to hash. Only the hash is stored, never the contents. |
+
+**Observe.** After the stack is ready and before the warm-up, so before the first paid request (dry runs included), the harness runs two read-only commands and nothing else: `docker compose -p <project> ps --all --format json` and `docker inspect` of the containers it lists. Per service it records the state, the image ref and id, the published ports, the routing environment (names that end in `_URL`, `_HOST` or `_PORT`, and every name in `routing.env`) and the bind mounts (the container path and the SHA-256 of the source when the harness can read it; the source path is never stored). It also hashes the datasets and the launch files and records the scenario's stack commands as the launch configuration.
+
+**Compare.** Any difference refuses the scenario before any paid request, with one line per difference: a backend service that is missing or not running, another image, a dataset hash, a missing mount, a mount that cannot be read or whose hash differs, a routing variable, an endpoint port that the named service does not publish, a launch file that cannot be read, or a stack that cannot be observed. `mode` is recorded as declared and checked through the service, image and routing it implies. The stack is torn down, the bundle is written with status `provenance_refused` and the command exits with 3.
+
+**Keep.** The manifest holds `provenance.schema`, `provenance.intended` (each scenario's declaration, host paths reduced) and `provenance.observationCommands`. The first matching observation of a scenario is `provenance/<scenario>.json`, with a `fingerprint` of its stable part (images, routing environment, ports, mounts and hashes, datasets, launch files, launch configuration and the MCP URL; container ids and times are left out). Every later check, and every refusal, is a line of `provenance/checks.jsonl` (`match`, `mismatch`, `drift` or `unobserved`). The bundle checksum covers both.
+
+**Resume.** A resume refuses when the declaration differs from `provenance.intended` and when a scenario's new observation differs from its stored one, naming each change. There is no override. A bundle written before provenance existed cannot be resumed.
+
+**Redact.** Environment values whose names contain `PASSWORD`, `SECRET`, `TOKEN` or `KEY` (in any case, which covers both API key names) are stored as `[MASKED]` with the name kept, and so is the value of a command option with such a name (`--db-password x`). The `user:password@` part of a URL is masked, in the observation and in the declaration the manifest keeps. Host absolute paths are reduced to `<path>/<last component>`; container paths, such as mount destinations, stay. The exact values of the API keys are redacted from everything as before.
 
 ## Credentials
 
@@ -88,6 +113,8 @@ Settled for the study, by the lead developer:
 - **Caching:** OpenAI caches repeated prefixes by itself; the Anthropic client marks the last block of each request, with a five-minute lifetime. Runs of one scenario share the system prompt and tool list, so a run can start on a cache warmed by the run before it. Cache-hit share is reported beside latency, and the timing baseline counts only runs made after the caching and request timing changes.
 
 ## Tests and the study gate
+
+The provenance tests use a fake Docker (`fakes.py`) and never start, stop or inspect a container.
 
 `python -B study/harness/study_gate.py` runs the offline tests of the study: this folder, the corpus derivation check and the MCP offline tests. It needs no stack and no key. The MCP suite needs the `mcp` package, which the governance interpreter does not have, so it runs under the interpreter named by the machine-local variable `STUDY_MCP_PYTHON` and is reported as NOT RUN when there is none (`--require-mcp` makes that a failure). The convention for the other study areas: put `test_*.py` files directly in the area's folder and list the folder in `SUITES` of `study_gate.py`. The live MCP stack tests (`study/mcp/test_mcp_stack.py`) are not part of the gate.
 
