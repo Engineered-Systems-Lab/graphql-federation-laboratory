@@ -247,6 +247,8 @@ Open in failure semantics:
 - **Per-entity errors:** the Assets entity reports its errors at the `_entities` path without a per-entity path, because the error is attached to a field of the entity. Whether federation-jvm can return a per-entity error from its entity fetcher itself was not tested.
 - **Nullable fields and partial results on Cosmo and Hive** beyond the shape tried (see row 29 and the [compatibility matrix](#the-compatibility-matrix)).
 
+[Interface conventions](INTERFACE-CONVENTIONS.md) is a dated reference that compares these conventions and those of each service with the outside standards.
+
 ## The refinements of 2026-10-17
 
 The first end-to-end run of the Apollo router raised four findings; the lead developer ruled on each on 2026-10-17, and one more ruling followed the same day ([D043](../project-governance/DECISIONS.md#d043---federation-graph-refinements-mapping-outcome-asset-id-parent-timeout-and-nullable-resolution-2026-10-17-accepted-scope)). All five are built. The evidence is in [the Apollo router README](../federation/routers/apollo/README.md) and in the findings sections of [Integration notes](INTEGRATION-NOTES.md#federation-graph-refinements-findings-of-2026-10-17-apollo-router-v2180).

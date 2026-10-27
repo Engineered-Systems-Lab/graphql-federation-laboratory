@@ -22,6 +22,7 @@ The template ships the rows of its own documents. A project that starts from it 
 | `docs/FEDERATION-DESIGN.md` | record | record-only | - | - | guidance | - | yes | - |
 | `docs/FUTURE-SOA-BPM-REQUIREMENTS.md` | governance | governance | - | - | guidance | - | - | - |
 | `docs/INTEGRATION-NOTES.md` | record | record-only | - | - | - | - | yes | - |
+| `docs/INTERFACE-CONVENTIONS.md` | record | record-only | - | - | - | - | yes | - |
 | `docs/MISSIONS-V1-DESIGN.md` | governance | governance | - | - | guidance | - | - | - |
 | `docs/PERSONNEL-V2-MISSIONS-IDENTITY-DESIGN.md` | governance | governance | - | - | guidance | - | - | - |
 | `docs/PERSONNEL-V2-VALIDATION.md` | record | record-only | - | - | - | - | - | - |
