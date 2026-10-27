@@ -9,9 +9,15 @@ everything completed kept, and a resume runs only the missing or incomplete runs
 Before the warm-up and the first paid request of each scenario (dry runs included), the running stack is observed read-only and compared
 with the scenario's declared provenance (provenance.py); a mismatch, or on resume a drift from the stored observation, refuses the run.
 
+With a `schedule` in the config (study 2) the unit is a block instead of a scenario: the Williams square of schedule.py, then the reference
+block. Every block starts its arm's stack, observes its provenance and checks the dataset fingerprint before any paid request, runs its runs
+in their order, queues a run that ended on a vendor error again once at the end of the block, and tears the stack down. A resume continues
+inside the schedule, block by block, and skips every block whose runs are all finished.
+
 Records go to LAB_RESULTS_DIR/<study run id>/ : manifest.json (immutable), samples.jsonl, one budget ledger per vendor, runs/<key>/
-(transcript.jsonl, result.json), provenance/ (one observation per scenario and the resume checks), scores.jsonl and scores.csv, bundle.json
-with the checksum. Nothing written holds an absolute path or a key.
+(transcript.jsonl, result.json and, with the harness tools, results.jsonl), provenance/ (one observation per scenario, one per block, and the
+checks), blocks.jsonl (with a schedule), scores.jsonl and scores.csv, bundle.json with the checksum. Nothing written holds an absolute path
+or a key.
 """
 import argparse
 import csv
@@ -27,7 +33,10 @@ import sys
 import time
 from pathlib import Path
 
+import harness_tools
 import provenance
+import schedule
+import scoring_contract
 from agent import SYSTEM_PROMPT, TERMINAL, AgentRun, Limits
 from budget import Budget
 from study_common import (Redactor, append_jsonl, child_environment, read_jsonl, results_dir, sha256_bytes, sha256_file, sha256_json, utc_now,
@@ -46,21 +55,73 @@ def load_scoring(corpus_dir):
     return module
 
 
+STRATA_FIELDS = ('set', 'size', 'systems')
+
+
+def _strata(task):
+    """The optional fields of a corpus-2 task that the schedule stratifies on: set (core or ambiguity), size and systems."""
+    return {name: task[name] for name in STRATA_FIELDS if name in task}
+
+
 def load_tasks(corpus_dir, task_set):
-    """The tasks of `dev` or `scored` as dicts: id, category, question, schema, expected, stoppedService. Task text is read here at run
-    time and is never copied anywhere else."""
+    """The tasks of `dev` or `scored` as dicts: id, category, question, schema, expected, stoppedService, and set, size and systems when the
+    corpus gives them. Task text is read here at run time and is never copied anywhere else."""
     corpus_dir = Path(corpus_dir)
     if task_set == 'dev':
         data = json.loads((corpus_dir / 'dev.json').read_text(encoding='utf-8'))
         return [{'id': t['id'], 'category': t['category'], 'question': t['question'], 'schema': t['schema'], 'expected': t['expected'],
-                 'stoppedService': t.get('stoppedService')} for t in data['tasks']]
+                 'stoppedService': t.get('stoppedService'), **_strata(t)} for t in data['tasks']]
     if task_set == 'scored':
         tasks = json.loads((corpus_dir / 'tasks.json').read_text(encoding='utf-8'))['tasks']
         schemas = json.loads((corpus_dir / 'schemas.json').read_text(encoding='utf-8'))['schemas']
         expected = json.loads((corpus_dir / 'expected.json').read_text(encoding='utf-8'))['expected']
         return [{'id': t['id'], 'category': t['category'], 'question': t['question'], 'schema': schemas[t['id']], 'expected': expected[t['id']],
-                 'stoppedService': t.get('stoppedService')} for t in tasks]
+                 'stoppedService': t.get('stoppedService'), **_strata(t)} for t in tasks]
     raise ValueError('task_set must be dev or scored')
+
+
+# ---------------------------------------------------------------------------------------------------------------- the dataset fingerprint
+class FingerprintRefused(RuntimeError):
+    """A block does not run: the dataset fingerprint could not be read, or differs from the study's or the session's first one."""
+
+    def __init__(self, block, problems):
+        self.block, self.problems = block, list(problems)
+        super().__init__('Dataset fingerprint refused block %s before any paid request:\n- %s' % (block, '\n- '.join(self.problems)))
+
+
+def validate_fingerprint_command(command):
+    if not (isinstance(command, dict) and isinstance(command.get('argv'), list) and command['argv']
+            and all(isinstance(a, str) and a for a in command['argv'])):
+        raise ValueError('dataset_fingerprint must be a command {argv, cwd?, env?} with a non-empty argv: the schedule checks the dataset '
+                         'fingerprint at every block start')
+    unknown = sorted(set(command) - {'argv', 'cwd', 'env'})
+    if unknown:
+        raise ValueError('dataset_fingerprint has unknown keys: %s' % ', '.join(unknown))
+
+
+def run_fingerprint_command(command, timeout=600):
+    """Run the declared fingerprint command (without the API keys in its environment) and return what it prints."""
+    done = subprocess.run(command['argv'], cwd=command.get('cwd'), env=child_environment(extra=command.get('env')), capture_output=True,
+                          text=True, encoding='utf-8', timeout=timeout)
+    if done.returncode != 0:
+        raise RuntimeError('the fingerprint command exited with %d: %s' % (done.returncode, provenance.redact_value(
+            (done.stderr or done.stdout or '').strip()[-300:])))
+    return done.stdout
+
+
+def parse_fingerprint(text):
+    """The command prints one JSON object with two non-empty texts: `fingerprint` (the dataset) and `session` (one continuous run of the
+    database, for example its instance start time)."""
+    try:
+        value = json.loads((text or '').strip())
+    except ValueError:
+        raise ValueError('the fingerprint command did not print a JSON object')
+    if not isinstance(value, dict):
+        raise ValueError('the fingerprint command did not print a JSON object')
+    for name in ('fingerprint', 'session'):
+        if not (isinstance(value.get(name), str) and value[name].strip()):
+            raise ValueError('the fingerprint command printed no %s text' % name)
+    return {'fingerprint': value['fingerprint'], 'session': value['session']}
 
 
 # ---------------------------------------------------------------------------------------------------------------- the plan
@@ -203,10 +264,20 @@ def git_commit(repo_dir):
 class Study:
     def __init__(self, config, models_config, prices, study_run_id, root=None, corpus_dir=DEFAULT_CORPUS, client_factory=None,
                  session_factory=None, stack_factory=None, clock=time.monotonic, sleep=time.sleep, redactor=None, repo_dir=None, docker=None,
-                 hasher=provenance.hash_path):
+                 hasher=provenance.hash_path, fingerprint_runner=run_fingerprint_command):
         self.config, self.models_config, self.prices = config, models_config, prices
-        for scenario in config['scenario_order']:
+        self.schedule = config.get('schedule')
+        if self.schedule is not None:
+            schedule.validate(self.schedule, config['scenarios'], config['models'])
+            validate_fingerprint_command(config.get('dataset_fingerprint'))
+            self.scenarios = schedule.scenarios_of(self.schedule)
+        else:
+            self.scenarios = list(config['scenario_order'])
+        for scenario in self.scenarios:
             provenance.validate(scenario, config['scenarios'][scenario].get('provenance'))
+        self.tool_names = config.get('harness_tools', [])
+        harness_tools.validate(self.tool_names)
+        self.fingerprint_runner = fingerprint_runner
         self.docker = docker or provenance.DockerCli()
         self.hasher = hasher
         self.study_run_id = study_run_id
@@ -221,9 +292,10 @@ class Study:
         self.repo_dir = repo_dir
         self.limits = Limits(**config.get('limits', {}))
         self.scoring = load_scoring(self.corpus_dir)
+        self.contract = scoring_contract.Contract(self.scoring, self.corpus_dir / 'scoring.py')
         self.tasks = load_tasks(self.corpus_dir, config['task_set'])
         self.by_id = {t['id']: t for t in self.tasks}
-        self.plan = build_plan(config, self.tasks)
+        self.plan = schedule.build(config, self.tasks) if self.schedule is not None else build_plan(config, self.tasks)
         vendors = [models_config['models'][m]['vendor'] for m in config['models']]
         if len(set(vendors)) != len(vendors):
             raise ValueError('The budget is per vendor and the price entry per model: this round has one model per vendor')
@@ -232,10 +304,24 @@ class Study:
 
     # ---------------------------------------------------------------- identity of the plan
     def plan_identity(self):
-        guides = {s: (sha256_file(self._guide_path(s)) if self._guide_path(s) else None) for s in self.config['scenario_order']}
-        return {'plan': self.plan, 'models': self.models_config['models'], 'limits': self.limits.as_dict(), 'systemPrompt': SYSTEM_PROMPT,
-                'taskSet': self.config['task_set'], 'trials': self.config['trials'], 'seed': self.config['seed'], 'guides': guides,
-                'corpusFreeze': sha256_file(self.corpus_dir / 'corpus-manifest.json'), 'pricesDated': self.prices['dated']}
+        """What a resume must find unchanged. A config without a schedule, harness tools or a version-2 scorer gives exactly the identity of
+        the study-1 harness, so its plan hash is unchanged."""
+        guides = {s: (sha256_file(self._guide_path(s)) if self._guide_path(s) else None) for s in self.scenarios}
+        identity = {'plan': self.plan, 'models': self.models_config['models'], 'limits': self.limits.as_dict(), 'systemPrompt': SYSTEM_PROMPT,
+                    'taskSet': self.config['task_set'], 'seed': self.config['seed'], 'guides': guides,
+                    'corpusFreeze': sha256_file(self.corpus_dir / 'corpus-manifest.json'), 'pricesDated': self.prices['dated']}
+        if self.schedule is None:
+            identity['trials'] = self.config['trials']
+        else:
+            identity['datasetFingerprint'] = self.fingerprint_declaration()
+        if self.tool_names:
+            identity['harnessTools'] = harness_tools.describe(self.tool_names)
+        if self.contract.version != 1:
+            identity['scoringContract'] = self.contract.version
+        return identity
+
+    def fingerprint_declaration(self):
+        return provenance.redact_command(self.config['dataset_fingerprint'])
 
     def _guide_path(self, scenario):
         guide = self.config['scenarios'][scenario].get('guide_file')
@@ -245,7 +331,7 @@ class Study:
         identity = self.plan_identity()
         hashed = {label: sha256_file(path) for label, path in (self.config.get('hash_files') or {}).items()}
         harness_files = {p.name: sha256_file(p) for p in sorted(HERE.glob('*.py')) if not p.name.startswith('test_')}
-        return {
+        manifest = {
             'studyRunId': self.study_run_id, 'createdAt': utc_now(), 'planHash': sha256_json(identity), 'identity': identity,
             **git_commit(self.repo_dir or self.config.get('repo_dir')), 'sdkVersions': sdk_versions(), 'harnessFiles': harness_files,
             'models': {m: {**self.models_config['models'][m], 'priceEntry': self.prices['models'][m]} for m in self.config['models']},
@@ -256,39 +342,83 @@ class Study:
             'stackRunsPerScenario': 1, 'resultsRootSetting': 'LAB_RESULTS_DIR',
             'provenance': {'schema': provenance.SCHEMA, 'intended': self.intended_provenance(),
                            'observationCommands': provenance.OBSERVATION_COMMANDS},
+            'scoringContract': self.contract.describe(),
         }
+        if self.schedule is not None:
+            del manifest['stackRunsPerScenario']
+            manifest.update({'schedule': self.plan, 'stackRunsPerBlock': 1, 'vendorErrorRequeues': 1,
+                             'datasetFingerprint': {'command': self.fingerprint_declaration(),
+                                                    'rule': "checked at every block start; it must equal the study's first fingerprint "
+                                                            "and its session's first fingerprint"}})
+        if self.tool_names:
+            manifest['harnessTools'] = harness_tools.describe(self.tool_names)
+        return manifest
 
     def intended_provenance(self):
-        return {s: provenance.intended(self.config['scenarios'][s]['provenance']) for s in self.config['scenario_order']}
+        return {s: provenance.intended(self.config['scenarios'][s]['provenance']) for s in self.scenarios}
 
     # ---------------------------------------------------------------- provenance
-    def check_provenance(self, scenario):
+    def check_provenance(self, scenario, block=None):
         """Observe the running stack of `scenario` and refuse it unless it matches the declaration and, on resume, the stored observation.
-        The first matching observation is kept as provenance/<scenario>.json; every later check is a line of provenance/checks.jsonl."""
+        The first matching observation is kept as provenance/<scenario>.json; every later check is a line of provenance/checks.jsonl.
+        With a `block` id (the schedule) every block start is checked and recorded, and its matching observation is kept as
+        provenance/<block>.json; a block of an arm is compared with the arm's first stored observation too."""
         sconfig = self.config['scenarios'][scenario]
         folder = self.dir / 'provenance'
         checks = folder / 'checks.jsonl'
+        where = {'scenario': scenario, **({'block': block} if block else {})}
+        label = '%s, block %s' % (scenario, block) if block else scenario
         try:
             observation = self.redactor.deep(provenance.observe(scenario, sconfig, self.docker, self.hasher))
         except Exception as error:
             problems = self.redactor.deep(['the stack could not be observed: %s: %s' % (type(error).__name__, provenance.redact_value(error))])
-            append_jsonl(checks, {'at': utc_now(), 'scenario': scenario, 'result': 'unobserved', 'problems': problems})
-            raise provenance.ProvenanceRefused(scenario, 'unobserved', problems)
+            append_jsonl(checks, {'at': utc_now(), **where, 'result': 'unobserved', 'problems': problems})
+            raise provenance.ProvenanceRefused(label, 'unobserved', problems)
         problems = self.redactor.deep(provenance.compare(sconfig['provenance'], observation))
         stored_path = folder / ('%s.json' % scenario)
         stored = json.loads(stored_path.read_text(encoding='utf-8')) if stored_path.exists() else None
         changes = self.redactor.deep(provenance.drift(stored['stable'], observation['stable'])) if stored else []
-        if problems or stored:
+        if problems or stored or block:
             result = 'mismatch' if problems else ('drift' if changes else 'match')
-            append_jsonl(checks, {'at': observation['observedAt'], 'scenario': scenario, 'result': result,
+            append_jsonl(checks, {'at': observation['observedAt'], **where, 'result': result,
                                   'fingerprint': observation['fingerprint'], 'problems': problems, 'changes': changes})
         if problems:
-            raise provenance.ProvenanceRefused(scenario, 'mismatch', problems)
+            raise provenance.ProvenanceRefused(label, 'mismatch', problems)
         if changes:
-            raise provenance.ProvenanceRefused(scenario, 'drift since the stored observation', changes)
+            raise provenance.ProvenanceRefused(label, 'drift since the stored observation', changes)
         if not stored:
             write_json_atomic(stored_path, {**observation, 'comparison': {'result': 'match', 'problems': []}})
+        if block:
+            write_json_atomic(folder / ('%s.json' % block), {**observation, 'block': block, 'comparison': {'result': 'match', 'problems': []}})
         return observation
+
+    def check_fingerprint(self, block):
+        """Run the declared fingerprint command at a block start and refuse the block unless its fingerprint equals the study's first one and
+        its session's first one. Returns the reading ({fingerprint, session}); the caller records the block start with it."""
+        try:
+            reading = self.redactor.deep(parse_fingerprint(self.fingerprint_runner(self.config['dataset_fingerprint'])))
+        except Exception as error:
+            problems = ['the dataset fingerprint could not be read: %s: %s' % (type(error).__name__, provenance.redact_value(error))]
+            self._block_event('refused', block, reason='fingerprint', problems=self.redactor.deep(problems))
+            raise FingerprintRefused(block['id'], self.redactor.deep(problems))
+        starts = [e for e in read_jsonl(self.dir / 'blocks.jsonl') if e.get('event') == 'start']
+        problems = []
+        if starts and reading['fingerprint'] != starts[0]['fingerprint']:
+            problems.append("the dataset fingerprint %s differs from the study's first, %s (block %s, session %s)"
+                            % (reading['fingerprint'], starts[0]['fingerprint'], starts[0]['block'], starts[0]['session']))
+        same = [e for e in starts if e.get('session') == reading['session']]
+        if same and reading['fingerprint'] != same[0]['fingerprint']:
+            problems.append("the dataset fingerprint %s differs from the first of session %s, %s (block %s)"
+                            % (reading['fingerprint'], reading['session'], same[0]['fingerprint'], same[0]['block']))
+        if problems:
+            self._block_event('refused', block, reason='fingerprint', session=reading['session'], fingerprint=reading['fingerprint'],
+                              problems=problems)
+            raise FingerprintRefused(block['id'], problems)
+        return reading
+
+    def _block_event(self, event, block, **fields):
+        append_jsonl(self.dir / 'blocks.jsonl', {'at': utc_now(), 'event': event, 'block': block['id'], 'arm': block['arm'],
+                                                 'sequence': block['sequence'], 'row': block['row'], **fields})
 
     # ---------------------------------------------------------------- budgets and clients
     def budget_for(self, model):
@@ -324,8 +454,19 @@ class Study:
                 shutil.move(str(item), str(target / item.name))
         return number + 1
 
+    def vendor_errors(self, key):
+        """How many attempts of a run ended on a vendor error: its current result and its archived attempts."""
+        run_dir = self.dir / 'runs' / key
+        paths = [run_dir / 'result.json'] + sorted((run_dir / 'attempts').glob('*/result.json'))
+        return sum(1 for p in paths if p.exists() and json.loads(p.read_text(encoding='utf-8')).get('outcome') in ('error', 'vendor_error'))
+
     def run_one(self, scenario, task, model, trial):
-        key = run_key(scenario, task['id'], model, trial)
+        return self.execute(scenario, task, model, run_key(scenario, task['id'], model, trial), {'trial': trial})
+
+    def execute(self, scenario, task, model, key, fields):
+        """One run with its record. `fields` are added to the record (the trial, or the block facts of the schedule). In the schedule a
+        vendor error is kept as `error`, to be queued again once, and a second one is recorded as `vendor_error`."""
+        prior_errors = self.vendor_errors(key) if self.schedule is not None else 0
         attempt = self._archive_attempt(key)
         run_dir = self.dir / 'runs' / key
         transcript = run_dir / 'transcript.jsonl'
@@ -334,20 +475,117 @@ class Study:
         guide = self._guide_path(scenario)
         if guide:
             system += '\n\nGuide to the enterprise systems:\n\n' + guide.read_text(encoding='utf-8')
-        score = lambda submission: self.scoring.score(submission, task['schema'], task['expected'])
+        tools = {}
+
+        def score(submission):
+            context = {'taskId': task['id'], 'set': task.get('set') or 'core', 'category': task['category'],
+                       'askRequester': [dict(q) for q in tools['session'].questions] if 'session' in tools else []}
+            return self.contract.score(submission, task, context)
+
         with self.session_factory(scenario, key) as session:
+            if self.tool_names:
+                store = harness_tools.ResultStore(run_dir / 'results.jsonl', harness_tools.run_tag(key, attempt),
+                                                   redact=self.redactor.deep)
+                session = tools['session'] = harness_tools.HarnessToolSession(session, self.tool_names, store, key, clock=self.clock)
             agent = AgentRun(self.client_for(model), session, budget, self.limits, score, lambda event: append_jsonl(transcript, event),
                              self.redactor, clock=self.clock, sleep=self.sleep, run_id=key)
             before = budget.snapshot()
             result = agent.run({'id': task['id'], 'question': task['question'], 'schema': task['schema'], 'system': system})
         after = budget.snapshot()
-        record = {'runKey': key, 'studyRunId': self.study_run_id, 'scenario': scenario, 'model': model, 'trial': trial, 'category': task['category'],
+        record = {'runKey': key, 'studyRunId': self.study_run_id, 'scenario': scenario, 'model': model, **fields, 'category': task['category'],
                   'attempt': attempt, 'phase': 'measurement', 'finishedAt': utc_now(), 'budgetBefore': before, 'budgetAfter': after, **result}
+        if 'session' in tools:
+            record['harnessToolCalls'] = dict(tools['session'].counts)
+            record['askRequester'] = [dict(q) for q in tools['session'].questions]
+        if self.schedule is not None:
+            errors = prior_errors + (1 if result['outcome'] == 'error' else 0)
+            record.update({'requeued': prior_errors > 0, 'vendorErrors': errors})
+            if result['outcome'] == 'error' and prior_errors > 0:
+                record['outcome'] = 'vendor_error'
         write_json_atomic(run_dir / 'result.json', self.redactor.deep(record))
         append_jsonl(self.dir / 'samples.jsonl', {'phase': 'measurement', 'scenario': scenario, 'kind': 'agent_run', 'runKey': key,
-                                                  'seconds': result['elapsedSeconds'], 'outcome': result['outcome']})
+                                                  'seconds': result['elapsedSeconds'], 'outcome': record['outcome']})
         self.write_scores()
         return record
+
+    def warm_up(self, scenario, label, extra=None):
+        """The cold first request and the declared warm-up passes, each a sample. `extra` is added to every sample (the block id)."""
+        sconfig = self.config['scenarios'][scenario]
+        samples = self.dir / 'samples.jsonl'
+        first = True
+        for pass_number in range(1, self.config.get('warmup_passes', 3) + 1):
+            for call in sconfig.get('warmup_calls', []):
+                with self.session_factory(scenario, '%s__warmup' % label) as session:
+                    t0 = self.clock()
+                    session.call(call['tool'], call['arguments'])
+                    append_jsonl(samples, {'phase': 'cold' if first else 'warm-up', 'scenario': scenario,
+                                           'kind': 'cold_first_request' if first else 'warmup_call', 'pass': pass_number,
+                                           'seconds': round(self.clock() - t0, 3), **(extra or {})})
+                    first = False
+
+    def check_tool_names(self, scenario, label):
+        """Refuse a scenario whose MCP server offers a tool named like a harness tool, before any paid request."""
+        if self.tool_names:
+            with self.session_factory(scenario, '%s__tools' % label) as session:
+                harness_tools.HarnessToolSession(session, self.tool_names, None, label).tools()
+
+    # ---------------------------------------------------------------- one block of the schedule (one stack run)
+    def block_keys(self, block):
+        return [(run, schedule.run_key(block['arm'], run['task'], run['model'], block['runSuffix'])) for run in block['runs']]
+
+    def run_block(self, block):
+        """One block: skipped when every run is finished; otherwise start the arm's stack, check provenance and the dataset fingerprint,
+        warm up, run the missing runs in order, then once more every run that ended on a vendor error, and tear down."""
+        keys = self.block_keys(block)
+        if all(self.completed(key) for _, key in keys):
+            return None
+        arm = block['arm']
+        sconfig = self.config['scenarios'][arm]
+        timeout = sconfig.get('ready_timeout_seconds', 300)
+        stack = self.stack_factory(arm)
+        mark = {'block': block['id']}
+        starts = sum(1 for e in read_jsonl(self.dir / 'blocks.jsonl') if e.get('event') == 'start' and e.get('block') == block['id'])
+        try:
+            began = self.clock()
+            stack.start()
+            stack.wait_ready('%s__ready' % block['id'], timeout)
+            append_jsonl(self.dir / 'samples.jsonl', {'phase': 'cold', 'scenario': arm, 'kind': 'cold_start',
+                                                      'seconds': round(self.clock() - began, 3), **mark})
+            observation = self.check_provenance(arm, block['id'])
+            reading = self.check_fingerprint(block)
+            self._block_event('start', block, session=reading['session'], fingerprint=reading['fingerprint'],
+                              provenanceFingerprint=observation['fingerprint'], start=starts + 1,
+                              runsFinishedBefore=sum(1 for _, key in keys if self.completed(key)))
+            self.check_tool_names(arm, block['id'])
+            self.warm_up(arm, block['id'], mark)
+            fields = {'block': block['id'], 'blockSequence': block['sequence'], 'row': block['row'], 'roundSequence': block['roundSequence'],
+                      'position': block['position'], 'half': block['half'], 'session': reading['session']}
+            for requeue in (False, True):
+                for run, key in keys:
+                    if self.completed(key) or (self.vendor_errors(key) > 0) != requeue:
+                        continue
+                    task = self.by_id[run['task']]
+                    service = task.get('stoppedService')
+                    if service:
+                        stack.stop_service(service)
+                    try:
+                        record = self.execute(arm, task, run['model'], key, {**fields, 'orderInBlock': keys.index((run, key)) + 1})
+                    finally:
+                        if service:
+                            stack.start_service(service)
+                            stack.wait_ready('%s__restore' % block['id'], timeout)
+                    if record['outcome'] == 'budget_stop':
+                        self._block_event('stopped', block, session=reading['session'], reason='budget_stop', runKey=key)
+                        return record
+            self._block_event('end', block, session=reading['session'],
+                              outcomes={o: sum(1 for _, k in keys if self._outcome(k) == o) for o in sorted({self._outcome(k) for _, k in keys})})
+        finally:
+            stack.teardown()
+        return None
+
+    def _outcome(self, key):
+        path = self.dir / 'runs' / key / 'result.json'
+        return (json.loads(path.read_text(encoding='utf-8')).get('outcome') if path.exists() else None) or 'missing'
 
     # ---------------------------------------------------------------- one scenario (one stack run)
     def run_scenario(self, scenario_plan):
@@ -362,17 +600,8 @@ class Study:
             stack.wait_ready('%s__ready' % scenario, sconfig.get('ready_timeout_seconds', 300))
             append_jsonl(samples, {'phase': 'cold', 'scenario': scenario, 'kind': 'cold_start', 'seconds': round(self.clock() - began, 3)})
             self.check_provenance(scenario)
-            calls = sconfig.get('warmup_calls', [])
-            first = True
-            for pass_number in range(1, self.config.get('warmup_passes', 3) + 1):
-                for call in calls:
-                    with self.session_factory(scenario, '%s__warmup' % scenario) as session:
-                        t0 = self.clock()
-                        session.call(call['tool'], call['arguments'])
-                        append_jsonl(samples, {'phase': 'cold' if first else 'warm-up', 'scenario': scenario,
-                                               'kind': 'cold_first_request' if first else 'warmup_call', 'pass': pass_number,
-                                               'seconds': round(self.clock() - t0, 3)})
-                        first = False
+            self.check_tool_names(scenario, scenario)
+            self.warm_up(scenario, scenario)
             for unit in scenario_plan['units']:
                 task = self.by_id[unit['task']]
                 pending = [m for m in unit['models'] if not self.completed(run_key(scenario, task['id'], m, unit['trial']))]
@@ -422,36 +651,54 @@ class Study:
             write_json_atomic(manifest_path, self.redactor.deep(self.manifest()))
         status = 'complete'
         stop = None
+        units = self.plan['blocks'] if self.schedule is not None else self.plan
         try:
-            for scenario_plan in self.plan:
-                stop = self.run_scenario(scenario_plan)
+            for unit in units:
+                stop = self.run_block(unit) if self.schedule is not None else self.run_scenario(unit)
                 if stop:
                     status = 'budget_stop'
                     break
-        except provenance.ProvenanceRefused:
+        except (provenance.ProvenanceRefused, FingerprintRefused, scoring_contract.ScoringContractError) as error:
             self.write_scores()
-            self.write_bundle('provenance_refused')
+            self.write_bundle({provenance.ProvenanceRefused: 'provenance_refused', FingerprintRefused: 'fingerprint_refused',
+                               scoring_contract.ScoringContractError: 'scoring_error'}[type(error)])
             raise
         self.write_scores()
         self.write_bundle(status)
         return status
 
     # ---------------------------------------------------------------- records
+    SCHEDULE_COLUMNS = ('block', 'blockSequence', 'row', 'roundSequence', 'position', 'half', 'orderInBlock', 'session', 'requeued',
+                        'vendorErrors')
+
     def write_scores(self):
+        """One row per run. The columns of the schedule, the harness tools and the ambiguity flags are added only when a record has them,
+        so a study-1 run writes the same columns as before. A vendor error is no score (it is missing in the main analysis)."""
         rows = []
         for path in sorted((self.dir / 'runs').glob('*/result.json')):
             r = json.loads(path.read_text(encoding='utf-8'))
-            rows.append({'runKey': r['runKey'], 'scenario': r['scenario'], 'taskId': r['taskId'], 'category': r['category'], 'model': r['model'],
-                         'trial': r['trial'], 'outcome': r['outcome'], 'reason': r.get('reason') or '',
-                         'score': (r.get('score') or {}).get('score', 0) if r['outcome'] in TERMINAL else '',
-                         'tags': ';'.join((r.get('score') or {}).get('tags', [])), 'seconds': r['elapsedSeconds'], 'turns': r['turns'],
-                         'toolCalls': r['toolCalls'], **{'tokens_' + k: v for k, v in r['usage'].items()}, 'attempt': r['attempt']})
+            scored = r.get('score') or {}
+            row = {'runKey': r['runKey'], 'scenario': r['scenario'], 'taskId': r['taskId'], 'category': r['category'], 'model': r['model'],
+                   'trial': r.get('trial', ''), 'outcome': r['outcome'], 'reason': r.get('reason') or '',
+                   'score': scored.get('score', 0) if r['outcome'] in TERMINAL and r['outcome'] != 'vendor_error' else '',
+                   'tags': ';'.join(scored.get('tags', [])), 'seconds': r['elapsedSeconds'], 'turns': r['turns'],
+                   'toolCalls': r['toolCalls'], **{'tokens_' + k: v for k, v in r['usage'].items()}, 'attempt': r['attempt']}
+            row.update({name: r[name] for name in self.SCHEDULE_COLUMNS if name in r})
+            if 'harnessToolCalls' in r:
+                calls = r['harnessToolCalls']
+                row.update({'calculateCalls': calls.get('calculate', 0), 'calculateErrors': calls.get('calculateErrors', 0),
+                            'askRequesterCalls': calls.get('askRequester', 0)})
+            row.update({name: scored[name] for name in scoring_contract.AMBIGUITY_FLAGS if name in scored})
+            rows.append(row)
         with open(self.dir / 'scores.jsonl', 'w', encoding='utf-8', newline='\n') as handle:
             for row in rows:
                 handle.write(json.dumps(row, sort_keys=True) + '\n')
         if rows:
+            fieldnames = []
+            for row in rows:
+                fieldnames.extend(name for name in row if name not in fieldnames)
             with open(self.dir / 'scores.csv', 'w', encoding='utf-8', newline='') as handle:
-                writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator='\n')
+                writer = csv.DictWriter(handle, fieldnames=fieldnames, restval='', lineterminator='\n')
                 writer.writeheader()
                 writer.writerows(rows)
 
@@ -469,10 +716,13 @@ class Study:
 
 # ---------------------------------------------------------------------------------------------------------------- command line
 def load_config(path):
+    """The machine-local config. With a `schedule` (study 2) `scenario_order` and `trials` are not used, and `dataset_fingerprint` is needed."""
     config = json.loads(Path(path).read_text(encoding='utf-8'))
-    for needed in ('scenarios', 'scenario_order', 'models', 'trials', 'seed', 'budgets', 'task_set'):
-        if needed not in config:
-            raise ValueError('The study config lacks %r' % needed)
+    needed = ('scenarios', 'models', 'seed', 'budgets', 'task_set')
+    needed += ('dataset_fingerprint',) if 'schedule' in config else ('scenario_order', 'trials')
+    for name in needed:
+        if name not in config:
+            raise ValueError('The study config lacks %r' % name)
     return config
 
 
@@ -515,6 +765,14 @@ def main(argv=None):
     except provenance.ProvenanceRefused as error:
         print('STOP: ' + str(error))
         print('Study run %s: provenance_refused' % args.run_id)
+        return 3
+    except FingerprintRefused as error:
+        print('STOP: ' + str(error))
+        print('Study run %s: fingerprint_refused' % args.run_id)
+        return 3
+    except scoring_contract.ScoringContractError as error:
+        print('STOP: the scorer broke its contract: ' + str(error))
+        print('Study run %s: scoring_error' % args.run_id)
         return 3
     for vendor, budget in study.budgets.items():
         print(json.dumps(budget.snapshot()))

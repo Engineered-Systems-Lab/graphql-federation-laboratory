@@ -1,15 +1,16 @@
 {
-  "about": "Example of the machine-local study config (copy it outside the repository, fill the placeholders, point STUDY_CONFIG or --config at the copy). A command is {argv, cwd?, env?, background?}; the stack commands run with the API keys stripped from their environment. Placeholders in angle brackets are filled on the machine; nothing here names a repository path. Every scenario declares its provenance: the compose projects to observe, the intended backends (mode real or simulated, the compose service, the image id and/or ref from docker inspect, the dataset with its SHA-256), the routing (each upstream URL the MCP server calls with the compose service that publishes it, and each adapter's backend URL variables) and the launch files to hash. The harness compares them with the running stack before any paid request.",
+  "about": "Example of the machine-local study config (copy it outside the repository, fill the placeholders, point STUDY_CONFIG or --config at the copy). This is the shape of study 2: the block schedule (schedule), the command run at every block start that prints the dataset fingerprint and the database session as one JSON object {\"fingerprint\": ..., \"session\": ...} (dataset_fingerprint), the harness tools offered beside every arm's MCP tools (harness_tools), the budgets at the ceiling of decision D and the limits of the design page. Without schedule the harness runs the study-1 protocol: scenario_order (the scenarios in order) and trials are then required and dataset_fingerprint is not used. A command is {argv, cwd?, env?, background?}; the stack commands and the fingerprint command run with the API keys stripped from their environment. Placeholders in angle brackets are filled on the machine; nothing here names a repository path. Every scenario declares its provenance: the compose projects to observe, the intended backends (mode real or simulated, the compose service, the image id and/or ref from docker inspect, the dataset with its SHA-256), the routing (each upstream URL the MCP server calls with the compose service that publishes it, and each adapter's backend URL variables) and the launch files to hash. The harness compares them with the running stack at every block start, before any paid request.",
   "task_set": "dev",
-  "scenario_order": ["alpha", "beta", "gamma", "delta", "epsilon"],
+  "schedule": {"design": "williams-4-half", "arms": ["beta", "gamma", "delta", "epsilon"], "reference": "alpha"},
   "models": ["claude-sonnet-5-5", "gpt-6.1-sol"],
-  "trials": 2,
-  "seed": 20261021,
+  "seed": 20261027,
+  "dataset_fingerprint": {"argv": ["<read-only command that prints {\"fingerprint\": ..., \"session\": ...} for the Missions database>"]},
+  "harness_tools": ["calculate", "ask_requester"],
   "warmup_passes": 3,
-  "limits": {"max_tool_calls": 40, "max_wall_seconds": 900, "max_task_tokens": 400000, "max_nudges": 2, "max_retries": 3, "retry_backoff_seconds": 5},
+  "limits": {"max_tool_calls": 80, "max_wall_seconds": 900, "max_task_tokens": 1000000, "max_nudges": 2, "max_retries": 3, "retry_backoff_seconds": 5},
   "budgets": {
-    "anthropic": {"tokens": 0, "dollar_ceiling": 20.0},
-    "openai": {"tokens": 0, "dollar_ceiling": 20.0}
+    "anthropic": {"tokens": 0, "dollar_ceiling": 85.0},
+    "openai": {"tokens": 0, "dollar_ceiling": 40.0}
   },
   "scenarios": {
     "alpha": {

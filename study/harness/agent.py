@@ -4,6 +4,10 @@ The loop is the same for every scenario and model: send the shared system prompt
 plus `submit_answer` with the task's fixed schema), execute the tool calls the model asks for, and stop when the model submits. The answer is
 scored automatically by the corpus scorer (no judge). A cap on tool calls, wall-clock time or tokens ends the run as `did_not_finish`, with
 everything it spent counted. A budget stop ends it as `budget_stop`, which is not a score: the run is incomplete and a resume repeats it.
+A vendor error ends it as `error`; the runner of the block schedule queues it again once and records a second one as `vendor_error`.
+
+The tool session may be the harness's wrapper (harness_tools.py), which adds `calculate` and `ask_requester`: their calls count in the
+tool-call cap like any other, and the wrapper's `last_details` of each call goes into the transcript event as `harness`.
 """
 import time
 
@@ -19,7 +23,7 @@ SYSTEM_PROMPT = (
 
 NUDGE = 'You have not called submit_answer. Call submit_answer now with your answer.'
 
-TERMINAL = ('correct', 'wrong_answer', 'format_error', 'silent_guess', 'definition_not_accepted', 'did_not_finish')
+TERMINAL = ('correct', 'wrong_answer', 'format_error', 'silent_guess', 'definition_not_accepted', 'abstained', 'did_not_finish', 'vendor_error')
 
 
 class Limits:
@@ -110,11 +114,6 @@ class AgentRun:
                 transcript.append({'role': 'assistant', 'text': turn.text, 'tool_calls': turn.tool_calls, 'raw': turn.raw})
                 self.emit('message', role='assistant', text=turn.text, toolCalls=turn.tool_calls, usage=turn.usage.as_dict(),
                           stopReason=turn.stop_reason, requestId=turn.request_id, **turn.timing)
-                submit = next((c for c in turn.tool_calls if c['name'] == 'submit_answer'), None)
-                if submit is not None:
-                    scored = self.score(submit['arguments'])
-                    result['submission'] = submit['arguments']
-                    return finish(scored['outcome'], None, scored)
                 if not turn.tool_calls:
                     nudges += 1
                     if nudges > self.limits.max_nudges:
@@ -122,15 +121,27 @@ class AgentRun:
                     transcript.append({'role': 'user', 'text': NUDGE})
                     self.emit('message', role='user', text=NUDGE)
                     continue
-                for call in turn.tool_calls:
+                at = next((i for i, c in enumerate(turn.tool_calls) if c['name'] == 'submit_answer'), None)
+                # the calls that come before submit_answer in the same turn run first (an ask_requester call is then in the log the
+                # scorer reads); the calls after it are never run
+                for call in turn.tool_calls[:at]:
                     if tool_calls >= self.limits.max_tool_calls:
+                        if at is not None:
+                            break  # the submission still stands; the calls beyond the cap are not run
                         return finish('did_not_finish', 'tool_calls')
                     tool_calls += 1
                     began = self.clock()
                     text, is_error = self.session.call(call['name'], call['arguments'])
+                    details = getattr(self.session, 'last_details', None)
                     self.emit('tool', id=call['id'], name=call['name'], arguments=call['arguments'], isError=is_error,
-                              resultChars=len(text), seconds=round(self.clock() - began, 3), text=text)
+                              resultChars=len(text), seconds=round(self.clock() - began, 3), text=text,
+                              **({'harness': details} if details else {}))
                     transcript.append({'role': 'tool', 'call_id': call['id'], 'name': call['name'], 'content': text, 'is_error': is_error})
+                if at is not None:
+                    submit = turn.tool_calls[at]
+                    scored = self.score(submit['arguments'])
+                    result['submission'] = submit['arguments']
+                    return finish(scored['outcome'], None, scored)
         except BudgetStop as stop:
             self.emit('budget_stop', message=str(stop), budget=stop.snapshot)
             return finish('budget_stop', str(stop))
