@@ -79,6 +79,8 @@ The gates of every other component are named in the project's checkpoint policy 
 - The raw study bundles stay outside the repository and are cited by checksum, so the analysis cannot be reproduced without them.
 - The container limits are provisional: they wait for the benchmark environment record.
 - Crew & Personnel v1 is frozen and deprecated: it stays readable and runnable as a reference, and no new work builds on it.
+- The original lab repository's own full and runtime test suites were not run at the commit this repository was imported from; the results here come from this repository's own checks.
+- Dataset 003 of Crew & Personnel v1 is not regenerated in this repository; its released package is the reference.
 - The MCP part of the study gate needs the study environment.
 
 ## History and provenance
@@ -98,4 +100,4 @@ Third-party software and material keep their own licenses (see below). This summ
 
 - **Star Trek.** This is an independent fan and learning project. Star Trek and all related names, characters, ships, episodes and marks belong to their owners; the project is not affiliated with or endorsed by them. The enterprise, its crew records, missions and assets are fictional data built for testing.
 - **Memory Alpha.** Some mission facts are paraphrased in the project's own words from [Memory Alpha](https://memory-alpha.fandom.com/), whose text is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/); each such record keeps its `sourceUrl` link to the page it came from.
-- **Software.** Third-party components keep their own licenses. The two routers: the Apollo Router and Apollo's composition library are under the Elastic License 2.0 (ELv2), source-available but not open source, and Apollo's subgraph library is under MIT; WunderGraph Cosmo (the router and its `wgc` tool) is under the Apache License 2.0 at the pinned version. The other libraries and base images are listed with the components when they are imported.
+- **Software.** Third-party components keep their own licenses. The two routers: the Apollo Router and Apollo's composition library are under the Elastic License 2.0 (ELv2), source-available but not open source, and Apollo's subgraph library is under MIT; WunderGraph Cosmo (the router and its `wgc` tool) is under the Apache License 2.0 at the pinned version. The other libraries and base images are pinned in each component's build files (its `pom.xml`, `Dockerfile` or `requirements.txt`, and the stack's `compose.yaml`) and keep their own licenses.
