@@ -17,7 +17,11 @@
       "why": "the assets adapter code and its gate files select its own gates and both stacks, never another adapter's offline gate"
     },
     {
-      "paths": ":(glob)federation/adapters/assets/[!Rp]*",
+      "paths": ":(glob)federation/adapters/assets/*",
+      "exclude": [
+        "federation/adapters/assets/README.md",
+        "federation/adapters/assets/pom.xml"
+      ],
       "selects": [
         "federation-assets-offline",
         "federation-assets-service",
@@ -46,7 +50,11 @@
       "why": "the mapping adapter code and its gate files select its own gates and both stacks, never another adapter's offline gate"
     },
     {
-      "paths": ":(glob)federation/adapters/mapping/[!Rp]*",
+      "paths": ":(glob)federation/adapters/mapping/*",
+      "exclude": [
+        "federation/adapters/mapping/README.md",
+        "federation/adapters/mapping/pom.xml"
+      ],
       "selects": [
         "federation-mapping-offline",
         "federation-router-apollo-stack",
@@ -74,7 +82,11 @@
       "why": "the missions adapter code and its gate files select its own gates and both stacks, never another adapter's offline gate"
     },
     {
-      "paths": ":(glob)federation/adapters/missions/[!Rp]*",
+      "paths": ":(glob)federation/adapters/missions/*",
+      "exclude": [
+        "federation/adapters/missions/README.md",
+        "federation/adapters/missions/pom.xml"
+      ],
       "selects": [
         "federation-missions-offline",
         "federation-router-apollo-stack",
@@ -103,7 +115,11 @@
       "why": "the personnel adapter code and its gate files select its own gates and both stacks, never another adapter's offline gate"
     },
     {
-      "paths": ":(glob)federation/adapters/personnel/[!Rp]*",
+      "paths": ":(glob)federation/adapters/personnel/*",
+      "exclude": [
+        "federation/adapters/personnel/README.md",
+        "federation/adapters/personnel/pom.xml"
+      ],
       "selects": [
         "federation-personnel-offline",
         "federation-personnel-service",
@@ -149,7 +165,10 @@
       "why": "the Cosmo router files, its README included, select the Cosmo offline gate and the Cosmo stack, never an adapter's or the other router's offline gate"
     },
     {
-      "paths": ":(glob)federation/stack/[!R]*",
+      "paths": ":(glob)federation/stack/*",
+      "exclude": [
+        "federation/stack/README.md"
+      ],
       "selects": [
         "federation-router-apollo-offline",
         "federation-router-cosmo-offline",
@@ -165,7 +184,10 @@
       "why": "the federation stack files at its root select both router offline gates and both stacks, never an adapter's offline gate (README.md is a record)"
     },
     {
-      "paths": ":(glob)federation/acceptance/[!R]*",
+      "paths": ":(glob)federation/acceptance/*",
+      "exclude": [
+        "federation/acceptance/README.md"
+      ],
       "selects": [
         "federation-router-apollo-offline",
         "federation-router-cosmo-offline",
@@ -214,7 +236,10 @@
       "why": "the released mapping data selects the mapping offline gate, both router offline gates, both stacks and the study tests"
     },
     {
-      "paths": ":(glob)federation/personnel-mapping/[!R]*",
+      "paths": ":(glob)federation/personnel-mapping/*",
+      "exclude": [
+        "federation/personnel-mapping/README.md"
+      ],
       "selects": [
         "federation-mapping-offline",
         "federation-router-apollo-offline",
@@ -397,7 +422,10 @@
       "why": "the Personnel v2 README is a record: no federation gate and no system gate"
     },
     {
-      "paths": ":(glob)uss-enterprise/assets/[!R]*",
+      "paths": ":(glob)uss-enterprise/assets/*",
+      "exclude": [
+        "uss-enterprise/assets/README.md"
+      ],
       "selects": [
         "federation-assets-service",
         "federation-router-apollo-stack",
@@ -490,7 +518,10 @@
       "why": "the released Missions data (xml) adds the federation Missions offline gate and the released-data gates (the dataset scripts such as load.sql are unmapped and left out)"
     },
     {
-      "paths": ":(glob)uss-enterprise/personnel-v2/[!R]*",
+      "paths": ":(glob)uss-enterprise/personnel-v2/*",
+      "exclude": [
+        "uss-enterprise/personnel-v2/README.md"
+      ],
       "selects": [
         "federation-personnel-service",
         "federation-router-apollo-stack",

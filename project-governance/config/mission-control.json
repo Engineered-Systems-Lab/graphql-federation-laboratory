@@ -1,4 +1,6 @@
 {
   "version": 1,
-  "port": 8775
+  "port": 8775,
+  "project_name": "GraphQL Federation Laboratory",
+  "tagline": "Legacy systems federated behind one GraphQL graph, evaluating what helps AI agents most"
 }
