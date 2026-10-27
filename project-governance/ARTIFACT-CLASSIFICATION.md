@@ -30,6 +30,7 @@ The template ships the rows of its own documents. A project that starts from it 
 | `docs/PLAN.md` | record | record-only | - | yes | guidance | plan | yes | - |
 | `docs/PROGRESS.md` | record | record-only | - | yes | - | progress | yes | - |
 | `docs/SERVICE-SCRIPTS.md` | record | record-only | - | - | - | - | - | - |
+| `docs/STUDY-2-DESIGN.md` | record | record-only | - | - | - | - | yes | - |
 | `docs/agent-study/*.svg` | record | record-only | - | - | - | - | - | - |
 | `docs/timings/*.jsonl` | record | record-only | - | - | - | - | - | - |
 | `federation/acceptance/*.json` | runtime | federation-integration | runtime | - | - | - | - | - |

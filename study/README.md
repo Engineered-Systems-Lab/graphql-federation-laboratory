@@ -11,7 +11,7 @@ The lab compares how well language-model agents answer questions about the USS E
 - [analysis](analysis/README.md): the analysis scripts that write every table and figure of the study's report.
 - [evidence](evidence/README.md): the score tables, the run manifests and the bundle and archive checksums of the scored runs.
 
-The results of the scored runs are in the [Abstraction ladder study report](../docs/AGENT-STUDY-REPORT.md).
+The results of the scored runs are in the [Abstraction ladder study report](../docs/AGENT-STUDY-REPORT.md). The design of the next study, decided before any of its runs, is in [Abstraction ladder study 2: design](../docs/STUDY-2-DESIGN.md).
 
 ## Rules of the folder
 

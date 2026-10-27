@@ -55,7 +55,7 @@ FEDERATION_ROUTER=cosmo bash federation/stack/start.sh stop
 ## Demonstrations
 
 - **The cross-system questions.** The router-neutral [acceptance suite](federation/acceptance/README.md) asks questions 2 to 6 of the federation design through a router (which missions used a destroyed or missing asset, which have unresolved assets, the parent chain of an asset in one query, a mission that still answers with partial data while the Assets service is down, and how many missions are confirmed with a senior officer among their crew) and runs the controlled cases: an outage of the Assets service, dead adapters and the recovery when they come back, each answered with errors entries beside the data that is still there, never with a guess. The stack gates below run it against each router on a disposable stack.
-- **The Abstraction ladder study.** The [study](study/README.md) holds the task corpus, the MCP servers, the harness, the written guide, the analysis and the compact evidence; the results are in [the study report](docs/AGENT-STUDY-REPORT.md).
+- **The Abstraction ladder study.** The [study](study/README.md) holds the task corpus, the MCP servers, the harness, the written guide, the analysis and the compact evidence; the results are in [the study report](docs/AGENT-STUDY-REPORT.md), and the design of study 2 is in [its design page](docs/STUDY-2-DESIGN.md).
 
 ## Validation
 
