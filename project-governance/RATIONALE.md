@@ -291,7 +291,7 @@ content rather than canon, and deterministic publication requires more than a
 seed. Each runtime slice needs real phase-specific evidence and its separate
 fresh-worker continuity record transaction.
 
-**Evidence.** Inspected main 6b27907d70e1a61634945be3ac033b1e8e42b502,
+**Evidence.** Inspected main lab commit `6b27907d70e1a61634945be3ac033b1e8e42b502`,
 [Missions design](../docs/MISSIONS-V1-DESIGN.md),
 [contract 1.0](../uss-enterprise/missions/contracts/missions-v1.0.xsd),
 [D027](DECISIONS.md#d027---missions-v1-design-freeze-2026-10-01-accepted-design-frozen),
