@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "about": "The preflight record of Abstraction ladder study 2: the go or no-go thresholds and the decision-L gate of docs/STUDY-2-DESIGN.md (Preflight steps), with one slot per step. preflight.py report fills the measured parts from the step records; the judgement of the gate and the go or no-go decision stay the lead developer's.",
+  "study": "study-2",
+  "design": "docs/STUDY-2-DESIGN.md#preflight-steps",
+  "thresholds": [
+    {"id": "oracle-ready", "text": "Oracle ready within 15 minutes", "step": 2, "maxSeconds": 900},
+    {"id": "docker-peak", "text": "Docker peak under 12 GiB", "step": 5, "limitBytes": 12884901888},
+    {"id": "host-free-min", "text": "Host free memory never under 6 GiB during the soak", "step": 5, "minBytes": 6442450944},
+    {"id": "no-oom-restart", "text": "No OOM kill and no unplanned restart", "step": 5},
+    {"id": "answerability", "text": "Every reference solution matches the key", "step": 7, "inThisKit": false},
+    {"id": "decision-l", "text": "The decision-L gate is passed: no unexplained discrepancy between the real service and the simulator", "judgedBy": "the lead developer"}
+  ],
+  "steps": [
+    {"step": 1, "title": "Inventory", "command": "inventory", "needs": "the lead developer's go for the step; building the service image is a separate operator step"},
+    {"step": 2, "title": "Oracle alone", "command": "oracle", "needs": "Oracle provisioned or started by the operator with missions_operator.py, after the lead developer's environment go"},
+    {"step": 3, "title": "Data", "command": "data", "needs": "the reset to release 1.2 and the read-only service login, both operator steps with the lead developer's go"},
+    {"step": 4, "title": "The Missions service on 127.0.0.1:8083", "command": "service", "needs": "the service started by the operator with its compose file; the simulator recorded the same way in the simulated mode; then compare"},
+    {"step": 5, "title": "The whole stack, per arm", "command": "stack", "needs": "the scenario's stack started with study/launch/launch.py up; the acceptance list A and the adapter gates run by the operator with their own commands"},
+    {"step": 6, "title": "Outage mechanics", "command": "outage", "needs": "the scenario's stack up; the lead developer's go, because the step stops and starts services through study/launch/launch.py"},
+    {"step": 7, "title": "Answerability", "command": null, "needs": "corpus 2 and its reference solutions: a later Job"},
+    {"step": 8, "title": "Provenance", "command": "provenance", "needs": "the study config written by study/launch/make_config.py and the scenario's stack up"},
+    {"step": 9, "title": "Paid smoke test", "command": null, "needs": "corpus 2 and the lead developer's go for paid requests: a later Job"}
+  ],
+  "decisionL": {
+    "questions": ["Does it affect the contracts?", "Does it affect the tool behaviour?", "Does it affect the guide's accuracy?", "Does it affect the answerability of tasks?", "Does it affect the expected answers?"],
+    "procedure": [
+      "Classify each difference first, against the five questions.",
+      "Record it in the preflight record, with its evidence.",
+      "Fix any affected setup: the tool configuration, the guide (through its independent check, decision J), the reference solutions or the answer key.",
+      "Run the relevant Direct Access and Guided Direct Access smoke checks again.",
+      "An unexplained discrepancy blocks the freeze. It is not carried into scored execution."
+    ],
+    "note": "Expected latency differences are documented; the real service is not made to imitate the simulator.",
+    "differences": [],
+    "judgement": null,
+    "judgedBy": null
+  },
+  "goNoGo": {"measured": null, "decision": null, "decidedBy": null},
+  "onFailureOptions": [
+    "a larger Docker share (the lead developer's setting)",
+    "only the running arm's router (already the case)",
+    "a lower Oracle memory pin (a governed change of the reviewed environment)"
+  ]
+}
