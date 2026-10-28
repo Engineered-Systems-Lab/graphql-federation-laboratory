@@ -6,7 +6,9 @@ services:
     container_name: ${MISSIONS_CONTAINER_NAME:-starfleet-missions-service}
     ports:
       - "127.0.0.1:${MISSIONS_HOST_PORT:-8083}:8083"
+    mem_limit: 768m
     environment:
+      JAVA_TOOL_OPTIONS: -XX:MaxRAMPercentage=60.0
       MISSIONS_BIND_HOST: 0.0.0.0
       MISSIONS_PORT: "8083"
       MISSIONS_JDBC_URL: ${MISSIONS_JDBC_URL:?set MISSIONS_JDBC_URL}

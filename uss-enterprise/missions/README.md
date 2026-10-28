@@ -264,7 +264,8 @@ The service ships as one image built from the committed [Dockerfile](Dockerfile)
 `mvn verify` (the Java unit tests) and a JRE 17 stage carries only the jar and its libraries. The
 [.dockerignore](.dockerignore) lets the build context hold nothing but `pom.xml`, the 1.1 schema, `fixtures/valid`
 and `src`. The container runs as the non-root `10001:10001` and listens on 8083 (`MISSIONS_PORT`, with
-`MISSIONS_BIND_HOST=0.0.0.0` inside the container).
+`MISSIONS_BIND_HOST=0.0.0.0` inside the container). Compose limits the container to 768 MiB (`mem_limit: 768m`) and caps
+the Java heap at 60 percent of it, about 460 MiB, with `JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=60.0`.
 
 Compose starts only the service. It never starts, removes or recreates Oracle, which the
 [operator script](datasets/missions_operator.py) keeps owning: the service joins the existing internal network
