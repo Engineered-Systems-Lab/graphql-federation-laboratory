@@ -26,6 +26,7 @@ STUDY = Path(__file__).resolve().parent.parent
 SUITES = [
     ('harness', 'harness', 'test_*.py', 'prefer'),
     ('corpus', 'corpus', 'test_corpus.py', 'no'),
+    ('corpus2', 'corpus2', 'test_corpus2.py', 'no'),
     ('mcp', 'mcp', 'test_mcp_offline.py', 'require'),
     ('analysis', 'analysis', 'test_*.py', 'stats'),
     ('launch', 'launch', 'test_*.py', 'no'),

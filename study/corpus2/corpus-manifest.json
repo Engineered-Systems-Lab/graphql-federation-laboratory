@@ -1,0 +1,53 @@
+{
+  "about": "Checksums of corpus 2 as derived. NOT frozen: the freeze belongs to a later Job, which writes the final manifest.",
+  "status": "draft, not frozen",
+  "poolTasks": 76,
+  "ambiguityTasks": 6,
+  "devTasks": 8,
+  "files": {
+    "pool.json": "6dc670233ff11c5e419a9bbd41fde052ae1609dd04baf4d72fc0d4954c9234d2",
+    "ambiguity.json": "01a0a9d97578224ada95afb258101bf6b87f3e04f229efa292d3fd3032abd597",
+    "dev.json": "88f2bf975827f59f463e0da7a17e709bb5a9b0e8853fe47d77ff67f3d7ada79b",
+    "keys-a.json": "6f9500c78c37bb30e1213839b9354a596430c15d46d3f929b3471ccba23a1ab6"
+  },
+  "derivedFrom": {
+    "missionsRelease1.2": {
+      "uss-enterprise/missions/datasets/releases/1.2/missions-1.xml": "fe16ff54c30689836eff9378a471fb71cedf0505269ec65dc812e04ecc9b01ee",
+      "uss-enterprise/missions/datasets/releases/1.2/missions-2.xml": "3173d43619d7e3c34bc02a6c5d679a989f27f62b12d9f35dc3d3476ecc6c8750",
+      "uss-enterprise/missions/datasets/releases/1.2/missions-3.xml": "da27dd2a076b14007b5ba6ab29a00eb451a8edf4e3c02b44dc0233b033a8b2f8",
+      "uss-enterprise/missions/datasets/releases/1.2/missions-4.xml": "d22090a201acedb7c2b3bdd97916efda2873ceb2346272575a4625c00651e84c",
+      "uss-enterprise/missions/datasets/releases/1.2/missions-5.xml": "8e4245f92abb70ef3fb7e3a04f04635d158083f570c9b8bc9c5512a28a503a61",
+      "uss-enterprise/missions/datasets/releases/1.2/missions-6.xml": "90ada39452706a52ff64513c7b30f89dc9a0da45e9ed05c79c67f6cb8774a19f"
+    },
+    "mappingReleases": {
+      "federation/mapping-releases/1.0/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+      "federation/mapping-releases/1.0/manifest.json": "07e2299af09f72700b555712737c9e8beb08c5a979aad616684dcef108372bb6",
+      "federation/mapping-releases/1.1/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+      "federation/mapping-releases/1.1/crew.json": "a40a0f38ac586a18eac8766bedddd81e6aeec75bb889a37a76a0f412bdde2cb0",
+      "federation/mapping-releases/1.1/manifest.json": "b253299ef7d729f66d438b98aa98e32731af556382b28fec369ce260d71bb1ed",
+      "federation/mapping-releases/1.2/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+      "federation/mapping-releases/1.2/crew.json": "0a7ba75eb79a15535fe077a8d01a1717552c3cb52a882034615489561151cfe3",
+      "federation/mapping-releases/1.2/manifest.json": "6f73cdeb1a09591742bb08177943c82dc63edec4e3ac7a38ad3b475b2333f79c",
+      "federation/mapping-releases/1.2/participants.json": "0ff7e5ed4ac2fcac08c0554b038c04e0eafee11bd3bc62735fc7046b8bcd750e",
+      "federation/mapping-releases/1.3/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+      "federation/mapping-releases/1.3/crew.json": "0a7ba75eb79a15535fe077a8d01a1717552c3cb52a882034615489561151cfe3",
+      "federation/mapping-releases/1.3/manifest.json": "5c2b99f17211abd4add46cddc400b15961608172dd8f62eb56c3683a7639c39d",
+      "federation/mapping-releases/1.3/participants.json": "3802ffdbfa16bd3e1d9bb19c14cfdb636058062b951ae64c4b16e96ec3428e5c"
+    },
+    "assetsDataset1.1": {
+      "uss-enterprise/assets/datasets/releases/1.1/assets.json": "733fdd51cd4e972b22b9d1b6074ce4b94286ab9680ed53e61babfae9c05ca738"
+    },
+    "personnelSnapshot": {
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-000.xml": "0d5b60e81d0757eae3b208ee8b6fa04823004bd515d4091cc4f863c4c4ec931e",
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-001.xml": "38439a7dcc414e913fbdf1bbcc82c337434cdd116980d6dd190f3bae09250e5d",
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-002.xml": "6b98815625ecce7c46e9cdabe7f30caf080fed1364bb09b922456979548a9a7f",
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-003.xml": "19a5da376a9fa0ee06126da4d3f253d7f9a8c6353cd31727d991fda3af5a087f",
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-004.xml": "f5d1a3d150a78f65675384670c11e0acb4ef78bccb625956f38dec46ef8acb2d",
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-005.xml": "b547a2bd06c6f7e18007ef387d756374580f0f7cf1f3586dba8553ce2e59da00",
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-006.xml": "bb0035e30909040c2889c1f3140b63d08d40eb68306777af0d3068842d92880c",
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-007.xml": "70af8313dafaf6ed98ec17969801922f573014e4170df4b1805a3063abc882ae",
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-008.xml": "1a07850589a86f519aa76993e9202b3240dca5a6de722e4871db973a82405aac",
+      "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-009.xml": "3fc12bd1afb15d9e3efe3b0bff7ccc3dcf87d73b48fd295b9f58b3e43e1818ff"
+    }
+  }
+}

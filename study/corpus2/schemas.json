@@ -1,0 +1,4 @@
+{
+  "about": "The submit_answer JSON Schema of each scored task, written by draw.py. Empty until the draw runs.",
+  "schemas": {}
+}

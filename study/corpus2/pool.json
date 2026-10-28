@@ -1,0 +1,4470 @@
+{
+  "about": "The candidate pool of corpus 2: every core task with its category, size, systems, tags, question and answer schema. The draw (draw.py) takes the 48 scored core tasks from here. The keys are in keys-a.json. Nothing here is frozen.",
+  "status": "draft, not frozen",
+  "releases": {
+    "missions": "1.2",
+    "mapping": "1.0 to 1.3",
+    "assets": "1.1",
+    "personnel": "personnel-v2-large-004"
+  },
+  "tasks": [
+    {
+      "id": "A01",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "What are the title, the type and the status of mission ST-00000LDBE?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Lookup in one system.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "type": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "status": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "title",
+          "type",
+          "status"
+        ]
+      }
+    },
+    {
+      "id": "A02",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Which authority issued mission ST-00000LD8J, what is its security classification, and what priority does it carry?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Lookup in one system.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "issuingAuthority": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "classification": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "priority": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "issuingAuthority",
+          "classification",
+          "priority"
+        ]
+      }
+    },
+    {
+      "id": "A03",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Where did mission ST-00000LD9E take place (the type and the name of its location), and what is its duration in hours?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Lookup in one system.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "locationType": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "locationName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "durationHours": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "locationType",
+          "locationName",
+          "durationHours"
+        ]
+      }
+    },
+    {
+      "id": "A04",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "What kind of asset is AST-0016, what is its status, and which asset is it aboard or part of? Give that asset's identifier.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Lookup in one system.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "kind": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "status": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "parentAssetId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "kind",
+          "status",
+          "parentAssetId"
+        ]
+      }
+    },
+    {
+      "id": "A05",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "Which assets does the Assets system record as directly aboard or part of AST-0029 (assets whose own record names AST-0029 as the asset they are aboard or part of; not the assets aboard those)? List their identifiers.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Direct children only: the question excludes the assets aboard the children.",
+      "interpretations": [
+        "\"Aboard\" means the direct parent named in the asset's own record, stated in the question."
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assetIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assetIds"
+        ]
+      }
+    },
+    {
+      "id": "A06",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "Which phasers does the Assets system hold, and what is the status of each? Give each phaser's identifier and status.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "A phaser is an asset of the kind PHASER.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "phasers": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "assetId": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "assetId",
+                "status"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "phasers"
+        ]
+      }
+    },
+    {
+      "id": "A07",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "personnel"
+      ],
+      "question": "What are the rank, the department and the duty status of Personnel member PRS-2167?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Lookup in one system.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "rank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "department": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "dutyStatus": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "rank",
+          "department",
+          "dutyStatus"
+        ]
+      }
+    },
+    {
+      "id": "A08",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "personnel"
+      ],
+      "question": "Who supervises Personnel member PRS-2382, according to the Personnel system? Give the supervisor's Personnel identifier, name and rank.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "The supervisor is the one the person's own record names. Two lookups in the Personnel system.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "supervisorId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "supervisorName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The name exactly as the system records it, without rank or title."
+          },
+          "supervisorRank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "supervisorId",
+          "supervisorName",
+          "supervisorRank"
+        ]
+      }
+    },
+    {
+      "id": "A09",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "personnel"
+      ],
+      "question": "Which members of the Personnel roster have the duty status deceased? Give each one's Personnel identifier and name.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "One filtered list call.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "people": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "personnelId": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name exactly as the system records it, without rank or title."
+                }
+              },
+              "required": [
+                "personnelId",
+                "name"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "people"
+        ]
+      }
+    },
+    {
+      "id": "B01",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Who was the commanding officer of mission ST-00000LDAJ? Using mapping release 1.3, give the officer's Personnel identifier, name and rank.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "personnelId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The name exactly as the system records it, without rank or title."
+          },
+          "rank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "personnelId",
+          "name",
+          "rank"
+        ]
+      }
+    },
+    {
+      "id": "B02",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, list the assigned crew of mission ST-00000LD8X (the assigned crew only: not its commanding officer and not its participants), with each person's Personnel identifier and department.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "crew": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "personnelId": {
+                  "type": "string"
+                },
+                "department": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "personnelId",
+                "department"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "crew"
+        ]
+      }
+    },
+    {
+      "id": "B03",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Which people on mission ST-00000LDBX (its commanding officer and its assigned crew (not its participants), each person counted once) hold the rank of lieutenant or a higher rank (lieutenant commander, commander or captain)? Use mapping release 1.3 and give their Personnel identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "interpretations": [
+        "\"Lieutenant or higher\" is listed rank by rank in the question."
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "personnelIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "personnelIds"
+        ]
+      }
+    },
+    {
+      "id": "B04",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "What is the duty status, in the Personnel system, of each person on mission ST-00000LDBO (its commanding officer and its assigned crew (not its participants), each person counted once)? Use mapping release 1.3 and give each person's Personnel identifier and duty status.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "people": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "personnelId": {
+                  "type": "string"
+                },
+                "dutyStatus": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "personnelId",
+                "dutyStatus"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "people"
+        ]
+      }
+    },
+    {
+      "id": "B05",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Using mapping release 1.3, which assets did mission ST-00000LD4Z use? Give each asset's Assets identifier and name.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assets": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "assetId": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name exactly as the system records it, without rank or title."
+                }
+              },
+              "required": [
+                "assetId",
+                "name"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assets"
+        ]
+      }
+    },
+    {
+      "id": "B06",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Which of the assets that mission ST-00000LD5K used (by mapping release 1.3) does the Assets system record today with a status other than active? Give each one's Assets identifier and status.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assets": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "assetId": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "assetId",
+                "status"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assets"
+        ]
+      }
+    },
+    {
+      "id": "B07",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Using mapping release 1.3, list the assets that mission ST-00000LD51 used and, for each, the asset it is directly aboard or part of according to the Assets system (null when it is aboard nothing).",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assets": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "assetId": {
+                  "type": "string"
+                },
+                "parentAssetId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "assetId",
+                "parentAssetId"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assets"
+        ]
+      }
+    },
+    {
+      "id": "B08",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, give the name of the commanding officer of mission ST-00000LD8J and the name of each asset the mission used.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "commandingOfficerName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The name exactly as the system records it, without rank or title."
+          },
+          "assetNames": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "description": "The name exactly as the system records it, without rank or title."
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "commandingOfficerName",
+          "assetNames"
+        ]
+      }
+    },
+    {
+      "id": "B09",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions",
+        "personnel"
+      ],
+      "question": "For mission ST-00000LD4R, using mapping release 1.3: what is the rank of each person on it (its commanding officer and its assigned crew (not its participants), each person counted once), and what is the current status of each asset it used?",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "people": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "personnelId": {
+                  "type": "string"
+                },
+                "rank": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "personnelId",
+                "rank"
+              ]
+            }
+          },
+          "assets": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "assetId": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "assetId",
+                "status"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "people",
+          "assets"
+        ]
+      }
+    },
+    {
+      "id": "B10",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Which missions had as their commanding officer the person with the Personnel identifier PRS-0001, by mapping release 1.3? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "The mapping is read in reverse: the crew reference that release 1.3 maps to PRS-0001, then the missions it commanded.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "B11",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "For every mission of the type medical, give the Personnel identifier of its commanding officer by mapping release 1.3, or null when the mission has no commanding officer or the release has no entry for the officer's crew reference.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missions": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "missionId": {
+                  "type": "string"
+                },
+                "commandingOfficerPersonnelId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "missionId",
+                "commandingOfficerPersonnelId"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missions"
+        ]
+      }
+    },
+    {
+      "id": "B12",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Using mapping release 1.3, which missions used the asset AST-0025? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "The asset mapping is read in reverse: the Missions references that release 1.3 maps to AST-0025.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "B13",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Which missions of the type maintenance used an asset that the Assets system currently records as missing? Use mapping release 1.3 and list the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "B14",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "For each mission issued by Starfleet Medical, how many distinct assets of the Assets system did it use? Count a reference only when mapping release 1.3 maps it to an asset that the Assets system holds, and count each asset once per mission.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missions": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "missionId": {
+                  "type": "string"
+                },
+                "assetCount": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "missionId",
+                "assetCount"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missions"
+        ]
+      }
+    },
+    {
+      "id": "B15",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions",
+        "personnel"
+      ],
+      "question": "For every mission whose status is failed, give, using mapping release 1.3, the rank of its commanding officer (null when it has none or the release cannot identify the officer) and how many distinct assets of the Assets system it used (a reference counts only when the release maps it to an asset the Assets system holds).",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missions": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "missionId": {
+                  "type": "string"
+                },
+                "commandingOfficerRank": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The value as the system records it."
+                },
+                "assetCount": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "missionId",
+                "commandingOfficerRank",
+                "assetCount"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missions"
+        ]
+      }
+    },
+    {
+      "id": "C01",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Using mapping release 1.1, give the Personnel identifier that each person on mission ST-00000LD9G maps to (its commanding officer and its assigned crew (not its participants), each person counted once). List each crew reference with its Personnel identifier, or null when release 1.1 has no entry for it.",
+      "tags": {
+        "mapping": "1.1"
+      },
+      "designNote": "Release 1.1 holds only ten crew entries.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "people": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "crewReference": {
+                  "type": "string"
+                },
+                "personnelId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "crewReference",
+                "personnelId"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "people"
+        ]
+      }
+    },
+    {
+      "id": "C02",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Using mapping release 1.0, give the Personnel identifier of the commanding officer of mission ST-00000LD5N.",
+      "tags": {
+        "mapping": "1.0"
+      },
+      "designNote": "Mapping release 1.0 has no crew section, so no crew reference can be mapped in it. The release exists, so an answer that names nobody is accepted with either status; naming a person fails.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "personnelId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "personnelId"
+        ]
+      }
+    },
+    {
+      "id": "C03",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Using mapping release 1.4, which Assets identifiers do the asset references of mission ST-00000LD8Q map to?",
+      "tags": {
+        "mapping": "1.4"
+      },
+      "designNote": "Mapping release 1.4 does not exist (the releases are 1.0 to 1.3).",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assetIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assetIds"
+        ]
+      }
+    },
+    {
+      "id": "C04",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "For each asset reference of mission ST-00000LD5M, say what mapping release 1.3 and the Assets system make of it: RESOLVED when the release maps it to an asset the Assets system holds, UNRESOLVED when the release maps it to an identifier the Assets system does not hold, UNMAPPED when the release has no entry for it. Give the reference, the identifier it maps to (null when unmapped) and the outcome.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "references": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "reference": {
+                  "type": "string"
+                },
+                "assetId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "outcome": {
+                  "type": "string",
+                  "enum": [
+                    "RESOLVED",
+                    "UNRESOLVED",
+                    "UNMAPPED"
+                  ]
+                }
+              },
+              "required": [
+                "reference",
+                "assetId",
+                "outcome"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "references"
+        ]
+      }
+    },
+    {
+      "id": "C05",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Which crew references of mission ST-00000LDCC (its commanding officer and its assigned crew) have no entry in mapping release 1.3?",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "crewReferences": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "crewReferences"
+        ]
+      }
+    },
+    {
+      "id": "C06",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [],
+      "question": "Which Personnel identifier does the crew reference C-1638 map to in mapping release 1.1, and which in mapping release 1.3? Give null for a release that has no entry for it.",
+      "tags": {
+        "mapping": "1.1 and 1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "release11PersonnelId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "release13PersonnelId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "release11PersonnelId",
+          "release13PersonnelId"
+        ]
+      }
+    },
+    {
+      "id": "C07",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [],
+      "question": "Which releases of the mapping between the Missions references and the other systems hold a crew section (a mapping of crew references to Personnel identifiers)? List the release numbers.",
+      "tags": {
+        "mapping": "all"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "releases": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "releases"
+        ]
+      }
+    },
+    {
+      "id": "C08",
+      "set": "core",
+      "category": "C",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "Among the missions issued by Enterprise Command, which used at least one asset reference that has no entry in mapping release 1.3? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "C09",
+      "set": "core",
+      "category": "C",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "Among the missions classified secret, which have a commanding officer or an assigned crew member whose crew reference has no entry in mapping release 1.3? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "Only the classification SECRET, not TOP_SECRET.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "C10",
+      "set": "core",
+      "category": "C",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Among the missions of the type maintenance, which used an asset reference that mapping release 1.3 maps to an Assets identifier the Assets system does not hold? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "C11",
+      "set": "core",
+      "category": "C",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Among the missions of the type diplomatic, on which can every person (its commanding officer and its assigned crew (not its participants), each person counted once) be identified through mapping release 1.1? A person is identified when release 1.1 maps the crew reference to a member of the Personnel roster; a mission with nobody on it does not count. List the mission identifiers.",
+      "tags": {
+        "mapping": "1.1"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "C12",
+      "set": "core",
+      "category": "C",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Mission ST-00000LDBG lists many asset references. Using mapping release 1.3 and the Assets system, how many of them are resolved (the release maps them to an asset the Assets system holds), how many unresolved (the release maps them to an identifier the Assets system does not hold), and how many unmapped (the release has no entry for them)?",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "One mission with 50 references, so the mapping work is of medium size.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "resolved": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "unresolved": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "unmapped": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "resolved",
+          "unresolved",
+          "unmapped"
+        ]
+      }
+    },
+    {
+      "id": "G01",
+      "set": "core",
+      "category": "G",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "List the identifiers of every mission whose status is completed.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "158 missions: more than one page at every page size the systems allow.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "G02",
+      "set": "core",
+      "category": "G",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "List the identifiers of every mission whose priority is 4 or 5.",
+      "tags": {
+        "mapping": null
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "G03",
+      "set": "core",
+      "category": "G",
+      "size": "medium",
+      "systems": [
+        "personnel"
+      ],
+      "question": "List the Personnel identifiers of every member of the Security department.",
+      "tags": {
+        "mapping": null
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "personnelIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "personnelIds"
+        ]
+      }
+    },
+    {
+      "id": "G04",
+      "set": "core",
+      "category": "G",
+      "size": "medium",
+      "systems": [
+        "personnel"
+      ],
+      "question": "List the Personnel identifiers of every member of the Engineering department.",
+      "tags": {
+        "mapping": null
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "personnelIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "personnelIds"
+        ]
+      }
+    },
+    {
+      "id": "G05",
+      "set": "core",
+      "category": "G",
+      "size": "medium",
+      "systems": [
+        "assets"
+      ],
+      "question": "List every asset the Assets system holds, with its status.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "32 records: two pages at the default page size of 20, one page at the largest page size. Its size is a judgment, flagged for review.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assets": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "assetId": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "assetId",
+                "status"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assets"
+        ]
+      }
+    },
+    {
+      "id": "G06",
+      "set": "core",
+      "category": "G",
+      "size": "large",
+      "systems": [
+        "missions"
+      ],
+      "question": "List the identifiers of every mission that has no commanding officer.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "No filter selects them: all 300 are read.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "G07",
+      "set": "core",
+      "category": "G",
+      "size": "large",
+      "systems": [
+        "missions"
+      ],
+      "question": "List the identifiers of every mission whose duration is 200 hours or more.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "No filter selects them: all 300 are read.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "G08",
+      "set": "core",
+      "category": "G",
+      "size": "large",
+      "systems": [
+        "personnel"
+      ],
+      "question": "List the Personnel identifiers of every civilian on the roster (a member the Personnel system records with civilian details rather than crew details).",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "No filter selects them: all 1,000 are read.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "personnelIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "personnelIds"
+        ]
+      }
+    },
+    {
+      "id": "G09",
+      "set": "core",
+      "category": "G",
+      "size": "large",
+      "systems": [
+        "personnel"
+      ],
+      "question": "List the Personnel identifiers of every member whose position title is Section Supervisor.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "No filter selects them: all 1,000 are read.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "personnelIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "personnelIds"
+        ]
+      }
+    },
+    {
+      "id": "G10",
+      "set": "core",
+      "category": "G",
+      "size": "large",
+      "systems": [
+        "missions"
+      ],
+      "question": "List the identifiers of every mission whose actual cost is greater than its estimated cost. Leave out the missions that lack either value.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "No filter selects them: all 300 are read.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "E01",
+      "set": "core",
+      "category": "E",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "Of the assets directly aboard or part of AST-0029 (assets whose own record names AST-0029; not the assets aboard those), how many are there of each status? Give only the statuses that occur.",
+      "tags": {
+        "mapping": null
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "statuses": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                },
+                "count": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "status",
+                "count"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "statuses"
+        ]
+      }
+    },
+    {
+      "id": "E02",
+      "set": "core",
+      "category": "E",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "What is the total estimated cost of the missions whose commanding officer is the crew reference C-92? A mission without an estimated cost adds nothing.",
+      "tags": {
+        "mapping": null
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "totalEstimatedCost": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Credits, to the cent."
+          },
+          "missionCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "totalEstimatedCost",
+          "missionCount"
+        ]
+      }
+    },
+    {
+      "id": "E03",
+      "set": "core",
+      "category": "E",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many people of each department were on mission ST-00000LD9F (its commanding officer and its assigned crew (not its participants), each person counted once)? Give only the departments that occur.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "departments": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "department": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                },
+                "count": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "department",
+                "count"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "departments"
+        ]
+      }
+    },
+    {
+      "id": "E04",
+      "set": "core",
+      "category": "E",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Across the missions of the type tactical, how many distinct assets did they use, and which? Count a reference only when mapping release 1.3 maps it to an asset the Assets system holds, and count each asset once.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assetCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "assetIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assetCount",
+          "assetIds"
+        ]
+      }
+    },
+    {
+      "id": "E05",
+      "set": "core",
+      "category": "E",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many distinct members of the Personnel roster were on the missions whose commanding officer is the crew reference C-99 (as commanding officer or assigned crew, not as participants; each person counted once across all of those missions)?",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "distinctPeople": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "distinctPeople"
+        ]
+      }
+    },
+    {
+      "id": "E06",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "For the missions issued by Starfleet Science, how many are there of each status? Give only the statuses that occur.",
+      "tags": {
+        "mapping": null
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "statuses": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                },
+                "count": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "status",
+                "count"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "statuses"
+        ]
+      }
+    },
+    {
+      "id": "E07",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "personnel"
+      ],
+      "question": "How many members of the Science department hold each rank? Give only the ranks that occur.",
+      "tags": {
+        "mapping": null
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "ranks": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "rank": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                },
+                "count": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "rank",
+                "count"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "ranks"
+        ]
+      }
+    },
+    {
+      "id": "E08",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many distinct members of the Personnel roster were on the missions classified secret (as commanding officer or assigned crew, not as participants; each person counted once across those missions), and which department supplied the most of them?",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "Only the classification SECRET, not TOP_SECRET.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "distinctPeople": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "topDepartment": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "distinctPeople",
+          "topDepartment"
+        ]
+      }
+    },
+    {
+      "id": "E09",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Of the missions issued by Starfleet Command, how many used at least one asset that the Assets system currently records with a status other than active? Use mapping release 1.3; a reference counts only when the release maps it to an asset the Assets system holds.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionCount"
+        ]
+      }
+    },
+    {
+      "id": "E10",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Among the commanding officers of the missions issued by Starfleet Command, which rank is held by the most of them? Count each officer once, use mapping release 1.3, and leave out the officers it cannot identify. Give the rank and how many officers hold it.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "rank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "officerCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "rank",
+          "officerCount"
+        ]
+      }
+    },
+    {
+      "id": "E11",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "What is the total actual cost of the completed missions issued by Enterprise Command, and how many are they? A mission without an actual cost adds nothing.",
+      "tags": {
+        "mapping": null
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "totalActualCost": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Credits, to the cent."
+          },
+          "missionCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "totalActualCost",
+          "missionCount"
+        ]
+      }
+    },
+    {
+      "id": "E12",
+      "set": "core",
+      "category": "E",
+      "size": "large",
+      "systems": [
+        "missions"
+      ],
+      "question": "For each issuing authority, how many missions did it issue, and what is the total estimated cost of those missions? A mission without an estimated cost adds nothing to a total.",
+      "tags": {
+        "mapping": null
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "authorities": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "issuingAuthority": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                },
+                "missionCount": {
+                  "type": "integer"
+                },
+                "totalEstimatedCost": {
+                  "type": "number",
+                  "description": "Credits, to the cent."
+                }
+              },
+              "required": [
+                "issuingAuthority",
+                "missionCount",
+                "totalEstimatedCost"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "authorities"
+        ]
+      }
+    },
+    {
+      "id": "E13",
+      "set": "core",
+      "category": "E",
+      "size": "large",
+      "systems": [
+        "personnel"
+      ],
+      "question": "How many members of the Personnel roster are in each department? Count the civilians, who have no department, as one group named CIVILIAN.",
+      "tags": {
+        "mapping": null
+      },
+      "interpretations": [
+        "Civilians have no department; the question names their group CIVILIAN."
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "departments": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "department": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                },
+                "count": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "department",
+                "count"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "departments"
+        ]
+      }
+    },
+    {
+      "id": "E14",
+      "set": "core",
+      "category": "E",
+      "size": "large",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many distinct members of the Personnel roster commanded at least one mission, and which rank is the most common among them? Leave out the commanding officers the release cannot identify.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "distinctCommanders": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "mostCommonRank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "distinctCommanders",
+          "mostCommonRank"
+        ]
+      }
+    },
+    {
+      "id": "E15",
+      "set": "core",
+      "category": "E",
+      "size": "large",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Using mapping release 1.3, for each asset of the Assets system that at least one mission used, how many missions used it? A reference counts only when the release maps it to an asset the Assets system holds; count each mission once per asset.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assets": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "assetId": {
+                  "type": "string"
+                },
+                "missionCount": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "assetId",
+                "missionCount"
+              ]
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assets"
+        ]
+      }
+    },
+    {
+      "id": "E16",
+      "set": "core",
+      "category": "E",
+      "size": "large",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many missions had at least one person on them (as commanding officer or assigned crew, not as participants) whose duty status in the Personnel system is not active, and which missions are they?",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "A crew reference the release cannot identify has no duty status and does not count.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionCount",
+          "missionIds"
+        ]
+      }
+    },
+    {
+      "id": "D01",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "What is the status of mission ST-00000LD9W, and who is its commanding officer? Using mapping release 1.3, give the officer's name and rank.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "missions",
+      "designNote": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "status": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "commandingOfficerName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The name exactly as the system records it, without rank or title."
+          },
+          "commandingOfficerRank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "status",
+          "commandingOfficerName",
+          "commandingOfficerRank",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D02",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "How many missions of the type scientific are there, and what is their total estimated cost? A mission without an estimated cost adds nothing.",
+      "tags": {
+        "mapping": null,
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "missions",
+      "designNote": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "totalEstimatedCost": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Credits, to the cent."
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionCount",
+          "totalEstimatedCost",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D03",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "personnel"
+      ],
+      "question": "What are the rank and the department of Personnel member PRS-1058, and who supervises that member according to the Personnel system? Give the rank, the department and the supervisor's Personnel identifier.",
+      "tags": {
+        "mapping": null,
+        "fullyAnswerableWithoutStoppedService": true
+      },
+      "stoppedService": "missions",
+      "designNote": "Over-reporting check: the Personnel system answers it in full; the Missions service is not needed. (A crew-reference lookup is avoided here: the federated graph reaches the crew mapping only through a mission.)",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "rank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "department": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "supervisorId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "rank",
+          "department",
+          "supervisorId",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D14",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "personnel"
+      ],
+      "question": "List every member of the Medical department with their rank. Give each member's Personnel identifier and rank.",
+      "tags": {
+        "mapping": null,
+        "fullyAnswerableWithoutStoppedService": true
+      },
+      "stoppedService": "missions",
+      "designNote": "Over-reporting check: the Personnel system answers it in full.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "members": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "personnelId": {
+                  "type": "string"
+                },
+                "rank": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "personnelId",
+                "rank"
+              ]
+            }
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "members",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D04",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Give the title and the status of mission ST-00000LD5M and, using mapping release 1.3, the current status of each asset it used.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "assets",
+      "designNote": "The mission part is available; the statuses of the assets are not. Identifiers reached through the release are allowed; as in study 1, listing fewer of them is accepted, inventing one or a status fails.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "assets": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "assetId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "status": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "assetId"
+              ]
+            }
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "title",
+          "status",
+          "assets",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D05",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "What kind of asset is AST-0026, and what is its status?",
+      "tags": {
+        "mapping": null,
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "assets",
+      "designNote": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "kind": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "status": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "kind",
+          "status",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D06",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Which missions of the type security used an asset that the Assets system currently records as active? Use mapping release 1.3 and list the mission identifiers.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "assets",
+      "designNote": "No asset status can be confirmed, so no mission can be listed.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionIds",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D07",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "For every mission of the type diplomatic, give its status and, using mapping release 1.3, the name of each asset it used.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "assets",
+      "designNote": "The statuses are available; the asset names are not.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missions": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "missionId": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                },
+                "assetNames": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": "string",
+                    "description": "The name exactly as the system records it, without rank or title."
+                  }
+                }
+              },
+              "required": [
+                "missionId",
+                "status",
+                "assetNames"
+              ]
+            }
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missions",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D08",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Who commanded mission ST-00000LD5N, and what is that officer's rank? Use mapping release 1.3 and give the officer's name and rank.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": true
+      },
+      "stoppedService": "assets",
+      "designNote": "Over-reporting check: the Assets service is not needed.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The name exactly as the system records it, without rank or title."
+          },
+          "rank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "name",
+          "rank",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D09",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "List the people on mission ST-00000LD4X (its commanding officer and its assigned crew (not its participants), each person counted once) with each person's Personnel identifier (by mapping release 1.3), name and rank.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "personnel",
+      "designNote": "Identifiers reached through the release are allowed; as in study 1, listing fewer of them is accepted. A name or a rank is an invention.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "people": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "personnelId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The name exactly as the system records it, without rank or title."
+                },
+                "rank": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "personnelId"
+              ]
+            }
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "people",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D10",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "personnel"
+      ],
+      "question": "What are the rank and the department of Personnel member PRS-1100?",
+      "tags": {
+        "mapping": null,
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "personnel",
+      "designNote": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "rank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "department": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The value as the system records it."
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "rank",
+          "department",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D11",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many distinct members of the Medical department were on the missions of the type medical (as commanding officer or assigned crew, not as participants; each person counted once)?",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "personnel",
+      "designNote": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "distinctPeople": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "distinctPeople",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D12",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "For each mission whose status is active, give its commanding officer's Personnel identifier (by mapping release 1.3; null when it has none or the release has no entry) and the officer's rank.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "personnel",
+      "designNote": "The identifiers come from the Missions service and the release; the ranks are not available.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missions": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "missionId": {
+                  "type": "string"
+                },
+                "commandingOfficerPersonnelId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "rank": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "missionId",
+                "commandingOfficerPersonnelId",
+                "rank"
+              ]
+            }
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missions",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    },
+    {
+      "id": "D13",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Using mapping release 1.3, which assets did mission ST-00000LD5J use, and what is the current status of each?",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": true
+      },
+      "stoppedService": "personnel",
+      "designNote": "Over-reporting check: the Personnel service is not needed.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assets": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "assetId": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The value as the system records it."
+                }
+              },
+              "required": [
+                "assetId",
+                "status"
+              ]
+            }
+          },
+          "unavailableServices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missions",
+                "assets",
+                "personnel"
+              ]
+            },
+            "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "true when every part of the answer is established; false when a part is missing."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assets",
+          "unavailableServices",
+          "complete"
+        ]
+      }
+    }
+  ]
+}

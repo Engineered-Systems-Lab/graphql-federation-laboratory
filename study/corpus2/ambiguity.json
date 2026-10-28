@@ -1,0 +1,686 @@
+{
+  "about": "The ambiguity set of corpus 2 (category F): 6 tasks over small data, not drawn, written into tasks.json with set ambiguity when the draw runs. Each has a closed list of accepted interpretations, in keys-a.json.",
+  "status": "draft, not frozen",
+  "releases": {
+    "missions": "1.2",
+    "mapping": "1.0 to 1.3",
+    "assets": "1.1",
+    "personnel": "personnel-v2-large-004"
+  },
+  "tasks": [
+    {
+      "id": "F01",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "How many people took part in mission ST-00000LD8Q?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "\"Took part\" can mean the staff, the staff and the participants, or the assigned crew alone.",
+      "acceptedInterpretations": [
+        {
+          "name": "staff",
+          "definition": {
+            "countedGroups": {
+              "set": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            }
+          }
+        },
+        {
+          "name": "staff-and-participants",
+          "definition": {
+            "countedGroups": {
+              "set": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW",
+                "PARTICIPANTS"
+              ]
+            }
+          }
+        },
+        {
+          "name": "assigned-crew-only",
+          "definition": {
+            "countedGroups": {
+              "set": [
+                "ASSIGNED_CREW"
+              ]
+            }
+          }
+        }
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "peopleCount": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "interpretation": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "countedGroups": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "COMMANDING_OFFICER",
+                    "ASSIGNED_CREW",
+                    "PARTICIPANTS"
+                  ]
+                },
+                "description": "Which groups of the mission record you counted."
+              }
+            },
+            "required": [
+              "countedGroups"
+            ],
+            "description": "The reading of the question that your answer uses. null only when you decline."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "peopleCount",
+          "interpretation"
+        ]
+      }
+    },
+    {
+      "id": "F02",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "What did mission ST-00000LD6Q cost?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "The record holds an estimated and an actual cost that differ.",
+      "acceptedInterpretations": [
+        {
+          "name": "estimated",
+          "definition": {
+            "costBasis": {
+              "equals": "ESTIMATED"
+            }
+          }
+        },
+        {
+          "name": "actual",
+          "definition": {
+            "costBasis": {
+              "equals": "ACTUAL"
+            }
+          }
+        }
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "cost": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Credits, to the cent."
+          },
+          "interpretation": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "costBasis": {
+                "type": "string",
+                "enum": [
+                  "ESTIMATED",
+                  "ACTUAL"
+                ],
+                "description": "Which cost of the mission record you gave."
+              }
+            },
+            "required": [
+              "costBasis"
+            ],
+            "description": "The reading of the question that your answer uses. null only when you decline."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "cost",
+          "interpretation"
+        ]
+      }
+    },
+    {
+      "id": "F03",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "Which assets are on board the USS Enterprise? List their identifiers.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "The ship is AST-0029; \"on board\" can mean the direct children or every asset below it.",
+      "acceptedInterpretations": [
+        {
+          "name": "directly-aboard",
+          "definition": {
+            "scope": {
+              "equals": "DIRECTLY_ABOARD"
+            }
+          }
+        },
+        {
+          "name": "at-any-level",
+          "definition": {
+            "scope": {
+              "equals": "AT_ANY_LEVEL"
+            }
+          }
+        }
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assetIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "interpretation": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "scope": {
+                "type": "string",
+                "enum": [
+                  "DIRECTLY_ABOARD",
+                  "AT_ANY_LEVEL"
+                ],
+                "description": "DIRECTLY_ABOARD: assets whose own record names the ship. AT_ANY_LEVEL: also the assets aboard those."
+              }
+            },
+            "required": [
+              "scope"
+            ],
+            "description": "The reading of the question that your answer uses. null only when you decline."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assetIds",
+          "interpretation"
+        ]
+      }
+    },
+    {
+      "id": "F04",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "Which shuttles are available? List their identifiers.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "A shuttle is an asset of the kind SHUTTLE; \"available\" has three accepted readings.",
+      "acceptedInterpretations": [
+        {
+          "name": "active",
+          "definition": {
+            "statusesCounted": {
+              "set": [
+                "ACTIVE"
+              ]
+            },
+            "onlyAboardTheEnterprise": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "active-or-in-maintenance",
+          "definition": {
+            "statusesCounted": {
+              "set": [
+                "ACTIVE",
+                "MAINTENANCE"
+              ]
+            },
+            "onlyAboardTheEnterprise": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "active-and-aboard-the-enterprise",
+          "definition": {
+            "statusesCounted": {
+              "set": [
+                "ACTIVE"
+              ]
+            },
+            "onlyAboardTheEnterprise": {
+              "bool": true
+            }
+          }
+        }
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "assetIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "interpretation": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "statusesCounted": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "ACTIVE",
+                    "MAINTENANCE",
+                    "DECOMMISSIONED",
+                    "DESTROYED",
+                    "MISSING"
+                  ]
+                },
+                "description": "The asset statuses you counted as available."
+              },
+              "onlyAboardTheEnterprise": {
+                "type": "boolean",
+                "description": "true when you counted only the shuttles aboard the USS Enterprise."
+              }
+            },
+            "required": [
+              "statusesCounted",
+              "onlyAboardTheEnterprise"
+            ],
+            "description": "The reading of the question that your answer uses. null only when you decline."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "assetIds",
+          "interpretation"
+        ]
+      }
+    },
+    {
+      "id": "F05",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Who are the officers among the crew of mission ST-00000LDCS? Use mapping release 1.3 and give their Personnel identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "\"Officers\" can be the commissioned ranks (ensign and above) or lieutenant and above; \"crew\" may or may not include the commanding officer.",
+      "acceptedInterpretations": [
+        {
+          "name": "ensign-and-above-with-commanding-officer",
+          "definition": {
+            "officerRanks": {
+              "set": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT",
+                "ENSIGN"
+              ]
+            },
+            "includesCommandingOfficer": {
+              "bool": true
+            }
+          }
+        },
+        {
+          "name": "ensign-and-above-assigned-crew-only",
+          "definition": {
+            "officerRanks": {
+              "set": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT",
+                "ENSIGN"
+              ]
+            },
+            "includesCommandingOfficer": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "lieutenant-and-above-with-commanding-officer",
+          "definition": {
+            "officerRanks": {
+              "set": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT"
+              ]
+            },
+            "includesCommandingOfficer": {
+              "bool": true
+            }
+          }
+        },
+        {
+          "name": "lieutenant-and-above-assigned-crew-only",
+          "definition": {
+            "officerRanks": {
+              "set": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT"
+              ]
+            },
+            "includesCommandingOfficer": {
+              "bool": false
+            }
+          }
+        }
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "personnelIds": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "interpretation": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "officerRanks": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "CAPTAIN",
+                    "COMMANDER",
+                    "LIEUTENANT_COMMANDER",
+                    "LIEUTENANT",
+                    "ENSIGN",
+                    "CHIEF_PETTY_OFFICER",
+                    "CREWMAN"
+                  ]
+                },
+                "description": "The ranks you counted as officers."
+              },
+              "includesCommandingOfficer": {
+                "type": "boolean",
+                "description": "true when you counted the commanding officer as crew."
+              }
+            },
+            "required": [
+              "officerRanks",
+              "includesCommandingOfficer"
+            ],
+            "description": "The reading of the question that your answer uses. null only when you decline."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "personnelIds",
+          "interpretation"
+        ]
+      }
+    },
+    {
+      "id": "F06",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "What was the most recent mission of crew member C-554?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "\"Most recent\" is the highest stardate; \"mission of\" can mean commanded or served in any role, of any status or completed.",
+      "acceptedInterpretations": [
+        {
+          "name": "any-role-any-status",
+          "definition": {
+            "roles": {
+              "set": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            },
+            "completedOnly": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "any-role-completed-only",
+          "definition": {
+            "roles": {
+              "set": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            },
+            "completedOnly": {
+              "bool": true
+            }
+          }
+        },
+        {
+          "name": "commanded-any-status",
+          "definition": {
+            "roles": {
+              "set": [
+                "COMMANDING_OFFICER"
+              ]
+            },
+            "completedOnly": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "commanded-completed-only",
+          "definition": {
+            "roles": {
+              "set": [
+                "COMMANDING_OFFICER"
+              ]
+            },
+            "completedOnly": {
+              "bool": true
+            }
+          }
+        }
+      ],
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "answerStatus": {
+            "type": "string",
+            "enum": [
+              "ANSWERED",
+              "CANNOT_BE_DETERMINED",
+              "DECLINED"
+            ],
+            "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+          },
+          "missionId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "interpretation": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "roles": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "COMMANDING_OFFICER",
+                    "ASSIGNED_CREW"
+                  ]
+                },
+                "description": "The roles in which you counted a mission as the crew member's."
+              },
+              "completedOnly": {
+                "type": "boolean",
+                "description": "true when you counted only completed missions."
+              }
+            },
+            "required": [
+              "roles",
+              "completedOnly"
+            ],
+            "description": "The reading of the question that your answer uses. null only when you decline."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Free text for audit and reading. Never scored."
+          }
+        },
+        "required": [
+          "answerStatus",
+          "missionId",
+          "interpretation"
+        ]
+      }
+    }
+  ]
+}

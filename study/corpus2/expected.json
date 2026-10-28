@@ -1,0 +1,4 @@
+{
+  "about": "The key of each scored task (from keys-a.json), written by draw.py. Empty until the draw runs.",
+  "expected": {}
+}
