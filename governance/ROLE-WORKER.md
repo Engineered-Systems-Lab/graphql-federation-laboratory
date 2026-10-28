@@ -14,7 +14,7 @@ You are a worker if you were given one Job, or if nobody told you your role (the
 - When a Job needs follow-up, report the remaining work and pending material to the Coordinator. You MUST NOT spawn a successor worker or assign a follow-up Job on your own. Transfer pending material to the designated Job before disposing of the original notes. A report does not authorize the follow-up.
 - Set the optional `awaiting_lead` key of your Job when you show a preview or present a sealed review, and remove it once the lead developer has answered ([the key](LOCAL-COORDINATION.md#job-state-and-reported-worker-activity)).
 - Before worktree removal, record or transfer pending material under [Updates, handoff and disposal](LOCAL-COORDINATION.md#updates-handoff-and-disposal). Report completion and transfer pending or scheduled terminal notes; do not edit the shared plan yourself.
-- An explicit lifecycle delegation may cover the approved exact candidate through guarded integration and owned cleanup ([the delegation](LOCAL-COORDINATION.md#delegation-and-worker-reassignment)); exact sealed approval and all gates still apply.
+- Follow [default completion and explicit stopping points](CHECKPOINT-WORKFLOW.md#default-completion-and-explicit-stopping-points) when carrying an authorized implementation through integration and owned cleanup; exact-candidate approval and all gates still apply.
 
 ## Execution status
 
@@ -30,7 +30,7 @@ Validation scope must match change scope ([Validation scope](CHECKPOINT-WORKFLOW
 
 ## The optional diff viewer
 
-Where the [diff viewer extension](extensions/diff_viewer/README.md) is present (the folder `governance/extensions/diff_viewer/` exists), the worker runs it after showing a preview or presenting a sealed review and puts the link it prints in that message so the lead developer can read the exact candidate in a browser. The message ends with exactly one line, `Diff page: <file:// link>` (or `Diff page: not available (<reason>)`), placed last, immediately before the go or Approve question, never omitted and never elsewhere ([the rule](extensions/diff_viewer/README.md#where-the-link-goes)). The page is built from the recorded parent and tree only, is removed with the mission's review folder and grants nothing: the go and the Approve are asked exactly as before, and a project without the extension loses nothing.
+Where the [diff viewer extension](extensions/diff_viewer/README.md) is present (the folder `governance/extensions/diff_viewer/` exists), the worker runs it after showing a preview or presenting a sealed review and copies the complete Markdown `Diff page:` line it prints verbatim into that message, without a code fence or backticks, so the lead developer can read the exact candidate in a browser. The message ends with exactly one line, `Diff page: [<file:// URI>](<file:// URI>)` (or `Diff page: not available (<reason>)`), placed last, immediately before the go or Approve question, never omitted and never elsewhere ([the rule](extensions/diff_viewer/README.md#where-the-link-goes)). The host decides how a click opens; the visible URI can also be pasted into a browser. The page is built from the recorded parent and tree only, is removed with the mission's review folder and grants nothing: the go and the Approve are asked exactly as before, and a project without the extension loses nothing.
 
 ## The preview waiver
 
