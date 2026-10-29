@@ -329,6 +329,53 @@ def _port_of(url):
     return int(match.group(3)) if match.group(3) else (443 if match.group(1) == 'https' else 80)
 
 
+def down_backends(block, observation):
+    """The declared backends the observation finds down, one line each: no container serves the backend's service, or its container is
+    not running. These are the problems of `compare` that the void-block rule of the schedule treats as a backend down (a declared trigger,
+    not a judgement); every other problem stays a mismatch that refuses the block."""
+    services = observation['stable']['services']
+    down, missing, stopped = [], set(), set()
+    for name, backend in sorted(block['backends'].items()):
+        key, error = _resolve(services, backend['service'])
+        if error and 'is not among the observed containers' in error:
+            down.append('backend %s (%s): %s' % (name, backend['mode'], error))
+            missing.add(backend['service'])
+        elif key is not None and services[key]['state'] != 'running':
+            down.append('backend %s (%s): %s is %s, not running' % (name, backend['mode'], key, services[key]['state']))
+            stopped.add(key)
+    # The routing lines that the same down backends cause: an endpoint or routing variable declared on a backend's service that is
+    # missing (the same resolution error), or an endpoint whose service is a stopped backend container (a stopped container publishes no
+    # port). A routing line about any other service stays a mismatch.
+    routing = block.get('routing', {})
+    for url, service in sorted(routing.get('endpoints', {}).items()):
+        key, error = _resolve(services, service)
+        if (error and service in missing) or (key is not None and key in stopped):
+            down.extend(_endpoint_lines(url, services, key, error, caused_by_down=True))
+    for service in sorted(routing.get('env', {})):
+        key, error = _resolve(services, service)
+        if error and service in missing:
+            down.append('routing of %s: %s' % (service, error))
+    return down
+
+
+def _endpoint_lines(url, services, key, error, caused_by_down=False):
+    """The line compare() writes for one declared endpoint, or none when the endpoint checks out. With `caused_by_down` a host that is
+    not a loopback host gives no line: that is a fault of the declaration, not of a backend down, and stays a mismatch."""
+    if error:
+        return ['endpoint %s: %s' % (redact_value(url), error)]
+    port, host = str(_port_of(url)), _host_of(url)
+    if host not in LOOPBACK_HOSTS:
+        if caused_by_down:
+            return []
+        return ['endpoint %s: the host %s is not a loopback host, so the endpoint cannot be verified' % (redact_value(url), host)]
+    published = [p for p in services[key]['ports'] if p.split('->', 1)[0].rsplit(':', 1)[-1] == port
+                 and _serves(p.split('->', 1)[0].rsplit(':', 1)[0], host)]
+    if published:
+        return []
+    return ['endpoint %s: %s does not publish port %s for %s (it publishes %s)' % (
+        redact_value(url), key, port, host, ', '.join(services[key]['ports']) or 'nothing')]
+
+
 def compare(block, observation):
     """Every difference between the declaration and the observation, as one line each. An empty list is a match."""
     stable = observation['stable']
@@ -376,18 +423,7 @@ def compare(block, observation):
                 problems.append('routing of %s: %s is %s, expected %s' % (key, variable, 'unset' if seen is None else seen, want))
     for url, service in sorted(routing.get('endpoints', {}).items()):
         key, error = _resolve(services, service)
-        if error:
-            problems.append('endpoint %s: %s' % (redact_value(url), error))
-            continue
-        port, host = str(_port_of(url)), _host_of(url)
-        if host not in LOOPBACK_HOSTS:
-            problems.append('endpoint %s: the host %s is not a loopback host, so the endpoint cannot be verified' % (redact_value(url), host))
-            continue
-        published = [p for p in services[key]['ports'] if p.split('->', 1)[0].rsplit(':', 1)[-1] == port
-                     and _serves(p.split('->', 1)[0].rsplit(':', 1)[0], host)]
-        if not published:
-            problems.append('endpoint %s: %s does not publish port %s for %s (it publishes %s)' % (
-                redact_value(url), key, port, host, ', '.join(services[key]['ports']) or 'nothing'))
+        problems.extend(_endpoint_lines(url, services, key, error))
     for label, digest in sorted(stable['launchFiles'].items()):
         if digest is None:
             problems.append('launch file %s could not be read at %s' % (label, reduce_paths(block['launch_files'][label])))

@@ -51,7 +51,9 @@ COUNTING_LABELS = {'runs': 'runs in the bundle', 'primary': 'runs in the primary
                    'primaryVendorErrorsMissing': 'vendor errors there, missing in the main analysis',
                    'ambiguitySet': 'runs of the ambiguity set (analysed apart)', 'directAccess': 'runs of Direct Access (exploratory only)',
                    'requeuedRuns': 'runs queued again after a vendor error', 'vendorErrorRuns': 'runs that failed at the vendor twice',
-                   'blocksWithMoreThanOneStart': 'blocks resumed after a stop (more than one start, one attempt)'}
+                   'blocksWithMoreThanOneStart': 'blocks resumed after a stop (more than one start in the counted attempt)',
+                   'voidAttempts': 'void attempts (excluded; each block repeated whole)',
+                   'blocksRepeatedAfterAVoid': 'blocks repeated whole after a void attempt'}
 EXPLORATORY = 'exploratory: unadjusted p-values, outside the Holm families, no confirmatory claim'
 
 
@@ -239,10 +241,12 @@ def sensitivity(rows, models, replicates, conditions):
     return out
 
 
-def spend(records):
-    """Dollars per arm: the counted runs and, apart, the attempts the harness archived (operational spend, never in any outcome)."""
+def spend(records, blocks):
+    """Dollars per arm: the counted runs and, apart, the attempts the harness archived and the void attempts of the void-block rule
+    (operational spend, never in any outcome)."""
     return {a: {'countedRuns': sum(r['cost'] for r in records if r['arm'] == a),
-                'archivedAttempts': sum(r['archivedAttemptsCost'] for r in records if r['arm'] == a)} for a in ALL_ARMS}
+                'archivedAttempts': sum(r['archivedAttemptsCost'] for r in records if r['arm'] == a),
+                'voidAttempts': sum(b['voidCost'] for b in blocks if b['arm'] == a)} for a in ALL_ARMS}
 
 
 def cell_counts(rows, arms, models):
@@ -438,8 +442,9 @@ def tables_md(res):
         parts += ['Bayesian mixed model not estimable: %s' % m.get('reason'), '']
     sp = res['spend']
     parts += ['## Spend by arm (descriptive, USD, prices of the manifest)', '',
-              table(['Arm', 'Counted runs', 'Archived attempts (operational only)'],
-                    [[NAMES[a], '%.2f' % v['countedRuns'], '%.2f' % v['archivedAttempts']] for a, v in sp.items()]), '']
+              table(['Arm', 'Counted runs', 'Archived attempts (operational only)', 'Void attempts (operational only)'],
+                    [[NAMES[a], '%.2f' % v['countedRuns'], '%.2f' % v['archivedAttempts'], '%.2f' % v['voidAttempts']]
+                     for a, v in sp.items()]), '']
     parts += ['## Exploratory: Direct Access against each arm (one block, last in the schedule)', '']
     da = x['directAccess']
     if 'directAccessMinus' in da:
@@ -468,8 +473,9 @@ def tables_md(res):
     parts += ['## The schedule (descriptive)', '',
               'Letters: %s. Rounds in the order they ran: %s.' % (', '.join('%s %s' % kv for kv in sorted(sched['letters'].items())),
                                                                  ', '.join(str(r) for r in sched['roundOrder'])), '',
-              table(['Block', 'Arm', 'Round', 'Starts', 'Sessions'],
-                    [[b['id'], NAMES[b['arm']], b['row'] if b['row'] is not None else 'reference', b['starts'], ', '.join(b['sessions'])]
+              table(['Block', 'Arm', 'Round', 'Starts', 'Sessions', 'Void attempts'],
+                    [[b['id'], NAMES[b['arm']], b['row'] if b['row'] is not None else 'reference', b['starts'], ', '.join(b['sessions']),
+                      ', '.join('%d (%s)' % (v['attempt'], v['trigger']) for v in b['voidAttempts']) or 'none']
                      for b in sched['blocks']]), '']
     return '\n'.join(parts) + '\n'
 
@@ -525,7 +531,7 @@ def analyse(args):
         'measures': measures(square, models, conditions),
         'honestGap': honest_gap(square, models),
         'sensitivity': sensitivity(square, models, args.replicates, conditions),
-        'spend': spend(records),
+        'spend': spend(records, blocks),
         'exploratory': exploratory(records, models),
         'schedule': schedule_facts(manifest, blocks),
     }

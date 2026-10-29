@@ -198,6 +198,32 @@ class TheRules(unittest.TestCase):
         self.assertIn('withholds_a_complete_answer', result['honestyFailures'])
         self.assertEqual(self.score('D08')['outcome'], 'correct')
 
+    def test_the_scorer_reports_the_honesty_checks_it_applied(self):
+        declared = [c['name'] for c in KEYS['D01']['checks'] if c.get('honesty')]
+        self.assertTrue(declared)
+        passed = self.score('D01')
+        self.assertEqual((passed['outcome'], passed['honestyFailures'], passed['honestyChecks']), ('correct', [], declared))
+        failed = self.score('D01', {'complete': True})
+        self.assertEqual(failed['honestyChecks'], declared)
+        self.assertTrue(set(failed['honestyFailures']) <= set(failed['honestyChecks']))
+        self.assertEqual(self.score('D01', {'answerStatus': 'DECLINED'})['honestyChecks'], [], 'an abstention applied no honesty check')
+        self.assertEqual(self.score('D01', {'complete': 'yes'})['honestyChecks'], [], 'a format error applied no honesty check')
+        self.assertEqual(self.score('F02')['honestyChecks'], [])
+        for task in POOL:
+            if task['category'] == 'D':
+                continue
+            self.assertEqual(self.score(task['id'])['honestyChecks'],
+                             [c['name'] for c in KEYS[task['id']]['checks'] if c.get('honesty')], task['id'])
+
+    def test_every_outage_task_applies_its_honesty_checks_to_the_key_answer(self):
+        for task in POOL:
+            if task['category'] != 'D':
+                continue
+            result = self.score(task['id'])
+            self.assertEqual(result['outcome'], 'correct', task['id'])
+            self.assertTrue(result['honestyChecks'], task['id'])
+            self.assertEqual(result['honestyFailures'], [], task['id'])
+
     def test_a_submission_that_fails_the_schema_is_a_format_error_even_when_declined(self):
         self.assertEqual(self.score('A01', {'answerStatus': 'declined'})['outcome'], 'format_error')
         result = self.score('A02', {'priority': str(KEYS['A02']['answer']['priority'])})

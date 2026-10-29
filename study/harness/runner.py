@@ -12,12 +12,27 @@ with the scenario's declared provenance (provenance.py); a mismatch, or on resum
 With a `schedule` in the config (study 2) the unit is a block instead of a scenario: the Williams square of schedule.py, then the reference
 block. Every block starts its arm's stack, observes its provenance and checks the dataset fingerprint before any paid request, runs its runs
 in their order, queues a run that ended on a vendor error again once at the end of the block, and tears the stack down. A resume continues
-inside the schedule, block by block, and skips every block whose runs are all finished.
+inside the schedule, block by block, and skips every block whose runs are all finished and whose attempt ended.
+
+The void-block rule of the schedule (docs/STUDY-2-DESIGN.md, Exclusions; decisions F2 and F3 of the Job study2_build_followups): every block
+start carries the block's `attempt` (1, 2, ...), and every run record carries it as `blockAttempt`. The arm's declared `health` command
+probes every backend at the block start, after every restore of a category D task's stopped service (waiting up to the scenario's
+`ready_timeout_seconds` for every backend to answer again), every `health_every_runs` runs (default 10) and at the block end. A backend
+down, found by the health check or by the provenance observation at the block start, outside the window in which a category D task's own
+service is deliberately stopped, is a declared trigger: the attempt is void. The harness records a `void` event (the block, the attempt, the
+trigger and its problems), moves the attempt's run folders to runs-void/<block>/<attempt>/, so no void result stays a run's current result,
+and stops cleanly with the status `block_void`. The resume repeats the block whole as the next attempt. The void attempt's spend stays in
+the vendor ledgers, because it was billed, and is reported apart in bundle.json.
+
+The budget across study runs (decision F1): under a schedule every vendor budget has a `dollar_ceiling` and its `ceiling_basis` (decision D,
+or the lead developer's dated raise), and `earlier_study_runs` lists the earlier study-2 runs whose ledgers count against the ceiling. Their
+ids, ledger hashes and dollars are recorded in the manifest; a listed run that is missing refuses the start, and a resume with another
+ceiling or basis records both in resumes.jsonl.
 
 Records go to LAB_RESULTS_DIR/<study run id>/ : manifest.json (immutable), samples.jsonl, one budget ledger per vendor, runs/<key>/
 (transcript.jsonl, result.json and, with the harness tools, results.jsonl), provenance/ (one observation per scenario, one per block, and the
-checks), blocks.jsonl (with a schedule), scores.jsonl and scores.csv, bundle.json with the checksum. Nothing written holds an absolute path
-or a key.
+checks), blocks.jsonl, health.jsonl and runs-void/ (with a schedule), scores.jsonl and scores.csv, bundle.json with the checksum. Nothing
+written holds an absolute path or a key.
 """
 import argparse
 import csv
@@ -38,7 +53,7 @@ import provenance
 import schedule
 import scoring_contract
 from agent import SYSTEM_PROMPT, TERMINAL, AgentRun, Limits
-from budget import Budget
+from budget import Budget, Usage, dollars, ledger_dollars
 from study_common import (Redactor, append_jsonl, child_environment, read_jsonl, results_dir, sha256_bytes, sha256_file, sha256_json, utc_now,
                           write_json_atomic)
 from vendors import MissingCredentialError, build_client
@@ -122,6 +137,101 @@ def parse_fingerprint(text):
         if not (isinstance(value.get(name), str) and value[name].strip()):
             raise ValueError('the fingerprint command printed no %s text' % name)
     return {'fingerprint': value['fingerprint'], 'session': value['session']}
+
+
+# ---------------------------------------------------------------------------------------------------------------- the void-block rule
+HEALTH_EVERY_RUNS = 10
+HEALTH_POINTS = ('start', 'periodic', 'restore', 'end')
+VOID_TRIGGERS = {
+    'provenance': 'the provenance observation at the block start finds a declared backend down (no container, or not running)',
+    'health': 'the health check finds a backend down, or cannot be read, at the block start, every health_every_runs runs or at the block end',
+    'restore': 'after a category D task, the restored service, the MCP server or any backend does not answer again within the scenario\'s '
+               'ready_timeout_seconds',
+}
+VOID_FOLDER = 'runs-void'
+
+
+class BlockVoid(RuntimeError):
+    """A declared void trigger fired: the block's attempt is void, its runs are moved aside and the study stops with `block_void`."""
+
+    def __init__(self, block, attempt, trigger, problems):
+        self.block, self.attempt, self.trigger, self.problems = block, attempt, trigger, list(problems)
+        super().__init__('Block %s, attempt %d, is void (trigger %s); the resume repeats it whole as attempt %d:\n- %s'
+                         % (block, attempt, trigger, attempt + 1, '\n- '.join(self.problems)))
+
+
+class BackendDown(RuntimeError):
+    """The provenance observation at a block start finds declared backends down, and nothing else wrong."""
+
+    def __init__(self, problems):
+        self.problems = list(problems)
+        super().__init__('; '.join(self.problems))
+
+
+def validate_command(command, what):
+    """A declared command {argv, cwd?, env?} with a non-empty argv."""
+    if not (isinstance(command, dict) and isinstance(command.get('argv'), list) and command['argv']
+            and all(isinstance(a, str) and a for a in command['argv'])):
+        raise ValueError('%s must be a command {argv, cwd?, env?} with a non-empty argv' % what)
+    unknown = sorted(set(command) - {'argv', 'cwd', 'env'})
+    if unknown:
+        raise ValueError('%s has unknown keys: %s' % (what, ', '.join(unknown)))
+
+
+def run_health_command(command, timeout=120):
+    """Run a scenario's declared health command (without the API keys in its environment) and return what it prints."""
+    done = subprocess.run(command['argv'], cwd=command.get('cwd'), env=child_environment(extra=command.get('env')), capture_output=True,
+                          text=True, encoding='utf-8', timeout=timeout)
+    if done.returncode != 0:
+        raise RuntimeError('the health command exited with %d: %s' % (done.returncode, provenance.redact_value(
+            (done.stderr or done.stdout or '').strip()[-300:])))
+    return done.stdout
+
+
+def parse_health(text, backends):
+    """The health command prints one JSON object {"backends": {<name>: {"up": true|false, ...}, ...}}, one entry per backend of the arm.
+    Returns {name: {'up': bool, 'detail': text}} for the declared `backends`; a declared backend the output does not name is a ValueError."""
+    try:
+        value = json.loads((text or '').strip())
+    except ValueError:
+        raise ValueError('the health command did not print a JSON object')
+    if not (isinstance(value, dict) and isinstance(value.get('backends'), dict)):
+        raise ValueError('the health command printed no "backends" object')
+    out = {}
+    for name in backends:
+        entry = value['backends'].get(name)
+        if not (isinstance(entry, dict) and isinstance(entry.get('up'), bool)):
+            raise ValueError('the health command printed no up true or false for the backend %s' % name)
+        out[name] = {'up': entry['up'], 'detail': str(entry.get('detail') or '')[:300]}
+    return out
+
+
+def validate_budgets(config, vendors):
+    """Under a schedule every vendor's budget names its dollar ceiling and the basis of that ceiling (decision D, or the lead developer's
+    dated raise), and `earlier_study_runs` is a list of distinct run ids."""
+    for vendor in vendors:
+        setting = (config.get('budgets') or {}).get(vendor)
+        if not isinstance(setting, dict):
+            raise ValueError('budgets.%s is missing' % vendor)
+        ceiling = setting.get('dollar_ceiling')
+        if isinstance(ceiling, bool) or not isinstance(ceiling, (int, float)) or ceiling <= 0:
+            raise ValueError('budgets.%s.dollar_ceiling must be a positive number: the ceiling of decision D is for all of study 2' % vendor)
+        basis = setting.get('ceiling_basis')
+        if not (isinstance(basis, str) and basis.strip()):
+            raise ValueError('budgets.%s.ceiling_basis must say what the ceiling rests on (decision D, or the lead developer\'s dated raise)'
+                             % vendor)
+    earlier = config.get('earlier_study_runs', [])
+    if not (isinstance(earlier, list) and all(isinstance(r, str) and r.strip() for r in earlier) and len(set(earlier)) == len(earlier)):
+        raise ValueError('earlier_study_runs must be a list of distinct study run ids')
+
+
+def validate_health_every(value):
+    if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+        raise ValueError('health_every_runs must be a whole number of runs, 1 or more')
+
+
+class BudgetCarryRefused(RuntimeError):
+    """The study does not start: an earlier study run listed in earlier_study_runs is missing, cannot be priced, or changed."""
 
 
 # ---------------------------------------------------------------------------------------------------------------- the plan
@@ -264,13 +374,21 @@ def git_commit(repo_dir):
 class Study:
     def __init__(self, config, models_config, prices, study_run_id, root=None, corpus_dir=DEFAULT_CORPUS, client_factory=None,
                  session_factory=None, stack_factory=None, clock=time.monotonic, sleep=time.sleep, redactor=None, repo_dir=None, docker=None,
-                 hasher=provenance.hash_path, fingerprint_runner=run_fingerprint_command):
+                 hasher=provenance.hash_path, fingerprint_runner=run_fingerprint_command, health_runner=run_health_command):
         self.config, self.models_config, self.prices = config, models_config, prices
         self.schedule = config.get('schedule')
         if self.schedule is not None:
             schedule.validate(self.schedule, config['scenarios'], config['models'])
             validate_fingerprint_command(config.get('dataset_fingerprint'))
             self.scenarios = schedule.scenarios_of(self.schedule)
+            for scenario in self.scenarios:
+                validate_command(config['scenarios'][scenario].get('health'),
+                                 'scenarios.%s.health (the schedule checks every backend of the arm by it)' % scenario)
+            self.health_every = config.get('health_every_runs', HEALTH_EVERY_RUNS)
+            validate_health_every(self.health_every)
+            validate_budgets(config, sorted({models_config['models'][m]['vendor'] for m in config['models']}))
+            if study_run_id in config.get('earlier_study_runs', []):
+                raise ValueError('earlier_study_runs lists this study run itself (%s)' % study_run_id)
         else:
             self.scenarios = list(config['scenario_order'])
         for scenario in self.scenarios:
@@ -278,6 +396,9 @@ class Study:
         self.tool_names = config.get('harness_tools', [])
         harness_tools.validate(self.tool_names)
         self.fingerprint_runner = fingerprint_runner
+        self.health_runner = health_runner
+        self.carry = None  # the earlier study runs' spend, read at the start (schedule only)
+        self.void = None  # the BlockVoid that stopped this run, if one did
         self.docker = docker or provenance.DockerCli()
         self.hasher = hasher
         self.study_run_id = study_run_id
@@ -314,6 +435,8 @@ class Study:
             identity['trials'] = self.config['trials']
         else:
             identity['datasetFingerprint'] = self.fingerprint_declaration()
+            identity['voidRule'] = self.void_rule_identity()
+            identity['earlierStudyRuns'] = list(self.config.get('earlier_study_runs', []))
         if self.tool_names:
             identity['harnessTools'] = harness_tools.describe(self.tool_names)
         if self.contract.version != 1:
@@ -322,6 +445,12 @@ class Study:
 
     def fingerprint_declaration(self):
         return provenance.redact_command(self.config['dataset_fingerprint'])
+
+    def void_rule_identity(self):
+        """The part of the void-block rule a resume must find unchanged: the health interval (fixed for the study run, decision F3) and
+        every arm's health command."""
+        return {'healthEveryRuns': self.health_every,
+                'health': {s: provenance.redact_command(self.config['scenarios'][s]['health']) for s in self.scenarios}}
 
     def _guide_path(self, scenario):
         guide = self.config['scenarios'][scenario].get('guide_file')
@@ -349,7 +478,14 @@ class Study:
             manifest.update({'schedule': self.plan, 'stackRunsPerBlock': 1, 'vendorErrorRequeues': 1,
                              'datasetFingerprint': {'command': self.fingerprint_declaration(),
                                                     'rule': "checked at every block start; it must equal the study's first fingerprint "
-                                                            "and its session's first fingerprint"}})
+                                                            "and its session's first fingerprint"},
+                             'voidRule': {**self.void_rule_identity(), 'healthPoints': list(HEALTH_POINTS), 'triggers': dict(VOID_TRIGGERS),
+                                          'excludedWindow': "a category D task's own stopped service, from its stop until its restore",
+                                          'voidRunsFolder': VOID_FOLDER + '/<block>/<attempt>/',
+                                          'onVoid': 'stop with status block_void; the resume repeats the block whole as the next attempt',
+                                          'spend': 'the void attempt stays in the vendor ledgers and is reported apart in bundle.json '
+                                                   '(voidAttempts)'},
+                             'budgetCarry': self.carry})
         if self.tool_names:
             manifest['harnessTools'] = harness_tools.describe(self.tool_names)
         return manifest
@@ -375,6 +511,12 @@ class Study:
             append_jsonl(checks, {'at': utc_now(), **where, 'result': 'unobserved', 'problems': problems})
             raise provenance.ProvenanceRefused(label, 'unobserved', problems)
         problems = self.redactor.deep(provenance.compare(sconfig['provenance'], observation))
+        if block and problems:
+            down = self.redactor.deep(provenance.down_backends(sconfig['provenance'], observation))
+            if all(p in down for p in problems):  # only backends down: a void trigger of the schedule, not a wrong backend
+                append_jsonl(checks, {'at': observation['observedAt'], **where, 'result': 'down', 'fingerprint': observation['fingerprint'],
+                                      'problems': problems, 'changes': []})
+                raise BackendDown(problems)
         stored_path = folder / ('%s.json' % scenario)
         stored = json.loads(stored_path.read_text(encoding='utf-8')) if stored_path.exists() else None
         changes = self.redactor.deep(provenance.drift(stored['stable'], observation['stable'])) if stored else []
@@ -417,16 +559,215 @@ class Study:
         return reading
 
     def _block_event(self, event, block, **fields):
+        fields.setdefault('attempt', self.attempt_of(block))
         append_jsonl(self.dir / 'blocks.jsonl', {'at': utc_now(), 'event': event, 'block': block['id'], 'arm': block['arm'],
                                                  'sequence': block['sequence'], 'row': block['row'], **fields})
+
+    # ---------------------------------------------------------------- attempts, health and the void-block rule
+    def attempt_of(self, block):
+        """The block's current attempt: 1, and one more after every void event of the block."""
+        return 1 + sum(1 for e in read_jsonl(self.dir / 'blocks.jsonl') if e.get('event') == 'void' and e.get('block') == block['id'])
+
+    def attempt_ended(self, block, attempt):
+        return any(e.get('event') == 'end' and e.get('block') == block['id'] and e.get('attempt') == attempt
+                   for e in read_jsonl(self.dir / 'blocks.jsonl'))
+
+    def probe_health(self, block, timeout=None):
+        """Run the arm's health command once, within `timeout` seconds when given (the rest of a restore's deadline): (result, statuses,
+        problems). The result is up, down or unreadable; a command that fails, times out or prints something unreadable is a problem too."""
+        arm = block['arm']
+        names = sorted(self.config['scenarios'][arm]['provenance']['backends'])
+        command = self.config['scenarios'][arm]['health']
+        try:
+            text = self.health_runner(command) if timeout is None else self.health_runner(command, timeout=timeout)
+            statuses = parse_health(text, names)
+            problems = ['backend %s is down%s' % (n, (': ' + statuses[n]['detail']) if statuses[n]['detail'] else '')
+                        for n in names if not statuses[n]['up']]
+            result = 'down' if problems else 'up'
+        except Exception as error:
+            statuses, result = None, 'unreadable'
+            problems = ['the health check could not be read: %s: %s' % (type(error).__name__, provenance.redact_value(error))]
+        return result, self.redactor.deep(statuses), self.redactor.deep(problems)
+
+    def record_health(self, block, attempt, point, probe, after=None, polls=None):
+        result, statuses, problems = probe
+        entry = {'at': utc_now(), 'block': block['id'], 'arm': block['arm'], 'attempt': attempt, 'point': point, 'result': result,
+                 'backends': statuses, 'problems': problems}
+        if after:
+            entry['afterRun'] = after
+        if polls is not None:
+            entry['polls'] = polls
+        append_jsonl(self.dir / 'health.jsonl', self.redactor.deep(entry))
+        return problems
+
+    def check_health(self, block, attempt, point, after=None):
+        """One recorded health check; returns its problems (empty when every backend of the arm is up)."""
+        return self.record_health(block, attempt, point, self.probe_health(block), after=after)
+
+    def restore(self, stack, block, attempt, service, timeout, key):
+        """Start the stopped service again and wait, within the scenario's ready_timeout_seconds, until the MCP server answers and the
+        health check passes for every backend. Returns the problems of a restore that did not come back in time (a void trigger)."""
+        deadline = self.clock() + timeout
+        late = 'after %s was started again %%s did not answer within %s seconds' % (service, timeout)
+        try:
+            stack.start_service(service)
+        except Exception as error:
+            return self.redactor.deep(['the stopped service %s could not be started again: %s' % (service, provenance.redact_value(error))])
+        remaining = deadline - self.clock()
+        if remaining <= 0:
+            return [late % 'the service']
+        try:
+            stack.wait_ready('%s__restore' % block['id'], remaining)
+        except Exception as error:
+            return self.redactor.deep([(late % 'the MCP server') + ': ' + provenance.redact_value(error)])
+        if self.clock() > deadline:  # the MCP server answered, but after the deadline
+            return [late % 'the MCP server']
+        polls = 0
+        while True:
+            polls += 1
+            remaining = deadline - self.clock()
+            probe = self.probe_health(block, timeout=max(remaining, 0.001)) if remaining > 0 else (
+                'down', None, ['no health check started before the deadline'])
+            in_time = self.clock() <= deadline
+            if (probe[0] == 'up' and in_time) or not in_time:  # the passing check, or the last one, is recorded with the number of polls
+                if probe[0] == 'up' and not in_time:
+                    probe = ('down', probe[1], ['every backend answered only after the deadline'])
+                problems = self.record_health(block, attempt, 'restore', probe, after=key, polls=polls)
+                if problems:
+                    return ['after %s was started again the health check did not pass for every backend within %s seconds: %s'
+                            % (service, timeout, '; '.join(problems))]
+                return []
+            self.sleep(2)
+
+    def void_spend(self, folders):
+        """{vendor: {'dollars', 'tokens', 'runs'}} of the run records in `folders` (their current results and archived attempts), at the
+        prices of this run."""
+        out = {}
+        for folder in folders:
+            for path in [folder / 'result.json'] + sorted((folder / 'attempts').glob('*/result.json')):
+                if not path.exists():
+                    continue
+                record = json.loads(path.read_text(encoding='utf-8'))
+                vendor = self.models_config['models'][record['model']]['vendor']
+                usage = Usage.from_dict(record.get('usage') or {})
+                entry = out.setdefault(vendor, {'dollars': 0.0, 'tokens': 0, 'runs': 0})
+                entry['dollars'] = round(entry['dollars'] + dollars(usage, self.prices['models'][record['model']]), 6)
+                entry['tokens'] += usage.total
+                entry['runs'] += 1
+        return out
+
+    def declare_void(self, block, attempt, trigger, point, problems, session=None):
+        """Record the void event, move the attempt's run folders to runs-void/<block>/<attempt>/ and stop with BlockVoid."""
+        keys = [key for _, key in self.block_keys(block) if (self.dir / 'runs' / key).exists()]
+        self._block_event('void', block, attempt=attempt, trigger=trigger, point=point, problems=self.redactor.deep(list(problems)),
+                          session=session, runs=keys, spend=self.void_spend([self.dir / 'runs' / k for k in keys]))
+        self.settle_voids(block)
+        self.write_scores()
+        raise BlockVoid(block['id'], attempt, trigger, problems)
+
+    def folder_attempt(self, folder):
+        """The block attempt a run folder belongs to: its result's blockAttempt, or None when it has no result yet."""
+        path = folder / 'result.json'
+        if not path.exists():
+            return None
+        return json.loads(path.read_text(encoding='utf-8')).get('blockAttempt')
+
+    def settle_voids(self, block):
+        """Move every run folder that a void event of the block names, that is still among the runs and that belongs to that void attempt,
+        to runs-void/<block>/<attempt>/. A folder belongs to the void attempt when its result names that attempt, or, with no result yet,
+        when no later attempt of the block has started. A folder of a later attempt (the repeat) is never touched. Repeating it after an
+        interruption finishes the move; a folder of the void attempt that is in both places stops for inspection."""
+        events = read_jsonl(self.dir / 'blocks.jsonl')
+        own = [e for e in events if e.get('block') == block['id']]
+        for event in own:
+            if event.get('event') != 'void':
+                continue
+            number = event['attempt']
+            later_started = any(e.get('event') == 'start' and (e.get('attempt') or 0) > number for e in own)
+            target_root = self.dir / VOID_FOLDER / block['id'] / str(number)
+            for key in event.get('runs', []):
+                source, target = self.dir / 'runs' / key, target_root / key
+                if not source.exists():
+                    continue
+                owner = self.folder_attempt(source)
+                if owner != number and not (owner is None and not later_started):
+                    continue  # the folder of a later attempt: the repeat's own run
+                if target.exists():
+                    raise RuntimeError('The run %s of void attempt %d of block %s is both among the runs and in %s; inspect it before '
+                                       'resuming' % (key, event['attempt'], block['id'], VOID_FOLDER))
+                target_root.mkdir(parents=True, exist_ok=True)
+                shutil.move(str(source), str(target))
+
+    # ---------------------------------------------------------------- the budget across study runs
+    def read_carry(self):
+        """The earlier study runs' spend, from their vendor ledgers (read only): ids, ledger hashes, dollars and tokens, and the totals per
+        vendor. A listed run without a manifest, or with a ledger of a vendor its manifest does not price, refuses the start."""
+        runs, totals = [], {}
+        for run_id in self.config.get('earlier_study_runs', []):
+            folder = self.dir.parent / run_id
+            manifest_path = folder / 'manifest.json'
+            if not manifest_path.exists():
+                raise BudgetCarryRefused('The earlier study run %s, listed in earlier_study_runs, has no manifest in the results folder: its '
+                                         'spend cannot be counted against the ceiling' % run_id)
+            earlier = json.loads(manifest_path.read_text(encoding='utf-8'))
+            price_of = {entry.get('vendor'): entry.get('priceEntry') for entry in (earlier.get('models') or {}).values()}
+            ledgers = {}
+            for path in sorted(folder.glob('budget-*.jsonl')):
+                vendor = path.name[len('budget-'):-len('.jsonl')]
+                if not price_of.get(vendor):
+                    raise BudgetCarryRefused('The earlier study run %s has a %s ledger but its manifest prices no %s model' % (run_id, vendor,
+                                                                                                                     vendor))
+                spent, tokens = ledger_dollars(path, price_of[vendor])
+                ledgers[vendor] = {'sha256': sha256_file(path), 'dollars': round(spent, 6), 'tokens': tokens}
+                totals[vendor] = round(totals.get(vendor, 0.0) + spent, 6)
+            runs.append({'runId': run_id, 'ledgers': ledgers})
+        return {'runs': runs, 'totals': totals,
+                'rule': 'the dollars of these ledgers count against each vendor\'s dollar_ceiling from the first request of this run; '
+                        'a reservation never settled is counted at the output price'}
+
+    def check_carry(self, stored):
+        """On resume: the earlier runs' ledgers must still hash as the manifest recorded them."""
+        current = self.read_carry()
+        before = {(r['runId'], v): l['sha256'] for r in (stored or {}).get('runs', []) for v, l in r['ledgers'].items()}
+        after = {(r['runId'], v): l['sha256'] for r in current['runs'] for v, l in r['ledgers'].items()}
+        if before != after:
+            changed = sorted('%s (%s)' % key for key in set(before) | set(after) if before.get(key) != after.get(key))
+            raise BudgetCarryRefused('The ledgers of earlier study runs changed since this run started: %s. Start a new study run instead.'
+                                     % ', '.join(changed))
+        return stored
+
+    def ceilings(self):
+        return {v: {'dollar_ceiling': b.get('dollar_ceiling'), 'ceiling_basis': b.get('ceiling_basis')}
+                for v, b in sorted(self.config['budgets'].items())}
+
+    def ceiling_changes(self, stored_manifest):
+        """The ceiling or basis changes of a resume against the last values the run recorded (the manifest, or the last resume). A changed
+        ceiling with an unchanged basis refuses: a raise or a cut needs its basis (decision D, or the lead developer's dated raise)."""
+        last = {v: {'dollar_ceiling': b.get('dollar_ceiling'), 'ceiling_basis': b.get('ceiling_basis')}
+                for v, b in (stored_manifest.get('tokenBudgets') or {}).items()}
+        for entry in read_jsonl(self.dir / 'resumes.jsonl'):
+            if 'ceilings' in entry:
+                last = entry['ceilings']
+        changes = []
+        for vendor, now in self.ceilings().items():
+            before = last.get(vendor, {})
+            if before != now:
+                if before.get('dollar_ceiling') != now['dollar_ceiling'] and before.get('ceiling_basis') == now['ceiling_basis']:
+                    raise RuntimeError('The dollar ceiling of %s changed from %s to %s with the same ceiling_basis; a changed ceiling needs '
+                                       'its basis (decision D, or the lead developer\'s dated raise)'
+                                       % (vendor, before.get('dollar_ceiling'), now['dollar_ceiling']))
+                changes.append({'vendor': vendor, 'old': before, 'new': now})
+        return changes
 
     # ---------------------------------------------------------------- budgets and clients
     def budget_for(self, model):
         vendor = self.models_config['models'][model]['vendor']
         if vendor not in self.budgets:
             setting = self.config['budgets'][vendor]
+            carried = (self.carry or {}).get('totals', {}).get(vendor, 0.0) if self.schedule is not None else None
             self.budgets[vendor] = Budget(vendor, model, setting['tokens'], self.prices['models'][model], self.prices['dated'],
-                                          self.dir / ('budget-%s.jsonl' % vendor), dollar_ceiling=setting.get('dollar_ceiling'))
+                                          self.dir / ('budget-%s.jsonl' % vendor), dollar_ceiling=setting.get('dollar_ceiling'),
+                                          carried_dollars=carried)
         return self.budgets[vendor]
 
     def client_for(self, model):
@@ -534,10 +875,14 @@ class Study:
         return [(run, schedule.run_key(block['arm'], run['task'], run['model'], block['runSuffix'])) for run in block['runs']]
 
     def run_block(self, block):
-        """One block: skipped when every run is finished; otherwise start the arm's stack, check provenance and the dataset fingerprint,
-        warm up, run the missing runs in order, then once more every run that ended on a vendor error, and tear down."""
+        """One block: skipped when every run is finished and its attempt ended; otherwise start the arm's stack, check provenance and the
+        dataset fingerprint, record the start of the current attempt, check the health of every backend, warm up, run the missing runs in
+        order (the health checked again every health_every_runs runs, and after every restore of an outage task's service), then once more
+        every run that ended on a vendor error, check the health at the end, and tear down. A void trigger raises BlockVoid."""
+        self.settle_voids(block)
         keys = self.block_keys(block)
-        if all(self.completed(key) for _, key in keys):
+        attempt = self.attempt_of(block)
+        if all(self.completed(key) for _, key in keys) and self.attempt_ended(block, attempt):
             return None
         arm = block['arm']
         sconfig = self.config['scenarios'][arm]
@@ -551,15 +896,23 @@ class Study:
             stack.wait_ready('%s__ready' % block['id'], timeout)
             append_jsonl(self.dir / 'samples.jsonl', {'phase': 'cold', 'scenario': arm, 'kind': 'cold_start',
                                                       'seconds': round(self.clock() - began, 3), **mark})
-            observation = self.check_provenance(arm, block['id'])
+            try:
+                observation = self.check_provenance(arm, block['id'])
+            except BackendDown as down:
+                self.declare_void(block, attempt, 'provenance', 'start', down.problems)
             reading = self.check_fingerprint(block)
-            self._block_event('start', block, session=reading['session'], fingerprint=reading['fingerprint'],
+            session = reading['session']
+            self._block_event('start', block, attempt=attempt, session=session, fingerprint=reading['fingerprint'],
                               provenanceFingerprint=observation['fingerprint'], start=starts + 1,
                               runsFinishedBefore=sum(1 for _, key in keys if self.completed(key)))
+            problems = self.check_health(block, attempt, 'start')
+            if problems:
+                self.declare_void(block, attempt, 'health', 'start', problems, session)
             self.check_tool_names(arm, block['id'])
             self.warm_up(arm, block['id'], mark)
             fields = {'block': block['id'], 'blockSequence': block['sequence'], 'row': block['row'], 'roundSequence': block['roundSequence'],
-                      'position': block['position'], 'half': block['half'], 'session': reading['session']}
+                      'position': block['position'], 'half': block['half'], 'session': session, 'blockAttempt': attempt}
+            executed = 0
             for requeue in (False, True):
                 for run, key in keys:
                     if self.completed(key) or (self.vendor_errors(key) > 0) != requeue:
@@ -568,16 +921,26 @@ class Study:
                     service = task.get('stoppedService')
                     if service:
                         stack.stop_service(service)
+                    restore_problems = []
                     try:
                         record = self.execute(arm, task, run['model'], key, {**fields, 'orderInBlock': keys.index((run, key)) + 1})
                     finally:
                         if service:
-                            stack.start_service(service)
-                            stack.wait_ready('%s__restore' % block['id'], timeout)
+                            restore_problems = self.restore(stack, block, attempt, service, timeout, key)
+                    executed += 1
+                    if restore_problems:
+                        self.declare_void(block, attempt, 'restore', 'restore', restore_problems, session)
                     if record['outcome'] == 'budget_stop':
-                        self._block_event('stopped', block, session=reading['session'], reason='budget_stop', runKey=key)
+                        self._block_event('stopped', block, session=session, reason='budget_stop', runKey=key)
                         return record
-            self._block_event('end', block, session=reading['session'],
+                    if not service and executed % self.health_every == 0:  # after an outage run the restore check stands for it
+                        problems = self.check_health(block, attempt, 'periodic', after=key)
+                        if problems:
+                            self.declare_void(block, attempt, 'health', 'periodic', problems, session)
+            problems = self.check_health(block, attempt, 'end')
+            if problems:
+                self.declare_void(block, attempt, 'health', 'end', problems, session)
+            self._block_event('end', block, session=session,
                               outcomes={o: sum(1 for _, k in keys if self._outcome(k) == o) for o in sorted({self._outcome(k) for _, k in keys})})
         finally:
             stack.teardown()
@@ -644,9 +1007,18 @@ class Study:
             if changes:
                 raise RuntimeError('The declared provenance differs from the stored manifest, so a resume would run against other backends. '
                                    'Start a new study run instead. Changes:\n- ' + '\n- '.join(changes))
+            resume = {'at': utc_now()}
+            if self.schedule is not None:
+                self.carry = self.check_carry(stored.get('budgetCarry'))
+                budget_changes = self.ceiling_changes(stored)
+                resume['ceilings'] = self.ceilings()
+                if budget_changes:
+                    resume['ceilingChanges'] = budget_changes
             skipped = sum(1 for p in (self.dir / 'runs').glob('*/result.json') if self.completed(p.parent.name))
-            append_jsonl(self.dir / 'resumes.jsonl', {'at': utc_now(), 'completedRunsKept': skipped})
+            append_jsonl(self.dir / 'resumes.jsonl', {**resume, 'completedRunsKept': skipped})
         else:
+            if self.schedule is not None:
+                self.carry = self.read_carry()
             self.dir.mkdir(parents=True, exist_ok=True)
             write_json_atomic(manifest_path, self.redactor.deep(self.manifest()))
         status = 'complete'
@@ -658,6 +1030,9 @@ class Study:
                 if stop:
                     status = 'budget_stop'
                     break
+        except BlockVoid as void:
+            self.void = void
+            status = 'block_void'
         except (provenance.ProvenanceRefused, FingerprintRefused, scoring_contract.ScoringContractError) as error:
             self.write_scores()
             self.write_bundle({provenance.ProvenanceRefused: 'provenance_refused', FingerprintRefused: 'fingerprint_refused',
@@ -669,7 +1044,7 @@ class Study:
 
     # ---------------------------------------------------------------- records
     SCHEDULE_COLUMNS = ('block', 'blockSequence', 'row', 'roundSequence', 'position', 'half', 'orderInBlock', 'session', 'requeued',
-                        'vendorErrors')
+                        'vendorErrors', 'blockAttempt')
 
     def write_scores(self):
         """One row per run. The columns of the schedule, the harness tools and the ambiguity flags are added only when a record has them,
@@ -709,9 +1084,27 @@ class Study:
                 files[path.relative_to(self.dir).as_posix()] = sha256_file(path)
         body = {'studyRunId': self.study_run_id, 'status': status, 'writtenAt': utc_now(), 'files': files,
                 'budgets': {v: b.snapshot() for v, b in self.budgets.items()}}
+        if self.schedule is not None:
+            body['voidAttempts'] = self.void_attempts()
+            body['budgetCarry'] = {'totals': (self.carry or {}).get('totals', {})}
         body['checksum'] = sha256_bytes(json.dumps(files, sort_keys=True).encode('utf-8'))
         write_json_atomic(self.dir / 'bundle.json', body)
         return body['checksum']
+
+    def void_attempts(self):
+        """The void attempts of the run, from blocks.jsonl, and their spend per vendor apart from the counted runs (it stays in the ledgers,
+        because it was billed)."""
+        attempts, spend = [], {}
+        for event in read_jsonl(self.dir / 'blocks.jsonl'):
+            if event.get('event') != 'void':
+                continue
+            attempts.append({k: event.get(k) for k in ('block', 'arm', 'attempt', 'trigger', 'point', 'at', 'runs', 'spend')})
+            for vendor, entry in (event.get('spend') or {}).items():
+                total = spend.setdefault(vendor, {'dollars': 0.0, 'tokens': 0, 'runs': 0})
+                total['dollars'] = round(total['dollars'] + entry['dollars'], 6)
+                total['tokens'] += entry['tokens']
+                total['runs'] += entry['runs']
+        return {'attempts': attempts, 'spend': spend}
 
 
 # ---------------------------------------------------------------------------------------------------------------- command line
@@ -762,6 +1155,10 @@ def main(argv=None):
         return 2
     try:
         status = study.run(resume=args.resume)
+    except BudgetCarryRefused as error:
+        print('STOP: ' + str(error))
+        print('Study run %s: budget_carry_refused' % args.run_id)
+        return 3
     except provenance.ProvenanceRefused as error:
         print('STOP: ' + str(error))
         print('Study run %s: provenance_refused' % args.run_id)
@@ -776,6 +1173,8 @@ def main(argv=None):
         return 3
     for vendor, budget in study.budgets.items():
         print(json.dumps(budget.snapshot()))
+    if study.void is not None:
+        print('STOP: ' + str(study.void))
     print('Study run %s: %s' % (args.run_id, status))
     return 0 if status == 'complete' else 3
 

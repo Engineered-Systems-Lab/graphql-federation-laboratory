@@ -5,6 +5,9 @@ price table and are shown beside the tokens. Before each API request the harness
 input plus its maximum output); a request that does not fit is a clean BUDGET STOP. Every reservation, settlement and retry is appended to a
 ledger file at once, so a stopped or crashed run keeps its cost and a resume starts from what was really spent. A reservation that was never
 settled (the process died during a request) is charged at the amount reserved, because the vendor may have billed it.
+
+Study 2's dollar ceiling is for all of study 2 (decision F1 of the Job study2_build_followups): the dollars that earlier study runs spent
+(`carried_dollars`, read from their ledgers by `ledger_dollars`) count against the ceiling before the first request of this run.
 """
 from pathlib import Path
 
@@ -58,12 +61,35 @@ def dollars(usage, price):
             + usage.output * price['output']) / 1_000_000
 
 
+def ledger_totals(path):
+    """What one ledger file records as spent, read only (nothing is appended): the settled usage and the tokens of the reservations that
+    were never settled or released. Returns (Usage, unsettled tokens)."""
+    spent, reserved = Usage(), {}
+    for entry in read_jsonl(path):
+        if entry.get('event') == 'reserve':
+            reserved[entry['seq']] = entry
+        elif entry.get('event') == 'settle':
+            reserved.pop(entry['seq'], None)
+            spent.add(Usage.from_dict(entry['usage']))
+        elif entry.get('event') == 'release':
+            reserved.pop(entry['seq'], None)
+    return spent, sum(int(entry['tokens']) for entry in reserved.values())
+
+
+def ledger_dollars(path, price):
+    """(dollars, tokens) of one ledger under one price entry, counted high: the settled usage at its prices, and every reservation that
+    was never settled at the output price, because the vendor may have billed it."""
+    spent, unsettled = ledger_totals(path)
+    return dollars(spent, price) + unsettled * price['output'] / 1_000_000, spent.total + unsettled
+
+
 class Budget:
-    def __init__(self, vendor, model, limit_tokens, price, price_date, ledger_path, dollar_ceiling=None):
+    def __init__(self, vendor, model, limit_tokens, price, price_date, ledger_path, dollar_ceiling=None, carried_dollars=None):
         if not isinstance(limit_tokens, int) or limit_tokens <= 0:
             raise ValueError('The token budget of %s must be a positive whole number of tokens' % vendor)
         self.vendor, self.model, self.limit = vendor, model, limit_tokens
         self.price, self.price_date, self.dollar_ceiling = price, price_date, dollar_ceiling
+        self.carried_dollars = carried_dollars  # None: nothing carried (the study-1 shape of the snapshot is kept)
         self.ledger = Path(ledger_path)
         self.spent = Usage()
         self.unsettled = 0
@@ -110,10 +136,13 @@ class Budget:
         return dollars(self.spent, self.price)
 
     def snapshot(self):
-        return {'vendor': self.vendor, 'model': self.model, 'limitTokens': self.limit, 'spent': self.spent.as_dict(),
-                'spentTokens': self.spent.total, 'unsettledTokens': self.unsettled, 'remainingTokens': self.remaining_tokens,
-                'retries': self.retries, 'retryTokens': self.retry_tokens, 'estimatedDollars': round(self.estimated_dollars(), 4),
-                'priceDate': self.price_date}
+        out = {'vendor': self.vendor, 'model': self.model, 'limitTokens': self.limit, 'spent': self.spent.as_dict(),
+               'spentTokens': self.spent.total, 'unsettledTokens': self.unsettled, 'remainingTokens': self.remaining_tokens,
+               'retries': self.retries, 'retryTokens': self.retry_tokens, 'estimatedDollars': round(self.estimated_dollars(), 4),
+               'priceDate': self.price_date}
+        if self.carried_dollars is not None:
+            out.update({'carriedDollars': round(self.carried_dollars, 4), 'dollarCeiling': self.dollar_ceiling})
+        return out
 
     # ------------------------------------------------------------------ reserve and settle
     def reserve(self, run_id, input_tokens, max_output_tokens, label='request'):
@@ -126,9 +155,11 @@ class Budget:
                              % (tokens, self.remaining_tokens, self.limit, self.vendor), self.snapshot())
         if self.dollar_ceiling is not None:
             worst = (int(input_tokens) * self.price['input'] + int(max_output_tokens) * self.price['output']) / 1_000_000
-            if self.estimated_dollars() + worst > self.dollar_ceiling:
-                raise BudgetStop('Budget stop: the request could cost %.4f dollars on top of %.4f spent, ceiling %.2f (%s)'
-                                 % (worst, self.estimated_dollars(), self.dollar_ceiling, self.vendor), self.snapshot())
+            carried = self.carried_dollars or 0.0
+            if carried + self.estimated_dollars() + worst > self.dollar_ceiling:
+                raise BudgetStop('Budget stop: the request could cost %.4f dollars on top of %.4f spent%s, ceiling %.2f (%s)'
+                                 % (worst, self.estimated_dollars(), ' and %.4f carried from earlier study runs' % carried if carried else '',
+                                    self.dollar_ceiling, self.vendor), self.snapshot())
         self._counter += 1
         self._open = {'seq': self._counter, 'tokens': tokens}
         self._write({'event': 'reserve', 'seq': self._counter, 'run': run_id, 'label': label, 'tokens': tokens,

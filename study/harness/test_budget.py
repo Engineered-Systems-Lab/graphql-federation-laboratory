@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from budget import Budget, BudgetStop, Usage, dollars, estimate_tokens
+from budget import Budget, BudgetStop, Usage, dollars, estimate_tokens, ledger_dollars, ledger_totals
 from study_common import read_jsonl
 
 PRICE = {'input': 2.0, 'cached_read': 0.2, 'cache_write': 2.5, 'output': 10.0}
@@ -75,6 +75,30 @@ class BudgetTests(unittest.TestCase):
 
     def test_estimate_is_a_high_estimate(self):
         self.assertGreaterEqual(estimate_tokens('x' * 300), 100)
+
+    def test_a_ledger_is_read_without_writing_and_counted_high(self):
+        b = self.make()
+        seq = b.reserve('r', 100, 100)
+        b.settle(seq, Usage(input=50, output=10))
+        seq = b.reserve('r', 100, 100)
+        b.release(seq)
+        b.reserve('r', 300, 100)  # never settled: the process died during the request
+        before = self.ledger.read_bytes()
+        spent, unsettled = ledger_totals(self.ledger)
+        self.assertEqual((spent.as_dict(), unsettled), ({'input': 50, 'cached_read': 0, 'cache_write': 0, 'output': 10}, 400))
+        money, tokens = ledger_dollars(self.ledger, PRICE)
+        self.assertAlmostEqual(money, (50 * 2.0 + 10 * 10.0 + 400 * 10.0) / 1e6)
+        self.assertEqual(tokens, 460)
+        self.assertEqual(self.ledger.read_bytes(), before, 'reading an earlier run writes nothing into its ledger')
+
+    def test_carried_dollars_count_against_the_ceiling(self):
+        b = Budget('v', 'm', 10_000_000, PRICE, 'd', self.ledger, dollar_ceiling=1.0, carried_dollars=0.999)
+        with self.assertRaisesRegex(BudgetStop, 'carried from earlier study runs'):
+            b.reserve('r', 100, 100)
+        snap = b.snapshot()
+        self.assertEqual((snap['carriedDollars'], snap['dollarCeiling']), (0.999, 1.0))
+        self.assertNotIn('carriedDollars', self.make().snapshot(), 'without a carry the snapshot keeps its study-1 shape')
+        Budget('v', 'm', 10_000_000, PRICE, 'd', self.ledger, dollar_ceiling=1.0, carried_dollars=0.5).reserve('r', 100, 100)
 
 
 if __name__ == '__main__':

@@ -13,8 +13,12 @@ The truth is a logistic model: logit P(correct) = mu + task effect + arm + model
 planned conditions of the square's core runs, over the simulated tasks), and the true planned and secondary differences. The simulation
 includes outage tasks (category D: six that need the stopped service and two over-reporting controls, with honesty failures), vendor
 errors (requeued once, and some failing again), an ambiguity set (category F, with clarified and interpretationAccepted), two sessions
-with a boundary inside a round and a block resumed after a stop. `empty_first_start_block` adds a block restarted from no finished run,
-which the analysis refuses.
+with a boundary inside a round and a block resumed after a stop. Every block event carries its `attempt` and every run record its
+`blockAttempt`, as the harness of the void-block rule writes them. `void_block` adds a block whose first attempt is void (a backend down
+after four runs): its runs move to runs-void/<block>/1/ and the block is repeated whole as attempt 2. `empty_first_start_block` adds a
+first start that finished no run before a stop, resumed within the same attempt. `restart_without_void_block` adds a block started again
+as a new attempt with no void event, and `legacy_events` writes the events and records without attempts (the format before the
+void-block rule); the analysis refuses the first, and in the second a block restarted from no finished run.
 """
 import argparse
 import csv
@@ -38,7 +42,7 @@ VENDORS = {'claude-sonnet-5-5': 'anthropic', 'gpt-6.1-sol': 'openai'}
 PRICES = {'claude-sonnet-5-5': {'input': 3.0, 'cached_read': 0.3, 'cache_write': 3.75, 'output': 15.0},
           'gpt-6.1-sol': {'input': 1.25, 'cached_read': 0.125, 'cache_write': 0.0, 'output': 10.0}}
 SCHEDULE_COLUMNS = ('block', 'blockSequence', 'row', 'roundSequence', 'position', 'half', 'orderInBlock', 'session', 'requeued',
-                    'vendorErrors')
+                    'vendorErrors', 'blockAttempt')
 TERMINAL = ('correct', 'wrong_answer', 'format_error', 'silent_guess', 'definition_not_accepted', 'abstained', 'did_not_finish', 'vendor_error')
 AMBIGUITY_FLAGS = ('clarified', 'interpretationAccepted')
 DEFAULT_TRUTH = {
@@ -165,7 +169,7 @@ class Clock:
 
 
 def simulate(out, seed=1, run_id='study-2-sim', truth=None, session_boundary=6, resumed_block=3, empty_first_start_block=None,
-             vendor_error_rate=0.02):
+             vendor_error_rate=0.02, void_block=None, restart_without_void_block=None, legacy_events=False):
     """Write one simulated bundle under `out`; returns its paths, checksum and truth."""
     truth = dict(DEFAULT_TRUTH, **(truth or {}))
     out = Path(out)
@@ -206,7 +210,7 @@ def simulate(out, seed=1, run_id='study-2-sim', truth=None, session_boundary=6, 
         return (truth['mu'] + task_effect[task] + truth['arm'][arm] + truth['model'][model] + (truth['round'].get(row, 0.0) if row else 0.0)
                 + truth['session'].get(session, 0.0))
 
-    def result_record(block, run, order, session, attempt, requeued, prior_errors, error=False):
+    def result_record(block, run, order, session, attempt, requeued, prior_errors, error=False, block_attempt=1):
         task = by_id[run['task']]
         key = schedule.run_key(block['arm'], run['task'], run['model'], block['runSuffix'])
         record = {'runKey': key, 'studyRunId': run_id, 'scenario': block['arm'], 'model': run['model'], 'block': block['id'],
@@ -214,6 +218,8 @@ def simulate(out, seed=1, run_id='study-2-sim', truth=None, session_boundary=6, 
                   'position': block['position'], 'half': block['half'], 'session': session, 'orderInBlock': order,
                   'category': task['category'], 'attempt': attempt, 'phase': 'measurement', 'taskId': run['task'], 'submission': None,
                   'reason': None}
+        if not legacy_events:
+            record['blockAttempt'] = block_attempt
         seconds = round(math.exp(truth['logSeconds'][block['arm']] + rng.gauss(0, 0.4)), 3)
         tokens = math.exp(truth['logTokens'][block['arm']] + (0.2 if run['model'] == MODELS[0] else 0.0) + rng.gauss(0, 0.5))
         usage = {'input': int(tokens * 0.3), 'cached_read': int(tokens * 0.6), 'cache_write': int(tokens * 0.05), 'output': int(tokens * 0.05) + 1}
@@ -248,22 +254,36 @@ def simulate(out, seed=1, run_id='study-2-sim', truth=None, session_boundary=6, 
         record['score'] = score
         return key, record
 
+    def block_event(kind, block, session, attempt, seconds=1, **fields):
+        event = {'at': clock.tick(seconds), 'event': kind, 'block': block['id'], 'arm': block['arm'], 'sequence': block['sequence'],
+                 'row': block['row'], 'session': session, **fields}
+        if not legacy_events:
+            event['attempt'] = attempt
+        append_jsonl(folder / 'blocks.jsonl', event)
+
+    def key_of(block, run):
+        return schedule.run_key(block['arm'], run['task'], run['model'], block['runSuffix'])
+
     for block in plan['blocks']:
         session = session_of(block)
         runs = list(block['runs'])
-        starts = []
+        passes, attempt = [], 1  # (attempt, runs finished when the pass stops, how it stops)
+        for sequence, ending in ((void_block, 'void'), (restart_without_void_block, 'restart')):
+            if block['sequence'] == sequence:
+                passes.append((attempt, min(4, len(runs)), ending))  # four runs, then void (or, wrongly, started again)
+                attempt += 1
         if block['sequence'] == empty_first_start_block:
-            starts.append(0)  # a first start that finished no run before it stopped
+            passes.append((attempt, 0, 'stopped'))  # a first start that finished no run before it stopped
         if block['sequence'] == resumed_block:
-            starts.append(min(5, len(runs)))  # stopped after five runs, then resumed
-        starts.append(len(runs))
-        done, start_number, errored = 0, 0, []
-        for stop_after in starts:
+            passes.append((attempt, min(5, len(runs)), 'stopped'))  # stopped after five runs, then resumed
+        passes.append((attempt, len(runs), 'end'))
+        done, start_number, errored, current = 0, 0, [], None
+        for number, stop_after, ending in passes:
+            if number != current:  # a new attempt repeats the block whole
+                current, done, errored = number, 0, []
             start_number += 1
-            event = {'at': clock.tick(300), 'event': 'start', 'block': block['id'], 'arm': block['arm'], 'sequence': block['sequence'],
-                     'row': block['row'], 'session': session, 'fingerprint': 'fp-sim', 'provenanceFingerprint': 'prov-%s' % block['arm'],
-                     'start': start_number, 'runsFinishedBefore': done}
-            append_jsonl(folder / 'blocks.jsonl', event)
+            block_event('start', block, session, number, seconds=300, fingerprint='fp-sim', provenanceFingerprint='prov-%s' % block['arm'],
+                        start=start_number, runsFinishedBefore=done)
             write_json(folder / 'provenance' / ('%s.json' % block['id']), {'block': block['id'], 'fingerprint': 'prov-%s' % block['arm'],
                                                                            'comparison': {'result': 'match', 'problems': []}})
             append_jsonl(folder / 'samples.jsonl', {'phase': 'cold', 'scenario': block['arm'], 'kind': 'cold_start', 'seconds': 30.0,
@@ -272,31 +292,34 @@ def simulate(out, seed=1, run_id='study-2-sim', truth=None, session_boundary=6, 
                 run = runs[done]
                 done += 1
                 is_error = rng.random() < vendor_error_rate
-                key, record = result_record(block, run, done, session, 1, False, 0, error=is_error)
+                key, record = result_record(block, run, done, session, 1, False, 0, error=is_error, block_attempt=number)
                 record['finishedAt'] = clock.tick(40)
                 write_json(folder / 'runs' / key / 'result.json', record)
                 if is_error:
                     errored.append((run, done, key))
-            if stop_after < len(runs):
-                append_jsonl(folder / 'blocks.jsonl', {'at': clock.tick(1), 'event': 'stopped', 'block': block['id'], 'arm': block['arm'],
-                                                       'sequence': block['sequence'], 'row': block['row'], 'session': session,
-                                                       'reason': 'budget_stop'})
+            if ending == 'stopped':
+                block_event('stopped', block, session, number, reason='budget_stop')
+            elif ending == 'void':
+                keys = [key_of(block, run) for run in runs[:done]]
+                block_event('void', block, session, number, trigger='health', point='periodic', problems=['backend missions is down: simulated'],
+                            runs=keys, spend={})
+                for key in keys:
+                    target = folder / 'runs-void' / block['id'] / str(number) / key
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    (folder / 'runs' / key).replace(target)
         for run, order, key in errored:  # the one requeue at the end of the block
             run_dir = folder / 'runs' / key
             (run_dir / 'attempts' / '001').mkdir(parents=True)
             (run_dir / 'result.json').replace(run_dir / 'attempts' / '001' / 'result.json')
             again = rng.random() < 0.3
-            _, record = result_record(block, run, order, session, 2, True, 1, error=again)
+            _, record = result_record(block, run, order, session, 2, True, 1, error=again, block_attempt=current)
             record['finishedAt'] = clock.tick(40)
             write_json(run_dir / 'result.json', record)
         outcomes = {}
         for run in runs:
-            key = schedule.run_key(block['arm'], run['task'], run['model'], block['runSuffix'])
-            o = json.loads((folder / 'runs' / key / 'result.json').read_text(encoding='utf-8'))['outcome']
+            o = json.loads((folder / 'runs' / key_of(block, run) / 'result.json').read_text(encoding='utf-8'))['outcome']
             outcomes[o] = outcomes.get(o, 0) + 1
-        append_jsonl(folder / 'blocks.jsonl', {'at': clock.tick(1), 'event': 'end', 'block': block['id'], 'arm': block['arm'],
-                                               'sequence': block['sequence'], 'row': block['row'], 'session': session,
-                                               'outcomes': dict(sorted(outcomes.items()))})
+        block_event('end', block, session, current, outcomes=dict(sorted(outcomes.items())))
     write_scores(folder)
     checksum = write_bundle(folder, run_id, clock.tick(5))
     sums = out / ('SHA256SUMS-%s.txt' % run_id)

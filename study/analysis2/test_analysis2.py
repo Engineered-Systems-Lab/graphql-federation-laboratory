@@ -226,13 +226,84 @@ class CountingTests(Workspace):
         first = events[0]
         extra = [dict(first, at='2099-01-01T00:00:00.000+00:00', start=2, runsFinishedBefore=0),
                  {'at': '2099-01-01T00:00:01.000+00:00', 'event': 'end', 'block': first['block'], 'arm': first['arm'],
-                  'sequence': first['sequence'], 'row': first['row'], 'session': first['session'], 'outcomes': {}}]
+                  'sequence': first['sequence'], 'row': first['row'], 'session': first['session'], 'outcomes': {}, 'attempt': first['attempt']}]
         path.write_text(''.join(json.dumps(e, sort_keys=True) + '\n' for e in events + extra), encoding='utf-8', newline='\n')
         self.assertStops(reseal(facts), 'started again from no finished run')
 
-    def test_a_block_restarted_after_a_start_that_finished_nothing_is_refused(self):
-        facts = self.simulated(empty_first_start_block=10)
+    def test_without_attempts_a_block_restarted_after_a_start_that_finished_nothing_is_refused(self):
+        facts = self.simulated(empty_first_start_block=10, legacy_events=True)
         self.assertStops(facts, 'void-block rule')
+
+    def test_a_bundle_without_attempts_is_still_read_under_the_provisional_rule(self):
+        (records, blocks), _ = load(self.simulated(legacy_events=True))
+        self.assertEqual(len(records), 54 * 2 * 4 + 54 * 2)
+        self.assertTrue(all(b['voidAttempts'] == [] for b in blocks))
+
+    def test_with_attempts_a_resume_after_a_stop_that_finished_nothing_counts(self):
+        facts = self.simulated(empty_first_start_block=10)
+        (records, blocks), manifest = load(facts)
+        block = next(b for b in manifest['schedule']['blocks'] if b['sequence'] == 10)
+        entry = next(b for b in blocks if b['id'] == block['id'])
+        self.assertEqual((entry['attempts'], entry['resumesInCountedAttempt'], entry['voidAttempts']), (1, 1, []))
+        self.assertIn(block['id'], data2.counting(records, blocks)['blocksWithMoreThanOneStart'])
+
+    def test_a_void_attempt_is_excluded_and_its_cost_reported_apart(self):
+        facts = self.simulated(void_block=4)
+        (records, blocks), manifest = load(facts)
+        block = next(b for b in manifest['schedule']['blocks'] if b['sequence'] == 4)
+        entry = next(b for b in blocks if b['id'] == block['id'])
+        self.assertEqual((entry['attempts'], entry['countedAttempt'], entry['resumesInCountedAttempt']), (2, 2, 0))
+        self.assertEqual([(v['attempt'], v['trigger'], v['point'], v['runs']) for v in entry['voidAttempts']], [(1, 'health', 'periodic', 4)])
+        self.assertGreater(entry['voidCost'], 0)
+        own = [r for r in records if r['block'] == block['id']]
+        self.assertEqual(len(own), len(block['runs']), 'the repeat counts once per planned run')
+        self.assertEqual(len(records), 54 * 2 * 4 + 54 * 2)
+        counted = data2.counting(records, blocks)
+        self.assertEqual((counted['voidAttempts'], counted['blocksRepeatedAfterAVoid']), (1, [block['id']]))
+        self.assertNotIn(block['id'], counted['blocksWithMoreThanOneStart'])
+        spent = analyze2.spend(records, blocks)
+        self.assertAlmostEqual(spent[block['arm']]['voidAttempts'], entry['voidCost'])
+        self.assertEqual(sum(v['voidAttempts'] for a, v in spent.items() if a != block['arm']), 0)
+        cost_without_void = sum(r['cost'] for r in records)
+        self.assertGreater(cost_without_void, 0)
+        code, _, err = run_cli(args_for(facts, self.root / 'out-void'))
+        self.assertEqual(code, 0, err)
+        tables = (self.root / 'out-void' / 'tables.md').read_text(encoding='utf-8')
+        self.assertIn('Void attempts (operational only)', tables)
+        self.assertIn('1 (health)', tables)
+
+    def test_a_block_started_again_as_a_new_attempt_with_no_void_event_is_refused(self):
+        self.assertStops(self.simulated(restart_without_void_block=5), 'no void event')
+
+    def test_a_void_result_left_among_the_runs_is_refused(self):
+        facts = self.simulated(void_block=4)
+        void_runs = sorted(Path(facts['bundle']).glob('runs-void/*/1/*'))
+        target = Path(facts['bundle']) / 'runs' / void_runs[0].name
+        shutil.rmtree(target)
+        shutil.copytree(void_runs[0], target)
+        simulate.write_scores(Path(facts['bundle']))
+        self.assertStops(reseal(facts), 'recorded under attempt 1')
+
+    def test_a_void_event_that_names_other_runs_than_the_void_folder_is_refused(self):
+        facts = self.simulated(void_block=4)
+        shutil.rmtree(sorted(Path(facts['bundle']).glob('runs-void/*/1/*'))[0])
+        self.assertStops(reseal(facts), 'names other runs')
+
+    def test_a_void_last_attempt_or_attempts_out_of_order_are_refused(self):
+        facts = self.simulated(void_block=4)
+        path = Path(facts['bundle']) / 'blocks.jsonl'
+        events = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()]
+        block = next(e['block'] for e in events if e['event'] == 'void')
+        for change, text in ((lambda e: e['attempt'] == 2 and e.update(attempt=3), 'attempt 3 follows attempt 1'),
+                             (lambda e: e['event'] == 'end' and e.update(event='void'), 'is void and was not repeated')):
+            changed = [dict(e) for e in events]
+            for e in changed:
+                if e['block'] == block:
+                    change(e)
+            path.write_text(''.join(json.dumps(e, sort_keys=True) + '\n' for e in changed), encoding='utf-8', newline='\n')
+            with self.subTest(text=text):
+                self.assertStops(reseal(facts), text)
+        path.write_text(''.join(json.dumps(e, sort_keys=True) + '\n' for e in events), encoding='utf-8', newline='\n')
 
     def test_the_standardization_weights_are_fixed_by_the_schedule(self):
         facts = self.simulated()
@@ -479,10 +550,11 @@ class HarnessBundleTests(Workspace):
         stub = 'sha256:' + 'a' * 64
         prov = {'compose_projects': ['lab'], 'backends': {'missions': {'mode': 'simulated', 'service': 'missions-stub', 'image_id': stub}}}
         arms = list(data2.SQUARE_ARMS)
-        config = {'scenarios': {a: {'mcp_url': a, 'stack': {}, 'warmup_calls': [{'tool': 'lookup', 'arguments': {}}], 'provenance': prov}
+        config = {'scenarios': {a: {'mcp_url': a, 'stack': {}, 'warmup_calls': [{'tool': 'lookup', 'arguments': {}}], 'provenance': prov,
+                                    'health': {'argv': ['health', a]}}
                                 for a in data2.ALL_ARMS},
                   'models': ['model-a', 'model-b'], 'seed': 11, 'task_set': 'scored', 'warmup_passes': 1,
-                  'budgets': {'va': {'tokens': 100_000_000}, 'vb': {'tokens': 100_000_000}},
+                  'budgets': {v: {'tokens': 100_000_000, 'dollar_ceiling': 1000.0, 'ceiling_basis': 'test ceiling'} for v in ('va', 'vb')},
                   'limits': {'max_tool_calls': 5, 'retry_backoff_seconds': 0},
                   'schedule': {'design': 'williams-4-half', 'arms': arms, 'reference': 'alpha'},
                   'dataset_fingerprint': {'argv': ['fingerprint']}, 'harness_tools': ['calculate', 'ask_requester']}
@@ -527,7 +599,8 @@ class HarnessBundleTests(Workspace):
         study = runner.Study(config, models, prices, 'fake-2', root=self.root / 'results', corpus_dir=corpus, client_factory=factory,
                              session_factory=session_factory, stack_factory=Stack, redactor=Redactor(['sk-ant-SECRETSECRETSECRET']),
                              sleep=lambda s: None, docker=FakeDocker([container('lab', 'missions-stub', 'stub:1', stub)]),
-                             fingerprint_runner=lambda command: json.dumps(next(readings)))
+                             fingerprint_runner=lambda command: json.dumps(next(readings)),
+                             health_runner=lambda command, timeout=None: json.dumps({'backends': {'missions': {'up': True}}}))
         self.assertEqual(study.run(), 'complete')
         folder = self.root / 'results' / 'fake-2'
         sums = self.root / 'SHA256SUMS-fake-2.txt'

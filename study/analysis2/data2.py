@@ -19,11 +19,19 @@ The counting rules (PLAN.md, "Which runs count"):
 - every run the manifest's schedule plans must have exactly one record, and no other run may appear;
 - a vendor error (the harness's `vendor_error`, a run that failed at the vendor again after its one requeue) is missing in the main
   analysis and wrong in a sensitivity analysis; a requeued run that then finished counts once, with its last attempt;
-- a block has ONE attempt: its first start and the resumes that continue it (`runsFinishedBefore` above 0), ending with an `end` event,
-  and every run finished after the attempt began. A later start that found no finished run (a restart from nothing) is refused: until
-  the void-block rule records which attempt is void, the analysis cannot tell a void block repeated whole from a block resumed after a
-  stop that finished no run (PLAN.md, open points). This is a provisional rule, not the final validity rule;
-- the cost of attempts the harness archived (a run queued again after a vendor error) is kept apart as operational spend.
+- the attempts of a block. The harness of the void-block rule numbers them: every block event carries `attempt`, every run record
+  `blockAttempt`, and a `void` event names a void attempt with its declared trigger, whose runs the harness moved to
+  runs-void/<block>/<attempt>/. Then the current attempt (the last) counts: it has no void event, it starts with no finished run when an
+  attempt was void before it, it ends with an `end` event, and every one of its runs is recorded under it and finished after it began. A
+  void attempt is excluded and its cost is reported apart. Attempts that are not numbered 1, 2, ... in order, an attempt followed by
+  another without a void event (a block restarted with no void event), events of an attempt after its void event, and a later start of
+  the current attempt that found no finished run while runs of it had finished are refused;
+- a bundle whose block events carry no attempt (written before the void-block rule) keeps the provisional rule: the block has ONE attempt,
+  its first start and the resumes that continue it (`runsFinishedBefore` above 0), and a later start that found no finished run is
+  refused, because without the void events the analysis cannot tell a void block repeated whole from a resume after a stop that finished
+  no run;
+- the cost of attempts the harness archived (a run queued again after a vendor error) is kept apart as operational spend, and so is the
+  cost of void attempts.
 """
 import csv
 import hashlib
@@ -170,6 +178,80 @@ def block_attempts(events, block_id):
     return attempts
 
 
+BLOCK_EVENTS = ('start', 'end', 'stopped', 'void')
+VOID_FOLDER = 'runs-void'
+
+
+def numbered_attempts(events, block_id):
+    """The attempts of a block whose events carry `attempt` (the void-block rule), checked: {number: {'starts', 'ended', 'stopped',
+    'void'}} in order. Raises VerificationError for numbers out of order, a void attempt without its void event, events after a void
+    event, a repeat that did not start from no finished run and a current attempt that is void."""
+    attempts = {}
+    for event in events:
+        if event.get('block') != block_id or event.get('event') not in BLOCK_EVENTS:
+            continue
+        number = event['attempt']
+        if isinstance(number, bool) or not isinstance(number, int) or number < 1:
+            raise VerificationError('block %s: an event carries the attempt %r' % (block_id, number))
+        if attempts and number < max(attempts):
+            raise VerificationError('block %s: an event of attempt %d follows attempt %d' % (block_id, number, max(attempts)))
+        if number not in attempts:
+            if number != len(attempts) + 1:
+                raise VerificationError('block %s: attempt %d follows attempt %d' % (block_id, number, len(attempts)))
+            if attempts and attempts[number - 1]['void'] is None:
+                raise VerificationError('block %s was started again as attempt %d with no void event for attempt %d: a block restarted '
+                                        'with no void event cannot be counted' % (block_id, number, number - 1))
+            attempts[number] = {'starts': [], 'ended': False, 'stopped': 0, 'void': None}
+        attempt = attempts[number]
+        if attempt['void'] is not None:
+            raise VerificationError('block %s: attempt %d has events after its void event' % (block_id, number))
+        kind = event['event']
+        if kind == 'start':
+            if not attempt['starts'] and number > 1 and int(event.get('runsFinishedBefore') or 0) != 0:
+                raise VerificationError('block %s: attempt %d, the repeat of a void attempt, did not start from no finished run'
+                                        % (block_id, number))
+            attempt['starts'].append(event)
+            attempt['ended'] = False
+        elif kind == 'end':
+            attempt['ended'] = True
+        elif kind == 'stopped':
+            attempt['stopped'] += 1
+        else:
+            attempt['void'] = event
+    if attempts and attempts[max(attempts)]['void'] is not None:
+        raise VerificationError('block %s: its last attempt (%d) is void and was not repeated' % (block_id, max(attempts)))
+    return attempts
+
+
+def void_costs(folder, block_id, attempts, prices):
+    """[{attempt, trigger, point, runs, cost}] of the void attempts of a block, read from runs-void/<block>/<attempt>/ (the current
+    results and the archived attempts of each run there). The runs there must be the ones the void event names."""
+    out = []
+    root = Path(folder) / VOID_FOLDER / block_id
+    numbers = {str(n) for n, a in attempts.items() if a['void'] is not None}
+    present = {p.name for p in root.iterdir()} if root.exists() else set()
+    if present - numbers:
+        raise VerificationError('block %s: %s holds attempts that no void event names (%s)' % (block_id, VOID_FOLDER,
+                                                                                            ', '.join(sorted(present - numbers))))
+    for number, attempt in sorted(attempts.items()):
+        void = attempt['void']
+        if void is None:
+            continue
+        where = root / str(number)
+        keys = sorted(p.name for p in where.iterdir()) if where.exists() else []
+        if keys != sorted(void.get('runs') or []):
+            raise VerificationError('block %s: the void event of attempt %d names other runs than %s/%s/%d holds'
+                                    % (block_id, number, VOID_FOLDER, block_id, number))
+        cost = 0.0
+        for key in keys:
+            for path in [where / key / 'result.json'] + sorted((where / key / 'attempts').glob('*/result.json')):
+                if path.exists():
+                    record = json.loads(path.read_text(encoding='utf-8'))
+                    cost += data.dollars({kind: int(record['usage'][kind]) for kind in USAGE_KINDS}, prices[record['model']])
+        out.append({'attempt': number, 'trigger': void.get('trigger'), 'point': void.get('point'), 'runs': len(keys), 'cost': cost})
+    return out
+
+
 def load_bundle(folder, manifest, strata):
     """One record per planned run of a verified copy, with the counting facts; raises VerificationError when the bundle breaks a rule."""
     folder = Path(folder)
@@ -179,25 +261,42 @@ def load_bundle(folder, manifest, strata):
     events = read_jsonl(folder / 'blocks.jsonl')
     planned, blocks = {}, []
     for block in manifest['schedule']['blocks']:
-        attempts = block_attempts(events, block['id'])
+        own = [e for e in events if e.get('block') == block['id'] and e.get('event') in BLOCK_EVENTS]
+        numbered = [('attempt' in e) for e in own]
+        if any(numbered) and not all(numbered):
+            raise VerificationError('block %s: some of its events carry an attempt and some do not' % block['id'])
+        if own and all(numbered):
+            numbers = numbered_attempts(events, block['id'])
+            attempts = [numbers[n] for n in sorted(numbers)]
+            voids = void_costs(folder, block['id'], numbers, prices)
+            counted = max(numbers)
+        else:
+            if (folder / VOID_FOLDER / block['id']).exists():
+                raise VerificationError('block %s has void runs but its events carry no attempt' % block['id'])
+            attempts = block_attempts(events, block['id'])
+            voids, counted = [], None
+            if len(attempts) > 1:
+                raise VerificationError('block %s was started again from no finished run after an earlier start; without the void '
+                                        'events of the void-block rule the analysis cannot tell which attempt counts' % block['id'])
         if not attempts:
             raise VerificationError('block %s has no recorded start' % block['id'])
-        if len(attempts) > 1:
-            raise VerificationError('block %s was started again from no finished run after an earlier start; without the void-block '
-                                    'rule the analysis cannot tell which attempt counts' % block['id'])
         last = attempts[-1]
+        if not last['starts']:
+            raise VerificationError('block %s: its last attempt has no start' % block['id'])
         if not last['ended']:
             raise VerificationError('block %s: its last attempt did not end' % block['id'])
         since = last['starts'][0]['at']
+        restarts = [s['at'] for s in last['starts'][1:] if int(s.get('runsFinishedBefore') or 0) == 0]
         blocks.append({'id': block['id'], 'arm': block['arm'], 'row': block['row'], 'sequence': block['sequence'],
                        'starts': sum(len(a['starts']) for a in attempts), 'attempts': len(attempts), 'countedAttempt': len(attempts),
                        'resumesInCountedAttempt': len(last['starts']) - 1, 'stoppedEvents': sum(a['stopped'] for a in attempts),
-                       'sessions': sorted({s['session'] for s in last['starts']})})
+                       'sessions': sorted({s['session'] for s in last['starts']}), 'voidAttempts': voids,
+                       'voidCost': sum(v['cost'] for v in voids)})
         for run in block['runs']:
             key = run_key(block['arm'], run['task'], run['model'], block['runSuffix'])
             if key in planned:
                 raise VerificationError('the schedule plans the run %s twice' % key)
-            planned[key] = (block, run, since)
+            planned[key] = (block, run, since, counted, restarts)
     present = {p.parent.name for p in (folder / 'runs').glob('*/result.json')}
     missing, extra = sorted(set(planned) - present), sorted(present - set(planned))
     if missing or extra:
@@ -207,7 +306,7 @@ def load_bundle(folder, manifest, strata):
         raise VerificationError('scores.csv and the schedule hold different runs')
     records = []
     for key in sorted(planned):
-        block, run, since = planned[key]
+        block, run, since, counted, restarts = planned[key]
         row = scores[key]
         result = json.loads((folder / 'runs' / key / 'result.json').read_text(encoding='utf-8'))
         if result['runKey'] != key or result['outcome'] != row['outcome'] or result['scenario'] != block['arm']:
@@ -221,9 +320,15 @@ def load_bundle(folder, manifest, strata):
             raise VerificationError('run %s is recorded under block %r, planned in %s' % (key, result.get('block'), block['id']))
         if result['outcome'] not in OUTCOMES:
             raise VerificationError('run %s has the outcome %r, which a complete study-2 bundle cannot hold' % (key, result['outcome']))
+        if counted is not None and result.get('blockAttempt') != counted:
+            raise VerificationError('run %s is recorded under attempt %r of block %s; the counted attempt is %d'
+                                    % (key, result.get('blockAttempt'), block['id'], counted))
         if result['finishedAt'] < since:
             raise VerificationError('run %s finished before the last attempt of block %s began: that block was not repeated whole'
                                     % (key, block['id']))
+        if any(result['finishedAt'] < at for at in restarts):
+            raise VerificationError('block %s was started again from no finished run while run %s of the same attempt had finished: a '
+                                    'block restarted with no void event cannot be counted' % (block['id'], key))
         task = strata.get(result['taskId'])
         if task is None or task['category'] != result['category']:
             raise VerificationError('run %s: task %s is not in tasks.json with category %s' % (key, result['taskId'], result['category']))
@@ -280,7 +385,9 @@ def counting(records, blocks):
         'directAccess': count(lambda r: r['arm'] == REFERENCE_ARM),
         'requeuedRuns': count(lambda r: r['requeued']),
         'vendorErrorRuns': count(lambda r: r['outcome'] == 'vendor_error'),
-        'blocksWithMoreThanOneStart': sorted(b['id'] for b in blocks if b['starts'] > 1),
+        'blocksWithMoreThanOneStart': sorted(b['id'] for b in blocks if b['resumesInCountedAttempt'] > 0),
+        'voidAttempts': sum(len(b['voidAttempts']) for b in blocks),
+        'blocksRepeatedAfterAVoid': sorted(b['id'] for b in blocks if b['voidAttempts']),
     }
 
 
