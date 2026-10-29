@@ -30,7 +30,7 @@ class GateTests(unittest.TestCase):
             self.assertEqual(study_gate.interpreter_for('stats'), here)
 
     def test_the_suites_cover_the_four_areas(self):
-        self.assertEqual([s[0] for s in study_gate.SUITES], ['harness', 'corpus', 'corpus2', 'mcp', 'analysis', 'launch', 'preflight'])
+        self.assertEqual([s[0] for s in study_gate.SUITES], ['harness', 'corpus', 'corpus2', 'mcp', 'analysis', 'analysis2', 'launch', 'preflight'])
         for _, folder, pattern, mode in study_gate.SUITES:
             self.assertTrue((study_gate.STUDY / folder).is_dir())
             self.assertIn(mode, ('no', 'prefer', 'require', 'stats'))

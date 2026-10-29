@@ -29,6 +29,7 @@ SUITES = [
     ('corpus2', 'corpus2', 'test_corpus2.py', 'no'),
     ('mcp', 'mcp', 'test_mcp_offline.py', 'require'),
     ('analysis', 'analysis', 'test_*.py', 'stats'),
+    ('analysis2', 'analysis2', 'test_*.py', 'stats'),
     ('launch', 'launch', 'test_*.py', 'no'),
     ('preflight', 'preflight', 'test_*.py', 'no'),
 ]
