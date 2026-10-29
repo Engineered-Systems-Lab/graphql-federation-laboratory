@@ -58,6 +58,16 @@ python -B graph_server.py --router-url http://127.0.0.1:8171/graphql --port 8194
 
 Every server also takes `--host`, `--port`, `--timeout` (seconds for one request, 20 by default), `--max-chars` and `--log`.
 
+## The study environment
+
+The interpreter that `STUDY_MCP_PYTHON` names runs the MCP servers and the study gate's MCP and analysis suites. `setup_env.py` makes it from the committed lock files, at a new folder outside the repository, from the repository root in Git Bash or PowerShell:
+
+```sh
+python -B study/mcp/setup_env.py '<new folder outside the repository>'
+```
+
+It creates the virtual environment with the running Python (or `--python`), installs with `pip install --no-deps` exactly the pins of [requirements-lock.txt](requirements-lock.txt), [study/analysis/requirements.txt](../analysis/requirements.txt) and [study/analysis/requirements-lock.txt](../analysis/requirements-lock.txt), checks with `pip freeze` that the environment holds those packages and nothing else, and prints the lines that set `STUDY_MCP_PYTHON`, for PowerShell (a user variable) and for Git Bash. It sets no variable itself and never changes an existing folder; `--dry-run` prints the commands only. pip needs the package index. These 42 pins are the packages of the environment made by hand on 2026-10-21 (Python 3.14.8). The harness's vendor SDKs (`study/harness/requirements.txt`) are not part of it.
+
 ## The call log
 
 Every tool call, the refused and the failed ones included, appends one JSON line to the log file of the server process: `--log`, else `LAB_RESULTS_DIR/mcp-calls/<name>-<UTC time>.jsonl` (`LAB_RESULTS_DIR` defaults to the folder `lab-results` in the user's home). The harness owns how a run uses it: start a server with its own `--log` per run, or send the HTTP header `X-Study-Run-Id` on every MCP request of a run and the server copies it into `run_id`.
@@ -80,7 +90,7 @@ The log holds no credential: the servers hold and take none.
 
 ## Tests
 
-- `test_mcp_offline.py` needs no stack: a loopback HTTP server stands in for a service. It covers the allow-list (inside, outside and every evasion), the plumbing guard and scrub, the mapping files, the tool lists, truncation, the honest error for an unreachable service and the log.
+- `test_mcp_offline.py` needs no stack: a loopback HTTP server stands in for a service. It covers the allow-list (inside, outside and every evasion), the plumbing guard and scrub, the mapping files, the tool lists, truncation, the honest error for an unreachable service and the log, and `setup_env.py` with a fake runner (no environment is made and pip is not called).
 - `test_mcp_stack.py` needs the running large-data stack and is skipped unless `STUDY_MCP_STACK=1`; it also needs `STUDY_MCP_MAPPING_DIR` and the override above. It covers the three legacy services (REST/JSON, REST/XML, SOAP), the mapping release files and the unknown release, the allow-list refusing the adapters and the routers, each adapter's ordinary queries and discovery without the plumbing, and the graph through each router (`STUDY_MCP_COSMO_URL` adds Cosmo, `STUDY_MCP_ROUTER_URL` overrides the Apollo URL). It reports, and does not assume, whether a router answers introspection.
 
 ```sh

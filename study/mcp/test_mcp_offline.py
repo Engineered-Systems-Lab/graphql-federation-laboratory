@@ -4,6 +4,8 @@ They need the pinned `mcp` package (requirements.txt) and no running stack: a sm
 Run: python -B -m unittest test_mcp_offline   (from this folder, with the virtual environment's Python)
 """
 import asyncio
+import contextlib
+import io
 import json
 import tempfile
 import threading
@@ -17,6 +19,7 @@ import adapters_server
 import graph_server
 import mcp_core as core
 import raw_server
+import setup_env
 
 
 class _Handler(BaseHTTPRequestHandler):
@@ -257,6 +260,74 @@ class Servers(Fixture):
             headers = {'x-study-run-id': 'run-42'}
         self.assertEqual(core.run_id_of(Ctx()), 'run-42')
         self.assertIsNone(core.run_id_of(object()))
+
+
+class SetupEnvTests(unittest.TestCase):
+    """study/mcp/setup_env.py: the environment from the lock files, with a fake runner (no venv is made and pip is not called)."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.folder = Path(self.tmp.name) / 'study-env'
+
+    def run_script(self, *extra, freeze=None, fail=None):
+        calls, lines = [], []
+        pins = setup_env.pins()
+
+        class Done:
+            def __init__(self, code, stdout=''):
+                self.returncode, self.stdout = code, stdout
+
+        def run(argv, capture_output=False, text=False):
+            calls.append(argv)
+            if fail and fail in argv:
+                return Done(1)
+            if 'freeze' in argv:
+                return Done(0, freeze if freeze is not None else ''.join('%s==%s\n' % kv for kv in sorted(pins.items())))
+            return Done(0)
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            code = setup_env.main([str(self.folder), '--python', 'base-python', *extra], run=run, out=lines.append)
+        return code, calls, lines, err.getvalue()
+
+    def test_the_lock_files_pin_exact_versions_and_the_study_packages(self):
+        pins = setup_env.pins()
+        self.assertEqual(pins['mcp'], '2.3.0')
+        self.assertIn('statsmodels', pins)
+        self.assertIn('scipy', pins)
+        self.assertNotIn('anthropic', pins, 'the harness SDKs are not part of the study environment')
+
+    def test_it_makes_the_venv_installs_the_pins_only_and_prints_the_lines_it_does_not_run(self):
+        code, calls, lines, err = self.run_script()
+        self.assertEqual(code, 0, err)
+        self.assertEqual(calls[0], ['base-python', '-m', 'venv', str(self.folder.resolve())])
+        python = str(setup_env.interpreter(self.folder.resolve()))
+        self.assertEqual(calls[1][:6], [python, '-m', 'pip', 'install', '--no-deps', '--disable-pip-version-check'])
+        self.assertEqual([calls[1][i + 1] for i, a in enumerate(calls[1]) if a == '-r'], [str(p) for p in setup_env.LOCK_FILES])
+        self.assertEqual(calls[2][:4], [python, '-m', 'pip', 'freeze'])
+        self.assertEqual(len(calls), 3)
+        text = '\n'.join(lines)
+        self.assertIn("SetEnvironmentVariable('STUDY_MCP_PYTHON', '%s', 'User')" % python, text)
+        self.assertIn("export STUDY_MCP_PYTHON='%s'" % python, text)
+        self.assertIn('sets nothing', text)
+
+    def test_a_freeze_that_differs_from_the_locks_is_refused(self):
+        code, _, _, err = self.run_script(freeze='mcp==2.3.0\nextra-package==1.0\n')
+        self.assertEqual(code, 1)
+        self.assertIn('extra-package', err)
+        self.assertEqual(self.run_script(fail='install')[0], 1)
+
+    def test_a_path_inside_the_repository_or_an_existing_one_is_refused_and_a_dry_run_runs_nothing(self):
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            self.assertEqual(setup_env.main([str(setup_env.ROOT / 'venv')], run=lambda *a, **k: self.fail('ran')), 1)
+        self.assertIn('outside the repository', err.getvalue())
+        self.folder.mkdir()
+        self.assertEqual(self.run_script()[0], 1)
+        self.folder.rmdir()
+        code, calls, lines, _ = self.run_script('--dry-run')
+        self.assertEqual((code, calls), (0, []))
+        self.assertTrue(lines[0].startswith('would run: base-python -m venv'))
 
 
 if __name__ == '__main__':

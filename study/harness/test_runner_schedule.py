@@ -14,6 +14,7 @@ import schedule
 import scoring_contract
 from fakes import FakeDocker, FakeVendorClient, submit, turn
 from mcp_client import FakeToolSession
+import runner as runner_module
 from runner import SYSTEM_PROMPT, BudgetCarryRefused, FingerprintRefused, Study, load_config, parse_fingerprint
 from study_common import Redactor, read_jsonl, sha256_file, sha256_json
 from test_runner import CORPUS, MODELS, PRICES, PROVENANCE, FakeStack, fake_docker, task
@@ -774,6 +775,15 @@ class ScheduleRunnerTests(unittest.TestCase):
         self.assertEqual([e[1] for e in FakeStack.log if e[0] == 'start'], [first['arm']])
         self.assertEqual(sum(len(c.calls) for c in factory.made.values()), 0)
         self.assertEqual(sum(1 for e in self.events(study, 'end') if e['block'] == first['id']), 1)
+
+    def test_the_corpus_comes_from_the_option_or_the_config(self):
+        corpus2 = runner_module.HERE.parent / 'corpus2'
+        self.assertEqual(runner_module.corpus_of({}), runner_module.DEFAULT_CORPUS)
+        self.assertEqual(runner_module.corpus_of({'corpus_dir': str(corpus2)}), corpus2)
+        self.assertEqual(runner_module.corpus_of({}, str(corpus2)), corpus2)
+        self.assertEqual(runner_module.corpus_of({'corpus_dir': str(corpus2)}, str(corpus2)), corpus2)
+        with self.assertRaisesRegex(ValueError, 'differs from the config'):
+            runner_module.corpus_of({'corpus_dir': str(corpus2)}, str(runner_module.DEFAULT_CORPUS))
 
     # ------------------------------------------------------------------ the budget across study runs
     def earlier_run(self, run_id='old', output_tokens=1_000_000, unsettled=0):

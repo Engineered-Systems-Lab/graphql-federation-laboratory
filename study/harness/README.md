@@ -74,6 +74,7 @@ With a `schedule` block in the config the harness runs [study 2's design](../../
 | `health_every_runs` | Optional, default 10: the health check runs again after every so many runs of a block. Fixed for the study run (it is in the plan identity). |
 | `budgets.<vendor>.ceiling_basis`, `earlier_study_runs` | The ceiling across study runs, see [the token budget](#token-budget). |
 | `harness_tools` | Optional: `["calculate", "ask_requester"]`, see [the harness tools](#the-harness-tools). It also works without a schedule. |
+| `corpus_dir` | Optional: the corpus folder the harness reads, which the [launch kit](../launch/README.md#the-study-config) writes (`study/corpus2` for a schedule). The runner's `--corpus-dir` may name the same folder, and another folder is refused; with neither, study 1's `study/corpus` is read. |
 
 A corpus task may carry `set` (`core` or `ambiguity`), `size` and `systems`; `load_tasks` passes them on and the halves are stratified on them with the category.
 

@@ -15,6 +15,10 @@ sys.path.insert(0, str(HERE))
 import launch  # noqa: E402
 import make_config  # noqa: E402
 import provenance  # noqa: E402  (study/harness, put on the path by make_config)
+import runner  # noqa: E402  (study/harness: the harness reads what these commands print)
+
+sys.path.insert(0, str(HERE.parent / 'preflight'))
+import preflight  # noqa: E402
 
 ROOT = launch.ROOT
 COMMITTED = sorted(p for p in HERE.iterdir() if p.is_file() and p.suffix in ('.py', '.md', '.yaml'))
@@ -324,6 +328,128 @@ class PinTests(unittest.TestCase):
             self.assertIsNone(CREDENTIAL.search(fine), fine)
 
 
+class ReadingMachine:
+    """The read-only probes of `fingerprint` and `health`: docker ps and docker inspect from a table of containers, the dataset hash, the
+    Missions GET and the Oracle SELECTs. Anything that would change something fails the test."""
+
+    def __init__(self, containers=None, missions_status=200, rows=None, digest='d' * 64):
+        self.containers = {'missions-stub': {'running': True, 'status': 'running', 'health': 'healthy', 'startedAt': '2026-11-02T08:00:00Z'},
+                           'assets-service': {'running': True, 'status': 'running', 'health': 'healthy', 'startedAt': 't'},
+                           'personnel-service': {'running': True, 'status': 'running', 'health': 'healthy', 'startedAt': 't'},
+                           launch.MISSIONS_CONTAINER: {'running': True, 'status': 'running', 'health': None, 'startedAt': 't'}}
+        if containers:
+            self.containers.update(containers)
+        self.missions_status, self.digest, self.reads, self.selects = missions_status, digest, [], []
+        self.rows = rows if rows is not None else {}
+
+    def read(self, argv):
+        self.reads.append(argv)
+        if argv[:2] == ['docker', 'ps']:
+            service = argv[-1].rsplit('=', 1)[1]
+            return 0, ('id-' + service) if self.containers.get(service) else ''
+        if argv[:3] == ['docker', 'inspect', '--format']:
+            name = argv[-1][3:] if argv[-1].startswith('id-') else argv[-1]
+            state = self.containers.get(name)
+            return (0, json.dumps(state)) if state else (1, '')
+        raise AssertionError(argv)
+
+    def call(self, argv, env):
+        raise AssertionError('a read-only command ran %s' % argv)
+
+    def http_status(self, url):
+        assert url == launch.MISSIONS_PROBE_URL
+        return self.missions_status
+
+    def hash_folder(self, path):
+        return ('folder', self.digest) if self.digest else ('missing', None)
+
+    def oracle_sql(self):
+        def sql(select, pdb):
+            preflight.sql_script(select, pdb)  # the preflight's own guard: one plain SELECT, read only
+            self.selects.append(select)
+            for marker, rows in self.rows.items():
+                if marker in select:
+                    return list(rows)
+            return []
+        return sql, 'MISSIONS_LAB', 'XEPDB1'
+
+
+ORACLE_ROWS = {'COUNT(*) FROM MISSIONS_LAB.MISSIONS': ['300'], 'COUNT(*) FROM MISSIONS_LAB.MISSION_ASSIGNED_CREW': ['900'],
+               'COUNT(*) FROM MISSIONS_LAB.MISSION_PARTICIPANTS': ['600'], 'COUNT(*) FROM MISSIONS_LAB.MISSION_ASSIGNED_ASSETS': ['450'],
+               'COUNT(*) FROM MISSIONS_LAB.MISSION_CHANGES': ['1200'], 'COUNT(*) FROM MISSIONS_LAB.MISSION_CLOCK': ['1'],
+               'mission_clock': ['1.2|abc|0|2026-10-09T00:00:00.000Z'], 'MAX(current_change_id)': ['1200|2026-10-09T00:00:00.000Z'],
+               'v$instance': ['2026-11-02T07:00:00']}
+
+
+class ReadingCommandTests(StateDir):
+    def run_main(self, *argv, machine=None):
+        lines, err = [], io.StringIO()
+        with redirect_stderr(err):
+            code = launch.main(list(argv) + ['--state-dir', str(self.state)], machine=machine, environ={}, out=lines.append)
+        return code, (json.loads(lines[0]) if lines else None), err.getvalue()
+
+    def test_the_simulator_fingerprint_is_its_release_hash_and_its_container_start(self):
+        machine = ReadingMachine()
+        code, value, err = self.run_main('fingerprint', '--missions', 'simulated', machine=machine)
+        self.assertEqual(code, 0, err)
+        self.assertEqual(value['fingerprint'], 'missions-release-1.2:' + 'd' * 64)
+        self.assertEqual(value['session'], 'missions-stub:2026-11-02T08:00:00Z')
+        self.assertFalse(Path(self.state).exists(), 'a read-only command makes no state folder')
+        machine.containers['missions-stub']['startedAt'] = '2026-11-02T09:00:00Z'
+        self.assertNotEqual(self.run_main('fingerprint', '--missions', 'simulated', machine=machine)[1]['session'], value['session'],
+                            'a restarted simulator is a new session')
+        self.assertEqual(self.run_main('fingerprint', '--missions', 'simulated', machine=ReadingMachine(containers={'missions-stub': None}))[0], 1)
+        self.assertEqual(self.run_main('fingerprint', '--missions', 'simulated', machine=ReadingMachine(digest=None))[0], 1)
+
+    def test_the_simulator_release_hash_is_the_provenance_hash(self):
+        kind, digest = launch.Machine().hash_folder(launch.MISSIONS_RELEASE)
+        self.assertEqual(kind, 'folder')
+        self.assertEqual(digest, make_config.missions_backend('simulated')['dataset']['sha256'])
+
+    def test_the_real_fingerprint_reuses_the_preflight_reading_and_the_instance_start(self):
+        machine = ReadingMachine(rows=ORACLE_ROWS)
+        code, value, err = self.run_main('fingerprint', '--missions', 'real', machine=machine)
+        self.assertEqual(code, 0, err)
+        reading = preflight.read_data_fingerprint(machine.oracle_sql()[0], 'MISSIONS_LAB', 'XEPDB1')
+        self.assertEqual(value['fingerprint'], 'missions-db:' + preflight.fingerprint_sha256(reading))
+        self.assertEqual(value['reading'], reading)
+        self.assertEqual(value['session'], 'oracle-instance:2026-11-02T07:00:00')
+        self.assertTrue(all(s.lstrip().upper().startswith('SELECT') for s in machine.selects))
+        rows = dict(ORACLE_ROWS, mission_clock=[])
+        self.assertEqual(self.run_main('fingerprint', '--missions', 'real', machine=ReadingMachine(rows=rows))[0], 1)
+        rows = {k: v for k, v in ORACLE_ROWS.items() if k != 'v$instance'}
+        self.assertEqual(self.run_main('fingerprint', '--missions', 'real', machine=ReadingMachine(rows=rows))[0], 1)
+
+    def test_health_reports_every_backend_and_exits_0(self):
+        code, value, _ = self.run_main('health', 'gamma', '--missions', 'simulated', machine=ReadingMachine())
+        self.assertEqual(code, 0)
+        self.assertEqual({n: b['up'] for n, b in value['backends'].items()}, {'missions': True, 'assets': True, 'personnel': True})
+        down = ReadingMachine(containers={'assets-service': {'running': True, 'status': 'running', 'health': 'unhealthy', 'startedAt': 't'},
+                                          'personnel-service': None})
+        code, value, _ = self.run_main('health', 'gamma', '--missions', 'simulated', machine=down)
+        self.assertEqual(code, 0)
+        self.assertEqual({n: b['up'] for n, b in value['backends'].items()}, {'missions': True, 'assets': False, 'personnel': False})
+        self.assertIn('unhealthy', value['backends']['assets']['detail'])
+        self.assertFalse(Path(self.state).exists())
+
+    def test_health_of_the_real_service_also_needs_its_get_to_answer(self):
+        machine = ReadingMachine(containers={'missions-stub': None})
+        code, value, _ = self.run_main('health', 'delta', '--missions', 'real', machine=machine)
+        self.assertTrue(value['backends']['missions']['up'])
+        machine.missions_status = 503
+        code, value, _ = self.run_main('health', 'delta', '--missions', 'real', machine=machine)
+        self.assertFalse(value['backends']['missions']['up'])
+        self.assertIn('answered 503', value['backends']['missions']['detail'])
+        stopped = ReadingMachine(containers={launch.MISSIONS_CONTAINER: {'running': False, 'status': 'exited', 'health': None, 'startedAt': 't'}})
+        self.assertFalse(self.run_main('health', 'delta', '--missions', 'real', machine=stopped)[1]['backends']['missions']['up'])
+
+    def test_the_output_is_what_the_harness_reads(self):
+        code, value, _ = self.run_main('health', 'alpha', '--missions', 'simulated', machine=ReadingMachine())
+        self.assertEqual(runner.parse_health(json.dumps(value), ['assets', 'missions', 'personnel'])['missions']['up'], True)
+        code, value, _ = self.run_main('fingerprint', '--missions', 'simulated', machine=ReadingMachine())
+        self.assertEqual(runner.parse_fingerprint(json.dumps(value))['session'], value['session'])
+
+
 class GeneratorTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -395,6 +521,61 @@ class GeneratorTests(unittest.TestCase):
         (self.dir / 'plan.json').write_text(json.dumps({'task_set': 'dev'}), encoding='utf-8')
         code, _, err = self.generate('simulated', output='bad.json')
         self.assertIn('lacks', err)
+
+    def schedule_plan(self, **over):
+        plan = {'schedule': {'design': 'williams-4-half', 'arms': ['beta', 'gamma', 'delta', 'epsilon'], 'reference': 'alpha'},
+                'task_set': 'scored', 'models': ['claude-sonnet-5-5', 'gpt-6.1-sol'], 'seed': 20261027, 'warmup_passes': 3,
+                'limits': {'max_tool_calls': 80},
+                'budgets': {'anthropic': {'tokens': 1, 'dollar_ceiling': 85.0, 'ceiling_basis': 'decision D'}},
+                'harness_tools': ['calculate', 'ask_requester'], 'health_every_runs': 10, 'earlier_study_runs': ['dev-1']}
+        plan.update(over)
+        (self.dir / 'plan.json').write_text(json.dumps(plan), encoding='utf-8')
+        return plan
+
+    def test_a_schedule_plan_writes_the_fingerprint_health_and_corpus(self):
+        plan = self.schedule_plan()
+        code, config, err = self.generate('simulated')
+        self.assertEqual(code, 0, err)
+        for key in make_config.SCHEDULE_PLAN_KEYS + ('harness_tools', 'health_every_runs', 'earlier_study_runs'):
+            self.assertEqual(config[key], plan[key])
+        self.assertNotIn('scenario_order', config)
+        self.assertNotIn('trials', config)
+        self.assertEqual(list(config['scenarios']), ['beta', 'gamma', 'delta', 'epsilon', 'alpha'])
+        self.assertEqual(config['corpus_dir'], str(ROOT / 'study' / 'corpus2'))
+        state = str((self.dir / 'state').resolve())
+        self.assertEqual(config['dataset_fingerprint']['argv'][2:], [str(launch.HERE / 'launch.py'), 'fingerprint', '--missions',
+                                                                      'simulated', '--state-dir', state])
+        for name, scenario in config['scenarios'].items():
+            self.assertEqual(scenario['health']['argv'][2:], [str(launch.HERE / 'launch.py'), 'health', name, '--missions', 'simulated',
+                                                              '--state-dir', state])
+            runner.validate_command(scenario['health'], name)
+        runner.validate_command(config['dataset_fingerprint'], 'fingerprint')
+        path = self.dir / 'config.json'
+        self.assertEqual(runner.load_config(path)['schedule'], plan['schedule'])
+        self.assertEqual(runner.corpus_of(runner.load_config(path)), ROOT / 'study' / 'corpus2')
+
+    def test_a_schedule_plan_refuses_the_study_1_keys_and_a_bad_schedule(self):
+        for over, words in (({'scenario_order': ['alpha']}, 'holds no scenario_order or trials'), ({'trials': 2}, 'holds no scenario_order'),
+                            ({'schedule': {'design': 'latin', 'arms': [], 'reference': 'alpha'}}, 'schedule.design'),
+                            ({'schedule': {'design': 'williams-4-half', 'arms': ['beta', 'gamma', 'delta', 'zeta'], 'reference': 'alpha'}},
+                             'zeta')):
+            self.schedule_plan(**over)
+            code, _, err = self.generate('simulated', output='bad.json')
+            self.assertEqual(code, 1, over)
+            self.assertIn(words, err)
+        plan = self.schedule_plan()
+        del plan['seed']
+        (self.dir / 'plan.json').write_text(json.dumps(plan), encoding='utf-8')
+        self.assertIn('lacks seed', self.generate('simulated', output='bad.json')[2])
+
+    def test_the_corpus_folder_is_recorded(self):
+        code, config, _ = self.generate('simulated')
+        self.assertEqual(config['corpus_dir'], str(ROOT / 'study' / 'corpus'), 'a study-1 plan reads study 1\'s corpus')
+        code, config, _ = self.generate('simulated', '--corpus-dir', str(ROOT / 'study' / 'corpus2'), output='c2.json')
+        self.assertEqual(config['corpus_dir'], str(ROOT / 'study' / 'corpus2'))
+        code, _, err = self.generate('simulated', '--corpus-dir', str(self.dir), output='bad.json')
+        self.assertEqual(code, 1)
+        self.assertIn('no scoring.py', err)
 
     def test_the_config_holds_no_credential(self):
         code, config, _ = self.generate('real')

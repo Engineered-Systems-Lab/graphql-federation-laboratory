@@ -614,6 +614,36 @@ def plan_data(step):
         step.say('compare the fingerprint with the record %s' % Path(step.args.compare_to).name)
 
 
+def read_data_fingerprint(sql, schema, pdb):
+    """The data fingerprint of the Missions schema, read with `sql(select, pdb)` (SELECT only, in a read-only transaction): the row counts
+    of the six tables, the clock row, and the largest change id and lastUpdated. The data step records it, and the launch kit's
+    `launch.py fingerprint` prints its hash at every block start of study 2."""
+    counts = {}
+    for table in TABLES:
+        rows = sql('SELECT COUNT(*) FROM %s.%s' % (schema, table), pdb)
+        counts[table] = int(rows[0]) if rows and rows[0].isdigit() else None
+    clock = sql("SELECT dataset_version||'|'||release_sha256||'|'||counter||'|'||TO_CHAR(baseline,'YYYY-MM-DD\"T\"HH24:MI:SS.FF3\"Z\"') "
+                "FROM %s.mission_clock" % schema, pdb)
+    parts = clock[0].split('|') if clock else []
+    clock_row = dict(zip(('datasetVersion', 'releaseSha256', 'counter', 'baseline'), parts)) if len(parts) == 4 else None
+    tops = sql("SELECT MAX(current_change_id)||'|'||TO_CHAR(MAX(last_updated),'YYYY-MM-DD\"T\"HH24:MI:SS.FF3\"Z\"') FROM %s.missions"
+               % schema, pdb)
+    top_change, top_updated = (tops[0].split('|') + [None, None])[:2] if tops else (None, None)
+    return {'counts': counts, 'clock': clock_row, 'maxCurrentChangeId': top_change, 'maxLastUpdated': top_updated}
+
+
+def fingerprint_sha256(fingerprint):
+    return hashlib.sha256(json.dumps(fingerprint, sort_keys=True).encode('utf-8')).hexdigest()
+
+
+def read_instance_start(sql, pdb):
+    """The start time of the Oracle instance (v$instance), which names one continuous run of the database: the session of study 2."""
+    rows = sql("SELECT TO_CHAR(startup_time,'YYYY-MM-DD\"T\"HH24:MI:SS') FROM v$instance", pdb)
+    if not rows:
+        raise RuntimeError('the instance start time could not be read')
+    return rows[0]
+
+
 def run_data(step):
     env = oracle_environment()
     schema, pdb, login = env['schema'], env['pdb'], login_name(step.args.login)
@@ -621,27 +651,17 @@ def run_data(step):
     step.measurements['expected'] = expected
     step.check('release-file', 'the committed release.json hashes to its manifest entry', expected['committedReleaseSha256'],
                expected['committedReleaseSha256'] == expected['releaseSha256'])
-    counts = {}
-    for table in TABLES:
-        rows = step.sql('SELECT COUNT(*) FROM %s.%s' % (schema, table), pdb)
-        counts[table] = int(rows[0]) if rows and rows[0].isdigit() else None
+    fingerprint = read_data_fingerprint(step.sql, schema, pdb)
+    counts, clock_row = fingerprint['counts'], fingerprint['clock']
     step.measurements['counts'] = counts
     step.check('row-counts', 'the six tables hold the counts of release 1.2', counts, counts == expected['counts'])
-    clock = step.sql("SELECT dataset_version||'|'||release_sha256||'|'||counter||'|'||TO_CHAR(baseline,'YYYY-MM-DD\"T\"HH24:MI:SS.FF3\"Z\"') "
-                     "FROM %s.mission_clock" % schema, pdb)
-    parts = clock[0].split('|') if clock else []
-    clock_row = dict(zip(('datasetVersion', 'releaseSha256', 'counter', 'baseline'), parts)) if len(parts) == 4 else None
     step.measurements['clock'] = clock_row
     step.check('dataset-hash', 'the clock row names release 1.2 and its hash', clock_row,
                bool(clock_row) and clock_row['datasetVersion'] == expected['datasetVersion'] and clock_row['releaseSha256'] == expected['releaseSha256'])
     step.check('clock-unmoved', 'the Missions clock counter is 0: no write since the reset', None if not clock_row else clock_row['counter'],
                None if not clock_row else clock_row['counter'] == '0')
-    tops = step.sql("SELECT MAX(current_change_id)||'|'||TO_CHAR(MAX(last_updated),'YYYY-MM-DD\"T\"HH24:MI:SS.FF3\"Z\"') FROM %s.missions"
-                    % schema, pdb)
-    top_change, top_updated = (tops[0].split('|') + [None, None])[:2] if tops else (None, None)
-    fingerprint = {'counts': counts, 'clock': clock_row, 'maxCurrentChangeId': top_change, 'maxLastUpdated': top_updated}
     step.measurements['fingerprint'] = fingerprint
-    step.measurements['fingerprintSha256'] = hashlib.sha256(json.dumps(fingerprint, sort_keys=True).encode('utf-8')).hexdigest()
+    step.measurements['fingerprintSha256'] = fingerprint_sha256(fingerprint)
     if step.args.compare_to:
         earlier = json.loads(Path(step.args.compare_to).read_text(encoding='utf-8'))
         before = (earlier.get('measurements') or {}).get('fingerprintSha256')

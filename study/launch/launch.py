@@ -3,6 +3,20 @@
     python -B study/launch/launch.py up <scenario> --missions simulated|real --state-dir <folder> [--dry-run]
     python -B study/launch/launch.py down <scenario> --missions simulated|real --state-dir <folder> [--dry-run]
     python -B study/launch/launch.py service stop|start assets|personnel|missions <scenario> --missions simulated|real --state-dir <folder> [--dry-run]
+    python -B study/launch/launch.py fingerprint --missions simulated|real --state-dir <folder>
+    python -B study/launch/launch.py health <scenario> --missions simulated|real --state-dir <folder>
+
+The last two only read, and are the commands the study config names for the harness (make_config.py writes them):
+
+- `fingerprint` prints {"fingerprint": ..., "session": ...}, which the harness checks at every block start of study 2. On the real service
+  the fingerprint is the SHA-256 of the preflight data step's reading of the Missions schema (study/preflight/preflight.py,
+  read_data_fingerprint: the row counts, the clock row, the largest change id and lastUpdated; SELECT only, in a read-only transaction)
+  and the session is the start time of the Oracle instance. On the simulator (decision F5 of the Job study2_build_followups) the
+  fingerprint is the SHA-256 of its dataset release and the session the start time of its container from docker inspect, so a restarted
+  simulator is a new session. It exits 1 when either cannot be read.
+- `health` probes every backend of the scenario (missions, assets, personnel) and prints {"backends": {<name>: {"up": ..., "detail": ...}}}
+  for the harness's void-block rule: a backend is up when its container is running and, where it has a healthcheck, healthy; the real
+  Missions service must also answer GET /missions?pageSize=1. It reads docker inspect and sends that one GET, and exits 0 whatever it finds.
 
 Scenarios are the internal letters alpha to epsilon (study/README.md has the names). Every scenario starts the whole federation stack,
 as study 1 did; epsilon starts the Cosmo router instead of the Apollo one, and alpha and beta also publish the legacy services on their
@@ -25,6 +39,7 @@ needs it: Rover's composition plugin is under the Elastic License 2.0 and the op
 start.sh. Nothing is removed: no rm, no down, no prune.
 """
 import argparse
+import json
 import os
 import re
 import secrets
@@ -77,6 +92,15 @@ ADAPTER_BACKEND_URLS = {
 
 def adapter_backend_env(mode):
     return {variable: urls[mode] for variable, urls in ADAPTER_BACKEND_URLS.values()}
+
+
+# The read-only commands of the harness: the dataset fingerprint and the health of every backend (`fingerprint`, `health`).
+STACK_PROJECT = 'starfleet-federation-stack'
+MISSIONS_RELEASE = ROOT / 'uss-enterprise' / 'missions' / 'datasets' / 'releases' / '1.2'
+SIMULATOR_SERVICE = 'missions-stub'
+HEALTH_BACKENDS = {'missions': {'simulated': SIMULATOR_SERVICE, 'real': None}, 'assets': 'assets-service', 'personnel': 'personnel-service'}
+STATE_FORMAT = ('{"running":{{json .State.Running}},"status":{{json .State.Status}},'
+                '"health":{{if .State.Health}}{{json .State.Health.Status}}{{else}}null{{end}},"startedAt":{{json .State.StartedAt}}}')
 
 # Outage services: the logical names of the corpus, mapped to compose services of the federation stack.
 OUTAGE_SERVICES = {'assets': 'assets-service', 'personnel': 'personnel-service', 'missions': 'missions-stub'}
@@ -261,6 +285,19 @@ class Machine:
     def sleep(self, seconds):
         time.sleep(seconds)
 
+    def oracle_sql(self):
+        """(sql, schema, pdb) of the real Missions database, through the preflight's guarded SQLPlus session (SELECT only)."""
+        sys.path.insert(0, str(ROOT / 'study' / 'preflight'))
+        import preflight  # imported here: preflight imports this module
+        env = preflight.oracle_environment()
+        return preflight.Machine(env['container']).sql, env['schema'], env['pdb']
+
+    def hash_folder(self, path):
+        """The harness's own hash of a dataset folder (study/harness/provenance.py), so it equals the provenance declaration."""
+        sys.path.insert(0, str(ROOT / 'study' / 'harness'))
+        import provenance
+        return provenance.hash_path(path)
+
 
 def check(name, arg, machine, environ, context):
     if name == 'bash':
@@ -336,6 +373,70 @@ def execute(plan, machine, environ, dry_run=False, out=print):
             raise Refused('command failed with exit code %d: %s' % (code, show(argv)))
 
 
+def stack_container(machine, service):
+    """The id of the federation stack's container of one compose service, or None (docker ps by its compose labels, read only)."""
+    code, out = machine.read(['docker', 'ps', '--all', '--quiet', '--filter', 'label=com.docker.compose.project=%s' % STACK_PROJECT,
+                              '--filter', 'label=com.docker.compose.service=%s' % service])
+    ids = out.split() if code == 0 else []
+    return ids[0] if len(ids) == 1 else None
+
+
+def container_state(machine, ref):
+    code, out = machine.read(['docker', 'inspect', '--format', STATE_FORMAT, ref])
+    if code != 0:
+        return None
+    try:
+        return json.loads(out)
+    except ValueError:
+        return None
+
+
+def fingerprint(mode, machine):
+    """{"fingerprint", "session"} of the Missions dataset (see the module text). Raises Refused when it cannot be read."""
+    if mode == 'real':
+        sys.path.insert(0, str(ROOT / 'study' / 'preflight'))
+        import preflight  # imported here: preflight imports this module
+        sql, schema, pdb = machine.oracle_sql()
+        try:
+            reading = preflight.read_data_fingerprint(sql, schema, pdb)
+            started = preflight.read_instance_start(sql, pdb)
+        except Exception as error:
+            raise Refused('the Missions database could not be read: %s' % error)
+        if reading['clock'] is None or any(count is None for count in reading['counts'].values()):
+            raise Refused('the Missions database gave an incomplete reading: %s' % json.dumps(reading, sort_keys=True))
+        return {'fingerprint': 'missions-db:' + preflight.fingerprint_sha256(reading), 'session': 'oracle-instance:' + started,
+                'missions': mode, 'reading': reading}
+    kind, digest = machine.hash_folder(MISSIONS_RELEASE)
+    if kind != 'folder' or not digest:
+        raise Refused('the Missions dataset release 1.2 cannot be read at %s' % MISSIONS_RELEASE)
+    container = stack_container(machine, SIMULATOR_SERVICE)
+    state = container_state(machine, container) if container else None
+    if not state or not state.get('startedAt'):
+        raise Refused('the Missions simulator (%s) has no container to read its start time from' % SIMULATOR_SERVICE)
+    return {'fingerprint': 'missions-release-1.2:' + digest, 'session': '%s:%s' % (SIMULATOR_SERVICE, state['startedAt']), 'missions': mode}
+
+
+def health(scenario, mode, machine):
+    """{"backends": {name: {"up", "detail"}}} of the scenario's three backends (see the module text). Never raises for a backend down."""
+    out = {}
+    for name, service in HEALTH_BACKENDS.items():
+        service = service[mode] if isinstance(service, dict) else service
+        ref = MISSIONS_CONTAINER if service is None else stack_container(machine, service)
+        label = MISSIONS_CONTAINER if service is None else service
+        state = container_state(machine, ref) if ref else None
+        if state is None:
+            out[name] = {'up': False, 'detail': 'no container of %s' % label}
+            continue
+        up = state.get('running') is True and state.get('health') in (None, 'healthy')
+        detail = '%s is %s%s' % (label, state.get('status'), ', health %s' % state['health'] if state.get('health') else '')
+        if up and service is None:
+            status = machine.http_status(MISSIONS_PROBE_URL)
+            up = status == 200
+            detail += ', GET %s answered %s' % (MISSIONS_PROBE_URL, status)
+        out[name] = {'up': up, 'detail': detail}
+    return {'scenario': scenario, 'missions': mode, 'backends': out}
+
+
 def build_parser():
     parser = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     sub = parser.add_subparsers(dest='command', required=True)
@@ -352,6 +453,10 @@ def build_parser():
     service.add_argument('action', choices=('stop', 'start'))
     service.add_argument('service', choices=tuple(OUTAGE_SERVICES))
     common(service)
+    reading = sub.add_parser('fingerprint', help='print the dataset fingerprint and the database session (read only)')
+    reading.add_argument('--missions', choices=MODES, required=True)
+    reading.add_argument('--state-dir', help='accepted for the shape of the other commands; nothing is written')
+    common(sub.add_parser('health', help='print the health of every backend of a scenario (read only)'))
     return parser
 
 
@@ -359,6 +464,17 @@ def main(argv=None, machine=None, environ=None, out=print):
     args = build_parser().parse_args(argv)
     environ = dict(os.environ if environ is None else environ)
     machine = machine or Machine()
+    if args.command in ('fingerprint', 'health'):  # read only: no state folder is made or seeded
+        try:
+            if args.command == 'fingerprint':
+                value = fingerprint(args.missions, machine)
+            else:
+                value = health(args.scenario, args.missions, machine)
+        except Refused as error:
+            print('launch.py: refused: %s' % error, file=sys.stderr)
+            return 1
+        out(json.dumps(value, sort_keys=True))
+        return 0
     try:
         state = args.state_dir or environ.get('STUDY_LAUNCH_STATE_DIR')
         if not state:

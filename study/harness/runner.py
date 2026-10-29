@@ -1119,6 +1119,15 @@ def load_config(path):
     return config
 
 
+def corpus_of(config, given=None):
+    """The corpus folder: --corpus-dir, else the config's `corpus_dir` (make_config.py writes it), else study 1's corpus. A --corpus-dir
+    that names another folder than the config's is refused, so a run never reads a corpus its config does not name."""
+    named = config.get('corpus_dir')
+    if given and named and Path(given).resolve() != Path(named).resolve():
+        raise ValueError('--corpus-dir %s differs from the config\'s corpus_dir %s; give one of them' % (given, named))
+    return Path(given or named or DEFAULT_CORPUS)
+
+
 def make_session_factory(config):
     def factory(scenario, run_id):
         from mcp_client import McpSession
@@ -1132,13 +1141,17 @@ def main(argv=None):
     parser.add_argument('--run-id', required=True, help='the study run id (a folder of LAB_RESULTS_DIR)')
     parser.add_argument('--resume', action='store_true', help='continue a stopped study run: only missing or incomplete runs are executed')
     parser.add_argument('--vendors', nargs='*', help='vendors whose key the run needs (set by the launcher)')
-    parser.add_argument('--corpus-dir', default=str(DEFAULT_CORPUS))
+    parser.add_argument('--corpus-dir', help='the corpus folder (default: the config\'s corpus_dir, else study 1\'s study/corpus)')
     parser.add_argument('--dry-run', action='store_true',
                         help='run the whole protocol with a fake vendor client that only submits an empty answer: no key, no API call, no cost')
     args = parser.parse_args(argv)
     if not args.config:
         parser.error('--config or STUDY_CONFIG is required')
     config = load_config(args.config)
+    try:
+        corpus_dir = corpus_of(config, args.corpus_dir)
+    except ValueError as error:
+        parser.error(str(error))
     models_config = json.loads((HERE / 'models.json').read_text(encoding='utf-8'))
     prices = json.loads((HERE / 'prices.json').read_text(encoding='utf-8'))
     factory = None
@@ -1146,7 +1159,7 @@ def main(argv=None):
         from fakes import FakeVendorClient, submit
         factory = lambda model: FakeVendorClient([lambda s, t, tools: submit({})] * 100000, max_output_tokens=1000, model=model)
     try:
-        study = Study(config, models_config, prices, args.run_id, corpus_dir=args.corpus_dir, session_factory=make_session_factory(config),
+        study = Study(config, models_config, prices, args.run_id, corpus_dir=corpus_dir, session_factory=make_session_factory(config),
                       client_factory=factory)
         for model in config['models']:  # fail early, before any stack starts, when a key is missing
             study.client_for(model)

@@ -1,12 +1,21 @@
 """Write the machine-local study config for every scenario, with its provenance block, outside the repository.
 
     python -B study/launch/make_config.py --output <config.json> --plan <plan.json> --missions simulated|real --state-dir <folder>
-        --mcp-python <python of the MCP virtual environment> --guide-file <guide for beta> [--accept-apollo-elv2] [--replace]
+        --mcp-python <python of the MCP virtual environment> --guide-file <guide for beta> [--corpus-dir <folder>]
+        [--accept-apollo-elv2] [--replace]
 
-The scenarios (alpha to epsilon) come from this kit: each one's stack commands (launch.py up, down and service), its MCP server, its
-warm-up calls and its `provenance` block, with the mode of every backend. The run plan is the operator's: --plan names a JSON file with
-the keys of PLAN_KEYS (task set, scenario order, models, trials, seed, warm-up passes, limits and budgets), copied as given; the kit sets
-no schedule and no budget. The config holds this machine's absolute paths and so is written outside the repository only. It holds no
+The scenarios come from this kit: each one's stack commands (launch.py up, down and service), its MCP server, its warm-up calls, its
+`provenance` block, with the mode of every backend, and its `health` command (launch.py health <scenario>, read only). The run plan is the
+operator's: --plan names a JSON file copied as given, of one of two shapes:
+
+- study 2 (a block schedule): `schedule`, `task_set`, `models`, `seed`, `warmup_passes`, `limits` and `budgets`, and optionally
+  `harness_tools`, `health_every_runs` and `earlier_study_runs`. The scenarios are the schedule's arms and its reference.
+- study 1: `task_set`, `scenario_order`, `models`, `trials`, `seed`, `warmup_passes`, `limits` and `budgets`, and optionally
+  `harness_tools`. The scenarios are those of `scenario_order`.
+
+The kit writes the `dataset_fingerprint` command (launch.py fingerprint, read only) and `corpus_dir`, the corpus the harness reads
+(--corpus-dir, by default study/corpus2 with a schedule and study/corpus without), so the operator passes no --corpus-dir to the
+harness. It sets no budget. The config holds this machine's absolute paths and so is written outside the repository only. It holds no
 credential: the Assets passwords are made by launch.py at each start, and no Missions login is needed.
 """
 import argparse
@@ -19,12 +28,17 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / 'study' / 'harness'))
 import provenance  # noqa: E402  (the harness's own validator and hash, so the generated block is what the harness checks)
+import schedule  # noqa: E402  (the harness's own check of a schedule block)
 
 sys.path.insert(0, str(HERE))
 import launch  # noqa: E402
 
-PLAN_KEYS = ('task_set', 'scenario_order', 'models', 'trials', 'seed', 'warmup_passes', 'limits', 'budgets')
-OPTIONAL_PLAN_KEYS = ('about',)
+COMMON_PLAN_KEYS = ('task_set', 'models', 'seed', 'warmup_passes', 'limits', 'budgets')
+PLAN_KEYS = ('task_set', 'scenario_order', 'models', 'trials', 'seed', 'warmup_passes', 'limits', 'budgets')  # study 1
+SCHEDULE_PLAN_KEYS = ('schedule',) + COMMON_PLAN_KEYS  # study 2
+OPTIONAL_PLAN_KEYS = ('about', 'harness_tools')
+OPTIONAL_SCHEDULE_KEYS = OPTIONAL_PLAN_KEYS + ('health_every_runs', 'earlier_study_runs')
+CORPUS = {True: ROOT / 'study' / 'corpus2', False: ROOT / 'study' / 'corpus'}  # with a schedule, without
 
 # Image names as federation/stack/compose.yaml and uss-enterprise/missions/compose.yaml give them by default (a test pins them).
 IMAGES = {
@@ -157,6 +171,7 @@ def scenario_config(scenario, mode, launch_python, mcp_python, state_dir, guide_
         out['guide_file'] = str(guide_file)
     out['stack'] = stack(scenario, mode, launch_python, mcp_python, state_dir, start_env)
     out['provenance'] = provenance_block(scenario, mode)
+    out['health'] = launch_command(launch_python, state_dir, mode, 'health', scenario)
     return out
 
 
@@ -178,27 +193,50 @@ def read_plan(path):
         raise Refused('the plan %s cannot be read as JSON: %s' % (path, error))
     if not isinstance(plan, dict):
         raise Refused('the plan must be a JSON object')
-    missing = [key for key in PLAN_KEYS if key not in plan]
-    unknown = sorted(set(plan) - set(PLAN_KEYS) - set(OPTIONAL_PLAN_KEYS))
+    with_schedule = 'schedule' in plan
+    keys, optional = (SCHEDULE_PLAN_KEYS, OPTIONAL_SCHEDULE_KEYS) if with_schedule else (PLAN_KEYS, OPTIONAL_PLAN_KEYS)
+    missing = [key for key in keys if key not in plan]
+    unknown = sorted(set(plan) - set(keys) - set(optional))
     if missing:
         raise Refused('the plan lacks %s' % ', '.join(missing))
     if unknown:
-        raise Refused('the plan may hold only %s; this kit writes the rest, so remove %s' % (', '.join(PLAN_KEYS), ', '.join(unknown)))
+        if with_schedule and set(unknown) & {'scenario_order', 'trials'}:
+            raise Refused('a plan with a schedule holds no scenario_order or trials: the schedule decides both, so remove %s'
+                          % ', '.join(sorted(set(unknown) & {'scenario_order', 'trials'})))
+        raise Refused('the plan may hold only %s; this kit writes the rest, so remove %s' % (', '.join(keys + optional), ', '.join(unknown)))
+    if with_schedule:
+        try:
+            schedule.validate(plan['schedule'], launch.SCENARIOS, plan['models'])
+        except ValueError as error:
+            raise Refused(str(error))
+        return plan
     order = plan['scenario_order']
     if not isinstance(order, list) or not order or any(name not in launch.SCENARIOS for name in order) or len(set(order)) != len(order):
         raise Refused('scenario_order must list distinct scenarios among %s' % ', '.join(launch.SCENARIOS))
     return plan
 
 
-def build(plan, mode, launch_python, mcp_python, state_dir, guide_file, accept_elv2=False):
+def scenarios_of(plan):
+    """The scenarios of the plan: the schedule's arms and its reference, or scenario_order."""
+    return schedule.scenarios_of(plan['schedule']) if 'schedule' in plan else list(plan['scenario_order'])
+
+
+def build(plan, mode, launch_python, mcp_python, state_dir, guide_file, accept_elv2=False, corpus_dir=None):
     if mode not in launch.MODES:
         raise Refused('--missions must be one of %s' % ', '.join(launch.MODES))
     start_env = {'APOLLO_ELV2_LICENSE': 'accept'} if accept_elv2 else None
+    with_schedule = 'schedule' in plan
     config = {'about': 'Machine-local study config written by study/launch/make_config.py with the Missions backend %s. It holds '
                        'this machine\'s paths and no credential; do not commit it.' % mode}
-    config.update({key: plan[key] for key in PLAN_KEYS})
+    keys = SCHEDULE_PLAN_KEYS + OPTIONAL_SCHEDULE_KEYS if with_schedule else PLAN_KEYS + OPTIONAL_PLAN_KEYS
+    config.update({key: plan[key] for key in keys if key in plan and key != 'about'})
+    corpus = Path(corpus_dir).resolve() if corpus_dir else CORPUS[with_schedule]
+    if not (corpus / 'scoring.py').is_file():
+        raise Refused('the corpus folder %s has no scoring.py' % corpus)
+    config['corpus_dir'] = str(corpus)
+    config['dataset_fingerprint'] = launch_command(launch_python, state_dir, mode, 'fingerprint')
     config['scenarios'] = {name: scenario_config(name, mode, launch_python, mcp_python, state_dir, guide_file, start_env)
-                           for name in plan['scenario_order']}
+                           for name in scenarios_of(plan)}
     for name, scenario in config['scenarios'].items():
         provenance.validate(name, scenario.get('provenance'))
     config['telemetry'] = {'apollo_router': 'anonymous telemetry off (APOLLO_TELEMETRY_DISABLED)',
@@ -217,13 +255,15 @@ def build(plan, mode, launch_python, mcp_python, state_dir, guide_file, accept_e
 def build_parser():
     parser = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     parser.add_argument('--output', required=True, help='the config file to write, outside the repository')
-    parser.add_argument('--plan', required=True, help='the operator\'s run plan: a JSON object with %s' % ', '.join(PLAN_KEYS))
+    parser.add_argument('--plan', required=True, help='the operator\'s run plan: a JSON object with %s (study 2), or with %s (study 1)'
+                        % (', '.join(SCHEDULE_PLAN_KEYS), ', '.join(PLAN_KEYS)))
     parser.add_argument('--missions', required=True, choices=launch.MODES, help='the Missions backend of every scenario')
     parser.add_argument('--state-dir', required=True, help='launch.py\'s machine-local state folder, outside the repository')
     parser.add_argument('--mcp-python', default=os.environ.get('STUDY_MCP_PYTHON'),
                         help='the Python of the MCP virtual environment (default: STUDY_MCP_PYTHON)')
     parser.add_argument('--launch-python', default=sys.executable, help='the Python that runs launch.py (default: this one)')
     parser.add_argument('--guide-file', required=True, help='the integration guide of beta (Guided Direct Access)')
+    parser.add_argument('--corpus-dir', help='the corpus the harness reads (default: study/corpus2 with a schedule, study/corpus without)')
     parser.add_argument('--accept-apollo-elv2', action='store_true',
                         help='write APOLLO_ELV2_LICENSE=accept into the stack start commands: you accept the Elastic License 2.0 of '
                              'Rover\'s composition plugin')
@@ -244,7 +284,7 @@ def main(argv=None):
         if output.exists() and not args.replace:
             raise Refused('%s exists; give --replace to overwrite it' % output)
         config = build(read_plan(args.plan), args.missions, args.launch_python, args.mcp_python, state_dir, guide,
-                       accept_elv2=args.accept_apollo_elv2)
+                       accept_elv2=args.accept_apollo_elv2, corpus_dir=args.corpus_dir)
         output.parent.mkdir(parents=True, exist_ok=True)
         with open(output, 'w', encoding='utf-8', newline='\n') as handle:
             json.dump(config, handle, indent=2)
