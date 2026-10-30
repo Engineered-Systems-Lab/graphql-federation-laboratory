@@ -4,7 +4,7 @@ Progress records what is verified now, with no task lists and no history; histor
 
 ## Current state
 
-The laboratory was imported from the lab at lab commit `0f9b1dbd416bc90428d2dc1d3e4c700f19dd7e66` into a repository started from the Comitas template at template commit `733f65a11f2d2639c7015f6c4b491712773db50a`; its governance is Comitas release 0.7.2 since commit `51a8835a2fa59b86902c9aa0da10b5a9228b0ee4`; every earlier release is listed in the README's [History and provenance](../README.md#history-and-provenance). The lab stays as the archive of everything not carried. The state below is the one the lab verified at that commit, each part with the devlog entry that records its last checkpoint there; since the import this repository has run the services only in the checks of the runtime commits named below.
+The laboratory was imported from the lab at lab commit `0f9b1dbd416bc90428d2dc1d3e4c700f19dd7e66` into a repository started from the Comitas template at template commit `733f65a11f2d2639c7015f6c4b491712773db50a`; its governance is Comitas release 0.8.0 since commit `046601fbd2078b72de819ef508f15f4821431414`; every earlier release is listed in the README's [History and provenance](../README.md#history-and-provenance). The lab stays as the archive of everything not carried. The state below is the one the lab verified at that commit, each part with the devlog entry that records its last checkpoint there; since the import this repository has run the services only in the checks of the runtime commits named below.
 
 ### The systems
 
