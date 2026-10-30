@@ -7,6 +7,7 @@ It runs, each as its own unittest discovery in its own process:
   corpus    study/corpus   test_corpus.py (the freeze reproduces from the released files; no question leaks)
   mcp       study/mcp      test_mcp_offline.py (the offline tests of the MCP servers; they need the pinned `mcp` package)
   analysis  study/analysis test_*.py    (the analysis scripts on a synthetic fixture and the committed evidence; they need statsmodels and scipy)
+  blind     study/blind    test_*.py    (the blind workers' packages and their leak checks; the request relay on the fakes, with `mcp` when present)
 
 CONVENTION: a study area contributes tests by putting `test_*.py` files directly in its folder and listing the folder in SUITES below. A
 new test file in a listed folder is picked up with no other change. The MCP offline suite needs the `mcp` package, which the interpreter of
@@ -32,6 +33,7 @@ SUITES = [
     ('analysis2', 'analysis2', 'test_*.py', 'stats'),
     ('launch', 'launch', 'test_*.py', 'no'),
     ('preflight', 'preflight', 'test_*.py', 'no'),
+    ('blind', 'blind', 'test_*.py', 'prefer'),
 ]
 PROBES = {'mcp': 'from mcp import Client', 'stats': 'import statsmodels, scipy'}
 NEEDS = {'require': 'the mcp package', 'stats': 'statsmodels and scipy'}

@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "about": "The input packages of study 2's blind workers, built by blind.py from one lab commit. Each package is an explicit allow-list: a lab file enters only when it is named here (a folder entry takes every file Git holds under it), at its lab path. `derived` files are written by the builder from named lab files and recorded in the manifest with their sources. `considered` lists what was read and left out, with the reason.",
+  "packages": {
+    "guide": {
+      "about": "The inputs of the author of the Guided Direct Access guide (decision J): the service contracts, the mapping release files, the tool texts and the service designs and READMEs that specify behaviour (decision I2).",
+      "readme": "study/blind/readme-guide.txt",
+      "include": [
+        {"path": "docs/ASSETS-V1-DESIGN.md", "why": "the Assets service design: record, REST API, paging, errors and contract evolution"},
+        {"path": "docs/CREW-PERSONNEL-V1.md", "why": "the Personnel v1 specification, to which Personnel v2 defers its scalar rules, integer forms and failure profiles"},
+        {"path": "docs/MISSIONS-V1-DESIGN.md", "why": "the Missions service design: model, REST API, media, filters and paging, errors, change log and the releases"},
+        {"path": "docs/PERSONNEL-V2-MISSIONS-IDENTITY-DESIGN.md", "why": "the identity design of Personnel v2 and the Missions C, P and O references (business context of the mapping)"},
+        {"path": "docs/PERSONNEL-V2.md", "why": "the Personnel v2 specification: model, operations, paging, faults and snapshots"},
+        {"dir": "federation/mapping-releases/", "why": "the mapping release files 1.0 to 1.3, which the agents read raw through read_mapping_release"},
+        {"path": "uss-enterprise/assets/README.md", "why": "the Assets service README: what exists, what does not, and how the service runs"},
+        {"path": "uss-enterprise/assets/contracts/assets-v1.0.openapi.json", "why": "the Assets contract 1.0"},
+        {"path": "uss-enterprise/assets/contracts/assets-v1.1.openapi.json", "why": "the Assets contract 1.1, the one the service implements"},
+        {"path": "uss-enterprise/missions/README.md", "why": "the Missions service README: read and write operations, findings, packaging and the releases"},
+        {"path": "uss-enterprise/missions/contracts/missions-v1.0.xsd", "why": "the Missions contract 1.0"},
+        {"path": "uss-enterprise/missions/contracts/missions-v1.1.xsd", "why": "the Missions contract 1.1, the one the service implements"},
+        {"path": "uss-enterprise/personnel-v2/README.md", "why": "the Personnel v2 service README: address, environment and operations"},
+        {"path": "uss-enterprise/personnel-v2/contracts/personnel-v2.wsdl", "why": "the Personnel v2 WSDL"},
+        {"path": "uss-enterprise/personnel-v2/contracts/personnel-v2.xsd", "why": "the Personnel v2 schema, which the WSDL includes"}
+      ],
+      "derived": [
+        {
+          "path": "TOOLS.md",
+          "kind": "tool-texts",
+          "why": "the texts of the tools an agent of this arrangement is given (decision I2): the raw MCP server's tools and their parameters, the harness tools and the MCP README's tool and sandbox sections, each copied without change",
+          "sources": {
+            "raw_server": "study/mcp/raw_server.py",
+            "harness_tools": "study/harness/harness_tools.py",
+            "mcp_readme": "study/mcp/README.md",
+            "mcp_readme_sections": ["What each tool does", "The sandbox"]
+          }
+        }
+      ],
+      "excluded": [
+        "docs/AGENT-STUDY-REPORT.md",
+        "docs/agent-study/",
+        "study/corpus/",
+        "study/corpus2/",
+        "study/evidence/",
+        "study/guide/"
+      ]
+    },
+    "keys-b": {
+      "about": "The inputs of the second, independent derivation of the corpus 2 keys (the keys B worker): the questions, the schemas and the released data the tasks name (corpus 2 README, the handoff to the second deriver).",
+      "readme": "study/blind/readme-keys-b.txt",
+      "include": [
+        {"path": "study/corpus2/ambiguity.json", "why": "the ambiguity set, whose acceptedInterpretations define each accepted reading without its answer"},
+        {"path": "study/corpus2/dev.json", "why": "the development set, rewritten without its expected entries"},
+        {"path": "study/corpus2/pool.json", "why": "the candidate pool of core tasks"},
+        {"path": "study/corpus2/schemas.json", "why": "the answer schemas"},
+        {"dir": "federation/mapping-releases/", "why": "the mapping releases 1.0 to 1.3"},
+        {"dir": "uss-enterprise/assets/datasets/releases/1.1/", "why": "the Assets dataset 1.1"},
+        {"dir": "uss-enterprise/missions/datasets/releases/1.2/", "why": "the Missions release 1.2"},
+        {"dir": "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/", "why": "the Personnel v2 snapshot personnel-v2-large-004"}
+      ],
+      "rewrite": [
+        {"path": "study/corpus2/dev.json", "drop": "expected", "from": "tasks", "why": "the expected entries carry the first derivation's development keys"}
+      ],
+      "excluded": [
+        "study/corpus2/derive_a.py",
+        "study/corpus2/expected.json",
+        "study/corpus2/keys-a.json",
+        "study/corpus2/reference/"
+      ]
+    }
+  },
+  "considered": [
+    {"package": "guide", "path": "docs/AGENT-STUDY-REPORT.md", "why": "study 1's findings"},
+    {"package": "guide", "path": "docs/ARCHITECTURE.md", "why": "the lab's architecture, the federation layer and the later agent layer; no service behaviour of its own"},
+    {"package": "guide", "path": "docs/CREW-PERSONNEL-DATASET-003-DESIGN.md", "why": "the design of a Personnel v1 dataset; v1 is not a service the agents reach"},
+    {"package": "guide", "path": "docs/CREW-PERSONNEL-JAVA-V1-VALIDATION.md", "why": "validation evidence, not a specification"},
+    {"package": "guide", "path": "docs/FEDERATION-DESIGN.md", "why": "the federation layer, and it cites the study"},
+    {"package": "guide", "path": "docs/FUTURE-SOA-BPM-REQUIREMENTS.md", "why": "a future integration layer, not a service the agents reach"},
+    {"package": "guide", "path": "docs/INTEGRATION-NOTES.md", "why": "the integration layer's notes, and they cite the study"},
+    {"package": "guide", "path": "docs/INTERFACE-CONVENTIONS.md", "why": "a dated, non-normative summary whose facts the included designs own; half of it describes the federation layer"},
+    {"package": "guide", "path": "docs/PERSONNEL-V2-VALIDATION.md", "why": "validation evidence, not a specification"},
+    {"package": "guide", "path": "docs/PLAN.md", "why": "the lab's plan, which holds the study design"},
+    {"package": "guide", "path": "docs/PROGRESS.md", "why": "the lab's progress record, which holds study results"},
+    {"package": "guide", "path": "docs/SERVICE-SCRIPTS.md", "why": "the lead developer's read-only shell wrappers, not tools an agent has"},
+    {"package": "guide", "path": "docs/STUDY-2-DESIGN.md", "why": "the study design: the arms, the hypotheses and the tasks' construction"},
+    {"package": "guide", "path": "docs/agent-study/", "why": "study 1's figures"},
+    {"package": "guide", "path": "study/", "why": "the study's own folders (corpora, evidence, study 1's guide, harness, launch kit, preflight); the tool texts come in TOOLS.md"},
+    {"package": "guide", "path": "uss-enterprise/crew-personnel/", "why": "Personnel v1, which is not a service the agents reach; its specification is included for the rules v2 defers to"},
+    {"package": "guide", "path": "uss-enterprise/*/datasets/", "why": "dataset content (decision I2)"},
+    {"package": "keys-b", "path": "study/corpus2/README.md", "why": "not in the handoff list of the corpus 2 README; it describes the first derivation"},
+    {"package": "keys-b", "path": "study/corpus2/scoring.py", "why": "not in the handoff list of the corpus 2 README"},
+    {"package": "keys-b", "path": "study/corpus2/tasks.json", "why": "not in the handoff list; it holds no task before the draw"}
+  ]
+}
