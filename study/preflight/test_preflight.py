@@ -144,12 +144,14 @@ class GuardTests(unittest.TestCase):
             with self.assertRaises(preflight.Refused, msg=query):
                 preflight.assert_query(query)
 
-    def test_http_is_get_to_loopback_and_queries_to_the_routers(self):
+    def test_http_is_get_or_head_to_loopback_and_queries_to_the_routers(self):
         preflight.assert_http('GET', 'http://127.0.0.1:8083/missions')
+        preflight.assert_http('HEAD', 'http://127.0.0.1:8083/missions')
         preflight.assert_http('POST', 'http://127.0.0.1:8170/', json.dumps({'query': '{ __typename }'}).encode('utf-8'))
         for method, url, body in (('GET', 'http://example.org/missions', None), ('GET', 'https://127.0.0.1:8083/', None),
                                   ('POST', 'http://127.0.0.1:8083/missions', b'<mission/>'), ('PUT', 'http://127.0.0.1:8083/missions/x', b''),
-                                  ('DELETE', 'http://127.0.0.1:8083/missions/x', None), ('HEAD', 'http://127.0.0.1:8083/missions', None),
+                                  ('DELETE', 'http://127.0.0.1:8083/missions/x', None), ('HEAD', 'http://127.0.0.1:8083/missions', b'body'),
+                                  ('HEAD', 'http://example.org/missions', None),
                                   ('POST', 'http://127.0.0.1:8170/', json.dumps({'query': 'mutation { x }'}).encode('utf-8')),
                                   ('POST', 'http://127.0.0.1:8170/', b'not json'), ('GET', 'http://127.0.0.1:8083/', b'body')):
             with self.assertRaises(preflight.Refused, msg=(method, url)):
@@ -429,6 +431,21 @@ def missions_page(page, size, total=300):
 def rest(variant):
     def answer(m, method, url, headers, body):
         parts = preflight.urllib.parse.urlsplit(url)
+        if method == 'HEAD':
+            # The real service's route filter answers HEAD with 405, an empty body and the Allow list of the path
+            # (uss-enterprise/missions/README.md; validation/runtime/service/test_read_service.py, test 06). The simulator answers
+            # 501 here: an assumption of this fixture (BaseHTTPRequestHandler without do_HEAD), not an observation.
+            if variant == 'simulated':
+                return 501, {'Server': 'BaseHTTP/0.6 Python/3.13', 'Date': 'now'}, b''
+            segments = parts.path.strip('/').split('/')
+            allow = (None if parts.path.endswith('/') and parts.path != '/' else
+                     'GET, POST' if segments == ['missions'] else
+                     'GET, PUT' if len(segments) == 2 and segments[0] == 'missions' else
+                     'GET' if len(segments) == 3 and segments[0] == 'missions' and segments[2] == 'changes' else None)
+            if allow:
+                return 405, {'Allow': allow, 'Date': 'now'}, b''
+            status, seen, _ = answer(m, 'GET', url, headers, body)
+            return status, seen, b''
         query = dict(preflight.urllib.parse.parse_qsl(parts.query))
         common = {'Content-Type': 'application/xml;charset=UTF-8', 'Date': 'now'}
         if variant == 'simulated':
@@ -455,6 +472,13 @@ class ServiceTests(Base):
         self.assertEqual(self.check(record, 'three-hundred')['result'], 'pass')
         self.assertEqual(record['measurements']['walk']['missions'], 300)
         self.assertEqual(set(record['measurements']['probes']), {p[0] for p in preflight.PROBES})
+        self.assertEqual(set(record['measurements']['headProbes']), {p[0] for p in preflight.PROBES})
+        heads = record['measurements']['headProbes']
+        for probe_id, allow in (('list-size-1', 'GET, POST'), ('one-known', 'GET, PUT'), ('changes-known', 'GET')):
+            self.assertEqual((heads[probe_id]['status'], heads[probe_id]['headers'].get('allow'), heads[probe_id]['bodyBytes']),
+                             (405, allow, 0), probe_id)
+        self.assertEqual(heads['path-unknown']['status'], 404)
+        self.assertNotIn('HEAD is not probed', json.dumps(record))
         self.assertNotIn('date', record['measurements']['probes']['path-unknown']['headers'])
         code, lines = self.run_main(['compare', str(real), str(simulated), '--run'], FakeMachine())
         self.assertEqual(code, 0)
@@ -463,6 +487,9 @@ class ServiceTests(Base):
         aspects = {(d['probe'], d['aspect']) for d in differences}
         self.assertIn(('path-unknown', 'errorCode'), aspects)
         self.assertIn(('path-unknown', 'header server'), aspects)
+        self.assertIn(('list-size-1 HEAD', 'status'), aspects, 'HEAD is compared as GET is')
+        self.assertIn(('list-size-1 HEAD', 'header allow'), aspects)
+        self.assertNotIn(('list-size-1', 'status'), aspects)
         self.assertTrue(all(d['explained'] is None and set(d['affects'].values()) == {None} for d in differences))
         self.assertEqual(set(compare['measurements']['latency']), {'real', 'simulated'})
 
@@ -472,10 +499,30 @@ class ServiceTests(Base):
         code, _ = self.run_main(['compare', real, real, '--run'], FakeMachine())
         self.assertEqual(code, 1)
 
-    def test_only_get_is_sent_to_the_service(self):
+    def test_only_get_and_head_are_sent_to_the_service(self):
         machine = FakeMachine(http=rest('real'))
         self.run_main(['service', '--run', '--target', 'real'], machine)
-        self.assertEqual({call[1] for call in machine.calls if call[0] == 'http'}, {'GET'})
+        calls = [call for call in machine.calls if call[0] == 'http']
+        self.assertEqual({call[1] for call in calls}, {'GET', 'HEAD'})
+        probe_urls = sorted('http://127.0.0.1:8083' + path.replace('{first}', 'ST-000000001') for _, path, _ in preflight.PROBES)
+        self.assertEqual(sorted(call[2] for call in calls if call[1] == 'HEAD'), probe_urls, 'HEAD goes to every probe path, nowhere else')
+
+    def test_a_record_without_head_probes_compares_them_as_missing(self):
+        for target in ('real', 'simulated'):
+            self.run_main(['service', '--run', '--target', target], FakeMachine(http=rest(target)))
+        real, simulated = (sorted(self.results.glob('04-service-%s-*.json' % t))[0] for t in ('real', 'simulated'))
+        old = json.loads(real.read_text(encoding='utf-8'))
+        del old['measurements']['headProbes']
+        differences = preflight.compare_records(old, json.loads(simulated.read_text(encoding='utf-8')))
+        missing = [d for d in differences if d['aspect'] == 'missing']
+        self.assertEqual(len(missing), len(preflight.PROBES))
+        self.assertTrue(all(d['probe'].endswith(' HEAD') for d in missing))
+        other = json.loads(simulated.read_text(encoding='utf-8'))
+        del other['measurements']['headProbes']
+        missing = [d for d in preflight.compare_records(old, other) if d['aspect'] == 'missing']
+        self.assertEqual(sorted(d['probe'] for d in missing), sorted(p[0] + ' HEAD' for p in preflight.PROBES),
+                         'HEAD coverage that neither record has is listed, not skipped')
+        self.assertTrue(all(d['real'] is False and d['simulated'] is False for d in missing))
 
     def test_a_base_url_off_this_machine_is_refused(self):
         code, _ = self.run_main(['service', '--target', 'real', '--base-url', 'http://10.0.0.5:8083'], FakeMachine())

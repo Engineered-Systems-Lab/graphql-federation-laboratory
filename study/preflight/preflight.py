@@ -18,7 +18,7 @@ results folder, which must be outside the repository; a record is never overwrit
 stops and starts services through study/launch/launch.py, and `stack`, which sends read queries to the router and GET requests to
 the Missions service. No step provisions, resets, starts or removes Oracle or the Missions service, writes to Oracle, makes a paid
 request or changes a file of the stack. Docker is called through an allowlist of read-only forms; SQL is SELECT only, in a read-only
-transaction; HTTP is GET only to loopback, plus GraphQL queries (never a mutation) to the router. No credential is read: the one
+transaction; HTTP is GET and HEAD only to loopback, plus GraphQL queries (never a mutation) to the router. No credential is read: the one
 value taken from a container's environment is the service's login name, MISSIONS_DB_USER. Standard library only.
 """
 import argparse
@@ -202,9 +202,9 @@ def assert_query(query):
 
 
 def assert_http(method, url, body=None):
-    """GET to this machine, or a POST of one GraphQL query to a router; nothing else is sent."""
+    """GET or HEAD to this machine, or a POST of one GraphQL query to a router; nothing else is sent."""
     loopback(url)
-    if method == 'GET' and body is None:
+    if method in ('GET', 'HEAD') and body is None:
         return
     if method == 'POST' and url in ROUTER_URLS.values():
         try:
@@ -212,7 +212,7 @@ def assert_http(method, url, body=None):
         except (AttributeError, KeyError, TypeError, ValueError):
             raise Refused('a POST to the router carries one GraphQL query as JSON')
         return
-    raise Refused('only GET requests (and GraphQL queries to the router) are sent, not %s %s' % (method, redact_text(url)))
+    raise Refused('only GET and HEAD requests (and GraphQL queries to the router) are sent, not %s %s' % (method, redact_text(url)))
 
 
 def assert_launch(argv, scenario, mode, state_dir):
@@ -724,7 +724,9 @@ def plan_service(step):
     step.say('walk GET %s/missions?page=1..6&pageSize=50 and count the missions (300 expected)' % base)
     for probe_id, path, headers in PROBES:
         step.say('GET %s%s%s  [%s]' % (base, path, ' with ' + json.dumps(headers) if headers else '', probe_id))
-    step.say('only GET is sent: the requests change nothing in Oracle')
+    for probe_id, path, headers in PROBES:
+        step.say('HEAD %s%s%s  [%s]' % (base, path, ' with ' + json.dumps(headers) if headers else '', probe_id))
+    step.say('only GET and HEAD are sent (the raw MCP tool allows both): the requests change nothing in Oracle')
 
 
 def summary(status, headers, body):
@@ -761,8 +763,14 @@ def run_service(step):
         status, seen, body, seconds = machine.http('GET', url, headers=headers)
         probes[probe_id] = dict(summary(status, seen, body), url=path, seconds=round(seconds, 4))
     step.measurements['probes'] = probes
+    heads = {}  # the same paths with HEAD, which the raw MCP tool also allows (study/mcp/raw_server.py)
+    for probe_id, path, headers in PROBES:
+        url = base + path.replace('{first}', first)
+        step.ran('HEAD ' + url + (' ' + json.dumps(headers) if headers else ''))
+        status, seen, body, seconds = machine.http('HEAD', url, headers=headers)
+        heads[probe_id] = dict(summary(status, seen, body), url=path, seconds=round(seconds, 4))
+    step.measurements['headProbes'] = heads
     step.measurements['target'] = step.args.target
-    step.notes.append('HEAD is not probed: this kit sends GET only, while the raw MCP tool also allows HEAD (study/mcp/raw_server.py).')
 
 
 def compare_records(a, b):
@@ -772,20 +780,27 @@ def compare_records(a, b):
     for key in ('missions', 'totalCount', 'idsSha256'):
         if left['walk'].get(key) != right['walk'].get(key):
             differences.append({'probe': 'walk', 'aspect': key, left['target']: left['walk'].get(key), right['target']: right['walk'].get(key)})
-    for probe_id in sorted(set(left['probes']) | set(right['probes'])):
-        one, two = left['probes'].get(probe_id), right['probes'].get(probe_id)
-        if one is None or two is None:
-            differences.append({'probe': probe_id, 'aspect': 'missing', left['target']: one is not None, right['target']: two is not None})
-            continue
-        for aspect in ('status', 'errorCode', 'paging', 'missionCount'):
-            if one[aspect] != two[aspect]:
-                differences.append({'probe': probe_id, 'aspect': aspect, left['target']: one[aspect], right['target']: two[aspect]})
-        for name in sorted(set(one['headers']) | set(two['headers'])):
-            if one['headers'].get(name) != two['headers'].get(name):
-                differences.append({'probe': probe_id, 'aspect': 'header ' + name, left['target']: one['headers'].get(name),
-                                    right['target']: two['headers'].get(name)})
-        if one['bodySha256'] != two['bodySha256'] and one['status'] == two['status']:
-            differences.append({'probe': probe_id, 'aspect': 'body', left['target']: one['bodySha256'][:12], right['target']: two['bodySha256'][:12]})
+    # GET probes keep their ids; the HEAD probe of the same path is compared the same way, as "<id> HEAD". Every probe this kit sends
+    # is expected in both records, so a probe that one or both records lack (a record made before the HEAD probes has none) is listed
+    # as missing, and coverage that neither record has is never silently skipped.
+    expected = {probe_id for probe_id, _, _ in PROBES}
+    for suffix, field in (('', 'probes'), (' HEAD', 'headProbes')):
+        lefts, rights = left.get(field) or {}, right.get(field) or {}
+        for probe_id in sorted(expected | set(lefts) | set(rights)):
+            one, two, label = lefts.get(probe_id), rights.get(probe_id), probe_id + suffix
+            if one is None or two is None:
+                differences.append({'probe': label, 'aspect': 'missing', left['target']: one is not None, right['target']: two is not None})
+                continue
+            for aspect in ('status', 'errorCode', 'paging', 'missionCount'):
+                if one[aspect] != two[aspect]:
+                    differences.append({'probe': label, 'aspect': aspect, left['target']: one[aspect], right['target']: two[aspect]})
+            for name in sorted(set(one['headers']) | set(two['headers'])):
+                if one['headers'].get(name) != two['headers'].get(name):
+                    differences.append({'probe': label, 'aspect': 'header ' + name, left['target']: one['headers'].get(name),
+                                        right['target']: two['headers'].get(name)})
+            if one['bodySha256'] != two['bodySha256'] and one['status'] == two['status']:
+                differences.append({'probe': label, 'aspect': 'body', left['target']: one['bodySha256'][:12],
+                                    right['target']: two['bodySha256'][:12]})
     for item in differences:
         item.update({'affects': {'contracts': None, 'toolBehaviour': None, 'guideAccuracy': None, 'answerability': None, 'expectedAnswers': None},
                      'evidence': [a.get('label'), b.get('label')], 'fix': None, 'smokeRerun': None, 'explained': None})

@@ -57,6 +57,8 @@ Every arm gets the same calculation tool (see [the tools](#the-tools)), system p
 
 The size columns show where architecture matters, not only on large aggregations.
 
+**Note of 2026-10-29: the category letters of corpus 2.** [Corpus 2](../study/corpus2/README.md#the-categories) labels the categories A to E as study 1 did, F for the ambiguity set and G for pagination and completeness, which this page calls P. The letters are labels only: this note changes no design decision, quota or rule.
+
 **The ambiguity set (6), kept separate.**
 
 - Each task has explicit accepted interpretations, a closed list in which any set of ranks that is a subset of the ranks in the data is accepted, and a fixed scoring rule.

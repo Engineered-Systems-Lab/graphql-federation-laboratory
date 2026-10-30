@@ -8,6 +8,7 @@ The lab compares how well language-model agents answer questions about the USS E
 - [mcp](mcp/README.md): the local MCP servers, one per scenario.
 - [harness](harness/README.md): the agent loop for the two vendors, the scoring and the run manifests.
 - [launch](launch/README.md): the launch kit: each scenario's stack start, stop and outages, with the Missions simulator or the real Missions service, and the generator of the machine-local study config.
+- [preflight](preflight/README.md): the operator preflight of study 2, which measures and records the real Missions service, the stacks and the outages, one explicit step at a time, before any study run uses them.
 - [guide](guide/README.md): the written guide of the second scenario.
 - [analysis](analysis/README.md): the analysis scripts that write every table and figure of the study's report.
 - [evidence](evidence/README.md): the score tables, the run manifests and the bundle and archive checksums of the scored runs.
