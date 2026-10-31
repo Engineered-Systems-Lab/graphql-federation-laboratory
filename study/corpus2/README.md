@@ -17,12 +17,16 @@ The task corpus of [Abstraction ladder study 2](../../docs/STUDY-2-DESIGN.md#the
 | `tasks.json`, `schemas.json`, `expected.json` | The scored corpus as the harness reads it. They hold no task until the draw runs. |
 | `corpus-manifest.json` | The checksums of the derived files and of the released inputs, marked not frozen. The harness records its checksum in every run's manifest. |
 | `derive_a.py` | The first derivation: it authors the tasks and derives every key from the released files, never from a run (`--write` writes, without it compares). It reuses the readers of `federation/acceptance/derive_expected.py`. |
+| `keys-b.json`, `derive_b.py`, `test_derive_b.py` | The second derivation, blind to the first (below), with its own tests, as its author wrote them. |
+| `compare_keys.py` | The comparison of the two derivations and the cases the lead developer decided (below). |
 | `scoring.py` | The scorer, scoring contract 2 of the harness. Standard library only. |
 | `draw.py` | The stratified draw of the 48 scored core tasks, with a recorded seed. Written and tested here, not run. |
 | `reference/` | The scripted reference solutions and their runner (below). |
 | `test_corpus2.py` | The offline tests. |
 
-The second, independent derivation (`derive_b.py`) and the test that compares the two derivations belong to a separate Job, whose author reads the landed questions and the released data and never `derive_a.py`. A disagreement between the two is reported to the lead developer and decided; neither derivation is quietly fixed.
+**The second derivation.** `derive_b.py` and `keys-b.json` were written by a GPT worker in a Codex cloud task with network access off, on a private repository that held only the keys-b package (the questions, `pool.json`, `ambiguity.json`, `dev.json` without its `expected` entries, `schemas.json` and the released data, built from lab commit `6c18afa638ce583dcd79125177ba9a210f5a3686`); it never saw `derive_a.py`, `keys-a.json` or `reference/`. Its commit there, the model, the date and the SHA-256 of both files are in `compare_keys.py` (`B_RECORD`), and the three files are here byte for byte as that task wrote them; neither derivation is edited. B's own format gives, per task, the answer, its basis, every declared variant with its reason and, for the ambiguity set, one answer per accepted interpretation, with the hash of every input and the assumptions it made. `derive_b.py` checks its inputs against the package's `MANIFEST.json`, which is not in the lab, so it and `test_derive_b.py` run only in a copy of the package (copy the package, add the three files to its `study/corpus2/`, run `python -B study/corpus2/derive_b.py` there); the study gate does not run them. `test_corpus2.py` checks instead that B's files are the recorded bytes and that every input B hashed is the lab's file, `dev.json` after the rewrite that dropped its `expected` entries (rebuilt from the lab's file), and apart from the package's own manifest and README, which the package hash covers.
+
+**The comparison.** `compare_keys.py` compares the two on all 90 tasks under the scorer: B's answer must score correct against `keys-a.json`, A's answer must equal B's after the scorer's folding or be one of B's variants, the declared variants are compared as sets, and the ambiguity set is compared per interpretation. Each difference went to the lead developer, who decided it on 2026-10-31; `DECIDED` names them with the decision, each bound to the exact differences and to the SHA-256 of its task and of both keys' entries, and `test_corpus2.py` passes only when the differences found are exactly those, on those same inputs; a changed question, schema or key needs a new decision. Six are both acceptable: one answer that writes null where the other writes an empty list, four tasks whose variants in B the checks of A already accept, and one ambiguity task whose example answer shows another accepted reading. One, a task of the development set where B declares a variant that A rejects, is a question left unclear, to be clarified in a Job of its own. No key, question or derivation was changed.
 
 ## The categories
 
@@ -98,6 +102,7 @@ From the repository root:
 ```sh
 python -B study/corpus2/derive_a.py            # compare with the released files
 python -B study/corpus2/derive_a.py --write    # rewrite the derived files (review the diff)
+python -B study/corpus2/compare_keys.py        # compare keys-a.json with keys-b.json; exit 0 when every difference is decided
 python -B study/corpus2/reference/run_reference.py --arm gamma --fake
 python -B -m unittest discover -s study/corpus2 -p "test_corpus2.py"
 ```

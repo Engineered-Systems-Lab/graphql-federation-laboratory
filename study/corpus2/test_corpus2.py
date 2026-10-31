@@ -7,9 +7,12 @@
 - The draw, on fake answerability reports: quotas and coverage, reproducible from its seed; the corpus files hold no task before it.
 - The reference solutions of every arm, through the runner, on the fakes, outages included.
 - No corpus 2 question appears in any tracked file outside this folder.
-The comparison with the second derivation is added by the Job that writes it.
+- The second derivation (keys-b.json) is the recorded bytes, was derived from the lab's inputs and is correct under keys-a.json on every
+  task, and its differences from keys-a.json are exactly the cases the lead developer decided (compare_keys.py).
 """
 import copy
+import hashlib
+import io
 import json
 import math
 import re
@@ -18,6 +21,7 @@ import sys
 import tempfile
 import unittest
 from collections import Counter
+from contextlib import redirect_stdout
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -691,6 +695,98 @@ class NoLeak(unittest.TestCase):
             text = ' '.join(text.split())
             leaks += ['%s: %s' % (name, f[:60]) for f in fragments if f in text]
         self.assertFalse(leaks, leaks[:10])
+
+
+class TheSecondDerivation(unittest.TestCase):
+    """keys-b.json, the blind second derivation, against keys-a.json (decisions K3 and K4 of the Job study2_corpus_keys_b)."""
+
+    def test_b_is_the_recorded_bytes(self):
+        import compare_keys
+        for name, digest in compare_keys.B_RECORD['sha256'].items():
+            self.assertEqual(compare_keys.lf_sha256(HERE / name), digest, name)
+
+    def test_b_was_derived_from_the_lab_inputs(self):
+        import compare_keys
+        keys_b = load('keys-b.json')
+        self.assertEqual(keys_b['labCommit'], compare_keys.B_RECORD['labCommit'])
+        self.assertEqual(keys_b['packageSha256'], compare_keys.B_RECORD['packageSha256'])
+        self.assertEqual(keys_b['gaps'], [])
+        for path, digest in keys_b['inputs'].items():
+            if path in compare_keys.B_PACKAGE_ONLY_INPUTS:
+                self.assertFalse((REPO / path).exists() and compare_keys.lf_sha256(REPO / path) == digest, path)
+                continue
+            with self.subTest(path=path):
+                if path == compare_keys.B_REWRITTEN_INPUT:
+                    rebuilt = compare_keys.b_dev_input((REPO / path).read_bytes())
+                    self.assertEqual(hashlib.sha256(rebuilt).hexdigest(), digest)
+                    self.assertEqual(json.loads(rebuilt)['tasks'], [{k: v for k, v in t.items() if k != 'expected'} for t in DEV])
+                else:
+                    self.assertEqual(compare_keys.lf_sha256(REPO / path), digest)
+        for name in ('pool.json', 'ambiguity.json', 'dev.json', 'schemas.json'):
+            self.assertIn('study/corpus2/' + name, keys_b['inputs'])
+
+    def test_both_keys_cover_every_task(self):
+        ids = {t['id'] for t in POOL + AMBIGUITY + DEV}
+        self.assertEqual(set(load('keys-b.json')['keys']), ids)
+        self.assertEqual(set(KEYS), ids)
+
+    def test_b_is_correct_under_a_on_every_task(self):
+        keys_b = load('keys-b.json')['keys']
+        for task in POOL + DEV:
+            with self.subTest(task=task['id']):
+                answer = dict(keys_b[task['id']]['answer'])
+                self.assertEqual(scoring.score(answer, task['schema'], KEYS[task['id']], context(task))['outcome'], 'correct')
+        for task in AMBIGUITY:
+            for name, reading in keys_b[task['id']]['interpretations'].items():
+                with self.subTest(task=task['id'], interpretation=name):
+                    result = scoring.score(dict(reading['answer']), task['schema'], KEYS[task['id']], context(task))
+                    self.assertEqual((result['outcome'], result['tags']), ('correct', ['interpretation:' + name]))
+
+    def test_the_differences_are_exactly_the_decided_ones(self):
+        import compare_keys
+        self.assertEqual(compare_keys.undecided(compare_keys.compare()), [])
+        self.assertEqual(sorted(compare_keys.DECIDED), ['C02', 'D04', 'D07', 'D09', 'F02', 'V04', 'V06'])
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(compare_keys.main([]), 0)
+
+    def test_an_undecided_difference_fails_the_comparison(self):
+        import compare_keys
+        keys_b = copy.deepcopy(load('keys-b.json')['keys'])
+        task = next(t for t in POOL if t['id'] not in compare_keys.DECIDED)
+        answer = keys_b[task['id']]['answer']
+        field = next(k for k in task['schema']['properties'] if k not in ('answerStatus', 'unavailableServices', 'complete', 'explanation'))
+        answer[field] = wrong(answer[field])
+        mismatches = compare_keys.undecided(compare_keys.compare(keys_b=keys_b))
+        self.assertEqual([m[0] for m in mismatches], [task['id']])
+        self.assertIn('not decided', mismatches[0][1])
+        self.assertIn('b-not-correct-under-a', mismatches[0][1])
+        decided = dict(compare_keys.DECIDED, A01=compare_keys.DECIDED['D07'])
+        self.assertEqual(compare_keys.undecided(compare_keys.compare(), decided), [('A01', 'decided, but no difference is found any more')])
+
+    def test_a_decision_holds_only_for_the_inputs_it_was_made_on(self):
+        import compare_keys
+        tasks = copy.deepcopy((POOL, AMBIGUITY, DEV))
+        v06 = next(t for t in tasks[2] if t['id'] == 'V06')
+        v06['question'] = v06['question'] + ' Include the types with no such mission.'
+        self.assertEqual(compare_keys.undecided(compare_keys.compare(tasks=tasks)),
+                         [('V06', 'decided on other inputs: task changed since the decision')])
+        keys_b = copy.deepcopy(load('keys-b.json')['keys'])
+        zero = next(group for group in keys_b['V06']['variants'][0]['answer']['types'] if group['missionCount'] == 0)
+        keys_b['V06']['variants'][0]['answer']['types'].remove(zero)
+        self.assertEqual(compare_keys.undecided(compare_keys.compare(keys_b=keys_b)),
+                         [('V06', 'decided on other inputs: keyB changed since the decision')])
+        keys_b = copy.deepcopy(load('keys-b.json')['keys'])
+        keys_b['D04']['variants'] = keys_b['D04']['variants'][:3]
+        mismatches = compare_keys.undecided(compare_keys.compare(keys_b=keys_b))
+        self.assertEqual([m[0] for m in mismatches], ['D04'])
+        self.assertIn('the differences changed', mismatches[0][1])
+
+    def test_the_folding_follows_the_scorer(self):
+        import compare_keys
+        self.assertEqual(compare_keys.fold({'ids': ['b', 'A'], 'n': 2.50, 's': 'Under Way'}),
+                         compare_keys.fold({'s': 'under_way', 'n': 2.5, 'ids': ['a', 'B']}))
+        self.assertNotEqual(compare_keys.fold({'x': None}), compare_keys.fold({'x': []}))
+        self.assertNotEqual(compare_keys.fold(['a', 'a']), compare_keys.fold(['a']))
 
 
 if __name__ == '__main__':

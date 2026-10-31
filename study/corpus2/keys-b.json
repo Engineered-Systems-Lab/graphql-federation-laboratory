@@ -1,0 +1,5008 @@
+{
+  "about": "The second independent derivation of the corpus 2 answer keys.",
+  "assumptions": [
+    {
+      "taskIds": [
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "D07",
+        "D08",
+        "D09",
+        "D10",
+        "D11",
+        "D12",
+        "D13",
+        "D14",
+        "V04"
+      ],
+      "text": "Treat stoppedService as unavailable at answer time despite its snapshot being packaged. ANSWERED reports the available portion, including an empty portion, rather than claiming the enterprise holds no answer. Set complete false and list only a needed stopped service; otherwise answer fully with no unavailable service. Mapping releases remain available independently, but cannot reveal a mission reference when Missions is stopped."
+    },
+    {
+      "taskIds": [
+        "D04",
+        "D09",
+        "V04"
+      ],
+      "text": "The primary outage answer retains every identifier established by the available mission and mapping; unavailable attributes are null. Partial identifier subsets are genuine variants under the outage allowance (explicitly reinforced by the D04 and D09 notes). Null versus empty collections, omitted optional null fields, list permutations and unscored prose are treated as representation choices rather than additional semantic variants."
+    },
+    {
+      "taskIds": [
+        "C02"
+      ],
+      "text": "Use CANNOT_BE_DETERMINED for the primary answer because release 1.0 has no crew mapping. Also include ANSWERED with a null identifier because the existing release yields an empty lookup and the task explicitly accepts either status."
+    },
+    {
+      "taskIds": [
+        "C03"
+      ],
+      "text": "The package is the complete release universe for this task: release 1.4 does not exist here. Return CANNOT_BE_DETERMINED with an empty identifier list; do not substitute a different release."
+    },
+    {
+      "taskIds": [
+        "F01"
+      ],
+      "text": "Count distinct Missions-local references in the groups specified by each accepted interpretation. No mapping release is requested. For this mission the commander, assigned crew and participant references are disjoint, so counting group entries gives the same result."
+    },
+    {
+      "taskIds": [
+        "F03",
+        "F04"
+      ],
+      "text": "Identify the USS Enterprise as AST-0029 from its Assets record. For the aboard-only shuttle interpretation, include descendants at any level; all qualifying shuttles are direct children, so a direct-only reading gives the same answer."
+    },
+    {
+      "taskIds": [
+        "V08"
+      ],
+      "text": "Staff places count distinct local crew references once per mission, including unmapped references. Distinct roster people instead count the union of Personnel IDs actually resolved by release 1.3. This follows the question applying the mapping qualification to roster people rather than staff places."
+    },
+    {
+      "taskIds": [
+        "V06"
+      ],
+      "text": "Read types that occur as types occurring among the qualifying missions, so the primary answer omits zero-count groups. The wording can also mean every type occurring anywhere in the mission dataset; include that reading as a variant with explicit zero counts."
+    }
+  ],
+  "derivation": "B",
+  "gaps": [],
+  "inputs": {
+    "MANIFEST.json": "a8c0adf8988adfe6080ed53de8dc08972d5752aa0808c381a545f0404103e138",
+    "README.md": "12d80f819a726f3e7ab73bb88051038c9201ba190bf067ab6de715bc3c468613",
+    "federation/mapping-releases/1.0/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+    "federation/mapping-releases/1.0/manifest.json": "07e2299af09f72700b555712737c9e8beb08c5a979aad616684dcef108372bb6",
+    "federation/mapping-releases/1.1/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+    "federation/mapping-releases/1.1/crew.json": "a40a0f38ac586a18eac8766bedddd81e6aeec75bb889a37a76a0f412bdde2cb0",
+    "federation/mapping-releases/1.1/manifest.json": "b253299ef7d729f66d438b98aa98e32731af556382b28fec369ce260d71bb1ed",
+    "federation/mapping-releases/1.2/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+    "federation/mapping-releases/1.2/crew.json": "0a7ba75eb79a15535fe077a8d01a1717552c3cb52a882034615489561151cfe3",
+    "federation/mapping-releases/1.2/manifest.json": "6f73cdeb1a09591742bb08177943c82dc63edec4e3ac7a38ad3b475b2333f79c",
+    "federation/mapping-releases/1.2/participants.json": "0ff7e5ed4ac2fcac08c0554b038c04e0eafee11bd3bc62735fc7046b8bcd750e",
+    "federation/mapping-releases/1.3/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+    "federation/mapping-releases/1.3/crew.json": "0a7ba75eb79a15535fe077a8d01a1717552c3cb52a882034615489561151cfe3",
+    "federation/mapping-releases/1.3/manifest.json": "5c2b99f17211abd4add46cddc400b15961608172dd8f62eb56c3683a7639c39d",
+    "federation/mapping-releases/1.3/participants.json": "3802ffdbfa16bd3e1d9bb19c14cfdb636058062b951ae64c4b16e96ec3428e5c",
+    "study/corpus2/ambiguity.json": "01a0a9d97578224ada95afb258101bf6b87f3e04f229efa292d3fd3032abd597",
+    "study/corpus2/dev.json": "d1a7879367f697a064551db01524185dd2c0bf535371fc2dd0010274fd5bbb7e",
+    "study/corpus2/pool.json": "6dc670233ff11c5e419a9bbd41fde052ae1609dd04baf4d72fc0d4954c9234d2",
+    "study/corpus2/schemas.json": "2d653dd738f4314bcecbfa9c7901f9956073faa8780c7fad1c972d34639f492d",
+    "uss-enterprise/assets/datasets/releases/1.1/assets.json": "733fdd51cd4e972b22b9d1b6074ce4b94286ab9680ed53e61babfae9c05ca738",
+    "uss-enterprise/assets/datasets/releases/1.1/curation.json": "ce58d26edcc3760f4dd00f981055cdb07b60518445bc2e89b73b8d478f96d557",
+    "uss-enterprise/assets/datasets/releases/1.1/generate.py": "ef92331ca41818fd97d9f8a1201011e66b6f8993451c9fff5659d2a6641428ad",
+    "uss-enterprise/assets/datasets/releases/1.1/manifest.json": "b59ec52d13e8f71e76f7a4da65f371875172e59e766a5a0c89bed03e3f3d68b7",
+    "uss-enterprise/assets/datasets/releases/1.1/provenance.json": "2a928e899dbcbac0d471efa3351e6c679ed62fa679f3ed95518deb965e4c60ed",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-1.xml": "cf472facb9e8d12e7128990ac43a327b31d076480b50c068400651dbd5a84b9e",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-10.xml": "e464cb2d4001a0d735d56f53d692a449db4c421a0ce82a01778ceccd367ad72c",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-11.xml": "0288ee0bab31182c11fbc9523a676899db38d25fe733949b23debfc7a5fcdad4",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-12.xml": "aeb64796613a4c4a2ddb9b9fd848529c772e5e8bda2986e110884f2b0978d1a4",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-13.xml": "25ed8aa07779a662dc71b046b7ea52b5ba779bfcbbcbb0863c83d299b3e26fd5",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-14.xml": "64eab651c582eb35befceea170a7fae9d0a78fae1295ef42d819339816568a27",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-15.xml": "4c5f93e863fe3ef235973af0435c06dac52e5b2749f2eca9ade48e1d7bc04167",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-16.xml": "30a09695c60a5b9e75ffd149a7f1272737ff9a188f28ebc2b54bc3ff124bdbbd",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-17.xml": "63ff5982c9f1ac1153e035676ee4e81c5c562808d51e6d8631123c7ff2609e5d",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-18.xml": "265ee3c8b99f3d8804695e6d61cd7f22dd26979506471adfe4db87220dfab16b",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-19.xml": "ce2e53825964ca46bab8af3414929fe3e0ca1979fcf7b23e3dd09f99e8ccbd7e",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-2.xml": "f3adeaa2ed2d85cd9500d1f53ec27f0983ac04804d43705ee6c7cee7259dc55b",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-20.xml": "5cc75aaa60f9cc19340c8cdea6ccf83293af67e0d69538abbb7b16aa0705e0be",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-3.xml": "943203e72efda500727c6d4d8ae5e0b4b12627acf8044fd7216ba47df6393c2e",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-4.xml": "e70a701c8835282d805e0041c3894537081014c53d844fdd8cf5bbc37875a16c",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-5.xml": "1ba8b40f044735bed8412d55c47e56cd45c8b733b11bbed28f6d066aa8531be1",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-6.xml": "d0eb25a8659d127425bfa92934df2c30cc78aaa4b07159aeb1be3bfab1480561",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-7.xml": "383fea8fbc946192c1f58015b67f494cc454ecc07af9372ae89163940f5c9dd3",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-8.xml": "cb26107524f4739b639c06f1e6d72d08c472876880ef17ca896d5ed7cfb739fd",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-9.xml": "5d3bf355f0403d07de12228841179ba7873cc4eff59619732049ad14feabc23b",
+    "uss-enterprise/missions/datasets/releases/1.2/civilians.json": "5cf2d13000e05ba2dd8742fd0cdcafa0f2930e59d4568ea3448415ce5115196b",
+    "uss-enterprise/missions/datasets/releases/1.2/generate.py": "bcc000b52dd98d23d2e61c5ac400b6f6492144ee5f9dac930748c1c536bbf4b8",
+    "uss-enterprise/missions/datasets/releases/1.2/load.sql": "c5b67ff633698ddfe216da32100eee07e735be08a2d1415e9b9669f0b6aad74c",
+    "uss-enterprise/missions/datasets/releases/1.2/manifest.json": "ed6a5d764cbd5aab410365cfd0b89bf93712a8d97758852fb6251576477c3664",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-1.xml": "fe16ff54c30689836eff9378a471fb71cedf0505269ec65dc812e04ecc9b01ee",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-2.xml": "3173d43619d7e3c34bc02a6c5d679a989f27f62b12d9f35dc3d3476ecc6c8750",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-3.xml": "da27dd2a076b14007b5ba6ab29a00eb451a8edf4e3c02b44dc0233b033a8b2f8",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-4.xml": "d22090a201acedb7c2b3bdd97916efda2873ceb2346272575a4625c00651e84c",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-5.xml": "8e4245f92abb70ef3fb7e3a04f04635d158083f570c9b8bc9c5512a28a503a61",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-6.xml": "90ada39452706a52ff64513c7b30f89dc9a0da45e9ed05c79c67f6cb8774a19f",
+    "uss-enterprise/missions/datasets/releases/1.2/participants.json": "67980fce78ece4b48bb251fc3efa6718bb29845a06821f017140a971085e4cb6",
+    "uss-enterprise/missions/datasets/releases/1.2/provenance.json": "fcffc623982b9eb0765c239c0ae15967cd3a24171a6c8fdd407c3d296b8925e9",
+    "uss-enterprise/missions/datasets/releases/1.2/recipe.json": "1cbe8390ea1eedb40e289e44f46bb6eb51f45208be4ec947ae001f45147c5b6d",
+    "uss-enterprise/missions/datasets/releases/1.2/release.json": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f",
+    "uss-enterprise/missions/datasets/releases/1.2/schema.sql": "484a9d216dd11f1e547a530b608b0e38ccb26dc8e1fc993a2c7a5454fc43fc21",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/manifest.json": "d44e96b8853290b8423be5fe53dc8270f4e1155a52287ebe30e486c2eae7ef47",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-000.xml": "0d5b60e81d0757eae3b208ee8b6fa04823004bd515d4091cc4f863c4c4ec931e",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-001.xml": "38439a7dcc414e913fbdf1bbcc82c337434cdd116980d6dd190f3bae09250e5d",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-002.xml": "6b98815625ecce7c46e9cdabe7f30caf080fed1364bb09b922456979548a9a7f",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-003.xml": "19a5da376a9fa0ee06126da4d3f253d7f9a8c6353cd31727d991fda3af5a087f",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-004.xml": "f5d1a3d150a78f65675384670c11e0acb4ef78bccb625956f38dec46ef8acb2d",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-005.xml": "b547a2bd06c6f7e18007ef387d756374580f0f7cf1f3586dba8553ce2e59da00",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-006.xml": "bb0035e30909040c2889c1f3140b63d08d40eb68306777af0d3068842d92880c",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-007.xml": "70af8313dafaf6ed98ec17969801922f573014e4170df4b1805a3063abc882ae",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-008.xml": "1a07850589a86f519aa76993e9202b3240dca5a6de722e4871db973a82405aac",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-009.xml": "3fc12bd1afb15d9e3efe3b0bff7ccc3dcf87d73b48fd295b9f58b3e43e1818ff"
+  },
+  "keys": {
+    "A01": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "status": "COMPLETED",
+        "title": "Charting of Vesnex Deep",
+        "type": "EXPLORATION"
+      },
+      "basis": "ST-00000LDBE; direct fields in Missions release 1.2.",
+      "set": "core",
+      "taskId": "A01",
+      "variants": []
+    },
+    "A02": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "classification": "TOP_SECRET",
+        "issuingAuthority": "FEDERATION_COUNCIL",
+        "priority": 2
+      },
+      "basis": "ST-00000LD8J; direct fields in Missions release 1.2.",
+      "set": "core",
+      "taskId": "A02",
+      "variants": []
+    },
+    "A03": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "durationHours": 53,
+        "locationName": "Dranex Deep",
+        "locationType": "DEEP_SPACE"
+      },
+      "basis": "ST-00000LD9E; location and duration in Missions release 1.2.",
+      "set": "core",
+      "taskId": "A03",
+      "variants": []
+    },
+    "A04": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "kind": "SCIENTIFIC_INSTRUMENT",
+        "parentAssetId": "AST-0022",
+        "status": "ACTIVE"
+      },
+      "basis": "AST-0016; direct fields in Assets 1.1.",
+      "set": "core",
+      "taskId": "A04",
+      "variants": []
+    },
+    "A05": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assetIds": [
+          "AST-0001",
+          "AST-0005",
+          "AST-0007",
+          "AST-0008",
+          "AST-0015",
+          "AST-0018",
+          "AST-0019",
+          "AST-0021",
+          "AST-0023",
+          "AST-0024",
+          "AST-0026"
+        ]
+      },
+      "basis": "Assets 1.1 records whose parentAssetId is AST-0029; direct children only.",
+      "set": "core",
+      "taskId": "A05",
+      "variants": []
+    },
+    "A06": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "phasers": [
+          {
+            "assetId": "AST-0008",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0009",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0010",
+            "status": "DECOMMISSIONED"
+          }
+        ]
+      },
+      "basis": "All Assets 1.1 records with kind PHASER.",
+      "set": "core",
+      "taskId": "A06",
+      "variants": []
+    },
+    "A07": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "department": "ENGINEERING",
+        "dutyStatus": "ACTIVE",
+        "rank": "LIEUTENANT"
+      },
+      "basis": "PRS-2167; Personnel snapshot crew details and duty status.",
+      "set": "core",
+      "taskId": "A07",
+      "variants": []
+    },
+    "A08": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "supervisorId": "PRS-2383",
+        "supervisorName": "Hara Ralin",
+        "supervisorRank": "LIEUTENANT"
+      },
+      "basis": "PRS-2382; supervisorPersonnelId followed to PRS-2383.",
+      "set": "core",
+      "taskId": "A08",
+      "variants": []
+    },
+    "A09": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "people": [
+          {
+            "name": "Tasha Yar",
+            "personnelId": "PRS-0006"
+          }
+        ]
+      },
+      "basis": "All ten Personnel pages; dutyStatus DECEASED.",
+      "set": "core",
+      "taskId": "A09",
+      "variants": []
+    },
+    "B01": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "name": "Worf",
+        "personnelId": "PRS-1058",
+        "rank": "LIEUTENANT"
+      },
+      "basis": "ST-00000LDAJ; commandingOfficerId via crew mapping 1.3, then Personnel record.",
+      "set": "core",
+      "taskId": "B01",
+      "variants": []
+    },
+    "B02": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "crew": [
+          {
+            "department": "SCIENCE",
+            "personnelId": "PRS-2415"
+          },
+          {
+            "department": "SCIENCE",
+            "personnelId": "PRS-2453"
+          },
+          {
+            "department": "SCIENCE",
+            "personnelId": "PRS-2465"
+          },
+          {
+            "department": "SCIENCE",
+            "personnelId": "PRS-2481"
+          },
+          {
+            "department": "SCIENCE",
+            "personnelId": "PRS-2488"
+          },
+          {
+            "department": "SCIENCE",
+            "personnelId": "PRS-2495"
+          },
+          {
+            "department": "SCIENCE",
+            "personnelId": "PRS-2497"
+          }
+        ]
+      },
+      "basis": "ST-00000LD8X; specified crew roles, mapping 1.3, distinct Personnel IDs, then requested fields; assets joined through asset mapping where requested.",
+      "set": "core",
+      "taskId": "B02",
+      "variants": []
+    },
+    "B03": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "personnelIds": [
+          "PRS-2381",
+          "PRS-2392",
+          "PRS-2397",
+          "PRS-2407"
+        ]
+      },
+      "basis": "ST-00000LDBX; specified crew roles, mapping 1.3, distinct Personnel IDs, then requested fields; assets joined through asset mapping where requested.",
+      "set": "core",
+      "taskId": "B03",
+      "variants": []
+    },
+    "B04": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "people": [
+          {
+            "dutyStatus": "ACTIVE",
+            "personnelId": "PRS-0002"
+          },
+          {
+            "dutyStatus": "INACTIVE",
+            "personnelId": "PRS-2220"
+          },
+          {
+            "dutyStatus": "ACTIVE",
+            "personnelId": "PRS-2399"
+          },
+          {
+            "dutyStatus": "ACTIVE",
+            "personnelId": "PRS-2409"
+          },
+          {
+            "dutyStatus": "ACTIVE",
+            "personnelId": "PRS-2426"
+          }
+        ]
+      },
+      "basis": "ST-00000LDBO; specified crew roles, mapping 1.3, distinct Personnel IDs, then requested fields; assets joined through asset mapping where requested.",
+      "set": "core",
+      "taskId": "B04",
+      "variants": []
+    },
+    "B05": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0004",
+            "name": "Shuttle sensor suite"
+          },
+          {
+            "assetId": "AST-0024",
+            "name": "Shuttlecraft Sakharov"
+          },
+          {
+            "assetId": "AST-0029",
+            "name": "USS Enterprise NCC-1701-D"
+          }
+        ]
+      },
+      "basis": "ST-00000LD4Z; assigned asset references through mapping 1.3 to Assets 1.1; commander through crew mapping where requested.",
+      "set": "core",
+      "taskId": "B05",
+      "variants": []
+    },
+    "B06": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0025",
+            "status": "DESTROYED"
+          }
+        ]
+      },
+      "basis": "ST-00000LD5K; assigned asset references through mapping 1.3 to Assets 1.1; commander through crew mapping where requested.",
+      "set": "core",
+      "taskId": "B06",
+      "variants": []
+    },
+    "B07": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0004",
+            "parentAssetId": "AST-0023"
+          },
+          {
+            "assetId": "AST-0007",
+            "parentAssetId": "AST-0029"
+          },
+          {
+            "assetId": "AST-0029",
+            "parentAssetId": null
+          }
+        ]
+      },
+      "basis": "ST-00000LD51; assigned asset references through mapping 1.3 to Assets 1.1; commander through crew mapping where requested.",
+      "set": "core",
+      "taskId": "B07",
+      "variants": []
+    },
+    "B08": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assetNames": [
+          "Away-team communications kit",
+          "USS Enterprise NCC-1701-D"
+        ],
+        "commandingOfficerName": "Jean-Luc Picard"
+      },
+      "basis": "ST-00000LD8J; assigned asset references through mapping 1.3 to Assets 1.1; commander through crew mapping where requested.",
+      "set": "core",
+      "taskId": "B08",
+      "variants": []
+    },
+    "B09": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0007",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0029",
+            "status": "ACTIVE"
+          }
+        ],
+        "people": [
+          {
+            "personnelId": "PRS-0001",
+            "rank": "CAPTAIN"
+          },
+          {
+            "personnelId": "PRS-1054",
+            "rank": "LIEUTENANT_COMMANDER"
+          }
+        ]
+      },
+      "basis": "ST-00000LD4R; specified crew roles, mapping 1.3, distinct Personnel IDs, then requested fields; assets joined through asset mapping where requested.",
+      "set": "core",
+      "taskId": "B09",
+      "variants": []
+    },
+    "B10": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4P",
+          "ST-00000LD4R",
+          "ST-00000LD4X",
+          "ST-00000LD51",
+          "ST-00000LD56",
+          "ST-00000LD5B",
+          "ST-00000LD5D",
+          "ST-00000LD5E",
+          "ST-00000LD5F",
+          "ST-00000LD5S",
+          "ST-00000LD5T",
+          "ST-00000LD5U",
+          "ST-00000LD5W",
+          "ST-00000LD5Z",
+          "ST-00000LD61",
+          "ST-00000LD62",
+          "ST-00000LD64",
+          "ST-00000LD66",
+          "ST-00000LD6A",
+          "ST-00000LD6B",
+          "ST-00000LD6D",
+          "ST-00000LD6E",
+          "ST-00000LD6J",
+          "ST-00000LD6K",
+          "ST-00000LD6L",
+          "ST-00000LD6P",
+          "ST-00000LD6V",
+          "ST-00000LD6X",
+          "ST-00000LD72",
+          "ST-00000LD8J",
+          "ST-00000LD8K",
+          "ST-00000LD8R",
+          "ST-00000LD8T",
+          "ST-00000LD9G",
+          "ST-00000LD9J",
+          "ST-00000LD9O",
+          "ST-00000LDA1",
+          "ST-00000LDAD",
+          "ST-00000LDAH",
+          "ST-00000LDAZ",
+          "ST-00000LDB1",
+          "ST-00000LDB3",
+          "ST-00000LDB5",
+          "ST-00000LDB7",
+          "ST-00000LDB8",
+          "ST-00000LDBB",
+          "ST-00000LDBP",
+          "ST-00000LDBZ",
+          "ST-00000LDC0",
+          "ST-00000LDC1",
+          "ST-00000LDCQ",
+          "ST-00000LDCV"
+        ]
+      },
+      "basis": "All missions; commandingOfficerId maps to PRS-0001 in release 1.3.",
+      "set": "core",
+      "taskId": "B10",
+      "variants": []
+    },
+    "B11": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missions": [
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD4U"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD58"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD5M"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD5Y"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD65"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD6S"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD6Z"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2527",
+            "missionId": "ST-00000LD8D"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD8W"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD93"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD9C"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2521",
+            "missionId": "ST-00000LDA2"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2533",
+            "missionId": "ST-00000LDAN"
+          },
+          {
+            "commandingOfficerPersonnelId": null,
+            "missionId": "ST-00000LDAO"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2556",
+            "missionId": "ST-00000LDAW"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LDB9"
+          },
+          {
+            "commandingOfficerPersonnelId": null,
+            "missionId": "ST-00000LDBR"
+          },
+          {
+            "commandingOfficerPersonnelId": null,
+            "missionId": "ST-00000LDBY"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LDCC"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LDCH"
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LDCW"
+          }
+        ]
+      },
+      "basis": "MEDICAL missions; crew mapping 1.3 lookup, null for absent officer or entry.",
+      "set": "core",
+      "taskId": "B11",
+      "variants": []
+    },
+    "B12": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4W",
+          "ST-00000LD5I",
+          "ST-00000LD5K",
+          "ST-00000LD5V",
+          "ST-00000LD5Y",
+          "ST-00000LD67",
+          "ST-00000LD6N",
+          "ST-00000LD6T",
+          "ST-00000LD8D",
+          "ST-00000LD8E",
+          "ST-00000LD8W",
+          "ST-00000LD93",
+          "ST-00000LD9C",
+          "ST-00000LDA2",
+          "ST-00000LDA7",
+          "ST-00000LDAN",
+          "ST-00000LDAO",
+          "ST-00000LDAW",
+          "ST-00000LDB9",
+          "ST-00000LDBG",
+          "ST-00000LDBQ",
+          "ST-00000LDBR",
+          "ST-00000LDBY",
+          "ST-00000LDCC",
+          "ST-00000LDCD",
+          "ST-00000LDCH",
+          "ST-00000LDCW"
+        ]
+      },
+      "basis": "All missions; an assigned asset reference maps to AST-0025 in release 1.3.",
+      "set": "core",
+      "taskId": "B12",
+      "variants": []
+    },
+    "B13": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD53",
+          "ST-00000LD5I",
+          "ST-00000LD5L",
+          "ST-00000LD69",
+          "ST-00000LD6H",
+          "ST-00000LD74",
+          "ST-00000LD75",
+          "ST-00000LD76",
+          "ST-00000LD79",
+          "ST-00000LD7A",
+          "ST-00000LD7B",
+          "ST-00000LD7C",
+          "ST-00000LD7D",
+          "ST-00000LD7F",
+          "ST-00000LD7G",
+          "ST-00000LD7H",
+          "ST-00000LD7I",
+          "ST-00000LD7K",
+          "ST-00000LD7L",
+          "ST-00000LD7M",
+          "ST-00000LD7N",
+          "ST-00000LD7O",
+          "ST-00000LD7Q",
+          "ST-00000LD7S",
+          "ST-00000LD7T",
+          "ST-00000LD7U",
+          "ST-00000LD7V",
+          "ST-00000LD7W",
+          "ST-00000LD7X",
+          "ST-00000LD7Y",
+          "ST-00000LD7Z",
+          "ST-00000LD80",
+          "ST-00000LD81",
+          "ST-00000LD82",
+          "ST-00000LD83",
+          "ST-00000LD84",
+          "ST-00000LD85",
+          "ST-00000LD86",
+          "ST-00000LD88",
+          "ST-00000LD89",
+          "ST-00000LD8A",
+          "ST-00000LD8B",
+          "ST-00000LD8C"
+        ]
+      },
+      "basis": "MAINTENANCE missions with a mapped, held asset of status MISSING.",
+      "set": "core",
+      "taskId": "B13",
+      "variants": []
+    },
+    "B14": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missions": [
+          {
+            "assetCount": 1,
+            "missionId": "ST-00000LD4U"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD4Y"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD58"
+          },
+          {
+            "assetCount": 3,
+            "missionId": "ST-00000LD5K"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD5M"
+          },
+          {
+            "assetCount": 3,
+            "missionId": "ST-00000LD5Y"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD65"
+          },
+          {
+            "assetCount": 3,
+            "missionId": "ST-00000LD6N"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD6S"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD6Z"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD8D"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD8W"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD93"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LD9K"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDA2"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDAN"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDAO"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDAW"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDB2"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDB9"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDBM"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDBR"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDBY"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDCH"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDCM"
+          },
+          {
+            "assetCount": 2,
+            "missionId": "ST-00000LDCW"
+          }
+        ]
+      },
+      "basis": "STARFLEET_MEDICAL missions; count distinct held asset targets of mapping 1.3 per mission.",
+      "set": "core",
+      "taskId": "B14",
+      "variants": []
+    },
+    "B15": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missions": [
+          {
+            "assetCount": 3,
+            "commandingOfficerRank": "COMMANDER",
+            "missionId": "ST-00000LD4S"
+          },
+          {
+            "assetCount": 1,
+            "commandingOfficerRank": "COMMANDER",
+            "missionId": "ST-00000LD4U"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "COMMANDER",
+            "missionId": "ST-00000LD5Q"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "LIEUTENANT_COMMANDER",
+            "missionId": "ST-00000LD6F"
+          },
+          {
+            "assetCount": 1,
+            "commandingOfficerRank": "CAPTAIN",
+            "missionId": "ST-00000LD6L"
+          },
+          {
+            "assetCount": 1,
+            "commandingOfficerRank": "CAPTAIN",
+            "missionId": "ST-00000LD6P"
+          },
+          {
+            "assetCount": 0,
+            "commandingOfficerRank": "CHIEF_PETTY_OFFICER",
+            "missionId": "ST-00000LD7P"
+          },
+          {
+            "assetCount": 1,
+            "commandingOfficerRank": "COMMANDER",
+            "missionId": "ST-00000LD92"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "ENSIGN",
+            "missionId": "ST-00000LD9E"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "LIEUTENANT_COMMANDER",
+            "missionId": "ST-00000LD9Y"
+          },
+          {
+            "assetCount": 1,
+            "commandingOfficerRank": "LIEUTENANT",
+            "missionId": "ST-00000LD9Z"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "COMMANDER",
+            "missionId": "ST-00000LDA4"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "COMMANDER",
+            "missionId": "ST-00000LDA6"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "COMMANDER",
+            "missionId": "ST-00000LDA8"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "COMMANDER",
+            "missionId": "ST-00000LDAE"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "LIEUTENANT_COMMANDER",
+            "missionId": "ST-00000LDAT"
+          },
+          {
+            "assetCount": 1,
+            "commandingOfficerRank": "CAPTAIN",
+            "missionId": "ST-00000LDAZ"
+          },
+          {
+            "assetCount": 1,
+            "commandingOfficerRank": "COMMANDER",
+            "missionId": "ST-00000LDB4"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "CAPTAIN",
+            "missionId": "ST-00000LDBP"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "LIEUTENANT",
+            "missionId": "ST-00000LDCE"
+          },
+          {
+            "assetCount": 1,
+            "commandingOfficerRank": "LIEUTENANT",
+            "missionId": "ST-00000LDCL"
+          },
+          {
+            "assetCount": 2,
+            "commandingOfficerRank": "CAPTAIN",
+            "missionId": "ST-00000LDCV"
+          }
+        ]
+      },
+      "basis": "FAILED missions; commander rank through mapping 1.3 and Personnel, distinct held asset targets per mission.",
+      "set": "core",
+      "taskId": "B15",
+      "variants": []
+    },
+    "C01": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "people": [
+          {
+            "crewReference": "C-6253",
+            "personnelId": null
+          },
+          {
+            "crewReference": "C-71",
+            "personnelId": "PRS-0001"
+          }
+        ]
+      },
+      "basis": "ST-00000LD9G; distinct staff references looked up only in crew mapping 1.1.",
+      "set": "core",
+      "taskId": "C01",
+      "variants": []
+    },
+    "C02": {
+      "answer": {
+        "answerStatus": "CANNOT_BE_DETERMINED",
+        "personnelId": null
+      },
+      "basis": "ST-00000LD5N; mapping 1.0 exists but contains no crew section, so it supplies no Personnel identifier.",
+      "set": "core",
+      "taskId": "C02",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "personnelId": null
+          },
+          "reason": "The existing release can also be answered as an empty mapping result; the task explicitly allows either status when nobody is named."
+        }
+      ]
+    },
+    "C03": {
+      "answer": {
+        "answerStatus": "CANNOT_BE_DETERMINED",
+        "assetIds": []
+      },
+      "basis": "ST-00000LD8Q; the sealed package contains mapping releases 1.0–1.3, with no release 1.4.",
+      "set": "core",
+      "taskId": "C03",
+      "variants": []
+    },
+    "C04": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "references": [
+          {
+            "assetId": "AST-0005",
+            "outcome": "RESOLVED",
+            "reference": "EQ-75"
+          },
+          {
+            "assetId": "AST-0097",
+            "outcome": "UNRESOLVED",
+            "reference": "EQ-97"
+          },
+          {
+            "assetId": "AST-0029",
+            "outcome": "RESOLVED",
+            "reference": "VS-31"
+          }
+        ]
+      },
+      "basis": "ST-00000LD5M; test mapping membership first, then target existence in Assets 1.1.",
+      "set": "core",
+      "taskId": "C04",
+      "variants": []
+    },
+    "C05": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "crewReferences": [
+          "C-10476",
+          "C-9938"
+        ]
+      },
+      "basis": "ST-00000LDCC; staff references absent from crew mapping 1.3.",
+      "set": "core",
+      "taskId": "C05",
+      "variants": []
+    },
+    "C06": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "release11PersonnelId": null,
+        "release13PersonnelId": "PRS-2382"
+      },
+      "basis": "C-1638 looked up independently in crew mappings 1.1 and 1.3.",
+      "set": "core",
+      "taskId": "C06",
+      "variants": []
+    },
+    "C07": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "releases": [
+          "1.1",
+          "1.2",
+          "1.3"
+        ]
+      },
+      "basis": "Presence of crew.json in each packaged mapping release manifest.",
+      "set": "core",
+      "taskId": "C07",
+      "variants": []
+    },
+    "C08": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD54",
+          "ST-00000LD8C",
+          "ST-00000LD8K",
+          "ST-00000LD8N",
+          "ST-00000LD8S",
+          "ST-00000LD8Z",
+          "ST-00000LD90",
+          "ST-00000LD92",
+          "ST-00000LD94",
+          "ST-00000LD9A",
+          "ST-00000LD9P",
+          "ST-00000LD9U",
+          "ST-00000LDAP",
+          "ST-00000LDAZ",
+          "ST-00000LDB0",
+          "ST-00000LDB8",
+          "ST-00000LDBD",
+          "ST-00000LDBV",
+          "ST-00000LDC0",
+          "ST-00000LDC4",
+          "ST-00000LDCB",
+          "ST-00000LDCF",
+          "ST-00000LDCK",
+          "ST-00000LDCN",
+          "ST-00000LDCZ"
+        ]
+      },
+      "basis": "ENTERPRISE_COMMAND missions with any asset reference absent from mapping 1.3.",
+      "set": "core",
+      "taskId": "C08",
+      "variants": []
+    },
+    "C09": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD6E",
+          "ST-00000LDC6",
+          "ST-00000LDCC",
+          "ST-00000LDCX",
+          "ST-00000LDCZ"
+        ]
+      },
+      "basis": "Exactly SECRET missions; any staff reference absent from crew mapping 1.3.",
+      "set": "core",
+      "taskId": "C09",
+      "variants": []
+    },
+    "C10": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD53"
+        ]
+      },
+      "basis": "MAINTENANCE missions with a mapped asset target absent from Assets 1.1.",
+      "set": "core",
+      "taskId": "C10",
+      "variants": []
+    },
+    "C11": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4R",
+          "ST-00000LD4X",
+          "ST-00000LD56",
+          "ST-00000LD5B"
+        ]
+      },
+      "basis": "Nonempty staff of DIPLOMATIC missions; every reference resolves via release 1.1 to Personnel.",
+      "set": "core",
+      "taskId": "C11",
+      "variants": []
+    },
+    "C12": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "resolved": 6,
+        "unmapped": 43,
+        "unresolved": 1
+      },
+      "basis": "ST-00000LDBG; count each assigned reference by mapping membership and target existence.",
+      "set": "core",
+      "taskId": "C12",
+      "variants": []
+    },
+    "D01": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "commandingOfficerName": null,
+        "commandingOfficerRank": null,
+        "complete": false,
+        "status": null,
+        "unavailableServices": [
+          "missions"
+        ]
+      },
+      "basis": "Stopped service: missions. No requested result can be established without that service; unavailable values are null or empty, with complete false.",
+      "set": "core",
+      "taskId": "D01",
+      "variants": []
+    },
+    "D02": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": false,
+        "missionCount": null,
+        "totalEstimatedCost": null,
+        "unavailableServices": [
+          "missions"
+        ]
+      },
+      "basis": "Stopped service: missions. No requested result can be established without that service; unavailable values are null or empty, with complete false.",
+      "set": "core",
+      "taskId": "D02",
+      "variants": []
+    },
+    "D03": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": true,
+        "department": "SECURITY",
+        "rank": "LIEUTENANT",
+        "supervisorId": "PRS-1048",
+        "unavailableServices": []
+      },
+      "basis": "Stopped service: missions. PRS-1058 Personnel fields; Missions is not needed.",
+      "set": "core",
+      "taskId": "D03",
+      "variants": []
+    },
+    "D04": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0005",
+            "status": null
+          },
+          {
+            "assetId": "AST-0029",
+            "status": null
+          },
+          {
+            "assetId": "AST-0097",
+            "status": null
+          }
+        ],
+        "complete": false,
+        "status": "COMPLETED",
+        "title": "Medical emergency: parasite infection of a child",
+        "unavailableServices": [
+          "assets"
+        ]
+      },
+      "basis": "Stopped service: assets. ST-00000LD5M; mission fields and mapping 1.3 target IDs remain available, including targets whose existence cannot be checked; asset statuses are unknown.",
+      "set": "core",
+      "taskId": "D04",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [],
+            "complete": false,
+            "status": "COMPLETED",
+            "title": "Medical emergency: parasite infection of a child",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [
+              {
+                "assetId": "AST-0005",
+                "status": null
+              }
+            ],
+            "complete": false,
+            "status": "COMPLETED",
+            "title": "Medical emergency: parasite infection of a child",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [
+              {
+                "assetId": "AST-0029",
+                "status": null
+              }
+            ],
+            "complete": false,
+            "status": "COMPLETED",
+            "title": "Medical emergency: parasite infection of a child",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [
+              {
+                "assetId": "AST-0097",
+                "status": null
+              }
+            ],
+            "complete": false,
+            "status": "COMPLETED",
+            "title": "Medical emergency: parasite infection of a child",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [
+              {
+                "assetId": "AST-0005",
+                "status": null
+              },
+              {
+                "assetId": "AST-0029",
+                "status": null
+              }
+            ],
+            "complete": false,
+            "status": "COMPLETED",
+            "title": "Medical emergency: parasite infection of a child",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [
+              {
+                "assetId": "AST-0005",
+                "status": null
+              },
+              {
+                "assetId": "AST-0097",
+                "status": null
+              }
+            ],
+            "complete": false,
+            "status": "COMPLETED",
+            "title": "Medical emergency: parasite infection of a child",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [
+              {
+                "assetId": "AST-0029",
+                "status": null
+              },
+              {
+                "assetId": "AST-0097",
+                "status": null
+              }
+            ],
+            "complete": false,
+            "status": "COMPLETED",
+            "title": "Medical emergency: parasite infection of a child",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        }
+      ]
+    },
+    "D05": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": false,
+        "kind": null,
+        "status": null,
+        "unavailableServices": [
+          "assets"
+        ]
+      },
+      "basis": "Stopped service: assets. No requested result can be established without that service; unavailable values are null or empty, with complete false.",
+      "set": "core",
+      "taskId": "D05",
+      "variants": []
+    },
+    "D06": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": false,
+        "missionIds": [],
+        "unavailableServices": [
+          "assets"
+        ]
+      },
+      "basis": "Stopped service: assets. No requested result can be established without that service; unavailable values are null or empty, with complete false.",
+      "set": "core",
+      "taskId": "D06",
+      "variants": []
+    },
+    "D07": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": false,
+        "missions": [
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD4R",
+            "status": "AUTHORIZED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD4V",
+            "status": "PLANNED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD4X",
+            "status": "AUTHORIZED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD56",
+            "status": "AUTHORIZED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD5B",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD5U",
+            "status": "AUTHORIZED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD62",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD64",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD66",
+            "status": "AUTHORIZED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD6A",
+            "status": "AUTHORIZED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD6C",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD6K",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD6X",
+            "status": "AUTHORIZED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD8J",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD8P",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD8T",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD8V",
+            "status": "PLANNED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD99",
+            "status": "POSTPONED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LD9X",
+            "status": "POSTPONED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDA4",
+            "status": "FAILED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDA5",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDAD",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDAH",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDAV",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDBU",
+            "status": "AUTHORIZED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDBW",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDC8",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDCR",
+            "status": "COMPLETED"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDCS",
+            "status": "ACTIVE"
+          },
+          {
+            "assetNames": [],
+            "missionId": "ST-00000LDCV",
+            "status": "FAILED"
+          }
+        ],
+        "unavailableServices": [
+          "assets"
+        ]
+      },
+      "basis": "Stopped service: assets. All DIPLOMATIC mission IDs and statuses are available; no asset names can be established.",
+      "set": "core",
+      "taskId": "D07",
+      "variants": []
+    },
+    "D08": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": true,
+        "name": "Worf",
+        "rank": "LIEUTENANT",
+        "unavailableServices": []
+      },
+      "basis": "Stopped service: assets. ST-00000LD5N commander via mapping 1.3 to Personnel; Assets is not needed.",
+      "set": "core",
+      "taskId": "D08",
+      "variants": []
+    },
+    "D09": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": false,
+        "people": [
+          {
+            "name": null,
+            "personnelId": "PRS-0001",
+            "rank": null
+          },
+          {
+            "name": null,
+            "personnelId": "PRS-1048",
+            "rank": null
+          },
+          {
+            "name": null,
+            "personnelId": "PRS-1054",
+            "rank": null
+          },
+          {
+            "name": null,
+            "personnelId": "PRS-1058",
+            "rank": null
+          }
+        ],
+        "unavailableServices": [
+          "personnel"
+        ]
+      },
+      "basis": "Stopped service: personnel. ST-00000LD4X staff references via mapping 1.3; mapped IDs remain available, names and ranks do not.",
+      "set": "core",
+      "taskId": "D09",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-0001",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-1048",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-1054",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-1058",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-0001",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1048",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-0001",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1054",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-0001",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1058",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-1048",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1054",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-1048",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1058",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-1054",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1058",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-0001",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1048",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1054",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-0001",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1048",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1058",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-0001",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1054",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1058",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "complete": false,
+            "people": [
+              {
+                "name": null,
+                "personnelId": "PRS-1048",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1054",
+                "rank": null
+              },
+              {
+                "name": null,
+                "personnelId": "PRS-1058",
+                "rank": null
+              }
+            ],
+            "unavailableServices": [
+              "personnel"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        }
+      ]
+    },
+    "D10": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": false,
+        "department": null,
+        "rank": null,
+        "unavailableServices": [
+          "personnel"
+        ]
+      },
+      "basis": "Stopped service: personnel. No requested result can be established without that service; unavailable values are null or empty, with complete false.",
+      "set": "core",
+      "taskId": "D10",
+      "variants": []
+    },
+    "D11": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": false,
+        "distinctPeople": null,
+        "unavailableServices": [
+          "personnel"
+        ]
+      },
+      "basis": "Stopped service: personnel. No requested result can be established without that service; unavailable values are null or empty, with complete false.",
+      "set": "core",
+      "taskId": "D11",
+      "variants": []
+    },
+    "D12": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": false,
+        "missions": [
+          {
+            "commandingOfficerPersonnelId": "PRS-0002",
+            "missionId": "ST-00000LD4Q",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-0001",
+            "missionId": "ST-00000LD51",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1049",
+            "missionId": "ST-00000LD5I",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD65",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-0002",
+            "missionId": "ST-00000LD6N",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-0002",
+            "missionId": "ST-00000LD6U",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-0002",
+            "missionId": "ST-00000LD6Y",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-0001",
+            "missionId": "ST-00000LD72",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2208",
+            "missionId": "ST-00000LD75",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1049",
+            "missionId": "ST-00000LD79",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2041",
+            "missionId": "ST-00000LD82",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2251",
+            "missionId": "ST-00000LD87",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1058",
+            "missionId": "ST-00000LD8O",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2205",
+            "missionId": "ST-00000LD8U",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD8W",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1048",
+            "missionId": "ST-00000LD9D",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1053",
+            "missionId": "ST-00000LD9K",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2521",
+            "missionId": "ST-00000LDA2",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-0001",
+            "missionId": "ST-00000LDB1",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-1048",
+            "missionId": "ST-00000LDBI",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2734",
+            "missionId": "ST-00000LDCJ",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2006",
+            "missionId": "ST-00000LDCS",
+            "rank": null
+          },
+          {
+            "commandingOfficerPersonnelId": "PRS-2411",
+            "missionId": "ST-00000LDCT",
+            "rank": null
+          }
+        ],
+        "unavailableServices": [
+          "personnel"
+        ]
+      },
+      "basis": "Stopped service: personnel. ACTIVE mission records and mapping 1.3 provide officer IDs; Personnel ranks are unavailable.",
+      "set": "core",
+      "taskId": "D12",
+      "variants": []
+    },
+    "D13": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0024",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0029",
+            "status": "ACTIVE"
+          }
+        ],
+        "complete": true,
+        "unavailableServices": []
+      },
+      "basis": "Stopped service: personnel. ST-00000LD5J assigned references via mapping 1.3 to Assets 1.1; Personnel is not needed.",
+      "set": "core",
+      "taskId": "D13",
+      "variants": []
+    },
+    "D14": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "complete": true,
+        "members": [
+          {
+            "personnelId": "PRS-1053",
+            "rank": "COMMANDER"
+          },
+          {
+            "personnelId": "PRS-1054",
+            "rank": "LIEUTENANT_COMMANDER"
+          },
+          {
+            "personnelId": "PRS-2520",
+            "rank": "LIEUTENANT_COMMANDER"
+          },
+          {
+            "personnelId": "PRS-2521",
+            "rank": "LIEUTENANT_COMMANDER"
+          },
+          {
+            "personnelId": "PRS-2522",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2523",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2524",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2525",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2526",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2527",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2528",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2529",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2530",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2531",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2532",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2533",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2534",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2535",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2536",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2537",
+            "rank": "LIEUTENANT"
+          },
+          {
+            "personnelId": "PRS-2538",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2539",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2540",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2541",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2542",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2543",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2544",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2545",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2546",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2547",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2548",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2549",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2550",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2551",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2552",
+            "rank": "ENSIGN"
+          },
+          {
+            "personnelId": "PRS-2553",
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "personnelId": "PRS-2554",
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "personnelId": "PRS-2555",
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "personnelId": "PRS-2556",
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "personnelId": "PRS-2557",
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "personnelId": "PRS-2558",
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "personnelId": "PRS-2559",
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "personnelId": "PRS-2560",
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "personnelId": "PRS-2561",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2562",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2563",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2564",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2565",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2566",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2567",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2568",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2569",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2570",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2571",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2572",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2573",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2574",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2575",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2576",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2577",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2578",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2579",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2580",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2581",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2582",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2583",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2584",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2585",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2586",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2587",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2588",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2589",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2590",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2591",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2592",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2593",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2594",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2595",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2596",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2597",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2598",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2599",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2600",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2601",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2602",
+            "rank": "CREWMAN"
+          },
+          {
+            "personnelId": "PRS-2603",
+            "rank": "CREWMAN"
+          }
+        ],
+        "unavailableServices": []
+      },
+      "basis": "Stopped service: missions. All Personnel pages, MEDICAL department; Missions is not needed.",
+      "set": "core",
+      "taskId": "D14",
+      "variants": []
+    },
+    "E01": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "statuses": [
+          {
+            "count": 10,
+            "status": "ACTIVE"
+          },
+          {
+            "count": 1,
+            "status": "MAINTENANCE"
+          }
+        ]
+      },
+      "basis": "Direct children of AST-0029 in Assets 1.1, grouped by status.",
+      "set": "core",
+      "taskId": "E01",
+      "variants": []
+    },
+    "E02": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionCount": 12,
+        "totalEstimatedCost": 1298044.07
+      },
+      "basis": "All missions commanded by C-92; Decimal sum of present estimates; mission count includes missing estimates.",
+      "set": "core",
+      "taskId": "E02",
+      "variants": []
+    },
+    "E03": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "departments": [
+          {
+            "count": 1,
+            "department": "COMMAND"
+          },
+          {
+            "count": 1,
+            "department": "FLIGHT_OPERATIONS"
+          },
+          {
+            "count": 1,
+            "department": "MEDICAL"
+          },
+          {
+            "count": 1,
+            "department": "OPERATIONS"
+          },
+          {
+            "count": 2,
+            "department": "SCIENCE"
+          },
+          {
+            "count": 13,
+            "department": "SECURITY"
+          }
+        ]
+      },
+      "basis": "ST-00000LD9F; specified crew roles, mapping 1.3, distinct Personnel IDs, then requested fields; assets joined through asset mapping where requested.",
+      "set": "core",
+      "taskId": "E03",
+      "variants": []
+    },
+    "E04": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assetCount": 4,
+        "assetIds": [
+          "AST-0004",
+          "AST-0007",
+          "AST-0024",
+          "AST-0029"
+        ]
+      },
+      "basis": "TACTICAL missions; union of distinct held asset targets through mapping 1.3.",
+      "set": "core",
+      "taskId": "E04",
+      "variants": []
+    },
+    "E05": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "distinctPeople": 48
+      },
+      "basis": "Missions commanded by C-99; union of staff Personnel IDs resolved through mapping 1.3.",
+      "set": "core",
+      "taskId": "E05",
+      "variants": []
+    },
+    "E06": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "statuses": [
+          {
+            "count": 6,
+            "status": "ACTIVE"
+          },
+          {
+            "count": 6,
+            "status": "AUTHORIZED"
+          },
+          {
+            "count": 4,
+            "status": "CANCELLED"
+          },
+          {
+            "count": 24,
+            "status": "COMPLETED"
+          },
+          {
+            "count": 8,
+            "status": "FAILED"
+          },
+          {
+            "count": 11,
+            "status": "PLANNED"
+          },
+          {
+            "count": 7,
+            "status": "POSTPONED"
+          }
+        ]
+      },
+      "basis": "STARFLEET_SCIENCE missions grouped by recorded status.",
+      "set": "core",
+      "taskId": "E06",
+      "variants": []
+    },
+    "E07": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "ranks": [
+          {
+            "count": 8,
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "count": 58,
+            "rank": "CREWMAN"
+          },
+          {
+            "count": 35,
+            "rank": "ENSIGN"
+          },
+          {
+            "count": 30,
+            "rank": "LIEUTENANT"
+          },
+          {
+            "count": 2,
+            "rank": "LIEUTENANT_COMMANDER"
+          }
+        ]
+      },
+      "basis": "All Personnel pages; SCIENCE department grouped by recorded rank.",
+      "set": "core",
+      "taskId": "E07",
+      "variants": []
+    },
+    "E08": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "distinctPeople": 348,
+        "topDepartment": "OPERATIONS"
+      },
+      "basis": "Exactly SECRET missions; distinct resolved staff Personnel IDs, counted by department.",
+      "set": "core",
+      "taskId": "E08",
+      "variants": []
+    },
+    "E09": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionCount": 16
+      },
+      "basis": "STARFLEET_COMMAND missions; count once if any held mapped asset has non-ACTIVE status.",
+      "set": "core",
+      "taskId": "E09",
+      "variants": []
+    },
+    "E10": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "officerCount": 9,
+        "rank": "LIEUTENANT"
+      },
+      "basis": "Distinct resolved commanders of STARFLEET_COMMAND missions; count officers per rank.",
+      "set": "core",
+      "taskId": "E10",
+      "variants": []
+    },
+    "E11": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionCount": 67,
+        "totalActualCost": 4620878.4
+      },
+      "basis": "COMPLETED ENTERPRISE_COMMAND missions; Decimal sum of present actual costs; count all selected missions.",
+      "set": "core",
+      "taskId": "E11",
+      "variants": []
+    },
+    "E12": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "authorities": [
+          {
+            "issuingAuthority": "ENTERPRISE_COMMAND",
+            "missionCount": 103,
+            "totalEstimatedCost": 6555106.54
+          },
+          {
+            "issuingAuthority": "FEDERATION_COUNCIL",
+            "missionCount": 19,
+            "totalEstimatedCost": 1234296.02
+          },
+          {
+            "issuingAuthority": "STARFLEET_COMMAND",
+            "missionCount": 63,
+            "totalEstimatedCost": 4674694.23
+          },
+          {
+            "issuingAuthority": "STARFLEET_MEDICAL",
+            "missionCount": 26,
+            "totalEstimatedCost": 2188687.69
+          },
+          {
+            "issuingAuthority": "STARFLEET_SCIENCE",
+            "missionCount": 66,
+            "totalEstimatedCost": 1843985.13
+          },
+          {
+            "issuingAuthority": "STARFLEET_SECURITY",
+            "missionCount": 23,
+            "totalEstimatedCost": 2161919.03
+          }
+        ]
+      },
+      "basis": "All missions grouped by issuingAuthority; Decimal sums with absent estimates contributing zero.",
+      "set": "core",
+      "taskId": "E12",
+      "variants": []
+    },
+    "E13": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "departments": [
+          {
+            "count": 219,
+            "department": "CIVILIAN"
+          },
+          {
+            "count": 20,
+            "department": "COMMAND"
+          },
+          {
+            "count": 220,
+            "department": "ENGINEERING"
+          },
+          {
+            "count": 56,
+            "department": "FLIGHT_OPERATIONS"
+          },
+          {
+            "count": 86,
+            "department": "MEDICAL"
+          },
+          {
+            "count": 145,
+            "department": "OPERATIONS"
+          },
+          {
+            "count": 133,
+            "department": "SCIENCE"
+          },
+          {
+            "count": 121,
+            "department": "SECURITY"
+          }
+        ]
+      },
+      "basis": "All 1,000 Personnel records; crew department, or CIVILIAN for civilian details.",
+      "set": "core",
+      "taskId": "E13",
+      "variants": []
+    },
+    "E14": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "distinctCommanders": 86,
+        "mostCommonRank": "LIEUTENANT"
+      },
+      "basis": "Distinct resolved commanding-officer Personnel IDs across all missions, grouped by rank.",
+      "set": "core",
+      "taskId": "E14",
+      "variants": []
+    },
+    "E15": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0004",
+            "missionCount": 88
+          },
+          {
+            "assetId": "AST-0005",
+            "missionCount": 36
+          },
+          {
+            "assetId": "AST-0006",
+            "missionCount": 47
+          },
+          {
+            "assetId": "AST-0007",
+            "missionCount": 33
+          },
+          {
+            "assetId": "AST-0024",
+            "missionCount": 56
+          },
+          {
+            "assetId": "AST-0025",
+            "missionCount": 27
+          },
+          {
+            "assetId": "AST-0029",
+            "missionCount": 201
+          }
+        ]
+      },
+      "basis": "Mapping 1.3 to held assets; each mission contributes once per distinct asset target.",
+      "set": "core",
+      "taskId": "E15",
+      "variants": []
+    },
+    "E16": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionCount": 12,
+        "missionIds": [
+          "ST-00000LD8D",
+          "ST-00000LD8G",
+          "ST-00000LD90",
+          "ST-00000LD9R",
+          "ST-00000LDA3",
+          "ST-00000LDAA",
+          "ST-00000LDAH",
+          "ST-00000LDBO",
+          "ST-00000LDBZ",
+          "ST-00000LDC2",
+          "ST-00000LDC8",
+          "ST-00000LDCX"
+        ]
+      },
+      "basis": "All missions; any resolved staff member with non-ACTIVE Personnel duty status, one count per mission.",
+      "set": "core",
+      "taskId": "E16",
+      "variants": []
+    },
+    "F01": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "interpretation": {
+          "countedGroups": [
+            "COMMANDING_OFFICER",
+            "ASSIGNED_CREW"
+          ]
+        },
+        "peopleCount": 4
+      },
+      "basis": "ST-00000LD8Q; union of local person references in exactly the groups in each interpretation.",
+      "interpretations": {
+        "assigned-crew-only": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "countedGroups": [
+                "ASSIGNED_CREW"
+              ]
+            },
+            "peopleCount": 3
+          }
+        },
+        "staff": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "countedGroups": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            },
+            "peopleCount": 4
+          }
+        },
+        "staff-and-participants": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "countedGroups": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW",
+                "PARTICIPANTS"
+              ]
+            },
+            "peopleCount": 7
+          }
+        }
+      },
+      "set": "ambiguity",
+      "taskId": "F01",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "countedGroups": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW",
+                "PARTICIPANTS"
+              ]
+            },
+            "peopleCount": 7
+          },
+          "reason": "Equally accepted reading: staff-and-participants; its exact definition is recorded in interpretation."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "countedGroups": [
+                "ASSIGNED_CREW"
+              ]
+            },
+            "peopleCount": 3
+          },
+          "reason": "Equally accepted reading: assigned-crew-only; its exact definition is recorded in interpretation."
+        }
+      ]
+    },
+    "F02": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "cost": 116398.79,
+        "interpretation": {
+          "costBasis": "ESTIMATED"
+        }
+      },
+      "basis": "ST-00000LD6Q; estimatedCostCredits or actualCostCredits according to costBasis.",
+      "interpretations": {
+        "actual": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "cost": 35385.23,
+            "interpretation": {
+              "costBasis": "ACTUAL"
+            }
+          }
+        },
+        "estimated": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "cost": 116398.79,
+            "interpretation": {
+              "costBasis": "ESTIMATED"
+            }
+          }
+        }
+      },
+      "set": "ambiguity",
+      "taskId": "F02",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "cost": 35385.23,
+            "interpretation": {
+              "costBasis": "ACTUAL"
+            }
+          },
+          "reason": "Equally accepted reading: actual; its exact definition is recorded in interpretation."
+        }
+      ]
+    },
+    "F03": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assetIds": [
+          "AST-0001",
+          "AST-0005",
+          "AST-0007",
+          "AST-0008",
+          "AST-0015",
+          "AST-0018",
+          "AST-0019",
+          "AST-0021",
+          "AST-0023",
+          "AST-0024",
+          "AST-0026"
+        ],
+        "interpretation": {
+          "scope": "DIRECTLY_ABOARD"
+        }
+      },
+      "basis": "Assets 1.1 parentAssetId links below AST-0029; direct children or transitive descendants.",
+      "interpretations": {
+        "at-any-level": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assetIds": [
+              "AST-0001",
+              "AST-0004",
+              "AST-0005",
+              "AST-0007",
+              "AST-0008",
+              "AST-0009",
+              "AST-0011",
+              "AST-0015",
+              "AST-0018",
+              "AST-0019",
+              "AST-0021",
+              "AST-0023",
+              "AST-0024",
+              "AST-0026"
+            ],
+            "interpretation": {
+              "scope": "AT_ANY_LEVEL"
+            }
+          }
+        },
+        "directly-aboard": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assetIds": [
+              "AST-0001",
+              "AST-0005",
+              "AST-0007",
+              "AST-0008",
+              "AST-0015",
+              "AST-0018",
+              "AST-0019",
+              "AST-0021",
+              "AST-0023",
+              "AST-0024",
+              "AST-0026"
+            ],
+            "interpretation": {
+              "scope": "DIRECTLY_ABOARD"
+            }
+          }
+        }
+      },
+      "set": "ambiguity",
+      "taskId": "F03",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assetIds": [
+              "AST-0001",
+              "AST-0004",
+              "AST-0005",
+              "AST-0007",
+              "AST-0008",
+              "AST-0009",
+              "AST-0011",
+              "AST-0015",
+              "AST-0018",
+              "AST-0019",
+              "AST-0021",
+              "AST-0023",
+              "AST-0024",
+              "AST-0026"
+            ],
+            "interpretation": {
+              "scope": "AT_ANY_LEVEL"
+            }
+          },
+          "reason": "Equally accepted reading: at-any-level; its exact definition is recorded in interpretation."
+        }
+      ]
+    },
+    "F04": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assetIds": [
+          "AST-0023",
+          "AST-0024",
+          "AST-0027"
+        ],
+        "interpretation": {
+          "onlyAboardTheEnterprise": false,
+          "statusesCounted": [
+            "ACTIVE"
+          ]
+        }
+      },
+      "basis": "Assets 1.1 SHUTTLE records; accepted status set and, when required, ancestry below AST-0029.",
+      "interpretations": {
+        "active": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assetIds": [
+              "AST-0023",
+              "AST-0024",
+              "AST-0027"
+            ],
+            "interpretation": {
+              "onlyAboardTheEnterprise": false,
+              "statusesCounted": [
+                "ACTIVE"
+              ]
+            }
+          }
+        },
+        "active-and-aboard-the-enterprise": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assetIds": [
+              "AST-0023",
+              "AST-0024"
+            ],
+            "interpretation": {
+              "onlyAboardTheEnterprise": true,
+              "statusesCounted": [
+                "ACTIVE"
+              ]
+            }
+          }
+        },
+        "active-or-in-maintenance": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assetIds": [
+              "AST-0023",
+              "AST-0024",
+              "AST-0026",
+              "AST-0027"
+            ],
+            "interpretation": {
+              "onlyAboardTheEnterprise": false,
+              "statusesCounted": [
+                "ACTIVE",
+                "MAINTENANCE"
+              ]
+            }
+          }
+        }
+      },
+      "set": "ambiguity",
+      "taskId": "F04",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assetIds": [
+              "AST-0023",
+              "AST-0024",
+              "AST-0026",
+              "AST-0027"
+            ],
+            "interpretation": {
+              "onlyAboardTheEnterprise": false,
+              "statusesCounted": [
+                "ACTIVE",
+                "MAINTENANCE"
+              ]
+            }
+          },
+          "reason": "Equally accepted reading: active-or-in-maintenance; its exact definition is recorded in interpretation."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assetIds": [
+              "AST-0023",
+              "AST-0024"
+            ],
+            "interpretation": {
+              "onlyAboardTheEnterprise": true,
+              "statusesCounted": [
+                "ACTIVE"
+              ]
+            }
+          },
+          "reason": "Equally accepted reading: active-and-aboard-the-enterprise; its exact definition is recorded in interpretation."
+        }
+      ]
+    },
+    "F05": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "interpretation": {
+          "includesCommandingOfficer": true,
+          "officerRanks": [
+            "CAPTAIN",
+            "COMMANDER",
+            "LIEUTENANT_COMMANDER",
+            "LIEUTENANT",
+            "ENSIGN"
+          ]
+        },
+        "personnelIds": [
+          "PRS-2006",
+          "PRS-2055",
+          "PRS-2056"
+        ]
+      },
+      "basis": "ST-00000LDCS; assigned crew, optionally commander, mapped through release 1.3 and filtered by accepted Personnel ranks.",
+      "interpretations": {
+        "ensign-and-above-assigned-crew-only": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "includesCommandingOfficer": false,
+              "officerRanks": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT",
+                "ENSIGN"
+              ]
+            },
+            "personnelIds": [
+              "PRS-2055",
+              "PRS-2056"
+            ]
+          }
+        },
+        "ensign-and-above-with-commanding-officer": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "includesCommandingOfficer": true,
+              "officerRanks": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT",
+                "ENSIGN"
+              ]
+            },
+            "personnelIds": [
+              "PRS-2006",
+              "PRS-2055",
+              "PRS-2056"
+            ]
+          }
+        },
+        "lieutenant-and-above-assigned-crew-only": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "includesCommandingOfficer": false,
+              "officerRanks": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT"
+              ]
+            },
+            "personnelIds": []
+          }
+        },
+        "lieutenant-and-above-with-commanding-officer": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "includesCommandingOfficer": true,
+              "officerRanks": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT"
+              ]
+            },
+            "personnelIds": [
+              "PRS-2006"
+            ]
+          }
+        }
+      },
+      "set": "ambiguity",
+      "taskId": "F05",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "includesCommandingOfficer": false,
+              "officerRanks": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT",
+                "ENSIGN"
+              ]
+            },
+            "personnelIds": [
+              "PRS-2055",
+              "PRS-2056"
+            ]
+          },
+          "reason": "Equally accepted reading: ensign-and-above-assigned-crew-only; its exact definition is recorded in interpretation."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "includesCommandingOfficer": true,
+              "officerRanks": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT"
+              ]
+            },
+            "personnelIds": [
+              "PRS-2006"
+            ]
+          },
+          "reason": "Equally accepted reading: lieutenant-and-above-with-commanding-officer; its exact definition is recorded in interpretation."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "includesCommandingOfficer": false,
+              "officerRanks": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT"
+              ]
+            },
+            "personnelIds": []
+          },
+          "reason": "Equally accepted reading: lieutenant-and-above-assigned-crew-only; its exact definition is recorded in interpretation."
+        }
+      ]
+    },
+    "F06": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "interpretation": {
+          "completedOnly": false,
+          "roles": [
+            "COMMANDING_OFFICER",
+            "ASSIGNED_CREW"
+          ]
+        },
+        "missionId": "ST-00000LDC1"
+      },
+      "basis": "All Missions release 1.2 records with C-554 in accepted roles and statuses; maximum Decimal stardate, uniquely attained in each reading.",
+      "interpretations": {
+        "any-role-any-status": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "completedOnly": false,
+              "roles": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            },
+            "missionId": "ST-00000LDC1"
+          }
+        },
+        "any-role-completed-only": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "completedOnly": true,
+              "roles": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            },
+            "missionId": "ST-00000LDC1"
+          }
+        },
+        "commanded-any-status": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "completedOnly": false,
+              "roles": [
+                "COMMANDING_OFFICER"
+              ]
+            },
+            "missionId": "ST-00000LDAY"
+          }
+        },
+        "commanded-completed-only": {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "completedOnly": true,
+              "roles": [
+                "COMMANDING_OFFICER"
+              ]
+            },
+            "missionId": "ST-00000LD8B"
+          }
+        }
+      },
+      "set": "ambiguity",
+      "taskId": "F06",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "completedOnly": true,
+              "roles": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            },
+            "missionId": "ST-00000LDC1"
+          },
+          "reason": "Equally accepted reading: any-role-completed-only; its exact definition is recorded in interpretation."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "completedOnly": false,
+              "roles": [
+                "COMMANDING_OFFICER"
+              ]
+            },
+            "missionId": "ST-00000LDAY"
+          },
+          "reason": "Equally accepted reading: commanded-any-status; its exact definition is recorded in interpretation."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "interpretation": {
+              "completedOnly": true,
+              "roles": [
+                "COMMANDING_OFFICER"
+              ]
+            },
+            "missionId": "ST-00000LD8B"
+          },
+          "reason": "Equally accepted reading: commanded-completed-only; its exact definition is recorded in interpretation."
+        }
+      ]
+    },
+    "G01": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4P",
+          "ST-00000LD4T",
+          "ST-00000LD4W",
+          "ST-00000LD4Y",
+          "ST-00000LD4Z",
+          "ST-00000LD52",
+          "ST-00000LD53",
+          "ST-00000LD54",
+          "ST-00000LD55",
+          "ST-00000LD58",
+          "ST-00000LD59",
+          "ST-00000LD5A",
+          "ST-00000LD5B",
+          "ST-00000LD5C",
+          "ST-00000LD5E",
+          "ST-00000LD5H",
+          "ST-00000LD5J",
+          "ST-00000LD5K",
+          "ST-00000LD5L",
+          "ST-00000LD5M",
+          "ST-00000LD5N",
+          "ST-00000LD5O",
+          "ST-00000LD5R",
+          "ST-00000LD5S",
+          "ST-00000LD5T",
+          "ST-00000LD5V",
+          "ST-00000LD5W",
+          "ST-00000LD5X",
+          "ST-00000LD5Y",
+          "ST-00000LD5Z",
+          "ST-00000LD60",
+          "ST-00000LD62",
+          "ST-00000LD64",
+          "ST-00000LD67",
+          "ST-00000LD69",
+          "ST-00000LD6B",
+          "ST-00000LD6C",
+          "ST-00000LD6D",
+          "ST-00000LD6E",
+          "ST-00000LD6G",
+          "ST-00000LD6H",
+          "ST-00000LD6I",
+          "ST-00000LD6J",
+          "ST-00000LD6K",
+          "ST-00000LD6R",
+          "ST-00000LD6V",
+          "ST-00000LD6Z",
+          "ST-00000LD70",
+          "ST-00000LD74",
+          "ST-00000LD76",
+          "ST-00000LD77",
+          "ST-00000LD78",
+          "ST-00000LD7A",
+          "ST-00000LD7B",
+          "ST-00000LD7E",
+          "ST-00000LD7F",
+          "ST-00000LD7G",
+          "ST-00000LD7H",
+          "ST-00000LD7J",
+          "ST-00000LD7M",
+          "ST-00000LD7N",
+          "ST-00000LD7O",
+          "ST-00000LD7Q",
+          "ST-00000LD7R",
+          "ST-00000LD7S",
+          "ST-00000LD7T",
+          "ST-00000LD7U",
+          "ST-00000LD7V",
+          "ST-00000LD7W",
+          "ST-00000LD7X",
+          "ST-00000LD7Y",
+          "ST-00000LD80",
+          "ST-00000LD81",
+          "ST-00000LD84",
+          "ST-00000LD86",
+          "ST-00000LD89",
+          "ST-00000LD8A",
+          "ST-00000LD8B",
+          "ST-00000LD8D",
+          "ST-00000LD8E",
+          "ST-00000LD8G",
+          "ST-00000LD8J",
+          "ST-00000LD8K",
+          "ST-00000LD8L",
+          "ST-00000LD8M",
+          "ST-00000LD8N",
+          "ST-00000LD8P",
+          "ST-00000LD8R",
+          "ST-00000LD8T",
+          "ST-00000LD8X",
+          "ST-00000LD90",
+          "ST-00000LD93",
+          "ST-00000LD9B",
+          "ST-00000LD9C",
+          "ST-00000LD9F",
+          "ST-00000LD9G",
+          "ST-00000LD9I",
+          "ST-00000LD9L",
+          "ST-00000LD9P",
+          "ST-00000LD9Q",
+          "ST-00000LD9R",
+          "ST-00000LD9S",
+          "ST-00000LD9U",
+          "ST-00000LD9V",
+          "ST-00000LDA0",
+          "ST-00000LDA1",
+          "ST-00000LDA5",
+          "ST-00000LDA9",
+          "ST-00000LDAB",
+          "ST-00000LDAD",
+          "ST-00000LDAF",
+          "ST-00000LDAG",
+          "ST-00000LDAH",
+          "ST-00000LDAI",
+          "ST-00000LDAJ",
+          "ST-00000LDAK",
+          "ST-00000LDAN",
+          "ST-00000LDAV",
+          "ST-00000LDB2",
+          "ST-00000LDB5",
+          "ST-00000LDB6",
+          "ST-00000LDB7",
+          "ST-00000LDB8",
+          "ST-00000LDB9",
+          "ST-00000LDBB",
+          "ST-00000LDBC",
+          "ST-00000LDBD",
+          "ST-00000LDBE",
+          "ST-00000LDBG",
+          "ST-00000LDBL",
+          "ST-00000LDBN",
+          "ST-00000LDBO",
+          "ST-00000LDBT",
+          "ST-00000LDBV",
+          "ST-00000LDBW",
+          "ST-00000LDBX",
+          "ST-00000LDBZ",
+          "ST-00000LDC0",
+          "ST-00000LDC1",
+          "ST-00000LDC2",
+          "ST-00000LDC3",
+          "ST-00000LDC6",
+          "ST-00000LDC8",
+          "ST-00000LDC9",
+          "ST-00000LDCA",
+          "ST-00000LDCB",
+          "ST-00000LDCC",
+          "ST-00000LDCD",
+          "ST-00000LDCF",
+          "ST-00000LDCH",
+          "ST-00000LDCI",
+          "ST-00000LDCK",
+          "ST-00000LDCM",
+          "ST-00000LDCN",
+          "ST-00000LDCQ",
+          "ST-00000LDCR",
+          "ST-00000LDCX",
+          "ST-00000LDCZ"
+        ]
+      },
+      "basis": "All 300 Missions release 1.2 records, filtered by the task predicate; monetary comparison uses Decimal and excludes missing values.",
+      "set": "core",
+      "taskId": "G01",
+      "variants": []
+    },
+    "G02": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4V",
+          "ST-00000LD50",
+          "ST-00000LD57",
+          "ST-00000LD5G",
+          "ST-00000LD5V",
+          "ST-00000LD5Z",
+          "ST-00000LD6W",
+          "ST-00000LD6Y",
+          "ST-00000LD73",
+          "ST-00000LD74",
+          "ST-00000LD75",
+          "ST-00000LD76",
+          "ST-00000LD77",
+          "ST-00000LD78",
+          "ST-00000LD7A",
+          "ST-00000LD7B",
+          "ST-00000LD7D",
+          "ST-00000LD7E",
+          "ST-00000LD7F",
+          "ST-00000LD7G",
+          "ST-00000LD7H",
+          "ST-00000LD7I",
+          "ST-00000LD7J",
+          "ST-00000LD7L",
+          "ST-00000LD7N",
+          "ST-00000LD7O",
+          "ST-00000LD7P",
+          "ST-00000LD7Q",
+          "ST-00000LD7R",
+          "ST-00000LD7S",
+          "ST-00000LD7T",
+          "ST-00000LD7U",
+          "ST-00000LD7V",
+          "ST-00000LD7X",
+          "ST-00000LD7Y",
+          "ST-00000LD80",
+          "ST-00000LD82",
+          "ST-00000LD83",
+          "ST-00000LD84",
+          "ST-00000LD87",
+          "ST-00000LD88",
+          "ST-00000LD89",
+          "ST-00000LD8A",
+          "ST-00000LD8B",
+          "ST-00000LD8G",
+          "ST-00000LD8M",
+          "ST-00000LD8P",
+          "ST-00000LD8R",
+          "ST-00000LD8S",
+          "ST-00000LD8U",
+          "ST-00000LD8W",
+          "ST-00000LD8X",
+          "ST-00000LD8Y",
+          "ST-00000LD90",
+          "ST-00000LD94",
+          "ST-00000LD96",
+          "ST-00000LD98",
+          "ST-00000LD99",
+          "ST-00000LD9B",
+          "ST-00000LD9C",
+          "ST-00000LD9D",
+          "ST-00000LD9H",
+          "ST-00000LD9I",
+          "ST-00000LD9J",
+          "ST-00000LD9L",
+          "ST-00000LD9M",
+          "ST-00000LD9N",
+          "ST-00000LD9O",
+          "ST-00000LD9S",
+          "ST-00000LD9Y",
+          "ST-00000LD9Z",
+          "ST-00000LDA0",
+          "ST-00000LDA2",
+          "ST-00000LDA3",
+          "ST-00000LDA4",
+          "ST-00000LDA5",
+          "ST-00000LDA7",
+          "ST-00000LDAA",
+          "ST-00000LDAB",
+          "ST-00000LDAD",
+          "ST-00000LDAE",
+          "ST-00000LDAF",
+          "ST-00000LDAI",
+          "ST-00000LDAL",
+          "ST-00000LDAM",
+          "ST-00000LDAN",
+          "ST-00000LDAO",
+          "ST-00000LDAP",
+          "ST-00000LDAQ",
+          "ST-00000LDAR",
+          "ST-00000LDAT",
+          "ST-00000LDAW",
+          "ST-00000LDAY",
+          "ST-00000LDAZ",
+          "ST-00000LDB0",
+          "ST-00000LDB3",
+          "ST-00000LDB4",
+          "ST-00000LDB6",
+          "ST-00000LDB8",
+          "ST-00000LDB9",
+          "ST-00000LDBB",
+          "ST-00000LDBC",
+          "ST-00000LDBD",
+          "ST-00000LDBH",
+          "ST-00000LDBI",
+          "ST-00000LDBK",
+          "ST-00000LDBM",
+          "ST-00000LDBP",
+          "ST-00000LDBQ",
+          "ST-00000LDBR",
+          "ST-00000LDBS",
+          "ST-00000LDBU",
+          "ST-00000LDBW",
+          "ST-00000LDBX",
+          "ST-00000LDBY",
+          "ST-00000LDBZ",
+          "ST-00000LDC0",
+          "ST-00000LDC1",
+          "ST-00000LDC3",
+          "ST-00000LDC4",
+          "ST-00000LDC9",
+          "ST-00000LDCA",
+          "ST-00000LDCB",
+          "ST-00000LDCC",
+          "ST-00000LDCD",
+          "ST-00000LDCE",
+          "ST-00000LDCF",
+          "ST-00000LDCK",
+          "ST-00000LDCL",
+          "ST-00000LDCO",
+          "ST-00000LDCP",
+          "ST-00000LDCT",
+          "ST-00000LDCX",
+          "ST-00000LDCY",
+          "ST-00000LDCZ"
+        ]
+      },
+      "basis": "All 300 Missions release 1.2 records, filtered by the task predicate; monetary comparison uses Decimal and excludes missing values.",
+      "set": "core",
+      "taskId": "G02",
+      "variants": []
+    },
+    "G03": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "personnelIds": [
+          "PRS-0006",
+          "PRS-1058",
+          "PRS-2608",
+          "PRS-2609",
+          "PRS-2610",
+          "PRS-2611",
+          "PRS-2612",
+          "PRS-2613",
+          "PRS-2614",
+          "PRS-2615",
+          "PRS-2616",
+          "PRS-2617",
+          "PRS-2618",
+          "PRS-2619",
+          "PRS-2620",
+          "PRS-2621",
+          "PRS-2622",
+          "PRS-2623",
+          "PRS-2624",
+          "PRS-2625",
+          "PRS-2626",
+          "PRS-2627",
+          "PRS-2628",
+          "PRS-2629",
+          "PRS-2630",
+          "PRS-2631",
+          "PRS-2632",
+          "PRS-2633",
+          "PRS-2634",
+          "PRS-2635",
+          "PRS-2636",
+          "PRS-2637",
+          "PRS-2638",
+          "PRS-2639",
+          "PRS-2640",
+          "PRS-2641",
+          "PRS-2642",
+          "PRS-2643",
+          "PRS-2644",
+          "PRS-2645",
+          "PRS-2646",
+          "PRS-2647",
+          "PRS-2648",
+          "PRS-2649",
+          "PRS-2650",
+          "PRS-2651",
+          "PRS-2652",
+          "PRS-2653",
+          "PRS-2654",
+          "PRS-2655",
+          "PRS-2656",
+          "PRS-2657",
+          "PRS-2658",
+          "PRS-2659",
+          "PRS-2660",
+          "PRS-2661",
+          "PRS-2662",
+          "PRS-2663",
+          "PRS-2664",
+          "PRS-2665",
+          "PRS-2666",
+          "PRS-2667",
+          "PRS-2668",
+          "PRS-2669",
+          "PRS-2670",
+          "PRS-2671",
+          "PRS-2672",
+          "PRS-2673",
+          "PRS-2674",
+          "PRS-2675",
+          "PRS-2676",
+          "PRS-2677",
+          "PRS-2678",
+          "PRS-2679",
+          "PRS-2680",
+          "PRS-2681",
+          "PRS-2682",
+          "PRS-2683",
+          "PRS-2684",
+          "PRS-2685",
+          "PRS-2686",
+          "PRS-2687",
+          "PRS-2688",
+          "PRS-2689",
+          "PRS-2690",
+          "PRS-2691",
+          "PRS-2692",
+          "PRS-2693",
+          "PRS-2694",
+          "PRS-2695",
+          "PRS-2696",
+          "PRS-2697",
+          "PRS-2698",
+          "PRS-2699",
+          "PRS-2700",
+          "PRS-2701",
+          "PRS-2702",
+          "PRS-2703",
+          "PRS-2704",
+          "PRS-2705",
+          "PRS-2706",
+          "PRS-2707",
+          "PRS-2708",
+          "PRS-2709",
+          "PRS-2710",
+          "PRS-2711",
+          "PRS-2712",
+          "PRS-2713",
+          "PRS-2714",
+          "PRS-2715",
+          "PRS-2716",
+          "PRS-2717",
+          "PRS-2718",
+          "PRS-2719",
+          "PRS-2720",
+          "PRS-2721",
+          "PRS-2722",
+          "PRS-2723",
+          "PRS-2724",
+          "PRS-2725",
+          "PRS-2726"
+        ]
+      },
+      "basis": "All ten Personnel pages; exact department SECURITY.",
+      "set": "core",
+      "taskId": "G03",
+      "variants": []
+    },
+    "G04": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "personnelIds": [
+          "PRS-0005",
+          "PRS-1049",
+          "PRS-1057",
+          "PRS-1101",
+          "PRS-2165",
+          "PRS-2166",
+          "PRS-2167",
+          "PRS-2168",
+          "PRS-2169",
+          "PRS-2170",
+          "PRS-2171",
+          "PRS-2172",
+          "PRS-2173",
+          "PRS-2174",
+          "PRS-2175",
+          "PRS-2176",
+          "PRS-2177",
+          "PRS-2178",
+          "PRS-2179",
+          "PRS-2180",
+          "PRS-2181",
+          "PRS-2182",
+          "PRS-2183",
+          "PRS-2184",
+          "PRS-2185",
+          "PRS-2186",
+          "PRS-2187",
+          "PRS-2188",
+          "PRS-2189",
+          "PRS-2190",
+          "PRS-2191",
+          "PRS-2192",
+          "PRS-2193",
+          "PRS-2194",
+          "PRS-2195",
+          "PRS-2196",
+          "PRS-2197",
+          "PRS-2198",
+          "PRS-2199",
+          "PRS-2200",
+          "PRS-2201",
+          "PRS-2202",
+          "PRS-2203",
+          "PRS-2204",
+          "PRS-2205",
+          "PRS-2206",
+          "PRS-2207",
+          "PRS-2208",
+          "PRS-2209",
+          "PRS-2210",
+          "PRS-2211",
+          "PRS-2212",
+          "PRS-2213",
+          "PRS-2214",
+          "PRS-2215",
+          "PRS-2216",
+          "PRS-2217",
+          "PRS-2218",
+          "PRS-2219",
+          "PRS-2220",
+          "PRS-2221",
+          "PRS-2222",
+          "PRS-2223",
+          "PRS-2224",
+          "PRS-2225",
+          "PRS-2226",
+          "PRS-2227",
+          "PRS-2228",
+          "PRS-2229",
+          "PRS-2230",
+          "PRS-2231",
+          "PRS-2232",
+          "PRS-2233",
+          "PRS-2234",
+          "PRS-2235",
+          "PRS-2236",
+          "PRS-2237",
+          "PRS-2238",
+          "PRS-2239",
+          "PRS-2240",
+          "PRS-2241",
+          "PRS-2242",
+          "PRS-2243",
+          "PRS-2244",
+          "PRS-2245",
+          "PRS-2246",
+          "PRS-2247",
+          "PRS-2248",
+          "PRS-2249",
+          "PRS-2250",
+          "PRS-2251",
+          "PRS-2252",
+          "PRS-2253",
+          "PRS-2254",
+          "PRS-2255",
+          "PRS-2256",
+          "PRS-2257",
+          "PRS-2258",
+          "PRS-2259",
+          "PRS-2260",
+          "PRS-2261",
+          "PRS-2262",
+          "PRS-2263",
+          "PRS-2264",
+          "PRS-2265",
+          "PRS-2266",
+          "PRS-2267",
+          "PRS-2268",
+          "PRS-2269",
+          "PRS-2270",
+          "PRS-2271",
+          "PRS-2272",
+          "PRS-2273",
+          "PRS-2274",
+          "PRS-2275",
+          "PRS-2276",
+          "PRS-2277",
+          "PRS-2278",
+          "PRS-2279",
+          "PRS-2280",
+          "PRS-2281",
+          "PRS-2282",
+          "PRS-2283",
+          "PRS-2284",
+          "PRS-2285",
+          "PRS-2286",
+          "PRS-2287",
+          "PRS-2288",
+          "PRS-2289",
+          "PRS-2290",
+          "PRS-2291",
+          "PRS-2292",
+          "PRS-2293",
+          "PRS-2294",
+          "PRS-2295",
+          "PRS-2296",
+          "PRS-2297",
+          "PRS-2298",
+          "PRS-2299",
+          "PRS-2300",
+          "PRS-2301",
+          "PRS-2302",
+          "PRS-2303",
+          "PRS-2304",
+          "PRS-2305",
+          "PRS-2306",
+          "PRS-2307",
+          "PRS-2308",
+          "PRS-2309",
+          "PRS-2310",
+          "PRS-2311",
+          "PRS-2312",
+          "PRS-2313",
+          "PRS-2314",
+          "PRS-2315",
+          "PRS-2316",
+          "PRS-2317",
+          "PRS-2318",
+          "PRS-2319",
+          "PRS-2320",
+          "PRS-2321",
+          "PRS-2322",
+          "PRS-2323",
+          "PRS-2324",
+          "PRS-2325",
+          "PRS-2326",
+          "PRS-2327",
+          "PRS-2328",
+          "PRS-2329",
+          "PRS-2330",
+          "PRS-2331",
+          "PRS-2332",
+          "PRS-2333",
+          "PRS-2334",
+          "PRS-2335",
+          "PRS-2336",
+          "PRS-2337",
+          "PRS-2338",
+          "PRS-2339",
+          "PRS-2340",
+          "PRS-2341",
+          "PRS-2342",
+          "PRS-2343",
+          "PRS-2344",
+          "PRS-2345",
+          "PRS-2346",
+          "PRS-2347",
+          "PRS-2348",
+          "PRS-2349",
+          "PRS-2350",
+          "PRS-2351",
+          "PRS-2352",
+          "PRS-2353",
+          "PRS-2354",
+          "PRS-2355",
+          "PRS-2356",
+          "PRS-2357",
+          "PRS-2358",
+          "PRS-2359",
+          "PRS-2360",
+          "PRS-2361",
+          "PRS-2362",
+          "PRS-2363",
+          "PRS-2364",
+          "PRS-2365",
+          "PRS-2366",
+          "PRS-2367",
+          "PRS-2368",
+          "PRS-2369",
+          "PRS-2370",
+          "PRS-2371",
+          "PRS-2372",
+          "PRS-2373",
+          "PRS-2374",
+          "PRS-2375",
+          "PRS-2376",
+          "PRS-2377",
+          "PRS-2378",
+          "PRS-2379",
+          "PRS-2380"
+        ]
+      },
+      "basis": "All ten Personnel pages; exact department ENGINEERING.",
+      "set": "core",
+      "taskId": "G04",
+      "variants": []
+    },
+    "G05": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0001",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0002",
+            "status": "DECOMMISSIONED"
+          },
+          {
+            "assetId": "AST-0003",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0004",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0005",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0006",
+            "status": "MISSING"
+          },
+          {
+            "assetId": "AST-0007",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0008",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0009",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0010",
+            "status": "DECOMMISSIONED"
+          },
+          {
+            "assetId": "AST-0011",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0012",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0013",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0014",
+            "status": "MAINTENANCE"
+          },
+          {
+            "assetId": "AST-0015",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0016",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0017",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0018",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0019",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0020",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0021",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0022",
+            "status": "MAINTENANCE"
+          },
+          {
+            "assetId": "AST-0023",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0024",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0025",
+            "status": "DESTROYED"
+          },
+          {
+            "assetId": "AST-0026",
+            "status": "MAINTENANCE"
+          },
+          {
+            "assetId": "AST-0027",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0028",
+            "status": "DECOMMISSIONED"
+          },
+          {
+            "assetId": "AST-0029",
+            "status": "ACTIVE"
+          },
+          {
+            "assetId": "AST-0030",
+            "status": "MISSING"
+          },
+          {
+            "assetId": "AST-0031",
+            "status": "MAINTENANCE"
+          },
+          {
+            "assetId": "AST-0032",
+            "status": "DESTROYED"
+          }
+        ]
+      },
+      "basis": "All Assets 1.1 records, retaining recorded statuses.",
+      "set": "core",
+      "taskId": "G05",
+      "variants": []
+    },
+    "G06": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4V",
+          "ST-00000LD50",
+          "ST-00000LD57",
+          "ST-00000LD5G",
+          "ST-00000LD5P",
+          "ST-00000LD68",
+          "ST-00000LD6M",
+          "ST-00000LD6W",
+          "ST-00000LD71",
+          "ST-00000LD7D",
+          "ST-00000LD7K",
+          "ST-00000LD7L",
+          "ST-00000LD7Z",
+          "ST-00000LD83",
+          "ST-00000LD8H",
+          "ST-00000LD8I",
+          "ST-00000LD8S",
+          "ST-00000LD8V",
+          "ST-00000LD8Y",
+          "ST-00000LD91",
+          "ST-00000LD94",
+          "ST-00000LD98",
+          "ST-00000LD9A",
+          "ST-00000LD9M",
+          "ST-00000LDA7",
+          "ST-00000LDAC",
+          "ST-00000LDAO",
+          "ST-00000LDAQ",
+          "ST-00000LDAR",
+          "ST-00000LDAS",
+          "ST-00000LDAU",
+          "ST-00000LDB0",
+          "ST-00000LDBF",
+          "ST-00000LDBH",
+          "ST-00000LDBJ",
+          "ST-00000LDBM",
+          "ST-00000LDBQ",
+          "ST-00000LDBR",
+          "ST-00000LDBY",
+          "ST-00000LDC5",
+          "ST-00000LDC7",
+          "ST-00000LDCG",
+          "ST-00000LDCP",
+          "ST-00000LDCU"
+        ]
+      },
+      "basis": "All 300 Missions release 1.2 records, filtered by the task predicate; monetary comparison uses Decimal and excludes missing values.",
+      "set": "core",
+      "taskId": "G06",
+      "variants": []
+    },
+    "G07": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD5L",
+          "ST-00000LD91",
+          "ST-00000LDB1",
+          "ST-00000LDBV",
+          "ST-00000LDBZ",
+          "ST-00000LDC6",
+          "ST-00000LDCH"
+        ]
+      },
+      "basis": "All 300 Missions release 1.2 records, filtered by the task predicate; monetary comparison uses Decimal and excludes missing values.",
+      "set": "core",
+      "taskId": "G07",
+      "variants": []
+    },
+    "G08": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "personnelIds": [
+          "PRS-0003",
+          "PRS-2160",
+          "PRS-2161",
+          "PRS-2162",
+          "PRS-2163",
+          "PRS-2164",
+          "PRS-2514",
+          "PRS-2515",
+          "PRS-2516",
+          "PRS-2517",
+          "PRS-2518",
+          "PRS-2519",
+          "PRS-2604",
+          "PRS-2605",
+          "PRS-2606",
+          "PRS-2607",
+          "PRS-2782",
+          "PRS-2783",
+          "PRS-2784",
+          "PRS-2785",
+          "PRS-3001",
+          "PRS-3002",
+          "PRS-3003",
+          "PRS-3004",
+          "PRS-3005",
+          "PRS-3006",
+          "PRS-3007",
+          "PRS-3008",
+          "PRS-3009",
+          "PRS-3010",
+          "PRS-3011",
+          "PRS-3012",
+          "PRS-3013",
+          "PRS-3014",
+          "PRS-3015",
+          "PRS-3016",
+          "PRS-3017",
+          "PRS-3018",
+          "PRS-3019",
+          "PRS-3020",
+          "PRS-3021",
+          "PRS-3022",
+          "PRS-3023",
+          "PRS-3024",
+          "PRS-3025",
+          "PRS-3026",
+          "PRS-3027",
+          "PRS-3028",
+          "PRS-3029",
+          "PRS-3030",
+          "PRS-3031",
+          "PRS-3032",
+          "PRS-3033",
+          "PRS-3034",
+          "PRS-3035",
+          "PRS-3036",
+          "PRS-3037",
+          "PRS-3038",
+          "PRS-3039",
+          "PRS-3040",
+          "PRS-3041",
+          "PRS-3042",
+          "PRS-3043",
+          "PRS-3044",
+          "PRS-3045",
+          "PRS-3046",
+          "PRS-3047",
+          "PRS-3048",
+          "PRS-3049",
+          "PRS-3050",
+          "PRS-3051",
+          "PRS-3052",
+          "PRS-3053",
+          "PRS-3054",
+          "PRS-3055",
+          "PRS-3056",
+          "PRS-3057",
+          "PRS-3058",
+          "PRS-3059",
+          "PRS-3060",
+          "PRS-3061",
+          "PRS-3062",
+          "PRS-3063",
+          "PRS-3064",
+          "PRS-3065",
+          "PRS-3066",
+          "PRS-3067",
+          "PRS-3068",
+          "PRS-3069",
+          "PRS-3070",
+          "PRS-3071",
+          "PRS-3072",
+          "PRS-3073",
+          "PRS-3074",
+          "PRS-3075",
+          "PRS-3076",
+          "PRS-3077",
+          "PRS-3078",
+          "PRS-3079",
+          "PRS-3080",
+          "PRS-3081",
+          "PRS-3082",
+          "PRS-3083",
+          "PRS-3084",
+          "PRS-3085",
+          "PRS-3086",
+          "PRS-3087",
+          "PRS-3088",
+          "PRS-3089",
+          "PRS-3090",
+          "PRS-3091",
+          "PRS-3092",
+          "PRS-3093",
+          "PRS-3094",
+          "PRS-3095",
+          "PRS-3096",
+          "PRS-3097",
+          "PRS-3098",
+          "PRS-3099",
+          "PRS-3100",
+          "PRS-3101",
+          "PRS-3102",
+          "PRS-3103",
+          "PRS-3104",
+          "PRS-3105",
+          "PRS-3106",
+          "PRS-3107",
+          "PRS-3108",
+          "PRS-3109",
+          "PRS-3110",
+          "PRS-3111",
+          "PRS-3112",
+          "PRS-3113",
+          "PRS-3114",
+          "PRS-3115",
+          "PRS-3116",
+          "PRS-3117",
+          "PRS-3118",
+          "PRS-3119",
+          "PRS-3120",
+          "PRS-3121",
+          "PRS-3122",
+          "PRS-3123",
+          "PRS-3124",
+          "PRS-3125",
+          "PRS-3126",
+          "PRS-3127",
+          "PRS-3128",
+          "PRS-3129",
+          "PRS-3130",
+          "PRS-3131",
+          "PRS-3132",
+          "PRS-3133",
+          "PRS-3134",
+          "PRS-3135",
+          "PRS-3136",
+          "PRS-3137",
+          "PRS-3138",
+          "PRS-3139",
+          "PRS-3140",
+          "PRS-3141",
+          "PRS-3142",
+          "PRS-3143",
+          "PRS-3144",
+          "PRS-3145",
+          "PRS-3146",
+          "PRS-3147",
+          "PRS-3148",
+          "PRS-3149",
+          "PRS-3150",
+          "PRS-3151",
+          "PRS-3152",
+          "PRS-3153",
+          "PRS-3154",
+          "PRS-3155",
+          "PRS-3156",
+          "PRS-3157",
+          "PRS-3158",
+          "PRS-3159",
+          "PRS-3160",
+          "PRS-3161",
+          "PRS-3162",
+          "PRS-3163",
+          "PRS-3164",
+          "PRS-3165",
+          "PRS-3166",
+          "PRS-3167",
+          "PRS-3168",
+          "PRS-3169",
+          "PRS-3170",
+          "PRS-3171",
+          "PRS-3172",
+          "PRS-3173",
+          "PRS-3174",
+          "PRS-3175",
+          "PRS-3176",
+          "PRS-3177",
+          "PRS-3178",
+          "PRS-3179",
+          "PRS-3180",
+          "PRS-3181",
+          "PRS-3182",
+          "PRS-3183",
+          "PRS-3184",
+          "PRS-3185",
+          "PRS-3186",
+          "PRS-3187",
+          "PRS-3188",
+          "PRS-3189",
+          "PRS-3190",
+          "PRS-3191",
+          "PRS-3192",
+          "PRS-3193",
+          "PRS-3194",
+          "PRS-3195",
+          "PRS-3196",
+          "PRS-3197",
+          "PRS-3198",
+          "PRS-3199"
+        ]
+      },
+      "basis": "All ten Personnel pages; presence of civilianDetails, including an empty element.",
+      "set": "core",
+      "taskId": "G08",
+      "variants": []
+    },
+    "G09": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "personnelIds": [
+          "PRS-2002",
+          "PRS-2019",
+          "PRS-2167",
+          "PRS-2383",
+          "PRS-2522",
+          "PRS-2608",
+          "PRS-2728"
+        ]
+      },
+      "basis": "All ten Personnel pages; exact positionTitle Section Supervisor.",
+      "set": "core",
+      "taskId": "G09",
+      "variants": []
+    },
+    "G10": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4U",
+          "ST-00000LD4Y",
+          "ST-00000LD4Z",
+          "ST-00000LD53",
+          "ST-00000LD54",
+          "ST-00000LD55",
+          "ST-00000LD5A",
+          "ST-00000LD5C",
+          "ST-00000LD5E",
+          "ST-00000LD5H",
+          "ST-00000LD5L",
+          "ST-00000LD5M",
+          "ST-00000LD5N",
+          "ST-00000LD5O",
+          "ST-00000LD5Q",
+          "ST-00000LD5R",
+          "ST-00000LD5S",
+          "ST-00000LD5W",
+          "ST-00000LD5X",
+          "ST-00000LD60",
+          "ST-00000LD62",
+          "ST-00000LD67",
+          "ST-00000LD6B",
+          "ST-00000LD6C",
+          "ST-00000LD6D",
+          "ST-00000LD6F",
+          "ST-00000LD6G",
+          "ST-00000LD6H",
+          "ST-00000LD6L",
+          "ST-00000LD6R",
+          "ST-00000LD6Z",
+          "ST-00000LD70",
+          "ST-00000LD74",
+          "ST-00000LD76",
+          "ST-00000LD77",
+          "ST-00000LD78",
+          "ST-00000LD7A",
+          "ST-00000LD7E",
+          "ST-00000LD7F",
+          "ST-00000LD7H",
+          "ST-00000LD7J",
+          "ST-00000LD7N",
+          "ST-00000LD7R",
+          "ST-00000LD7T",
+          "ST-00000LD7V",
+          "ST-00000LD7W",
+          "ST-00000LD7X",
+          "ST-00000LD7Y",
+          "ST-00000LD81",
+          "ST-00000LD89",
+          "ST-00000LD8A",
+          "ST-00000LD8B",
+          "ST-00000LD8D",
+          "ST-00000LD8G",
+          "ST-00000LD8J",
+          "ST-00000LD8K",
+          "ST-00000LD8M",
+          "ST-00000LD8N",
+          "ST-00000LD8X",
+          "ST-00000LD90",
+          "ST-00000LD93",
+          "ST-00000LD9F",
+          "ST-00000LD9L",
+          "ST-00000LD9P",
+          "ST-00000LD9Q",
+          "ST-00000LD9R",
+          "ST-00000LD9S",
+          "ST-00000LD9U",
+          "ST-00000LDA4",
+          "ST-00000LDA6",
+          "ST-00000LDA9",
+          "ST-00000LDAD",
+          "ST-00000LDAF",
+          "ST-00000LDAG",
+          "ST-00000LDAH",
+          "ST-00000LDAI",
+          "ST-00000LDAJ",
+          "ST-00000LDAN",
+          "ST-00000LDAT",
+          "ST-00000LDAV",
+          "ST-00000LDAZ",
+          "ST-00000LDB2",
+          "ST-00000LDB4",
+          "ST-00000LDB9",
+          "ST-00000LDBC",
+          "ST-00000LDBD",
+          "ST-00000LDBE",
+          "ST-00000LDBG",
+          "ST-00000LDBN",
+          "ST-00000LDBO",
+          "ST-00000LDBT",
+          "ST-00000LDBV",
+          "ST-00000LDBX",
+          "ST-00000LDBZ",
+          "ST-00000LDC0",
+          "ST-00000LDC1",
+          "ST-00000LDC2",
+          "ST-00000LDC8",
+          "ST-00000LDC9",
+          "ST-00000LDCA",
+          "ST-00000LDCB",
+          "ST-00000LDCC",
+          "ST-00000LDCF",
+          "ST-00000LDCH",
+          "ST-00000LDCI",
+          "ST-00000LDCK",
+          "ST-00000LDCN",
+          "ST-00000LDCQ",
+          "ST-00000LDCR",
+          "ST-00000LDCX",
+          "ST-00000LDCZ"
+        ]
+      },
+      "basis": "All 300 Missions release 1.2 records, filtered by the task predicate; monetary comparison uses Decimal and excludes missing values.",
+      "set": "core",
+      "taskId": "G10",
+      "variants": []
+    },
+    "V01": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "status": "AUTHORIZED",
+        "type": "SCIENTIFIC"
+      },
+      "basis": "ST-00000LDBK; direct fields in Missions release 1.2.",
+      "set": "dev",
+      "taskId": "V01",
+      "variants": []
+    },
+    "V02": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "name": "Data",
+        "personnelId": "PRS-0002"
+      },
+      "basis": "ST-00000LD8L; commandingOfficerId via crew mapping 1.3, then Personnel record.",
+      "set": "dev",
+      "taskId": "V02",
+      "variants": []
+    },
+    "V03": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "personnelIds": [
+          "PRS-0004",
+          "PRS-2727",
+          "PRS-2728",
+          "PRS-2729",
+          "PRS-2730",
+          "PRS-2731",
+          "PRS-2732",
+          "PRS-2733",
+          "PRS-2734",
+          "PRS-2735",
+          "PRS-2736",
+          "PRS-2737",
+          "PRS-2738",
+          "PRS-2739",
+          "PRS-2740",
+          "PRS-2741",
+          "PRS-2742",
+          "PRS-2743",
+          "PRS-2744",
+          "PRS-2745",
+          "PRS-2746",
+          "PRS-2747",
+          "PRS-2748",
+          "PRS-2749",
+          "PRS-2750",
+          "PRS-2751",
+          "PRS-2752",
+          "PRS-2753",
+          "PRS-2754",
+          "PRS-2755",
+          "PRS-2756",
+          "PRS-2757",
+          "PRS-2758",
+          "PRS-2759",
+          "PRS-2760",
+          "PRS-2761",
+          "PRS-2762",
+          "PRS-2763",
+          "PRS-2764",
+          "PRS-2765",
+          "PRS-2766",
+          "PRS-2767",
+          "PRS-2768",
+          "PRS-2769",
+          "PRS-2770",
+          "PRS-2771",
+          "PRS-2772",
+          "PRS-2773",
+          "PRS-2774",
+          "PRS-2775",
+          "PRS-2776",
+          "PRS-2777",
+          "PRS-2778",
+          "PRS-2779",
+          "PRS-2780",
+          "PRS-2781"
+        ]
+      },
+      "basis": "All ten Personnel pages; exact department FLIGHT_OPERATIONS.",
+      "set": "dev",
+      "taskId": "V03",
+      "variants": []
+    },
+    "V04": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0007",
+            "status": null
+          },
+          {
+            "assetId": "AST-0029",
+            "status": null
+          }
+        ],
+        "complete": false,
+        "status": "COMPLETED",
+        "unavailableServices": [
+          "assets"
+        ]
+      },
+      "basis": "Stopped service: assets. ST-00000LDAH; mission fields and mapping 1.3 target IDs remain available, including targets whose existence cannot be checked; asset statuses are unknown.",
+      "set": "dev",
+      "taskId": "V04",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [],
+            "complete": false,
+            "status": "COMPLETED",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [
+              {
+                "assetId": "AST-0007",
+                "status": null
+              }
+            ],
+            "complete": false,
+            "status": "COMPLETED",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        },
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "assets": [
+              {
+                "assetId": "AST-0029",
+                "status": null
+              }
+            ],
+            "complete": false,
+            "status": "COMPLETED",
+            "unavailableServices": [
+              "assets"
+            ]
+          },
+          "reason": "The outage schema permits a partial answer; this reports a subset of the identifiers available through the mapping, without inventing unavailable attributes."
+        }
+      ]
+    },
+    "V05": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "distinctPeople": 620,
+        "ranks": [
+          {
+            "count": 1,
+            "rank": "CAPTAIN"
+          },
+          {
+            "count": 69,
+            "rank": "CHIEF_PETTY_OFFICER"
+          },
+          {
+            "count": 4,
+            "rank": "CIVILIAN"
+          },
+          {
+            "count": 2,
+            "rank": "COMMANDER"
+          },
+          {
+            "count": 297,
+            "rank": "CREWMAN"
+          },
+          {
+            "count": 126,
+            "rank": "ENSIGN"
+          },
+          {
+            "count": 110,
+            "rank": "LIEUTENANT"
+          },
+          {
+            "count": 11,
+            "rank": "LIEUTENANT_COMMANDER"
+          }
+        ]
+      },
+      "basis": "Union of resolved staff Personnel IDs across all missions, grouped by rank; civilians grouped as CIVILIAN.",
+      "set": "dev",
+      "taskId": "V05",
+      "variants": []
+    },
+    "V06": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "types": [
+          {
+            "missionCount": 1,
+            "type": "EXPLORATION"
+          },
+          {
+            "missionCount": 1,
+            "type": "HUMANITARIAN"
+          },
+          {
+            "missionCount": 43,
+            "type": "MAINTENANCE"
+          },
+          {
+            "missionCount": 15,
+            "type": "MEDICAL"
+          },
+          {
+            "missionCount": 8,
+            "type": "RESCUE"
+          },
+          {
+            "missionCount": 3,
+            "type": "SCIENTIFIC"
+          },
+          {
+            "missionCount": 1,
+            "type": "TRANSPORT"
+          }
+        ]
+      },
+      "basis": "Count each mission with any mapped, held non-ACTIVE asset once, grouped by type; only qualifying types occur.",
+      "set": "dev",
+      "taskId": "V06",
+      "variants": [
+        {
+          "answer": {
+            "answerStatus": "ANSWERED",
+            "types": [
+              {
+                "missionCount": 0,
+                "type": "DIPLOMATIC"
+              },
+              {
+                "missionCount": 1,
+                "type": "EXPLORATION"
+              },
+              {
+                "missionCount": 0,
+                "type": "FIRST_CONTACT"
+              },
+              {
+                "missionCount": 1,
+                "type": "HUMANITARIAN"
+              },
+              {
+                "missionCount": 43,
+                "type": "MAINTENANCE"
+              },
+              {
+                "missionCount": 15,
+                "type": "MEDICAL"
+              },
+              {
+                "missionCount": 8,
+                "type": "RESCUE"
+              },
+              {
+                "missionCount": 3,
+                "type": "SCIENTIFIC"
+              },
+              {
+                "missionCount": 0,
+                "type": "SECURITY"
+              },
+              {
+                "missionCount": 0,
+                "type": "TACTICAL"
+              },
+              {
+                "missionCount": 1,
+                "type": "TRANSPORT"
+              }
+            ]
+          },
+          "reason": "For each mission type and types that occur can refer to the types present in the full Missions dataset, including those with zero qualifying missions, rather than just the types present after filtering."
+        }
+      ]
+    },
+    "V07": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionCount": 39,
+        "totalEstimatedCost": 1028999.41
+      },
+      "basis": "TRANSPORT missions; count all and sum present estimated costs as Decimal.",
+      "set": "dev",
+      "taskId": "V07",
+      "variants": []
+    },
+    "V08": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "distinctPeople": 104,
+        "staffPlaces": 177
+      },
+      "basis": "STARFLEET_SECURITY missions; sum distinct local staff references per mission, and separately union resolved Personnel IDs.",
+      "set": "dev",
+      "taskId": "V08",
+      "variants": []
+    }
+  },
+  "labCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+  "packageSha256": "2e25f8f03ce2d5876edd0e10e94d1de2b4ad1c86f5533358555a79553b1ab679"
+}
