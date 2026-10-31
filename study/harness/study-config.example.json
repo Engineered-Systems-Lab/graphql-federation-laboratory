@@ -62,7 +62,7 @@
     "epsilon": {"mcp_url": "http://127.0.0.1:8194/mcp", "stack": {}, "health": {"argv": ["<read-only health command of epsilon>"]},
                 "provenance": {"compose_projects": ["starfleet-missions", "starfleet-federation-stack"],
                                "backends": {"missions": {"mode": "real", "service": "starfleet-missions/missions", "image_ref": "starfleet-missions-service:1.0.0"}},
-                               "routing": {"endpoints": {"http://127.0.0.1:8171/": "cosmo-router"},
+                               "routing": {"endpoints": {"http://127.0.0.1:8171/graphql": "cosmo-router"},
                                            "env": {"missions-adapter": {"MISSIONS_SERVICE_URL": "http://host.docker.internal:8083"}}}}}
   },
   "telemetry": {"apollo_router": "anonymous telemetry off (APOLLO_TELEMETRY_DISABLED)", "cosmo_router": "anonymous telemetry off (COSMO_TELEMETRY_DISABLED)"},

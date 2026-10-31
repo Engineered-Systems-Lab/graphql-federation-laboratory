@@ -13,6 +13,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import preflight  # noqa: E402
+import make_config  # noqa: E402  (study/launch, put on the path by preflight: the router addresses of the study config)
 
 ROOT = preflight.ROOT
 ORACLE = preflight.oracle_environment()['container']
@@ -797,6 +798,14 @@ class PinnedFactTests(unittest.TestCase):
         self.assertEqual(set(preflight.OUTAGE_PROBES), set(preflight.launch.OUTAGE_SERVICES))
         self.assertIn('8170', preflight.ROUTER_URLS['apollo'])
         self.assertIn('8171', preflight.ROUTER_URLS['cosmo'])
+
+    def test_the_router_addresses_are_the_ones_the_study_config_gives_the_mcp_servers(self):
+        # The kit and make_config.py are the two tools that talk to the routers; a fake cannot catch a wrong path, so tie them here.
+        graph = {scenario: server for scenario, server in make_config.SERVERS.items() if server['kind'] == 'graph'}
+        self.assertEqual({preflight.launch.router_of(s) for s in graph}, set(preflight.ROUTER_URLS))
+        for scenario, router in (('delta', 'apollo'), ('epsilon', 'cosmo')):
+            self.assertEqual(preflight.launch.router_of(scenario), router)
+            self.assertEqual(preflight.ROUTER_URLS[router], graph[scenario]['router_url'], scenario)
 
     def test_no_machine_path_in_the_committed_files(self):
         # A drive letter that is not the end of a regex escape such as \d, then a separator, a folder name and another separator.
