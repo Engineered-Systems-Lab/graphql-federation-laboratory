@@ -1,0 +1,127 @@
+{
+  "about": "The router and adapter gates of study 2's backend preflight, run once each from the primary checkout between the simulated alpha soak and the real alpha soak, in this order, stopping at the first failure. The logs stay in the machine-local gates folder; each is named here by the SHA-256 of its bytes as written.",
+  "job": "study2_preflight_backend",
+  "allPassed": true,
+  "gates": [
+    {
+      "name": "down-alpha-sim",
+      "command": "python -B -u study/launch/launch.py down alpha --missions simulated --state-dir '<launch state>'",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:36:14Z",
+      "seconds": 64,
+      "exitCode": 0,
+      "resultLine": null,
+      "log": "down-alpha-sim.log",
+      "logBytes": 1284,
+      "logSha256": "396c32de4d0ea703221eddf21b192d1ddd27b804014516d5086f4d71ad493a62"
+    },
+    {
+      "name": "apollo-stack",
+      "command": "APOLLO_ELV2_LICENSE=accept python -B -u federation/routers/apollo/validation/run_router_gate.py stack",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:37:18Z",
+      "seconds": 301,
+      "exitCode": 0,
+      "resultLine": "PASS: Apollo router stack: 35 tests in 300.8s; implemented slice only.",
+      "log": "apollo-stack.log",
+      "logBytes": 16016,
+      "logSha256": "a38e022afb6daf02a5e2278835060a84fd5b9d5406ff7bc30712c4a0a551ef8b"
+    },
+    {
+      "name": "cosmo-stack",
+      "command": "python -B -u federation/routers/cosmo/validation/run_router_gate.py stack",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:42:20Z",
+      "seconds": 322,
+      "exitCode": 0,
+      "resultLine": "PASS: Cosmo router stack: 36 tests in 322.0s; implemented slice only.",
+      "log": "cosmo-stack.log",
+      "logBytes": 17853,
+      "logSha256": "9ada7be5f07834a6db9074ec09fe8d4ade08f993abe8fa48c4f2e2b3a1bf3e99"
+    },
+    {
+      "name": "adapter-missions-offline",
+      "command": "python -B -u federation/adapters/missions/validation/run_adapter_gate.py offline",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:47:42Z",
+      "seconds": 71,
+      "exitCode": 0,
+      "resultLine": "PASS: Missions adapter offline: 14 tests in 69.4s; implemented slice only.",
+      "log": "adapter-missions-offline.log",
+      "logBytes": 2601,
+      "logSha256": "06cc4e32bd9a52f77f09a641953f13b14eb4a0a0ed52ea6cacd73d2a665b73a1"
+    },
+    {
+      "name": "adapter-assets-offline",
+      "command": "python -B -u federation/adapters/assets/validation/run_adapter_gate.py offline",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:48:53Z",
+      "seconds": 53,
+      "exitCode": 0,
+      "resultLine": "PASS: Assets adapter offline: 14 tests in 52.9s; implemented slice only.",
+      "log": "adapter-assets-offline.log",
+      "logBytes": 2595,
+      "logSha256": "7d06b476a6c547403a3f945760af0502bf51888b6b1c377fd8aceb1e7e1854b9"
+    },
+    {
+      "name": "adapter-personnel-offline",
+      "command": "python -B -u federation/adapters/personnel/validation/run_adapter_gate.py offline",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:49:47Z",
+      "seconds": 61,
+      "exitCode": 0,
+      "resultLine": "PASS: Personnel adapter offline: 14 tests in 60.6s; implemented slice only.",
+      "log": "adapter-personnel-offline.log",
+      "logBytes": 2604,
+      "logSha256": "1292dd5efe3ebb284abeb07d0a2014e507367784f33475b94015c2841f90374b"
+    },
+    {
+      "name": "adapter-mapping-offline",
+      "command": "python -B -u federation/adapters/mapping/validation/run_adapter_gate.py offline",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:50:48Z",
+      "seconds": 73,
+      "exitCode": 0,
+      "resultLine": "PASS: mapping adapter offline: 130 tests in 71.0s; implemented slice only.",
+      "log": "adapter-mapping-offline.log",
+      "logBytes": 22957,
+      "logSha256": "310159f4b5163b7886bf46411cd373978a4383fc860f3777a4c6351f0c549737"
+    },
+    {
+      "name": "adapter-missions-service",
+      "command": "python -B -u federation/adapters/missions/validation/run_adapter_gate.py service",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:52:01Z",
+      "seconds": 114,
+      "exitCode": 0,
+      "resultLine": "PASS: Missions adapter service: 9 tests in 113.4s; implemented slice only.",
+      "log": "adapter-missions-service.log",
+      "logBytes": 2902,
+      "logSha256": "fd430b421b9b5f025d5516f9d4528aa4d224569629292336c18d113bcaee0270"
+    },
+    {
+      "name": "adapter-assets-service",
+      "command": "python -B -u federation/adapters/assets/validation/run_adapter_gate.py service",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:53:55Z",
+      "seconds": 68,
+      "exitCode": 0,
+      "resultLine": "PASS: Assets adapter service: 6 tests in 66.7s; implemented slice only.",
+      "log": "adapter-assets-service.log",
+      "logBytes": 1426,
+      "logSha256": "43cbe9284de626a9d3ad393b480a1737e50b775445657b3f35ff51b22c728edb"
+    },
+    {
+      "name": "adapter-personnel-service",
+      "command": "python -B -u federation/adapters/personnel/validation/run_adapter_gate.py service",
+      "mainCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+      "start": "2026-10-31T00:55:03Z",
+      "seconds": 63,
+      "exitCode": 0,
+      "resultLine": "PASS: Personnel adapter service: 9 tests in 62.0s; implemented slice only.",
+      "log": "adapter-personnel-service.log",
+      "logBytes": 2156,
+      "logSha256": "a4db7a5ef87c3acbff98c8ac9f12066de552f74d53947253c9512a21decd5dae"
+    }
+  ]
+}

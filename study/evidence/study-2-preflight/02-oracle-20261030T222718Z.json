@@ -1,0 +1,615 @@
+{
+  "schema": 1,
+  "step": "oracle",
+  "stepNumber": 2,
+  "label": null,
+  "startedAt": "2026-10-30T22:27:18.882344+00:00",
+  "finishedAt": "2026-10-30T22:32:33.970412+00:00",
+  "host": {
+    "platform": "win32",
+    "python": "3.14.8"
+  },
+  "plan": [
+    "read the state of the container starfleet-missions-data-20261009 (status, start time, OOM, restarts)",
+    "ask SELECT 1 FROM dual every 5 s until it answers, at most 900 s after the start (the pinned ready timeout)",
+    "sample docker stats, the vmmem size and host free memory every 5 s for 300 s",
+    "read v$sgainfo and v$pgastat"
+  ],
+  "commands": [
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-missions-data-20261009",
+    "SQL (read-only transaction): SELECT 1 FROM dual",
+    "SQL (read-only transaction): SELECT 1 FROM dual",
+    "SQL (read-only transaction): SELECT 1 FROM dual",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-missions-data-20261009",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-missions-data-20261009",
+    "SQL (read-only transaction): SELECT name||'|'||bytes FROM v$sgainfo",
+    "SQL (read-only transaction): SELECT name||'|'||value||'|'||unit FROM v$pgastat WHERE name IN ('total PGA allocated','maximum PGA allocated','aggregate PGA target parameter')"
+  ],
+  "measurements": {
+    "readiness": {
+      "startedAt": "2026-10-30T22:27:17.962191039Z",
+      "readyAt": "2026-10-30T22:27:31.251751+00:00",
+      "seconds": 13.3,
+      "polls": 3,
+      "upperBound": false
+    },
+    "samples": [
+      {
+        "at": "2026-10-30T22:27:32.620734+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1970316247
+        },
+        "complete": true,
+        "totalBytes": 1970316247,
+        "hostFreeBytes": 5250088960,
+        "vmmemBytes": 3328000000
+      },
+      {
+        "at": "2026-10-30T22:27:39.210584+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 2010044694
+        },
+        "complete": true,
+        "totalBytes": 2010044694,
+        "hostFreeBytes": 4715819008,
+        "vmmemBytes": 3496226816
+      },
+      {
+        "at": "2026-10-30T22:27:46.138776+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1988569858
+        },
+        "complete": true,
+        "totalBytes": 1988569858,
+        "hostFreeBytes": 5256429568,
+        "vmmemBytes": 3498319872
+      },
+      {
+        "at": "2026-10-30T22:27:52.661368+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1988569858
+        },
+        "complete": true,
+        "totalBytes": 1988569858,
+        "hostFreeBytes": 5242937344,
+        "vmmemBytes": 3500486656
+      },
+      {
+        "at": "2026-10-30T22:27:59.194271+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1996086050
+        },
+        "complete": true,
+        "totalBytes": 1996086050,
+        "hostFreeBytes": 4939968512,
+        "vmmemBytes": 3505135616
+      },
+      {
+        "at": "2026-10-30T22:28:05.716478+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1996086050
+        },
+        "complete": true,
+        "totalBytes": 1996086050,
+        "hostFreeBytes": 4871389184,
+        "vmmemBytes": 3505172480
+      },
+      {
+        "at": "2026-10-30T22:28:12.659821+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1996086050
+        },
+        "complete": true,
+        "totalBytes": 1996086050,
+        "hostFreeBytes": 4865220608,
+        "vmmemBytes": 3506618368
+      },
+      {
+        "at": "2026-10-30T22:28:19.150303+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1996086050
+        },
+        "complete": true,
+        "totalBytes": 1996086050,
+        "hostFreeBytes": 4552036352,
+        "vmmemBytes": 3506421760
+      },
+      {
+        "at": "2026-10-30T22:28:25.714803+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1989643599
+        },
+        "complete": true,
+        "totalBytes": 1989643599,
+        "hostFreeBytes": 4365443072,
+        "vmmemBytes": 3506425856
+      },
+      {
+        "at": "2026-10-30T22:28:32.659744+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1989643599
+        },
+        "complete": true,
+        "totalBytes": 1989643599,
+        "hostFreeBytes": 4361945088,
+        "vmmemBytes": 3507023872
+      },
+      {
+        "at": "2026-10-30T22:28:39.249372+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4312313856,
+        "vmmemBytes": 3513335808
+      },
+      {
+        "at": "2026-10-30T22:28:45.817827+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4359720960,
+        "vmmemBytes": 3513344000
+      },
+      {
+        "at": "2026-10-30T22:28:52.678949+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4521287680,
+        "vmmemBytes": 3514011648
+      },
+      {
+        "at": "2026-10-30T22:28:59.207804+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4497129472,
+        "vmmemBytes": 3514802176
+      },
+      {
+        "at": "2026-10-30T22:29:05.736442+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4451225600,
+        "vmmemBytes": 3514867712
+      },
+      {
+        "at": "2026-10-30T22:29:12.702611+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4517986304,
+        "vmmemBytes": 3515006976
+      },
+      {
+        "at": "2026-10-30T22:29:19.251800+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4537397248,
+        "vmmemBytes": 3515019264
+      },
+      {
+        "at": "2026-10-30T22:29:25.752306+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1986422374
+        },
+        "complete": true,
+        "totalBytes": 1986422374,
+        "hostFreeBytes": 4480872448,
+        "vmmemBytes": 3515019264
+      },
+      {
+        "at": "2026-10-30T22:29:32.747518+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1986422374
+        },
+        "complete": true,
+        "totalBytes": 1986422374,
+        "hostFreeBytes": 4531949568,
+        "vmmemBytes": 3515019264
+      },
+      {
+        "at": "2026-10-30T22:29:39.263355+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4495511552,
+        "vmmemBytes": 3519410176
+      },
+      {
+        "at": "2026-10-30T22:29:45.859406+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4428214272,
+        "vmmemBytes": 3519410176
+      },
+      {
+        "at": "2026-10-30T22:29:52.730332+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1991791083
+        },
+        "complete": true,
+        "totalBytes": 1991791083,
+        "hostFreeBytes": 4502499328,
+        "vmmemBytes": 3520081920
+      },
+      {
+        "at": "2026-10-30T22:29:59.251016+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4509417472,
+        "vmmemBytes": 3520249856
+      },
+      {
+        "at": "2026-10-30T22:30:05.770740+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1991791083
+        },
+        "complete": true,
+        "totalBytes": 1991791083,
+        "hostFreeBytes": 4507795456,
+        "vmmemBytes": 3520856064
+      },
+      {
+        "at": "2026-10-30T22:30:12.733816+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4495400960,
+        "vmmemBytes": 3520987136
+      },
+      {
+        "at": "2026-10-30T22:30:19.202753+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1991791083
+        },
+        "complete": true,
+        "totalBytes": 1991791083,
+        "hostFreeBytes": 4391567360,
+        "vmmemBytes": 3522105344
+      },
+      {
+        "at": "2026-10-30T22:30:25.784641+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1986422374
+        },
+        "complete": true,
+        "totalBytes": 1986422374,
+        "hostFreeBytes": 4481093632,
+        "vmmemBytes": 3520303104
+      },
+      {
+        "at": "2026-10-30T22:30:32.724832+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1986422374
+        },
+        "complete": true,
+        "totalBytes": 1986422374,
+        "hostFreeBytes": 4464566272,
+        "vmmemBytes": 3517550592
+      },
+      {
+        "at": "2026-10-30T22:30:39.319616+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4405940224,
+        "vmmemBytes": 3516596224
+      },
+      {
+        "at": "2026-10-30T22:30:45.851941+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1991791083
+        },
+        "complete": true,
+        "totalBytes": 1991791083,
+        "hostFreeBytes": 4457095168,
+        "vmmemBytes": 3516596224
+      },
+      {
+        "at": "2026-10-30T22:30:52.789463+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1991791083
+        },
+        "complete": true,
+        "totalBytes": 1991791083,
+        "hostFreeBytes": 4468289536,
+        "vmmemBytes": 3516596224
+      },
+      {
+        "at": "2026-10-30T22:30:59.289577+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4416036864,
+        "vmmemBytes": 3516727296
+      },
+      {
+        "at": "2026-10-30T22:31:05.814902+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4446691328,
+        "vmmemBytes": 3514634240
+      },
+      {
+        "at": "2026-10-30T22:31:12.786943+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4447690752,
+        "vmmemBytes": 3513847808
+      },
+      {
+        "at": "2026-10-30T22:31:19.286409+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4450742272,
+        "vmmemBytes": 3513847808
+      },
+      {
+        "at": "2026-10-30T22:31:25.796566+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1986422374
+        },
+        "complete": true,
+        "totalBytes": 1986422374,
+        "hostFreeBytes": 4477415424,
+        "vmmemBytes": 3513847808
+      },
+      {
+        "at": "2026-10-30T22:31:32.305723+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1986422374
+        },
+        "complete": true,
+        "totalBytes": 1986422374,
+        "hostFreeBytes": 4445446144,
+        "vmmemBytes": 3513872384
+      },
+      {
+        "at": "2026-10-30T22:31:38.804815+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4482437120,
+        "vmmemBytes": 3514474496
+      },
+      {
+        "at": "2026-10-30T22:31:45.331043+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4227289088,
+        "vmmemBytes": 3514478592
+      },
+      {
+        "at": "2026-10-30T22:31:52.812981+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4243869696,
+        "vmmemBytes": 3515133952
+      },
+      {
+        "at": "2026-10-30T22:31:59.336916+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4227538944,
+        "vmmemBytes": 3515203584
+      },
+      {
+        "at": "2026-10-30T22:32:05.834007+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4315156480,
+        "vmmemBytes": 3515203584
+      },
+      {
+        "at": "2026-10-30T22:32:12.873935+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4383662080,
+        "vmmemBytes": 3515207680
+      },
+      {
+        "at": "2026-10-30T22:32:19.418829+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1990717341
+        },
+        "complete": true,
+        "totalBytes": 1990717341,
+        "hostFreeBytes": 4375851008,
+        "vmmemBytes": 3512061952
+      },
+      {
+        "at": "2026-10-30T22:32:25.937941+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1986422374
+        },
+        "complete": true,
+        "totalBytes": 1986422374,
+        "hostFreeBytes": 4380590080,
+        "vmmemBytes": 3511799808
+      },
+      {
+        "at": "2026-10-30T22:32:32.881347+00:00",
+        "containers": {
+          "starfleet-missions-data-20261009": 1987496116
+        },
+        "complete": true,
+        "totalBytes": 1987496116,
+        "hostFreeBytes": 4380991488,
+        "vmmemBytes": 3512111104
+      }
+    ],
+    "peaks": {
+      "perContainerGiB": {
+        "starfleet-missions-data-20261009": 1.872
+      },
+      "totalGiB": 1.872,
+      "hostFreeMinGiB": 3.937,
+      "vmmemMaxGiB": 3.28,
+      "samples": 46,
+      "incompleteSamples": 0,
+      "samplesWithoutHostFree": 0
+    },
+    "after": {
+      "name": "/starfleet-missions-data-20261009",
+      "status": "running",
+      "startedAt": "2026-10-30T22:27:17.962191039Z",
+      "oomKilled": false,
+      "restarts": 0,
+      "image": "container-registry.oracle.com/database/express:18.4.0-xe@sha256:b17a93fb201562ad142d267c0ac3eecb0e6207debafd6ed51a1da157b9cacab8"
+    },
+    "sga": {
+      "Fixed SGA Size": 8898440,
+      "Redo Buffers": 7876608,
+      "Buffer Cache Size": 1040187392,
+      "In-Memory Area Size": 0,
+      "Shared Pool Size": 503316480,
+      "Large Pool Size": 33554432,
+      "Java Pool Size": 16777216,
+      "Streams Pool Size": 0,
+      "Shared IO Pool Size": 50331648,
+      "Data Transfer Cache Size": 0,
+      "Granule Size": 16777216,
+      "Maximum SGA Size": 1610610568,
+      "Startup overhead in Shared Pool": 478905648,
+      "Free SGA Memory Available": 0
+    },
+    "pga": {
+      "aggregate PGA target parameter": {
+        "value": 0,
+        "unit": "bytes"
+      },
+      "total PGA allocated": {
+        "value": 2926592,
+        "unit": "bytes"
+      },
+      "maximum PGA allocated": {
+        "value": 2926592,
+        "unit": "bytes"
+      }
+    }
+  },
+  "checks": [
+    {
+      "id": "oracle-ready",
+      "text": "Oracle ready within 15 minutes",
+      "observed": 13.3,
+      "result": "pass"
+    },
+    {
+      "id": "oracle-no-oom",
+      "text": "no OOM kill and no restart of Oracle",
+      "observed": {
+        "name": "/starfleet-missions-data-20261009",
+        "status": "running",
+        "startedAt": "2026-10-30T22:27:17.962191039Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "container-registry.oracle.com/database/express:18.4.0-xe@sha256:b17a93fb201562ad142d267c0ac3eecb0e6207debafd6ed51a1da157b9cacab8"
+      },
+      "result": "pass"
+    }
+  ],
+  "notes": []
+}

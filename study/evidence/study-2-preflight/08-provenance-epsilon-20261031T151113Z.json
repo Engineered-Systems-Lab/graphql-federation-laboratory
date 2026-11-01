@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "step": "provenance",
+  "stepNumber": 8,
+  "label": "epsilon",
+  "startedAt": "2026-10-31T15:11:13.042867+00:00",
+  "finishedAt": "2026-10-31T15:11:14.496157+00:00",
+  "host": {
+    "platform": "win32",
+    "python": "3.14.8"
+  },
+  "plan": [
+    "read the provenance block of scenario epsilon from study-config.json and check it with the harness validator",
+    "observe the running stack with the harness: docker compose -p <project> ps --all --format json, docker inspect <ids>",
+    "compare the observation with the declaration; the intended Missions mode must be real and the observed one equal it",
+    "no vendor client is made and no request is sent to a model"
+  ],
+  "commands": [
+    "docker compose -p <project> ps --all --format json; docker inspect <ids> (the harness DockerCli)"
+  ],
+  "measurements": {
+    "scenario": "epsilon",
+    "intended": {
+      "compose_projects": [
+        "starfleet-missions",
+        "starfleet-federation-stack"
+      ],
+      "backends": {
+        "missions": {
+          "mode": "real",
+          "service": "starfleet-missions/missions",
+          "image_ref": "starfleet-missions-service:1.0.0"
+        },
+        "assets": {
+          "mode": "real",
+          "service": "assets-service",
+          "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+          "dataset": {
+            "id": "assets-1.1",
+            "path": "<path>/1.1",
+            "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+          }
+        },
+        "personnel": {
+          "mode": "real",
+          "service": "personnel-service",
+          "image_ref": "starfleet-federation-stack-personnel-service:2.0.0"
+        }
+      },
+      "routing": {
+        "endpoints": {
+          "http://127.0.0.1:8171/graphql": "cosmo-router"
+        },
+        "env": {
+          "assets-adapter": {
+            "ASSETS_SERVICE_URL": "http://assets-service:8084"
+          },
+          "missions-adapter": {
+            "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+          },
+          "personnel-adapter": {
+            "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+          }
+        }
+      },
+      "launch_files": {
+        "launch_script": "<path>/launch.py",
+        "missions_real_overlay": "<path>/missions-real.compose.yaml",
+        "stack_compose": "<path>/compose.yaml"
+      }
+    },
+    "fingerprint": "b3e12ff44334826ddc47e78c794cfd4a253e03b1d1f22b2d54ab8ae803829124",
+    "problems": [],
+    "missionsMode": {
+      "intended": "real",
+      "observed": "real"
+    }
+  },
+  "checks": [
+    {
+      "id": "provenance-match",
+      "text": "the observed stack matches the declaration",
+      "observed": [],
+      "result": "pass"
+    },
+    {
+      "id": "missions-real",
+      "text": "the intended Missions mode is real and the observed mode equals it",
+      "observed": {
+        "intended": "real",
+        "observed": "real"
+      },
+      "result": "pass"
+    }
+  ],
+  "notes": []
+}

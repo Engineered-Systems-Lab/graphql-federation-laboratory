@@ -1,0 +1,2381 @@
+{
+  "schema": 1,
+  "step": "stack",
+  "stepNumber": 5,
+  "label": "alpha-simulated",
+  "startedAt": "2026-10-30T23:52:39.475994+00:00",
+  "finishedAt": "2026-10-31T00:22:54.089406+00:00",
+  "host": {
+    "platform": "win32",
+    "python": "3.14.8"
+  },
+  "plan": [
+    "check that the apollo router answers on http://127.0.0.1:8170/ (the operator started the stack with launch.py up alpha --missions simulated)",
+    "read the state of every container of starfleet-federation-stack, starfleet-missions and of Oracle, before and after",
+    "heavy load: the full page (100 missions with assets, commanding officer and crew) at offsets 0, 100, 200, 3 times",
+    "soak for 30 minutes: the full pages in turn and GET http://127.0.0.1:8083/missions?page=1..6&pageSize=50, sampling docker stats, vmmem and host free memory every 15 s",
+    "only GraphQL queries and GET requests are sent"
+  ],
+  "commands": [
+    "docker ps --filter label=com.docker.compose.project=starfleet-federation-stack --format {{.Names}}",
+    "docker ps --filter label=com.docker.compose.project=starfleet-missions --format {{.Names}}",
+    "docker ps --filter name=^starfleet-missions-data-20261009$ --format {{.Names}}",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-assets-adapter-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-assets-db-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-assets-service-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-mapping-adapter-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-missions-adapter-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-missions-stub-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-personnel-adapter-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-personnel-service-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-router-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-missions-data-20261009",
+    "POST http://127.0.0.1:8170/ FULL_PAGE x 9",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "soak: 3209 cycles of one full page and one GET http://127.0.0.1:8083/missions page",
+    "docker stats --no-stream --format {{json .}} starfleet-federation-stack-assets-adapter-1 starfleet-federation-stack-assets-db-1 starfleet-federation-stack-assets-service-1 starfleet-federation-stack-mapping-adapter-1 starfleet-federation-stack-missions-adapter-1 starfleet-federation-stack-missions-stub-1 starfleet-federation-stack-personnel-adapter-1 starfleet-federation-stack-personnel-service-1 starfleet-federation-stack-router-1 starfleet-missions-data-20261009",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-assets-adapter-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-assets-db-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-assets-service-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-mapping-adapter-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-missions-adapter-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-missions-stub-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-personnel-adapter-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-personnel-service-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-federation-stack-router-1",
+    "docker inspect --format {\"name\":{{json .Name}},\"status\":{{json .State.Status}},\"startedAt\":{{json .State.StartedAt}},\"oomKilled\":{{json .State.OOMKilled}},\"restarts\":{{json .RestartCount}},\"image\":{{json .Config.Image}}} starfleet-missions-data-20261009"
+  ],
+  "measurements": {
+    "containersBefore": {
+      "starfleet-federation-stack-assets-adapter-1": {
+        "name": "/starfleet-federation-stack-assets-adapter-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:57.059127934Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-assets-adapter:1.0.0"
+      },
+      "starfleet-federation-stack-assets-db-1": {
+        "name": "/starfleet-federation-stack-assets-db-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:45.385005586Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "postgres:17-bookworm@sha256:3645570cccdfa447589da9f57dd740faa29b30938e861289a5574b6ca6b03826"
+      },
+      "starfleet-federation-stack-assets-service-1": {
+        "name": "/starfleet-federation-stack-assets-service-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:29:23.117959364Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-assets-service:1.0.0"
+      },
+      "starfleet-federation-stack-mapping-adapter-1": {
+        "name": "/starfleet-federation-stack-mapping-adapter-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:45.636131852Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-mapping-adapter:1.0.0"
+      },
+      "starfleet-federation-stack-missions-adapter-1": {
+        "name": "/starfleet-federation-stack-missions-adapter-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:48.91608672Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-missions-adapter:1.0.0"
+      },
+      "starfleet-federation-stack-missions-stub-1": {
+        "name": "/starfleet-federation-stack-missions-stub-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:29:23.779175958Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641"
+      },
+      "starfleet-federation-stack-personnel-adapter-1": {
+        "name": "/starfleet-federation-stack-personnel-adapter-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:53.703878477Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-personnel-adapter:1.0.0"
+      },
+      "starfleet-federation-stack-personnel-service-1": {
+        "name": "/starfleet-federation-stack-personnel-service-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:29:23.424757331Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-personnel-service:2.0.0"
+      },
+      "starfleet-federation-stack-router-1": {
+        "name": "/starfleet-federation-stack-router-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:29:18.078565711Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "ghcr.io/apollographql/router@sha256:5b02af03e8f0268b8fcf85132c9e54ea36a1029b0823b00bb9151f698a991215"
+      },
+      "starfleet-missions-data-20261009": {
+        "name": "/starfleet-missions-data-20261009",
+        "status": "running",
+        "startedAt": "2026-10-30T22:27:17.962191039Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "container-registry.oracle.com/database/express:18.4.0-xe@sha256:b17a93fb201562ad142d267c0ac3eecb0e6207debafd6ed51a1da157b9cacab8"
+      }
+    },
+    "heavy": {
+      "latency": {
+        "count": 9,
+        "min": 0.4575,
+        "median": 0.5151,
+        "p95": 2.7436,
+        "max": 2.7436
+      },
+      "errors": 0
+    },
+    "scenario": "alpha",
+    "missions": "simulated",
+    "soakMinutes": 30,
+    "soak": {
+      "cycles": 3209,
+      "errors": 0,
+      "routerLatency": {
+        "count": 3209,
+        "min": 0.3903,
+        "median": 0.4487,
+        "p95": 0.6377,
+        "max": 0.8475
+      },
+      "missionsRestLatency": {
+        "count": 3209,
+        "min": 0.0029,
+        "median": 0.0045,
+        "p95": 0.0477,
+        "max": 0.1101
+      }
+    },
+    "samples": [
+      {
+        "at": "2026-10-30T23:52:51.721744+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 187065958,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 39007027,
+          "starfleet-federation-stack-mapping-adapter-1": 201536307,
+          "starfleet-federation-stack-missions-adapter-1": 193147699,
+          "starfleet-federation-stack-missions-stub-1": 26686259,
+          "starfleet-federation-stack-personnel-adapter-1": 203318886,
+          "starfleet-federation-stack-personnel-service-1": 95315558,
+          "starfleet-federation-stack-router-1": 26854031,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3190628021,
+        "hostFreeBytes": 3665809408,
+        "vmmemBytes": 3321036800
+      },
+      {
+        "at": "2026-10-30T23:53:09.681589+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 191365120,
+          "starfleet-federation-stack-assets-db-1": 108527616,
+          "starfleet-federation-stack-assets-service-1": 28259123,
+          "starfleet-federation-stack-mapping-adapter-1": 205416038,
+          "starfleet-federation-stack-missions-adapter-1": 198390579,
+          "starfleet-federation-stack-missions-stub-1": 26057113,
+          "starfleet-federation-stack-personnel-adapter-1": 206779187,
+          "starfleet-federation-stack-personnel-service-1": 97391738,
+          "starfleet-federation-stack-router-1": 26424115,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3198513313,
+        "hostFreeBytes": 3626139648,
+        "vmmemBytes": 3342528512
+      },
+      {
+        "at": "2026-10-30T23:53:26.752745+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 198600294,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 28668067,
+          "starfleet-federation-stack-mapping-adapter-1": 207093760,
+          "starfleet-federation-stack-missions-adapter-1": 200592588,
+          "starfleet-federation-stack-missions-stub-1": 26350714,
+          "starfleet-federation-stack-personnel-adapter-1": 210344345,
+          "starfleet-federation-stack-personnel-service-1": 99268689,
+          "starfleet-federation-stack-router-1": 27231518,
+          "starfleet-missions-data-20261009": 2105607716
+        },
+        "complete": true,
+        "totalBytes": 3211865876,
+        "hostFreeBytes": 3719262208,
+        "vmmemBytes": 3353616384
+      },
+      {
+        "at": "2026-10-30T23:53:44.655237+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 202270310,
+          "starfleet-federation-stack-assets-db-1": 108422758,
+          "starfleet-federation-stack-assets-service-1": 28206694,
+          "starfleet-federation-stack-mapping-adapter-1": 206779187,
+          "starfleet-federation-stack-missions-adapter-1": 202794598,
+          "starfleet-federation-stack-missions-stub-1": 36154900,
+          "starfleet-federation-stack-personnel-adapter-1": 211078348,
+          "starfleet-federation-stack-personnel-service-1": 100705239,
+          "starfleet-federation-stack-router-1": 25448939,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3232837398,
+        "hostFreeBytes": 3858522112,
+        "vmmemBytes": 3363192832
+      },
+      {
+        "at": "2026-10-30T23:54:01.720721+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 201850880,
+          "starfleet-federation-stack-assets-db-1": 108317900,
+          "starfleet-federation-stack-assets-service-1": 28982640,
+          "starfleet-federation-stack-mapping-adapter-1": 208352051,
+          "starfleet-federation-stack-missions-adapter-1": 204891750,
+          "starfleet-federation-stack-missions-stub-1": 36081500,
+          "starfleet-federation-stack-personnel-adapter-1": 212756070,
+          "starfleet-federation-stack-personnel-service-1": 105591603,
+          "starfleet-federation-stack-router-1": 31142707,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3247869785,
+        "hostFreeBytes": 3767894016,
+        "vmmemBytes": 3386765312
+      },
+      {
+        "at": "2026-10-30T23:54:19.678987+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 202584883,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 28919726,
+          "starfleet-federation-stack-mapping-adapter-1": 217369804,
+          "starfleet-federation-stack-missions-adapter-1": 206884044,
+          "starfleet-federation-stack-missions-stub-1": 26854031,
+          "starfleet-federation-stack-personnel-adapter-1": 213804646,
+          "starfleet-federation-stack-personnel-service-1": 107164467,
+          "starfleet-federation-stack-router-1": 25773998,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3247366468,
+        "hostFreeBytes": 3630321664,
+        "vmmemBytes": 3387084800
+      },
+      {
+        "at": "2026-10-30T23:54:36.766061+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 204052889,
+          "starfleet-federation-stack-assets-db-1": 107898470,
+          "starfleet-federation-stack-assets-service-1": 28762439,
+          "starfleet-federation-stack-mapping-adapter-1": 219257241,
+          "starfleet-federation-stack-missions-adapter-1": 207827763,
+          "starfleet-federation-stack-missions-stub-1": 26979860,
+          "starfleet-federation-stack-personnel-adapter-1": 216321228,
+          "starfleet-federation-stack-personnel-service-1": 106535321,
+          "starfleet-federation-stack-router-1": 27304919,
+          "starfleet-missions-data-20261009": 2105607716
+        },
+        "complete": true,
+        "totalBytes": 3250547846,
+        "hostFreeBytes": 3864920064,
+        "vmmemBytes": 3393048576
+      },
+      {
+        "at": "2026-10-30T23:54:54.726181+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 205416038,
+          "starfleet-federation-stack-assets-db-1": 109156761,
+          "starfleet-federation-stack-assets-service-1": 28636610,
+          "starfleet-federation-stack-mapping-adapter-1": 218942668,
+          "starfleet-federation-stack-missions-adapter-1": 206884044,
+          "starfleet-federation-stack-missions-stub-1": 27242004,
+          "starfleet-federation-stack-personnel-adapter-1": 212860928,
+          "starfleet-federation-stack-personnel-service-1": 107374182,
+          "starfleet-federation-stack-router-1": 27755806,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3255245466,
+        "hostFreeBytes": 4312051712,
+        "vmmemBytes": 3282833408
+      },
+      {
+        "at": "2026-10-30T23:55:11.697429+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 205101465,
+          "starfleet-federation-stack-assets-db-1": 108527616,
+          "starfleet-federation-stack-assets-service-1": 28689039,
+          "starfleet-federation-stack-mapping-adapter-1": 219466956,
+          "starfleet-federation-stack-missions-adapter-1": 204367462,
+          "starfleet-federation-stack-missions-stub-1": 38147194,
+          "starfleet-federation-stack-personnel-adapter-1": 213175500,
+          "starfleet-federation-stack-personnel-service-1": 110519910,
+          "starfleet-federation-stack-router-1": 27378319,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3265276145,
+        "hostFreeBytes": 4414042112,
+        "vmmemBytes": 3308126208
+      },
+      {
+        "at": "2026-10-30T23:55:29.331887+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 205940326,
+          "starfleet-federation-stack-assets-db-1": 107269324,
+          "starfleet-federation-stack-assets-service-1": 39961231,
+          "starfleet-federation-stack-mapping-adapter-1": 220200960,
+          "starfleet-federation-stack-missions-adapter-1": 206045184,
+          "starfleet-federation-stack-missions-stub-1": 27619491,
+          "starfleet-federation-stack-personnel-adapter-1": 213594931,
+          "starfleet-federation-stack-personnel-service-1": 110310195,
+          "starfleet-federation-stack-router-1": 26633830,
+          "starfleet-missions-data-20261009": 2105607716
+        },
+        "complete": true,
+        "totalBytes": 3263183188,
+        "hostFreeBytes": 4287434752,
+        "vmmemBytes": 3316326400
+      },
+      {
+        "at": "2026-10-30T23:55:46.779315+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 207093760,
+          "starfleet-federation-stack-assets-db-1": 107583897,
+          "starfleet-federation-stack-assets-service-1": 28636610,
+          "starfleet-federation-stack-mapping-adapter-1": 221878681,
+          "starfleet-federation-stack-missions-adapter-1": 208247193,
+          "starfleet-federation-stack-missions-stub-1": 27273461,
+          "starfleet-federation-stack-personnel-adapter-1": 215167795,
+          "starfleet-federation-stack-personnel-service-1": 110205337,
+          "starfleet-federation-stack-router-1": 27619491,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3263608909,
+        "hostFreeBytes": 4278599680,
+        "vmmemBytes": 3349524480
+      },
+      {
+        "at": "2026-10-30T23:56:04.446482+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 207303475,
+          "starfleet-federation-stack-assets-db-1": 113351065,
+          "starfleet-federation-stack-assets-service-1": 28458352,
+          "starfleet-federation-stack-mapping-adapter-1": 219886387,
+          "starfleet-federation-stack-missions-adapter-1": 208352051,
+          "starfleet-federation-stack-missions-stub-1": 28007464,
+          "starfleet-federation-stack-personnel-adapter-1": 220096102,
+          "starfleet-federation-stack-personnel-service-1": 111463628,
+          "starfleet-federation-stack-router-1": 26623344,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3274518293,
+        "hostFreeBytes": 4046856192,
+        "vmmemBytes": 3356098560
+      },
+      {
+        "at": "2026-10-30T23:56:21.756748+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 212336640,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 27871150,
+          "starfleet-federation-stack-mapping-adapter-1": 220305817,
+          "starfleet-federation-stack-missions-adapter-1": 211497779,
+          "starfleet-federation-stack-missions-stub-1": 27955036,
+          "starfleet-federation-stack-personnel-adapter-1": 225548697,
+          "starfleet-federation-stack-personnel-service-1": 110834483,
+          "starfleet-federation-stack-router-1": 26612858,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3280973329,
+        "hostFreeBytes": 4101099520,
+        "vmmemBytes": 3379253248
+      },
+      {
+        "at": "2026-10-30T23:56:39.760561+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 207408332,
+          "starfleet-federation-stack-assets-db-1": 108527616,
+          "starfleet-federation-stack-assets-service-1": 27913093,
+          "starfleet-federation-stack-mapping-adapter-1": 221144678,
+          "starfleet-federation-stack-missions-adapter-1": 212441497,
+          "starfleet-federation-stack-missions-stub-1": 28594667,
+          "starfleet-federation-stack-personnel-adapter-1": 220305817,
+          "starfleet-federation-stack-personnel-service-1": 111253913,
+          "starfleet-federation-stack-router-1": 28678553,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3277244591,
+        "hostFreeBytes": 4113223680,
+        "vmmemBytes": 3419279360
+      },
+      {
+        "at": "2026-10-30T23:56:56.851390+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 207513190,
+          "starfleet-federation-stack-assets-db-1": 107898470,
+          "starfleet-federation-stack-assets-service-1": 28447866,
+          "starfleet-federation-stack-mapping-adapter-1": 221773824,
+          "starfleet-federation-stack-missions-adapter-1": 213175500,
+          "starfleet-federation-stack-missions-stub-1": 27976007,
+          "starfleet-federation-stack-personnel-adapter-1": 220830105,
+          "starfleet-federation-stack-personnel-service-1": 113141350,
+          "starfleet-federation-stack-router-1": 28793896,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3279452892,
+        "hostFreeBytes": 4164493312,
+        "vmmemBytes": 3421999104
+      },
+      {
+        "at": "2026-10-30T23:57:14.622772+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 207722905,
+          "starfleet-federation-stack-assets-db-1": 107059609,
+          "starfleet-federation-stack-assets-service-1": 28080865,
+          "starfleet-federation-stack-mapping-adapter-1": 221249536,
+          "starfleet-federation-stack-missions-adapter-1": 214853222,
+          "starfleet-federation-stack-missions-stub-1": 28133294,
+          "starfleet-federation-stack-personnel-adapter-1": 223032115,
+          "starfleet-federation-stack-personnel-service-1": 116811366,
+          "starfleet-federation-stack-router-1": 30492590,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3287338186,
+        "hostFreeBytes": 4057858048,
+        "vmmemBytes": 3421872128
+      },
+      {
+        "at": "2026-10-30T23:57:31.827779+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 209086054,
+          "starfleet-federation-stack-assets-db-1": 108527616,
+          "starfleet-federation-stack-assets-service-1": 28615639,
+          "starfleet-federation-stack-mapping-adapter-1": 220410675,
+          "starfleet-federation-stack-missions-adapter-1": 212965785,
+          "starfleet-federation-stack-missions-stub-1": 28405923,
+          "starfleet-federation-stack-personnel-adapter-1": 223241830,
+          "starfleet-federation-stack-personnel-service-1": 117964800,
+          "starfleet-federation-stack-router-1": 30649876,
+          "starfleet-missions-data-20261009": 2106681458
+        },
+        "complete": true,
+        "totalBytes": 3286549656,
+        "hostFreeBytes": 4117417984,
+        "vmmemBytes": 3427188736
+      },
+      {
+        "at": "2026-10-30T23:57:49.561640+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 208247193,
+          "starfleet-federation-stack-assets-db-1": 108947046,
+          "starfleet-federation-stack-assets-service-1": 41544581,
+          "starfleet-federation-stack-mapping-adapter-1": 224500121,
+          "starfleet-federation-stack-missions-adapter-1": 216321228,
+          "starfleet-federation-stack-missions-stub-1": 42142269,
+          "starfleet-federation-stack-personnel-adapter-1": 221983539,
+          "starfleet-federation-stack-personnel-service-1": 116706508,
+          "starfleet-federation-stack-router-1": 27053260,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3318422170,
+        "hostFreeBytes": 3755032576,
+        "vmmemBytes": 3431202816
+      },
+      {
+        "at": "2026-10-30T23:58:06.885979+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 206464614,
+          "starfleet-federation-stack-assets-db-1": 108317900,
+          "starfleet-federation-stack-assets-service-1": 28374466,
+          "starfleet-federation-stack-mapping-adapter-1": 224709836,
+          "starfleet-federation-stack-missions-adapter-1": 220410675,
+          "starfleet-federation-stack-missions-stub-1": 29464985,
+          "starfleet-federation-stack-personnel-adapter-1": 218942668,
+          "starfleet-federation-stack-personnel-service-1": 116706508,
+          "starfleet-federation-stack-router-1": 26875002,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3291243079,
+        "hostFreeBytes": 3838803968,
+        "vmmemBytes": 3429425152
+      },
+      {
+        "at": "2026-10-30T23:58:24.434745+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 208352051,
+          "starfleet-federation-stack-assets-db-1": 108422758,
+          "starfleet-federation-stack-assets-service-1": 28594667,
+          "starfleet-federation-stack-mapping-adapter-1": 224814694,
+          "starfleet-federation-stack-missions-adapter-1": 220410675,
+          "starfleet-federation-stack-missions-stub-1": 28636610,
+          "starfleet-federation-stack-personnel-adapter-1": 218942668,
+          "starfleet-federation-stack-personnel-service-1": 117021081,
+          "starfleet-federation-stack-router-1": 30377246,
+          "starfleet-missions-data-20261009": 2106681458
+        },
+        "complete": true,
+        "totalBytes": 3292253908,
+        "hostFreeBytes": 3743461376,
+        "vmmemBytes": 3429662720
+      },
+      {
+        "at": "2026-10-30T23:58:41.973589+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 209295769,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 28982640,
+          "starfleet-federation-stack-mapping-adapter-1": 223556403,
+          "starfleet-federation-stack-missions-adapter-1": 219152384,
+          "starfleet-federation-stack-missions-stub-1": 28783411,
+          "starfleet-federation-stack-personnel-adapter-1": 220096102,
+          "starfleet-federation-stack-personnel-service-1": 117335654,
+          "starfleet-federation-stack-router-1": 27042775,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3295162659,
+        "hostFreeBytes": 3767259136,
+        "vmmemBytes": 3430100992
+      },
+      {
+        "at": "2026-10-30T23:58:59.865164+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 209924915,
+          "starfleet-federation-stack-assets-db-1": 108527616,
+          "starfleet-federation-stack-assets-service-1": 28741468,
+          "starfleet-federation-stack-mapping-adapter-1": 223451545,
+          "starfleet-federation-stack-missions-adapter-1": 219781529,
+          "starfleet-federation-stack-missions-stub-1": 29360128,
+          "starfleet-federation-stack-personnel-adapter-1": 220830105,
+          "starfleet-federation-stack-personnel-service-1": 117755084,
+          "starfleet-federation-stack-router-1": 27210547,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3296559362,
+        "hostFreeBytes": 3720028160,
+        "vmmemBytes": 3430150144
+      },
+      {
+        "at": "2026-10-30T23:59:16.913274+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 214748364,
+          "starfleet-federation-stack-assets-db-1": 107479040,
+          "starfleet-federation-stack-assets-service-1": 37371248,
+          "starfleet-federation-stack-mapping-adapter-1": 224814694,
+          "starfleet-federation-stack-missions-adapter-1": 216216371,
+          "starfleet-federation-stack-missions-stub-1": 29706158,
+          "starfleet-federation-stack-personnel-adapter-1": 219571814,
+          "starfleet-federation-stack-personnel-service-1": 115343360,
+          "starfleet-federation-stack-router-1": 27902607,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3304130081,
+        "hostFreeBytes": 3751505920,
+        "vmmemBytes": 3430285312
+      },
+      {
+        "at": "2026-10-30T23:59:34.810580+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 208352051,
+          "starfleet-federation-stack-assets-db-1": 108737331,
+          "starfleet-federation-stack-assets-service-1": 28447866,
+          "starfleet-federation-stack-mapping-adapter-1": 225443840,
+          "starfleet-federation-stack-missions-adapter-1": 217579520,
+          "starfleet-federation-stack-missions-stub-1": 28993126,
+          "starfleet-federation-stack-personnel-adapter-1": 220830105,
+          "starfleet-federation-stack-personnel-service-1": 113665638,
+          "starfleet-federation-stack-router-1": 27692892,
+          "starfleet-missions-data-20261009": 2106681458
+        },
+        "complete": true,
+        "totalBytes": 3286423827,
+        "hostFreeBytes": 4102344704,
+        "vmmemBytes": 3429879808
+      },
+      {
+        "at": "2026-10-30T23:59:51.967714+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 208981196,
+          "starfleet-federation-stack-assets-db-1": 108632473,
+          "starfleet-federation-stack-assets-service-1": 28426895,
+          "starfleet-federation-stack-mapping-adapter-1": 223661260,
+          "starfleet-federation-stack-missions-adapter-1": 216216371,
+          "starfleet-federation-stack-missions-stub-1": 29611786,
+          "starfleet-federation-stack-personnel-adapter-1": 220620390,
+          "starfleet-federation-stack-personnel-service-1": 114189926,
+          "starfleet-federation-stack-router-1": 26791116,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3288107838,
+        "hostFreeBytes": 4667092992,
+        "vmmemBytes": 2794786816
+      },
+      {
+        "at": "2026-10-31T00:00:09.619877+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 212965785,
+          "starfleet-federation-stack-assets-db-1": 107898470,
+          "starfleet-federation-stack-assets-service-1": 27671920,
+          "starfleet-federation-stack-mapping-adapter-1": 224709836,
+          "starfleet-federation-stack-missions-adapter-1": 216635801,
+          "starfleet-federation-stack-missions-stub-1": 29716643,
+          "starfleet-federation-stack-personnel-adapter-1": 221773824,
+          "starfleet-federation-stack-personnel-service-1": 114609356,
+          "starfleet-federation-stack-router-1": 27378319,
+          "starfleet-missions-data-20261009": 2141041197
+        },
+        "complete": true,
+        "totalBytes": 3324401151,
+        "hostFreeBytes": 4609363968,
+        "vmmemBytes": 2822881280
+      },
+      {
+        "at": "2026-10-31T00:00:26.969274+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 213385216,
+          "starfleet-federation-stack-assets-db-1": 108213043,
+          "starfleet-federation-stack-assets-service-1": 27713863,
+          "starfleet-federation-stack-mapping-adapter-1": 224919552,
+          "starfleet-federation-stack-missions-adapter-1": 217264947,
+          "starfleet-federation-stack-missions-stub-1": 30618419,
+          "starfleet-federation-stack-personnel-adapter-1": 219991244,
+          "starfleet-federation-stack-personnel-service-1": 115553075,
+          "starfleet-federation-stack-router-1": 27021803,
+          "starfleet-missions-data-20261009": 2136746229
+        },
+        "complete": true,
+        "totalBytes": 3321427391,
+        "hostFreeBytes": 4598521856,
+        "vmmemBytes": 2823581696
+      },
+      {
+        "at": "2026-10-31T00:00:44.886285+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 214328934,
+          "starfleet-federation-stack-assets-db-1": 108422758,
+          "starfleet-federation-stack-assets-service-1": 27860664,
+          "starfleet-federation-stack-mapping-adapter-1": 224500121,
+          "starfleet-federation-stack-missions-adapter-1": 218103808,
+          "starfleet-federation-stack-missions-stub-1": 30157045,
+          "starfleet-federation-stack-personnel-adapter-1": 220725248,
+          "starfleet-federation-stack-personnel-service-1": 114085068,
+          "starfleet-federation-stack-router-1": 26591887,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3297899442,
+        "hostFreeBytes": 4686020608,
+        "vmmemBytes": 2840178688
+      },
+      {
+        "at": "2026-10-31T00:01:02.040805+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 214538649,
+          "starfleet-federation-stack-assets-db-1": 108317900,
+          "starfleet-federation-stack-assets-service-1": 29181870,
+          "starfleet-federation-stack-mapping-adapter-1": 224290406,
+          "starfleet-federation-stack-missions-adapter-1": 217055232,
+          "starfleet-federation-stack-missions-stub-1": 29664215,
+          "starfleet-federation-stack-personnel-adapter-1": 223766118,
+          "starfleet-federation-stack-personnel-service-1": 114504499,
+          "starfleet-federation-stack-router-1": 30240931,
+          "starfleet-missions-data-20261009": 2126008811
+        },
+        "complete": true,
+        "totalBytes": 3317568631,
+        "hostFreeBytes": 4662964224,
+        "vmmemBytes": 2841059328
+      },
+      {
+        "at": "2026-10-31T00:01:19.986053+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 215482368,
+          "starfleet-federation-stack-assets-db-1": 108213043,
+          "starfleet-federation-stack-assets-service-1": 40621834,
+          "starfleet-federation-stack-mapping-adapter-1": 224080691,
+          "starfleet-federation-stack-missions-adapter-1": 219991244,
+          "starfleet-federation-stack-missions-stub-1": 29894901,
+          "starfleet-federation-stack-personnel-adapter-1": 224185548,
+          "starfleet-federation-stack-personnel-service-1": 114819072,
+          "starfleet-federation-stack-router-1": 29852958,
+          "starfleet-missions-data-20261009": 2124935069
+        },
+        "complete": true,
+        "totalBytes": 3332076728,
+        "hostFreeBytes": 4570525696,
+        "vmmemBytes": 2841255936
+      },
+      {
+        "at": "2026-10-31T00:01:37.064424+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 214643507,
+          "starfleet-federation-stack-assets-db-1": 108422758,
+          "starfleet-federation-stack-assets-service-1": 28143779,
+          "starfleet-federation-stack-mapping-adapter-1": 225129267,
+          "starfleet-federation-stack-missions-adapter-1": 220620390,
+          "starfleet-federation-stack-missions-stub-1": 30188503,
+          "starfleet-federation-stack-personnel-adapter-1": 223241830,
+          "starfleet-federation-stack-personnel-service-1": 116287078,
+          "starfleet-federation-stack-router-1": 27273461,
+          "starfleet-missions-data-20261009": 2124935069
+        },
+        "complete": true,
+        "totalBytes": 3318885642,
+        "hostFreeBytes": 4605341696,
+        "vmmemBytes": 2841661440
+      },
+      {
+        "at": "2026-10-31T00:01:54.997928+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 214224076,
+          "starfleet-federation-stack-assets-db-1": 108003328,
+          "starfleet-federation-stack-assets-service-1": 28143779,
+          "starfleet-federation-stack-mapping-adapter-1": 224814694,
+          "starfleet-federation-stack-missions-adapter-1": 220725248,
+          "starfleet-federation-stack-missions-stub-1": 44816138,
+          "starfleet-federation-stack-personnel-adapter-1": 222822400,
+          "starfleet-federation-stack-personnel-service-1": 115343360,
+          "starfleet-federation-stack-router-1": 26466058,
+          "starfleet-missions-data-20261009": 2129230036
+        },
+        "complete": true,
+        "totalBytes": 3334589117,
+        "hostFreeBytes": 4414803968,
+        "vmmemBytes": 2841788416
+      },
+      {
+        "at": "2026-10-31T00:02:12.057561+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 215272652,
+          "starfleet-federation-stack-assets-db-1": 107898470,
+          "starfleet-federation-stack-assets-service-1": 27367833,
+          "starfleet-federation-stack-mapping-adapter-1": 227750707,
+          "starfleet-federation-stack-missions-adapter-1": 225548697,
+          "starfleet-federation-stack-missions-stub-1": 31226593,
+          "starfleet-federation-stack-personnel-adapter-1": 224290406,
+          "starfleet-federation-stack-personnel-service-1": 114609356,
+          "starfleet-federation-stack-router-1": 29339156,
+          "starfleet-missions-data-20261009": 2112050167
+        },
+        "complete": true,
+        "totalBytes": 3315354037,
+        "hostFreeBytes": 4742045696,
+        "vmmemBytes": 2842181632
+      },
+      {
+        "at": "2026-10-31T00:02:30.008688+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 215062937,
+          "starfleet-federation-stack-assets-db-1": 108632473,
+          "starfleet-federation-stack-assets-service-1": 28185722,
+          "starfleet-federation-stack-mapping-adapter-1": 221773824,
+          "starfleet-federation-stack-missions-adapter-1": 220515532,
+          "starfleet-federation-stack-missions-stub-1": 44082135,
+          "starfleet-federation-stack-personnel-adapter-1": 224604979,
+          "starfleet-federation-stack-personnel-service-1": 114714214,
+          "starfleet-federation-stack-router-1": 30031216,
+          "starfleet-missions-data-20261009": 2108828942
+        },
+        "complete": true,
+        "totalBytes": 3316431974,
+        "hostFreeBytes": 4801785856,
+        "vmmemBytes": 2842673152
+      },
+      {
+        "at": "2026-10-31T00:02:48.188564+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 214328934,
+          "starfleet-federation-stack-assets-db-1": 108527616,
+          "starfleet-federation-stack-assets-service-1": 27892121,
+          "starfleet-federation-stack-mapping-adapter-1": 222193254,
+          "starfleet-federation-stack-missions-adapter-1": 220725248,
+          "starfleet-federation-stack-missions-stub-1": 30429675,
+          "starfleet-federation-stack-personnel-adapter-1": 224395264,
+          "starfleet-federation-stack-personnel-service-1": 115133644,
+          "starfleet-federation-stack-router-1": 27923578,
+          "starfleet-missions-data-20261009": 2112050167
+        },
+        "complete": true,
+        "totalBytes": 3303599501,
+        "hostFreeBytes": 4816470016,
+        "vmmemBytes": 2845073408
+      },
+      {
+        "at": "2026-10-31T00:03:05.095207+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 215062937,
+          "starfleet-federation-stack-assets-db-1": 108422758,
+          "starfleet-federation-stack-assets-service-1": 29118955,
+          "starfleet-federation-stack-mapping-adapter-1": 222298112,
+          "starfleet-federation-stack-missions-adapter-1": 223556403,
+          "starfleet-federation-stack-missions-stub-1": 30922506,
+          "starfleet-federation-stack-personnel-adapter-1": 223136972,
+          "starfleet-federation-stack-personnel-service-1": 115238502,
+          "starfleet-federation-stack-router-1": 27189575,
+          "starfleet-missions-data-20261009": 2112050167
+        },
+        "complete": true,
+        "totalBytes": 3306996887,
+        "hostFreeBytes": 4892299264,
+        "vmmemBytes": 2845446144
+      },
+      {
+        "at": "2026-10-31T00:03:22.044498+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 215272652,
+          "starfleet-federation-stack-assets-db-1": 108003328,
+          "starfleet-federation-stack-assets-service-1": 29118955,
+          "starfleet-federation-stack-mapping-adapter-1": 225968128,
+          "starfleet-federation-stack-missions-adapter-1": 224814694,
+          "starfleet-federation-stack-missions-stub-1": 31111249,
+          "starfleet-federation-stack-personnel-adapter-1": 223975833,
+          "starfleet-federation-stack-personnel-service-1": 114189926,
+          "starfleet-federation-stack-router-1": 29926359,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3315505033,
+        "hostFreeBytes": 4881170432,
+        "vmmemBytes": 2851905536
+      },
+      {
+        "at": "2026-10-31T00:03:40.032663+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 216111513,
+          "starfleet-federation-stack-assets-db-1": 108632473,
+          "starfleet-federation-stack-assets-service-1": 28573696,
+          "starfleet-federation-stack-mapping-adapter-1": 221773824,
+          "starfleet-federation-stack-missions-adapter-1": 222822400,
+          "starfleet-federation-stack-missions-stub-1": 31016878,
+          "starfleet-federation-stack-personnel-adapter-1": 224395264,
+          "starfleet-federation-stack-personnel-service-1": 115343360,
+          "starfleet-federation-stack-router-1": 30188503,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3311981820,
+        "hostFreeBytes": 4862369792,
+        "vmmemBytes": 2859065344
+      },
+      {
+        "at": "2026-10-31T00:03:57.169540+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 215482368,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 28626124,
+          "starfleet-federation-stack-mapping-adapter-1": 222088396,
+          "starfleet-federation-stack-missions-adapter-1": 224080691,
+          "starfleet-federation-stack-missions-stub-1": 41534095,
+          "starfleet-federation-stack-personnel-adapter-1": 223556403,
+          "starfleet-federation-stack-personnel-service-1": 115657932,
+          "starfleet-federation-stack-router-1": 29790044,
+          "starfleet-missions-data-20261009": 2112050167
+        },
+        "complete": true,
+        "totalBytes": 3320974405,
+        "hostFreeBytes": 5395771392,
+        "vmmemBytes": 2859483136
+      },
+      {
+        "at": "2026-10-31T00:04:15.029646+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 215796940,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 29569843,
+          "starfleet-federation-stack-mapping-adapter-1": 222298112,
+          "starfleet-federation-stack-missions-adapter-1": 223451545,
+          "starfleet-federation-stack-missions-stub-1": 41114664,
+          "starfleet-federation-stack-personnel-adapter-1": 223346688,
+          "starfleet-federation-stack-personnel-service-1": 115972505,
+          "starfleet-federation-stack-router-1": 27095203,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3319877594,
+        "hostFreeBytes": 5425913856,
+        "vmmemBytes": 2859806720
+      },
+      {
+        "at": "2026-10-31T00:04:32.076412+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 215901798,
+          "starfleet-federation-stack-assets-db-1": 108003328,
+          "starfleet-federation-stack-assets-service-1": 27881635,
+          "starfleet-federation-stack-mapping-adapter-1": 223975833,
+          "starfleet-federation-stack-missions-adapter-1": 225024409,
+          "starfleet-federation-stack-missions-stub-1": 31750881,
+          "starfleet-federation-stack-personnel-adapter-1": 224500121,
+          "starfleet-federation-stack-personnel-service-1": 114504499,
+          "starfleet-federation-stack-router-1": 26833059,
+          "starfleet-missions-data-20261009": 2107755200
+        },
+        "complete": true,
+        "totalBytes": 3306130763,
+        "hostFreeBytes": 5356965888,
+        "vmmemBytes": 2859913216
+      },
+      {
+        "at": "2026-10-31T00:04:50.056249+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 216216371,
+          "starfleet-federation-stack-assets-db-1": 108947046,
+          "starfleet-federation-stack-assets-service-1": 39803944,
+          "starfleet-federation-stack-mapping-adapter-1": 223346688,
+          "starfleet-federation-stack-missions-adapter-1": 229533286,
+          "starfleet-federation-stack-missions-stub-1": 31656509,
+          "starfleet-federation-stack-personnel-adapter-1": 224185548,
+          "starfleet-federation-stack-personnel-service-1": 114609356,
+          "starfleet-federation-stack-router-1": 27011317,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3328433974,
+        "hostFreeBytes": 5889978368,
+        "vmmemBytes": 2360987648
+      },
+      {
+        "at": "2026-10-31T00:05:07.194477+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 221249536,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 28143779,
+          "starfleet-federation-stack-mapping-adapter-1": 222402969,
+          "starfleet-federation-stack-missions-adapter-1": 223451545,
+          "starfleet-federation-stack-missions-stub-1": 31436308,
+          "starfleet-federation-stack-personnel-adapter-1": 229533286,
+          "starfleet-federation-stack-personnel-service-1": 115343360,
+          "starfleet-federation-stack-router-1": 28762439,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3321240743,
+        "hostFreeBytes": 5958414336,
+        "vmmemBytes": 2361630720
+      },
+      {
+        "at": "2026-10-31T00:05:24.981287+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 216111513,
+          "starfleet-federation-stack-assets-db-1": 108213043,
+          "starfleet-federation-stack-assets-service-1": 27640463,
+          "starfleet-federation-stack-mapping-adapter-1": 223241830,
+          "starfleet-federation-stack-missions-adapter-1": 224604979,
+          "starfleet-federation-stack-missions-stub-1": 43694161,
+          "starfleet-federation-stack-personnel-adapter-1": 225443840,
+          "starfleet-federation-stack-personnel-service-1": 115657932,
+          "starfleet-federation-stack-router-1": 27755806,
+          "starfleet-missions-data-20261009": 2107755200
+        },
+        "complete": true,
+        "totalBytes": 3320118767,
+        "hostFreeBytes": 5862612992,
+        "vmmemBytes": 2361585664
+      },
+      {
+        "at": "2026-10-31T00:05:42.141633+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 215796940,
+          "starfleet-federation-stack-assets-db-1": 108317900,
+          "starfleet-federation-stack-assets-service-1": 28154265,
+          "starfleet-federation-stack-mapping-adapter-1": 223556403,
+          "starfleet-federation-stack-missions-adapter-1": 226072985,
+          "starfleet-federation-stack-missions-stub-1": 33522974,
+          "starfleet-federation-stack-personnel-adapter-1": 223975833,
+          "starfleet-federation-stack-personnel-service-1": 114504499,
+          "starfleet-federation-stack-router-1": 27692892,
+          "starfleet-missions-data-20261009": 2130303778
+        },
+        "complete": true,
+        "totalBytes": 3331898469,
+        "hostFreeBytes": 5872222208,
+        "vmmemBytes": 2363195392
+      },
+      {
+        "at": "2026-10-31T00:06:00.112477+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 216530944,
+          "starfleet-federation-stack-assets-db-1": 108317900,
+          "starfleet-federation-stack-assets-service-1": 28751953,
+          "starfleet-federation-stack-mapping-adapter-1": 223975833,
+          "starfleet-federation-stack-missions-adapter-1": 224604979,
+          "starfleet-federation-stack-missions-stub-1": 32883343,
+          "starfleet-federation-stack-personnel-adapter-1": 224500121,
+          "starfleet-federation-stack-personnel-service-1": 115028787,
+          "starfleet-federation-stack-router-1": 26424115,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3314141884,
+        "hostFreeBytes": 5941710848,
+        "vmmemBytes": 2363838464
+      },
+      {
+        "at": "2026-10-31T00:06:17.231013+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217264947,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 27829207,
+          "starfleet-federation-stack-mapping-adapter-1": 222612684,
+          "starfleet-federation-stack-missions-adapter-1": 224185548,
+          "starfleet-federation-stack-missions-stub-1": 32149340,
+          "starfleet-federation-stack-personnel-adapter-1": 226387558,
+          "starfleet-federation-stack-personnel-service-1": 115762790,
+          "starfleet-federation-stack-router-1": 26948403,
+          "starfleet-missions-data-20261009": 2112050167
+        },
+        "complete": true,
+        "totalBytes": 3312984256,
+        "hostFreeBytes": 5973905408,
+        "vmmemBytes": 2364428288
+      },
+      {
+        "at": "2026-10-31T00:06:34.860833+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 216216371,
+          "starfleet-federation-stack-assets-db-1": 108213043,
+          "starfleet-federation-stack-assets-service-1": 28038922,
+          "starfleet-federation-stack-mapping-adapter-1": 223451545,
+          "starfleet-federation-stack-missions-adapter-1": 226282700,
+          "starfleet-federation-stack-missions-stub-1": 32338083,
+          "starfleet-federation-stack-personnel-adapter-1": 225863270,
+          "starfleet-federation-stack-personnel-service-1": 115657932,
+          "starfleet-federation-stack-router-1": 26675773,
+          "starfleet-missions-data-20261009": 2108828942
+        },
+        "complete": true,
+        "totalBytes": 3311566581,
+        "hostFreeBytes": 5972205568,
+        "vmmemBytes": 2364727296
+      },
+      {
+        "at": "2026-10-31T00:06:52.197126+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 216635801,
+          "starfleet-federation-stack-assets-db-1": 107479040,
+          "starfleet-federation-stack-assets-service-1": 28626124,
+          "starfleet-federation-stack-mapping-adapter-1": 223661260,
+          "starfleet-federation-stack-missions-adapter-1": 225758412,
+          "starfleet-federation-stack-missions-stub-1": 44711280,
+          "starfleet-federation-stack-personnel-adapter-1": 225653555,
+          "starfleet-federation-stack-personnel-service-1": 114609356,
+          "starfleet-federation-stack-router-1": 27252490,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3327511227,
+        "hostFreeBytes": 5955735552,
+        "vmmemBytes": 2365034496
+      },
+      {
+        "at": "2026-10-31T00:07:09.877365+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217369804,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 28542238,
+          "starfleet-federation-stack-mapping-adapter-1": 223870976,
+          "starfleet-federation-stack-missions-adapter-1": 225758412,
+          "starfleet-federation-stack-missions-stub-1": 33114030,
+          "starfleet-federation-stack-personnel-adapter-1": 226177843,
+          "starfleet-federation-stack-personnel-service-1": 115238502,
+          "starfleet-federation-stack-router-1": 26497515,
+          "starfleet-missions-data-20261009": 2113123909
+        },
+        "complete": true,
+        "totalBytes": 3317486841,
+        "hostFreeBytes": 5967859712,
+        "vmmemBytes": 2365292544
+      },
+      {
+        "at": "2026-10-31T00:07:27.318846+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218103808,
+          "starfleet-federation-stack-assets-db-1": 108213043,
+          "starfleet-federation-stack-assets-service-1": 28636610,
+          "starfleet-federation-stack-mapping-adapter-1": 222717542,
+          "starfleet-federation-stack-missions-adapter-1": 224395264,
+          "starfleet-federation-stack-missions-stub-1": 32893829,
+          "starfleet-federation-stack-personnel-adapter-1": 227540992,
+          "starfleet-federation-stack-personnel-service-1": 115867648,
+          "starfleet-federation-stack-router-1": 26843545,
+          "starfleet-missions-data-20261009": 2108828942
+        },
+        "complete": true,
+        "totalBytes": 3314041223,
+        "hostFreeBytes": 5950836736,
+        "vmmemBytes": 2365464576
+      },
+      {
+        "at": "2026-10-31T00:07:44.955909+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217160089,
+          "starfleet-federation-stack-assets-db-1": 107479040,
+          "starfleet-federation-stack-assets-service-1": 29024583,
+          "starfleet-federation-stack-mapping-adapter-1": 223975833,
+          "starfleet-federation-stack-missions-adapter-1": 225129267,
+          "starfleet-federation-stack-missions-stub-1": 32883343,
+          "starfleet-federation-stack-personnel-adapter-1": 224919552,
+          "starfleet-federation-stack-personnel-service-1": 115553075,
+          "starfleet-federation-stack-router-1": 27315404,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3318711579,
+        "hostFreeBytes": 5705207808,
+        "vmmemBytes": 2366472192
+      },
+      {
+        "at": "2026-10-31T00:08:02.270157+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 216635801,
+          "starfleet-federation-stack-assets-db-1": 107479040,
+          "starfleet-federation-stack-assets-service-1": 39573258,
+          "starfleet-federation-stack-mapping-adapter-1": 223346688,
+          "starfleet-federation-stack-missions-adapter-1": 225234124,
+          "starfleet-federation-stack-missions-stub-1": 43809505,
+          "starfleet-federation-stack-personnel-adapter-1": 225024409,
+          "starfleet-federation-stack-personnel-service-1": 114609356,
+          "starfleet-federation-stack-router-1": 27483176,
+          "starfleet-missions-data-20261009": 2114197651
+        },
+        "complete": true,
+        "totalBytes": 3337393008,
+        "hostFreeBytes": 5766742016,
+        "vmmemBytes": 2366353408
+      },
+      {
+        "at": "2026-10-31T00:08:20.046980+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218837811,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 38671482,
+          "starfleet-federation-stack-mapping-adapter-1": 223136972,
+          "starfleet-federation-stack-missions-adapter-1": 225338982,
+          "starfleet-federation-stack-missions-stub-1": 33732689,
+          "starfleet-federation-stack-personnel-adapter-1": 225129267,
+          "starfleet-federation-stack-personnel-service-1": 114609356,
+          "starfleet-federation-stack-router-1": 28741468,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3331263032,
+        "hostFreeBytes": 5618724864,
+        "vmmemBytes": 2366558208
+      },
+      {
+        "at": "2026-10-31T00:08:37.341248+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218523238,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 27913093,
+          "starfleet-federation-stack-mapping-adapter-1": 223661260,
+          "starfleet-federation-stack-missions-adapter-1": 225024409,
+          "starfleet-federation-stack-missions-stub-1": 33355202,
+          "starfleet-federation-stack-personnel-adapter-1": 226806988,
+          "starfleet-federation-stack-personnel-service-1": 115657932,
+          "starfleet-federation-stack-router-1": 30094131,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3319047122,
+        "hostFreeBytes": 5666922496,
+        "vmmemBytes": 2367135744
+      },
+      {
+        "at": "2026-10-31T00:08:55.090333+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217474662,
+          "starfleet-federation-stack-assets-db-1": 107898470,
+          "starfleet-federation-stack-assets-service-1": 27346862,
+          "starfleet-federation-stack-mapping-adapter-1": 223870976,
+          "starfleet-federation-stack-missions-adapter-1": 226702131,
+          "starfleet-federation-stack-missions-stub-1": 43232788,
+          "starfleet-federation-stack-personnel-adapter-1": 226597273,
+          "starfleet-federation-stack-personnel-service-1": 116077363,
+          "starfleet-federation-stack-router-1": 26791116,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3331263034,
+        "hostFreeBytes": 5811417088,
+        "vmmemBytes": 2367410176
+      },
+      {
+        "at": "2026-10-31T00:09:12.377715+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 216950374,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 27860664,
+          "starfleet-federation-stack-mapping-adapter-1": 225863270,
+          "starfleet-federation-stack-missions-adapter-1": 226282700,
+          "starfleet-federation-stack-missions-stub-1": 46042972,
+          "starfleet-federation-stack-personnel-adapter-1": 225443840,
+          "starfleet-federation-stack-personnel-service-1": 116391936,
+          "starfleet-federation-stack-router-1": 27755806,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3335971140,
+        "hostFreeBytes": 5568016384,
+        "vmmemBytes": 2367717376
+      },
+      {
+        "at": "2026-10-31T00:09:30.530099+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217160089,
+          "starfleet-federation-stack-assets-db-1": 107898470,
+          "starfleet-federation-stack-assets-service-1": 28143779,
+          "starfleet-federation-stack-mapping-adapter-1": 227331276,
+          "starfleet-federation-stack-missions-adapter-1": 226492416,
+          "starfleet-federation-stack-missions-stub-1": 34120663,
+          "starfleet-federation-stack-personnel-adapter-1": 225758412,
+          "starfleet-federation-stack-personnel-service-1": 116811366,
+          "starfleet-federation-stack-router-1": 26759659,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3321452555,
+        "hostFreeBytes": 5558972416,
+        "vmmemBytes": 2368225280
+      },
+      {
+        "at": "2026-10-31T00:09:47.377802+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218732953,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 28133294,
+          "starfleet-federation-stack-mapping-adapter-1": 226072985,
+          "starfleet-federation-stack-missions-adapter-1": 225234124,
+          "starfleet-federation-stack-missions-stub-1": 34246492,
+          "starfleet-federation-stack-personnel-adapter-1": 226806988,
+          "starfleet-federation-stack-personnel-service-1": 115553075,
+          "starfleet-federation-stack-router-1": 27996979,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3326156468,
+        "hostFreeBytes": 5880598528,
+        "vmmemBytes": 2307436544
+      },
+      {
+        "at": "2026-10-31T00:10:05.080027+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218103808,
+          "starfleet-federation-stack-assets-db-1": 108317900,
+          "starfleet-federation-stack-assets-service-1": 28122808,
+          "starfleet-federation-stack-mapping-adapter-1": 226702131,
+          "starfleet-federation-stack-missions-adapter-1": 225653555,
+          "starfleet-federation-stack-missions-stub-1": 39625687,
+          "starfleet-federation-stack-personnel-adapter-1": 227016704,
+          "starfleet-federation-stack-personnel-service-1": 116182220,
+          "starfleet-federation-stack-router-1": 27210547,
+          "starfleet-missions-data-20261009": 2114197651
+        },
+        "complete": true,
+        "totalBytes": 3331133011,
+        "hostFreeBytes": 6027833344,
+        "vmmemBytes": 2313461760
+      },
+      {
+        "at": "2026-10-31T00:10:22.429701+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217264947,
+          "starfleet-federation-stack-assets-db-1": 108213043,
+          "starfleet-federation-stack-assets-service-1": 28091351,
+          "starfleet-federation-stack-mapping-adapter-1": 229533286,
+          "starfleet-federation-stack-missions-adapter-1": 223870976,
+          "starfleet-federation-stack-missions-stub-1": 35389440,
+          "starfleet-federation-stack-personnel-adapter-1": 225863270,
+          "starfleet-federation-stack-personnel-service-1": 116811366,
+          "starfleet-federation-stack-router-1": 27137146,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3327446218,
+        "hostFreeBytes": 5843226624,
+        "vmmemBytes": 2313859072
+      },
+      {
+        "at": "2026-10-31T00:10:39.960891+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217055232,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 28007464,
+          "starfleet-federation-stack-mapping-adapter-1": 228065280,
+          "starfleet-federation-stack-missions-adapter-1": 224185548,
+          "starfleet-federation-stack-missions-stub-1": 33984348,
+          "starfleet-federation-stack-personnel-adapter-1": 227121561,
+          "starfleet-federation-stack-personnel-service-1": 115553075,
+          "starfleet-federation-stack-router-1": 26612858,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3323964944,
+        "hostFreeBytes": 5869920256,
+        "vmmemBytes": 2314862592
+      },
+      {
+        "at": "2026-10-31T00:10:57.464904+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217894092,
+          "starfleet-federation-stack-assets-db-1": 107479040,
+          "starfleet-federation-stack-assets-service-1": 27692892,
+          "starfleet-federation-stack-mapping-adapter-1": 228589568,
+          "starfleet-federation-stack-missions-adapter-1": 225129267,
+          "starfleet-federation-stack-missions-stub-1": 44459622,
+          "starfleet-federation-stack-personnel-adapter-1": 226597273,
+          "starfleet-federation-stack-personnel-service-1": 115238502,
+          "starfleet-federation-stack-router-1": 26696744,
+          "starfleet-missions-data-20261009": 2114197651
+        },
+        "complete": true,
+        "totalBytes": 3333974651,
+        "hostFreeBytes": 5924769792,
+        "vmmemBytes": 2315456512
+      },
+      {
+        "at": "2026-10-31T00:11:14.987649+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 219257241,
+          "starfleet-federation-stack-assets-db-1": 107374182,
+          "starfleet-federation-stack-assets-service-1": 28426895,
+          "starfleet-federation-stack-mapping-adapter-1": 229008998,
+          "starfleet-federation-stack-missions-adapter-1": 227226419,
+          "starfleet-federation-stack-missions-stub-1": 48234496,
+          "starfleet-federation-stack-personnel-adapter-1": 227750707,
+          "starfleet-federation-stack-personnel-service-1": 115867648,
+          "starfleet-federation-stack-router-1": 27409776,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3345827755,
+        "hostFreeBytes": 5913104384,
+        "vmmemBytes": 2316042240
+      },
+      {
+        "at": "2026-10-31T00:11:32.438380+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217789235,
+          "starfleet-federation-stack-assets-db-1": 108737331,
+          "starfleet-federation-stack-assets-service-1": 28311552,
+          "starfleet-federation-stack-mapping-adapter-1": 229638144,
+          "starfleet-federation-stack-missions-adapter-1": 224290406,
+          "starfleet-federation-stack-missions-stub-1": 34959523,
+          "starfleet-federation-stack-personnel-adapter-1": 226177843,
+          "starfleet-federation-stack-personnel-service-1": 116496793,
+          "starfleet-federation-stack-router-1": 29936844,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3327314096,
+        "hostFreeBytes": 5902311424,
+        "vmmemBytes": 2316226560
+      },
+      {
+        "at": "2026-10-31T00:11:50.428120+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217160089,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 28217180,
+          "starfleet-federation-stack-mapping-adapter-1": 229847859,
+          "starfleet-federation-stack-missions-adapter-1": 224814694,
+          "starfleet-federation-stack-missions-stub-1": 35557212,
+          "starfleet-federation-stack-personnel-adapter-1": 227121561,
+          "starfleet-federation-stack-personnel-service-1": 116496793,
+          "starfleet-federation-stack-router-1": 28164751,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3330759717,
+        "hostFreeBytes": 5963157504,
+        "vmmemBytes": 2317443072
+      },
+      {
+        "at": "2026-10-31T00:12:07.486266+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218418380,
+          "starfleet-federation-stack-assets-db-1": 107583897,
+          "starfleet-federation-stack-assets-service-1": 28196208,
+          "starfleet-federation-stack-mapping-adapter-1": 231420723,
+          "starfleet-federation-stack-missions-adapter-1": 228694425,
+          "starfleet-federation-stack-missions-stub-1": 35473326,
+          "starfleet-federation-stack-personnel-adapter-1": 231420723,
+          "starfleet-federation-stack-personnel-service-1": 115133644,
+          "starfleet-federation-stack-router-1": 32715571,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3344328290,
+        "hostFreeBytes": 5930250240,
+        "vmmemBytes": 2318864384
+      },
+      {
+        "at": "2026-10-31T00:12:25.454462+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218103808,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 27609006,
+          "starfleet-federation-stack-mapping-adapter-1": 232154726,
+          "starfleet-federation-stack-missions-adapter-1": 229008998,
+          "starfleet-federation-stack-missions-stub-1": 35053895,
+          "starfleet-federation-stack-personnel-adapter-1": 231420723,
+          "starfleet-federation-stack-personnel-service-1": 115553075,
+          "starfleet-federation-stack-router-1": 30178017,
+          "starfleet-missions-data-20261009": 2112050167
+        },
+        "complete": true,
+        "totalBytes": 3339240600,
+        "hostFreeBytes": 5905956864,
+        "vmmemBytes": 2326978560
+      },
+      {
+        "at": "2026-10-31T00:12:43.521818+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218313523,
+          "starfleet-federation-stack-assets-db-1": 108737331,
+          "starfleet-federation-stack-assets-service-1": 28280094,
+          "starfleet-federation-stack-mapping-adapter-1": 230581862,
+          "starfleet-federation-stack-missions-adapter-1": 228379852,
+          "starfleet-federation-stack-missions-stub-1": 36479959,
+          "starfleet-federation-stack-personnel-adapter-1": 231211008,
+          "starfleet-federation-stack-personnel-service-1": 115553075,
+          "starfleet-federation-stack-router-1": 27053260,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3339861357,
+        "hostFreeBytes": 5773754368,
+        "vmmemBytes": 2339332096
+      },
+      {
+        "at": "2026-10-31T00:13:00.504199+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218837811,
+          "starfleet-federation-stack-assets-db-1": 108632473,
+          "starfleet-federation-stack-assets-service-1": 29381099,
+          "starfleet-federation-stack-mapping-adapter-1": 230477004,
+          "starfleet-federation-stack-missions-adapter-1": 228379852,
+          "starfleet-federation-stack-missions-stub-1": 36133928,
+          "starfleet-federation-stack-personnel-adapter-1": 231420723,
+          "starfleet-federation-stack-personnel-service-1": 116077363,
+          "starfleet-federation-stack-router-1": 31404851,
+          "starfleet-missions-data-20261009": 2129230036
+        },
+        "complete": true,
+        "totalBytes": 3359975140,
+        "hostFreeBytes": 5776941056,
+        "vmmemBytes": 2340098048
+      },
+      {
+        "at": "2026-10-31T00:13:18.573074+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218628096,
+          "starfleet-federation-stack-assets-db-1": 108213043,
+          "starfleet-federation-stack-assets-service-1": 27713863,
+          "starfleet-federation-stack-mapping-adapter-1": 232049868,
+          "starfleet-federation-stack-missions-adapter-1": 225863270,
+          "starfleet-federation-stack-missions-stub-1": 44218449,
+          "starfleet-federation-stack-personnel-adapter-1": 230896435,
+          "starfleet-federation-stack-personnel-service-1": 116601651,
+          "starfleet-federation-stack-router-1": 27105689,
+          "starfleet-missions-data-20261009": 2129230036
+        },
+        "complete": true,
+        "totalBytes": 3360520400,
+        "hostFreeBytes": 5751054336,
+        "vmmemBytes": 2338562048
+      },
+      {
+        "at": "2026-10-31T00:13:35.573469+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218208665,
+          "starfleet-federation-stack-assets-db-1": 108947046,
+          "starfleet-federation-stack-assets-service-1": 28657582,
+          "starfleet-federation-stack-mapping-adapter-1": 232574156,
+          "starfleet-federation-stack-missions-adapter-1": 227016704,
+          "starfleet-federation-stack-missions-stub-1": 50006589,
+          "starfleet-federation-stack-personnel-adapter-1": 232049868,
+          "starfleet-federation-stack-personnel-service-1": 115448217,
+          "starfleet-federation-stack-router-1": 30272389,
+          "starfleet-missions-data-20261009": 2124935069
+        },
+        "complete": true,
+        "totalBytes": 3368116285,
+        "hostFreeBytes": 5710118912,
+        "vmmemBytes": 2333081600
+      },
+      {
+        "at": "2026-10-31T00:13:52.533360+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 219781529,
+          "starfleet-federation-stack-assets-db-1": 107688755,
+          "starfleet-federation-stack-assets-service-1": 28877783,
+          "starfleet-federation-stack-mapping-adapter-1": 231106150,
+          "starfleet-federation-stack-missions-adapter-1": 225234124,
+          "starfleet-federation-stack-missions-stub-1": 35955671,
+          "starfleet-federation-stack-personnel-adapter-1": 232574156,
+          "starfleet-federation-stack-personnel-service-1": 116287078,
+          "starfleet-federation-stack-router-1": 28038922,
+          "starfleet-missions-data-20261009": 2130303778
+        },
+        "complete": true,
+        "totalBytes": 3355847946,
+        "hostFreeBytes": 5625401344,
+        "vmmemBytes": 2333679616
+      },
+      {
+        "at": "2026-10-31T00:14:10.515108+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 223032115,
+          "starfleet-federation-stack-assets-db-1": 108003328,
+          "starfleet-federation-stack-assets-service-1": 28017950,
+          "starfleet-federation-stack-mapping-adapter-1": 236034457,
+          "starfleet-federation-stack-missions-adapter-1": 225653555,
+          "starfleet-federation-stack-missions-stub-1": 35651584,
+          "starfleet-federation-stack-personnel-adapter-1": 237397606,
+          "starfleet-federation-stack-personnel-service-1": 116706508,
+          "starfleet-federation-stack-router-1": 28710010,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3354478506,
+        "hostFreeBytes": 5604864000,
+        "vmmemBytes": 2333761536
+      },
+      {
+        "at": "2026-10-31T00:14:27.654865+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218523238,
+          "starfleet-federation-stack-assets-db-1": 116601651,
+          "starfleet-federation-stack-assets-service-1": 28049408,
+          "starfleet-federation-stack-mapping-adapter-1": 236244172,
+          "starfleet-federation-stack-missions-adapter-1": 226177843,
+          "starfleet-federation-stack-missions-stub-1": 46682603,
+          "starfleet-federation-stack-personnel-adapter-1": 231630438,
+          "starfleet-federation-stack-personnel-service-1": 115762790,
+          "starfleet-federation-stack-router-1": 30565990,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3360140817,
+        "hostFreeBytes": 5562089472,
+        "vmmemBytes": 2334031872
+      },
+      {
+        "at": "2026-10-31T00:14:45.359689+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218208665,
+          "starfleet-federation-stack-assets-db-1": 108737331,
+          "starfleet-federation-stack-assets-service-1": 27797749,
+          "starfleet-federation-stack-mapping-adapter-1": 237292748,
+          "starfleet-federation-stack-missions-adapter-1": 226911846,
+          "starfleet-federation-stack-missions-stub-1": 36301701,
+          "starfleet-federation-stack-personnel-adapter-1": 233413017,
+          "starfleet-federation-stack-personnel-service-1": 115238502,
+          "starfleet-federation-stack-router-1": 26885488,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3346058440,
+        "hostFreeBytes": 5576540160,
+        "vmmemBytes": 2334367744
+      },
+      {
+        "at": "2026-10-31T00:15:02.606448+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 219571814,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 28636610,
+          "starfleet-federation-stack-mapping-adapter-1": 236139315,
+          "starfleet-federation-stack-missions-adapter-1": 225129267,
+          "starfleet-federation-stack-missions-stub-1": 37140561,
+          "starfleet-federation-stack-personnel-adapter-1": 235405312,
+          "starfleet-federation-stack-personnel-service-1": 116916224,
+          "starfleet-federation-stack-router-1": 27839692,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3349843800,
+        "hostFreeBytes": 7296770048,
+        "vmmemBytes": 2121265152
+      },
+      {
+        "at": "2026-10-31T00:15:20.305261+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218103808,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 29056040,
+          "starfleet-federation-stack-mapping-adapter-1": 237187891,
+          "starfleet-federation-stack-missions-adapter-1": 226597273,
+          "starfleet-federation-stack-missions-stub-1": 36154900,
+          "starfleet-federation-stack-personnel-adapter-1": 237292748,
+          "starfleet-federation-stack-personnel-service-1": 117545369,
+          "starfleet-federation-stack-router-1": 26979860,
+          "starfleet-missions-data-20261009": 2114197651
+        },
+        "complete": true,
+        "totalBytes": 3351223725,
+        "hostFreeBytes": 7302754304,
+        "vmmemBytes": 2121629696
+      },
+      {
+        "at": "2026-10-31T00:15:37.771581+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217684377,
+          "starfleet-federation-stack-assets-db-1": 110100480,
+          "starfleet-federation-stack-assets-service-1": 39447429,
+          "starfleet-federation-stack-mapping-adapter-1": 237083033,
+          "starfleet-federation-stack-missions-adapter-1": 226177843,
+          "starfleet-federation-stack-missions-stub-1": 46818918,
+          "starfleet-federation-stack-personnel-adapter-1": 233727590,
+          "starfleet-federation-stack-personnel-service-1": 117335654,
+          "starfleet-federation-stack-router-1": 30377246,
+          "starfleet-missions-data-20261009": 2109902684
+        },
+        "complete": true,
+        "totalBytes": 3368655254,
+        "hostFreeBytes": 7121829888,
+        "vmmemBytes": 2122223616
+      },
+      {
+        "at": "2026-10-31T00:15:55.484059+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218732953,
+          "starfleet-federation-stack-assets-db-1": 107583897,
+          "starfleet-federation-stack-assets-service-1": 28395438,
+          "starfleet-federation-stack-mapping-adapter-1": 237187891,
+          "starfleet-federation-stack-missions-adapter-1": 225338982,
+          "starfleet-federation-stack-missions-stub-1": 50667192,
+          "starfleet-federation-stack-personnel-adapter-1": 234251878,
+          "starfleet-federation-stack-personnel-service-1": 116391936,
+          "starfleet-federation-stack-router-1": 29978787,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3363800347,
+        "hostFreeBytes": 7052337152,
+        "vmmemBytes": 2122436608
+      },
+      {
+        "at": "2026-10-31T00:16:12.672356+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 219257241,
+          "starfleet-federation-stack-assets-db-1": 108213043,
+          "starfleet-federation-stack-assets-service-1": 28007464,
+          "starfleet-federation-stack-mapping-adapter-1": 236139315,
+          "starfleet-federation-stack-missions-adapter-1": 225234124,
+          "starfleet-federation-stack-missions-stub-1": 47227863,
+          "starfleet-federation-stack-personnel-adapter-1": 234671308,
+          "starfleet-federation-stack-personnel-service-1": 116916224,
+          "starfleet-federation-stack-router-1": 35116810,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3366054785,
+        "hostFreeBytes": 7006568448,
+        "vmmemBytes": 2122694656
+      },
+      {
+        "at": "2026-10-31T00:16:30.269520+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218208665,
+          "starfleet-federation-stack-assets-db-1": 108422758,
+          "starfleet-federation-stack-assets-service-1": 28762439,
+          "starfleet-federation-stack-mapping-adapter-1": 236978176,
+          "starfleet-federation-stack-missions-adapter-1": 225758412,
+          "starfleet-federation-stack-missions-stub-1": 37717278,
+          "starfleet-federation-stack-personnel-adapter-1": 233203302,
+          "starfleet-federation-stack-personnel-service-1": 117440512,
+          "starfleet-federation-stack-router-1": 32558284,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3350026251,
+        "hostFreeBytes": 7235821568,
+        "vmmemBytes": 2125910016
+      },
+      {
+        "at": "2026-10-31T00:16:47.692643+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218732953,
+          "starfleet-federation-stack-assets-db-1": 108213043,
+          "starfleet-federation-stack-assets-service-1": 28835840,
+          "starfleet-federation-stack-mapping-adapter-1": 237083033,
+          "starfleet-federation-stack-missions-adapter-1": 225863270,
+          "starfleet-federation-stack-missions-stub-1": 37245419,
+          "starfleet-federation-stack-personnel-adapter-1": 233727590,
+          "starfleet-federation-stack-personnel-service-1": 117335654,
+          "starfleet-federation-stack-router-1": 26979860,
+          "starfleet-missions-data-20261009": 2114197651
+        },
+        "complete": true,
+        "totalBytes": 3348214313,
+        "hostFreeBytes": 7328694272,
+        "vmmemBytes": 2127011840
+      },
+      {
+        "at": "2026-10-31T00:17:05.493897+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218732953,
+          "starfleet-federation-stack-assets-db-1": 107583897,
+          "starfleet-federation-stack-assets-service-1": 28909240,
+          "starfleet-federation-stack-mapping-adapter-1": 238026752,
+          "starfleet-federation-stack-missions-adapter-1": 226072985,
+          "starfleet-federation-stack-missions-stub-1": 37203476,
+          "starfleet-federation-stack-personnel-adapter-1": 234461593,
+          "starfleet-federation-stack-personnel-service-1": 116601651,
+          "starfleet-federation-stack-router-1": 30471618,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3353335558,
+        "hostFreeBytes": 7235231744,
+        "vmmemBytes": 2129936384
+      },
+      {
+        "at": "2026-10-31T00:17:22.664470+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 220305817,
+          "starfleet-federation-stack-assets-db-1": 107374182,
+          "starfleet-federation-stack-assets-service-1": 28961669,
+          "starfleet-federation-stack-mapping-adapter-1": 236244172,
+          "starfleet-federation-stack-missions-adapter-1": 225548697,
+          "starfleet-federation-stack-missions-stub-1": 51264880,
+          "starfleet-federation-stack-personnel-adapter-1": 234042163,
+          "starfleet-federation-stack-personnel-service-1": 116077363,
+          "starfleet-federation-stack-router-1": 28898754,
+          "starfleet-missions-data-20261009": 2114197651
+        },
+        "complete": true,
+        "totalBytes": 3362915348,
+        "hostFreeBytes": 7257460736,
+        "vmmemBytes": 2130116608
+      },
+      {
+        "at": "2026-10-31T00:17:40.212241+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 223136972,
+          "starfleet-federation-stack-assets-db-1": 108317900,
+          "starfleet-federation-stack-assets-service-1": 28982640,
+          "starfleet-federation-stack-mapping-adapter-1": 236558745,
+          "starfleet-federation-stack-missions-adapter-1": 225338982,
+          "starfleet-federation-stack-missions-stub-1": 37706792,
+          "starfleet-federation-stack-personnel-adapter-1": 235510169,
+          "starfleet-federation-stack-personnel-service-1": 117964800,
+          "starfleet-federation-stack-router-1": 30020730,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3358809123,
+        "hostFreeBytes": 7103201280,
+        "vmmemBytes": 2131869696
+      },
+      {
+        "at": "2026-10-31T00:17:57.748676+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217894092,
+          "starfleet-federation-stack-assets-db-1": 107898470,
+          "starfleet-federation-stack-assets-service-1": 28017950,
+          "starfleet-federation-stack-mapping-adapter-1": 237187891,
+          "starfleet-federation-stack-missions-adapter-1": 227121561,
+          "starfleet-federation-stack-missions-stub-1": 37759221,
+          "starfleet-federation-stack-personnel-adapter-1": 234042163,
+          "starfleet-federation-stack-personnel-service-1": 118279372,
+          "starfleet-federation-stack-router-1": 33502003,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3356974116,
+        "hostFreeBytes": 7413047296,
+        "vmmemBytes": 2131992576
+      },
+      {
+        "at": "2026-10-31T00:18:15.567944+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217264947,
+          "starfleet-federation-stack-assets-db-1": 108108185,
+          "starfleet-federation-stack-assets-service-1": 28647096,
+          "starfleet-federation-stack-mapping-adapter-1": 237187891,
+          "starfleet-federation-stack-missions-adapter-1": 228904140,
+          "starfleet-federation-stack-missions-stub-1": 38671482,
+          "starfleet-federation-stack-personnel-adapter-1": 235615027,
+          "starfleet-federation-stack-personnel-service-1": 117021081,
+          "starfleet-federation-stack-router-1": 26696744,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3353387986,
+        "hostFreeBytes": 7313915904,
+        "vmmemBytes": 2132103168
+      },
+      {
+        "at": "2026-10-31T00:18:32.699913+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 220410675,
+          "starfleet-federation-stack-assets-db-1": 107374182,
+          "starfleet-federation-stack-assets-service-1": 28479324,
+          "starfleet-federation-stack-mapping-adapter-1": 241801625,
+          "starfleet-federation-stack-missions-adapter-1": 228694425,
+          "starfleet-federation-stack-missions-stub-1": 37643878,
+          "starfleet-federation-stack-personnel-adapter-1": 234461593,
+          "starfleet-federation-stack-personnel-service-1": 117125939,
+          "starfleet-federation-stack-router-1": 27472691,
+          "starfleet-missions-data-20261009": 2112050167
+        },
+        "complete": true,
+        "totalBytes": 3355514499,
+        "hostFreeBytes": 7355813888,
+        "vmmemBytes": 2132443136
+      },
+      {
+        "at": "2026-10-31T00:18:50.375481+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 220515532,
+          "starfleet-federation-stack-assets-db-1": 108632473,
+          "starfleet-federation-stack-assets-service-1": 28835840,
+          "starfleet-federation-stack-mapping-adapter-1": 237083033,
+          "starfleet-federation-stack-missions-adapter-1": 228065280,
+          "starfleet-federation-stack-missions-stub-1": 38021365,
+          "starfleet-federation-stack-personnel-adapter-1": 238446182,
+          "starfleet-federation-stack-personnel-service-1": 119327948,
+          "starfleet-federation-stack-router-1": 27189575,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3361388621,
+        "hostFreeBytes": 7367196672,
+        "vmmemBytes": 2132602880
+      },
+      {
+        "at": "2026-10-31T00:19:07.820050+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 219886387,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 28657582,
+          "starfleet-federation-stack-mapping-adapter-1": 237817036,
+          "starfleet-federation-stack-missions-adapter-1": 228694425,
+          "starfleet-federation-stack-missions-stub-1": 48853155,
+          "starfleet-federation-stack-personnel-adapter-1": 236768460,
+          "starfleet-federation-stack-personnel-service-1": 119537664,
+          "starfleet-federation-stack-router-1": 31121735,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3374401449,
+        "hostFreeBytes": 7210766336,
+        "vmmemBytes": 2133417984
+      },
+      {
+        "at": "2026-10-31T00:19:25.808430+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217684377,
+          "starfleet-federation-stack-assets-db-1": 108737331,
+          "starfleet-federation-stack-assets-service-1": 41911582,
+          "starfleet-federation-stack-mapping-adapter-1": 237502464,
+          "starfleet-federation-stack-missions-adapter-1": 226177843,
+          "starfleet-federation-stack-missions-stub-1": 38147194,
+          "starfleet-federation-stack-personnel-adapter-1": 236558745,
+          "starfleet-federation-stack-personnel-service-1": 121425100,
+          "starfleet-federation-stack-router-1": 28290580,
+          "starfleet-missions-data-20261009": 2112050167
+        },
+        "complete": true,
+        "totalBytes": 3368485383,
+        "hostFreeBytes": 6535073792,
+        "vmmemBytes": 2133807104
+      },
+      {
+        "at": "2026-10-31T00:19:43.815477+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217264947,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 28164751,
+          "starfleet-federation-stack-mapping-adapter-1": 237187891,
+          "starfleet-federation-stack-missions-adapter-1": 225653555,
+          "starfleet-federation-stack-missions-stub-1": 38147194,
+          "starfleet-federation-stack-personnel-adapter-1": 237397606,
+          "starfleet-federation-stack-personnel-service-1": 121739673,
+          "starfleet-federation-stack-router-1": 27472691,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3356093313,
+        "hostFreeBytes": 6284898304,
+        "vmmemBytes": 2149949440
+      },
+      {
+        "at": "2026-10-31T00:20:00.793184+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217789235,
+          "starfleet-federation-stack-assets-db-1": 108632473,
+          "starfleet-federation-stack-assets-service-1": 27871150,
+          "starfleet-federation-stack-mapping-adapter-1": 238131609,
+          "starfleet-federation-stack-missions-adapter-1": 226177843,
+          "starfleet-federation-stack-missions-stub-1": 38304481,
+          "starfleet-federation-stack-personnel-adapter-1": 237712179,
+          "starfleet-federation-stack-personnel-service-1": 120586240,
+          "starfleet-federation-stack-router-1": 30555504,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3361032107,
+        "hostFreeBytes": 8024350720,
+        "vmmemBytes": 2140733440
+      },
+      {
+        "at": "2026-10-31T00:20:17.893738+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 219152384,
+          "starfleet-federation-stack-assets-db-1": 108527616,
+          "starfleet-federation-stack-assets-service-1": 29391585,
+          "starfleet-federation-stack-mapping-adapter-1": 236663603,
+          "starfleet-federation-stack-missions-adapter-1": 226387558,
+          "starfleet-federation-stack-missions-stub-1": 38923141,
+          "starfleet-federation-stack-personnel-adapter-1": 237712179,
+          "starfleet-federation-stack-personnel-service-1": 121739673,
+          "starfleet-federation-stack-router-1": 26843545,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3360612677,
+        "hostFreeBytes": 7415586816,
+        "vmmemBytes": 2139795456
+      },
+      {
+        "at": "2026-10-31T00:20:35.833693+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217369804,
+          "starfleet-federation-stack-assets-db-1": 108527616,
+          "starfleet-federation-stack-assets-service-1": 27965521,
+          "starfleet-federation-stack-mapping-adapter-1": 237607321,
+          "starfleet-federation-stack-missions-adapter-1": 226177843,
+          "starfleet-federation-stack-missions-stub-1": 39887831,
+          "starfleet-federation-stack-personnel-adapter-1": 237083033,
+          "starfleet-federation-stack-personnel-service-1": 121634816,
+          "starfleet-federation-stack-router-1": 28835840,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3356066050,
+        "hostFreeBytes": 7684849664,
+        "vmmemBytes": 2139865088
+      },
+      {
+        "at": "2026-10-31T00:20:52.828000+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218313523,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 27934064,
+          "starfleet-federation-stack-mapping-adapter-1": 238446182,
+          "starfleet-federation-stack-missions-adapter-1": 226387558,
+          "starfleet-federation-stack-missions-stub-1": 38891683,
+          "starfleet-federation-stack-personnel-adapter-1": 237817036,
+          "starfleet-federation-stack-personnel-service-1": 120376524,
+          "starfleet-federation-stack-router-1": 30503075,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3361734650,
+        "hostFreeBytes": 7681515520,
+        "vmmemBytes": 2143522816
+      },
+      {
+        "at": "2026-10-31T00:21:10.816106+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 217684377,
+          "starfleet-federation-stack-assets-db-1": 107898470,
+          "starfleet-federation-stack-assets-service-1": 27671920,
+          "starfleet-federation-stack-mapping-adapter-1": 238236467,
+          "starfleet-federation-stack-missions-adapter-1": 226177843,
+          "starfleet-federation-stack-missions-stub-1": 51631882,
+          "starfleet-federation-stack-personnel-adapter-1": 238131609,
+          "starfleet-federation-stack-personnel-service-1": 120691097,
+          "starfleet-federation-stack-router-1": 27609006,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3371004064,
+        "hostFreeBytes": 7664340992,
+        "vmmemBytes": 2143641600
+      },
+      {
+        "at": "2026-10-31T00:21:27.920244+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 218837811,
+          "starfleet-federation-stack-assets-db-1": 107583897,
+          "starfleet-federation-stack-assets-service-1": 27588034,
+          "starfleet-federation-stack-mapping-adapter-1": 236558745,
+          "starfleet-federation-stack-missions-adapter-1": 225758412,
+          "starfleet-federation-stack-missions-stub-1": 40370176,
+          "starfleet-federation-stack-personnel-adapter-1": 238655897,
+          "starfleet-federation-stack-personnel-service-1": 121215385,
+          "starfleet-federation-stack-router-1": 27661434,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3355206216,
+        "hostFreeBytes": 7577473024,
+        "vmmemBytes": 2157367296
+      },
+      {
+        "at": "2026-10-31T00:21:45.661678+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 219781529,
+          "starfleet-federation-stack-assets-db-1": 108317900,
+          "starfleet-federation-stack-assets-service-1": 28762439,
+          "starfleet-federation-stack-mapping-adapter-1": 238131609,
+          "starfleet-federation-stack-missions-adapter-1": 228694425,
+          "starfleet-federation-stack-missions-stub-1": 39730544,
+          "starfleet-federation-stack-personnel-adapter-1": 237292748,
+          "starfleet-federation-stack-personnel-service-1": 121739673,
+          "starfleet-federation-stack-router-1": 26906460,
+          "starfleet-missions-data-20261009": 2116345135
+        },
+        "complete": true,
+        "totalBytes": 3365702462,
+        "hostFreeBytes": 7592415232,
+        "vmmemBytes": 2157563904
+      },
+      {
+        "at": "2026-10-31T00:22:02.880872+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 221459251,
+          "starfleet-federation-stack-assets-db-1": 108422758,
+          "starfleet-federation-stack-assets-service-1": 28353495,
+          "starfleet-federation-stack-mapping-adapter-1": 237921894,
+          "starfleet-federation-stack-missions-adapter-1": 229533286,
+          "starfleet-federation-stack-missions-stub-1": 39720058,
+          "starfleet-federation-stack-personnel-adapter-1": 239075328,
+          "starfleet-federation-stack-personnel-service-1": 120376524,
+          "starfleet-federation-stack-router-1": 27011317,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3367145304,
+        "hostFreeBytes": 7609630720,
+        "vmmemBytes": 2182877184
+      },
+      {
+        "at": "2026-10-31T00:22:20.609493+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 221564108,
+          "starfleet-federation-stack-assets-db-1": 107583897,
+          "starfleet-federation-stack-assets-service-1": 27367833,
+          "starfleet-federation-stack-mapping-adapter-1": 237921894,
+          "starfleet-federation-stack-missions-adapter-1": 229113856,
+          "starfleet-federation-stack-missions-stub-1": 40496005,
+          "starfleet-federation-stack-personnel-adapter-1": 238341324,
+          "starfleet-federation-stack-personnel-service-1": 121005670,
+          "starfleet-federation-stack-router-1": 25962741,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3364628721,
+        "hostFreeBytes": 7586680832,
+        "vmmemBytes": 2189918208
+      },
+      {
+        "at": "2026-10-31T00:22:37.976083+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 221668966,
+          "starfleet-federation-stack-assets-db-1": 107793612,
+          "starfleet-federation-stack-assets-service-1": 29056040,
+          "starfleet-federation-stack-mapping-adapter-1": 236768460,
+          "starfleet-federation-stack-missions-adapter-1": 229847859,
+          "starfleet-federation-stack-missions-stub-1": 40118517,
+          "starfleet-federation-stack-personnel-adapter-1": 239180185,
+          "starfleet-federation-stack-personnel-service-1": 121320243,
+          "starfleet-federation-stack-router-1": 27168604,
+          "starfleet-missions-data-20261009": 2110976425
+        },
+        "complete": true,
+        "totalBytes": 3363898911,
+        "hostFreeBytes": 7543558144,
+        "vmmemBytes": 2191220736
+      },
+      {
+        "at": "2026-10-31T00:22:51.933343+00:00",
+        "containers": {
+          "starfleet-federation-stack-assets-adapter-1": 220096102,
+          "starfleet-federation-stack-assets-db-1": 108737331,
+          "starfleet-federation-stack-assets-service-1": 28049408,
+          "starfleet-federation-stack-mapping-adapter-1": 237817036,
+          "starfleet-federation-stack-missions-adapter-1": 232259584,
+          "starfleet-federation-stack-missions-stub-1": 39604715,
+          "starfleet-federation-stack-personnel-adapter-1": 238446182,
+          "starfleet-federation-stack-personnel-service-1": 121529958,
+          "starfleet-federation-stack-router-1": 27650949,
+          "starfleet-missions-data-20261009": 2115271393
+        },
+        "complete": true,
+        "totalBytes": 3369462658,
+        "hostFreeBytes": 7531216896,
+        "vmmemBytes": 2191499264
+      }
+    ],
+    "peaks": {
+      "perContainerGiB": {
+        "starfleet-federation-stack-assets-adapter-1": 0.208,
+        "starfleet-federation-stack-assets-db-1": 0.109,
+        "starfleet-federation-stack-assets-service-1": 0.039,
+        "starfleet-federation-stack-mapping-adapter-1": 0.225,
+        "starfleet-federation-stack-missions-adapter-1": 0.216,
+        "starfleet-federation-stack-missions-stub-1": 0.048,
+        "starfleet-federation-stack-personnel-adapter-1": 0.223,
+        "starfleet-federation-stack-personnel-service-1": 0.113,
+        "starfleet-federation-stack-router-1": 0.033,
+        "starfleet-missions-data-20261009": 1.994
+      },
+      "totalGiB": 3.143,
+      "hostFreeMinGiB": 3.377,
+      "vmmemMaxGiB": 3.196,
+      "samples": 104,
+      "incompleteSamples": 0,
+      "samplesWithoutHostFree": 0
+    },
+    "containersAfter": {
+      "starfleet-federation-stack-assets-adapter-1": {
+        "name": "/starfleet-federation-stack-assets-adapter-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:57.059127934Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-assets-adapter:1.0.0"
+      },
+      "starfleet-federation-stack-assets-db-1": {
+        "name": "/starfleet-federation-stack-assets-db-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:45.385005586Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "postgres:17-bookworm@sha256:3645570cccdfa447589da9f57dd740faa29b30938e861289a5574b6ca6b03826"
+      },
+      "starfleet-federation-stack-assets-service-1": {
+        "name": "/starfleet-federation-stack-assets-service-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:29:23.117959364Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-assets-service:1.0.0"
+      },
+      "starfleet-federation-stack-mapping-adapter-1": {
+        "name": "/starfleet-federation-stack-mapping-adapter-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:45.636131852Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-mapping-adapter:1.0.0"
+      },
+      "starfleet-federation-stack-missions-adapter-1": {
+        "name": "/starfleet-federation-stack-missions-adapter-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:48.91608672Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-missions-adapter:1.0.0"
+      },
+      "starfleet-federation-stack-missions-stub-1": {
+        "name": "/starfleet-federation-stack-missions-stub-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:29:23.779175958Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641"
+      },
+      "starfleet-federation-stack-personnel-adapter-1": {
+        "name": "/starfleet-federation-stack-personnel-adapter-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:28:53.703878477Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-personnel-adapter:1.0.0"
+      },
+      "starfleet-federation-stack-personnel-service-1": {
+        "name": "/starfleet-federation-stack-personnel-service-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:29:23.424757331Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "starfleet-federation-stack-personnel-service:2.0.0"
+      },
+      "starfleet-federation-stack-router-1": {
+        "name": "/starfleet-federation-stack-router-1",
+        "status": "running",
+        "startedAt": "2026-10-30T23:29:18.078565711Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "ghcr.io/apollographql/router@sha256:5b02af03e8f0268b8fcf85132c9e54ea36a1029b0823b00bb9151f698a991215"
+      },
+      "starfleet-missions-data-20261009": {
+        "name": "/starfleet-missions-data-20261009",
+        "status": "running",
+        "startedAt": "2026-10-30T22:27:17.962191039Z",
+        "oomKilled": false,
+        "restarts": 0,
+        "image": "container-registry.oracle.com/database/express:18.4.0-xe@sha256:b17a93fb201562ad142d267c0ac3eecb0e6207debafd6ed51a1da157b9cacab8"
+      }
+    }
+  },
+  "checks": [
+    {
+      "id": "docker-peak",
+      "text": "Docker peak under 12 GiB",
+      "observed": {
+        "totalGiB": 3.143,
+        "incompleteSamples": 0,
+        "samples": 104
+      },
+      "result": "pass"
+    },
+    {
+      "id": "host-free-min",
+      "text": "Host free memory never under 6 GiB during the soak",
+      "observed": {
+        "hostFreeMinGiB": 3.377,
+        "samplesWithoutHostFree": 0
+      },
+      "result": "fail"
+    },
+    {
+      "id": "no-oom-restart",
+      "text": "No OOM kill and no unplanned restart",
+      "observed": [],
+      "result": "pass"
+    },
+    {
+      "id": "load-errors",
+      "text": "every heavy and soak request answered without an error",
+      "observed": 0,
+      "result": "pass"
+    }
+  ],
+  "notes": [
+    "The acceptance list A and the adapter gates are not run by this step: the operator runs them with their own commands (README of this folder)."
+  ]
+}

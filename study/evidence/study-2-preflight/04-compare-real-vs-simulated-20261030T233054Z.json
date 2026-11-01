@@ -1,0 +1,4078 @@
+{
+  "schema": 1,
+  "step": "compare",
+  "stepNumber": 4,
+  "label": "real-vs-simulated",
+  "startedAt": "2026-10-30T23:30:54.617560+00:00",
+  "finishedAt": "2026-10-30T23:30:54.618022+00:00",
+  "host": {
+    "platform": "win32",
+    "python": "3.14.8"
+  },
+  "plan": [],
+  "commands": [],
+  "measurements": {
+    "differences": [
+      {
+        "probe": "accept-any",
+        "aspect": "header content-length",
+        "real": "1403",
+        "simulated": "1388",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-any",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-any",
+        "aspect": "body",
+        "real": "e1dc480c56a5",
+        "simulated": "ed137b3ad537",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json",
+        "aspect": "status",
+        "real": 406,
+        "simulated": 200,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json",
+        "aspect": "paging",
+        "real": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "simulated": {
+          "page": "1",
+          "pageSize": "1",
+          "totalCount": "300",
+          "totalPages": "300"
+        },
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json",
+        "aspect": "missionCount",
+        "real": 0,
+        "simulated": 1,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json",
+        "aspect": "header content-length",
+        "real": "0",
+        "simulated": "1388",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json",
+        "aspect": "header content-type",
+        "real": null,
+        "simulated": "application/xml;charset=UTF-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-xml",
+        "aspect": "header content-length",
+        "real": "1403",
+        "simulated": "1388",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-xml",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-xml",
+        "aspect": "body",
+        "real": "e1dc480c56a5",
+        "simulated": "ed137b3ad537",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known",
+        "aspect": "status",
+        "real": 200,
+        "simulated": 404,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known",
+        "aspect": "paging",
+        "real": {
+          "page": "1",
+          "pageSize": "20",
+          "totalCount": "3",
+          "totalPages": "1"
+        },
+        "simulated": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known",
+        "aspect": "header content-length",
+        "real": "1587",
+        "simulated": "0",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1",
+        "aspect": "status",
+        "real": 200,
+        "simulated": 404,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1",
+        "aspect": "paging",
+        "real": {
+          "page": "1",
+          "pageSize": "1",
+          "totalCount": "3",
+          "totalPages": "3"
+        },
+        "simulated": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1",
+        "aspect": "header content-length",
+        "real": "614",
+        "simulated": "0",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown",
+        "aspect": "errorCode",
+        "real": "MISSION_NOT_FOUND",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown",
+        "aspect": "header content-length",
+        "real": "176",
+        "simulated": "0",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown",
+        "aspect": "body",
+        "real": "8c0978318a69",
+        "simulated": "e3b0c44298fc",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status",
+        "aspect": "status",
+        "real": 400,
+        "simulated": 200,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status",
+        "aspect": "errorCode",
+        "real": "INVALID_REQUEST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status",
+        "aspect": "paging",
+        "real": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "simulated": {
+          "page": "1",
+          "pageSize": "20",
+          "totalCount": "0",
+          "totalPages": "0"
+        },
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status",
+        "aspect": "header content-length",
+        "real": "175",
+        "simulated": "189",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-beyond-end",
+        "aspect": "header content-length",
+        "real": "207",
+        "simulated": "191",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-beyond-end",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-beyond-end",
+        "aspect": "body",
+        "real": "1620e9f26e79",
+        "simulated": "6b5b030499cd",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-default",
+        "aspect": "header content-length",
+        "real": null,
+        "simulated": "22537",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-default",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-default",
+        "aspect": "header transfer-encoding",
+        "real": "chunked",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-default",
+        "aspect": "body",
+        "real": "35f51ad650b6",
+        "simulated": "9f488e8ba52f",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-filter-active",
+        "aspect": "header content-length",
+        "real": null,
+        "simulated": "23463",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-filter-active",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-filter-active",
+        "aspect": "header transfer-encoding",
+        "real": "chunked",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-filter-active",
+        "aspect": "body",
+        "real": "1a3999933793",
+        "simulated": "d7697f111c05",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-no-match",
+        "aspect": "header content-length",
+        "real": "205",
+        "simulated": "189",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-no-match",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-no-match",
+        "aspect": "body",
+        "real": "6c5846d7c570",
+        "simulated": "9e745f9e4d4d",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-0",
+        "aspect": "header content-length",
+        "real": "182",
+        "simulated": "156",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-0",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-0",
+        "aspect": "body",
+        "real": "f4a36561761e",
+        "simulated": "eaa7eb59dce9",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-repeated",
+        "aspect": "header content-length",
+        "real": "181",
+        "simulated": "156",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-repeated",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-repeated",
+        "aspect": "body",
+        "real": "a4d599901805",
+        "simulated": "eaa7eb59dce9",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-text",
+        "aspect": "header content-length",
+        "real": "182",
+        "simulated": "156",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-text",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-text",
+        "aspect": "body",
+        "real": "f4a36561761e",
+        "simulated": "eaa7eb59dce9",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-0",
+        "aspect": "header content-length",
+        "real": "173",
+        "simulated": "156",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-0",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-0",
+        "aspect": "body",
+        "real": "b7376735bce8",
+        "simulated": "eaa7eb59dce9",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-1",
+        "aspect": "header content-length",
+        "real": "1403",
+        "simulated": "1388",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-1",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-1",
+        "aspect": "body",
+        "real": "e1dc480c56a5",
+        "simulated": "ed137b3ad537",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-51",
+        "aspect": "header content-length",
+        "real": "173",
+        "simulated": "156",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-51",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-51",
+        "aspect": "body",
+        "real": "b7376735bce8",
+        "simulated": "eaa7eb59dce9",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-unknown-param",
+        "aspect": "header content-length",
+        "real": "182",
+        "simulated": "156",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-unknown-param",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-unknown-param",
+        "aspect": "body",
+        "real": "45f41ca251a5",
+        "simulated": "eaa7eb59dce9",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-known",
+        "aspect": "header content-length",
+        "real": "1284",
+        "simulated": "1269",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-known",
+        "aspect": "header etag",
+        "real": "\"9905486\"",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-known",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-known",
+        "aspect": "body",
+        "real": "b960aae8c293",
+        "simulated": "f4021b1d1ebf",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-malformed",
+        "aspect": "header content-length",
+        "real": "174",
+        "simulated": "159",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-malformed",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-malformed",
+        "aspect": "body",
+        "real": "07c30a8f016f",
+        "simulated": "1ca5a11f7de4",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-unknown",
+        "aspect": "header content-length",
+        "real": "176",
+        "simulated": "158",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-unknown",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-unknown",
+        "aspect": "body",
+        "real": "8c0978318a69",
+        "simulated": "2f0afd3a77be",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-root",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-trailing-slash",
+        "aspect": "status",
+        "real": 404,
+        "simulated": 400,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-trailing-slash",
+        "aspect": "errorCode",
+        "real": null,
+        "simulated": "INVALID_MISSION_ID",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-trailing-slash",
+        "aspect": "header content-length",
+        "real": "0",
+        "simulated": "159",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-trailing-slash",
+        "aspect": "header content-type",
+        "real": null,
+        "simulated": "application/xml;charset=UTF-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-trailing-slash",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-unknown",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-any HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-any HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-any HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-any HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-any HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json HEAD",
+        "aspect": "status",
+        "real": 406,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json HEAD",
+        "aspect": "header content-length",
+        "real": null,
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json HEAD",
+        "aspect": "header content-type",
+        "real": null,
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-json HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-xml HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-xml HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-xml HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-xml HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "accept-xml HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known HEAD",
+        "aspect": "header allow",
+        "real": "GET",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known HEAD",
+        "aspect": "header content-length",
+        "real": "188",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-known HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1 HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1 HEAD",
+        "aspect": "header allow",
+        "real": "GET",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1 HEAD",
+        "aspect": "header content-length",
+        "real": "188",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1 HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-size-1 HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown HEAD",
+        "aspect": "header allow",
+        "real": "GET",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown HEAD",
+        "aspect": "header content-length",
+        "real": "188",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "changes-unknown HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-bad-status HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-beyond-end HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-beyond-end HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-beyond-end HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-beyond-end HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-beyond-end HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-default HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-default HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-default HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-default HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-default HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-filter-active HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-filter-active HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-filter-active HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-filter-active HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-filter-active HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-no-match HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-no-match HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-no-match HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-no-match HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-no-match HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-0 HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-0 HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-0 HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-0 HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-0 HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-repeated HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-repeated HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-repeated HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-repeated HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-repeated HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-text HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-text HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-text HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-text HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-page-text HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-0 HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-0 HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-0 HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-0 HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-0 HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-1 HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-1 HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-1 HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-1 HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-1 HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-51 HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-51 HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-51 HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-51 HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-size-51 HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-unknown-param HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-unknown-param HEAD",
+        "aspect": "header allow",
+        "real": "GET, POST",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-unknown-param HEAD",
+        "aspect": "header content-length",
+        "real": "194",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-unknown-param HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "list-unknown-param HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-known HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-known HEAD",
+        "aspect": "header allow",
+        "real": "GET, PUT",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-known HEAD",
+        "aspect": "header content-length",
+        "real": "193",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-known HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-known HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-malformed HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-malformed HEAD",
+        "aspect": "header allow",
+        "real": "GET, PUT",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-malformed HEAD",
+        "aspect": "header content-length",
+        "real": "193",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-malformed HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-malformed HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-unknown HEAD",
+        "aspect": "status",
+        "real": 405,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-unknown HEAD",
+        "aspect": "header allow",
+        "real": "GET, PUT",
+        "simulated": null,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-unknown HEAD",
+        "aspect": "header content-length",
+        "real": "193",
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-unknown HEAD",
+        "aspect": "header content-type",
+        "real": "application/xml;charset=UTF-8",
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "one-unknown HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-root HEAD",
+        "aspect": "status",
+        "real": 404,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-root HEAD",
+        "aspect": "header content-length",
+        "real": null,
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-root HEAD",
+        "aspect": "header content-type",
+        "real": null,
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-root HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-trailing-slash HEAD",
+        "aspect": "status",
+        "real": 404,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-trailing-slash HEAD",
+        "aspect": "header content-length",
+        "real": null,
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-trailing-slash HEAD",
+        "aspect": "header content-type",
+        "real": null,
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-trailing-slash HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-unknown HEAD",
+        "aspect": "status",
+        "real": 404,
+        "simulated": 501,
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-unknown HEAD",
+        "aspect": "header content-length",
+        "real": null,
+        "simulated": "357",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-unknown HEAD",
+        "aspect": "header content-type",
+        "real": null,
+        "simulated": "text/html;charset=utf-8",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      },
+      {
+        "probe": "path-unknown HEAD",
+        "aspect": "header server",
+        "real": null,
+        "simulated": "BaseHTTP/0.6 Python/3.13.16",
+        "affects": {
+          "contracts": null,
+          "toolBehaviour": null,
+          "guideAccuracy": null,
+          "answerability": null,
+          "expectedAnswers": null
+        },
+        "evidence": [
+          "04-service-real-20261030T232712Z.json",
+          "04-service-simulated-20261030T233025Z.json"
+        ],
+        "fix": null,
+        "smokeRerun": null,
+        "explained": null
+      }
+    ],
+    "latency": {
+      "real": {
+        "count": 30,
+        "min": 0.0048,
+        "median": 0.0169,
+        "p95": 0.0704,
+        "max": 0.1816
+      },
+      "simulated": {
+        "count": 30,
+        "min": 0.0016,
+        "median": 0.0039,
+        "p95": 0.0902,
+        "max": 0.0991
+      }
+    }
+  },
+  "checks": [],
+  "notes": [
+    "Every difference waits for its classification under decision L; latency differences are documented, not fixed."
+  ]
+}

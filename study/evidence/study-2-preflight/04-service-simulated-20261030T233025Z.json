@@ -1,0 +1,1186 @@
+{
+  "schema": 1,
+  "step": "service",
+  "stepNumber": 4,
+  "label": "simulated",
+  "startedAt": "2026-10-30T23:30:25.658746+00:00",
+  "finishedAt": "2026-10-30T23:30:26.664427+00:00",
+  "host": {
+    "platform": "win32",
+    "python": "3.14.8"
+  },
+  "plan": [
+    "walk GET http://127.0.0.1:8083/missions?page=1..6&pageSize=50 and count the missions (300 expected)",
+    "GET http://127.0.0.1:8083/missions  [list-default]",
+    "GET http://127.0.0.1:8083/missions?pageSize=1  [list-size-1]",
+    "GET http://127.0.0.1:8083/missions?page=7&pageSize=50  [list-beyond-end]",
+    "GET http://127.0.0.1:8083/missions?pageSize=0  [list-size-0]",
+    "GET http://127.0.0.1:8083/missions?pageSize=51  [list-size-51]",
+    "GET http://127.0.0.1:8083/missions?page=0  [list-page-0]",
+    "GET http://127.0.0.1:8083/missions?page=abc  [list-page-text]",
+    "GET http://127.0.0.1:8083/missions?page=1&page=2  [list-page-repeated]",
+    "GET http://127.0.0.1:8083/missions?colour=red  [list-unknown-param]",
+    "GET http://127.0.0.1:8083/missions?status=NOTASTATUS  [list-bad-status]",
+    "GET http://127.0.0.1:8083/missions?status=ACTIVE&pageSize=50  [list-filter-active]",
+    "GET http://127.0.0.1:8083/missions?status=ACTIVE&priority=1&type=MAINTENANCE&classification=TOP_SECRET  [list-no-match]",
+    "GET http://127.0.0.1:8083/missions/{first}  [one-known]",
+    "GET http://127.0.0.1:8083/missions/ST-ZZZZZZZZZ  [one-unknown]",
+    "GET http://127.0.0.1:8083/missions/not-an-id  [one-malformed]",
+    "GET http://127.0.0.1:8083/missions/{first}/changes  [changes-known]",
+    "GET http://127.0.0.1:8083/missions/{first}/changes?pageSize=1  [changes-size-1]",
+    "GET http://127.0.0.1:8083/missions/ST-ZZZZZZZZZ/changes  [changes-unknown]",
+    "GET http://127.0.0.1:8083/nope  [path-unknown]",
+    "GET http://127.0.0.1:8083/missions/  [path-trailing-slash]",
+    "GET http://127.0.0.1:8083/  [path-root]",
+    "GET http://127.0.0.1:8083/missions?pageSize=1 with {\"Accept\": \"application/json\"}  [accept-json]",
+    "GET http://127.0.0.1:8083/missions?pageSize=1 with {\"Accept\": \"application/xml\"}  [accept-xml]",
+    "GET http://127.0.0.1:8083/missions?pageSize=1 with {\"Accept\": \"*/*\"}  [accept-any]",
+    "HEAD http://127.0.0.1:8083/missions  [list-default]",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=1  [list-size-1]",
+    "HEAD http://127.0.0.1:8083/missions?page=7&pageSize=50  [list-beyond-end]",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=0  [list-size-0]",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=51  [list-size-51]",
+    "HEAD http://127.0.0.1:8083/missions?page=0  [list-page-0]",
+    "HEAD http://127.0.0.1:8083/missions?page=abc  [list-page-text]",
+    "HEAD http://127.0.0.1:8083/missions?page=1&page=2  [list-page-repeated]",
+    "HEAD http://127.0.0.1:8083/missions?colour=red  [list-unknown-param]",
+    "HEAD http://127.0.0.1:8083/missions?status=NOTASTATUS  [list-bad-status]",
+    "HEAD http://127.0.0.1:8083/missions?status=ACTIVE&pageSize=50  [list-filter-active]",
+    "HEAD http://127.0.0.1:8083/missions?status=ACTIVE&priority=1&type=MAINTENANCE&classification=TOP_SECRET  [list-no-match]",
+    "HEAD http://127.0.0.1:8083/missions/{first}  [one-known]",
+    "HEAD http://127.0.0.1:8083/missions/ST-ZZZZZZZZZ  [one-unknown]",
+    "HEAD http://127.0.0.1:8083/missions/not-an-id  [one-malformed]",
+    "HEAD http://127.0.0.1:8083/missions/{first}/changes  [changes-known]",
+    "HEAD http://127.0.0.1:8083/missions/{first}/changes?pageSize=1  [changes-size-1]",
+    "HEAD http://127.0.0.1:8083/missions/ST-ZZZZZZZZZ/changes  [changes-unknown]",
+    "HEAD http://127.0.0.1:8083/nope  [path-unknown]",
+    "HEAD http://127.0.0.1:8083/missions/  [path-trailing-slash]",
+    "HEAD http://127.0.0.1:8083/  [path-root]",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=1 with {\"Accept\": \"application/json\"}  [accept-json]",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=1 with {\"Accept\": \"application/xml\"}  [accept-xml]",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=1 with {\"Accept\": \"*/*\"}  [accept-any]",
+    "only GET and HEAD are sent (the raw MCP tool allows both): the requests change nothing in Oracle"
+  ],
+  "commands": [
+    "GET http://127.0.0.1:8083/missions?page=1&pageSize=50",
+    "GET http://127.0.0.1:8083/missions?page=2&pageSize=50",
+    "GET http://127.0.0.1:8083/missions?page=3&pageSize=50",
+    "GET http://127.0.0.1:8083/missions?page=4&pageSize=50",
+    "GET http://127.0.0.1:8083/missions?page=5&pageSize=50",
+    "GET http://127.0.0.1:8083/missions?page=6&pageSize=50",
+    "GET http://127.0.0.1:8083/missions?pageSize=1",
+    "GET http://127.0.0.1:8083/missions",
+    "GET http://127.0.0.1:8083/missions?pageSize=1",
+    "GET http://127.0.0.1:8083/missions?page=7&pageSize=50",
+    "GET http://127.0.0.1:8083/missions?pageSize=0",
+    "GET http://127.0.0.1:8083/missions?pageSize=51",
+    "GET http://127.0.0.1:8083/missions?page=0",
+    "GET http://127.0.0.1:8083/missions?page=abc",
+    "GET http://127.0.0.1:8083/missions?page=1&page=2",
+    "GET http://127.0.0.1:8083/missions?colour=red",
+    "GET http://127.0.0.1:8083/missions?status=NOTASTATUS",
+    "GET http://127.0.0.1:8083/missions?status=ACTIVE&pageSize=50",
+    "GET http://127.0.0.1:8083/missions?status=ACTIVE&priority=1&type=MAINTENANCE&classification=TOP_SECRET",
+    "GET http://127.0.0.1:8083/missions/ST-00000LDBE",
+    "GET http://127.0.0.1:8083/missions/ST-ZZZZZZZZZ",
+    "GET http://127.0.0.1:8083/missions/not-an-id",
+    "GET http://127.0.0.1:8083/missions/ST-00000LDBE/changes",
+    "GET http://127.0.0.1:8083/missions/ST-00000LDBE/changes?pageSize=1",
+    "GET http://127.0.0.1:8083/missions/ST-ZZZZZZZZZ/changes",
+    "GET http://127.0.0.1:8083/nope",
+    "GET http://127.0.0.1:8083/missions/",
+    "GET http://127.0.0.1:8083/",
+    "GET http://127.0.0.1:8083/missions?pageSize=1 {\"Accept\": \"application/json\"}",
+    "GET http://127.0.0.1:8083/missions?pageSize=1 {\"Accept\": \"application/xml\"}",
+    "GET http://127.0.0.1:8083/missions?pageSize=1 {\"Accept\": \"*/*\"}",
+    "HEAD http://127.0.0.1:8083/missions",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=1",
+    "HEAD http://127.0.0.1:8083/missions?page=7&pageSize=50",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=0",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=51",
+    "HEAD http://127.0.0.1:8083/missions?page=0",
+    "HEAD http://127.0.0.1:8083/missions?page=abc",
+    "HEAD http://127.0.0.1:8083/missions?page=1&page=2",
+    "HEAD http://127.0.0.1:8083/missions?colour=red",
+    "HEAD http://127.0.0.1:8083/missions?status=NOTASTATUS",
+    "HEAD http://127.0.0.1:8083/missions?status=ACTIVE&pageSize=50",
+    "HEAD http://127.0.0.1:8083/missions?status=ACTIVE&priority=1&type=MAINTENANCE&classification=TOP_SECRET",
+    "HEAD http://127.0.0.1:8083/missions/ST-00000LDBE",
+    "HEAD http://127.0.0.1:8083/missions/ST-ZZZZZZZZZ",
+    "HEAD http://127.0.0.1:8083/missions/not-an-id",
+    "HEAD http://127.0.0.1:8083/missions/ST-00000LDBE/changes",
+    "HEAD http://127.0.0.1:8083/missions/ST-00000LDBE/changes?pageSize=1",
+    "HEAD http://127.0.0.1:8083/missions/ST-ZZZZZZZZZ/changes",
+    "HEAD http://127.0.0.1:8083/nope",
+    "HEAD http://127.0.0.1:8083/missions/",
+    "HEAD http://127.0.0.1:8083/",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=1 {\"Accept\": \"application/json\"}",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=1 {\"Accept\": \"application/xml\"}",
+    "HEAD http://127.0.0.1:8083/missions?pageSize=1 {\"Accept\": \"*/*\"}"
+  ],
+  "measurements": {
+    "walk": {
+      "pages": [
+        {
+          "page": 1,
+          "status": 200,
+          "missions": 50,
+          "seconds": 0.0527
+        },
+        {
+          "page": 2,
+          "status": 200,
+          "missions": 50,
+          "seconds": 0.0037
+        },
+        {
+          "page": 3,
+          "status": 200,
+          "missions": 50,
+          "seconds": 0.0038
+        },
+        {
+          "page": 4,
+          "status": 200,
+          "missions": 50,
+          "seconds": 0.0046
+        },
+        {
+          "page": 5,
+          "status": 200,
+          "missions": 50,
+          "seconds": 0.0394
+        },
+        {
+          "page": 6,
+          "status": 200,
+          "missions": 50,
+          "seconds": 0.004
+        }
+      ],
+      "missions": 300,
+      "totalCount": "300",
+      "idsSha256": "27e5168d3f1be0e7f0c4bf4fd2ca7dda65576e1f2c8c0bf55f638f429875be0e"
+    },
+    "probes": {
+      "list-default": {
+        "status": 200,
+        "headers": {
+          "content-length": "22537",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 22537,
+        "bodySha256": "9f488e8ba52f97e394b31788cea69846e05991a883403a5804b8e82c030bc33d",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<missionList xmlns=\"urn:starfleet:missions:v1\"><page>1</page><pageSize>20</pageSize><totalCount>300</totalCount><totalPages>15</totalPages><mission><missionId>ST-00000LDBE</missionId><title>Charting of Vesnex Deep</title><type>EXPLORATION</type><classification>SECRET</classification><status>COMPLETED</status><priority>3</priority><stardate>43000.00</stardate><durationHours>129</durationHours><objective>Chart the region around Vesnex Deep, release probes and record the findings.</objective><location><type>SECTOR</type><name>Vesnex Deep</name><coordinates>Grid B-16</coordinates></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-920</commandingOfficerId><assignedCrewIds><crewId>C-1846</crewId><crewId>C-2201</crewId><crewId>C-2339</crewId><crewId>C-2354</crewId><crewId>C-3653</crewId><crewId>C-4165</crewId><crewId>C-5034</crewId><crewId>C-6287</crewId><crewId>C-6608</crewId><crewId>C-7011</crewId><crewId>C-8383</crewId><crewId>C-9803</crewId></assignedCrewIds><participantIds /><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>28098.59</estimatedCostCredits><actualCostCredits>37118.24</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-01-07T00:13:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD4O</missionId><title>Stellar observation support</title><type>SCIENTIFIC</type><classification>UNCLASSIFIED</classification><status>POSTPONED</status><priority>3</priority><stardate>43125.80</stardate><durationHours>12</durationHours><objective>support the scheduled stellar observation window safely.</objective><location><type>DEEP_SPACE</type><name>Kavis Alpha binary</name></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-85</commandingOfficerId><assignedCrewIds><crewId>C-120</crewId><crewId>C-92</crewId></assignedCrewIds><participantIds><participantI",
+        "errorCode": null,
+        "paging": {
+          "page": "1",
+          "pageSize": "20",
+          "totalCount": "300",
+          "totalPages": "15"
+        },
+        "missionCount": 20,
+        "url": "/missions",
+        "seconds": 0.0902
+      },
+      "list-size-1": {
+        "status": 200,
+        "headers": {
+          "content-length": "1388",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 1388,
+        "bodySha256": "ed137b3ad53774b7721dc865aaf35522b266992a6d16b04f8e3d57246d75cdbe",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<missionList xmlns=\"urn:starfleet:missions:v1\"><page>1</page><pageSize>1</pageSize><totalCount>300</totalCount><totalPages>300</totalPages><mission><missionId>ST-00000LDBE</missionId><title>Charting of Vesnex Deep</title><type>EXPLORATION</type><classification>SECRET</classification><status>COMPLETED</status><priority>3</priority><stardate>43000.00</stardate><durationHours>129</durationHours><objective>Chart the region around Vesnex Deep, release probes and record the findings.</objective><location><type>SECTOR</type><name>Vesnex Deep</name><coordinates>Grid B-16</coordinates></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-920</commandingOfficerId><assignedCrewIds><crewId>C-1846</crewId><crewId>C-2201</crewId><crewId>C-2339</crewId><crewId>C-2354</crewId><crewId>C-3653</crewId><crewId>C-4165</crewId><crewId>C-5034</crewId><crewId>C-6287</crewId><crewId>C-6608</crewId><crewId>C-7011</crewId><crewId>C-8383</crewId><crewId>C-9803</crewId></assignedCrewIds><participantIds /><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>28098.59</estimatedCostCredits><actualCostCredits>37118.24</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-01-07T00:13:00.000Z</lastUpdated></mission></missionList>",
+        "errorCode": null,
+        "paging": {
+          "page": "1",
+          "pageSize": "1",
+          "totalCount": "300",
+          "totalPages": "300"
+        },
+        "missionCount": 1,
+        "url": "/missions?pageSize=1",
+        "seconds": 0.0041
+      },
+      "list-beyond-end": {
+        "status": 200,
+        "headers": {
+          "content-length": "191",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 191,
+        "bodySha256": "6b5b030499cdbfc4491e6fe5844065b7e42fae3932d56a3dbdedc4e5d7d5d3db",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<missionList xmlns=\"urn:starfleet:missions:v1\"><page>7</page><pageSize>50</pageSize><totalCount>300</totalCount><totalPages>6</totalPages></missionList>",
+        "errorCode": null,
+        "paging": {
+          "page": "7",
+          "pageSize": "50",
+          "totalCount": "300",
+          "totalPages": "6"
+        },
+        "missionCount": 0,
+        "url": "/missions?page=7&pageSize=50",
+        "seconds": 0.0268
+      },
+      "list-size-0": {
+        "status": 400,
+        "headers": {
+          "content-length": "156",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 156,
+        "bodySha256": "eaa7eb59dce95fbbd9bab5b1742b6161411773d00a308e8b21edfca5fd07afc5",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<error xmlns=\"urn:starfleet:missions:v1\"><code>INVALID_REQUEST</code><message>Illustrative message.</message></error>",
+        "errorCode": "INVALID_REQUEST",
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?pageSize=0",
+        "seconds": 0.0137
+      },
+      "list-size-51": {
+        "status": 400,
+        "headers": {
+          "content-length": "156",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 156,
+        "bodySha256": "eaa7eb59dce95fbbd9bab5b1742b6161411773d00a308e8b21edfca5fd07afc5",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<error xmlns=\"urn:starfleet:missions:v1\"><code>INVALID_REQUEST</code><message>Illustrative message.</message></error>",
+        "errorCode": "INVALID_REQUEST",
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?pageSize=51",
+        "seconds": 0.0021
+      },
+      "list-page-0": {
+        "status": 400,
+        "headers": {
+          "content-length": "156",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 156,
+        "bodySha256": "eaa7eb59dce95fbbd9bab5b1742b6161411773d00a308e8b21edfca5fd07afc5",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<error xmlns=\"urn:starfleet:missions:v1\"><code>INVALID_REQUEST</code><message>Illustrative message.</message></error>",
+        "errorCode": "INVALID_REQUEST",
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?page=0",
+        "seconds": 0.0021
+      },
+      "list-page-text": {
+        "status": 400,
+        "headers": {
+          "content-length": "156",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 156,
+        "bodySha256": "eaa7eb59dce95fbbd9bab5b1742b6161411773d00a308e8b21edfca5fd07afc5",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<error xmlns=\"urn:starfleet:missions:v1\"><code>INVALID_REQUEST</code><message>Illustrative message.</message></error>",
+        "errorCode": "INVALID_REQUEST",
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?page=abc",
+        "seconds": 0.0016
+      },
+      "list-page-repeated": {
+        "status": 400,
+        "headers": {
+          "content-length": "156",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 156,
+        "bodySha256": "eaa7eb59dce95fbbd9bab5b1742b6161411773d00a308e8b21edfca5fd07afc5",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<error xmlns=\"urn:starfleet:missions:v1\"><code>INVALID_REQUEST</code><message>Illustrative message.</message></error>",
+        "errorCode": "INVALID_REQUEST",
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?page=1&page=2",
+        "seconds": 0.0016
+      },
+      "list-unknown-param": {
+        "status": 400,
+        "headers": {
+          "content-length": "156",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 156,
+        "bodySha256": "eaa7eb59dce95fbbd9bab5b1742b6161411773d00a308e8b21edfca5fd07afc5",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<error xmlns=\"urn:starfleet:missions:v1\"><code>INVALID_REQUEST</code><message>Illustrative message.</message></error>",
+        "errorCode": "INVALID_REQUEST",
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?colour=red",
+        "seconds": 0.0018
+      },
+      "list-bad-status": {
+        "status": 200,
+        "headers": {
+          "content-length": "189",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 189,
+        "bodySha256": "9e745f9e4d4d828096551c1c41abb81015b60e5660eba32be3b2c1dfbcc7b457",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<missionList xmlns=\"urn:starfleet:missions:v1\"><page>1</page><pageSize>20</pageSize><totalCount>0</totalCount><totalPages>0</totalPages></missionList>",
+        "errorCode": null,
+        "paging": {
+          "page": "1",
+          "pageSize": "20",
+          "totalCount": "0",
+          "totalPages": "0"
+        },
+        "missionCount": 0,
+        "url": "/missions?status=NOTASTATUS",
+        "seconds": 0.0448
+      },
+      "list-filter-active": {
+        "status": 200,
+        "headers": {
+          "content-length": "23463",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 23463,
+        "bodySha256": "d7697f111c05632db486174b547b4f9b493b084f9ae5e17feb151017c8ab0ed5",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<missionList xmlns=\"urn:starfleet:missions:v1\"><page>1</page><pageSize>50</pageSize><totalCount>23</totalCount><totalPages>1</totalPages><mission><missionId>ST-00000LD4Q</missionId><title>Tau Cygna V evacuation</title><type>HUMANITARIAN</type><classification>UNCLASSIFIED</classification><status>ACTIVE</status><priority>1</priority><stardate>43140.00</stardate><durationHours>72</durationHours><objective>secure cooperation and organize removal of the threatened colony.</objective><location><type>PLANET</type><name>Tau Cygna V</name></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-85</commandingOfficerId><assignedCrewIds /><participantIds><participantId>O-2134</participantId><participantId>O-2147</participantId></participantIds><assignedAssetIds><assetId>SH-42</assetId></assignedAssetIds><estimatedCostCredits>221286.81</estimatedCostCredits><lastUpdated>2368-12-23T09:02:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LDBI</missionId><title>Convoy protection near Korlea Expanse</title><type>SECURITY</type><classification>UNCLASSIFIED</classification><status>ACTIVE</status><priority>4</priority><stardate>43317.30</stardate><durationHours>96</durationHours><objective>Secure the area around Korlea Expanse and report any incident to command.</objective><location><type>STARBASE</type><name>Korlea Expanse</name></location><issuingAuthority>STARFLEET_SECURITY</issuingAuthority><commandingOfficerId>C-78</commandingOfficerId><assignedCrewIds><crewId>C-1638</crewId><crewId>C-1769</crewId><crewId>C-2006</crewId><crewId>C-2237</crewId><crewId>C-2782</crewId><crewId>C-2850</crewId><crewId>C-3145</crewId><crewId>C-3380</crewId><crewId>C-3500</crewId><crewId>C-3635</crewId><crewId>C-3690</crewId><crewId>C-3887</crewId><crewId>C-4111</crewId><crewId>C-4225</crewId><crewId>C-4562</crewId><crewId>C-4766</crewId><crewId>C-4828</crewId><crewId>C-5408</crewId><crewId>C-5490</crewId><crewId>C-594</crewI",
+        "errorCode": null,
+        "paging": {
+          "page": "1",
+          "pageSize": "50",
+          "totalCount": "23",
+          "totalPages": "1"
+        },
+        "missionCount": 23,
+        "url": "/missions?status=ACTIVE&pageSize=50",
+        "seconds": 0.0036
+      },
+      "list-no-match": {
+        "status": 200,
+        "headers": {
+          "content-length": "189",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 189,
+        "bodySha256": "9e745f9e4d4d828096551c1c41abb81015b60e5660eba32be3b2c1dfbcc7b457",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<missionList xmlns=\"urn:starfleet:missions:v1\"><page>1</page><pageSize>20</pageSize><totalCount>0</totalCount><totalPages>0</totalPages></missionList>",
+        "errorCode": null,
+        "paging": {
+          "page": "1",
+          "pageSize": "20",
+          "totalCount": "0",
+          "totalPages": "0"
+        },
+        "missionCount": 0,
+        "url": "/missions?status=ACTIVE&priority=1&type=MAINTENANCE&classification=TOP_SECRET",
+        "seconds": 0.0051
+      },
+      "one-known": {
+        "status": 200,
+        "headers": {
+          "content-length": "1269",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 1269,
+        "bodySha256": "f4021b1d1ebfd6e87f9ed3b039691c92813bf6462df2519ec026079693f5637a",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<mission xmlns=\"urn:starfleet:missions:v1\"><missionId>ST-00000LDBE</missionId><title>Charting of Vesnex Deep</title><type>EXPLORATION</type><classification>SECRET</classification><status>COMPLETED</status><priority>3</priority><stardate>43000.00</stardate><durationHours>129</durationHours><objective>Chart the region around Vesnex Deep, release probes and record the findings.</objective><location><type>SECTOR</type><name>Vesnex Deep</name><coordinates>Grid B-16</coordinates></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-920</commandingOfficerId><assignedCrewIds><crewId>C-1846</crewId><crewId>C-2201</crewId><crewId>C-2339</crewId><crewId>C-2354</crewId><crewId>C-3653</crewId><crewId>C-4165</crewId><crewId>C-5034</crewId><crewId>C-6287</crewId><crewId>C-6608</crewId><crewId>C-7011</crewId><crewId>C-8383</crewId><crewId>C-9803</crewId></assignedCrewIds><participantIds /><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>28098.59</estimatedCostCredits><actualCostCredits>37118.24</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-01-07T00:13:00.000Z</lastUpdated></mission>",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/{first}",
+        "seconds": 0.0027
+      },
+      "one-unknown": {
+        "status": 404,
+        "headers": {
+          "content-length": "158",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 158,
+        "bodySha256": "2f0afd3a77be353fb418994176683cc6b0be3b574b3d505a6ffc4438792b37ed",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<error xmlns=\"urn:starfleet:missions:v1\"><code>MISSION_NOT_FOUND</code><message>Illustrative message.</message></error>",
+        "errorCode": "MISSION_NOT_FOUND",
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/ST-ZZZZZZZZZ",
+        "seconds": 0.0024
+      },
+      "one-malformed": {
+        "status": 400,
+        "headers": {
+          "content-length": "159",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 159,
+        "bodySha256": "1ca5a11f7de473eec14232ebf7dc17b9fa57691d04c6d6f15d2d27b5b56a9ece",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<error xmlns=\"urn:starfleet:missions:v1\"><code>INVALID_MISSION_ID</code><message>Illustrative message.</message></error>",
+        "errorCode": "INVALID_MISSION_ID",
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/not-an-id",
+        "seconds": 0.0855
+      },
+      "changes-known": {
+        "status": 404,
+        "headers": {
+          "content-length": "0",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/{first}/changes",
+        "seconds": 0.0023
+      },
+      "changes-size-1": {
+        "status": 404,
+        "headers": {
+          "content-length": "0",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/{first}/changes?pageSize=1",
+        "seconds": 0.0023
+      },
+      "changes-unknown": {
+        "status": 404,
+        "headers": {
+          "content-length": "0",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/ST-ZZZZZZZZZ/changes",
+        "seconds": 0.002
+      },
+      "path-unknown": {
+        "status": 404,
+        "headers": {
+          "content-length": "0",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/nope",
+        "seconds": 0.023
+      },
+      "path-trailing-slash": {
+        "status": 400,
+        "headers": {
+          "content-length": "159",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 159,
+        "bodySha256": "1ca5a11f7de473eec14232ebf7dc17b9fa57691d04c6d6f15d2d27b5b56a9ece",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<error xmlns=\"urn:starfleet:missions:v1\"><code>INVALID_MISSION_ID</code><message>Illustrative message.</message></error>",
+        "errorCode": "INVALID_MISSION_ID",
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/",
+        "seconds": 0.0158
+      },
+      "path-root": {
+        "status": 404,
+        "headers": {
+          "content-length": "0",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/",
+        "seconds": 0.0023
+      },
+      "accept-json": {
+        "status": 200,
+        "headers": {
+          "content-length": "1388",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 1388,
+        "bodySha256": "ed137b3ad53774b7721dc865aaf35522b266992a6d16b04f8e3d57246d75cdbe",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<missionList xmlns=\"urn:starfleet:missions:v1\"><page>1</page><pageSize>1</pageSize><totalCount>300</totalCount><totalPages>300</totalPages><mission><missionId>ST-00000LDBE</missionId><title>Charting of Vesnex Deep</title><type>EXPLORATION</type><classification>SECRET</classification><status>COMPLETED</status><priority>3</priority><stardate>43000.00</stardate><durationHours>129</durationHours><objective>Chart the region around Vesnex Deep, release probes and record the findings.</objective><location><type>SECTOR</type><name>Vesnex Deep</name><coordinates>Grid B-16</coordinates></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-920</commandingOfficerId><assignedCrewIds><crewId>C-1846</crewId><crewId>C-2201</crewId><crewId>C-2339</crewId><crewId>C-2354</crewId><crewId>C-3653</crewId><crewId>C-4165</crewId><crewId>C-5034</crewId><crewId>C-6287</crewId><crewId>C-6608</crewId><crewId>C-7011</crewId><crewId>C-8383</crewId><crewId>C-9803</crewId></assignedCrewIds><participantIds /><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>28098.59</estimatedCostCredits><actualCostCredits>37118.24</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-01-07T00:13:00.000Z</lastUpdated></mission></missionList>",
+        "errorCode": null,
+        "paging": {
+          "page": "1",
+          "pageSize": "1",
+          "totalCount": "300",
+          "totalPages": "300"
+        },
+        "missionCount": 1,
+        "url": "/missions?pageSize=1",
+        "seconds": 0.0513
+      },
+      "accept-xml": {
+        "status": 200,
+        "headers": {
+          "content-length": "1388",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 1388,
+        "bodySha256": "ed137b3ad53774b7721dc865aaf35522b266992a6d16b04f8e3d57246d75cdbe",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<missionList xmlns=\"urn:starfleet:missions:v1\"><page>1</page><pageSize>1</pageSize><totalCount>300</totalCount><totalPages>300</totalPages><mission><missionId>ST-00000LDBE</missionId><title>Charting of Vesnex Deep</title><type>EXPLORATION</type><classification>SECRET</classification><status>COMPLETED</status><priority>3</priority><stardate>43000.00</stardate><durationHours>129</durationHours><objective>Chart the region around Vesnex Deep, release probes and record the findings.</objective><location><type>SECTOR</type><name>Vesnex Deep</name><coordinates>Grid B-16</coordinates></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-920</commandingOfficerId><assignedCrewIds><crewId>C-1846</crewId><crewId>C-2201</crewId><crewId>C-2339</crewId><crewId>C-2354</crewId><crewId>C-3653</crewId><crewId>C-4165</crewId><crewId>C-5034</crewId><crewId>C-6287</crewId><crewId>C-6608</crewId><crewId>C-7011</crewId><crewId>C-8383</crewId><crewId>C-9803</crewId></assignedCrewIds><participantIds /><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>28098.59</estimatedCostCredits><actualCostCredits>37118.24</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-01-07T00:13:00.000Z</lastUpdated></mission></missionList>",
+        "errorCode": null,
+        "paging": {
+          "page": "1",
+          "pageSize": "1",
+          "totalCount": "300",
+          "totalPages": "300"
+        },
+        "missionCount": 1,
+        "url": "/missions?pageSize=1",
+        "seconds": 0.0991
+      },
+      "accept-any": {
+        "status": 200,
+        "headers": {
+          "content-length": "1388",
+          "content-type": "application/xml;charset=UTF-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 1388,
+        "bodySha256": "ed137b3ad53774b7721dc865aaf35522b266992a6d16b04f8e3d57246d75cdbe",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<missionList xmlns=\"urn:starfleet:missions:v1\"><page>1</page><pageSize>1</pageSize><totalCount>300</totalCount><totalPages>300</totalPages><mission><missionId>ST-00000LDBE</missionId><title>Charting of Vesnex Deep</title><type>EXPLORATION</type><classification>SECRET</classification><status>COMPLETED</status><priority>3</priority><stardate>43000.00</stardate><durationHours>129</durationHours><objective>Chart the region around Vesnex Deep, release probes and record the findings.</objective><location><type>SECTOR</type><name>Vesnex Deep</name><coordinates>Grid B-16</coordinates></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-920</commandingOfficerId><assignedCrewIds><crewId>C-1846</crewId><crewId>C-2201</crewId><crewId>C-2339</crewId><crewId>C-2354</crewId><crewId>C-3653</crewId><crewId>C-4165</crewId><crewId>C-5034</crewId><crewId>C-6287</crewId><crewId>C-6608</crewId><crewId>C-7011</crewId><crewId>C-8383</crewId><crewId>C-9803</crewId></assignedCrewIds><participantIds /><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>28098.59</estimatedCostCredits><actualCostCredits>37118.24</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-01-07T00:13:00.000Z</lastUpdated></mission></missionList>",
+        "errorCode": null,
+        "paging": {
+          "page": "1",
+          "pageSize": "1",
+          "totalCount": "300",
+          "totalPages": "300"
+        },
+        "missionCount": 1,
+        "url": "/missions?pageSize=1",
+        "seconds": 0.0037
+      }
+    },
+    "headProbes": {
+      "list-default": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions",
+        "seconds": 0.0023
+      },
+      "list-size-1": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?pageSize=1",
+        "seconds": 0.0025
+      },
+      "list-beyond-end": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?page=7&pageSize=50",
+        "seconds": 0.0026
+      },
+      "list-size-0": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?pageSize=0",
+        "seconds": 0.0885
+      },
+      "list-size-51": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?pageSize=51",
+        "seconds": 0.0023
+      },
+      "list-page-0": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?page=0",
+        "seconds": 0.0026
+      },
+      "list-page-text": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?page=abc",
+        "seconds": 0.0022
+      },
+      "list-page-repeated": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?page=1&page=2",
+        "seconds": 0.0028
+      },
+      "list-unknown-param": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?colour=red",
+        "seconds": 0.0028
+      },
+      "list-bad-status": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?status=NOTASTATUS",
+        "seconds": 0.0865
+      },
+      "list-filter-active": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?status=ACTIVE&pageSize=50",
+        "seconds": 0.0033
+      },
+      "list-no-match": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?status=ACTIVE&priority=1&type=MAINTENANCE&classification=TOP_SECRET",
+        "seconds": 0.0033
+      },
+      "one-known": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/{first}",
+        "seconds": 0.0031
+      },
+      "one-unknown": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/ST-ZZZZZZZZZ",
+        "seconds": 0.0038
+      },
+      "one-malformed": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/not-an-id",
+        "seconds": 0.0049
+      },
+      "changes-known": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/{first}/changes",
+        "seconds": 0.0808
+      },
+      "changes-size-1": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/{first}/changes?pageSize=1",
+        "seconds": 0.0026
+      },
+      "changes-unknown": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/ST-ZZZZZZZZZ/changes",
+        "seconds": 0.0026
+      },
+      "path-unknown": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/nope",
+        "seconds": 0.0162
+      },
+      "path-trailing-slash": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions/",
+        "seconds": 0.0022
+      },
+      "path-root": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/",
+        "seconds": 0.0021
+      },
+      "accept-json": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?pageSize=1",
+        "seconds": 0.0261
+      },
+      "accept-xml": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?pageSize=1",
+        "seconds": 0.047
+      },
+      "accept-any": {
+        "status": 501,
+        "headers": {
+          "content-length": "357",
+          "content-type": "text/html;charset=utf-8",
+          "server": "BaseHTTP/0.6 Python/3.13.16"
+        },
+        "bodyBytes": 0,
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "body": "",
+        "errorCode": null,
+        "paging": {
+          "page": null,
+          "pageSize": null,
+          "totalCount": null,
+          "totalPages": null
+        },
+        "missionCount": 0,
+        "url": "/missions?pageSize=1",
+        "seconds": 0.0022
+      }
+    },
+    "target": "simulated"
+  },
+  "checks": [
+    {
+      "id": "three-hundred",
+      "text": "GET /missions lists 300 missions",
+      "observed": {
+        "walked": 300,
+        "totalCount": "300"
+      },
+      "result": "pass"
+    }
+  ],
+  "notes": []
+}

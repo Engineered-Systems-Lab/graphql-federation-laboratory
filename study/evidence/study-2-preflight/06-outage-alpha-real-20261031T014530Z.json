@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "step": "outage",
+  "stepNumber": 6,
+  "label": "alpha-real",
+  "startedAt": "2026-10-31T01:45:30.080964+00:00",
+  "finishedAt": "2026-10-31T01:45:55.912189+00:00",
+  "host": {
+    "platform": "win32",
+    "python": "3.14.8"
+  },
+  "plan": [
+    "probe assets through http://127.0.0.1:8170/ with { asset(assetId: \"AST-0004\") { assetId } }",
+    "run: <python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service stop assets alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "run: <python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service start assets alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "time until the probe answers again, at most 300 s; the router is never restarted by this step",
+    "probe personnel through http://127.0.0.1:8170/ with { personnelMembers(limit: 1) { totalCount } }",
+    "run: <python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service stop personnel alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "run: <python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service start personnel alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "time until the probe answers again, at most 300 s; the router is never restarted by this step",
+    "probe missions through http://127.0.0.1:8170/ with { missions(limit: 1) { missionId } }",
+    "run: <python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service stop missions alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "run: <python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service start missions alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "time until the probe answers again, at most 300 s; the router is never restarted by this step"
+  ],
+  "commands": [
+    "<python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service stop assets alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "<python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service start assets alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "<python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service stop personnel alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "<python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service start personnel alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "<python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service stop missions alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state",
+    "<python> -B C:\\esl\\graphql-federation-laboratory\\study\\launch\\launch.py service start missions alpha --missions real --state-dir C:\\esl\\_study2-preflight\\launch-state"
+  ],
+  "measurements": {
+    "scenario": "alpha",
+    "missions": "real",
+    "router": "apollo",
+    "services": {
+      "assets": {
+        "stopped": "assets-service",
+        "stopExit": 0,
+        "downAfterSeconds": 1.06,
+        "startExit": 0,
+        "startCommandSeconds": 4.72,
+        "recoveredAfterStartSeconds": 0.03,
+        "routerRecoveredWithoutRestart": true
+      },
+      "personnel": {
+        "stopped": "personnel-service",
+        "stopExit": 0,
+        "downAfterSeconds": 1.05,
+        "startExit": 0,
+        "startCommandSeconds": 6.2,
+        "recoveredAfterStartSeconds": 0.31,
+        "routerRecoveredWithoutRestart": true
+      },
+      "missions": {
+        "stopped": "starfleet-missions-service",
+        "stopExit": 0,
+        "downAfterSeconds": 1.04,
+        "startExit": 0,
+        "startCommandSeconds": 4.28,
+        "recoveredAfterStartSeconds": 0.04,
+        "routerRecoveredWithoutRestart": true
+      }
+    }
+  },
+  "checks": [
+    {
+      "id": "outage-assets",
+      "text": "the router answers assets again after the restore, with no router restart",
+      "observed": 0.03,
+      "result": "pass"
+    },
+    {
+      "id": "outage-assets-down",
+      "text": "stopping assets makes the router answer without its data (category D stops a backend)",
+      "observed": 1.06,
+      "result": "pass"
+    },
+    {
+      "id": "outage-personnel",
+      "text": "the router answers personnel again after the restore, with no router restart",
+      "observed": 0.31,
+      "result": "pass"
+    },
+    {
+      "id": "outage-personnel-down",
+      "text": "stopping personnel makes the router answer without its data (category D stops a backend)",
+      "observed": 1.05,
+      "result": "pass"
+    },
+    {
+      "id": "outage-missions",
+      "text": "the router answers missions again after the restore, with no router restart",
+      "observed": 0.04,
+      "result": "pass"
+    },
+    {
+      "id": "outage-missions-down",
+      "text": "stopping missions makes the router answer without its data (category D stops a backend)",
+      "observed": 1.04,
+      "result": "pass"
+    }
+  ],
+  "notes": []
+}

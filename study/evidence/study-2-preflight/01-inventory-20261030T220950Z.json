@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "step": "inventory",
+  "stepNumber": 1,
+  "label": null,
+  "startedAt": "2026-10-30T22:09:50.723762+00:00",
+  "finishedAt": "2026-10-30T22:09:51.958158+00:00",
+  "host": {
+    "platform": "win32",
+    "python": "3.14.8"
+  },
+  "plan": [
+    "read the Oracle image container-registry.oracle.com/database/express:18.4.0-xe@sha256:b17a93fb201562ad142d267c0ac3eecb0e6207debafd6ed51a1da157b9cacab8 with docker image inspect",
+    "read the service image starfleet-missions-service:1.0.0 with docker image inspect (absent until the operator builds it)",
+    "read mem_limit and JAVA_TOOL_OPTIONS of uss-enterprise/missions/compose.yaml",
+    "read docker system df and the free disk at C:/ (the reserve is 20 GiB)"
+  ],
+  "commands": [
+    "docker image inspect --format {\"id\":{{json .Id}},\"repoDigests\":{{json .RepoDigests}},\"size\":{{json .Size}}} container-registry.oracle.com/database/express:18.4.0-xe@sha256:b17a93fb201562ad142d267c0ac3eecb0e6207debafd6ed51a1da157b9cacab8",
+    "docker image inspect --format {\"id\":{{json .Id}},\"created\":{{json .Created}},\"size\":{{json .Size}}} starfleet-missions-service:1.0.0",
+    "docker system df --format {{json .}}"
+  ],
+  "measurements": {
+    "oracleImage": {
+      "pinned": "container-registry.oracle.com/database/express:18.4.0-xe@sha256:b17a93fb201562ad142d267c0ac3eecb0e6207debafd6ed51a1da157b9cacab8",
+      "present": true,
+      "id": "sha256:b17a93fb201562ad142d267c0ac3eecb0e6207debafd6ed51a1da157b9cacab8",
+      "sizeGiB": 8.515,
+      "error": null
+    },
+    "serviceImage": {
+      "ref": "starfleet-missions-service:1.0.0",
+      "present": true,
+      "id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+      "created": "2026-10-22T20:01:44.761535607Z",
+      "sizeGiB": 0.374
+    },
+    "composeLimits": {
+      "mem_limit": "768m",
+      "JAVA_TOOL_OPTIONS": "-XX:MaxRAMPercentage=60.0"
+    },
+    "dockerSystemDf": [
+      {
+        "Active": "12",
+        "Reclaimable": "3.022GB (20%)",
+        "Size": "14.7GB",
+        "TotalCount": "32",
+        "Type": "Images"
+      },
+      {
+        "Active": "1",
+        "Reclaimable": "364.5kB (0%)",
+        "Size": "5.069GB",
+        "TotalCount": "43",
+        "Type": "Containers"
+      },
+      {
+        "Active": "4",
+        "Reclaimable": "1.656GB (89%)",
+        "Size": "1.849GB",
+        "TotalCount": "10",
+        "Type": "Local Volumes"
+      },
+      {
+        "Active": "0",
+        "Reclaimable": "21.35GB",
+        "Size": "26.09GB",
+        "TotalCount": "1713",
+        "Type": "Build Cache"
+      }
+    ],
+    "diskPath": "C:\\",
+    "diskFreeGiB": 263.112
+  },
+  "checks": [
+    {
+      "id": "oracle-digest",
+      "text": "the Oracle image is present by its pinned digest",
+      "observed": true,
+      "result": "pass"
+    },
+    {
+      "id": "service-image",
+      "text": "the service image exists (the operator builds it)",
+      "observed": true,
+      "result": "pass"
+    },
+    {
+      "id": "memory-limit",
+      "text": "the Missions compose file sets mem_limit 768m (the separate memory-limit Job)",
+      "observed": "768m",
+      "result": "pass"
+    },
+    {
+      "id": "disk-reserve",
+      "text": "at least 20 GiB free for images and the database",
+      "observed": 263.112,
+      "result": "pass"
+    }
+  ],
+  "notes": []
+}

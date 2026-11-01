@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "step": "data",
+  "stepNumber": 3,
+  "label": null,
+  "startedAt": "2026-10-31T01:48:42.962846+00:00",
+  "finishedAt": "2026-10-31T01:48:46.298012+00:00",
+  "host": {
+    "platform": "win32",
+    "python": "3.14.8"
+  },
+  "plan": [
+    "count the rows of the six tables of MISSIONS_LAB and read the clock row (version, release hash, counter, baseline)",
+    "read the largest change id and lastUpdated, the fingerprint the Missions clock check compares",
+    "read the system privileges, roles and table privileges of the login MISSIONS_READER",
+    "read MISSIONS_DB_USER (and nothing else of its environment) of the container starfleet-missions-service",
+    "compare the fingerprint with the record 03-data-20261030T231947Z.json"
+  ],
+  "commands": [
+    "SQL (read-only transaction): SELECT COUNT(*) FROM MISSIONS_LAB.MISSIONS",
+    "SQL (read-only transaction): SELECT COUNT(*) FROM MISSIONS_LAB.MISSION_ASSIGNED_CREW",
+    "SQL (read-only transaction): SELECT COUNT(*) FROM MISSIONS_LAB.MISSION_PARTICIPANTS",
+    "SQL (read-only transaction): SELECT COUNT(*) FROM MISSIONS_LAB.MISSION_ASSIGNED_ASSETS",
+    "SQL (read-only transaction): SELECT COUNT(*) FROM MISSIONS_LAB.MISSION_CHANGES",
+    "SQL (read-only transaction): SELECT COUNT(*) FROM MISSIONS_LAB.MISSION_CLOCK",
+    "SQL (read-only transaction): SELECT dataset_version||'|'||release_sha256||'|'||counter||'|'||TO_CHAR(baseline,'YYYY-MM-DD\"T\"HH24:MI:SS.FF3\"Z\"') FROM MISSIONS_LAB.mission_clock",
+    "SQL (read-only transaction): SELECT MAX(current_change_id)||'|'||TO_CHAR(MAX(last_updated),'YYYY-MM-DD\"T\"HH24:MI:SS.FF3\"Z\"') FROM MISSIONS_LAB.missions",
+    "SQL (read-only transaction): SELECT privilege FROM dba_sys_privs WHERE grantee='MISSIONS_READER'",
+    "SQL (read-only transaction): SELECT granted_role FROM dba_role_privs WHERE grantee='MISSIONS_READER'",
+    "SQL (read-only transaction): SELECT owner||'.'||table_name||'|'||privilege FROM dba_tab_privs WHERE grantee='MISSIONS_READER'",
+    "docker inspect --format {{range .Config.Env}}{{if eq (index (split . \"=\") 0) \"MISSIONS_DB_USER\"}}{{index (split . \"=\") 1}}{{end}}{{end}} starfleet-missions-service"
+  ],
+  "measurements": {
+    "expected": {
+      "datasetVersion": "1.2",
+      "releaseSha256": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f",
+      "committedReleaseSha256": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f",
+      "baseline": "2368-12-23T10:47:00.000Z",
+      "counts": {
+        "MISSIONS": 300,
+        "MISSION_CHANGES": 973,
+        "MISSION_ASSIGNED_CREW": 2121,
+        "MISSION_PARTICIPANTS": 356,
+        "MISSION_ASSIGNED_ASSETS": 596,
+        "MISSION_CLOCK": 1
+      }
+    },
+    "counts": {
+      "MISSIONS": 300,
+      "MISSION_ASSIGNED_CREW": 2121,
+      "MISSION_PARTICIPANTS": 356,
+      "MISSION_ASSIGNED_ASSETS": 596,
+      "MISSION_CHANGES": 973,
+      "MISSION_CLOCK": 1
+    },
+    "clock": {
+      "datasetVersion": "1.2",
+      "releaseSha256": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f",
+      "counter": "0",
+      "baseline": "2368-12-23T10:47:00.000Z"
+    },
+    "fingerprint": {
+      "counts": {
+        "MISSIONS": 300,
+        "MISSION_ASSIGNED_CREW": 2121,
+        "MISSION_PARTICIPANTS": 356,
+        "MISSION_ASSIGNED_ASSETS": 596,
+        "MISSION_CHANGES": 973,
+        "MISSION_CLOCK": 1
+      },
+      "clock": {
+        "datasetVersion": "1.2",
+        "releaseSha256": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f",
+        "counter": "0",
+        "baseline": "2368-12-23T10:47:00.000Z"
+      },
+      "maxCurrentChangeId": "9906355",
+      "maxLastUpdated": "2368-12-23T10:47:00.000Z"
+    },
+    "fingerprintSha256": "8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+    "login": {
+      "name": "MISSIONS_READER",
+      "privileges": {
+        "system": [
+          "CREATE SESSION"
+        ],
+        "roles": [],
+        "tables": [
+          "MISSIONS_LAB.MISSIONS|SELECT",
+          "MISSIONS_LAB.MISSION_ASSIGNED_CREW|SELECT",
+          "MISSIONS_LAB.MISSION_PARTICIPANTS|SELECT",
+          "MISSIONS_LAB.MISSION_ASSIGNED_ASSETS|SELECT",
+          "MISSIONS_LAB.MISSION_CHANGES|SELECT",
+          "MISSIONS_LAB.MISSION_CLOCK|SELECT"
+        ]
+      },
+      "serviceContainerUser": "MISSIONS_READER"
+    }
+  },
+  "checks": [
+    {
+      "id": "release-file",
+      "text": "the committed release.json hashes to its manifest entry",
+      "observed": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f",
+      "result": "pass"
+    },
+    {
+      "id": "row-counts",
+      "text": "the six tables hold the counts of release 1.2",
+      "observed": {
+        "MISSIONS": 300,
+        "MISSION_ASSIGNED_CREW": 2121,
+        "MISSION_PARTICIPANTS": 356,
+        "MISSION_ASSIGNED_ASSETS": 596,
+        "MISSION_CHANGES": 973,
+        "MISSION_CLOCK": 1
+      },
+      "result": "pass"
+    },
+    {
+      "id": "dataset-hash",
+      "text": "the clock row names release 1.2 and its hash",
+      "observed": {
+        "datasetVersion": "1.2",
+        "releaseSha256": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f",
+        "counter": "0",
+        "baseline": "2368-12-23T10:47:00.000Z"
+      },
+      "result": "pass"
+    },
+    {
+      "id": "clock-unmoved",
+      "text": "the Missions clock counter is 0: no write since the reset",
+      "observed": "0",
+      "result": "pass"
+    },
+    {
+      "id": "clock-check",
+      "text": "the data fingerprint equals the earlier record (before and after a block)",
+      "observed": {
+        "before": "8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+        "after": "8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "result": "pass"
+    },
+    {
+      "id": "login-read-only",
+      "text": "the login has CREATE SESSION, no role and SELECT only, on the six tables only",
+      "observed": {
+        "system": [
+          "CREATE SESSION"
+        ],
+        "roles": [],
+        "tables": [
+          "MISSIONS_LAB.MISSIONS|SELECT",
+          "MISSIONS_LAB.MISSION_ASSIGNED_CREW|SELECT",
+          "MISSIONS_LAB.MISSION_PARTICIPANTS|SELECT",
+          "MISSIONS_LAB.MISSION_ASSIGNED_ASSETS|SELECT",
+          "MISSIONS_LAB.MISSION_CHANGES|SELECT",
+          "MISSIONS_LAB.MISSION_CLOCK|SELECT"
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "id": "login-in-use",
+      "text": "the service container uses this login",
+      "observed": "MISSIONS_READER",
+      "result": "pass"
+    }
+  ],
+  "notes": []
+}
