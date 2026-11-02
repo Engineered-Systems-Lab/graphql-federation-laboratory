@@ -1,0 +1,2000 @@
+{
+  "arm": "alpha",
+  "name": "Direct Access",
+  "mode": "live",
+  "backend": "real",
+  "outage": null,
+  "serviceStates": {
+    "missions": "up",
+    "assets": "up",
+    "personnel": "up"
+  },
+  "provenance": {
+    "verified": true,
+    "mode": "real",
+    "intended": {
+      "compose_projects": [
+        "starfleet-missions",
+        "starfleet-federation-stack"
+      ],
+      "backends": {
+        "missions": {
+          "mode": "real",
+          "service": "starfleet-missions/missions",
+          "image_ref": "starfleet-missions-service:1.0.0"
+        },
+        "assets": {
+          "mode": "real",
+          "service": "assets-service",
+          "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+          "dataset": {
+            "id": "assets-1.1",
+            "path": "<path>/1.1",
+            "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+          }
+        },
+        "personnel": {
+          "mode": "real",
+          "service": "personnel-service",
+          "image_ref": "starfleet-federation-stack-personnel-service:2.0.0"
+        }
+      },
+      "routing": {
+        "endpoints": {
+          "http://127.0.0.1:8083/": "starfleet-missions/missions",
+          "http://127.0.0.1:8082/": "personnel-service",
+          "http://127.0.0.1:8084/": "assets-service"
+        },
+        "env": {
+          "assets-adapter": {
+            "ASSETS_SERVICE_URL": "http://assets-service:8084"
+          },
+          "missions-adapter": {
+            "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+          },
+          "personnel-adapter": {
+            "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+          }
+        }
+      },
+      "launch_files": {
+        "launch_script": "<path>/launch.py",
+        "legacy_ports": "<path>/legacy-ports.json",
+        "missions_real_overlay": "<path>/missions-real.compose.yaml",
+        "stack_compose": "<path>/compose.yaml"
+      }
+    },
+    "observationFingerprint": "6406d6c2e9e8854f24e1418286f2371b6cf497f35f0a8112aa2fa736f43432b6",
+    "mcpUrl": "http://127.0.0.1:8191/mcp",
+    "mcpServerCommand": [
+      "<STUDY_MCP_PYTHON>",
+      "-B",
+      "<path>/raw_server.py",
+      "--mapping-dir",
+      "<path>/mapping-releases"
+    ],
+    "outage": null,
+    "allowedForOutage": [],
+    "containers": {
+      "starfleet-federation-stack/assets-adapter": "starfleet-federation-stack-assets-adapter-1",
+      "starfleet-federation-stack/assets-bootstrap": "starfleet-federation-stack-assets-bootstrap-1",
+      "starfleet-federation-stack/assets-db": "starfleet-federation-stack-assets-db-1",
+      "starfleet-federation-stack/assets-service": "starfleet-federation-stack-assets-service-1",
+      "starfleet-federation-stack/cosmo-router": "starfleet-federation-stack-cosmo-router-1",
+      "starfleet-federation-stack/mapping-adapter": "starfleet-federation-stack-mapping-adapter-1",
+      "starfleet-federation-stack/missions-adapter": "starfleet-federation-stack-missions-adapter-1",
+      "starfleet-federation-stack/missions-stub": "starfleet-federation-stack-missions-stub-1",
+      "starfleet-federation-stack/personnel-adapter": "starfleet-federation-stack-personnel-adapter-1",
+      "starfleet-federation-stack/personnel-service": "starfleet-federation-stack-personnel-service-1",
+      "starfleet-federation-stack/router": "starfleet-federation-stack-router-1",
+      "starfleet-missions/missions": "starfleet-missions-service"
+    },
+    "datasets": {
+      "assets": {
+        "id": "assets-1.1",
+        "kind": "folder",
+        "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+      }
+    },
+    "problems": [],
+    "datasetFingerprint": {
+      "fingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+      "session": "oracle-instance:2026-11-01T14:06:31"
+    }
+  },
+  "inputs": {
+    "pool.json": "d8b61283d0d1375f33626c3411650a5115f23f78fe3c4c87bec9c62cbaf58a6f",
+    "ambiguity.json": "01a0a9d97578224ada95afb258101bf6b87f3e04f229efa292d3fd3032abd597",
+    "dev.json": "288eccc302e8a8e00e9dd7838864c0e3bb739825fbbc4796981550ee5ef3c78d",
+    "keys-a.json": "6f9500c78c37bb30e1213839b9354a596430c15d46d3f929b3471ccba23a1ab6",
+    "scoring.py": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+    "reference": "38650599d1602b0df2085506da1f17a4286dbd5f1da263ffec44a8999afc9067",
+    "datasets": "dc1f3f62279d613f1a7a9008198af88ee45e883e629e3c988fbc4594a4a5670e"
+  },
+  "limits": {
+    "toolCalls": 80,
+    "seconds": 900
+  },
+  "overLimits": [],
+  "summary": {
+    "correct": 75,
+    "skipped": 15
+  },
+  "tasks": [
+    {
+      "taskId": "A01",
+      "set": "pool",
+      "category": "A",
+      "hashes": {
+        "question": "a34d1f75b0fc3c450bb038d030a096b6f591f34849e8e5a4029122c835ce7b8c",
+        "schema": "01758d4cd3160c5d9ed6a8932e35476b7388f7143efe61138b09fb062a83f222",
+        "key": "e9fc309b3b14206ed1987aaa6e558ab0bb4223ac4bdd95328ad096a6b2071d3c"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.039
+    },
+    {
+      "taskId": "A02",
+      "set": "pool",
+      "category": "A",
+      "hashes": {
+        "question": "b38338be6e4a2ea1a8907d746b846b12bdaa450774a47b35db08dbdd02e91c6d",
+        "schema": "bb045e913e32586398f40b7a4c9f797204a6fbe4f8302b5aec1fb2cf832cff0a",
+        "key": "47773b665081d998f40e7aa342a670047b987b6821aa06bd6f3a962a4072a52b"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.037
+    },
+    {
+      "taskId": "A03",
+      "set": "pool",
+      "category": "A",
+      "hashes": {
+        "question": "f7ae8fc3bad6d8b11c01379caeb4b46515a08c456a42eb2fe56d4682b89a02c5",
+        "schema": "981db2a396ad30d26409e2bca12238f1fcb330ac37dab422270d6a273e0665cc",
+        "key": "3bc40f0c1c9b61673d88dedbe13000b0a9a61602b7551d8d3b3e1f3cb7168342"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.017
+    },
+    {
+      "taskId": "A04",
+      "set": "pool",
+      "category": "A",
+      "hashes": {
+        "question": "a154889bd5930e6440dd611a110db63b181d4d5fef83fc7e088e7cb90816cb4d",
+        "schema": "d8eb132f8fbab36ab1fa2ac7aa523fb3436c240d56ace8843cb9a1a0e99b4511",
+        "key": "af71693b16552fcd1c7fcff1795954d3ebc8a3799b05dc2e3435ce71f8bbfd90"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.039
+    },
+    {
+      "taskId": "A05",
+      "set": "pool",
+      "category": "A",
+      "hashes": {
+        "question": "9dc866dbde5971fb7bc61ab908e807472785981eb4f723c27c443e4014eb3e13",
+        "schema": "4c07fcef688e2a4953ca570f7a5071a0799660a836dfda3dc4ae19a0920fed62",
+        "key": "edb0cb6136d0c4652112524cbf88dc9e783d8e4011e13cb2a0d269b455f6870b"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.016
+    },
+    {
+      "taskId": "A06",
+      "set": "pool",
+      "category": "A",
+      "hashes": {
+        "question": "7d1b3c4f25feab733fdde5033fe05ab44df409f1bb0443515928a91a9a9d8d78",
+        "schema": "a09b468163e983e56727ec0f52ff505077d07d339c2f1e11d296dff9ecd0e967",
+        "key": "a91d8a316432f13413546ad9e037bcf7bf9888f522a9d72c731c1b6015c5c1fa"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.015
+    },
+    {
+      "taskId": "A07",
+      "set": "pool",
+      "category": "A",
+      "hashes": {
+        "question": "b18252e15a0636aa992ff3771545d6f8156626014a31e53d716a702f8058f0cf",
+        "schema": "7545aa6bac66c235c5817ccd854feabbe03b55f7aaaa51516bb1a131dd010be0",
+        "key": "6caa0065d95eb7e785676c71232b6389152d83da0e447dd002d47bedf0c8b98c"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.032
+    },
+    {
+      "taskId": "A08",
+      "set": "pool",
+      "category": "A",
+      "hashes": {
+        "question": "bd2b422c410c7f96c17736f098d495c56a001ce0461dfb4b2a1844516a2d9f0e",
+        "schema": "7d55cd60e52bfda5cea36a7a717d9493a5dede744edb77d24f1216e16f5c69fc",
+        "key": "d2017b43324c114e2126220610002c9b5845eccdcf7053482aad8a4dee1c4cbf"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.1
+    },
+    {
+      "taskId": "A09",
+      "set": "pool",
+      "category": "A",
+      "hashes": {
+        "question": "4624788f1d15b0bc1b275bc154e68d38005f7b452fbc06fd3e0b1c45697e14f4",
+        "schema": "98a4449629901468c43fcaa2936f44ec626a33d4f72d5ab7b5bf26375937efb1",
+        "key": "41ef29c6db14f40f43707dd59ff9275bdc0dfa944d9653398cb4187d86a9b515"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.013
+    },
+    {
+      "taskId": "B01",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "bd9dc3fe6313265f8fa957a0de778f9f876d077f80266b9cefb4138a81559999",
+        "schema": "363c25f702a79573dd760a8ddc172f88f58148e6df711a9f140d411ba947438b",
+        "key": "ff5e824fb018af9dd870c58a7389329563cca2d0b92fb641b0e249cb86e7a2f8"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.084
+    },
+    {
+      "taskId": "B02",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "d3b0909d476f1f395b487556ee2e9981dcb1b08a4895dd2c9a211cf68928a8a7",
+        "schema": "8b4edf96cea3cbfcab7aa5d8216174e0bdfafe110a551ef51230b4b15516fb0a",
+        "key": "638a74ab202fb767294b2ef8258d7a425f2e2244b7d5ab134b094e71f16a57aa"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 9,
+      "seconds": 0.336
+    },
+    {
+      "taskId": "B03",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "bc82340b8003868e417e550ea8435b2c911a5201cf7288ada1ba9ceb7727a439",
+        "schema": "4e1310041d23a2a1c649e0df9cefed83bf832ba36aedc19b58642b043564d4b6",
+        "key": "219dc98710b07022c1ce3a2d5a168a44f745e7419d7d0cf7e81b5d7d5a51db0e"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 8,
+      "seconds": 0.267
+    },
+    {
+      "taskId": "B04",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "2073461e9df25913e605fb73eba363d1119407038630d680ceaa7be88229d9cb",
+        "schema": "ed3c7e8e6047270c7924ba845dbeee3e8f0c3384e1b8b808549b15637ddbaed7",
+        "key": "b92b5fb0d4a7c57ce046ac79908c95ee9e25bd2ff1248d7ef9147999bed3ca23"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 7,
+      "seconds": 0.24
+    },
+    {
+      "taskId": "B05",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "b597139f11d75f867569a72d3e3b82ff2d31e00402ca2bcd4ff03047d24c7cf6",
+        "schema": "dce03cda54f8de9c4eddc8d966031755570bcbb40749e53bf7b6ee5fb8d38ee4",
+        "key": "50233cbe2adc52faae2cf21d0d117f977ffc493c968ec6bd8c75b9de26dc3dfb"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 5,
+      "seconds": 0.116
+    },
+    {
+      "taskId": "B06",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "0ef1818bfde657b5a46c7b3d5edfceb9c96f9771a6ae1524e5a7423f6bb9729c",
+        "schema": "2072772c7754e935ce8d16d6dd1b152ff054a42e98f42579ce3ed2cc9abf00b7",
+        "key": "2ac5da480e9778b34b16b405bbe52e0f5d6ff0fb50f401ef12ed0579fb8de517"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 5,
+      "seconds": 0.093
+    },
+    {
+      "taskId": "B07",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "bd56fbce980a5e7942591de7ab3a759272cd5ee51cee7adf28863c9a243c6168",
+        "schema": "4b18c8e73772e79aff7731fb4b6af980974ec06f3f06468ac1ff6300ae267465",
+        "key": "a20663b7a7dfbc0fadd1ba3bec55c9d0679ab83d0484ade65cea7a10ebec671a"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 5,
+      "seconds": 0.125
+    },
+    {
+      "taskId": "B08",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "c938d6fc31be4776126d5d3a1116ced17ec1d8d0ad506327ca171abfa661c547",
+        "schema": "edc89d35390aca05f4575f225fac6e35d174ccfb77033c621dc4019b54f88a5e",
+        "key": "2915c7e9b44cfb5c88bc173764ccd27e029204dbe904a7af0447027f337276b9"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 6,
+      "seconds": 0.12
+    },
+    {
+      "taskId": "B09",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "c5a73651bcee35139d2bdaac29840424fd94fa71a83cf7087030a484f6c9eb02",
+        "schema": "7b50f8144264d51bf3d53422c36db02374d6ad77308c4713300d6c1fbd6debe3",
+        "key": "31090484862c5412b78848776932656e226d251e4e36cb8a45765e623795e171"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 8,
+      "seconds": 0.192
+    },
+    {
+      "taskId": "B10",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "599addfc0be895f45096bf8e7e0ad0c94ccf90998dc86fe57e18e3974922db32",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "48acad9a2cdb50c9fd5d15a48e896292b6aee3b406dc9d2e493dbf4fc03baf62"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 7,
+      "seconds": 0.359
+    },
+    {
+      "taskId": "B11",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "b00ee228610a6a2399b1f92319899d263c249e36a9c2e6b2e7a9980bdf3b26a3",
+        "schema": "f61154395796a2ec9d6950a87c6f8e14471dfef9f72902da49fccf1394f1b584",
+        "key": "a353799aa2f883f261a5ee66dc4cf363a480a3e4e23d9a6e56896df1221793a9"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.059
+    },
+    {
+      "taskId": "B12",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "9a1ea681d9d3eaab15dc37e640d7483b5540432eb860f795900a825747dc87b6",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "bf535894f5c9626a819c0a79dfe4f7ef2e0db2f9fb210e86a192495697e0aab3"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 7,
+      "seconds": 0.316
+    },
+    {
+      "taskId": "B13",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "f248fa1cc8f525eef20c86088ffd99b38e3c706db8d0c7b4a61b39aa97866bbd",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "f950666fe6b70a04d86906a23c76ecf276e2b49ce45ec59864f8c7d2d000b0b2"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.075
+    },
+    {
+      "taskId": "B14",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "3a70566b879b26c7e21135ad4cc76a4997599d9f59076f0e2ff606dd1eb4cf39",
+        "schema": "13868b0a338cb6317bfa88c11cb4e03f674f77fecc0f169bc5d02aee93059d2a",
+        "key": "c67e2e76f2f9d154ed7cec3c84234f5bc1a8f595a789eaaf98fbc03a464f9178"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.078
+    },
+    {
+      "taskId": "B15",
+      "set": "pool",
+      "category": "B",
+      "hashes": {
+        "question": "a868031caeaaddfa33f8732a2e59770f6626d6e0922cf81a9cb4398da2aaf1a4",
+        "schema": "16cbfd79a6abaee7ddedf796eb53b7002ed0816ea655c47d404a0aec6a1867c9",
+        "key": "2b63ae7a1f717295da12ebe9a5bc65b79d4d1e23f9feaa39fa2d2f462495f45d"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 14,
+      "seconds": 0.585
+    },
+    {
+      "taskId": "C01",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "b823a6bd61e9c5ad6d31cd3606c7646776c85b57674af95b942697b874d8b545",
+        "schema": "4d39aecf2397439871fdde50572a41dd8dc58482dac7a5c4445a747ffd02877d",
+        "key": "30997b19faa2ec2483fefc4e6c56f68e105795009db55139d68be94261d980f8"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.034
+    },
+    {
+      "taskId": "C02",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "f9970f528236aa3dc8ff880bd609d27084e069858c142c6019acc255948b8c1c",
+        "schema": "30009e3fb4ebe33c476e11b8803226faeaba56dce4dd70676ecb9328f35a36fc",
+        "key": "769feb4be2a06e84df910dc0c4d710c0a712c787836f1b108d84a14d06b6196a"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 5,
+      "seconds": 0.024
+    },
+    {
+      "taskId": "C03",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "accee78b2a3ef3f5bf9e8fd89b10019c838f04e491b19bc9e295a6e5911b7038",
+        "schema": "4c07fcef688e2a4953ca570f7a5071a0799660a836dfda3dc4ae19a0920fed62",
+        "key": "f8b42450dd33cf6789b06710eaebd87e71fe2d50cf5bce1564e44f9ede5f5b70"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.032
+    },
+    {
+      "taskId": "C04",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "c961fb1cfd0fa9ac72fa2e3d2d0bcdec9d7afa01f7dd3c0b84d0646d7e895137",
+        "schema": "d546172a985607701566fe1bfbeaecca44bb6fbbb01cd2c889d908a7e66031e2",
+        "key": "523a6133b1a96e93b0a7ee476cd71aa525e2b23bacad1c45ff88ff3a8cc08818"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.05
+    },
+    {
+      "taskId": "C05",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "3c1863d04f92a18ccf55a0ae497912fa2d64b85d8c67f022769b69f7bc639389",
+        "schema": "47e140e832510172fe80ccb50126317a8fd0e46b1def3e2ff4747d4aa05cae50",
+        "key": "eb4a0a501cfcf107e95a12960fb2e8e269924fb585eb81d0e4ae079bb2178133"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.027
+    },
+    {
+      "taskId": "C06",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "8253b757faa2da9ba1a74019c2ea0bf9c4d977d4655fcaec8ad6b4d82889da0b",
+        "schema": "74eed509aa082371c6a27b34397bb4c2c8f6c61c629f4a65332486eeb0cd40d7",
+        "key": "b5fea3e88e1fc774ba6c9997583bcaabb7b74c33b002ca6e0889a0f06c9763d7"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.011
+    },
+    {
+      "taskId": "C07",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "40db1d00d95571f80979ce5f59b655ed58b55e7509a4965b5652a77a84c4b87a",
+        "schema": "459f3b3443e4385302157570c494c1ec3bd720ead37e86b042e743ee43c76140",
+        "key": "1cd27461f071f44100d92fde4664915272cfb7a6c68403b5f3064d72a163b8e4"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 5,
+      "seconds": 0.022
+    },
+    {
+      "taskId": "C08",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "b8ef909166af3a842a2041657901065763104ec840f2c062b53295665bbac5e0",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "0f06b93a550cbf98199a647461901704537ee52e28deae582bb05b3c269ea355"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 4,
+      "seconds": 0.127
+    },
+    {
+      "taskId": "C09",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "e5fbfb1ce8b5543da109947bb945db3880a59cf018248f85f504deb162173b40",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "7472dead4d8d8e6f041278e56ec920d4b5c9ec049d16abceed5189fdb1ab7774"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.103
+    },
+    {
+      "taskId": "C10",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "5b101f1e0a5622f474d296a35cc77e7195740d249e30f326010fa29089a64d18",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "ffbba48f4fa1e9caa0ab5d745f15b086cf11208dc168852558b9f9d43a2f76d5"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.072
+    },
+    {
+      "taskId": "C11",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "ce927a7ee869f869d00d3f33cb753e80132b7a83410f1b83f411fdb443c2b6fd",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "35c56b0d74a1ce1607dbd789dff47540f678857ef066eb47754e675cb35b49e3"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 10,
+      "seconds": 0.292
+    },
+    {
+      "taskId": "C12",
+      "set": "pool",
+      "category": "C",
+      "hashes": {
+        "question": "a3de69f57ce7beec0deb4528fefb94eb7c615ae94366a6d1612c0228dd452875",
+        "schema": "3625a3d032a232494e6f8f7cc895636f08225b679032a97f10fa68e3ca35bb99",
+        "key": "e97dbffa2b0ff6665fe4371de3eef3a5c2f79cbf54a16283cf98b4307f82b72e"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.069
+    },
+    {
+      "taskId": "G01",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "e54a85ac9d228a04e37acb70379134c14fb49dcff9701d285d559157885fee8d",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "69222e4fdba77cadb73806fd00d7d660ee3ee9edb15408cf54525ba9cdb93b9e"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 4,
+      "seconds": 0.18
+    },
+    {
+      "taskId": "G02",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "7b994d2a5277bb084dc4353280755656c3830699b8722e47ee81933c832c6dcc",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "65a53bb2ab5a11beb5bb8c063d7bdc8360308188903db54f2420cf8ffda44c9c"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 4,
+      "seconds": 0.124
+    },
+    {
+      "taskId": "G03",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "c71f95e8079e8663a079a6a580f19cf7c13664163b90cce9581d45ecd3d32143",
+        "schema": "4e1310041d23a2a1c649e0df9cefed83bf832ba36aedc19b58642b043564d4b6",
+        "key": "19a3f74ba49c2717f9547d45217f250d33785e75c053adffe9b21646600844bd"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.023
+    },
+    {
+      "taskId": "G04",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "0aaf3b284b145864c362379e1ba50d7a8fb6e36173129876ea76c131c4e24c3e",
+        "schema": "4e1310041d23a2a1c649e0df9cefed83bf832ba36aedc19b58642b043564d4b6",
+        "key": "63cf7b6ad749d55fc80c60e36f32b58fb99a51a1fa0fc8324337015463727c57"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.064
+    },
+    {
+      "taskId": "G05",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "74b53d30436c46e4add2691f2da570121f1efd381da2f777216cb7ef18b200cd",
+        "schema": "2072772c7754e935ce8d16d6dd1b152ff054a42e98f42579ce3ed2cc9abf00b7",
+        "key": "b7e870eee517fb971cc9843d84ce498c2e845e805b9b38be00c321d24fa062bc"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.017
+    },
+    {
+      "taskId": "G06",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "47e08a1bed4690b64359bf40ed6082beb439ae04171c337b0cade7e514963df5",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "f36c9e81e52645fdf3583f16e7a45d00923927585cb382a41a6322583cd30723"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 6,
+      "seconds": 0.191
+    },
+    {
+      "taskId": "G07",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "8908ba742c2e571aadc3a72960816cb284e8b4236fa988153c5f69e3bec7e251",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "2ae40770fa77275119ac0ca411efd3dce021b9f9aeda1f119ecf7a7a83a74979"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 6,
+      "seconds": 0.202
+    },
+    {
+      "taskId": "G08",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "c66bf7cdc7a5d6dddfea66bdda4cb825d0692126c0aa7e63033a0f66f7278ff1",
+        "schema": "4e1310041d23a2a1c649e0df9cefed83bf832ba36aedc19b58642b043564d4b6",
+        "key": "73b094ebf4939442329ae94ecb9186daeeb3f1390f2a680383b2c07730f7dff3"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 10,
+      "seconds": 0.306
+    },
+    {
+      "taskId": "G09",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "78535c7cdb0298e83e1c92d5c952f630a17806d06909e5242c20e176a6cbbb96",
+        "schema": "4e1310041d23a2a1c649e0df9cefed83bf832ba36aedc19b58642b043564d4b6",
+        "key": "bb45c994ea84393451425c76560d7dbd0ccbbaafabcbb826375793bd9153e2fe"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 10,
+      "seconds": 0.374
+    },
+    {
+      "taskId": "G10",
+      "set": "pool",
+      "category": "G",
+      "hashes": {
+        "question": "5cec0b7084a4d97b9fa12ab9007ca6b46b86d687729c36797ac861f2ace6826f",
+        "schema": "b6af8dab9125f3d7f524c0656ff40cdc03274caf0c149e0f776148484a11fad1",
+        "key": "8c57335c50108c69af2e7508645b2bea4f697a25454d2c49bf62f3ec213c79c4"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 6,
+      "seconds": 0.213
+    },
+    {
+      "taskId": "E01",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "276e6bff20e415b16a7f861ded031d223dafb707b76f75ddeb920610b65d0dd7",
+        "schema": "0264e82adeabb9e43b27f266ea3f9d52cb9391033e7600a7866657d3e7af6f99",
+        "key": "e3902207975bfd128fae555d99d90d5b4de6745e07a1fd69668c92a00f944009"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.015
+    },
+    {
+      "taskId": "E02",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "7056298b1458d167bb4538cac79741e1a738c246e9e2dec9b84900acad56b41a",
+        "schema": "af5795cf5c53e54e6cc4214293245b8d4055355019f73f0b974274002debd70b",
+        "key": "244d3998498edb53022ddf781c18028df7747ba7b26a20359994a86094b60143"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.029
+    },
+    {
+      "taskId": "E03",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "0ed78ff6f457dd6c83728a645e7dbafa4ca10761ff33dccf91d4029699e0c43b",
+        "schema": "83ba0ae91ad7b4e0e6023327b0265487163ae676b57a2a6f904061bcdb930a6e",
+        "key": "c6f7ebc270a48ee68fd691c71cb6c1e6866ff2f3f90655d61707f109b70fa61e"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 21,
+      "seconds": 0.579
+    },
+    {
+      "taskId": "E04",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "08ea3302361116a1bd4d59cabd259c743247bb57f3495bb60c75d1e0e6f13b8e",
+        "schema": "060440e57219ce2147bb9b5b1088d8b56090177b312302f0007b2d03b20f051e",
+        "key": "25b40eaf5e53a7c2f1db0e0e0f8b0c43b747aa5a988dd4d1f4eff7ebfec3f28c"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.032
+    },
+    {
+      "taskId": "E05",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "739752c76e5c403d3730acc35c43eacaa95c435e033d3e6fca864757e7c9b82f",
+        "schema": "46a5a5ad1f9b50184fd2b486a9b53e77bc0193a72d230251fe95cdedb513e221",
+        "key": "6925a6e1dd580d47919f6e9110bfe307cdc4a963a30b0c0d84ac6a043f9c488c"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 12,
+      "seconds": 0.332
+    },
+    {
+      "taskId": "E06",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "840b1b54c953136fbfb3ca31ceda215342b7b69ba53030ea4a776fcf95d39745",
+        "schema": "0264e82adeabb9e43b27f266ea3f9d52cb9391033e7600a7866657d3e7af6f99",
+        "key": "6460511ee69e506709fcb6d82187858083e36e9065978980871a20100c971fc8"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.06
+    },
+    {
+      "taskId": "E07",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "6e264c897c9a727dcaaed113be8885f9a39cafd75c15fed2604414ec30785f48",
+        "schema": "2d945f724c316e3072fc75a3d946d040838cda0eb063fa0944f953b15c8c319d",
+        "key": "495844be5f7a9fc7e8a22594a606773bd4e1a79ef4628d31422b3df88b67b6b6"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.058
+    },
+    {
+      "taskId": "E08",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "7f106def7aa0e64c7d7e16a19a71e5a5d7ace1e07486b7a1b7ea34fa8aae7934",
+        "schema": "151899d1ae5d4a590c81f75065c44c9655c90a134a91e556555f18119d5186b1",
+        "key": "1ae2af5c430fbfc9d063adb6c3fe5c88136832870f509d208ce215133decec91"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 13,
+      "seconds": 0.385
+    },
+    {
+      "taskId": "E09",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "e74ae579b540685357eaae642c0aed496e3fba1b887c95a59ec77cefb9aed73c",
+        "schema": "63f00ae9120cc4421c117ff75a38ea902eea14d2320f36563175e7c2ee55beda",
+        "key": "d0062d00958eae99ddf14867a67d3cee879e1c2bbfb2ba0ece4262e8da8b792d"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 4,
+      "seconds": 0.112
+    },
+    {
+      "taskId": "E10",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "e0a3cc8be6f530569edad80a23a7d334886174bba50f4c17a5cbe0f207e10191",
+        "schema": "90ab5af2c90d1ac15ef74b249390b1e261b1f8fd8c87f84dda0dea4f5937f1ab",
+        "key": "4dab45ca815a8807b627772d3bfb09108a099d4c86217316be111e4b630822de"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 13,
+      "seconds": 0.398
+    },
+    {
+      "taskId": "E11",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "331a4f4686a2446c5886b1f6683fbb9662e0a8f30392d2d1fc2363b3cf08ee46",
+        "schema": "a72b7c38a3b853248a1d5df7da3b489d7a29c894d1241de56eedae453ab9f3ea",
+        "key": "ac8815db032150ac80da9cb5c1a69274283d3c94d7eaba55c9a0b26e7ed66902"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.089
+    },
+    {
+      "taskId": "E12",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "df830b8b51a2fbf588dfb1ece02e000e6ff1502c2fe747ffa4b906957ab0bd07",
+        "schema": "e0c36212e7c4055e250d20b4b84e1566a98ea013e026d63dda601cd88ac67eba",
+        "key": "5fb63bfaca05eba7ea141e5fdf665810b0514e312c0b4692f690096a1fa9fb65"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 6,
+      "seconds": 0.282
+    },
+    {
+      "taskId": "E13",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "f7e0965983fc21680b18ea64ca84537344d21050469675580039315112139567",
+        "schema": "83ba0ae91ad7b4e0e6023327b0265487163ae676b57a2a6f904061bcdb930a6e",
+        "key": "6f1209c909111be017c0788502d1ec7bcf348f81541b12fdbbbcdfa2f1694c13"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 10,
+      "seconds": 0.248
+    },
+    {
+      "taskId": "E14",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "f0ac7024178719eb99ffdcaf9055403a8ebd9d0d27d22a3b6901c554455f141f",
+        "schema": "70d331ab545d888b78981489cc730c63b79445f05eff2ae82f605113cd266867",
+        "key": "754ef2f13b2d998e1b4d5b1156ebac7d9ee69f2e22e2ad58f3103458f2df1f20"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 17,
+      "seconds": 0.473
+    },
+    {
+      "taskId": "E15",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "86ef77d9137fecf2bc4e7d7db9a977e991a55c2af7fadfd23ffbd3fcd562e167",
+        "schema": "171cd8af934a83ed2b6a687c7f158398b04cf9f7291211f6453d513e7ce12d83",
+        "key": "6c166f29baed98e4bfd4493930f743617a81514b49097e60c76c7cb2ec533d75"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 8,
+      "seconds": 0.28
+    },
+    {
+      "taskId": "E16",
+      "set": "pool",
+      "category": "E",
+      "hashes": {
+        "question": "bb1dfbd62055076a13b883330f2b6c31b4af0613ec371716c27c8b277ea41a8a",
+        "schema": "2c9079dc8494fcc202961bc43812067d6bad5b609e553ce8b07eb65e76bc0fad",
+        "key": "60e826b94ae302806212ced09455c8e7e6c85557cbbaf4bf686e913dbfc66d74"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 17,
+      "seconds": 0.587
+    },
+    {
+      "taskId": "D01",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of missions"
+    },
+    {
+      "taskId": "D02",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of missions"
+    },
+    {
+      "taskId": "D03",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of missions"
+    },
+    {
+      "taskId": "D14",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of missions"
+    },
+    {
+      "taskId": "D04",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D05",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D06",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D07",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D08",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D09",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of personnel"
+    },
+    {
+      "taskId": "D10",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of personnel"
+    },
+    {
+      "taskId": "D11",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of personnel"
+    },
+    {
+      "taskId": "D12",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of personnel"
+    },
+    {
+      "taskId": "D13",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of personnel"
+    },
+    {
+      "taskId": "F01",
+      "set": "ambiguity",
+      "category": "F",
+      "hashes": {
+        "question": "860dae8654a8a401f42b6a61b0783e3ffe66ccd88a5340e50013b1a34a543ee4",
+        "schema": "55e8772a08b72819d81e086cdc02fd7ca0c6875cd632791f0311196f1a76ba57",
+        "key": "ecaccb9e469be1004bca78391a38898d9f8894e6792533c0321e9b7278bce1d8"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:staff"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:staff-and-participants"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:assigned-crew-only"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.024
+    },
+    {
+      "taskId": "F02",
+      "set": "ambiguity",
+      "category": "F",
+      "hashes": {
+        "question": "ab779a57a61a4d6a7fcc826449fa4d4caa5fe942784d6783640719a8834c93a4",
+        "schema": "23afee8e7b98c56bc6d19f1c0eaa0013c288cb720c6bee66826ed905a5ee6bf3",
+        "key": "b0f21113e8861ef488b38776bcf35cd5285ccc79fc362fb83276879bf869aa09"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:estimated"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:actual"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.031
+    },
+    {
+      "taskId": "F03",
+      "set": "ambiguity",
+      "category": "F",
+      "hashes": {
+        "question": "bba1ea36318806cd2c786879f0a10cad93043832eca18fa4e773e2feb1620742",
+        "schema": "5e37d628c3e476b3e2ae55d6c3ac22b570423553258462f1c5cf9902bad5e6be",
+        "key": "8f1ea26e65048664ff13c2779ec1021b1ec2b578518bf8074fe1b6bbf33b3e93"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:directly-aboard"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:at-any-level"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.034
+    },
+    {
+      "taskId": "F04",
+      "set": "ambiguity",
+      "category": "F",
+      "hashes": {
+        "question": "16d3a2ad14bbf83c6ca7d165438ec5b95b3fde055505e5b2169e49a0f1bda2b7",
+        "schema": "5eef34f8421a4f5873fa64b06579e0def6e342cbd1f3149052f7cbde0ea6da5e",
+        "key": "be999ceb971a9d90074073ccddb488021adc93578266d976520b6cb08161cba3"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:active"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:active-or-in-maintenance"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:active-and-aboard-the-enterprise"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.031
+    },
+    {
+      "taskId": "F05",
+      "set": "ambiguity",
+      "category": "F",
+      "hashes": {
+        "question": "4b599c26e94f26ac717255b5a550302534556d15e26a324a9fd5e8b35df78982",
+        "schema": "ed39490c716df28b85f67cc0cccfe0aaa451df0a949c1defab31ed0b29f54b3b",
+        "key": "15ecdd80681c0d3a7a2026e91bcf2fdb88ffcf1add2822706c5b3f753e4f23c4"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:ensign-and-above-with-commanding-officer"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:ensign-and-above-assigned-crew-only"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:lieutenant-and-above-with-commanding-officer"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:lieutenant-and-above-assigned-crew-only"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 8,
+      "seconds": 0.167
+    },
+    {
+      "taskId": "F06",
+      "set": "ambiguity",
+      "category": "F",
+      "hashes": {
+        "question": "96de7e01d7c0b25b35487e745d882c678eb014082f5e1a0f32297d7e48f251d9",
+        "schema": "3b525ee92e965bc1109d403848899c88fabf8dba510669a8b9ae2451181a8f77",
+        "key": "b8b8e7a480713e95dc3290add7f9c4f06b76b12cf3b55c3ee726bcd5e6938b93"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:any-role-any-status"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:any-role-completed-only"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:commanded-any-status"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        },
+        {
+          "outcome": "correct",
+          "tags": [
+            "interpretation:commanded-completed-only"
+          ],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 0.077
+    },
+    {
+      "taskId": "V01",
+      "set": "dev",
+      "category": "A",
+      "hashes": {
+        "question": "b79e7bdcdc238b60947d2f51ebe74aa20a71f818adc7fcea87fc20c35ef0dc0e",
+        "schema": "b9993092ee9497511c3ac35e9efbec27262ac1fef0775d5e14f901c830dc5750",
+        "key": "56b3abba43af5b0b88d96127861c4f901173b733b9fa3f55be81a7e4556c2b13"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.031
+    },
+    {
+      "taskId": "V02",
+      "set": "dev",
+      "category": "B",
+      "hashes": {
+        "question": "0297347b774aa5b3cf534007f7b659a54213bbf55fa82cf6c82f12e92e0c5944",
+        "schema": "0f7101b5f0f2cdf884fcecba43a632fd12f5d4e4c8c703171a1648b376ed17cc",
+        "key": "50036f4e06a3e530d40b05c9c14ee0431ecbc8b206d675ebaceb1e8b1fd937ba"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 3,
+      "seconds": 0.051
+    },
+    {
+      "taskId": "V03",
+      "set": "dev",
+      "category": "G",
+      "hashes": {
+        "question": "a64c81d76b7316bc5fdb4bdc401d012d509a138e60e91a067cf404f08baa5d4f",
+        "schema": "4e1310041d23a2a1c649e0df9cefed83bf832ba36aedc19b58642b043564d4b6",
+        "key": "23e91ca469a6913573c94571769e4c7c76b55170918a7392dc81b1188845fd5f"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.03
+    },
+    {
+      "taskId": "V04",
+      "set": "dev",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "V05",
+      "set": "dev",
+      "category": "E",
+      "hashes": {
+        "question": "7932a3a88d6ced9974cc5a47428404059d78f13ef316a358f3a60d4d6ccf8f49",
+        "schema": "f532f32fba2264ba3632c88f2b93bbfa57f7479207ae598ff60f4c837f0f37ec",
+        "key": "61e6a9a3eb8adc0241e75e8088b19410a0c20f63039a88558134f5ca6e700109"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 17,
+      "seconds": 0.601
+    },
+    {
+      "taskId": "V06",
+      "set": "dev",
+      "category": "E",
+      "hashes": {
+        "question": "e45b4188b0e1d5b25f9a92395044b6b318fe9e8e6688fe92e1b7cb392e8df494",
+        "schema": "32fd9b44f7e6a50cdd25a370e927d7fcb89fc521a31645d72f8becad59c8a412",
+        "key": "415d2395a41865b1f4dee4707954b89b2bc87d584fa0b0e468cbc5c13e67a952"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 8,
+      "seconds": 0.326
+    },
+    {
+      "taskId": "V07",
+      "set": "dev",
+      "category": "E",
+      "hashes": {
+        "question": "522bdef88ddfef9cba0a7bb548baba1f2ac9d58ffa5d4639e5d9e1b187172f3f",
+        "schema": "697a2950ea6a6434c9551b8185b4b8381ae1afe0b5aa30aeadc8f39665b993d5",
+        "key": "fde0984f64386290d9f88e3bdddc6cba2f21b9afb0f045393864e5e030495330"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 0.052
+    },
+    {
+      "taskId": "V08",
+      "set": "dev",
+      "category": "E",
+      "hashes": {
+        "question": "ba7ee2419d7c9caf741c406f5545a8d59a0fa577a70b7fcf51105fdd58c6d1af",
+        "schema": "82f2e1435a0ce2a2278498e0a5f16cd2a618d53e9bd1fb09a7b52d9947790146",
+        "key": "92ad1238ba75ce6ba8d584b9f7ebaffc46e0176136e2489d37344d28f0c1029f"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 12,
+      "seconds": 0.376
+    }
+  ]
+}

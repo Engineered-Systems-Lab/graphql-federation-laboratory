@@ -204,10 +204,47 @@ def current_input(path):
     return (HERE.parents[1] / path).read_bytes()
 
 
-def current_problems(keys_b, read_current=current_input, read_lab=lab_input):
-    """How the current lab inputs differ from the ones B received, beyond the reviewed question changes: [description]. A file B hashed
-    must be the same as at the package's lab commit, except that pool.json and dev.json may differ in the `question` of the tasks of
-    REVIEWED_QUESTIONS, which must be exactly the reviewed one; every other field of every task, and the set of tasks, must be equal."""
+# The draw (Job study2_preflight_final, decision Q10): B received schemas.json empty, before the draw. The current file may differ from
+# it only by being exactly the drawn schemas.json, the one draw.py writes from the committed step 7 reports and the seed tasks.json records.
+DRAWN_SCHEMAS = 'study/corpus2/schemas.json'
+STEP7_REPORTS = ('study/evidence/study-2-preflight', '07-answerability-*.json')
+
+
+def drawn_files(folder=HERE, reports=None):
+    """The bytes of tasks.json, schemas.json and expected.json that draw.py writes from the committed step 7 reports (STEP7_REPORTS) and
+    the seed that tasks.json records, computed in memory with draw.py's own functions: {name: bytes}. None when tasks.json records no
+    draw. Nothing is written. A report, pool, ambiguity set or key that draw.py would refuse raises its ValueError."""
+    import draw
+    record = json.loads((folder / 'tasks.json').read_text(encoding='utf-8')).get('draw')
+    if not record:
+        return None
+    if reports is None:
+        reports = sorted((folder.parents[1] / STEP7_REPORTS[0]).glob(STEP7_REPORTS[1]))
+    texts = {name: (folder / name).read_text(encoding='utf-8') for name in ('pool.json', 'ambiguity.json', 'keys-a.json')}
+    pool = json.loads(texts['pool.json'])['tasks']
+    ambiguity = json.loads(texts['ambiguity.json'])['tasks']
+    keys = json.loads(texts['keys-a.json'])['keys']
+    report_texts = [Path(p).read_text(encoding='utf-8') for p in reports]
+    parsed = [json.loads(t) for t in report_texts]
+    draw.check_pool(pool, keys)
+    current = draw.input_hashes(folder)
+    eligible, fingerprint = draw.eligible_ids(pool, parsed, keys, current)
+    draw.check_ambiguity(ambiguity, parsed, keys, current)
+    chosen = draw.draw(pool, eligible, record['seed'])
+    # the draw record exactly as draw.main writes it
+    again = {'seed': record['seed'], 'poolSha256': draw.sha256_text(texts['pool.json']),
+             'ambiguitySha256': draw.sha256_text(texts['ambiguity.json']), 'keysSha256': draw.sha256_text(texts['keys-a.json']),
+             'eligible': len(eligible), 'poolTasks': len(pool), 'missionsDatasetFingerprint': fingerprint,
+             'answerabilityReports': sorted(draw.sha256_text(t) for t in report_texts)}
+    return {name: text.encode('utf-8') for name, text in draw.outputs(pool, ambiguity, keys, chosen, again).items()}
+
+
+def current_problems(keys_b, read_current=current_input, read_lab=lab_input, drawn=None):
+    """How the current lab inputs differ from the ones B received, beyond the reviewed question changes and the draw: [description]. A
+    file B hashed must be the same as at the package's lab commit, except that pool.json and dev.json may differ in the `question` of the
+    tasks of REVIEWED_QUESTIONS, which must be exactly the reviewed one (every other field of every task, and the set of tasks, must be
+    equal), and that schemas.json, empty when B received it, may be exactly the drawn schemas.json (drawn_files; `drawn` gives its bytes
+    instead)."""
     problems = []
     for path in keys_b['inputs']:
         if path in B_PACKAGE_ONLY_INPUTS:
@@ -215,7 +252,7 @@ def current_problems(keys_b, read_current=current_input, read_lab=lab_input):
         then, now = read_lab(path).replace(b'\r\n', b'\n'), read_current(path).replace(b'\r\n', b'\n')
         reviewed = REVIEWED_QUESTIONS.get(path)
         if reviewed is None:
-            if then != now:
+            if then != now and not (path == DRAWN_SCHEMAS and _is_the_drawn_schemas(then, now, drawn)):
                 problems.append('%s differs from the file B received' % path)
             continue
         old, new = json.loads(then.decode('utf-8')), json.loads(now.decode('utf-8'))
@@ -234,6 +271,18 @@ def current_problems(keys_b, read_current=current_input, read_lab=lab_input):
             if task != current:
                 problems.append('%s %s differs from the file B received' % (path, task_id))
     return problems
+
+
+def _is_the_drawn_schemas(then, now, drawn=None):
+    """True when B's schemas.json held no schema and the current one is byte for byte the drawn schemas.json."""
+    if json.loads(then.decode('utf-8')).get('schemas') != {}:
+        return False
+    if drawn is None:
+        files = drawn_files()
+        if files is None:
+            return False
+        drawn = files['schemas.json']
+    return now == drawn.replace(b'\r\n', b'\n')
 
 
 def b_dev_input(lab_bytes):

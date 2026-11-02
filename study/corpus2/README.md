@@ -14,14 +14,14 @@ The task corpus of [Abstraction ladder study 2](../../docs/STUDY-2-DESIGN.md#the
 | `ambiguity.json` | The ambiguity set (category F): 6 tasks over small data, `set: ambiguity`. Not drawn; the draw writes them into `tasks.json` after the 48 core tasks. |
 | `dev.json` | The development set: 8 tasks, never scored, disjoint from the pool and the ambiguity set, in the harness's format (question, schema and expected answer together). Four of them are the calculation-tool development tasks: two large cross-system aggregations and two medium aggregations. |
 | `keys-a.json` | The keys by the first derivation: for every task of the three sets, the expected answer, the checks and the declared variants, or for the ambiguity set the rubric (the closed list of accepted interpretations, each with its checks), with the hashes of the released files they come from. |
-| `tasks.json`, `schemas.json`, `expected.json` | The scored corpus as the harness reads it. They hold no task until the draw runs. |
+| `tasks.json`, `schemas.json`, `expected.json` | The scored corpus as the harness reads it: the draw of seed 313, the 48 drawn core tasks, then the 6 tasks of the ambiguity set. |
 | `corpus-manifest.json` | The checksums of the derived files and of the released inputs, marked not frozen. The harness records its checksum in every run's manifest. |
 | `derive_a.py` | The first derivation: it authors the tasks and derives every key from the released files, never from a run (`--write` writes, without it compares). It reuses the readers of `federation/acceptance/derive_expected.py`. |
 | `keys-b.json`, `derive_b.py`, `test_derive_b.py` | The second derivation, blind to the first (below), with its own tests, as its author wrote them. |
 | `compare_keys.py` | The comparison of the two derivations and the cases the lead developer decided (below). |
 | `wording-review/` | The review of the clarified closing instruction of five tasks (below): the author's proposal, its change note and the checker's confirmation, as they were given. |
 | `scoring.py` | The scorer, scoring contract 2 of the harness. Standard library only. |
-| `draw.py` | The stratified draw of the 48 scored core tasks, with a recorded seed. Written and tested here, not run. |
+| `draw.py` | The stratified draw of the 48 scored core tasks, with a recorded seed. Run once, with seed 313. |
 | `reference/` | The scripted reference solutions and their runner (below). |
 | `test_corpus2.py` | The offline tests. |
 
@@ -92,7 +92,7 @@ The three rules decided by the lead developer on 2026-10-28:
 
 ## The draw
 
-`draw.py --seed <n> --answerability <reports...> [--write]` checks the pool (unique ids, the required metadata, a key for every task), keeps only the pool tasks that the live real-backend answerability reports show correct in all five arms (a D task from the report of its own outage), refusing any report that is not verified real-backend evidence (verified provenance, one Missions dataset fingerprint shared by every report, which the draw records) or whose hashes differ from the current inputs for the rows it counts, requires the same evidence for every task and every accepted interpretation of the ambiguity set, then draws each category with `random.Random(seed)` by rejection until the quotas and the coverage hold, and writes `tasks.json` (the 48 drawn core tasks, then the 6 ambiguity tasks, with the draw record: seed, hashes of the pool, the ambiguity set, the keys and the reports), `schemas.json` and `expected.json`. Nothing is selected for its expected effect. It runs in the final preflight, after the Oracle-backed answerability check, not before.
+`draw.py --seed <n> --answerability <reports...> [--write]` checks the pool (unique ids, the required metadata, a key for every task), keeps only the pool tasks that the live real-backend answerability reports show correct in all five arms (a D task from the report of its own outage), refusing any report that is not verified real-backend evidence (verified provenance, one Missions dataset fingerprint shared by every report, which the draw records) or whose hashes differ from the current inputs for the rows it counts, requires the same evidence for every task and every accepted interpretation of the ambiguity set, then draws each category with `random.Random(seed)` by rejection until the quotas and the coverage hold, and writes `tasks.json` (the 48 drawn core tasks, then the 6 ambiguity tasks, with the draw record: seed, hashes of the pool, the ambiguity set, the keys and the reports), `schemas.json` and `expected.json`. Nothing is selected for its expected effect. It ran once, in the final preflight (the Job study2_preflight_final, 2026-11-02), after the Oracle-backed answerability check: seed 313, all 76 pool tasks eligible, from the 20 step 7 reports in [study/evidence/study-2-preflight/](../evidence/study-2-preflight/) (`07-answerability-*`). `test_corpus2.py` checks that the three files are byte for byte what `draw.py` writes from those reports and that seed, recomputed in memory.
 
 ## The data behind the keys
 

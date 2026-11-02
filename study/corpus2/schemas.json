@@ -1,4 +1,2466 @@
 {
-  "about": "The submit_answer JSON Schema of each scored task, written by draw.py. Empty until the draw runs.",
-  "schemas": {}
+  "about": "The submit_answer JSON Schema of each scored task.",
+  "schemas": {
+    "A02": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "issuingAuthority": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "classification": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "priority": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "issuingAuthority",
+        "classification",
+        "priority"
+      ]
+    },
+    "A03": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "locationType": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "locationName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "durationHours": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "locationType",
+        "locationName",
+        "durationHours"
+      ]
+    },
+    "A04": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "kind": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "status": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "parentAssetId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "kind",
+        "status",
+        "parentAssetId"
+      ]
+    },
+    "A05": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "assetIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "assetIds"
+      ]
+    },
+    "A07": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "rank": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "department": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "dutyStatus": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "rank",
+        "department",
+        "dutyStatus"
+      ]
+    },
+    "A08": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "supervisorId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "supervisorName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The name exactly as the system records it, without rank or title."
+        },
+        "supervisorRank": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "supervisorId",
+        "supervisorName",
+        "supervisorRank"
+      ]
+    },
+    "B02": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "crew": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "personnelId": {
+                "type": "string"
+              },
+              "department": {
+                "type": "string",
+                "description": "The value as the system records it."
+              }
+            },
+            "required": [
+              "personnelId",
+              "department"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "crew"
+      ]
+    },
+    "B04": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "people": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "personnelId": {
+                "type": "string"
+              },
+              "dutyStatus": {
+                "type": "string",
+                "description": "The value as the system records it."
+              }
+            },
+            "required": [
+              "personnelId",
+              "dutyStatus"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "people"
+      ]
+    },
+    "B05": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "assets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "assetId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name exactly as the system records it, without rank or title."
+              }
+            },
+            "required": [
+              "assetId",
+              "name"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "assets"
+      ]
+    },
+    "B07": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "assets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "assetId": {
+                "type": "string"
+              },
+              "parentAssetId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "assetId",
+              "parentAssetId"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "assets"
+      ]
+    },
+    "B08": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "commandingOfficerName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The name exactly as the system records it, without rank or title."
+        },
+        "assetNames": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string",
+            "description": "The name exactly as the system records it, without rank or title."
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "commandingOfficerName",
+        "assetNames"
+      ]
+    },
+    "B09": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "people": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "personnelId": {
+                "type": "string"
+              },
+              "rank": {
+                "type": "string",
+                "description": "The value as the system records it."
+              }
+            },
+            "required": [
+              "personnelId",
+              "rank"
+            ]
+          }
+        },
+        "assets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "assetId": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "description": "The value as the system records it."
+              }
+            },
+            "required": [
+              "assetId",
+              "status"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "people",
+        "assets"
+      ]
+    },
+    "B10": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionIds"
+      ]
+    },
+    "B11": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "missionId": {
+                "type": "string"
+              },
+              "commandingOfficerPersonnelId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "missionId",
+              "commandingOfficerPersonnelId"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missions"
+      ]
+    },
+    "B12": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionIds"
+      ]
+    },
+    "B14": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "missionId": {
+                "type": "string"
+              },
+              "assetCount": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "missionId",
+              "assetCount"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missions"
+      ]
+    },
+    "C01": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "people": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "crewReference": {
+                "type": "string"
+              },
+              "personnelId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "crewReference",
+              "personnelId"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "people"
+      ]
+    },
+    "C03": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "assetIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "assetIds"
+      ]
+    },
+    "C04": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "references": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "reference": {
+                "type": "string"
+              },
+              "assetId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "RESOLVED",
+                  "UNRESOLVED",
+                  "UNMAPPED"
+                ]
+              }
+            },
+            "required": [
+              "reference",
+              "assetId",
+              "outcome"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "references"
+      ]
+    },
+    "C06": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "release11PersonnelId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "release13PersonnelId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "release11PersonnelId",
+        "release13PersonnelId"
+      ]
+    },
+    "C07": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "releases": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "releases"
+      ]
+    },
+    "C08": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionIds"
+      ]
+    },
+    "C09": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionIds"
+      ]
+    },
+    "C10": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionIds"
+      ]
+    },
+    "G02": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionIds"
+      ]
+    },
+    "G04": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "personnelIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "personnelIds"
+      ]
+    },
+    "G05": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "assets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "assetId": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "description": "The value as the system records it."
+              }
+            },
+            "required": [
+              "assetId",
+              "status"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "assets"
+      ]
+    },
+    "G06": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionIds"
+      ]
+    },
+    "G09": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "personnelIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "personnelIds"
+      ]
+    },
+    "G10": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionIds"
+      ]
+    },
+    "E01": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "statuses": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "type": "string",
+                "description": "The value as the system records it."
+              },
+              "count": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "status",
+              "count"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "statuses"
+      ]
+    },
+    "E03": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "departments": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "department": {
+                "type": "string",
+                "description": "The value as the system records it."
+              },
+              "count": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "department",
+              "count"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "departments"
+      ]
+    },
+    "E05": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "distinctPeople": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "distinctPeople"
+      ]
+    },
+    "E06": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "statuses": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "type": "string",
+                "description": "The value as the system records it."
+              },
+              "count": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "status",
+              "count"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "statuses"
+      ]
+    },
+    "E09": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionCount"
+      ]
+    },
+    "E10": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "rank": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "officerCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "rank",
+        "officerCount"
+      ]
+    },
+    "E11": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "totalActualCost": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Credits, to the cent."
+        },
+        "missionCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "totalActualCost",
+        "missionCount"
+      ]
+    },
+    "E12": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "authorities": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "issuingAuthority": {
+                "type": "string",
+                "description": "The value as the system records it."
+              },
+              "missionCount": {
+                "type": "integer"
+              },
+              "totalEstimatedCost": {
+                "type": "number",
+                "description": "Credits, to the cent."
+              }
+            },
+            "required": [
+              "issuingAuthority",
+              "missionCount",
+              "totalEstimatedCost"
+            ]
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "authorities"
+      ]
+    },
+    "E14": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "distinctCommanders": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "mostCommonRank": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "distinctCommanders",
+        "mostCommonRank"
+      ]
+    },
+    "E16": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionCount",
+        "missionIds"
+      ]
+    },
+    "D03": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "rank": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "department": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "supervisorId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          },
+          "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+        },
+        "complete": {
+          "type": "boolean",
+          "description": "true when every part of the answer is established; false when a part is missing."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "rank",
+        "department",
+        "supervisorId",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "D14": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "members": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "personnelId": {
+                "type": "string"
+              },
+              "rank": {
+                "type": "string",
+                "description": "The value as the system records it."
+              }
+            },
+            "required": [
+              "personnelId",
+              "rank"
+            ]
+          }
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          },
+          "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+        },
+        "complete": {
+          "type": "boolean",
+          "description": "true when every part of the answer is established; false when a part is missing."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "members",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "D04": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "assets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "assetId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The value as the system records it."
+              }
+            },
+            "required": [
+              "assetId"
+            ]
+          }
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          },
+          "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+        },
+        "complete": {
+          "type": "boolean",
+          "description": "true when every part of the answer is established; false when a part is missing."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "title",
+        "status",
+        "assets",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "D05": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "kind": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "status": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          },
+          "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+        },
+        "complete": {
+          "type": "boolean",
+          "description": "true when every part of the answer is established; false when a part is missing."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "kind",
+        "status",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "D06": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          },
+          "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+        },
+        "complete": {
+          "type": "boolean",
+          "description": "true when every part of the answer is established; false when a part is missing."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionIds",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "D10": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "rank": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "department": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The value as the system records it."
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          },
+          "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+        },
+        "complete": {
+          "type": "boolean",
+          "description": "true when every part of the answer is established; false when a part is missing."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "rank",
+        "department",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "D11": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "distinctPeople": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          },
+          "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+        },
+        "complete": {
+          "type": "boolean",
+          "description": "true when every part of the answer is established; false when a part is missing."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "distinctPeople",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "D12": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "missionId": {
+                "type": "string"
+              },
+              "commandingOfficerPersonnelId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "rank": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The value as the system records it."
+              }
+            },
+            "required": [
+              "missionId",
+              "commandingOfficerPersonnelId",
+              "rank"
+            ]
+          }
+        },
+        "unavailableServices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missions",
+              "assets",
+              "personnel"
+            ]
+          },
+          "description": "The systems that this answer needed and that did not answer. List only systems this answer needed."
+        },
+        "complete": {
+          "type": "boolean",
+          "description": "true when every part of the answer is established; false when a part is missing."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missions",
+        "unavailableServices",
+        "complete"
+      ]
+    },
+    "F01": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "peopleCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "interpretation": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "countedGroups": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "COMMANDING_OFFICER",
+                  "ASSIGNED_CREW",
+                  "PARTICIPANTS"
+                ]
+              },
+              "description": "Which groups of the mission record you counted."
+            }
+          },
+          "required": [
+            "countedGroups"
+          ],
+          "description": "The reading of the question that your answer uses. null only when you decline."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "peopleCount",
+        "interpretation"
+      ]
+    },
+    "F02": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "cost": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Credits, to the cent."
+        },
+        "interpretation": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "costBasis": {
+              "type": "string",
+              "enum": [
+                "ESTIMATED",
+                "ACTUAL"
+              ],
+              "description": "Which cost of the mission record you gave."
+            }
+          },
+          "required": [
+            "costBasis"
+          ],
+          "description": "The reading of the question that your answer uses. null only when you decline."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "cost",
+        "interpretation"
+      ]
+    },
+    "F03": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "assetIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "interpretation": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": [
+                "DIRECTLY_ABOARD",
+                "AT_ANY_LEVEL"
+              ],
+              "description": "DIRECTLY_ABOARD: assets whose own record names the ship. AT_ANY_LEVEL: also the assets aboard those."
+            }
+          },
+          "required": [
+            "scope"
+          ],
+          "description": "The reading of the question that your answer uses. null only when you decline."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "assetIds",
+        "interpretation"
+      ]
+    },
+    "F04": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "assetIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "interpretation": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "statusesCounted": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ACTIVE",
+                  "MAINTENANCE",
+                  "DECOMMISSIONED",
+                  "DESTROYED",
+                  "MISSING"
+                ]
+              },
+              "description": "The asset statuses you counted as available."
+            },
+            "onlyAboardTheEnterprise": {
+              "type": "boolean",
+              "description": "true when you counted only the shuttles aboard the USS Enterprise."
+            }
+          },
+          "required": [
+            "statusesCounted",
+            "onlyAboardTheEnterprise"
+          ],
+          "description": "The reading of the question that your answer uses. null only when you decline."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "assetIds",
+        "interpretation"
+      ]
+    },
+    "F05": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "personnelIds": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "interpretation": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "officerRanks": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "CAPTAIN",
+                  "COMMANDER",
+                  "LIEUTENANT_COMMANDER",
+                  "LIEUTENANT",
+                  "ENSIGN",
+                  "CHIEF_PETTY_OFFICER",
+                  "CREWMAN"
+                ]
+              },
+              "description": "The ranks you counted as officers."
+            },
+            "includesCommandingOfficer": {
+              "type": "boolean",
+              "description": "true when you counted the commanding officer as crew."
+            }
+          },
+          "required": [
+            "officerRanks",
+            "includesCommandingOfficer"
+          ],
+          "description": "The reading of the question that your answer uses. null only when you decline."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "personnelIds",
+        "interpretation"
+      ]
+    },
+    "F06": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answerStatus": {
+          "type": "string",
+          "enum": [
+            "ANSWERED",
+            "CANNOT_BE_DETERMINED",
+            "DECLINED"
+          ],
+          "description": "ANSWERED: the other fields hold your answer (during an outage, as much of it as you could establish). CANNOT_BE_DETERMINED: the enterprise systems hold no answer to this question, for example because the record or the release it names does not exist; leave the other fields null or empty. DECLINED: you give no answer."
+        },
+        "missionId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "interpretation": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "roles": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "COMMANDING_OFFICER",
+                  "ASSIGNED_CREW"
+                ]
+              },
+              "description": "The roles in which you counted a mission as the crew member's."
+            },
+            "completedOnly": {
+              "type": "boolean",
+              "description": "true when you counted only completed missions."
+            }
+          },
+          "required": [
+            "roles",
+            "completedOnly"
+          ],
+          "description": "The reading of the question that your answer uses. null only when you decline."
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Free text for audit and reading. Never scored."
+        }
+      },
+      "required": [
+        "answerStatus",
+        "missionId",
+        "interpretation"
+      ]
+    }
+  }
 }

@@ -426,9 +426,20 @@ def block_of(arm, mode):
 
 
 class TheDraw(unittest.TestCase):
-    def test_the_corpus_files_hold_no_task_before_the_draw(self):
-        for name, data in draw.EMPTY.items():
-            self.assertEqual(load(name), data, name)
+    def test_the_corpus_files_hold_the_draw_of_the_committed_reports_and_the_recorded_seed(self):
+        # the draw ran once (Job study2_preflight_final); the three files are what draw.py writes from the committed step 7 reports and
+        # the seed tasks.json records, recomputed in memory: nothing is written
+        import compare_keys
+        reports = sorted((REPO / compare_keys.STEP7_REPORTS[0]).glob(compare_keys.STEP7_REPORTS[1]))
+        self.assertEqual(len(reports), 20)  # five arms, each with every set and the three outages
+        drawn = compare_keys.drawn_files()
+        self.assertIsNotNone(drawn, 'tasks.json records no draw')
+        for name in draw.EMPTY:
+            self.assertEqual((HERE / name).read_bytes().replace(b'\r\n', b'\n'), drawn[name], name)
+        tasks = load('tasks.json')['tasks']
+        self.assertEqual(len(tasks), draw.TOTAL + len(AMBIGUITY))
+        self.assertEqual(sorted(load('schemas.json')['schemas']), sorted(t['id'] for t in tasks))
+        self.assertEqual(sorted(load('expected.json')['expected']), sorted(t['id'] for t in tasks))
 
     def test_a_draw_meets_the_quotas_and_the_coverage(self):
         chosen = draw.draw(POOL, eligible_of(fake_reports(POOL)), seed=20261028)
@@ -762,6 +773,10 @@ class TheSecondDerivation(unittest.TestCase):
         other = next(t['id'] for t in POOL if t['id'] not in compare_keys.REVIEWED_QUESTIONS[pool])
         text = next(t['question'] for t in POOL if t['id'] == other)
         self.assertEqual(len(compare_keys.current_problems(keys_b, current(pool, edit(other, 'question', text + ' Be brief.')))), 1)
+        # schemas.json may be the drawn one, and nothing else
+        schemas = 'study/corpus2/schemas.json'
+        self.assertEqual(compare_keys.current_problems(keys_b, current(schemas, lambda d: d.replace(b'\n}', b'\n }', 1))),
+                         ['%s differs from the file B received' % schemas])
         self.assertEqual(compare_keys.current_problems(keys_b, current(pool, edit('E01', 'question', 'Other?'))),
                          ['%s E01: the question is not the reviewed one' % pool])
         self.assertEqual(compare_keys.current_problems(keys_b, current(dev, edit('V06', 'question', 'Other?'))),

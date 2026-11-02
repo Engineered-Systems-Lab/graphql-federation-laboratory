@@ -1,5 +1,1045 @@
 {
-  "about": "The scored tasks of corpus 2, written by draw.py. Empty until the draw runs, in the final preflight.",
-  "draw": null,
-  "tasks": []
+  "about": "The scored tasks of corpus 2: 48 core tasks drawn from pool.json by draw.py, then the 6 tasks of the ambiguity set. The question is asked word for word in every arm.",
+  "draw": {
+    "seed": 313,
+    "poolSha256": "d8b61283d0d1375f33626c3411650a5115f23f78fe3c4c87bec9c62cbaf58a6f",
+    "ambiguitySha256": "01a0a9d97578224ada95afb258101bf6b87f3e04f229efa292d3fd3032abd597",
+    "keysSha256": "6f9500c78c37bb30e1213839b9354a596430c15d46d3f929b3471ccba23a1ab6",
+    "eligible": 76,
+    "poolTasks": 76,
+    "missionsDatasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+    "answerabilityReports": [
+      "01bb72ff4c31fd922bedcd5a59d4398032211196b6d2856d65164e2375dd2c91",
+      "086edae3e18871d03bfbece1e5847bcf22ba3f06600f19803db0a3f46dfc271f",
+      "131126f314e4aaf8d2b682cc86458994cce8c9de0a8cde141bf3c4be5bf8ae37",
+      "191e6d3e7f9dd92ac9e0f11060480c5ce196eff5abe0bcd67b00d403ee7742f6",
+      "1f2b9067d0b7710d87e0e9bbd437d418b26ab7dd36cb92d47463515c222f7da6",
+      "20bdffab785f752ece2224900b584b3a1745ca498656bf51a8eb880591859a81",
+      "280448617e2d4f25d39ad1c73fce29a6cbd2fd4ab8ea6a11254c133447f5e709",
+      "2979f3db499f69ac51bbc300085547ea03b3c2d8b44433c40c0c0e4c1efbe957",
+      "34aa2b6ddda87c23acfc9b2e92e53df1f7529877ff88ee55f2b1dad1e8254997",
+      "574676703514c030ff16b0231efa32fb36bbe10cd2d18799ef84957f283b0093",
+      "9e7a87500e0ca66dec45652c278e1d107ba12f54902578a109496652bd31d16b",
+      "af5d47a344e841be1bcb3a9a014ede404e5a651bf3b3df0e36c0b135324ff856",
+      "bc83e71baeb8d9332e405727e37fc3751f9d64d8a72f4289f185ca8039b9c2da",
+      "c2e7ad5513b08cdab5b283b6b16844535c77de890bc290f89ce04fcf86b4ba94",
+      "c89ba7a57acc5afaeb760952716931815b3c24c105cb64ea3b5cc809e9a2f4b6",
+      "cbc7db90c50bf02f89f7f38ff74b0155b7705c31674fd481d7296891677faced",
+      "edb9097e5d7205f0ab70a94a7d82c01e0682a73c083bd745d01992c5c0ba56af",
+      "f95af169a7162e5d21005d9114e14d728ce5a48a4e17aace721fc603b2a7cd75",
+      "fa1278a1bf09e4ddb5f3a607a7a925ac2a9f366a78cee9a3e418c1833638449c",
+      "ffc3cf2718da83e40d0400d74a94eb1d44bbdebc1c732b050ed059f3133c29f0"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "A02",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Which authority issued mission ST-00000LD8J, what is its security classification, and what priority does it carry?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Lookup in one system."
+    },
+    {
+      "id": "A03",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Where did mission ST-00000LD9E take place (the type and the name of its location), and what is its duration in hours?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Lookup in one system."
+    },
+    {
+      "id": "A04",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "What kind of asset is AST-0016, what is its status, and which asset is it aboard or part of? Give that asset's identifier.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Lookup in one system."
+    },
+    {
+      "id": "A05",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "Which assets does the Assets system record as directly aboard or part of AST-0029 (assets whose own record names AST-0029 as the asset they are aboard or part of; not the assets aboard those)? List their identifiers.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Direct children only: the question excludes the assets aboard the children.",
+      "interpretations": [
+        "\"Aboard\" means the direct parent named in the asset's own record, stated in the question."
+      ]
+    },
+    {
+      "id": "A07",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "personnel"
+      ],
+      "question": "What are the rank, the department and the duty status of Personnel member PRS-2167?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "Lookup in one system."
+    },
+    {
+      "id": "A08",
+      "set": "core",
+      "category": "A",
+      "size": "small",
+      "systems": [
+        "personnel"
+      ],
+      "question": "Who supervises Personnel member PRS-2382, according to the Personnel system? Give the supervisor's Personnel identifier, name and rank.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "The supervisor is the one the person's own record names. Two lookups in the Personnel system."
+    },
+    {
+      "id": "B02",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, list the assigned crew of mission ST-00000LD8X (the assigned crew only: not its commanding officer and not its participants), with each person's Personnel identifier and department.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "B04",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "What is the duty status, in the Personnel system, of each person on mission ST-00000LDBO (its commanding officer and its assigned crew (not its participants), each person counted once)? Use mapping release 1.3 and give each person's Personnel identifier and duty status.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "B05",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Using mapping release 1.3, which assets did mission ST-00000LD4Z use? Give each asset's Assets identifier and name.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "B07",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Using mapping release 1.3, list the assets that mission ST-00000LD51 used and, for each, the asset it is directly aboard or part of according to the Assets system (null when it is aboard nothing).",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "B08",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, give the name of the commanding officer of mission ST-00000LD8J and the name of each asset the mission used.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "B09",
+      "set": "core",
+      "category": "B",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions",
+        "personnel"
+      ],
+      "question": "For mission ST-00000LD4R, using mapping release 1.3: what is the rank of each person on it (its commanding officer and its assigned crew (not its participants), each person counted once), and what is the current status of each asset it used?",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "B10",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Which missions had as their commanding officer the person with the Personnel identifier PRS-0001, by mapping release 1.3? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "The mapping is read in reverse: the crew reference that release 1.3 maps to PRS-0001, then the missions it commanded."
+    },
+    {
+      "id": "B11",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "For every mission of the type medical, give the Personnel identifier of its commanding officer by mapping release 1.3, or null when the mission has no commanding officer or the release has no entry for the officer's crew reference.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "B12",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Using mapping release 1.3, which missions used the asset AST-0025? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "The asset mapping is read in reverse: the Missions references that release 1.3 maps to AST-0025."
+    },
+    {
+      "id": "B14",
+      "set": "core",
+      "category": "B",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "For each mission issued by Starfleet Medical, how many distinct assets of the Assets system did it use? Count a reference only when mapping release 1.3 maps it to an asset that the Assets system holds, and count each asset once per mission.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "C01",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Using mapping release 1.1, give the Personnel identifier that each person on mission ST-00000LD9G maps to (its commanding officer and its assigned crew (not its participants), each person counted once). List each crew reference with its Personnel identifier, or null when release 1.1 has no entry for it.",
+      "tags": {
+        "mapping": "1.1"
+      },
+      "designNote": "Release 1.1 holds only ten crew entries."
+    },
+    {
+      "id": "C03",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "Using mapping release 1.4, which Assets identifiers do the asset references of mission ST-00000LD8Q map to?",
+      "tags": {
+        "mapping": "1.4"
+      },
+      "designNote": "Mapping release 1.4 does not exist (the releases are 1.0 to 1.3)."
+    },
+    {
+      "id": "C04",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "For each asset reference of mission ST-00000LD5M, say what mapping release 1.3 and the Assets system make of it: RESOLVED when the release maps it to an asset the Assets system holds, UNRESOLVED when the release maps it to an identifier the Assets system does not hold, UNMAPPED when the release has no entry for it. Give the reference, the identifier it maps to (null when unmapped) and the outcome.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "C06",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [],
+      "question": "Which Personnel identifier does the crew reference C-1638 map to in mapping release 1.1, and which in mapping release 1.3? Give null for a release that has no entry for it.",
+      "tags": {
+        "mapping": "1.1 and 1.3"
+      }
+    },
+    {
+      "id": "C07",
+      "set": "core",
+      "category": "C",
+      "size": "small",
+      "systems": [],
+      "question": "Which releases of the mapping between the Missions references and the other systems hold a crew section (a mapping of crew references to Personnel identifiers)? List the release numbers.",
+      "tags": {
+        "mapping": "all"
+      }
+    },
+    {
+      "id": "C08",
+      "set": "core",
+      "category": "C",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "Among the missions issued by Enterprise Command, which used at least one asset reference that has no entry in mapping release 1.3? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "C09",
+      "set": "core",
+      "category": "C",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "Among the missions classified secret, which have a commanding officer or an assigned crew member whose crew reference has no entry in mapping release 1.3? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "Only the classification SECRET, not TOP_SECRET."
+    },
+    {
+      "id": "C10",
+      "set": "core",
+      "category": "C",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Among the missions of the type maintenance, which used an asset reference that mapping release 1.3 maps to an Assets identifier the Assets system does not hold? List the mission identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "G02",
+      "set": "core",
+      "category": "G",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "List the identifiers of every mission whose priority is 4 or 5.",
+      "tags": {
+        "mapping": null
+      }
+    },
+    {
+      "id": "G04",
+      "set": "core",
+      "category": "G",
+      "size": "medium",
+      "systems": [
+        "personnel"
+      ],
+      "question": "List the Personnel identifiers of every member of the Engineering department.",
+      "tags": {
+        "mapping": null
+      }
+    },
+    {
+      "id": "G05",
+      "set": "core",
+      "category": "G",
+      "size": "medium",
+      "systems": [
+        "assets"
+      ],
+      "question": "List every asset the Assets system holds, with its status.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "32 records: two pages at the default page size of 20, one page at the largest page size. Its size is a judgment, flagged for review."
+    },
+    {
+      "id": "G06",
+      "set": "core",
+      "category": "G",
+      "size": "large",
+      "systems": [
+        "missions"
+      ],
+      "question": "List the identifiers of every mission that has no commanding officer.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "No filter selects them: all 300 are read."
+    },
+    {
+      "id": "G09",
+      "set": "core",
+      "category": "G",
+      "size": "large",
+      "systems": [
+        "personnel"
+      ],
+      "question": "List the Personnel identifiers of every member whose position title is Section Supervisor.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "No filter selects them: all 1,000 are read."
+    },
+    {
+      "id": "G10",
+      "set": "core",
+      "category": "G",
+      "size": "large",
+      "systems": [
+        "missions"
+      ],
+      "question": "List the identifiers of every mission whose actual cost is greater than its estimated cost. Leave out the missions that lack either value.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "No filter selects them: all 300 are read."
+    },
+    {
+      "id": "E01",
+      "set": "core",
+      "category": "E",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "Of the assets directly aboard or part of AST-0029 (assets whose own record names AST-0029; not the assets aboard those), how many are there of each status? Give the count per status, leaving out statuses with no such assets.",
+      "tags": {
+        "mapping": null
+      }
+    },
+    {
+      "id": "E03",
+      "set": "core",
+      "category": "E",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many people of each department were on mission ST-00000LD9F (its commanding officer and its assigned crew (not its participants), each person counted once)? Give the count per department, leaving out departments with no such people.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "E05",
+      "set": "core",
+      "category": "E",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many distinct members of the Personnel roster were on the missions whose commanding officer is the crew reference C-99 (as commanding officer or assigned crew, not as participants; each person counted once across all of those missions)?",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "E06",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "For the missions issued by Starfleet Science, how many are there of each status? Give the count per status, leaving out statuses with no such missions.",
+      "tags": {
+        "mapping": null
+      }
+    },
+    {
+      "id": "E09",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Of the missions issued by Starfleet Command, how many used at least one asset that the Assets system currently records with a status other than active? Use mapping release 1.3; a reference counts only when the release maps it to an asset the Assets system holds.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "E10",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Among the commanding officers of the missions issued by Starfleet Command, which rank is held by the most of them? Count each officer once, use mapping release 1.3, and leave out the officers it cannot identify. Give the rank and how many officers hold it.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "E11",
+      "set": "core",
+      "category": "E",
+      "size": "medium",
+      "systems": [
+        "missions"
+      ],
+      "question": "What is the total actual cost of the completed missions issued by Enterprise Command, and how many are they? A mission without an actual cost adds nothing.",
+      "tags": {
+        "mapping": null
+      }
+    },
+    {
+      "id": "E12",
+      "set": "core",
+      "category": "E",
+      "size": "large",
+      "systems": [
+        "missions"
+      ],
+      "question": "For each issuing authority, how many missions did it issue, and what is the total estimated cost of those missions? A mission without an estimated cost adds nothing to a total.",
+      "tags": {
+        "mapping": null
+      }
+    },
+    {
+      "id": "E14",
+      "set": "core",
+      "category": "E",
+      "size": "large",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many distinct members of the Personnel roster commanded at least one mission, and which rank is the most common among them? Leave out the commanding officers the release cannot identify.",
+      "tags": {
+        "mapping": "1.3"
+      }
+    },
+    {
+      "id": "E16",
+      "set": "core",
+      "category": "E",
+      "size": "large",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many missions had at least one person on them (as commanding officer or assigned crew, not as participants) whose duty status in the Personnel system is not active, and which missions are they?",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "A crew reference the release cannot identify has no duty status and does not count."
+    },
+    {
+      "id": "D03",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "personnel"
+      ],
+      "question": "What are the rank and the department of Personnel member PRS-1058, and who supervises that member according to the Personnel system? Give the rank, the department and the supervisor's Personnel identifier.",
+      "tags": {
+        "mapping": null,
+        "fullyAnswerableWithoutStoppedService": true
+      },
+      "stoppedService": "missions",
+      "designNote": "Over-reporting check: the Personnel system answers it in full; the Missions service is not needed. (A crew-reference lookup is avoided here: the federated graph reaches the crew mapping only through a mission.)"
+    },
+    {
+      "id": "D14",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "personnel"
+      ],
+      "question": "List every member of the Medical department with their rank. Give each member's Personnel identifier and rank.",
+      "tags": {
+        "mapping": null,
+        "fullyAnswerableWithoutStoppedService": true
+      },
+      "stoppedService": "missions",
+      "designNote": "Over-reporting check: the Personnel system answers it in full."
+    },
+    {
+      "id": "D04",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Give the title and the status of mission ST-00000LD5M and, using mapping release 1.3, the current status of each asset it used.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "assets",
+      "designNote": "The mission part is available; the statuses of the assets are not. Identifiers reached through the release are allowed; as in study 1, listing fewer of them is accepted, inventing one or a status fails."
+    },
+    {
+      "id": "D05",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "What kind of asset is AST-0026, and what is its status?",
+      "tags": {
+        "mapping": null,
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "assets",
+      "designNote": "With the stopped service down nothing of the answer can be established: every field is null or empty."
+    },
+    {
+      "id": "D06",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "assets",
+        "missions"
+      ],
+      "question": "Which missions of the type security used an asset that the Assets system currently records as active? Use mapping release 1.3 and list the mission identifiers.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "assets",
+      "designNote": "No asset status can be confirmed, so no mission can be listed."
+    },
+    {
+      "id": "D10",
+      "set": "core",
+      "category": "D",
+      "size": "small",
+      "systems": [
+        "personnel"
+      ],
+      "question": "What are the rank and the department of Personnel member PRS-1100?",
+      "tags": {
+        "mapping": null,
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "personnel",
+      "designNote": "With the stopped service down nothing of the answer can be established: every field is null or empty."
+    },
+    {
+      "id": "D11",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Using mapping release 1.3, how many distinct members of the Medical department were on the missions of the type medical (as commanding officer or assigned crew, not as participants; each person counted once)?",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "personnel",
+      "designNote": "With the stopped service down nothing of the answer can be established: every field is null or empty."
+    },
+    {
+      "id": "D12",
+      "set": "core",
+      "category": "D",
+      "size": "medium",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "For each mission whose status is active, give its commanding officer's Personnel identifier (by mapping release 1.3; null when it has none or the release has no entry) and the officer's rank.",
+      "tags": {
+        "mapping": "1.3",
+        "fullyAnswerableWithoutStoppedService": false
+      },
+      "stoppedService": "personnel",
+      "designNote": "The identifiers come from the Missions service and the release; the ranks are not available."
+    },
+    {
+      "id": "F01",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "How many people took part in mission ST-00000LD8Q?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "\"Took part\" can mean the staff, the staff and the participants, or the assigned crew alone.",
+      "acceptedInterpretations": [
+        {
+          "name": "staff",
+          "definition": {
+            "countedGroups": {
+              "set": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            }
+          }
+        },
+        {
+          "name": "staff-and-participants",
+          "definition": {
+            "countedGroups": {
+              "set": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW",
+                "PARTICIPANTS"
+              ]
+            }
+          }
+        },
+        {
+          "name": "assigned-crew-only",
+          "definition": {
+            "countedGroups": {
+              "set": [
+                "ASSIGNED_CREW"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F02",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "What did mission ST-00000LD6Q cost?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "The record holds an estimated and an actual cost that differ.",
+      "acceptedInterpretations": [
+        {
+          "name": "estimated",
+          "definition": {
+            "costBasis": {
+              "equals": "ESTIMATED"
+            }
+          }
+        },
+        {
+          "name": "actual",
+          "definition": {
+            "costBasis": {
+              "equals": "ACTUAL"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F03",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "Which assets are on board the USS Enterprise? List their identifiers.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "The ship is AST-0029; \"on board\" can mean the direct children or every asset below it.",
+      "acceptedInterpretations": [
+        {
+          "name": "directly-aboard",
+          "definition": {
+            "scope": {
+              "equals": "DIRECTLY_ABOARD"
+            }
+          }
+        },
+        {
+          "name": "at-any-level",
+          "definition": {
+            "scope": {
+              "equals": "AT_ANY_LEVEL"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F04",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "assets"
+      ],
+      "question": "Which shuttles are available? List their identifiers.",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "A shuttle is an asset of the kind SHUTTLE; \"available\" has three accepted readings.",
+      "acceptedInterpretations": [
+        {
+          "name": "active",
+          "definition": {
+            "statusesCounted": {
+              "set": [
+                "ACTIVE"
+              ]
+            },
+            "onlyAboardTheEnterprise": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "active-or-in-maintenance",
+          "definition": {
+            "statusesCounted": {
+              "set": [
+                "ACTIVE",
+                "MAINTENANCE"
+              ]
+            },
+            "onlyAboardTheEnterprise": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "active-and-aboard-the-enterprise",
+          "definition": {
+            "statusesCounted": {
+              "set": [
+                "ACTIVE"
+              ]
+            },
+            "onlyAboardTheEnterprise": {
+              "bool": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F05",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "missions",
+        "personnel"
+      ],
+      "question": "Who are the officers among the crew of mission ST-00000LDCS? Use mapping release 1.3 and give their Personnel identifiers.",
+      "tags": {
+        "mapping": "1.3"
+      },
+      "designNote": "\"Officers\" can be the commissioned ranks (ensign and above) or lieutenant and above; \"crew\" may or may not include the commanding officer.",
+      "acceptedInterpretations": [
+        {
+          "name": "ensign-and-above-with-commanding-officer",
+          "definition": {
+            "officerRanks": {
+              "set": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT",
+                "ENSIGN"
+              ]
+            },
+            "includesCommandingOfficer": {
+              "bool": true
+            }
+          }
+        },
+        {
+          "name": "ensign-and-above-assigned-crew-only",
+          "definition": {
+            "officerRanks": {
+              "set": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT",
+                "ENSIGN"
+              ]
+            },
+            "includesCommandingOfficer": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "lieutenant-and-above-with-commanding-officer",
+          "definition": {
+            "officerRanks": {
+              "set": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT"
+              ]
+            },
+            "includesCommandingOfficer": {
+              "bool": true
+            }
+          }
+        },
+        {
+          "name": "lieutenant-and-above-assigned-crew-only",
+          "definition": {
+            "officerRanks": {
+              "set": [
+                "CAPTAIN",
+                "COMMANDER",
+                "LIEUTENANT_COMMANDER",
+                "LIEUTENANT"
+              ]
+            },
+            "includesCommandingOfficer": {
+              "bool": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F06",
+      "set": "ambiguity",
+      "category": "F",
+      "size": "small",
+      "systems": [
+        "missions"
+      ],
+      "question": "What was the most recent mission of crew member C-554?",
+      "tags": {
+        "mapping": null
+      },
+      "designNote": "\"Most recent\" is the highest stardate; \"mission of\" can mean commanded or served in any role, of any status or completed.",
+      "acceptedInterpretations": [
+        {
+          "name": "any-role-any-status",
+          "definition": {
+            "roles": {
+              "set": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            },
+            "completedOnly": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "any-role-completed-only",
+          "definition": {
+            "roles": {
+              "set": [
+                "COMMANDING_OFFICER",
+                "ASSIGNED_CREW"
+              ]
+            },
+            "completedOnly": {
+              "bool": true
+            }
+          }
+        },
+        {
+          "name": "commanded-any-status",
+          "definition": {
+            "roles": {
+              "set": [
+                "COMMANDING_OFFICER"
+              ]
+            },
+            "completedOnly": {
+              "bool": false
+            }
+          }
+        },
+        {
+          "name": "commanded-completed-only",
+          "definition": {
+            "roles": {
+              "set": [
+                "COMMANDING_OFFICER"
+              ]
+            },
+            "completedOnly": {
+              "bool": true
+            }
+          }
+        }
+      ]
+    }
+  ]
 }
