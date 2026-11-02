@@ -1,0 +1,244 @@
+{
+ "round": 1,
+ "requests": [
+  {
+   "id": "m-history-correction-entry",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions/ST-00000LD4O/changes?page=3&pageSize=2"
+   }
+  },
+  {
+   "id": "m-filter-locationType",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?locationType=ENTERPRISE&pageSize=1"
+   }
+  },
+  {
+   "id": "m-filter-issuingAuthority",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?issuingAuthority=FEDERATION_COUNCIL&pageSize=1"
+   }
+  },
+  {
+   "id": "m-filter-classification",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?classification=TOP_SECRET&pageSize=1"
+   }
+  },
+  {
+   "id": "m-filter-priority",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?priority=1&pageSize=1"
+   }
+  },
+  {
+   "id": "m-filter-padded-crew-ref",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?assignedCrewId=C-085&pageSize=1"
+   }
+  },
+  {
+   "id": "m-filter-wrong-class-commander",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?commandingOfficerId=P-1003&pageSize=1"
+   }
+  },
+  {
+   "id": "m-filter-native-asset-id",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?assignedAssetId=AST-0004&pageSize=1"
+   }
+  },
+  {
+   "id": "m-planned-all",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?status=PLANNED&pageSize=50"
+   }
+  },
+  {
+   "id": "m-cancelled-all",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?status=CANCELLED&pageSize=50"
+   }
+  },
+  {
+   "id": "m-changes-unknown-param",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions/ST-00000LD4O/changes?status=ACTIVE"
+   }
+  },
+  {
+   "id": "m-changes-pagesize-51",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions/ST-00000LD4O/changes?pageSize=51"
+   }
+  },
+  {
+   "id": "a-parent-filter-missions-ref",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8084/assets?parentAssetId=EQ-64"
+   }
+  },
+  {
+   "id": "a-filter-kind",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8084/assets?kind=MUSICAL_INSTRUMENT"
+   }
+  },
+  {
+   "id": "a-filter-category-status",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8084/assets?category=VEHICLE&status=ACTIVE&limit=50"
+   }
+  },
+  {
+   "id": "a-offset-noncanonical",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8084/assets?offset=00"
+   }
+  },
+  {
+   "id": "a-lowercase-id",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8084/assets/ast-0004"
+   }
+  },
+  {
+   "id": "a-short-id",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8084/assets/AST-4"
+   }
+  },
+  {
+   "id": "map-file-without-extension",
+   "tool": "read_mapping_release",
+   "arguments": {
+    "release": "1.3",
+    "file": "crew"
+   }
+  },
+  {
+   "id": "map-11-files",
+   "tool": "read_mapping_release",
+   "arguments": {
+    "release": "1.1"
+   }
+  },
+  {
+   "id": "p-get-with-list-action",
+   "tool": "soap_request",
+   "arguments": {
+    "url": "http://127.0.0.1:8082/soap/personnel-v2",
+    "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:GetPersonnelMemberRequest><p:personnelId>PRS-0001</p:personnelId></p:GetPersonnelMemberRequest></s:Body></s:Envelope>",
+    "soap_action": "urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers"
+   }
+  },
+  {
+   "id": "p-list-empty-department",
+   "tool": "soap_request",
+   "arguments": {
+    "url": "http://127.0.0.1:8082/soap/personnel-v2",
+    "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:ListPersonnelMembersRequest><p:department/></p:ListPersonnelMembersRequest></s:Body></s:Envelope>",
+    "soap_action": "urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers"
+   }
+  },
+  {
+   "id": "p-list-out-of-order",
+   "tool": "soap_request",
+   "arguments": {
+    "url": "http://127.0.0.1:8082/soap/personnel-v2",
+    "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:ListPersonnelMembersRequest><p:limit>2</p:limit><p:offset>0</p:offset></p:ListPersonnelMembersRequest></s:Body></s:Envelope>",
+    "soap_action": "urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers"
+   }
+  },
+  {
+   "id": "p-get-default-namespace",
+   "tool": "soap_request",
+   "arguments": {
+    "url": "http://127.0.0.1:8082/soap/personnel-v2",
+    "envelope": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\"><Body><GetPersonnelMemberRequest xmlns=\"urn:graphql-federation-lab:personnel:v2\"><personnelId>PRS-0002</personnelId></GetPersonnelMemberRequest></Body></Envelope>",
+    "soap_action": "urn:graphql-federation-lab:personnel:v2:GetPersonnelMember"
+   }
+  },
+  {
+   "id": "p-get-unqualified-child",
+   "tool": "soap_request",
+   "arguments": {
+    "url": "http://127.0.0.1:8082/soap/personnel-v2",
+    "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:GetPersonnelMemberRequest><personnelId>PRS-0002</personnelId></p:GetPersonnelMemberRequest></s:Body></s:Envelope>",
+    "soap_action": "urn:graphql-federation-lab:personnel:v2:GetPersonnelMember"
+   }
+  },
+  {
+   "id": "p-list-deceased",
+   "tool": "soap_request",
+   "arguments": {
+    "url": "http://127.0.0.1:8082/soap/personnel-v2",
+    "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:ListPersonnelMembersRequest><p:dutyStatus>DECEASED</p:dutyStatus><p:limit>1</p:limit></p:ListPersonnelMembersRequest></s:Body></s:Envelope>",
+    "soap_action": "urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers"
+   }
+  },
+  {
+   "id": "p-list-max-page",
+   "tool": "soap_request",
+   "arguments": {
+    "url": "http://127.0.0.1:8082/soap/personnel-v2",
+    "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:ListPersonnelMembersRequest><p:offset>900</p:offset><p:limit>100</p:limit></p:ListPersonnelMembersRequest></s:Body></s:Envelope>",
+    "soap_action": "urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers"
+   }
+  },
+  {
+   "id": "p-list-nil-attribute",
+   "tool": "soap_request",
+   "arguments": {
+    "url": "http://127.0.0.1:8082/soap/personnel-v2",
+    "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><s:Body><p:ListPersonnelMembersRequest><p:department xsi:nil=\"false\">COMMAND</p:department></p:ListPersonnelMembersRequest></s:Body></s:Envelope>",
+    "soap_action": "urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers"
+   }
+  },
+  {
+   "id": "m-filter-lowercase-enum",
+   "tool": "http_request",
+   "arguments": {
+    "method": "GET",
+    "url": "http://127.0.0.1:8083/missions?status=completed&pageSize=1"
+   }
+  }
+ ]
+}

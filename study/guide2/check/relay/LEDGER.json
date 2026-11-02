@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "rounds": [
+    {
+      "round": 1,
+      "requests": {
+        "file": "round-001.requests.json",
+        "sha256": "ac19be576ca7fc42d237d007c0d88198e8be7aef872b05791952efb7b3cd9920"
+      },
+      "answers": {
+        "file": "round-001.answers.json",
+        "sha256": "983f5b88849639cb6415bbf97e87a91fb0bdc1cd277173c14fa0055619396724"
+      },
+      "chain": "153610b6cc2016164b4041fd011167f1eb6e9031efea7aaa239e093ce57b2bc8"
+    }
+  ]
+}

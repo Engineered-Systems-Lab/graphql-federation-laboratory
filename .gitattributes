@@ -53,3 +53,7 @@ federation/routers/cosmo/execution-config.json text eol=lf
 # The mapping release files are hashed in their LF form (a published release never changes), so they keep LF on Windows checkouts.
 federation/mapping-releases/*/*.json text eol=lf
 federation/adapters/mapping/src/test/resources/releases/*/*.json text eol=lf
+
+# The relay folders of study 2's guide keep the bytes their ledgers hash: no line-ending conversion, and a CR before a line end is not trailing whitespace.
+study/guide2/relay/* -text whitespace=cr-at-eol
+study/guide2/check/relay/* -text whitespace=cr-at-eol

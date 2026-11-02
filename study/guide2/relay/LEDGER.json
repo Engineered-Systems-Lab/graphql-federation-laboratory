@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "rounds": [
+    {
+      "round": 1,
+      "requests": {
+        "file": "round-001.requests.json",
+        "sha256": "85e01233124764e15d98411cf56f25731fc69f8f2708b858331ad487d3935e33"
+      },
+      "answers": {
+        "file": "round-001.answers.json",
+        "sha256": "99115a79a4942297234432177c97a4494258b353db0b3e7d46a0dceff5c457df"
+      },
+      "chain": "d29be3f0ae9168ca78ad62c0ebacfb9fed2f260d8e244ce9a613ed135dbf6344"
+    },
+    {
+      "round": 2,
+      "requests": {
+        "file": "round-002.requests.json",
+        "sha256": "c2a1e166b125fdb1bee5d486ec9b3cb4f9ddab1ce8f153a37a00c700ce0e8bc8"
+      },
+      "answers": {
+        "file": "round-002.answers.json",
+        "sha256": "03b8f0b2409b61717e28faaa5efc84282d741c7d7a1664712da7da49e5da1d0c"
+      },
+      "chain": "3008d4d8351db9258d7b8fd0b05522f98aeafef60bf222670f5b0e4102c9786c"
+    }
+  ]
+}

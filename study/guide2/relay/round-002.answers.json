@@ -1,0 +1,442 @@
+{
+  "round": 2,
+  "startedAt": "2026-11-01T14:30:28.818+00:00",
+  "finishedAt": "2026-11-01T14:30:36.710+00:00",
+  "relay": {
+    "version": 1,
+    "sha256": "11d54bd6469943dcd1c095ba6209c70b89b423b2da5d3de8cf21c654559c8120"
+  },
+  "lab": {
+    "labCommit": "3b523c5d473498661a90624faf0d56bc18548a2e",
+    "code": {
+      "study/blind/relay.py": "11d54bd6469943dcd1c095ba6209c70b89b423b2da5d3de8cf21c654559c8120",
+      "study/launch/launch.py": "4335b51381f7bbc34333828bb9bec7e7b7358cf3561fbfc98412158a0c9db6a1",
+      "study/mcp/raw_server.py": "d802ce52c884544f4161e9c5f536a4c3205579be7690809a3d762885919ca147",
+      "study/mcp/mcp_core.py": "09c448de6dc80b14d854ee35f86ca5c139d00f6e509a2c31666c6ceca7103718"
+    }
+  },
+  "server": {
+    "allow": [
+      "http://127.0.0.1:8082",
+      "http://127.0.0.1:8083",
+      "http://127.0.0.1:8084"
+    ],
+    "mappingDir": "federation/mapping-releases",
+    "timeoutSeconds": 20.0,
+    "maxChars": 200000,
+    "name": "raw"
+  },
+  "requestFile": {
+    "file": "round-002.requests.json",
+    "sha256": "c2a1e166b125fdb1bee5d486ec9b3cb4f9ddab1ce8f153a37a00c700ce0e8bc8"
+  },
+  "fingerprint": {
+    "before": {
+      "fingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+      "missions": "real",
+      "reading": {
+        "clock": {
+          "baseline": "2368-12-23T10:47:00.000Z",
+          "counter": "0",
+          "datasetVersion": "1.2",
+          "releaseSha256": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f"
+        },
+        "counts": {
+          "MISSIONS": 300,
+          "MISSION_ASSIGNED_ASSETS": 596,
+          "MISSION_ASSIGNED_CREW": 2121,
+          "MISSION_CHANGES": 973,
+          "MISSION_CLOCK": 1,
+          "MISSION_PARTICIPANTS": 356
+        },
+        "maxCurrentChangeId": "9906355",
+        "maxLastUpdated": "2368-12-23T10:47:00.000Z"
+      },
+      "session": "oracle-instance:2026-11-01T14:06:31"
+    },
+    "after": {
+      "fingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+      "missions": "real",
+      "reading": {
+        "clock": {
+          "baseline": "2368-12-23T10:47:00.000Z",
+          "counter": "0",
+          "datasetVersion": "1.2",
+          "releaseSha256": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f"
+        },
+        "counts": {
+          "MISSIONS": 300,
+          "MISSION_ASSIGNED_ASSETS": 596,
+          "MISSION_ASSIGNED_CREW": 2121,
+          "MISSION_CHANGES": 973,
+          "MISSION_CLOCK": 1,
+          "MISSION_PARTICIPANTS": 356
+        },
+        "maxCurrentChangeId": "9906355",
+        "maxLastUpdated": "2368-12-23T10:47:00.000Z"
+      },
+      "session": "oracle-instance:2026-11-01T14:06:31"
+    },
+    "same": true
+  },
+  "missionsBackend": {
+    "before": {
+      "container": "bdc400fc6bd43c817bc8acc1207dd573c40f12c51b088ee0f263dfd4d77ea21a",
+      "name": "starfleet-missions-service",
+      "project": "starfleet-missions",
+      "service": "missions",
+      "ports": "127.0.0.1:8083->8083/tcp",
+      "missions": "real",
+      "port": 8083
+    },
+    "after": {
+      "container": "bdc400fc6bd43c817bc8acc1207dd573c40f12c51b088ee0f263dfd4d77ea21a",
+      "name": "starfleet-missions-service",
+      "project": "starfleet-missions",
+      "service": "missions",
+      "ports": "127.0.0.1:8083->8083/tcp",
+      "missions": "real",
+      "port": 8083
+    },
+    "same": true
+  },
+  "answers": [
+    {
+      "index": 1,
+      "id": "mission-detail",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions/ST-00000LD4O"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><mission xmlns=\\\"urn:starfleet:missions:v1\\\"><missionId>ST-00000LD4O</missionId><title>Stellar observation support</title><type>SCIENTIFIC</type><classification>UNCLASSIFIED</classification><status>POSTPONED</status><priority>3</priority><stardate>43125.80</stardate><durationHours>12</durationHours><objective>support the scheduled stellar observation window safely.</objective><location><type>DEEP_SPACE</type><name>Kavis Alpha binary</name></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-85</commandingOfficerId><assignedCrewIds><crewId>C-120</crewId><crewId>C-92</crewId></assignedCrewIds><participantIds><participantId>O-2121</participantId></participantIds><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>14960.00</estimatedCostCredits><lastUpdated>2368-12-23T09:00:00.000Z</lastUpdated></mission>\"}"
+    },
+    {
+      "index": 2,
+      "id": "mission-history-page-1",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions/ST-00000LD4O/changes?page=1&pageSize=2"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><changeList xmlns=\\\"urn:starfleet:missions:v1\\\"><page>1</page><pageSize>2</pageSize><totalCount>5</totalCount><totalPages>3</totalPages><change><changeId>9905383</changeId><missionId>ST-00000LD4O</missionId><operation>CREATED</operation><changedAt>2366-01-05T08:00:00.000Z</changedAt><changedBy>C-85</changedBy><orderedBy>C-71</orderedBy><newStatus>AUTHORIZED</newStatus><estimatedCostCredits>12852.23</estimatedCostCredits><summary>Initial objective: support the scheduled stellar observation window safely.</summary></change><change><changeId>9905387</changeId><missionId>ST-00000LD4O</missionId><operation>UPDATED</operation><changedAt>2366-01-05T11:54:00.000Z</changedAt><changedBy>C-85</changedBy><orderedBy>C-71</orderedBy><previousStatus>AUTHORIZED</previousStatus><newStatus>ACTIVE</newStatus><estimatedCostCredits>12852.23</estimatedCostCredits><estimatedCostCreditsChange>0.00</estimatedCostCreditsChange><summary>Recorded: instruments aligned.</summary></change></changeList>\"}"
+    },
+    {
+      "index": 3,
+      "id": "mission-history-page-2",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions/ST-00000LD4O/changes?page=2&pageSize=2"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><changeList xmlns=\\\"urn:starfleet:missions:v1\\\"><page>2</page><pageSize>2</pageSize><totalCount>5</totalCount><totalPages>3</totalPages><change><changeId>9905388</changeId><missionId>ST-00000LD4O</missionId><operation>UPDATED</operation><changedAt>2366-01-05T14:05:00.000Z</changedAt><changedBy>C-85</changedBy><orderedBy>C-71</orderedBy><previousStatus>ACTIVE</previousStatus><newStatus>ACTIVE</newStatus><estimatedCostCredits>14960.00</estimatedCostCredits><estimatedCostCreditsChange>2107.77</estimatedCostCreditsChange><summary>Recorded: computer instability increases contingency estimate to14960.00.</summary></change><change><changeId>9905389</changeId><missionId>ST-00000LD4O</missionId><operation>UPDATED</operation><changedAt>2366-01-05T17:19:00.000Z</changedAt><changedBy>C-85</changedBy><orderedBy>C-71</orderedBy><previousStatus>ACTIVE</previousStatus><newStatus>POSTPONED</newStatus><estimatedCostCredits>14960.00</estimatedCostCredits><estimatedCostCreditsChange>0.00</estimatedCostCreditsChange><summary>Recorded: observations suspended pending computer recovery.</summary></change></changeList>\"}"
+    },
+    {
+      "index": 4,
+      "id": "mission-history-beyond-end",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions/ST-00000LD4O/changes?page=1000000&pageSize=2"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><changeList xmlns=\\\"urn:starfleet:missions:v1\\\"><page>1000000</page><pageSize>2</pageSize><totalCount>5</totalCount><totalPages>3</totalPages></changeList>\"}"
+    },
+    {
+      "index": 5,
+      "id": "mission-unlisted-id",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions/ST-ZZZZZZZZZ"
+      },
+      "isError": false,
+      "text": "{\"status\": 404, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><error xmlns=\\\"urn:starfleet:missions:v1\\\"><code>MISSION_NOT_FOUND</code><message>No mission ST-ZZZZZZZZZ</message></error>\"}"
+    },
+    {
+      "index": 6,
+      "id": "mission-unknown-path",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions/ST-00000LD4O/unknown"
+      },
+      "isError": false,
+      "text": "{\"status\": 404, \"contentType\": null, \"truncated\": false, \"body\": \"\"}"
+    },
+    {
+      "index": 7,
+      "id": "missions-head",
+      "tool": "http_request",
+      "arguments": {
+        "method": "HEAD",
+        "url": "http://127.0.0.1:8083/missions"
+      },
+      "isError": false,
+      "text": "{\"status\": 405, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"\"}"
+    },
+    {
+      "index": 8,
+      "id": "missions-combined-filters",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions?commandingOfficerId=C-85&assignedCrewId=C-85&pageSize=2"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><missionList xmlns=\\\"urn:starfleet:missions:v1\\\"><page>1</page><pageSize>2</pageSize><totalCount>1</totalCount><totalPages>1</totalPages><mission><missionId>ST-00000LDAG</missionId><title>Gravimetric mapping of Calmir Deep</title><type>SCIENTIFIC</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>3</priority><stardate>45101.00</stardate><durationHours>38</durationHours><objective>Characterise an ion storm front at Calmir Deep and record the readings for the science archive.</objective><location><type>PLANET</type><name>Calmir Deep</name></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-85</commandingOfficerId><assignedCrewIds><crewId>C-1186</crewId><crewId>C-1638</crewId><crewId>C-2339</crewId><crewId>C-2422</crewId><crewId>C-3491</crewId><crewId>C-3691</crewId><crewId>C-3716</crewId><crewId>C-4168</crewId><crewId>C-5124</crewId><crewId>C-5557</crewId><crewId>C-7103</crewId><crewId>C-7362</crewId><crewId>C-7401</crewId><crewId>C-7996</crewId><crewId>C-8167</crewId><crewId>C-85</crewId><crewId>C-8665</crewId><crewId>C-8898</crewId><crewId>C-9803</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-12</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>6228.39</estimatedCostCredits><actualCostCredits>7330.82</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2368-02-08T02:50:00.000Z</lastUpdated></mission></missionList>\"}"
+    },
+    {
+      "index": 9,
+      "id": "missions-unmapped-asset-reference",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions?assignedAssetId=EQ-108&pageSize=2"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><missionList xmlns=\\\"urn:starfleet:missions:v1\\\"><page>1</page><pageSize>2</pageSize><totalCount>40</totalCount><totalPages>20</totalPages><mission><missionId>ST-00000LDCF</missionId><title>Cargo run to Kortho Deep</title><type>TRANSPORT</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>5</priority><stardate>43172.00</stardate><durationHours>53</durationHours><objective>Carry the scheduled load to Kortho Deep, handle the transfer and report any loss.</objective><location><type>STARBASE</type><name>Kortho Deep</name><coordinates>Grid K-55</coordinates></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-78</commandingOfficerId><assignedCrewIds><crewId>C-3071</crewId><crewId>C-3641</crewId><crewId>C-4713</crewId><crewId>C-5089</crewId><crewId>C-5514</crewId><crewId>C-9032</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>EQ-108</assetId><assetId>SH-42</assetId></assignedAssetIds><estimatedCostCredits>34652.86</estimatedCostCredits><actualCostCredits>46642.75</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-03-06T17:29:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LDBG</missionId><title>Passenger transfer to Vesder Reach</title><type>TRANSPORT</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>2</priority><stardate>43198.95</stardate><durationHours>22</durationHours><objective>Move the assigned cargo and passengers to Vesder Reach on schedule and confirm delivery.</objective><location><type>STARBASE</type><name>Vesder Reach</name></location><issuingAuthority>STARFLEET_COMMAND</issuingAuthority><commandingOfficerId>C-7950</commandingOfficerId><assignedCrewIds><crewId>C-4340</crewId><crewId>C-4535</crewId><crewId>C-5386</crewId><crewId>C-5531</crewId><crewId>C-6151</crewId><crewId>C-6315</crewId><crewId>C-6670</crewId><crewId>C-9091</crewId></assignedCrewIds><participantIds><participantId>O-3226</participantId><participantId>O-3239</participantId><participantId>O-3252</participantId><participantId>O-3278</participantId><participantId>O-3291</participantId><participantId>O-3330</participantId><participantId>O-3356</participantId><participantId>O-3395</participantId><participantId>O-3408</participantId><participantId>O-3421</participantId><participantId>O-3434</participantId><participantId>O-3447</participantId><participantId>O-3460</participantId><participantId>O-3473</participantId><participantId>O-3512</participantId><participantId>O-3525</participantId><participantId>O-3538</participantId><participantId>O-3564</participantId></participantIds><assignedAssetIds><assetId>EQ-108</assetId><assetId>EQ-119</assetId><assetId>EQ-130</assetId><assetId>EQ-131</assetId><assetId>EQ-132</assetId><assetId>EQ-133</assetId><assetId>EQ-134</assetId><assetId>EQ-135</assetId><assetId>EQ-136</assetId><assetId>EQ-137</assetId><assetId>EQ-138</assetId><assetId>EQ-139</assetId><assetId>EQ-140</assetId><assetId>EQ-141</assetId><assetId>EQ-142</assetId><assetId>EQ-143</assetId><assetId>EQ-144</assetId><assetId>EQ-145</assetId><assetId>EQ-146</assetId><assetId>EQ-147</assetId><assetId>EQ-148</assetId><assetId>EQ-149</assetId><assetId>EQ-64</assetId><assetId>EQ-75</assetId><assetId>EQ-86</assetId><assetId>EQ-97</assetId><assetId>SH-42</assetId><assetId>SH-53</assetId><assetId>SH-60</assetId><assetId>SH-61</assetId><assetId>SH-62</assetId><assetId>SH-63</assetId><assetId>SH-64</assetId><assetId>SH-65</assetId><assetId>SH-66</assetId><assetId>SH-67</assetId><assetId>SH-68</assetId><assetId>SH-69</assetId><assetId>SH-70</assetId><assetId>SH-71</assetId><assetId>SH-72</assetId><assetId>SH-73</assetId><assetId>SH-74</assetId><assetId>SH-75</assetId><assetId>SH-76</assetId><assetId>SH-77</assetId><assetId>SH-78</assetId><assetId>SH-79</assetId><assetId>VS-10</assetId><assetId>VS-11</assetId></assignedAssetIds><estimatedCostCredits>43144.72</estimatedCostCredits><actualCostCredits>50004.73</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2368-12-23T10:22:00.000Z</lastUpdated></mission></missionList>\"}"
+    },
+    {
+      "index": 10,
+      "id": "missions-unmapped-crew-reference",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions?assignedCrewId=C-2372&pageSize=1"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><missionList xmlns=\\\"urn:starfleet:missions:v1\\\"><page>1</page><pageSize>1</pageSize><totalCount>2</totalCount><totalPages>2</totalPages><mission><missionId>ST-00000LD6E</missionId><title>Bajoran terrorist track-down</title><type>SECURITY</type><classification>SECRET</classification><status>COMPLETED</status><priority>2</priority><stardate>45076.30</stardate><durationHours>72</durationHours><objective>Find the Bajoran group blamed for an attack on a colony, with a Bajoran officer aboard.</objective><location><type>SECTOR</type><name>Bajoran space</name></location><issuingAuthority>STARFLEET_SECURITY</issuingAuthority><commandingOfficerId>C-71</commandingOfficerId><assignedCrewIds><crewId>C-2372</crewId><crewId>C-3500</crewId><crewId>C-6737</crewId><crewId>C-78</crewId><crewId>C-99</crewId></assignedCrewIds><participantIds><participantId>O-2680</participantId><participantId>O-2693</participantId></participantIds><assignedAssetIds><assetId>EQ-119</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>102510.48</estimatedCostCredits><actualCostCredits>96872.40</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2368-12-23T09:33:00.000Z</lastUpdated></mission></missionList>\"}"
+    },
+    {
+      "index": 11,
+      "id": "missions-unlisted-crew-filter",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions?assignedCrewId=C-999999999&pageSize=2"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><missionList xmlns=\\\"urn:starfleet:missions:v1\\\"><page>1</page><pageSize>2</pageSize><totalCount>0</totalCount><totalPages>0</totalPages></missionList>\"}"
+    },
+    {
+      "index": 12,
+      "id": "missions-repeated-filter",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions?status=ACTIVE&status=COMPLETED&pageSize=1"
+      },
+      "isError": false,
+      "text": "{\"status\": 400, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><error xmlns=\\\"urn:starfleet:missions:v1\\\"><code>INVALID_REQUEST</code><message>Repeated query parameter: status</message></error>\"}"
+    },
+    {
+      "index": 13,
+      "id": "missions-page-size-overflow",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions?pageSize=51"
+      },
+      "isError": false,
+      "text": "{\"status\": 400, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><error xmlns=\\\"urn:starfleet:missions:v1\\\"><code>INVALID_REQUEST</code><message>pageSize must be 1..50</message></error>\"}"
+    },
+    {
+      "index": 14,
+      "id": "missions-default-page",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8083/missions"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/xml;charset=UTF-8\", \"truncated\": false, \"body\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\" standalone=\\\"yes\\\"?><missionList xmlns=\\\"urn:starfleet:missions:v1\\\"><page>1</page><pageSize>20</pageSize><totalCount>300</totalCount><totalPages>15</totalPages><mission><missionId>ST-00000LDBE</missionId><title>Charting of Vesnex Deep</title><type>EXPLORATION</type><classification>SECRET</classification><status>COMPLETED</status><priority>3</priority><stardate>43000.00</stardate><durationHours>129</durationHours><objective>Chart the region around Vesnex Deep, release probes and record the findings.</objective><location><type>SECTOR</type><name>Vesnex Deep</name><coordinates>Grid B-16</coordinates></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-920</commandingOfficerId><assignedCrewIds><crewId>C-1846</crewId><crewId>C-2201</crewId><crewId>C-2339</crewId><crewId>C-2354</crewId><crewId>C-3653</crewId><crewId>C-4165</crewId><crewId>C-5034</crewId><crewId>C-6287</crewId><crewId>C-6608</crewId><crewId>C-7011</crewId><crewId>C-8383</crewId><crewId>C-9803</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>28098.59</estimatedCostCredits><actualCostCredits>37118.24</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-01-07T00:13:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD4O</missionId><title>Stellar observation support</title><type>SCIENTIFIC</type><classification>UNCLASSIFIED</classification><status>POSTPONED</status><priority>3</priority><stardate>43125.80</stardate><durationHours>12</durationHours><objective>support the scheduled stellar observation window safely.</objective><location><type>DEEP_SPACE</type><name>Kavis Alpha binary</name></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-85</commandingOfficerId><assignedCrewIds><crewId>C-120</crewId><crewId>C-92</crewId></assignedCrewIds><participantIds><participantId>O-2121</participantId></participantIds><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>14960.00</estimatedCostCredits><lastUpdated>2368-12-23T09:00:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD4P</missionId><title>Nanite contact and relocation</title><type>FIRST_CONTACT</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>2</priority><stardate>43125.85</stardate><durationHours>18</durationHours><objective>establish communication and arrange safe separation from ship systems.</objective><location><type>ENTERPRISE</type><name>main computer</name></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-71</commandingOfficerId><assignedCrewIds><crewId>C-113</crewId><crewId>C-120</crewId><crewId>C-85</crewId><crewId>C-92</crewId></assignedCrewIds><participantIds><participantId>O-2121</participantId><participantId>O-224</participantId></participantIds><assignedAssetIds><assetId>EQ-119</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>30627.22</estimatedCostCredits><actualCostCredits>28177.04</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2368-12-23T09:01:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD4Q</missionId><title>Tau Cygna V evacuation</title><type>HUMANITARIAN</type><classification>UNCLASSIFIED</classification><status>ACTIVE</status><priority>1</priority><stardate>43140.00</stardate><durationHours>72</durationHours><objective>secure cooperation and organize removal of the threatened colony.</objective><location><type>PLANET</type><name>Tau Cygna V</name></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-85</commandingOfficerId><assignedCrewIds/><participantIds><participantId>O-2134</participantId><participantId>O-2147</participantId></participantIds><assignedAssetIds><assetId>SH-42</assetId></assignedAssetIds><estimatedCostCredits>221286.81</estimatedCostCredits><lastUpdated>2368-12-23T09:02:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD4R</missionId><title>Sheliak deadline negotiation</title><type>DIPLOMATIC</type><classification>SECRET</classification><status>AUTHORIZED</status><priority>1</priority><stardate>43140.05</stardate><durationHours>24</durationHours><objective>obtain adequate evacuation time under the treaty.</objective><location><type>VESSEL</type><name>Enterprise diplomatic channel</name></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-71</commandingOfficerId><assignedCrewIds><crewId>C-113</crewId></assignedCrewIds><participantIds><participantId>O-2160</participantId></participantIds><assignedAssetIds><assetId>EQ-119</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>97392.90</estimatedCostCredits><lastUpdated>2368-12-23T09:03:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD4S</missionId><title>Rana IV relief and assessment</title><type>HUMANITARIAN</type><classification>UNCLASSIFIED</classification><status>FAILED</status><priority>2</priority><stardate>43152.40</stardate><durationHours>16</durationHours><objective>rescue the colony population and assess relief needs.</objective><location><type>PLANET</type><name>Rana IV</name></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-78</commandingOfficerId><assignedCrewIds><crewId>C-106</crewId><crewId>C-99</crewId></assignedCrewIds><participantIds><participantId>O-2173</participantId><participantId>O-2186</participantId></participantIds><assignedAssetIds><assetId>EQ-75</assetId><assetId>SH-42</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>144670.34</estimatedCostCredits><actualCostCredits>129335.28</actualCostCredits><outcome>Objective unmet; assessment and incurred costs recorded.</outcome><lastUpdated>2368-12-23T09:04:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LDAJ</missionId><title>Ærlea Reach Station 2 (Ærlea Reach)</title><type>SECURITY</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>2</priority><stardate>43157.50</stardate><durationHours>56</durationHours><objective>Secure the area around Veslea Reach and report any incident to command. Rendezvous at Ærlea Reach.</objective><location><type>STARBASE</type><name>Veslea Reach</name></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-99</commandingOfficerId><assignedCrewIds><crewId>C-2610</crewId><crewId>C-3104</crewId><crewId>C-3353</crewId><crewId>C-3727</crewId><crewId>C-6287</crewId><crewId>C-6651</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>61461.02</estimatedCostCredits><actualCostCredits>61522.48</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-03-01T17:28:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LDCA</missionId><title>Sector sweep of Kornex Anchorage</title><type>SECURITY</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>5</priority><stardate>43167.20</stardate><durationHours>164</durationHours><objective>Patrol the approaches to Kornex Anchorage, challenge unidentified traffic and log all contacts.</objective><location><type>VESSEL</type><name>Kornex Anchorage</name></location><issuingAuthority>STARFLEET_SECURITY</issuingAuthority><commandingOfficerId>C-78</commandingOfficerId><assignedCrewIds><crewId>C-8831</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>SH-77</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>43291.96</estimatedCostCredits><actualCostCredits>56842.34</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-03-10T11:49:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LDCF</missionId><title>Cargo run to Kortho Deep</title><type>TRANSPORT</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>5</priority><stardate>43172.00</stardate><durationHours>53</durationHours><objective>Carry the scheduled load to Kortho Deep, handle the transfer and report any loss.</objective><location><type>STARBASE</type><name>Kortho Deep</name><coordinates>Grid K-55</coordinates></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-78</commandingOfficerId><assignedCrewIds><crewId>C-3071</crewId><crewId>C-3641</crewId><crewId>C-4713</crewId><crewId>C-5089</crewId><crewId>C-5514</crewId><crewId>C-9032</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>EQ-108</assetId><assetId>SH-42</assetId></assignedAssetIds><estimatedCostCredits>34652.86</estimatedCostCredits><actualCostCredits>46642.75</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-03-06T17:29:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LDBG</missionId><title>Passenger transfer to Vesder Reach</title><type>TRANSPORT</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>2</priority><stardate>43198.95</stardate><durationHours>22</durationHours><objective>Move the assigned cargo and passengers to Vesder Reach on schedule and confirm delivery.</objective><location><type>STARBASE</type><name>Vesder Reach</name></location><issuingAuthority>STARFLEET_COMMAND</issuingAuthority><commandingOfficerId>C-7950</commandingOfficerId><assignedCrewIds><crewId>C-4340</crewId><crewId>C-4535</crewId><crewId>C-5386</crewId><crewId>C-5531</crewId><crewId>C-6151</crewId><crewId>C-6315</crewId><crewId>C-6670</crewId><crewId>C-9091</crewId></assignedCrewIds><participantIds><participantId>O-3226</participantId><participantId>O-3239</participantId><participantId>O-3252</participantId><participantId>O-3278</participantId><participantId>O-3291</participantId><participantId>O-3330</participantId><participantId>O-3356</participantId><participantId>O-3395</participantId><participantId>O-3408</participantId><participantId>O-3421</participantId><participantId>O-3434</participantId><participantId>O-3447</participantId><participantId>O-3460</participantId><participantId>O-3473</participantId><participantId>O-3512</participantId><participantId>O-3525</participantId><participantId>O-3538</participantId><participantId>O-3564</participantId></participantIds><assignedAssetIds><assetId>EQ-108</assetId><assetId>EQ-119</assetId><assetId>EQ-130</assetId><assetId>EQ-131</assetId><assetId>EQ-132</assetId><assetId>EQ-133</assetId><assetId>EQ-134</assetId><assetId>EQ-135</assetId><assetId>EQ-136</assetId><assetId>EQ-137</assetId><assetId>EQ-138</assetId><assetId>EQ-139</assetId><assetId>EQ-140</assetId><assetId>EQ-141</assetId><assetId>EQ-142</assetId><assetId>EQ-143</assetId><assetId>EQ-144</assetId><assetId>EQ-145</assetId><assetId>EQ-146</assetId><assetId>EQ-147</assetId><assetId>EQ-148</assetId><assetId>EQ-149</assetId><assetId>EQ-64</assetId><assetId>EQ-75</assetId><assetId>EQ-86</assetId><assetId>EQ-97</assetId><assetId>SH-42</assetId><assetId>SH-53</assetId><assetId>SH-60</assetId><assetId>SH-61</assetId><assetId>SH-62</assetId><assetId>SH-63</assetId><assetId>SH-64</assetId><assetId>SH-65</assetId><assetId>SH-66</assetId><assetId>SH-67</assetId><assetId>SH-68</assetId><assetId>SH-69</assetId><assetId>SH-70</assetId><assetId>SH-71</assetId><assetId>SH-72</assetId><assetId>SH-73</assetId><assetId>SH-74</assetId><assetId>SH-75</assetId><assetId>SH-76</assetId><assetId>SH-77</assetId><assetId>SH-78</assetId><assetId>SH-79</assetId><assetId>VS-10</assetId><assetId>VS-11</assetId></assignedAssetIds><estimatedCostCredits>43144.72</estimatedCostCredits><actualCostCredits>50004.73</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2368-12-23T10:22:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD8B</missionId><title>Turbolift shaft guide realignment (Warp core chamber) II</title><type>MAINTENANCE</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>4</priority><stardate>43208.60</stardate><durationHours>15</durationHours><objective>Turbolift shaft guide realignment at Warp core chamber (II); verify operation and log the result.</objective><location><type>ENTERPRISE</type><name>Warp core chamber</name></location><issuingAuthority>STARFLEET_COMMAND</issuingAuthority><commandingOfficerId>C-554</commandingOfficerId><assignedCrewIds><crewId>C-7181</crewId><crewId>C-8011</crewId><crewId>C-8167</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>EQ-86</assetId><assetId>SH-61</assetId></assignedAssetIds><estimatedCostCredits>15284.63</estimatedCostCredits><actualCostCredits>17057.65</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-03-19T01:59:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD7Y</missionId><title>Corridor door actuator repair (Main deflector control)</title><type>MAINTENANCE</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>5</priority><stardate>43217.20</stardate><durationHours>4</durationHours><objective>Corridor door actuator repair at Main deflector control; verify operation and log the result.</objective><location><type>ENTERPRISE</type><name>Main deflector control</name></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-2049</commandingOfficerId><assignedCrewIds><crewId>C-1196</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>EQ-86</assetId></assignedAssetIds><estimatedCostCredits>7272.24</estimatedCostCredits><actualCostCredits>7323.15</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-03-21T12:16:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD8M</missionId><title>Sector sweep of Selvok Expanse</title><type>SECURITY</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>5</priority><stardate>43242.30</stardate><durationHours>77</durationHours><objective>Patrol the approaches to Selvok Expanse, challenge unidentified traffic and log all contacts.</objective><location><type>SECTOR</type><name>Selvok Expanse</name></location><issuingAuthority>STARFLEET_SECURITY</issuingAuthority><commandingOfficerId>C-99</commandingOfficerId><assignedCrewIds><crewId>C-1769</crewId><crewId>C-4333</crewId><crewId>C-4488</crewId><crewId>C-5490</crewId><crewId>C-6851</crewId><crewId>C-699</crewId><crewId>C-7019</crewId><crewId>C-7316</crewId><crewId>C-9137</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>79710.02</estimatedCostCredits><actualCostCredits>81782.48</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-04-02T16:31:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD9H</missionId><title>Station security audit at Orquar Gate</title><type>SECURITY</type><classification>UNCLASSIFIED</classification><status>CANCELLED</status><priority>4</priority><stardate>43254.60</stardate><durationHours>138</durationHours><objective>Patrol the approaches to Orquar Gate, challenge unidentified traffic and log all contacts.</objective><location><type>VESSEL</type><name>Orquar Gate</name></location><issuingAuthority>STARFLEET_SECURITY</issuingAuthority><commandingOfficerId>C-8280</commandingOfficerId><assignedCrewIds><crewId>C-1610</crewId><crewId>C-3237</crewId><crewId>C-5161</crewId><crewId>C-6721</crewId><crewId>C-6798</crewId><crewId>C-8831</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>126978.10</estimatedCostCredits><actualCostCredits>69837.96</actualCostCredits><outcome>Mission withdrawn; incurred costs recorded.</outcome><lastUpdated>2366-04-09T06:22:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD9W</missionId><title>Sector sweep of Beldun Gate</title><type>SECURITY</type><classification>UNCLASSIFIED</classification><status>PLANNED</status><priority>1</priority><stardate>43260.75</stardate><durationHours>72</durationHours><objective>Secure the area around Beldun Gate and report any incident to command.</objective><location><type>STARBASE</type><name>Beldun Gate</name></location><issuingAuthority>STARFLEET_SECURITY</issuingAuthority><commandingOfficerId>C-1638</commandingOfficerId><assignedCrewIds><crewId>C-3380</crewId><crewId>C-4488</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>VS-31</assetId></assignedAssetIds><lastUpdated>2366-04-06T12:37:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LDBV</missionId><title>Passenger transfer to Zanrin Drift</title><type>TRANSPORT</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>2</priority><stardate>43283.10</stardate><durationHours>720</durationHours><objective>Move the assigned cargo and passengers to Zanrin Drift on schedule and confirm delivery.</objective><location><type>PLANET</type><name>Zanrin Drift</name></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-4262</commandingOfficerId><assignedCrewIds><crewId>C-3207</crewId><crewId>C-3986</crewId><crewId>C-6419</crewId><crewId>C-9858</crewId></assignedCrewIds><participantIds><participantId>O-3239</participantId></participantIds><assignedAssetIds><assetId>EQ-108</assetId><assetId>SH-42</assetId></assignedAssetIds><estimatedCostCredits>30166.26</estimatedCostCredits><actualCostCredits>37526.83</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2368-12-23T10:29:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD95</missionId><title>Gravimetric mapping of Kormir Verge</title><type>SCIENTIFIC</type><classification>UNCLASSIFIED</classification><status>POSTPONED</status><priority>2</priority><stardate>43283.45</stardate><durationHours>57</durationHours><objective>Collect and analyse sensor data on a dust nebula near Kormir Verge and file a findings report.</objective><location><type>SECTOR</type><name>Kormir Verge</name></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-5076</commandingOfficerId><assignedCrewIds><crewId>C-3553</crewId><crewId>C-5076</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>28714.12</estimatedCostCredits><lastUpdated>2366-04-14T16:02:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LD74</missionId><title>Turbolift call-panel fault repair (Starbase 117 repair dock)</title><type>MAINTENANCE</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>5</priority><stardate>43284.10</stardate><durationHours>4</durationHours><objective>Turbolift call-panel fault repair at Starbase 117 repair dock; verify operation and log the result.</objective><location><type>STARBASE</type><name>Starbase 117 repair dock</name></location><issuingAuthority>ENTERPRISE_COMMAND</issuingAuthority><commandingOfficerId>C-2068</commandingOfficerId><assignedCrewIds><crewId>C-457</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>EQ-86</assetId></assignedAssetIds><estimatedCostCredits>9730.70</estimatedCostCredits><actualCostCredits>12231.49</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2366-04-14T15:08:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LDBO</missionId><title>An ion storm front survey at Calnex Anchorage</title><type>SCIENTIFIC</type><classification>UNCLASSIFIED</classification><status>COMPLETED</status><priority>2</priority><stardate>43315.30</stardate><durationHours>47</durationHours><objective>Characterise an ion storm front at Calnex Anchorage and record the readings for the science archive.</objective><location><type>DEEP_SPACE</type><name>Calnex Anchorage</name></location><issuingAuthority>STARFLEET_SCIENCE</issuingAuthority><commandingOfficerId>C-85</commandingOfficerId><assignedCrewIds><crewId>C-1597</crewId><crewId>C-2422</crewId><crewId>C-8384</crewId><crewId>C-948</crewId></assignedCrewIds><participantIds><participantId>P-4006</participantId><participantId>P-4487</participantId><participantId>P-4721</participantId></participantIds><assignedAssetIds><assetId>EQ-64</assetId><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>37351.56</estimatedCostCredits><actualCostCredits>46390.64</actualCostCredits><outcome>Objective achieved; operational report filed.</outcome><lastUpdated>2368-12-23T10:26:00.000Z</lastUpdated></mission><mission><missionId>ST-00000LDBI</missionId><title>Convoy protection near Korlea Expanse</title><type>SECURITY</type><classification>UNCLASSIFIED</classification><status>ACTIVE</status><priority>4</priority><stardate>43317.30</stardate><durationHours>96</durationHours><objective>Secure the area around Korlea Expanse and report any incident to command.</objective><location><type>STARBASE</type><name>Korlea Expanse</name></location><issuingAuthority>STARFLEET_SECURITY</issuingAuthority><commandingOfficerId>C-78</commandingOfficerId><assignedCrewIds><crewId>C-1638</crewId><crewId>C-1769</crewId><crewId>C-2006</crewId><crewId>C-2237</crewId><crewId>C-2782</crewId><crewId>C-2850</crewId><crewId>C-3145</crewId><crewId>C-3380</crewId><crewId>C-3500</crewId><crewId>C-3635</crewId><crewId>C-3690</crewId><crewId>C-3887</crewId><crewId>C-4111</crewId><crewId>C-4225</crewId><crewId>C-4562</crewId><crewId>C-4766</crewId><crewId>C-4828</crewId><crewId>C-5408</crewId><crewId>C-5490</crewId><crewId>C-594</crewId><crewId>C-6313</crewId><crewId>C-6671</crewId><crewId>C-6721</crewId><crewId>C-6798</crewId><crewId>C-7019</crewId><crewId>C-7401</crewId><crewId>C-7927</crewId><crewId>C-8116</crewId><crewId>C-8158</crewId><crewId>C-8229</crewId><crewId>C-8382</crewId><crewId>C-8565</crewId><crewId>C-8603</crewId><crewId>C-8607</crewId><crewId>C-9285</crewId><crewId>C-960</crewId><crewId>C-9705</crewId><crewId>C-9994</crewId></assignedCrewIds><participantIds/><assignedAssetIds><assetId>VS-31</assetId></assignedAssetIds><estimatedCostCredits>104362.82</estimatedCostCredits><lastUpdated>2366-04-26T17:10:00.000Z</lastUpdated></mission></missionList>\"}"
+    },
+    {
+      "index": 15,
+      "id": "personnel-defaults-without-action",
+      "tool": "soap_request",
+      "arguments": {
+        "url": "http://127.0.0.1:8082/soap/personnel-v2",
+        "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:ListPersonnelMembersRequest></p:ListPersonnelMembersRequest></s:Body></s:Envelope>"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"text/xml;charset=utf-8\", \"truncated\": false, \"body\": \"<soap:Envelope xmlns:soap=\\\"http://schemas.xmlsoap.org/soap/envelope/\\\"><soap:Body><ListPersonnelMembersResponse xmlns=\\\"urn:graphql-federation-lab:personnel:v2\\\"><datasetVersion>personnel-v2-large-004</datasetVersion><personnelMember><personnelId>PRS-0001</personnelId><displayName>Jean-Luc Picard</displayName><positionTitle>Commanding Officer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>CAPTAIN</rank><department>COMMAND</department><securityClearance>TOP_SECRET</securityClearance></crewDetails></personnelMember><personnelMember><personnelId>PRS-0002</personnelId><displayName>Data</displayName><positionTitle>Operations Officer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT_COMMANDER</rank><department>OPERATIONS</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-0001</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-0003</personnelId><displayName>Guinan</displayName><positionTitle>Bartender</positionTitle><dutyStatus>ACTIVE</dutyStatus><civilianDetails/></personnelMember><personnelMember><personnelId>PRS-0004</personnelId><displayName>Mara Venn</displayName><positionTitle>Shuttle Pilot</positionTitle><dutyStatus>ON_LEAVE</dutyStatus><crewDetails><rank>LIEUTENANT</rank><department>FLIGHT_OPERATIONS</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-0001</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-0005</personnelId><displayName>Elias Renn</displayName><positionTitle>Engineering Technician</positionTitle><dutyStatus>INACTIVE</dutyStatus><crewDetails><rank>ENSIGN</rank><department>ENGINEERING</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-0002</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-0006</personnelId><displayName>Tasha Yar</displayName><positionTitle>Security Officer</positionTitle><dutyStatus>DECEASED</dutyStatus><crewDetails><rank>LIEUTENANT</rank><department>SECURITY</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-0001</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-0714</personnelId><displayName>Wesley Crusher</displayName><positionTitle>Acting Ensign</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>ENSIGN</rank><department>OPERATIONS</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-0002</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-1048</personnelId><displayName>William Riker</displayName><positionTitle>First Officer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>COMMANDER</rank><department>COMMAND</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-0001</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-1049</personnelId><displayName>Geordi La Forge</displayName><positionTitle>Chief Engineer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT_COMMANDER</rank><department>ENGINEERING</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-1048</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-1053</personnelId><displayName>Beverly Crusher</displayName><positionTitle>Chief Medical Officer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>COMMANDER</rank><department>MEDICAL</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-0001</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-1054</personnelId><displayName>Deanna Troi</displayName><positionTitle>Ship's Counselor</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT_COMMANDER</rank><department>MEDICAL</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-0001</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-1057</personnelId><displayName>Reginald Barclay</displayName><positionTitle>Systems Diagnostic Engineer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT</rank><department>ENGINEERING</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-1049</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-1058</personnelId><displayName>Worf</displayName><positionTitle>Chief of Security</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT</rank><department>SECURITY</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-1048</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-1100</personnelId><displayName>Miles O'Brien</displayName><positionTitle>Transporter Chief</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>CHIEF_PETTY_OFFICER</rank><department>OPERATIONS</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-1048</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-1101</personnelId><displayName>Sonya Gomez</displayName><positionTitle>Engineering Officer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>ENSIGN</rank><department>ENGINEERING</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-1049</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-2000</personnelId><displayName>Ulan Orel</displayName><positionTitle>Senior Specialist</positionTitle><dutyStatus>INACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT_COMMANDER</rank><department>COMMAND</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-1048</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-2001</personnelId><displayName>Cora Falin</displayName><positionTitle>Senior Specialist</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT_COMMANDER</rank><department>COMMAND</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-2002</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-2002</personnelId><displayName>Yori Orel</displayName><positionTitle>Section Supervisor</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT</rank><department>COMMAND</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-1048</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-2003</personnelId><displayName>Ulan Perrin</displayName><positionTitle>Department Officer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT</rank><department>COMMAND</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-2002</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-2004</personnelId><displayName>Deni Dalen</displayName><positionTitle>Department Officer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT</rank><department>COMMAND</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-2002</supervisorPersonnelId></crewDetails></personnelMember><totalCount>1000</totalCount><offset>0</offset><limit>20</limit><hasMore>true</hasMore></ListPersonnelMembersResponse></soap:Body></soap:Envelope>\"}"
+    },
+    {
+      "index": 16,
+      "id": "personnel-beyond-end",
+      "tool": "soap_request",
+      "arguments": {
+        "url": "http://127.0.0.1:8082/soap/personnel-v2",
+        "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:ListPersonnelMembersRequest><p:offset>1000</p:offset><p:limit>2</p:limit></p:ListPersonnelMembersRequest></s:Body></s:Envelope>",
+        "soap_action": "urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"text/xml;charset=utf-8\", \"truncated\": false, \"body\": \"<soap:Envelope xmlns:soap=\\\"http://schemas.xmlsoap.org/soap/envelope/\\\"><soap:Body><ListPersonnelMembersResponse xmlns=\\\"urn:graphql-federation-lab:personnel:v2\\\"><datasetVersion>personnel-v2-large-004</datasetVersion><totalCount>1000</totalCount><offset>1000</offset><limit>2</limit><hasMore>false</hasMore></ListPersonnelMembersResponse></soap:Body></soap:Envelope>\"}"
+    },
+    {
+      "index": 17,
+      "id": "personnel-combined-filters",
+      "tool": "soap_request",
+      "arguments": {
+        "url": "http://127.0.0.1:8082/soap/personnel-v2",
+        "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:ListPersonnelMembersRequest><p:department>ENGINEERING</p:department><p:dutyStatus>ACTIVE</p:dutyStatus><p:limit>2</p:limit></p:ListPersonnelMembersRequest></s:Body></s:Envelope>",
+        "soap_action": "urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"text/xml;charset=utf-8\", \"truncated\": false, \"body\": \"<soap:Envelope xmlns:soap=\\\"http://schemas.xmlsoap.org/soap/envelope/\\\"><soap:Body><ListPersonnelMembersResponse xmlns=\\\"urn:graphql-federation-lab:personnel:v2\\\"><datasetVersion>personnel-v2-large-004</datasetVersion><personnelMember><personnelId>PRS-1049</personnelId><displayName>Geordi La Forge</displayName><positionTitle>Chief Engineer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT_COMMANDER</rank><department>ENGINEERING</department><securityClearance>SECRET</securityClearance><supervisorPersonnelId>PRS-1048</supervisorPersonnelId></crewDetails></personnelMember><personnelMember><personnelId>PRS-1057</personnelId><displayName>Reginald Barclay</displayName><positionTitle>Systems Diagnostic Engineer</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>LIEUTENANT</rank><department>ENGINEERING</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-1049</supervisorPersonnelId></crewDetails></personnelMember><totalCount>197</totalCount><offset>0</offset><limit>2</limit><hasMore>true</hasMore></ListPersonnelMembersResponse></soap:Body></soap:Envelope>\"}"
+    },
+    {
+      "index": 18,
+      "id": "personnel-mapped-participant",
+      "tool": "soap_request",
+      "arguments": {
+        "url": "http://127.0.0.1:8082/soap/personnel-v2",
+        "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:GetPersonnelMemberRequest><p:personnelId>PRS-3001</p:personnelId></p:GetPersonnelMemberRequest></s:Body></s:Envelope>",
+        "soap_action": "urn:graphql-federation-lab:personnel:v2:GetPersonnelMember"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"text/xml;charset=utf-8\", \"truncated\": false, \"body\": \"<soap:Envelope xmlns:soap=\\\"http://schemas.xmlsoap.org/soap/envelope/\\\"><soap:Body><GetPersonnelMemberResponse xmlns=\\\"urn:graphql-federation-lab:personnel:v2\\\"><datasetVersion>personnel-v2-large-004</datasetVersion><personnelMember><personnelId>PRS-3001</personnelId><displayName>Alexander Rozhenko</displayName><positionTitle>Student</positionTitle><dutyStatus>ACTIVE</dutyStatus><civilianDetails/></personnelMember></GetPersonnelMemberResponse></soap:Body></soap:Envelope>\"}"
+    },
+    {
+      "index": 19,
+      "id": "personnel-mapped-wesley",
+      "tool": "soap_request",
+      "arguments": {
+        "url": "http://127.0.0.1:8082/soap/personnel-v2",
+        "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:GetPersonnelMemberRequest><p:personnelId>PRS-0714</p:personnelId></p:GetPersonnelMemberRequest></s:Body></s:Envelope>",
+        "soap_action": "urn:graphql-federation-lab:personnel:v2:GetPersonnelMember"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"text/xml;charset=utf-8\", \"truncated\": false, \"body\": \"<soap:Envelope xmlns:soap=\\\"http://schemas.xmlsoap.org/soap/envelope/\\\"><soap:Body><GetPersonnelMemberResponse xmlns=\\\"urn:graphql-federation-lab:personnel:v2\\\"><datasetVersion>personnel-v2-large-004</datasetVersion><personnelMember><personnelId>PRS-0714</personnelId><displayName>Wesley Crusher</displayName><positionTitle>Acting Ensign</positionTitle><dutyStatus>ACTIVE</dutyStatus><crewDetails><rank>ENSIGN</rank><department>OPERATIONS</department><securityClearance>NONE</securityClearance><supervisorPersonnelId>PRS-0002</supervisorPersonnelId></crewDetails></personnelMember></GetPersonnelMemberResponse></soap:Body></soap:Envelope>\"}"
+    },
+    {
+      "index": 20,
+      "id": "personnel-unsupported-filter",
+      "tool": "soap_request",
+      "arguments": {
+        "url": "http://127.0.0.1:8082/soap/personnel-v2",
+        "envelope": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:p=\"urn:graphql-federation-lab:personnel:v2\"><s:Body><p:ListPersonnelMembersRequest><p:rank>CAPTAIN</p:rank></p:ListPersonnelMembersRequest></s:Body></s:Envelope>",
+        "soap_action": "urn:graphql-federation-lab:personnel:v2:ListPersonnelMembers"
+      },
+      "isError": false,
+      "text": "{\"status\": 500, \"contentType\": \"text/xml;charset=utf-8\", \"truncated\": false, \"body\": \"<soap:Envelope xmlns:soap=\\\"http://schemas.xmlsoap.org/soap/envelope/\\\"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Request does not conform to Personnel v2.</faultstring><detail><PersonnelServiceFault xmlns=\\\"urn:graphql-federation-lab:personnel:v2\\\"><code>InvalidRequest</code><message>Request does not conform to Personnel v2.</message></PersonnelServiceFault></detail></soap:Fault></soap:Body></soap:Envelope>\"}"
+    },
+    {
+      "index": 21,
+      "id": "assets-default-page",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8084/assets"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/json; charset=utf-8\", \"truncated\": false, \"body\": \"{\\\"items\\\": [{\\\"assetId\\\": \\\"AST-0001\\\", \\\"kind\\\": \\\"ARMORED_VEHICLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Armored personnel carrier Bulwark\\\", \\\"description\\\": \\\"A tracked armored personnel carrier that moves a security detail through an active combat zone. Stowed in a cargo bay of the Enterprise between deployments.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0002\\\", \\\"kind\\\": \\\"ARMORED_VEHICLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Tracked assault vehicle Juggernaut\\\", \\\"description\\\": \\\"A heavy tracked assault vehicle from an earlier generation of ground combat equipment. Retired from service and kept in a depot.\\\", \\\"status\\\": \\\"DECOMMISSIONED\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0003\\\", \\\"kind\\\": \\\"ARMORED_VEHICLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Wheeled armored scout Vanguard\\\", \\\"description\\\": \\\"A fast wheeled armored scout vehicle built to probe contested ground ahead of a landing party. Light armor, a sensor mast and a single mounted phaser emplacement.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0004\\\", \\\"kind\\\": \\\"SCIENTIFIC_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Shuttle sensor suite\\\", \\\"description\\\": \\\"A removable sensor suite for survey, search and recovery work: long-range scanners, a particle analyzer and a recording unit. Fitted aboard a shuttle when a mission calls for it.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0023\\\"}, {\\\"assetId\\\": \\\"AST-0005\\\", \\\"kind\\\": \\\"TRICORDER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Medical tricorder kit\\\", \\\"description\\\": \\\"A medical tricorder with its scanning probes, a hypospray tray and a case. Used for emergency treatment and relief missions.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0006\\\", \\\"kind\\\": \\\"SCIENTIFIC_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Engineering diagnostic kit\\\", \\\"description\\\": \\\"A kit of diagnostic probes and analyzers for tracing faults in ship systems and contaminated circuits. Its whereabouts are unknown.\\\", \\\"status\\\": \\\"MISSING\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0007\\\", \\\"kind\\\": \\\"COMMUNICATOR\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Away-team communications kit\\\", \\\"description\\\": \\\"A portable kit of comm badges, a relay unit and spare power cells for an away team that has to keep a channel open far from its ship. Used in negotiation and contact missions.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0008\\\", \\\"kind\\\": \\\"PHASER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Type-2 hand phaser\\\", \\\"description\\\": \\\"A standard hand-held phaser with stun, heat and disruptor settings. Issued from the Enterprise armory.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0009\\\", \\\"kind\\\": \\\"PHASER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Type-3 phaser rifle\\\", \\\"description\\\": \\\"A long-barreled phaser rifle with a longer range and a heavier power cell than the hand phaser. Carried in the armored personnel carrier Bulwark.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0001\\\"}, {\\\"assetId\\\": \\\"AST-0010\\\", \\\"kind\\\": \\\"PHASER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Type-1 phaser\\\", \\\"description\\\": \\\"A small palm-sized phaser of the older Type-1 pattern. Withdrawn from issue and kept as a reference piece.\\\", \\\"status\\\": \\\"DECOMMISSIONED\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0011\\\", \\\"kind\\\": \\\"TRICORDER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Standard tricorder\\\", \\\"description\\\": \\\"A hand-held tricorder for general scanning, recording and analysis. Part of the equipment locker of the exploration rover Wanderer.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0021\\\"}, {\\\"assetId\\\": \\\"AST-0012\\\", \\\"kind\\\": \\\"TRICORDER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Geological tricorder\\\", \\\"description\\\": \\\"A tricorder tuned for rock, soil and mineral scans. Rides in the survey rover Pathfinder.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0020\\\"}, {\\\"assetId\\\": \\\"AST-0013\\\", \\\"kind\\\": \\\"COMMUNICATOR\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Operations comm badge\\\", \\\"description\\\": \\\"A single comm badge of the standard pattern, worn on the uniform. Not assigned to a vehicle.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0014\\\", \\\"kind\\\": \\\"COMMUNICATOR\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Universal translator comm unit\\\", \\\"description\\\": \\\"A comm unit with a built-in universal translator. Waiting for a replacement translation matrix.\\\", \\\"status\\\": \\\"MAINTENANCE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0015\\\", \\\"kind\\\": \\\"SCIENTIFIC_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Stellar cartography sensor array\\\", \\\"description\\\": \\\"A deep-field sensor array that feeds the stellar cartography lab of the Enterprise. Used to chart unexplored systems.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0016\\\", \\\"kind\\\": \\\"SCIENTIFIC_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Portable spectrometer\\\", \\\"description\\\": \\\"A portable spectrometer for the analysis of samples in the field. Mounted in the geological rover Strata.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0022\\\"}, {\\\"assetId\\\": \\\"AST-0017\\\", \\\"kind\\\": \\\"MUSICAL_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Ressikan flute\\\", \\\"description\\\": \\\"A small wooden flute of Ressikan make, kept by the captain. It plays a simple melody and carries a long story.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0018\\\", \\\"kind\\\": \\\"MUSICAL_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Violin from the ship's music collection\\\", \\\"description\\\": \\\"A well-kept violin from the instrument collection on the Enterprise. Lent out to crew who play.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0019\\\", \\\"kind\\\": \\\"MUSICAL_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Trombone from the ship's music collection\\\", \\\"description\\\": \\\"A brass trombone played at off-duty jazz sessions in the ship's lounge.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0020\\\", \\\"kind\\\": \\\"ROVER\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Survey rover Pathfinder\\\", \\\"description\\\": \\\"A small survey rover that a shuttle can carry down to a planet surface. Used to scout a landing zone before an away team follows.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0027\\\"}], \\\"offset\\\": 0, \\\"limit\\\": 20, \\\"total\\\": 32}\"}"
+    },
+    {
+      "index": 22,
+      "id": "assets-maximum-page",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8084/assets?limit=50"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/json; charset=utf-8\", \"truncated\": false, \"body\": \"{\\\"items\\\": [{\\\"assetId\\\": \\\"AST-0001\\\", \\\"kind\\\": \\\"ARMORED_VEHICLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Armored personnel carrier Bulwark\\\", \\\"description\\\": \\\"A tracked armored personnel carrier that moves a security detail through an active combat zone. Stowed in a cargo bay of the Enterprise between deployments.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0002\\\", \\\"kind\\\": \\\"ARMORED_VEHICLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Tracked assault vehicle Juggernaut\\\", \\\"description\\\": \\\"A heavy tracked assault vehicle from an earlier generation of ground combat equipment. Retired from service and kept in a depot.\\\", \\\"status\\\": \\\"DECOMMISSIONED\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0003\\\", \\\"kind\\\": \\\"ARMORED_VEHICLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Wheeled armored scout Vanguard\\\", \\\"description\\\": \\\"A fast wheeled armored scout vehicle built to probe contested ground ahead of a landing party. Light armor, a sensor mast and a single mounted phaser emplacement.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0004\\\", \\\"kind\\\": \\\"SCIENTIFIC_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Shuttle sensor suite\\\", \\\"description\\\": \\\"A removable sensor suite for survey, search and recovery work: long-range scanners, a particle analyzer and a recording unit. Fitted aboard a shuttle when a mission calls for it.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0023\\\"}, {\\\"assetId\\\": \\\"AST-0005\\\", \\\"kind\\\": \\\"TRICORDER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Medical tricorder kit\\\", \\\"description\\\": \\\"A medical tricorder with its scanning probes, a hypospray tray and a case. Used for emergency treatment and relief missions.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0006\\\", \\\"kind\\\": \\\"SCIENTIFIC_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Engineering diagnostic kit\\\", \\\"description\\\": \\\"A kit of diagnostic probes and analyzers for tracing faults in ship systems and contaminated circuits. Its whereabouts are unknown.\\\", \\\"status\\\": \\\"MISSING\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0007\\\", \\\"kind\\\": \\\"COMMUNICATOR\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Away-team communications kit\\\", \\\"description\\\": \\\"A portable kit of comm badges, a relay unit and spare power cells for an away team that has to keep a channel open far from its ship. Used in negotiation and contact missions.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0008\\\", \\\"kind\\\": \\\"PHASER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Type-2 hand phaser\\\", \\\"description\\\": \\\"A standard hand-held phaser with stun, heat and disruptor settings. Issued from the Enterprise armory.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0009\\\", \\\"kind\\\": \\\"PHASER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Type-3 phaser rifle\\\", \\\"description\\\": \\\"A long-barreled phaser rifle with a longer range and a heavier power cell than the hand phaser. Carried in the armored personnel carrier Bulwark.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0001\\\"}, {\\\"assetId\\\": \\\"AST-0010\\\", \\\"kind\\\": \\\"PHASER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Type-1 phaser\\\", \\\"description\\\": \\\"A small palm-sized phaser of the older Type-1 pattern. Withdrawn from issue and kept as a reference piece.\\\", \\\"status\\\": \\\"DECOMMISSIONED\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0011\\\", \\\"kind\\\": \\\"TRICORDER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Standard tricorder\\\", \\\"description\\\": \\\"A hand-held tricorder for general scanning, recording and analysis. Part of the equipment locker of the exploration rover Wanderer.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0021\\\"}, {\\\"assetId\\\": \\\"AST-0012\\\", \\\"kind\\\": \\\"TRICORDER\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Geological tricorder\\\", \\\"description\\\": \\\"A tricorder tuned for rock, soil and mineral scans. Rides in the survey rover Pathfinder.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0020\\\"}, {\\\"assetId\\\": \\\"AST-0013\\\", \\\"kind\\\": \\\"COMMUNICATOR\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Operations comm badge\\\", \\\"description\\\": \\\"A single comm badge of the standard pattern, worn on the uniform. Not assigned to a vehicle.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0014\\\", \\\"kind\\\": \\\"COMMUNICATOR\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Universal translator comm unit\\\", \\\"description\\\": \\\"A comm unit with a built-in universal translator. Waiting for a replacement translation matrix.\\\", \\\"status\\\": \\\"MAINTENANCE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0015\\\", \\\"kind\\\": \\\"SCIENTIFIC_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Stellar cartography sensor array\\\", \\\"description\\\": \\\"A deep-field sensor array that feeds the stellar cartography lab of the Enterprise. Used to chart unexplored systems.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0016\\\", \\\"kind\\\": \\\"SCIENTIFIC_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Portable spectrometer\\\", \\\"description\\\": \\\"A portable spectrometer for the analysis of samples in the field. Mounted in the geological rover Strata.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0022\\\"}, {\\\"assetId\\\": \\\"AST-0017\\\", \\\"kind\\\": \\\"MUSICAL_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Ressikan flute\\\", \\\"description\\\": \\\"A small wooden flute of Ressikan make, kept by the captain. It plays a simple melody and carries a long story.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0018\\\", \\\"kind\\\": \\\"MUSICAL_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Violin from the ship's music collection\\\", \\\"description\\\": \\\"A well-kept violin from the instrument collection on the Enterprise. Lent out to crew who play.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0019\\\", \\\"kind\\\": \\\"MUSICAL_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Trombone from the ship's music collection\\\", \\\"description\\\": \\\"A brass trombone played at off-duty jazz sessions in the ship's lounge.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0020\\\", \\\"kind\\\": \\\"ROVER\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Survey rover Pathfinder\\\", \\\"description\\\": \\\"A small survey rover that a shuttle can carry down to a planet surface. Used to scout a landing zone before an away team follows.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0027\\\"}, {\\\"assetId\\\": \\\"AST-0021\\\", \\\"kind\\\": \\\"ROVER\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Exploration rover Wanderer\\\", \\\"description\\\": \\\"A pressurized exploration rover with room for a small team and its equipment. Stowed in a cargo bay of the Enterprise.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0022\\\", \\\"kind\\\": \\\"ROVER\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Geological rover Strata\\\", \\\"description\\\": \\\"A six-wheeled rover built for geological sampling. In the workshop for a drive repair.\\\", \\\"status\\\": \\\"MAINTENANCE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0023\\\", \\\"kind\\\": \\\"SHUTTLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Shuttlecraft Magellan\\\", \\\"description\\\": \\\"A standard shuttlecraft carried in the shuttlebay of the Enterprise. The usual carrier of the shuttle sensor suite.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0024\\\", \\\"kind\\\": \\\"SHUTTLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Shuttlecraft Sakharov\\\", \\\"description\\\": \\\"A standard shuttlecraft carried in the shuttlebay of the Enterprise. Flown on many rescue, recovery and relief missions.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0025\\\", \\\"kind\\\": \\\"SHUTTLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Shuttlecraft Onizuka\\\", \\\"description\\\": \\\"A standard shuttlecraft that was lost with all hands and confirmed destroyed. It is kept on record because earlier missions refer to it.\\\", \\\"status\\\": \\\"DESTROYED\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0026\\\", \\\"kind\\\": \\\"SHUTTLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Shuttlecraft Goddard\\\", \\\"description\\\": \\\"A standard shuttlecraft undergoing a thruster overhaul in the shuttlebay.\\\", \\\"status\\\": \\\"MAINTENANCE\\\", \\\"parentAssetId\\\": \\\"AST-0029\\\"}, {\\\"assetId\\\": \\\"AST-0027\\\", \\\"kind\\\": \\\"SHUTTLE\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"Shuttlecraft Cousteau\\\", \\\"description\\\": \\\"A standard shuttlecraft carried by the USS Phoenix. It can also carry the survey rover Pathfinder.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": \\\"AST-0031\\\"}, {\\\"assetId\\\": \\\"AST-0028\\\", \\\"kind\\\": \\\"STARSHIP\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"USS Stargazer\\\", \\\"description\\\": \\\"A Constellation-class starship from an earlier era of the fleet. Retired and preserved.\\\", \\\"status\\\": \\\"DECOMMISSIONED\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0029\\\", \\\"kind\\\": \\\"STARSHIP\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"USS Enterprise NCC-1701-D\\\", \\\"description\\\": \\\"A Galaxy-class starship and the flagship of the fleet in this lab. Carries shuttles, rovers, armored vehicles and equipment, and appears in most of the missions.\\\", \\\"status\\\": \\\"ACTIVE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0030\\\", \\\"kind\\\": \\\"STARSHIP\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"USS Brattain\\\", \\\"description\\\": \\\"A starship reported overdue. Its whereabouts are unknown and a search is on record.\\\", \\\"status\\\": \\\"MISSING\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0031\\\", \\\"kind\\\": \\\"STARSHIP\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"USS Phoenix\\\", \\\"description\\\": \\\"A starship in dry dock for a warp coil replacement. Carries the shuttlecraft Cousteau.\\\", \\\"status\\\": \\\"MAINTENANCE\\\", \\\"parentAssetId\\\": null}, {\\\"assetId\\\": \\\"AST-0032\\\", \\\"kind\\\": \\\"STARSHIP\\\", \\\"category\\\": \\\"VEHICLE\\\", \\\"name\\\": \\\"USS Hood\\\", \\\"description\\\": \\\"A starship confirmed destroyed. Kept on record as a lost vessel.\\\", \\\"status\\\": \\\"DESTROYED\\\", \\\"parentAssetId\\\": null}], \\\"offset\\\": 0, \\\"limit\\\": 50, \\\"total\\\": 32}\"}"
+    },
+    {
+      "index": 23,
+      "id": "assets-beyond-end",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8084/assets?offset=32&limit=1"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/json; charset=utf-8\", \"truncated\": false, \"body\": \"{\\\"items\\\": [], \\\"offset\\\": 32, \\\"limit\\\": 1, \\\"total\\\": 32}\"}"
+    },
+    {
+      "index": 24,
+      "id": "assets-unlisted-parent-filter",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8084/assets?parentAssetId=AST-0097&limit=1"
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/json; charset=utf-8\", \"truncated\": false, \"body\": \"{\\\"items\\\": [], \\\"offset\\\": 0, \\\"limit\\\": 1, \\\"total\\\": 0}\"}"
+    },
+    {
+      "index": 25,
+      "id": "assets-unknown-path",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8084/assets/AST-0006/changes"
+      },
+      "isError": false,
+      "text": "{\"status\": 404, \"contentType\": \"application/json; charset=utf-8\", \"truncated\": false, \"body\": \"{\\\"code\\\": \\\"PATH_NOT_FOUND\\\", \\\"message\\\": \\\"No resource exists at this path.\\\"}\"}"
+    },
+    {
+      "index": 26,
+      "id": "assets-head",
+      "tool": "http_request",
+      "arguments": {
+        "method": "HEAD",
+        "url": "http://127.0.0.1:8084/assets"
+      },
+      "isError": false,
+      "text": "{\"status\": 405, \"contentType\": \"application/json; charset=utf-8\", \"truncated\": false, \"body\": \"\"}"
+    },
+    {
+      "index": 27,
+      "id": "assets-xml-accept",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8084/assets/AST-0006",
+        "headers": {
+          "Accept": "application/xml"
+        }
+      },
+      "isError": false,
+      "text": "{\"status\": 200, \"contentType\": \"application/json; charset=utf-8\", \"truncated\": false, \"body\": \"{\\\"assetId\\\": \\\"AST-0006\\\", \\\"kind\\\": \\\"SCIENTIFIC_INSTRUMENT\\\", \\\"category\\\": \\\"EQUIPMENT\\\", \\\"name\\\": \\\"Engineering diagnostic kit\\\", \\\"description\\\": \\\"A kit of diagnostic probes and analyzers for tracing faults in ship systems and contaminated circuits. Its whereabouts are unknown.\\\", \\\"status\\\": \\\"MISSING\\\", \\\"parentAssetId\\\": null}\"}"
+    },
+    {
+      "index": 28,
+      "id": "assets-repeated-parameter",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8084/assets?limit=1&limit=2"
+      },
+      "isError": false,
+      "text": "{\"status\": 400, \"contentType\": \"application/json; charset=utf-8\", \"truncated\": false, \"body\": \"{\\\"code\\\": \\\"INVALID_REQUEST\\\", \\\"message\\\": \\\"A query parameter is repeated; each may appear once.\\\"}\"}"
+    },
+    {
+      "index": 29,
+      "id": "assets-limit-overflow",
+      "tool": "http_request",
+      "arguments": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8084/assets?limit=51"
+      },
+      "isError": false,
+      "text": "{\"status\": 400, \"contentType\": \"application/json; charset=utf-8\", \"truncated\": false, \"body\": \"{\\\"code\\\": \\\"INVALID_REQUEST\\\", \\\"message\\\": \\\"The limit parameter must be a whole number from 1 to 50.\\\"}\"}"
+    },
+    {
+      "index": 30,
+      "id": "mapping-unknown-release",
+      "tool": "read_mapping_release",
+      "arguments": {
+        "release": "2.0"
+      },
+      "isError": true,
+      "text": "Error executing tool read_mapping_release: There is no mapping release '2.0'. Releases present: 1.0, 1.1, 1.2, 1.3."
+    }
+  ]
+}
