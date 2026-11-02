@@ -23,6 +23,7 @@ decided and every decided difference is found. Standard library only.
 import copy
 import hashlib
 import json
+import subprocess
 import sys
 from decimal import Decimal
 from pathlib import Path
@@ -47,7 +48,9 @@ B_RECORD = {
 }
 
 # The inputs B hashed that the lab does not hold: the package's own manifest and README, written by study/blind/blind.py for the package
-# and covered by packageSha256. dev.json is rebuilt from the lab's file (b_dev_input), and every other input must hash as the lab's file.
+# and covered by packageSha256. dev.json is rebuilt from the lab's file (b_dev_input), and every other input must hash as the lab's file,
+# both read from Git at B_RECORD['labCommit'] (the files B received), not from the lab's current files: a later fix of the lab's questions
+# (the Job study2_corpus_wording) does not change what B was given.
 B_PACKAGE_ONLY_INPUTS = ('MANIFEST.json', 'README.md')
 B_REWRITTEN_INPUT = 'study/corpus2/dev.json'
 
@@ -131,15 +134,16 @@ DECIDED = {
         },
     },
     'V06': {
-        'decision': 'question unclear',
-        'reading': ('whether zero-count groups belong in the answer is not pinned by the wording; A and B agree on the '
-                    'positive counts; clarifying the question is a separate Job, and both derivations stay unchanged'),
+        'decision': 'question clarified',
+        'reading': ('the wording of 2026-11-02 leaves out the types with no such missions, which is the answer of A and of the main answer '
+                    "of B; B's variant that lists every type with a zero count is no longer a fair reading of the question; the "
+                    'decision of 2026-10-31 (question unclear) was on the earlier wording, and both derivations stay unchanged'),
         'differences': [
             ['variants-differ', '1 of B only (0 of them correct under A), 0 of A only'],
             ['b-variant-not-correct-under-a', '1 of 1 variants of B'],
         ],
         'sha256': {
-            'task': 'b98f03012ae72bf9b75dec8d36960bf95539593fcc1123a23e8484d2fc569a7e',
+            'task': '626d70a7be32ccc8438c15a8928219bcdc65dfaf6c7219de255ddfa8ebdb97df',
             'keyA': '415d2395a41865b1f4dee4707954b89b2bc87d584fa0b0e468cbc5c13e67a952',
             'keyB': 'eb5b62d9654333d8f95c603778b2ff50ba911d97f8190a3951cc9e53fa632bec',
         },
@@ -154,6 +158,82 @@ def load(name):
 def lf_sha256(path):
     """SHA-256 of a file with CRLF read as LF, so a checkout's line endings do not change it."""
     return hashlib.sha256(Path(path).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+
+
+def lab_input(path, commit=None):
+    """The bytes of a lab file at the commit the package was built from (B_RECORD['labCommit'] by default), read from Git."""
+    commit = B_RECORD['labCommit'] if commit is None else commit
+    return subprocess.run(['git', '-C', str(HERE), 'show', '%s:%s' % (commit, path)], check=True, capture_output=True).stdout
+
+
+def input_problems(keys_b, read=lab_input):
+    """The inputs B recorded (keys-b.json) that do not hash as the files B received: [path]. `read` gives the bytes of a lab path at the
+    package's lab commit."""
+    problems = []
+    for path, digest in keys_b['inputs'].items():
+        if path in B_PACKAGE_ONLY_INPUTS:
+            continue
+        data = read(path)
+        if path == B_REWRITTEN_INPUT:
+            data = b_dev_input(data)
+        else:
+            data = data.replace(b'\r\n', b'\n')
+        if hashlib.sha256(data).hexdigest() != digest:
+            problems.append(path)
+    return problems
+
+
+# The question changes the Job study2_corpus_wording made since B's inputs, and only those: the SHA-256 of each question as reviewed
+# (E01, E03, E06 and E07 by the author and the checker, V06 by the lead developer). The current corpus may differ from what B received
+# in exactly these five questions.
+REVIEWED_QUESTIONS = {
+    'study/corpus2/pool.json': {
+        'E01': '276e6bff20e415b16a7f861ded031d223dafb707b76f75ddeb920610b65d0dd7',
+        'E03': '0ed78ff6f457dd6c83728a645e7dbafa4ca10761ff33dccf91d4029699e0c43b',
+        'E06': '840b1b54c953136fbfb3ca31ceda215342b7b69ba53030ea4a776fcf95d39745',
+        'E07': '6e264c897c9a727dcaaed113be8885f9a39cafd75c15fed2604414ec30785f48',
+    },
+    'study/corpus2/dev.json': {
+        'V06': 'e45b4188b0e1d5b25f9a92395044b6b318fe9e8e6688fe92e1b7cb392e8df494',
+    },
+}
+
+
+def current_input(path):
+    """The bytes of a lab input as the working tree holds it."""
+    return (HERE.parents[1] / path).read_bytes()
+
+
+def current_problems(keys_b, read_current=current_input, read_lab=lab_input):
+    """How the current lab inputs differ from the ones B received, beyond the reviewed question changes: [description]. A file B hashed
+    must be the same as at the package's lab commit, except that pool.json and dev.json may differ in the `question` of the tasks of
+    REVIEWED_QUESTIONS, which must be exactly the reviewed one; every other field of every task, and the set of tasks, must be equal."""
+    problems = []
+    for path in keys_b['inputs']:
+        if path in B_PACKAGE_ONLY_INPUTS:
+            continue
+        then, now = read_lab(path).replace(b'\r\n', b'\n'), read_current(path).replace(b'\r\n', b'\n')
+        reviewed = REVIEWED_QUESTIONS.get(path)
+        if reviewed is None:
+            if then != now:
+                problems.append('%s differs from the file B received' % path)
+            continue
+        old, new = json.loads(then.decode('utf-8')), json.loads(now.decode('utf-8'))
+        if {k: v for k, v in old.items() if k != 'tasks'} != {k: v for k, v in new.items() if k != 'tasks'}:
+            problems.append('%s differs outside its tasks' % path)
+        old_tasks, new_tasks = {t['id']: t for t in old['tasks']}, {t['id']: t for t in new['tasks']}
+        if [t['id'] for t in old['tasks']] != [t['id'] for t in new['tasks']]:
+            problems.append('%s holds other tasks than the file B received' % path)
+            continue
+        for task_id, task in old_tasks.items():
+            current = new_tasks[task_id]
+            if task_id in reviewed:
+                if hashlib.sha256(current['question'].encode('utf-8')).hexdigest() != reviewed[task_id]:
+                    problems.append('%s %s: the question is not the reviewed one' % (path, task_id))
+                task, current = dict(task, question=None), dict(current, question=None)
+            if task != current:
+                problems.append('%s %s differs from the file B received' % (path, task_id))
+    return problems
 
 
 def b_dev_input(lab_bytes):

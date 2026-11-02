@@ -711,19 +711,70 @@ class TheSecondDerivation(unittest.TestCase):
         self.assertEqual(keys_b['labCommit'], compare_keys.B_RECORD['labCommit'])
         self.assertEqual(keys_b['packageSha256'], compare_keys.B_RECORD['packageSha256'])
         self.assertEqual(keys_b['gaps'], [])
-        for path, digest in keys_b['inputs'].items():
-            if path in compare_keys.B_PACKAGE_ONLY_INPUTS:
-                self.assertFalse((REPO / path).exists() and compare_keys.lf_sha256(REPO / path) == digest, path)
-                continue
-            with self.subTest(path=path):
-                if path == compare_keys.B_REWRITTEN_INPUT:
-                    rebuilt = compare_keys.b_dev_input((REPO / path).read_bytes())
-                    self.assertEqual(hashlib.sha256(rebuilt).hexdigest(), digest)
-                    self.assertEqual(json.loads(rebuilt)['tasks'], [{k: v for k, v in t.items() if k != 'expected'} for t in DEV])
-                else:
-                    self.assertEqual(compare_keys.lf_sha256(REPO / path), digest)
+        # B's inputs are the files at the package's lab commit, read from Git, not the lab's current files
+        self.assertEqual(compare_keys.input_problems(keys_b), [])
+        # and the current corpus differs from it in exactly the five reviewed questions
+        self.assertEqual(compare_keys.current_problems(keys_b), [])
+        for path in compare_keys.B_PACKAGE_ONLY_INPUTS:
+            self.assertFalse((REPO / path).exists() and compare_keys.lf_sha256(REPO / path) == keys_b['inputs'][path], path)
         for name in ('pool.json', 'ambiguity.json', 'dev.json', 'schemas.json'):
             self.assertIn('study/corpus2/' + name, keys_b['inputs'])
+
+    def test_a_changed_current_question_does_not_break_the_input_check_but_a_changed_input_at_the_lab_commit_does(self):
+        import compare_keys
+        keys_b = load('keys-b.json')
+
+        def read(changes=None):
+            def fn(path):
+                data = compare_keys.lab_input(path)
+                return changes[path](data) if changes and path in changes else data
+            return fn
+        # the lab's current files may change; B's inputs are read at the lab commit
+        current = copy.deepcopy(POOL)
+        current[0]['question'] += ' changed'
+        self.assertEqual(compare_keys.input_problems(keys_b, read()), [])
+        # a changed input as of the lab commit is found, in the rewritten dev.json and in a file hashed as it is
+        self.assertEqual(compare_keys.input_problems(keys_b, read({'study/corpus2/pool.json': lambda d: d + b' '})), ['study/corpus2/pool.json'])
+        self.assertEqual(compare_keys.input_problems(keys_b, read({'study/corpus2/dev.json': lambda d: d.replace(b'V06', b'V0X', 1)})),
+                         ['study/corpus2/dev.json'])
+        # B's inputs are not the lab's current pool.json when its questions changed since: they still hash as at the lab commit
+        digest = keys_b['inputs']['study/corpus2/pool.json']
+        self.assertEqual(hashlib.sha256(compare_keys.lab_input('study/corpus2/pool.json').replace(b'\r\n', b'\n')).hexdigest(), digest)
+
+    def test_the_current_inputs_differ_from_b_s_only_in_the_reviewed_questions(self):
+        import compare_keys
+        keys_b = load('keys-b.json')
+
+        def current(path, change):
+            def read(name):
+                data = compare_keys.current_input(name)
+                return change(data) if name == path else data
+            return read
+
+        def edit(task_id, field, value):
+            def change(data):
+                value_ = json.loads(data.decode('utf-8'))
+                next(t for t in value_['tasks'] if t['id'] == task_id)[field] = value
+                return json.dumps(value_, indent=2, ensure_ascii=False).encode('utf-8') + b'\n'
+            return change
+        pool, dev = 'study/corpus2/pool.json', 'study/corpus2/dev.json'
+        # another question, a reviewed question worded otherwise, and another field of a reviewed task are all found
+        other = next(t['id'] for t in POOL if t['id'] not in compare_keys.REVIEWED_QUESTIONS[pool])
+        text = next(t['question'] for t in POOL if t['id'] == other)
+        self.assertEqual(len(compare_keys.current_problems(keys_b, current(pool, edit(other, 'question', text + ' Be brief.')))), 1)
+        self.assertEqual(compare_keys.current_problems(keys_b, current(pool, edit('E01', 'question', 'Other?'))),
+                         ['%s E01: the question is not the reviewed one' % pool])
+        self.assertEqual(compare_keys.current_problems(keys_b, current(dev, edit('V06', 'question', 'Other?'))),
+                         ['%s V06: the question is not the reviewed one' % dev])
+        self.assertEqual(compare_keys.current_problems(keys_b, current(pool, edit('E03', 'tags', ['x']))),
+                         ['%s E03 differs from the file B received' % pool])
+        self.assertEqual(compare_keys.current_problems(keys_b, current('study/corpus2/ambiguity.json', lambda d: d + b' ')),
+                         ['study/corpus2/ambiguity.json differs from the file B received'])
+        # the reviewed questions are the confirmed proposal's, and the wording-review folder holds them
+        proposal = json.loads((HERE / 'wording-review' / 'proposal.json').read_text(encoding='utf-8'))['tasks']
+        for item in proposal:
+            digest = hashlib.sha256(item['newQuestion'].encode('utf-8')).hexdigest()
+            self.assertEqual(compare_keys.REVIEWED_QUESTIONS[pool][item['taskId']], digest)
 
     def test_both_keys_cover_every_task(self):
         ids = {t['id'] for t in POOL + AMBIGUITY + DEV}

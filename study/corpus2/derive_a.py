@@ -727,7 +727,7 @@ def build(world):
     by_status = Counter(w.assets[x]['status'] for x in children)
     c.add('core', 'E01', 'E', 'small', ['assets'],
           'Of the assets directly aboard or part of AST-0029 (assets whose own record names AST-0029; not the assets aboard those), how '
-          'many are there of each status? Give only the statuses that occur.',
+          'many are there of each status? Give the count per status, leaving out statuses with no such assets.',
           {'statuses': items({'status': TOKEN, 'count': INT})},
           [keyed('statuses', 'status', {s: {'count': {'int': n}} for s, n in by_status.items()})],
           {'statuses': [{'status': s, 'count': n} for s, n in sorted(by_status.items())]})
@@ -747,7 +747,7 @@ def build(world):
     assert len(staff) == 19 and all(staff) and not any(p['civilian'] for p in staff)
     dept = Counter(p['department'] or 'CIVILIAN' for p in staff)
     c.add('core', 'E03', 'E', 'small', ['missions', 'personnel'],
-          'Using %s, how many people of each department were on mission ST-00000LD9F (%s)? Give only the departments that occur.' % (REL, STAFF),
+          'Using %s, how many people of each department were on mission ST-00000LD9F (%s)? Give the count per department, leaving out departments with no such people.' % (REL, STAFF),
           {'departments': items({'department': TOKEN, 'count': INT})},
           [keyed('departments', 'department', {d: {'count': {'int': n}} for d, n in dept.items()})],
           {'departments': [{'department': d, 'count': n} for d, n in sorted(dept.items())]}, mapping='1.3')
@@ -775,7 +775,7 @@ def build(world):
     st = Counter(m['status'] for m in sci)
     assert len(sci) == 66
     c.add('core', 'E06', 'E', 'medium', ['missions'],
-          'For the missions issued by Starfleet Science, how many are there of each status? Give only the statuses that occur.',
+          'For the missions issued by Starfleet Science, how many are there of each status? Give the count per status, leaving out statuses with no such missions.',
           {'statuses': items({'status': TOKEN, 'count': INT})},
           [keyed('statuses', 'status', {s: {'count': {'int': n}} for s, n in st.items()})],
           {'statuses': [{'status': s, 'count': n} for s, n in sorted(st.items())]})
@@ -784,7 +784,7 @@ def build(world):
     rk = Counter(p['rank'] for p in scid)
     assert len(scid) == 133
     c.add('core', 'E07', 'E', 'medium', ['personnel'],
-          'How many members of the Science department hold each rank? Give only the ranks that occur.',
+          'How many members of the Science department, regardless of their duty status, hold each rank? Give the count per rank, leaving out ranks with no such members.',
           {'ranks': items({'rank': TOKEN, 'count': INT})},
           [keyed('ranks', 'rank', {r: {'count': {'int': n}} for r, n in rk.items()})],
           {'ranks': [{'rank': r, 'count': n} for r, n in sorted(rk.items())]})
@@ -1223,7 +1223,7 @@ def build_dev(w, c):
     c.add('dev', 'V06', 'E', 'large', ['assets', 'missions'],
           'For each mission type, how many missions used at least one asset that the Assets system currently records with a status '
           'other than active? Use %s; a '
-          'reference counts only when the release maps it to an asset the Assets system holds. Give only the types that occur.' % REL,
+          'reference counts only when the release maps it to an asset the Assets system holds. Give the count per type, leaving out types with no such missions.' % REL,
           {'types': items({'type': TOKEN, 'missionCount': INT})},
           [keyed('types', 'type', {t: {'missionCount': {'int': n}} for t, n in per_type.items()})],
           {'types': [{'type': t, 'missionCount': n} for t, n in sorted(per_type.items())]}, mapping='1.3',

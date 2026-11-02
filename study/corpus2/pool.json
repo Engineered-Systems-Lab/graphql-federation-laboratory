@@ -2488,7 +2488,7 @@
       "systems": [
         "assets"
       ],
-      "question": "Of the assets directly aboard or part of AST-0029 (assets whose own record names AST-0029; not the assets aboard those), how many are there of each status? Give only the statuses that occur.",
+      "question": "Of the assets directly aboard or part of AST-0029 (assets whose own record names AST-0029; not the assets aboard those), how many are there of each status? Give the count per status, leaving out statuses with no such assets.",
       "tags": {
         "mapping": null
       },
@@ -2598,7 +2598,7 @@
         "missions",
         "personnel"
       ],
-      "question": "Using mapping release 1.3, how many people of each department were on mission ST-00000LD9F (its commanding officer and its assigned crew (not its participants), each person counted once)? Give only the departments that occur.",
+      "question": "Using mapping release 1.3, how many people of each department were on mission ST-00000LD9F (its commanding officer and its assigned crew (not its participants), each person counted once)? Give the count per department, leaving out departments with no such people.",
       "tags": {
         "mapping": "1.3"
       },
@@ -2753,7 +2753,7 @@
       "systems": [
         "missions"
       ],
-      "question": "For the missions issued by Starfleet Science, how many are there of each status? Give only the statuses that occur.",
+      "question": "For the missions issued by Starfleet Science, how many are there of each status? Give the count per status, leaving out statuses with no such missions.",
       "tags": {
         "mapping": null
       },
@@ -2812,7 +2812,7 @@
       "systems": [
         "personnel"
       ],
-      "question": "How many members of the Science department hold each rank? Give only the ranks that occur.",
+      "question": "How many members of the Science department, regardless of their duty status, hold each rank? Give the count per rank, leaving out ranks with no such members.",
       "tags": {
         "mapping": null
       },
