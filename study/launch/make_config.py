@@ -13,6 +13,12 @@ operator's: --plan names a JSON file copied as given, of one of two shapes:
 - study 1: `task_set`, `scenario_order`, `models`, `trials`, `seed`, `warmup_passes`, `limits` and `budgets`, and optionally
   `harness_tools`. The scenarios are those of `scenario_order`.
 
+With --missions real the provenance of every scenario holds one pin set: the one launch.py build wrote to images.json in the state
+folder after its build (the six images the stack builds itself and the operator's Missions service image), copied unchanged into every
+scenario, so every arm is checked against the same images. The kit never adopts an id it reads itself: it checks that each pinned image
+still has its pinned id and refuses when the pin file is missing, an image is missing or an id differs; then build again, which writes a
+new pin set. The simulated mode pins nothing: federation/stack/start.sh still builds at every start.
+
 The kit writes the `dataset_fingerprint` command (launch.py fingerprint, read only) and `corpus_dir`, the corpus the harness reads
 (--corpus-dir, by default study/corpus2 with a schedule and study/corpus without), so the operator passes no --corpus-dir to the
 harness. It sets no budget. The config holds this machine's absolute paths and so is written outside the repository only. It holds no
@@ -43,10 +49,11 @@ CORPUS = {True: ROOT / 'study' / 'corpus2', False: ROOT / 'study' / 'corpus'}  #
 # Image names as federation/stack/compose.yaml and uss-enterprise/missions/compose.yaml give them by default (a test pins them).
 IMAGES = {
     'missions-stub': 'python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641',
-    'missions-real': 'starfleet-missions-service:1.0.0',
-    'assets-service': 'starfleet-federation-stack-assets-service:1.0.0',
-    'personnel-service': 'starfleet-federation-stack-personnel-service:2.0.0',
+    'missions-real': launch.MISSIONS_IMAGE,
+    'assets-service': next(ref for ref, services in launch.BUILT_IMAGES.items() if 'assets-service' in services),
+    'personnel-service': next(ref for ref, services in launch.BUILT_IMAGES.items() if 'personnel-service' in services),
 }
+BACKEND_SERVICES = ('assets-service', 'personnel-service')  # pinned as backends; every other built service in service_images
 STACK_PROJECT = 'starfleet-federation-stack'
 MISSIONS_DATASET = ROOT / 'uss-enterprise' / 'missions' / 'datasets' / 'releases' / '1.2'
 ASSETS_DATASET = ROOT / 'uss-enterprise' / 'assets' / 'datasets' / 'releases' / '1.1'
@@ -106,9 +113,35 @@ def stack(scenario, mode, launch_python, mcp_python, state_dir, start_env):
     }
 
 
-def missions_backend(mode):
+def read_pins(state_dir, machine):
+    """The study run's pin set from images.json in the state folder, after checking that every pinned image still has its pinned id."""
+    path = Path(state_dir) / launch.PIN_FILE
+    again = 'build again, which writes a new pin set: %s' % launch.build_command(state_dir)
+    if not path.is_file():
+        raise Refused('there is no image pin set at %s: build the images once for this study run first: %s'
+                      % (path, launch.build_command(state_dir)))
+    try:
+        images = json.loads(path.read_text(encoding='utf-8')).get('images')
+    except (OSError, ValueError, AttributeError) as error:
+        raise Refused('the pin set %s cannot be read (%s); %s' % (path, error, again))
+    if not (isinstance(images, dict) and set(images) == set(launch.PINNED_IMAGES)
+            and all(isinstance(value, str) and launch.IMAGE_ID.match(value) for value in images.values())):
+        raise Refused('the pin set %s does not hold one sha256 id for each of %s; %s' % (path, ', '.join(launch.PINNED_IMAGES), again))
+    for ref in launch.PINNED_IMAGES:
+        current = launch.image_id(machine, ref)
+        if current is None:
+            raise Refused('the pinned image %s is missing; %s' % (ref, again))
+        if current != images[ref]:
+            raise Refused('the image %s is now %s, not its pinned %s; %s' % (ref, current, images[ref], again))
+    return {ref: images[ref] for ref in launch.PINNED_IMAGES}
+
+
+def missions_backend(mode, pins=None):
     if mode == 'real':
-        return {'mode': 'real', 'service': '%s/missions' % launch.MISSIONS_PROJECT, 'image_ref': IMAGES['missions-real']}
+        backend = {'mode': 'real', 'service': '%s/missions' % launch.MISSIONS_PROJECT, 'image_ref': IMAGES['missions-real']}
+        if pins:
+            backend['image_id'] = pins[IMAGES['missions-real']]
+        return backend
     kind, digest = provenance.hash_path(MISSIONS_DATASET)
     if kind != 'folder':
         raise Refused('the Missions dataset release 1.2 cannot be read at %s' % MISSIONS_DATASET)
@@ -124,8 +157,21 @@ def assets_backend():
             'dataset': {'id': 'assets-1.1', 'path': str(ASSETS_DATASET), 'sha256': digest}}
 
 
-def provenance_block(scenario, mode):
-    missions = missions_backend(mode)
+def service_images(pins):
+    """The pinned images of the built services that are not backends: the Assets bootstrap (one-shot) and the four adapters."""
+    out = {}
+    for ref, services in launch.BUILT_IMAGES.items():
+        for service in services:
+            if service not in BACKEND_SERVICES:
+                out[service] = {'image_id': pins[ref], 'image_ref': ref}
+                if service in launch.ONE_SHOT_SERVICES:
+                    out[service]['one_shot'] = True
+    return dict(sorted(out.items()))
+
+
+def provenance_block(scenario, mode, pins=None):
+    """The scenario's provenance declaration; with the pin set (real mode) every built image and the Missions image are pinned by id."""
+    missions = missions_backend(mode, pins)
     projects = [launch.MISSIONS_PROJECT, STACK_PROJECT] if mode == 'real' else [STACK_PROJECT]
     kind = SERVERS[scenario]['kind']
     if kind == 'raw':
@@ -144,7 +190,7 @@ def provenance_block(scenario, mode):
         files['stack_start'] = launch.START_SH
     if scenario in launch.LEGACY_SCENARIOS:
         files['legacy_ports'] = launch.LEGACY_PORTS
-    return {
+    block = {
         'compose_projects': projects,
         'backends': {
             'missions': missions,
@@ -155,9 +201,14 @@ def provenance_block(scenario, mode):
                     'env': {adapter: {variable: urls[mode]} for adapter, (variable, urls) in sorted(launch.ADAPTER_BACKEND_URLS.items())}},
         'launch_files': {label: str(path) for label, path in sorted(files.items())},
     }
+    if pins:
+        block['backends']['assets']['image_id'] = pins[IMAGES['assets-service']]
+        block['backends']['personnel']['image_id'] = pins[IMAGES['personnel-service']]
+        block['service_images'] = service_images(pins)
+    return block
 
 
-def scenario_config(scenario, mode, launch_python, mcp_python, state_dir, guide_file, start_env):
+def scenario_config(scenario, mode, launch_python, mcp_python, state_dir, guide_file, start_env, pins=None):
     port = SERVERS[scenario]['port']
     kind = SERVERS[scenario]['kind']
     if kind == 'raw':
@@ -170,7 +221,7 @@ def scenario_config(scenario, mode, launch_python, mcp_python, state_dir, guide_
     if scenario == 'beta':
         out['guide_file'] = str(guide_file)
     out['stack'] = stack(scenario, mode, launch_python, mcp_python, state_dir, start_env)
-    out['provenance'] = provenance_block(scenario, mode)
+    out['provenance'] = provenance_block(scenario, mode, pins)
     out['health'] = launch_command(launch_python, state_dir, mode, 'health', scenario)
     return out
 
@@ -221,9 +272,11 @@ def scenarios_of(plan):
     return schedule.scenarios_of(plan['schedule']) if 'schedule' in plan else list(plan['scenario_order'])
 
 
-def build(plan, mode, launch_python, mcp_python, state_dir, guide_file, accept_elv2=False, corpus_dir=None):
+def build(plan, mode, launch_python, mcp_python, state_dir, guide_file, accept_elv2=False, corpus_dir=None, pins=None):
     if mode not in launch.MODES:
         raise Refused('--missions must be one of %s' % ', '.join(launch.MODES))
+    if mode == 'real' and not pins:
+        raise Refused('the real mode needs the image pin set that launch.py build writes')
     start_env = {'APOLLO_ELV2_LICENSE': 'accept'} if accept_elv2 else None
     with_schedule = 'schedule' in plan
     config = {'about': 'Machine-local study config written by study/launch/make_config.py with the Missions backend %s. It holds '
@@ -235,7 +288,7 @@ def build(plan, mode, launch_python, mcp_python, state_dir, guide_file, accept_e
         raise Refused('the corpus folder %s has no scoring.py' % corpus)
     config['corpus_dir'] = str(corpus)
     config['dataset_fingerprint'] = launch_command(launch_python, state_dir, mode, 'fingerprint')
-    config['scenarios'] = {name: scenario_config(name, mode, launch_python, mcp_python, state_dir, guide_file, start_env)
+    config['scenarios'] = {name: scenario_config(name, mode, launch_python, mcp_python, state_dir, guide_file, start_env, pins)
                            for name in scenarios_of(plan)}
     for name, scenario in config['scenarios'].items():
         provenance.validate(name, scenario.get('provenance'))
@@ -271,7 +324,7 @@ def build_parser():
     return parser
 
 
-def main(argv=None):
+def main(argv=None, machine=None):
     args = build_parser().parse_args(argv)
     try:
         if not args.mcp_python:
@@ -283,8 +336,10 @@ def main(argv=None):
             raise Refused('the guide file %s does not exist' % guide)
         if output.exists() and not args.replace:
             raise Refused('%s exists; give --replace to overwrite it' % output)
-        config = build(read_plan(args.plan), args.missions, args.launch_python, args.mcp_python, state_dir, guide,
-                       accept_elv2=args.accept_apollo_elv2, corpus_dir=args.corpus_dir)
+        plan = read_plan(args.plan)
+        pins = read_pins(state_dir, machine or launch.Machine()) if args.missions == 'real' else None
+        config = build(plan, args.missions, args.launch_python, args.mcp_python, state_dir, guide,
+                       accept_elv2=args.accept_apollo_elv2, corpus_dir=args.corpus_dir, pins=pins)
         output.parent.mkdir(parents=True, exist_ok=True)
         with open(output, 'w', encoding='utf-8', newline='\n') as handle:
             json.dump(config, handle, indent=2)
@@ -292,7 +347,8 @@ def main(argv=None):
     except (Refused, launch.Refused, ValueError) as error:
         print('make_config.py: refused: %s' % error, file=sys.stderr)
         return 1
-    print('wrote %s (Missions %s, scenarios %s)' % (output, args.missions, ', '.join(config['scenarios'])))
+    print('wrote %s (Missions %s, scenarios %s%s)' % (output, args.missions, ', '.join(config['scenarios']),
+                                                     ', images pinned from %s' % (state_dir / launch.PIN_FILE) if pins else ''))
     return 0
 
 

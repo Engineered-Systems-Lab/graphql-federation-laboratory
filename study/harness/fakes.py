@@ -34,11 +34,11 @@ def submit(answer, usage=(10, 0, 0, 5), call_id='c-submit'):
     return turn('', [(call_id, 'submit_answer', answer)], usage)
 
 
-def container(project, service, image_ref, image_id, env=None, ports=None, mounts=(), state='running', number=1):
+def container(project, service, image_ref, image_id, env=None, ports=None, mounts=(), state='running', number=1, exit_code=0):
     """One scripted container as `docker inspect` describes it. `ports` maps '4000/tcp' to [(host ip, host port)]; `mounts` are
     (source, destination, read_only) bind mounts."""
     name = '%s-%s-%d' % (project, service, number)
-    return {'Id': 'id-' + name, 'Name': '/' + name, 'Image': image_id, 'State': {'Status': state},
+    return {'Id': 'id-' + name, 'Name': '/' + name, 'Image': image_id, 'State': {'Status': state, 'ExitCode': exit_code},
             'Config': {'Image': image_ref, 'Env': ['%s=%s' % item for item in (env or {}).items()],
                        'Labels': {'com.docker.compose.project': project, 'com.docker.compose.service': service,
                                   'com.docker.compose.container-number': str(number)}},

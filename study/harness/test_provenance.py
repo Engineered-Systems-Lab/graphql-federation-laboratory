@@ -18,6 +18,7 @@ STUB_ID = 'sha256:' + '1' * 64
 REAL_ID = 'sha256:' + '2' * 64
 ADAPTER_ID = 'sha256:' + '3' * 64
 ROUTER_ID = 'sha256:' + '4' * 64
+BOOTSTRAP_ID = 'sha256:' + '6' * 64
 DB_PASSWORD = 'local-db-pass-7731'
 API_KEY = 'sk-ant-SECRETSECRETSECRET'
 
@@ -48,7 +49,7 @@ class Lab:
             container('stack', 'router', 'ghcr.io/apollographql/router@sha256:' + '5' * 64, ROUTER_ID,
                       env={'APOLLO_TELEMETRY_DISABLED': 'true'}, ports={'4000/tcp': [('127.0.0.1', router_port)]},
                       mounts=[(self.mapping, '/config/mapping', True)]),
-            container('stack', 'assets-bootstrap', 'stack-assets:1.0.0', 'sha256:' + '6' * 64, state='exited'),
+            container('stack', 'assets-bootstrap', 'stack-assets:1.0.0', BOOTSTRAP_ID, state='exited'),
         ]
 
     def declaration(self, **backend_over):
@@ -96,11 +97,26 @@ class DeclarationTests(unittest.TestCase):
             (self.lab.declaration(dataset={'id': 'd', 'path': 'p', 'sha256': 'a' * 64, 'mount': 'data'}), 'container path'),
             ({**self.lab.declaration(), 'routing': {'endpoints': {'not a url': 'router'}}}, 'not an http'),
             ({**self.lab.declaration(), 'routing': {'endpoints': {'http://unrelated.example:8083/': 'router'}}}, 'does not name a loopback host'),
+            ({**self.lab.declaration(), 'service_images': ['missions-adapter']}, 'service_images must map compose services'),
+            ({**self.lab.declaration(), 'service_images': {'missions-adapter': 'sha256:' + '3' * 64}},
+             'service_images.missions-adapter must be an object'),
+            ({**self.lab.declaration(), 'service_images': {'missions-adapter': {'image_ref': 'x'}}},
+             'service_images.missions-adapter.image_id must be sha256'),
+            ({**self.lab.declaration(), 'service_images': {'missions-adapter': {'image_id': ADAPTER_ID, 'tag': 'x'}}}, 'unknown keys: tag'),
+            ({**self.lab.declaration(), 'service_images': {'assets-bootstrap': {'image_id': ADAPTER_ID, 'one_shot': 'yes'}}},
+             'one_shot must be true or false'),
         ]
         for block, message in cases:
             with self.subTest(message=message):
                 with self.assertRaisesRegex(ValueError, re.escape(message)):
                     provenance.validate('alpha', block)
+
+    def test_service_images_are_optional_and_validated(self):
+        declaration = self.lab.declaration()
+        declaration['service_images'] = {'missions-adapter': {'image_id': ADAPTER_ID, 'image_ref': 'stack-missions-adapter:1.0.0'},
+                                         'assets-bootstrap': {'image_id': BOOTSTRAP_ID, 'one_shot': True}}
+        provenance.validate('alpha', declaration)
+        self.assertEqual(provenance.intended(declaration)['service_images'], declaration['service_images'])
 
     def test_the_intended_record_keeps_no_host_path(self):
         intended = provenance.intended(self.lab.declaration())
@@ -200,6 +216,7 @@ class ObservationTests(unittest.TestCase):
         self.assertEqual(stub_mount, {'destination': '/data/missions.json', 'readOnly': True, 'kind': 'file', 'sha256': sha256_file(self.lab.dataset)})
         self.assertEqual(stable['services']['stack/router']['mounts'][0]['kind'], 'folder')
         self.assertEqual(stable['services']['stack/assets-bootstrap']['state'], 'exited')
+        self.assertEqual(stable['services']['stack/assets-bootstrap']['exitCode'], 0)
         self.assertEqual(stable['datasets']['missions']['sha256'], sha256_file(self.lab.dataset))
         self.assertEqual(stable['launchFiles'], {'stack_start': sha256_file(self.lab.script)})
         self.assertEqual(stable['mcpUrl'], 'http://127.0.0.1:8191/mcp')
@@ -303,6 +320,60 @@ class ObservationTests(unittest.TestCase):
         self.assertIn('services.stack/missions-adapter.env.MISSIONS_SERVICE_URL: "http://missions-stub:8083" -> "http://other:8083"', changes)
         self.assertIn('services.stack/missions-stub.imageId: "%s" -> "%s"' % (STUB_ID, REAL_ID), changes)
         self.assertEqual(provenance.drift(one, one), [])
+
+
+class ServiceImageTests(unittest.TestCase):
+    """The pinned images of compose services that are not backends: the adapters and the one-shot Assets bootstrap."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.lab = Lab(self.tmp.name)
+        self.block = self.lab.declaration()
+        self.block['service_images'] = {
+            'missions-adapter': {'image_id': ADAPTER_ID, 'image_ref': 'stack-missions-adapter:1.0.0'},
+            'assets-bootstrap': {'image_id': BOOTSTRAP_ID, 'image_ref': 'stack-assets:1.0.0', 'one_shot': True}}
+
+    def problems(self, containers):
+        return provenance.compare(self.block, provenance.observe('alpha', self.lab.scenario(provenance=self.block), FakeDocker(containers)))
+
+    def test_the_pinned_images_match(self):
+        self.assertEqual(self.problems(self.lab.containers()), [])
+
+    def test_an_adapter_or_the_bootstrap_on_another_image_id_is_refused(self):
+        other = 'sha256:' + '9' * 64
+        for index, service in ((1, 'missions-adapter'), (3, 'assets-bootstrap')):
+            with self.subTest(service=service):
+                containers = self.lab.containers()
+                containers[index]['Image'] = other
+                self.assertEqual(self.problems(containers),
+                                 ['pinned image of %s: stack/%s runs image id %s, expected %s'
+                                  % (service, service, other, self.block['service_images'][service]['image_id'])])
+
+    def test_a_changed_image_name_or_a_missing_container_is_refused(self):
+        containers = self.lab.containers()
+        containers[1]['Config']['Image'] = 'stack-missions-adapter:1.0.1'
+        self.assertEqual(self.problems(containers), ['pinned image of missions-adapter: stack/missions-adapter runs image '
+                                                     'stack-missions-adapter:1.0.1, expected stack-missions-adapter:1.0.0'])
+        problems = self.problems([c for c in self.lab.containers() if 'assets-bootstrap' not in c['Name']])
+        self.assertTrue(any(p.startswith('pinned image of assets-bootstrap: service assets-bootstrap is not among the observed containers')
+                            for p in problems), problems)
+
+    def test_the_bootstrap_passes_running_or_exited_with_code_0_and_fails_otherwise(self):
+        one_shot = 'pinned image of assets-bootstrap: '
+        for state, code, expected in (('running', 0, []), ('exited', 0, []),
+                                      ('exited', 1, [one_shot + 'the one-shot stack/assets-bootstrap exited with code 1, not 0']),
+                                      ('exited', 137, [one_shot + 'the one-shot stack/assets-bootstrap exited with code 137, not 0']),
+                                      ('restarting', 0, [one_shot + 'stack/assets-bootstrap is restarting, not running or exited with code 0'])):
+            with self.subTest(state=state, code=code):
+                containers = self.lab.containers()
+                containers[3]['State'] = {'Status': state, 'ExitCode': code}
+                self.assertEqual(self.problems(containers), expected)
+
+    def test_a_service_that_is_not_one_shot_must_run(self):
+        containers = self.lab.containers()
+        containers[1]['State'] = {'Status': 'exited', 'ExitCode': 0}
+        self.assertEqual(self.problems(containers), ['pinned image of missions-adapter: stack/missions-adapter is exited, not running'])
 
 
 class StudyProvenanceTests(unittest.TestCase):

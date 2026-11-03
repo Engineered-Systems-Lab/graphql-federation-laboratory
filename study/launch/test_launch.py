@@ -30,16 +30,26 @@ CREDENTIAL = re.compile(r'[A-Z_]*(PASSWORD|SECRET|TOKEN)[A-Z_]*[ \t]*[=:][ \t]*[
                         r'|\b\w*(password|secret|token)\w*[ \t]*=[ \t]*[\'"](?!unused\b|operator-)[A-Za-z0-9]')
 
 
-class FakeMachine:
-    """Answers the read-only probes from a table and records every command instead of running it."""
+# The image ids the fake Docker answers: one distinct id per pinned image.
+IMAGE_IDS = {ref: 'sha256:%064x' % (index + 1) for index, ref in enumerate(launch.PINNED_IMAGES)}
 
-    def __init__(self, compose='2.29.1', container='true', network=True, missions_status=200, taken=(), fail=None):
+
+class FakeMachine:
+    """Answers the read-only probes from a table and records every command instead of running it. `images` maps an image name to the id
+    `docker image inspect` gives (a name that is absent does not exist); `log` holds the reads and calls in their order."""
+
+    def __init__(self, compose='2.29.1', container='true', network=True, missions_status=200, taken=(), fail=None, images=None):
         self.compose, self.container, self.network = compose, container, network
         self.missions_status, self.taken, self.fail = missions_status, set(taken), fail
-        self.reads, self.calls, self.sleeps = [], [], 0
+        self.images = dict(IMAGE_IDS if images is None else images)
+        self.reads, self.calls, self.sleeps, self.log = [], [], 0, []
 
     def read(self, argv):
         self.reads.append(argv)
+        self.log.append(('read', argv))
+        if argv[:3] == ['docker', 'image', 'inspect']:
+            assert argv[3:5] == ['--format', '{{.Id}}'], argv
+            return (0, self.images[argv[-1]]) if argv[-1] in self.images else (1, '')
         if argv[:3] == ['docker', 'compose', 'version']:
             return (0, self.compose) if self.compose else (1, '')
         if argv[:2] == ['docker', 'inspect']:
@@ -50,6 +60,7 @@ class FakeMachine:
 
     def call(self, argv, env):
         self.calls.append((argv, env))
+        self.log.append(('call', argv))
         return 1 if self.fail and self.fail in argv else 0
 
     def http_status(self, url):
@@ -225,7 +236,39 @@ class RealModeTests(StateDir):
         argv = machine.calls[0][0]
         self.assertIn(str(launch.REAL_OVERLAY), argv)
         self.assertIn(str(launch.LEGACY_PORTS), argv)
-        self.assertEqual(argv[-6:], ['up', '-d', '--no-deps', '--no-recreate', '--wait', 'assets-service'])
+        self.assertEqual(argv[-7:], ['up', '-d', '--no-build', '--no-deps', '--no-recreate', '--wait', 'assets-service'])
+
+    def test_every_real_mode_up_passes_no_build_and_the_backends_are_made_again(self):
+        for scenario in launch.SCENARIOS:
+            with self.subTest(scenario=scenario):
+                code, machine, _, err = run(['up', scenario, '--missions', 'real', '--state-dir', self.state])
+                self.assertEqual(code, 0, err)
+                ups = [argv for argv, _ in machine.calls if argv[:2] == ['docker', 'compose'] and 'up' in argv]
+                self.assertEqual(len(ups), 3 if scenario in launch.LEGACY_SCENARIOS else 2)
+                for argv in ups:
+                    self.assertIn('--no-build', argv)
+                    self.assertNotIn('--build', argv)
+                self.assertEqual(ups[0][ups[0].index('up'):ups[0].index('up') + 6], ['up', '-d', '--no-build', '--force-recreate', '--wait',
+                                                                                      '--wait-timeout'])
+                self.assertEqual([argv for argv in ups if '--force-recreate' in argv], [ups[0]], 'only the backends are made again')
+        for service in ('assets', 'personnel'):
+            code, machine, _, _ = run(['service', 'start', service, 'gamma', '--missions', 'real', '--state-dir', self.state])
+            self.assertIn('--no-build', machine.calls[0][0])
+        code, machine, _, _ = run(['up', 'alpha', '--missions', 'simulated', '--state-dir', self.state])
+        self.assertNotIn('--no-build', machine.calls[1][0], 'the simulated mode is unchanged: start.sh still builds')
+
+    def test_up_refuses_when_a_built_image_is_missing_and_names_the_build_command(self):
+        for ref in launch.BUILT_IMAGES:
+            with self.subTest(ref=ref):
+                images = {name: value for name, value in IMAGE_IDS.items() if name != ref}
+                code, machine, _, err = run(['up', 'delta', '--missions', 'real', '--state-dir', self.state], machine=FakeMachine(images=images))
+                self.assertEqual(code, 1)
+                self.assertIn('the image %s is missing' % ref, err)
+                self.assertIn('python -B study/launch/launch.py build --missions real --state-dir %s' % Path(self.state).resolve(), err)
+                self.assertEqual(machine.calls, [])
+        images = {name: value for name, value in IMAGE_IDS.items() if name != launch.MISSIONS_IMAGE}
+        self.assertEqual(run(['up', 'delta', '--missions', 'real', '--state-dir', self.state], machine=FakeMachine(images=images))[0], 0,
+                         'a start checks the six built images; the running Missions service is checked by its own probes')
 
     def test_a_failing_command_stops_the_plan(self):
         code, machine, _, err = run(['up', 'delta', '--missions', 'real', '--state-dir', self.state],
@@ -233,6 +276,68 @@ class RealModeTests(StateDir):
         self.assertEqual(code, 1)
         self.assertIn('exit code 1', err)
         self.assertEqual(len(machine.calls), 2)
+
+
+class BuildTests(StateDir):
+    def pins(self):
+        return json.loads((Path(self.state) / launch.PIN_FILE).read_text(encoding='utf-8'))
+
+    def test_build_builds_the_six_images_once_then_writes_the_pin_set(self):
+        code, machine, lines, err = run(['build', '--missions', 'real', '--state-dir', self.state])
+        self.assertEqual(code, 0, err)
+        self.assertEqual(len(machine.calls), 1)
+        argv, env = machine.calls[0]
+        self.assertEqual(argv[:2], ['docker', 'compose'])
+        self.assertEqual(argv[argv.index(str(launch.REAL_OVERLAY)) - 1], '-f')
+        self.assertEqual(argv[argv.index('build'):], ['build', 'assets-service', 'personnel-service', 'missions-adapter', 'personnel-adapter',
+                                                      'assets-adapter', 'mapping-adapter'])
+        self.assertEqual({env[name] for name in launch.ASSETS_PASSWORDS}, {'unused'})
+        pins = self.pins()
+        self.assertEqual(pins['images'], IMAGE_IDS)
+        self.assertEqual(pins['schema'], 1)
+        built = [i for i, (kind, argv) in enumerate(machine.log) if kind == 'call']
+        pinned = [i for i, (kind, argv) in enumerate(machine.log) if kind == 'read' and argv[:3] == ['docker', 'image', 'inspect']
+                  and argv[-1] in launch.BUILT_IMAGES]
+        self.assertTrue(pinned and min(pinned) > built[0], 'the built images are read after the build')
+        self.assertTrue(any(line.endswith(launch.PIN_FILE) for line in lines))
+
+    def test_a_failed_build_writes_no_pin_set(self):
+        code, machine, _, err = run(['build', '--missions', 'real', '--state-dir', self.state], machine=FakeMachine(fail='build'))
+        self.assertEqual(code, 1)
+        self.assertIn('exit code 1', err)
+        self.assertFalse((Path(self.state) / launch.PIN_FILE).exists())
+
+    def test_an_image_that_cannot_be_read_after_the_build_writes_no_pin_set(self):
+        images = {name: value for name, value in IMAGE_IDS.items() if name != 'starfleet-federation-stack-mapping-adapter:1.0.0'}
+        code, machine, _, err = run(['build', '--missions', 'real', '--state-dir', self.state], machine=FakeMachine(images=images))
+        self.assertEqual(code, 1)
+        self.assertIn('no pin set was written', err)
+        self.assertFalse((Path(self.state) / launch.PIN_FILE).exists())
+        self.assertFalse((Path(self.state) / (launch.PIN_FILE + '.tmp')).exists())
+
+    def test_build_refuses_without_the_operators_missions_image_and_never_builds_it(self):
+        images = {name: value for name, value in IMAGE_IDS.items() if name != launch.MISSIONS_IMAGE}
+        code, machine, _, err = run(['build', '--missions', 'real', '--state-dir', self.state], machine=FakeMachine(images=images))
+        self.assertEqual(code, 1)
+        self.assertIn(launch.MISSIONS_IMAGE, err)
+        self.assertEqual(machine.calls, [])
+        code, machine, _, _ = run(['build', '--missions', 'real', '--state-dir', self.state])
+        self.assertNotIn('missions', [word for argv, _ in machine.calls for word in argv[argv.index('build'):] if word.startswith('missions')
+                                      and word != 'missions-adapter'])
+
+    def test_build_is_for_the_real_mode_only(self):
+        code, machine, _, err = run(['build', '--missions', 'simulated', '--state-dir', self.state])
+        self.assertEqual(code, 1)
+        self.assertIn('real mode', err)
+        self.assertEqual(machine.calls, [])
+
+    def test_a_dry_run_builds_and_writes_nothing(self):
+        code, machine, lines, _ = run(['build', '--missions', 'real', '--state-dir', self.state, '--dry-run'])
+        self.assertEqual(code, 0)
+        self.assertEqual((machine.calls, machine.reads), ([], []))
+        self.assertFalse(Path(self.state).exists())
+        self.assertTrue(any(line.startswith('would run: docker compose') and ' build ' in line for line in lines))
+        self.assertIn('would write: %s' % (Path(self.state).resolve() / launch.PIN_FILE), lines)
 
 
 class RoutingTests(StateDir):
@@ -311,6 +416,26 @@ class PinTests(unittest.TestCase):
             self.assertIn('%s: ${%s:-%s}' % (variable, variable, urls['simulated']), text)
         self.assertEqual(sorted(re.findall(r'^\s+(\w+_SERVICE_URL): ', text, re.M)),
                          sorted(variable for variable, _ in launch.ADAPTER_BACKEND_URLS.values()))
+
+    def test_the_built_images_are_the_images_the_stack_compose_file_builds(self):
+        text = launch.STACK_COMPOSE.read_text(encoding='utf-8')
+        anchor = re.search(r'^x-assets-image: &assets-image\n((?:  .*\n)+)', text, re.M).group(1)
+        services = dict(re.findall(r'^  ([a-z-]+):\n((?:    .*\n|\n)*)', text.split('\nservices:\n', 1)[1], re.M))
+        built, one_shot = {}, []
+        for name, body in services.items():
+            if '<<: *assets-image' in body:
+                body = anchor + body
+            if re.search(r'^\s+build:', body, re.M):
+                image = re.search(r'image: \$\{\w+:-([^}]+)\}', body).group(1)
+                built.setdefault(image, []).append(name)
+            if 'restart: "no"' in body:
+                one_shot.append(name)
+        self.assertEqual({image: sorted(names) for image, names in built.items()},
+                         {image: sorted(names) for image, names in launch.BUILT_IMAGES.items()})
+        self.assertEqual(tuple(one_shot), launch.ONE_SHOT_SERVICES)
+        for name, body in services.items():
+            if not any(name in names for names in launch.BUILT_IMAGES.values()):
+                self.assertRegex(body, r'image: \S+@sha256:[0-9a-f]{64}\n', '%s is pinned by digest' % name)
 
     def test_committed_files_hold_no_machine_path_or_credential(self):
         # Built from pieces, so that this file does not match its own patterns.
@@ -462,13 +587,20 @@ class GeneratorTests(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
-    def generate(self, mode, *extra, output='config.json'):
+    def write_pins(self, images=None):
+        state = self.dir / 'state'
+        state.mkdir(exist_ok=True)
+        (state / launch.PIN_FILE).write_text(json.dumps({'schema': 1, 'images': dict(IMAGE_IDS if images is None else images)}), encoding='utf-8')
+
+    def generate(self, mode, *extra, output='config.json', machine=None, pins=True):
+        if mode == 'real' and pins:
+            self.write_pins()
         argv = ['--output', str(self.dir / output), '--plan', str(self.dir / 'plan.json'), '--missions', mode,
                 '--state-dir', str(self.dir / 'state'), '--mcp-python', str(self.dir / 'venv-python'), '--guide-file',
                 str(self.dir / 'guide.md'), *extra]
         err = io.StringIO()
         with redirect_stderr(err):
-            code = make_config.main(argv)
+            code = make_config.main(argv, machine=machine or FakeMachine())
         config = json.loads((self.dir / output).read_text(encoding='utf-8')) if code == 0 else None
         return code, config, err.getvalue()
 
@@ -576,6 +708,70 @@ class GeneratorTests(unittest.TestCase):
         code, _, err = self.generate('simulated', '--corpus-dir', str(self.dir), output='bad.json')
         self.assertEqual(code, 1)
         self.assertIn('no scoring.py', err)
+
+    def test_the_real_mode_refuses_a_missing_or_bad_pin_set_a_missing_image_and_a_changed_id(self):
+        build = 'python -B study/launch/launch.py build --missions real --state-dir %s' % (self.dir / 'state').resolve()
+        code, _, err = self.generate('real', pins=False)
+        self.assertEqual(code, 1)
+        self.assertIn('there is no image pin set at', err)
+        self.assertIn(build, err)
+        self.write_pins({ref: value for ref, value in IMAGE_IDS.items() if ref != launch.MISSIONS_IMAGE})
+        code, _, err = self.generate('real', pins=False)
+        self.assertIn('does not hold one sha256 id for each of', err)
+        for ref in launch.PINNED_IMAGES:
+            with self.subTest(ref=ref):
+                missing = FakeMachine(images={name: value for name, value in IMAGE_IDS.items() if name != ref})
+                code, _, err = self.generate('real', machine=missing)
+                self.assertEqual(code, 1)
+                self.assertIn('the pinned image %s is missing; build again, which writes a new pin set: %s' % (ref, build), err)
+                rebuilt = FakeMachine(images=dict(IMAGE_IDS, **{ref: 'sha256:' + 'f' * 64}))
+                code, _, err = self.generate('real', machine=rebuilt)
+                self.assertEqual(code, 1)
+                self.assertIn('the image %s is now %s, not its pinned %s; build again' % (ref, 'sha256:' + 'f' * 64, IMAGE_IDS[ref]), err)
+        self.assertFalse((self.dir / 'config.json').exists())
+
+    def test_every_arm_declares_the_identical_pin_set(self):
+        self.schedule_plan()
+        code, config, err = self.generate('real')
+        self.assertEqual(code, 0, err)
+
+        def pin_set(block):
+            return {'backends': {name: (backend.get('image_ref'), backend.get('image_id')) for name, backend in block['backends'].items()},
+                    'service_images': block.get('service_images')}
+        assets, personnel = make_config.IMAGES['assets-service'], make_config.IMAGES['personnel-service']
+        adapters = {ref: names[0] for ref, names in launch.BUILT_IMAGES.items() if names[0].endswith('-adapter')}
+        expected = {'backends': {'missions': (launch.MISSIONS_IMAGE, IMAGE_IDS[launch.MISSIONS_IMAGE]), 'assets': (assets, IMAGE_IDS[assets]),
+                                 'personnel': (personnel, IMAGE_IDS[personnel])},
+                    'service_images': {'assets-bootstrap': {'image_id': IMAGE_IDS[assets], 'image_ref': assets, 'one_shot': True},
+                                       **{name: {'image_id': IMAGE_IDS[ref], 'image_ref': ref} for ref, name in adapters.items()}}}
+        self.assertEqual({name: pin_set(scenario['provenance']) for name, scenario in config['scenarios'].items()},
+                         dict.fromkeys(launch.SCENARIOS, expected))
+
+    def test_the_pinned_config_passes_the_harness_check_of_a_stack_on_the_pinned_images(self):
+        code, config, err = self.generate('real')
+        self.assertEqual(code, 0, err)
+        block = config['scenarios']['delta']['provenance']
+        services = dict(block['service_images'])
+        observed = {'starfleet-federation-stack/%s' % name: {'state': 'exited' if pin.get('one_shot') else 'running', 'exitCode': 0,
+                                                              'imageId': pin['image_id'], 'imageRef': pin['image_ref'], 'env': {}, 'ports': [],
+                                                              'mounts': []} for name, pin in services.items()}
+        problems = [p for p in provenance.compare(block, {'stable': {'services': observed, 'datasets': {}, 'launchFiles': {}}})
+                    if p.startswith('pinned image of')]
+        self.assertEqual(problems, [])
+        observed['starfleet-federation-stack/assets-bootstrap']['exitCode'] = 1
+        observed['starfleet-federation-stack/mapping-adapter']['imageId'] = 'sha256:' + 'f' * 64
+        problems = [p for p in provenance.compare(block, {'stable': {'services': observed, 'datasets': {}, 'launchFiles': {}}})
+                    if p.startswith('pinned image of')]
+        self.assertEqual(len(problems), 2, problems)
+
+    def test_the_simulated_mode_pins_nothing(self):
+        code, config, err = self.generate('simulated')
+        self.assertEqual(code, 0, err)
+        for scenario in config['scenarios'].values():
+            block = scenario['provenance']
+            self.assertNotIn('service_images', block)
+            self.assertNotIn('image_id', block['backends']['assets'])
+            self.assertNotIn('image_id', block['backends']['personnel'])
 
     def test_the_config_holds_no_credential(self):
         code, config, _ = self.generate('real')

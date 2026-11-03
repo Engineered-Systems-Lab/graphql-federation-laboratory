@@ -1,5 +1,6 @@
 """Start, stop and interrupt the stack of one study scenario, with the Missions backend simulated or real.
 
+    python -B study/launch/launch.py build --missions real --state-dir <folder> [--dry-run]
     python -B study/launch/launch.py up <scenario> --missions simulated|real --state-dir <folder> [--dry-run]
     python -B study/launch/launch.py down <scenario> --missions simulated|real --state-dir <folder> [--dry-run]
     python -B study/launch/launch.py service stop|start assets|personnel|missions <scenario> --missions simulated|real --state-dir <folder> [--dry-run]
@@ -26,7 +27,16 @@ loopback ports (study/mcp/legacy-ports.json) for the raw MCP server.
 - real: the real Missions service on Oracle. The operator starts Oracle and the service first (missions_operator.py and
   uss-enterprise/missions/compose.yaml); this script never starts, provisions, resets or removes either, and refuses to start a stack
   when the service is not up. missions-stub is not started, and the Missions adapter joins the service's own bridge network
-  (missions-real.compose.yaml), never Oracle's internal one. The steps are those of start.sh with that file added to every compose call.
+  (missions-real.compose.yaml), never Oracle's internal one. The steps are those of start.sh with that file added to every compose call,
+  except that a start never builds: see `build`.
+
+`build` (real mode only) builds the six images federation/stack/compose.yaml builds itself (BUILT_IMAGES) once per study run, then, only
+after a successful build, writes the run's image pin set to images.json in the state folder: the id of each of the six, and the id of the
+operator's Missions service image, which is read and never built. make_config.py writes that pin set into every scenario's provenance,
+and the harness checks it at every block. Every compose `up` of the real mode passes --no-build, and `up` refuses, naming the build
+command, when one of the six images is missing. The backends are started with --force-recreate: Compose recreates a container only when
+its configuration or its image's platform manifest changes, never for a new image id alone, so without it a container made from an
+earlier build would keep running that build's image (study/launch/README.md has the cause).
 
 The state folder is machine-local and outside the repository: the composed supergraph and the Cosmo execution config go there, so the
 committed files are never rewritten. The Assets database passwords are made at random for each `up` unless STACK_ASSETS_DB_ADMIN_PASSWORD
@@ -105,6 +115,22 @@ STATE_FORMAT = ('{"running":{{json .State.Running}},"status":{{json .State.Statu
 # Outage services: the logical names of the corpus, mapped to compose services of the federation stack.
 OUTAGE_SERVICES = {'assets': 'assets-service', 'personnel': 'personnel-service', 'missions': 'missions-stub'}
 
+# The images federation/stack/compose.yaml builds itself (`build:` with an `image:` name), with the compose services that run each; the
+# first service is the one `build` names. Every other image of the stack is pinned by digest in that file (a test pins both).
+BUILT_IMAGES = {
+    'starfleet-federation-stack-assets-service:1.0.0': ('assets-service', 'assets-bootstrap'),
+    'starfleet-federation-stack-personnel-service:2.0.0': ('personnel-service',),
+    'starfleet-federation-stack-missions-adapter:1.0.0': ('missions-adapter',),
+    'starfleet-federation-stack-personnel-adapter:1.0.0': ('personnel-adapter',),
+    'starfleet-federation-stack-assets-adapter:1.0.0': ('assets-adapter',),
+    'starfleet-federation-stack-mapping-adapter:1.0.0': ('mapping-adapter',),
+}
+ONE_SHOT_SERVICES = ('assets-bootstrap',)  # restart: "no"; exited with code 0 is its normal completed state
+MISSIONS_IMAGE = 'starfleet-missions-service:1.0.0'  # the operator's (uss-enterprise/missions/compose.yaml): read and pinned, never built
+PINNED_IMAGES = tuple(BUILT_IMAGES) + (MISSIONS_IMAGE,)
+PIN_FILE = 'images.json'
+IMAGE_ID = re.compile(r'^sha256:[0-9a-f]{64}$')
+
 MIN_COMPOSE = (2, 24, 4)  # the first Compose with the !reset tag that missions-real.compose.yaml uses
 ASSETS_PASSWORDS = ('STACK_ASSETS_DB_ADMIN_PASSWORD', 'STACK_ASSETS_DB_SERVICE_PASSWORD')
 
@@ -136,6 +162,9 @@ class Plan:
 
     def wait_missions(self, timeout):
         self.steps.append(('wait-missions', [MISSIONS_PROBE_URL, str(timeout)], {}))
+
+    def pin_images(self, path):
+        self.steps.append(('pin-images', [str(path)], {}))
 
 
 def base_env(state_dir, scenario, mode):
@@ -179,6 +208,22 @@ def router_ports(environ, scenario):
     return [int(port) for port in ports]
 
 
+def build_command(state_dir):
+    return 'python -B study/launch/launch.py build --missions real --state-dir %s' % state_dir
+
+
+def plan_build(mode, state_dir, environ):
+    """Build the six images once, then pin them (and the Missions service image) in the state folder; real mode only."""
+    if mode != 'real':
+        raise Refused('build is for the real mode; the simulated mode builds its images in federation/stack/start.sh, unchanged')
+    plan = Plan()
+    env = dict(base_env(state_dir, None, mode), **assets_passwords(environ, placeholder='unused'))
+    plan.checks += [('compose-version', None), ('missions-image', None)]
+    plan.run(compose_files(mode) + ['build'] + [services[0] for services in BUILT_IMAGES.values()], env)
+    plan.pin_images(state_dir / PIN_FILE)
+    return plan
+
+
 def plan_up(scenario, mode, state_dir, environ):
     plan = Plan()
     env = dict(base_env(state_dir, scenario, mode), **assets_passwords(environ))
@@ -189,19 +234,20 @@ def plan_up(scenario, mode, state_dir, environ):
         if legacy:
             plan.run(compose_files(mode, legacy=True) + ['up', '-d', '--no-deps', '--wait'] + list(LEGACY_SERVICES[mode]), env)
         return plan
-    plan.checks += [('compose-version', None), ('missions-container', None), ('missions-network', None), ('missions-answers', None),
-                    ('ports-free', router_ports(environ, scenario))]
+    plan.checks += [('compose-version', None), ('images-present', str(state_dir)), ('missions-container', None), ('missions-network', None),
+                    ('missions-answers', None), ('ports-free', router_ports(environ, scenario))]
     if router_of(scenario) == 'apollo':
         plan.checks.append(('elv2', None))
-    plan.run(compose_files(mode) + ['up', '-d', '--build', '--wait', '--wait-timeout', '600'] + list(REAL_BACKENDS), env)
+    # Never a build; every backend container is made again from the pinned images (see the module text).
+    plan.run(compose_files(mode) + ['up', '-d', '--no-build', '--force-recreate', '--wait', '--wait-timeout', '600'] + list(REAL_BACKENDS), env)
     if router_of(scenario) == 'cosmo':
         plan.run([env['PYTHON'], '-B', COMPOSE_EXECUTION_CONFIG, '--out', env['EXECUTION_CONFIG_FILE']], env)
-        plan.run(compose_files(mode) + profile(scenario) + ['up', '-d', '--wait', '--wait-timeout', '120', 'cosmo-router'], env)
+        plan.run(compose_files(mode) + profile(scenario) + ['up', '-d', '--no-build', '--wait', '--wait-timeout', '120', 'cosmo-router'], env)
     else:
         plan.run([env['PYTHON'], '-B', COMPOSE_SUPERGRAPH, '--out', env['SUPERGRAPH_FILE']], env)
-        plan.run(compose_files(mode) + ['up', '-d', '--wait', '--wait-timeout', '120', 'router'], env)
+        plan.run(compose_files(mode) + ['up', '-d', '--no-build', '--wait', '--wait-timeout', '120', 'router'], env)
     if legacy:
-        plan.run(compose_files(mode, legacy=True) + ['up', '-d', '--no-deps', '--wait'] + list(LEGACY_SERVICES[mode]), env)
+        plan.run(compose_files(mode, legacy=True) + ['up', '-d', '--no-build', '--no-deps', '--wait'] + list(LEGACY_SERVICES[mode]), env)
     return plan
 
 
@@ -237,7 +283,7 @@ def plan_service(action, service, scenario, mode, state_dir, environ):
     if action == 'stop':
         plan.run(files + ['stop', target], env)
     else:
-        plan.run(files + ['up', '-d', '--no-deps', '--no-recreate', '--wait', target], env)
+        plan.run(files + ['up', '-d'] + (['--no-build'] if mode == 'real' else []) + ['--no-deps', '--no-recreate', '--wait', target], env)
     return plan
 
 
@@ -299,6 +345,13 @@ class Machine:
         return provenance.hash_path(path)
 
 
+def image_id(machine, ref):
+    """The id of a local image, as `docker image inspect` gives it (read only), or None when the image does not exist."""
+    code, out = machine.read(['docker', 'image', 'inspect', '--format', '{{.Id}}', ref])
+    out = out.strip() if code == 0 else ''
+    return out if IMAGE_ID.match(out) else None
+
+
 def check(name, arg, machine, environ, context):
     if name == 'bash':
         context['bash'] = find_bash(environ)
@@ -328,6 +381,15 @@ def check(name, arg, machine, environ, context):
         for port in arg:
             if machine.port_taken(port):
                 raise Refused('127.0.0.1:%d is already in use (stop what listens there, or set its *_HOST_PORT variable)' % port)
+    elif name == 'images-present':
+        for ref in BUILT_IMAGES:
+            if image_id(machine, ref) is None:
+                raise Refused('the image %s is missing: a start never builds; build the images once for this study run first: %s'
+                              % (ref, build_command(arg)))
+    elif name == 'missions-image':
+        if image_id(machine, MISSIONS_IMAGE) is None:
+            raise Refused("the operator's Missions service image %s does not exist: the operator builds it with "
+                          'uss-enterprise/missions/compose.yaml; this kit only reads it' % MISSIONS_IMAGE)
     elif name == 'elv2':
         if environ.get('APOLLO_ELV2_LICENSE') != 'accept':
             raise Refused("Rover's composition plugin is under the Elastic License 2.0; set APOLLO_ELV2_LICENSE=accept to accept it")
@@ -348,6 +410,26 @@ def show(argv):
     return ' '.join(argv)
 
 
+def write_pins(path, machine):
+    """Read the id of every pinned image and write the pin set atomically; refuses, writing nothing, when an image cannot be read."""
+    images = {}
+    for ref in PINNED_IMAGES:
+        images[ref] = image_id(machine, ref)
+        if images[ref] is None:
+            raise Refused('the image %s cannot be read after the build; no pin set was written' % ref)
+    pins = {'about': 'The image pin set of one study run, written by study/launch/launch.py build after a successful build: the six images '
+                     'the stack builds itself and the operator\'s Missions service image (read, never built). make_config.py writes it into '
+                     'every scenario. Machine-local; do not commit it.',
+            'schema': 1, 'written_at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), 'images': images}
+    path = Path(path)
+    temporary = path.with_name(path.name + '.tmp')
+    with open(temporary, 'w', encoding='utf-8', newline='\n') as handle:
+        json.dump(pins, handle, indent=2)
+        handle.write('\n')
+    os.replace(temporary, path)
+    return pins
+
+
 def execute(plan, machine, environ, dry_run=False, out=print):
     context = {}
     for name, arg in plan.checks:
@@ -358,7 +440,13 @@ def execute(plan, machine, environ, dry_run=False, out=print):
     for kind, argv, extra in plan.steps:
         argv = [context.get('bash', 'bash') if part == '{bash}' else part for part in argv]
         if dry_run:
-            out('would run: %s' % show(argv))
+            out(('would write: %s' if kind == 'pin-images' else 'would run: %s') % show(argv))
+            continue
+        if kind == 'pin-images':
+            pins = write_pins(argv[0], machine)
+            out('wrote %s' % argv[0])
+            for ref, value in pins['images'].items():
+                out('  %s %s' % (value, ref))
             continue
         if kind == 'wait-missions':
             url, timeout = argv[0], float(argv[1])
@@ -447,7 +535,11 @@ def build_parser():
         p.add_argument('--state-dir', help='machine-local folder outside the repository (default: STUDY_LAUNCH_STATE_DIR)')
         p.add_argument('--dry-run', action='store_true', help='print the checks and commands, run nothing')
 
-    common(sub.add_parser('up', help='start the stack of a scenario'))
+    build = sub.add_parser('build', help='build the six images once for a study run and write their pin set (real mode)')
+    build.add_argument('--missions', choices=MODES, required=True, help='real: the pin set is for the real-mode study')
+    build.add_argument('--state-dir', help='machine-local folder outside the repository (default: STUDY_LAUNCH_STATE_DIR)')
+    build.add_argument('--dry-run', action='store_true', help='print the checks and commands, run nothing')
+    common(sub.add_parser('up', help='start the stack of a scenario (never builds)'))
     common(sub.add_parser('down', help='stop the stack of a scenario (the containers are kept)'))
     service = sub.add_parser('service', help='stop or start one backend, for a controlled outage')
     service.add_argument('action', choices=('stop', 'start'))
@@ -480,7 +572,9 @@ def main(argv=None, machine=None, environ=None, out=print):
         if not state:
             raise Refused('give --state-dir or set STUDY_LAUNCH_STATE_DIR (a machine-local folder outside the repository)')
         state_dir = outside_repository(state, 'the state folder')
-        if args.command == 'up':
+        if args.command == 'build':
+            plan = plan_build(args.missions, state_dir, environ)
+        elif args.command == 'up':
             plan = plan_up(args.scenario, args.missions, state_dir, environ)
         elif args.command == 'down':
             plan = plan_down(args.scenario, args.missions, state_dir, environ)

@@ -1,8 +1,9 @@
 """Run provenance: what each scenario is meant to run against, what it actually runs against, and the check between them.
 
 Declare: the machine-local config gives every scenario a `provenance` block: the compose projects to observe, the intended backends (logical
-service, mode `real` or `simulated`, the compose service that serves it, the expected image, the dataset), the expected routing (the
-agent-facing upstream endpoints and each adapter's backend URL variables) and the launch files to hash.
+service, mode `real` or `simulated`, the compose service that serves it, the expected image, the dataset), optionally the pinned images of
+other compose services (`service_images`: the adapters and the Assets bootstrap of the launch kit), the expected routing (the agent-facing
+upstream endpoints and each adapter's backend URL variables) and the launch files to hash.
 
 Observe: after the stack is ready and before the first paid request, the harness reads the running stack with two read-only commands,
 `docker compose -p <project> ps --all --format json` and `docker inspect <containers>`, hashes the datasets, the bind mounts it can read and
@@ -29,9 +30,10 @@ ROUTING_SUFFIXES = ('_URL', '_HOST', '_PORT')
 LOOPBACK_HOSTS = ('127.0.0.1', 'localhost', '[::1]')
 OBSERVATION_COMMANDS = ['docker compose -p <project> ps --all --format json', 'docker inspect <container id> ...']
 
-_DECLARATION_KEYS = {'compose_projects', 'backends', 'routing', 'launch_files'}
+_DECLARATION_KEYS = {'compose_projects', 'backends', 'service_images', 'routing', 'launch_files'}
 _BACKEND_KEYS = {'mode', 'service', 'image_id', 'image_ref', 'dataset'}
 _DATASET_KEYS = {'id', 'path', 'sha256', 'mount'}
+_SERVICE_IMAGE_KEYS = {'image_id', 'image_ref', 'one_shot'}
 _ROUTING_KEYS = {'endpoints', 'env'}
 _IMAGE_ID = re.compile(r'^sha256:[0-9a-f]{64}$')
 _SHA256 = re.compile(r'^[0-9a-f]{64}$')
@@ -86,6 +88,21 @@ def validate(scenario, block):
                 raise ValueError('%s.dataset.sha256 must be 64 lowercase hex' % at)
             if 'mount' in dataset and not (isinstance(dataset['mount'], str) and dataset['mount'].startswith('/')):
                 raise ValueError('%s.dataset.mount must be a container path starting with /' % at)
+    service_images = block.get('service_images', {})
+    if not isinstance(service_images, dict):
+        raise ValueError('%s.service_images must map compose services to their pinned image' % where)
+    for name, pin in service_images.items():
+        at = '%s.service_images.%s' % (where, name)
+        _text(at, name)
+        if not isinstance(pin, dict):
+            raise ValueError('%s must be an object' % at)
+        _known(at, pin, _SERVICE_IMAGE_KEYS)
+        if not _IMAGE_ID.match(str(pin.get('image_id'))):
+            raise ValueError('%s.image_id must be sha256:<64 lowercase hex>' % at)
+        if 'image_ref' in pin:
+            _text(at + '.image_ref', pin['image_ref'])
+        if 'one_shot' in pin and not isinstance(pin['one_shot'], bool):
+            raise ValueError('%s.one_shot must be true or false' % at)
     routing = block.get('routing', {})
     if not isinstance(routing, dict):
         raise ValueError('%s.routing must be an object' % where)
@@ -262,7 +279,8 @@ def _container(doc, wanted_env, hasher):
         kind, digest = hasher(mount.get('Source', ''))
         mounts.append({'destination': mount.get('Destination'), 'readOnly': not mount.get('RW', True), 'kind': kind, 'sha256': digest})
     mounts.sort(key=lambda m: m['destination'] or '')
-    return {'state': (doc.get('State') or {}).get('Status'), 'imageRef': config.get('Image'), 'imageId': doc.get('Image'),
+    state = doc.get('State') or {}
+    return {'state': state.get('Status'), 'exitCode': state.get('ExitCode'), 'imageRef': config.get('Image'), 'imageId': doc.get('Image'),
             'env': dict(sorted(env.items())), 'ports': sorted(ports), 'mounts': mounts}
 
 
@@ -410,6 +428,8 @@ def compare(block, observation):
                 elif mount['sha256'] != dataset['sha256']:
                     problems.append('backend %s: the mount %s of %s hashes to %s, expected %s' % (name, dataset['mount'], key, mount['sha256'],
                                                                                               dataset['sha256']))
+    for service, pin in sorted(block.get('service_images', {}).items()):
+        problems.extend(_service_image_lines(services, service, pin))
     routing = block.get('routing', {})
     for service, variables in sorted(routing.get('env', {}).items()):
         key, error = _resolve(services, service)
@@ -428,6 +448,28 @@ def compare(block, observation):
         if digest is None:
             problems.append('launch file %s could not be read at %s' % (label, reduce_paths(block['launch_files'][label])))
     return problems
+
+
+def _service_image_lines(services, service, pin):
+    """The lines compare() writes for one pinned compose service: its container is observed, runs the pinned image and is running, or, for
+    a one-shot service (the Assets bootstrap), running or exited with code 0, its normal completed state."""
+    key, error = _resolve(services, service)
+    if error:
+        return ['pinned image of %s: %s' % (service, error)]
+    seen, out = services[key], []
+    if seen['imageId'] != pin['image_id']:
+        out.append('pinned image of %s: %s runs image id %s, expected %s' % (service, key, seen['imageId'], pin['image_id']))
+    if 'image_ref' in pin and seen['imageRef'] != pin['image_ref']:
+        out.append('pinned image of %s: %s runs image %s, expected %s' % (service, key, seen['imageRef'], pin['image_ref']))
+    if seen['state'] == 'running':
+        return out
+    if pin.get('one_shot') and seen['state'] == 'exited':
+        if seen.get('exitCode') != 0:
+            out.append('pinned image of %s: the one-shot %s exited with code %s, not 0' % (service, key, seen.get('exitCode')))
+        return out
+    out.append('pinned image of %s: %s is %s, not running%s' % (service, key, seen['state'],
+                                                                ' or exited with code 0' if pin.get('one_shot') else ''))
+    return out
 
 
 def drift(stored, current, prefix=''):

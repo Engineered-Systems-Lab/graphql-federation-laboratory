@@ -12,12 +12,12 @@ import harness_tools
 import provenance
 import schedule
 import scoring_contract
-from fakes import FakeDocker, FakeVendorClient, submit, turn
+from fakes import FakeDocker, FakeVendorClient, container, submit, turn
 from mcp_client import FakeToolSession
 import runner as runner_module
 from runner import SYSTEM_PROMPT, BudgetCarryRefused, FingerprintRefused, Study, load_config, parse_fingerprint
 from study_common import Redactor, read_jsonl, sha256_file, sha256_json
-from test_runner import CORPUS, MODELS, PRICES, PROVENANCE, FakeStack, fake_docker, task
+from test_runner import CORPUS, MODELS, PRICES, PROVENANCE, STUB_ID, FakeStack, fake_docker, task
 from vendors import VendorFatalError
 
 ARMS = ['beta', 'gamma', 'delta', 'epsilon']
@@ -374,6 +374,32 @@ class ScheduleRunnerTests(unittest.TestCase):
         self.assertEqual([(c['block'], c['result']) for c in checks], [(study.plan['blocks'][0]['id'], 'match'), (second['id'], 'mismatch')])
         self.assertEqual(json.loads((study.dir / 'bundle.json').read_text())['status'], 'provenance_refused')
         self.assertEqual(len(list((study.dir / 'runs').glob('*/result.json'))), 2)
+
+    def test_a_pinned_backend_adapter_or_bootstrap_image_that_changes_at_a_later_block_refuses_that_block(self):
+        pinned = {'stub': STUB_ID, 'adapter': 'sha256:' + 'c' * 64, 'bootstrap': 'sha256:' + 'e' * 64}
+        declaration = dict(PROVENANCE, backends={'missions': dict(PROVENANCE['backends']['missions'], image_id=pinned['stub'])},
+                           service_images={'missions-adapter': {'image_id': pinned['adapter']},
+                                           'assets-bootstrap': {'image_id': pinned['bootstrap'], 'one_shot': True}})
+        for index, service in enumerate(('missions-stub', 'missions-adapter', 'assets-bootstrap')):
+            with self.subTest(service=service):
+                docker = FakeDocker([container('lab', 'missions-stub', 'stub:1', pinned['stub']),
+                                     container('lab', 'missions-adapter', 'adapter:1', pinned['adapter']),
+                                     container('lab', 'assets-bootstrap', 'assets:1', pinned['bootstrap'], state='exited')])
+
+                def rebuild(call, index=index, docker=docker):
+                    if call == 1:  # after the first block's observation, one pinned service runs a rebuilt image
+                        docker.containers[index]['Image'] = 'sha256:' + 'b' * 64
+                config = self.config()
+                for scenario in config['scenarios'].values():
+                    scenario['provenance'] = declaration
+                study = self.study(config=config, run_id='pin-%d' % index, docker=docker, fingerprints=Fingerprints(on_call=rebuild))
+                with self.assertRaises(provenance.ProvenanceRefused) as caught:
+                    study.run()
+                second = study.plan['blocks'][1]['id']
+                self.assertIn('block %s' % second, str(caught.exception))
+                self.assertIn('runs image id %s, expected' % ('sha256:' + 'b' * 64), str(caught.exception))
+                checks = read_jsonl(study.dir / 'provenance' / 'checks.jsonl')
+                self.assertEqual([c['result'] for c in checks], ['match', 'mismatch'])
 
     # ------------------------------------------------------------------ vendor errors
     def first_block_models(self, study):
