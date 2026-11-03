@@ -38,6 +38,14 @@ command, when one of the six images is missing. The backends are started with --
 its configuration or its image's platform manifest changes, never for a new image id alone, so without it a container made from an
 earlier build would keep running that build's image (study/launch/README.md has the cause).
 
+In the real mode `up` first removes every container of the stack's compose project, of every profile, and `down` removes them the same
+way instead of only stopping them (decision Q12 of the Job study2_preflight_final): the harness observes every container of the project,
+so a stopped container another scenario left (the Apollo router in a Cosmo start, for example) would otherwise be part of what a start
+reads, and would read differently after that other scenario ran. The removal is `docker compose --project-name starfleet-federation-stack
+... --profile '*' down --remove-orphans` on the stack's own files (every real-mode compose call names the project, so an inherited
+COMPOSE_PROJECT_NAME can never point it at another project): it never removes a volume, an image or the Missions service's external network, and never touches the
+Missions project. The stack keeps no data in a container: the Assets database lives in memory (tmpfs) and is made again at every start.
+
 The state folder is machine-local and outside the repository: the composed supergraph and the Cosmo execution config go there, so the
 committed files are never rewritten. The Assets database passwords are made at random for each `up` unless STACK_ASSETS_DB_ADMIN_PASSWORD
 and STACK_ASSETS_DB_SERVICE_PASSWORD are set; they are passed in the environment of the child commands only, and never printed or
@@ -46,7 +54,7 @@ written. The script handles no Missions login: the service already holds its own
 Environment: STUDY_LAUNCH_STATE_DIR (instead of --state-dir), STUDY_BASH (Git Bash, for the simulated mode; default: bash on PATH),
 PYTHON (the interpreter start.sh and the composition scripts run under; default: this one), APOLLO_ELV2_LICENSE=accept (an Apollo start
 needs it: Rover's composition plugin is under the Elastic License 2.0 and the operator accepts it), and the *_HOST_PORT variables of
-start.sh. Nothing is removed: no rm, no down, no prune.
+start.sh. Nothing else is removed: no rm, no volume, no image, no prune.
 """
 import argparse
 import json
@@ -180,7 +188,9 @@ def compose_files(mode, legacy=False):
     if legacy:
         files += ['-f', LEGACY_PORTS]
     if mode == 'real':
-        files += ['-f', REAL_OVERLAY]
+        # The project is named, never left to the environment: an inherited COMPOSE_PROJECT_NAME outranks the file's `name:`, and a
+        # removal with --remove-orphans under the Missions project's name would remove the operator's service.
+        return ['docker', 'compose', '--project-name', STACK_PROJECT] + files + ['-f', REAL_OVERLAY]
     return ['docker', 'compose'] + files
 
 
@@ -224,6 +234,11 @@ def plan_build(mode, state_dir, environ):
     return plan
 
 
+def remove_stack(mode):
+    """The real mode's removal of every container of the stack's compose project, all profiles: no volume, image or external network."""
+    return compose_files(mode) + ['--profile', '*', 'down', '--remove-orphans', '--timeout', '60']
+
+
 def plan_up(scenario, mode, state_dir, environ):
     plan = Plan()
     env = dict(base_env(state_dir, scenario, mode), **assets_passwords(environ))
@@ -238,7 +253,9 @@ def plan_up(scenario, mode, state_dir, environ):
                     ('missions-answers', None), ('ports-free', router_ports(environ, scenario))]
     if router_of(scenario) == 'apollo':
         plan.checks.append(('elv2', None))
-    # Never a build; every backend container is made again from the pinned images (see the module text).
+    # A clean project first, so a start reads only its own containers; then never a build, and every backend container is made again
+    # from the pinned images (see the module text).
+    plan.run(remove_stack(mode), env)
     plan.run(compose_files(mode) + ['up', '-d', '--no-build', '--force-recreate', '--wait', '--wait-timeout', '600'] + list(REAL_BACKENDS), env)
     if router_of(scenario) == 'cosmo':
         plan.run([env['PYTHON'], '-B', COMPOSE_EXECUTION_CONFIG, '--out', env['EXECUTION_CONFIG_FILE']], env)
@@ -258,8 +275,8 @@ def plan_down(scenario, mode, state_dir, environ):
         plan.checks.append(('bash', None))
         plan.run(['{bash}', START_SH, 'stop'], env)
     else:
-        # Stops the federation stack only; the real Missions service and Oracle keep running.
-        plan.run(compose_files(mode) + profile(scenario) + ['stop', '--timeout', '60'], env)
+        # Removes the federation stack's containers only; the real Missions service and Oracle keep running.
+        plan.run(remove_stack(mode), env)
     return plan
 
 
@@ -540,7 +557,7 @@ def build_parser():
     build.add_argument('--state-dir', help='machine-local folder outside the repository (default: STUDY_LAUNCH_STATE_DIR)')
     build.add_argument('--dry-run', action='store_true', help='print the checks and commands, run nothing')
     common(sub.add_parser('up', help='start the stack of a scenario (never builds)'))
-    common(sub.add_parser('down', help='stop the stack of a scenario (the containers are kept)'))
+    common(sub.add_parser('down', help='stop the stack of a scenario (real mode: its containers are removed)'))
     service = sub.add_parser('service', help='stop or start one backend, for a controlled outage')
     service.add_argument('action', choices=('stop', 'start'))
     service.add_argument('service', choices=tuple(OUTAGE_SERVICES))

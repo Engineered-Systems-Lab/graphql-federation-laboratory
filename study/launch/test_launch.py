@@ -165,6 +165,9 @@ class SimulatedModeTests(StateDir):
         self.assertEqual(argv[-6:], ['up', '-d', '--no-deps', '--no-recreate', '--wait', 'missions-stub'])
 
 
+REMOVAL = [str(part) for part in launch.remove_stack('real')]  # as the plan runs it
+
+
 class RealModeTests(StateDir):
     def test_up_never_starts_missions_stub_and_adds_the_overlay_to_every_compose_call(self):
         for scenario in launch.SCENARIOS:
@@ -179,7 +182,8 @@ class RealModeTests(StateDir):
                 for argv in compose_calls:
                     self.assertEqual(argv[argv.index(str(launch.REAL_OVERLAY)) - 1], '-f')
                     self.assertNotIn(str(ROOT / 'uss-enterprise' / 'missions' / 'compose.yaml'), argv)
-                self.assertEqual(compose_calls[0][-len(launch.REAL_BACKENDS):], list(launch.REAL_BACKENDS))
+                self.assertEqual(compose_calls[0], REMOVAL)
+                self.assertEqual(compose_calls[1][-len(launch.REAL_BACKENDS):], list(launch.REAL_BACKENDS))
                 router = 'cosmo-router' if scenario == 'epsilon' else 'router'
                 self.assertTrue(any(argv[-1] == router for argv in compose_calls))
                 if scenario in ('alpha', 'beta'):
@@ -213,13 +217,50 @@ class RealModeTests(StateDir):
         code, machine, _, err = run(['up', 'epsilon', '--missions', 'real', '--state-dir', self.state], environ={'APOLLO_ELV2_LICENSE': ''})
         self.assertEqual(code, 0, err)
 
-    def test_down_stops_the_federation_stack_only(self):
-        code, machine, _, _ = run(['down', 'epsilon', '--missions', 'real', '--state-dir', self.state])
-        self.assertEqual(len(machine.calls), 1)
-        argv = machine.calls[0][0]
-        self.assertEqual(argv[-3:], ['stop', '--timeout', '60'])
-        self.assertIn('cosmo', argv)
-        self.assertNotIn(launch.MISSIONS_CONTAINER, argv)
+    def test_down_removes_the_federation_stack_s_containers_only(self):
+        for scenario in launch.SCENARIOS:
+            with self.subTest(scenario=scenario):
+                code, machine, _, err = run(['down', scenario, '--missions', 'real', '--state-dir', self.state])
+                self.assertEqual(code, 0, err)
+                self.assertEqual(len(machine.calls), 1)
+                argv = machine.calls[0][0]
+                self.assertEqual(argv, REMOVAL)
+                self.assertEqual(argv[-6:], ['--profile', '*', 'down', '--remove-orphans', '--timeout', '60'])
+                self.assertEqual(argv[argv.index('--profile') + 1], '*', 'every profile, so the Cosmo router goes too')
+                self.assertEqual(argv[argv.index(str(launch.REAL_OVERLAY)) - 1], '-f')
+                self.assertEqual(argv[2:4], ['--project-name', launch.STACK_PROJECT])
+                for kept in ('-v', '--volumes', '--rmi', '-p', launch.MISSIONS_CONTAINER, launch.MISSIONS_PROJECT):
+                    self.assertNotIn(kept, argv)
+                self.assertEqual(argv.count('--project-name'), 1)
+                self.assertNotIn(str(ROOT / 'uss-enterprise' / 'missions' / 'compose.yaml'), argv)
+
+    def test_an_inherited_compose_project_name_never_redirects_a_real_mode_compose_call(self):
+        stray = {'COMPOSE_PROJECT_NAME': launch.MISSIONS_PROJECT}
+        for command in (['build'], ['up', 'alpha'], ['up', 'delta'], ['up', 'epsilon'], ['down', 'epsilon'],
+                        ['service', 'stop', 'assets', 'beta'], ['service', 'start', 'personnel', 'gamma']):
+            with self.subTest(command=command):
+                code, machine, _, err = run(command + ['--missions', 'real', '--state-dir', self.state], environ=stray)
+                self.assertEqual(code, 0, err)
+                composes = [argv for argv, _ in machine.calls if argv[:2] == ['docker', 'compose']]
+                self.assertTrue(composes)
+                for argv in composes:
+                    self.assertEqual(argv[2:4], ['--project-name', launch.STACK_PROJECT], argv)
+                    self.assertNotIn(launch.MISSIONS_PROJECT, argv)
+
+    def test_a_real_mode_up_starts_from_an_empty_stack_project(self):
+        for scenario in launch.SCENARIOS:
+            with self.subTest(scenario=scenario):
+                code, machine, _, err = run(['up', scenario, '--missions', 'real', '--state-dir', self.state])
+                self.assertEqual(code, 0, err)
+                calls = [argv for argv, _ in machine.calls]
+                self.assertEqual(calls[0], REMOVAL, 'the removal comes before every start')
+                self.assertEqual([argv for argv in calls if 'down' in argv], [calls[0]])
+                self.assertIn('up', calls[1])
+        code, machine, _, _ = run(['up', 'gamma', '--missions', 'real', '--state-dir', self.state], machine=FakeMachine(container=None))
+        self.assertEqual(machine.calls, [], 'a refused start removes nothing')
+        for command in (['up', 'alpha'], ['down', 'alpha']):
+            code, machine, _, _ = run(command + ['--missions', 'simulated', '--state-dir', self.state])
+            self.assertFalse([argv for argv, _ in machine.calls if 'down' in argv], 'the simulated mode is unchanged')
 
     def test_missions_outage_stops_and_starts_the_operator_container_by_name(self):
         code, machine, _, _ = run(['service', 'stop', 'missions', 'delta', '--missions', 'real', '--state-dir', self.state])
@@ -275,7 +316,7 @@ class RealModeTests(StateDir):
                                     machine=FakeMachine(fail=str(launch.COMPOSE_SUPERGRAPH)))
         self.assertEqual(code, 1)
         self.assertIn('exit code 1', err)
-        self.assertEqual(len(machine.calls), 2)
+        self.assertEqual(len(machine.calls), 3)
 
 
 class BuildTests(StateDir):
