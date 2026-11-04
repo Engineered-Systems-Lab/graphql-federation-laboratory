@@ -1,0 +1,35 @@
+{
+ "about": "Checksums that tie the committed evidence of study 2's two paid development runs to the raw run folders kept outside the repository. bundleChecksum is the runner's checksum over the bundle's file list (study/harness/runner.py, write_bundle); bundleJsonSha256, the sums-file digest and the evidence-file digests are SHA-256 of the exact bytes as the run and the worker wrote them (LF). No archive zip was made: the run folders stay read-only in the machine-local results folder, each with a per-file sums file beside it.",
+ "runs": {
+  "study2-dev-notool-1": {
+   "bundleChecksum": "172cb3ccc069bb860088e1cbc54831b733e7d8595bd30ba4b20a5169a0dd757b",
+   "bundleJsonSha256": "a22002acaf7d1e978623edd60d8eb64e287cc99b0b14c8ea9a60750728063fe4",
+   "bundleWrittenAt": "2026-11-03T01:22:23.719+00:00",
+   "status": "complete",
+   "evidenceFiles": {
+    "manifest.json": "cce3848743bf32e1ccc22cd3b4552ac9c01b564798e318c3ed93323d50e5fb2e",
+    "scores.csv": "27e45c2cdb1affe399ab3d6ccc188a440bced8f121f0295e605f1f02aaf9ffa4"
+   },
+   "filesInRun": 139,
+   "sumsFile": {
+    "name": "SHA256SUMS-study2-dev-notool-1.txt",
+    "sha256": "b79ab9235f6e1afe614e6fc470236dfd941986e25fdb53f4fd7fc3ab6637328b"
+   }
+  },
+  "study2-dev-tool-1": {
+   "bundleChecksum": "e6cbff6a49de9a69a292b1da75180d72f7ae86d2d34349ba2d36e96250170c1d",
+   "bundleJsonSha256": "5f08648f9051e1cdacb57ace4c2d9a7614c64a13799e8470e14685c0872343cf",
+   "bundleWrittenAt": "2026-11-03T18:48:06.942+00:00",
+   "status": "complete",
+   "evidenceFiles": {
+    "manifest.json": "33196cfa8212a41d4fb6bbf598043b153897df29dc60eb03761215eecade540d",
+    "scores.csv": "5e9edc674083b3769c0f94a93b3710511dc5a0005fd592e2e80de74add6fae1b"
+   },
+   "filesInRun": 272,
+   "sumsFile": {
+    "name": "SHA256SUMS-study2-dev-tool-1.txt",
+    "sha256": "1f1dc40d9a1337df2e821593ae439c4a4fdd12e07846fa8cbc1fb6b51afc9e3f"
+   }
+  }
+ }
+}

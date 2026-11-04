@@ -1,0 +1,2436 @@
+{
+  "budgetCarry": {
+    "rule": "the dollars of these ledgers count against each vendor's dollar_ceiling from the first request of this run; a reservation never settled is counted at the output price",
+    "runs": [
+      {
+        "ledgers": {
+          "anthropic": {
+            "dollars": 4.067533,
+            "sha256": "e44b7142f34a20a65dfd0081fc0fcb7d90e7d2de8872db838f3bf0db85f6a8ec",
+            "tokens": 4665786
+          },
+          "openai": {
+            "dollars": 2.057153,
+            "sha256": "55fce1ccba383ae8f754ed4e13890542f2aa373541d7e7059a40fabf8538ceaf",
+            "tokens": 3327693
+          }
+        },
+        "runId": "study2-dev-notool-1"
+      }
+    ],
+    "totals": {
+      "anthropic": 4.067533,
+      "openai": 2.057153
+    }
+  },
+  "commit": "4e88460fdb1dece0e8689b84d9a486eb824efc30",
+  "createdAt": "2026-11-03T17:33:58.317+00:00",
+  "datasetFingerprint": {
+    "command": {
+      "argv": [
+        "<path>/python.exe",
+        "-B",
+        "<path>/launch.py",
+        "fingerprint",
+        "--missions",
+        "real",
+        "--state-dir",
+        "<path>/launch-state"
+      ]
+    },
+    "rule": "checked at every block start; it must equal the study's first fingerprint and its session's first fingerprint"
+  },
+  "datasetHashes": {
+    "mapping_release_1_3_manifest": "5c2b99f17211abd4add46cddc400b15961608172dd8f62eb56c3683a7639c39d"
+  },
+  "declaredSettings": {
+    "adapters": "answer __schema on their own endpoints unchanged; the MCP servers hide _service and _entities",
+    "apollo_router": {
+      "default": "off",
+      "supergraph.introspection": true,
+      "version": "v2.18.0"
+    },
+    "cosmo_router": {
+      "default": "on",
+      "introspection.enabled": true,
+      "version": "0.359.0"
+    },
+    "missions_backend": "real"
+  },
+  "harnessFiles": {
+    "agent.py": "a3a5e0bf08ad076acf32364d7d9ab8667807eabd18ca88e2d1b20fd378d1b4bb",
+    "budget.py": "4db0186dd5635af36fafa100e45a25074d210c5eaaf8bb0efcbb7ddf421e74a7",
+    "credentials.py": "dc72e7af7c974abb477e78e926eef6255ae7a3c8c21ec47ee168e8f661737984",
+    "fakes.py": "2ef68abaa9b95e7ff6414a0b5be6c689ad47d876a70a08c703ba5b0c3f83ebe2",
+    "harness_tools.py": "e194caa6119a6c51f1242f7f990dbab7b7a794daaa2841b1f735b34b281330d5",
+    "launcher.py": "fecf0ba97e482f9644416d77cff367ddbbd5fcdaa270927a078a3043f08e4535",
+    "mcp_client.py": "288e266cb5ff8e407e67e54e5bf9ffefe55e60eb7d36cf6fb6c028a237fa2996",
+    "provenance.py": "ab5db27c80ac117a774197b99f8186c383e4b59b3b1e5ce43362111ebe8d7bd1",
+    "runner.py": "c49b0afd197e6c2d3c3405d63f3c8ac017a6911f820098d7ea86c6afaa3ecce6",
+    "schedule.py": "a762d9767cc40dce906fb4913e775c7edf92064613d62210468938a2100bee27",
+    "scoring_contract.py": "27653bdb87ce62d604b3cae0e82acaf74d4c7b02e7d4cb7871d2e7c89b7f103b",
+    "study_common.py": "59cc9eab652a361ef9447149bff837346f87d1edf254670b8039aa40a259e9a3",
+    "study_gate.py": "c34e7693f758af5d98804d87a62881ef3974537470fb964b0767cc8cf55cb231",
+    "vendors.py": "3a14a11f98d618eb6f178fa9980c897f3026d68ce8baf9d07fbfe35c303ff400"
+  },
+  "harnessTools": {
+    "askRequesterText": "No requester response is available during this evaluation.",
+    "limits": {
+      "maxOutputChars": 50000,
+      "maxRecords": 100000,
+      "maxSourceChars": 5000000,
+      "maxSources": 100
+    },
+    "names": [
+      "calculate",
+      "ask_requester"
+    ],
+    "operations": [
+      "count",
+      "distinct",
+      "group_by",
+      "sort",
+      "filter",
+      "union",
+      "intersection",
+      "difference",
+      "arithmetic"
+    ],
+    "resultIdFormat": "<4 hex run tag>-<n>, shown as the first line \"result_id: <id>\" of every scenario tool result and every successful calculate result",
+    "tools": [
+      {
+        "description": "Compute over results you already obtained in this task; it fetches nothing. Every tool result starts with a line result_id: <id>. Name one or more results in sources, each with an optional path to the part to use, and one generic operation. The records are the elements found at the paths of all sources, one after the other. count: the number of records. distinct: the distinct values of field. group_by: groups by the fields in group_by, with aggregate count or sum of sum_field. sort: the records ordered by field (descending optional). filter: the records for which every condition holds (eq, ne, lt, le, gt, ge against a literal value). union, intersection, difference: set operations on the values of field taken per source (difference: the first source minus the others). arithmetic: operator add, subtract, multiply or divide over operands, each a number or {result_id, path} naming one number. fields and limit shorten a list of records; round sets decimal places. A field is a dot-separated path inside a record; empty means the record itself. The result has a result_id of its own.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "aggregate": {
+              "enum": [
+                "count",
+                "sum"
+              ],
+              "type": "string"
+            },
+            "conditions": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "field": {
+                    "type": "string"
+                  },
+                  "op": {
+                    "enum": [
+                      "eq",
+                      "ne",
+                      "lt",
+                      "le",
+                      "gt",
+                      "ge"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": [
+                      "string",
+                      "number",
+                      "boolean",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "field",
+                  "op",
+                  "value"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "descending": {
+              "type": "boolean"
+            },
+            "field": {
+              "type": "string"
+            },
+            "fields": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "group_by": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "limit": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "operands": {
+              "items": {
+                "type": [
+                  "number",
+                  "object"
+                ]
+              },
+              "type": "array"
+            },
+            "operation": {
+              "enum": [
+                "count",
+                "distinct",
+                "group_by",
+                "sort",
+                "filter",
+                "union",
+                "intersection",
+                "difference",
+                "arithmetic"
+              ],
+              "type": "string"
+            },
+            "operator": {
+              "enum": [
+                "add",
+                "subtract",
+                "multiply",
+                "divide"
+              ],
+              "type": "string"
+            },
+            "round": {
+              "maximum": 12,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sources": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "path": {
+                    "description": "Optional. Dot-separated keys or list positions into that result; * takes every element of a list. A text that holds JSON or XML is read as such. Empty means the whole result.",
+                    "type": "string"
+                  },
+                  "result_id": {
+                    "description": "The id from the first line of an earlier result of this task.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "result_id"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "sum_field": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "type": "object"
+        },
+        "name": "calculate"
+      },
+      {
+        "description": "Ask the person who requested this task a clarifying question about what they mean.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "question": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "question"
+          ],
+          "type": "object"
+        },
+        "name": "ask_requester"
+      }
+    ],
+    "version": 1
+  },
+  "identity": {
+    "corpusFreeze": "bfd447e38a8cce777d9319947a474fad7f7aee403a8a6200669d53fe8718d8ef",
+    "datasetFingerprint": {
+      "argv": [
+        "<path>/python.exe",
+        "-B",
+        "<path>/launch.py",
+        "fingerprint",
+        "--missions",
+        "real",
+        "--state-dir",
+        "<path>/launch-state"
+      ]
+    },
+    "earlierStudyRuns": [
+      "study2-dev-notool-1"
+    ],
+    "guides": {
+      "alpha": null,
+      "beta": "e9a4c12620fea0b924683666f20f44a60a4d8888088b583038e1e47cd0b3fade",
+      "delta": null,
+      "epsilon": null,
+      "gamma": null
+    },
+    "harnessTools": {
+      "askRequesterText": "No requester response is available during this evaluation.",
+      "limits": {
+        "maxOutputChars": 50000,
+        "maxRecords": 100000,
+        "maxSourceChars": 5000000,
+        "maxSources": 100
+      },
+      "names": [
+        "calculate",
+        "ask_requester"
+      ],
+      "operations": [
+        "count",
+        "distinct",
+        "group_by",
+        "sort",
+        "filter",
+        "union",
+        "intersection",
+        "difference",
+        "arithmetic"
+      ],
+      "resultIdFormat": "<4 hex run tag>-<n>, shown as the first line \"result_id: <id>\" of every scenario tool result and every successful calculate result",
+      "tools": [
+        {
+          "description": "Compute over results you already obtained in this task; it fetches nothing. Every tool result starts with a line result_id: <id>. Name one or more results in sources, each with an optional path to the part to use, and one generic operation. The records are the elements found at the paths of all sources, one after the other. count: the number of records. distinct: the distinct values of field. group_by: groups by the fields in group_by, with aggregate count or sum of sum_field. sort: the records ordered by field (descending optional). filter: the records for which every condition holds (eq, ne, lt, le, gt, ge against a literal value). union, intersection, difference: set operations on the values of field taken per source (difference: the first source minus the others). arithmetic: operator add, subtract, multiply or divide over operands, each a number or {result_id, path} naming one number. fields and limit shorten a list of records; round sets decimal places. A field is a dot-separated path inside a record; empty means the record itself. The result has a result_id of its own.",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "aggregate": {
+                "enum": [
+                  "count",
+                  "sum"
+                ],
+                "type": "string"
+              },
+              "conditions": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "op": {
+                      "enum": [
+                        "eq",
+                        "ne",
+                        "lt",
+                        "le",
+                        "gt",
+                        "ge"
+                      ],
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": [
+                        "string",
+                        "number",
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "op",
+                    "value"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "descending": {
+                "type": "boolean"
+              },
+              "field": {
+                "type": "string"
+              },
+              "fields": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "group_by": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "limit": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "operands": {
+                "items": {
+                  "type": [
+                    "number",
+                    "object"
+                  ]
+                },
+                "type": "array"
+              },
+              "operation": {
+                "enum": [
+                  "count",
+                  "distinct",
+                  "group_by",
+                  "sort",
+                  "filter",
+                  "union",
+                  "intersection",
+                  "difference",
+                  "arithmetic"
+                ],
+                "type": "string"
+              },
+              "operator": {
+                "enum": [
+                  "add",
+                  "subtract",
+                  "multiply",
+                  "divide"
+                ],
+                "type": "string"
+              },
+              "round": {
+                "maximum": 12,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "sources": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "path": {
+                      "description": "Optional. Dot-separated keys or list positions into that result; * takes every element of a list. A text that holds JSON or XML is read as such. Empty means the whole result.",
+                      "type": "string"
+                    },
+                    "result_id": {
+                      "description": "The id from the first line of an earlier result of this task.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "result_id"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "sum_field": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "operation"
+            ],
+            "type": "object"
+          },
+          "name": "calculate"
+        },
+        {
+          "description": "Ask the person who requested this task a clarifying question about what they mean.",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "question": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "question"
+            ],
+            "type": "object"
+          },
+          "name": "ask_requester"
+        }
+      ],
+      "version": 1
+    },
+    "limits": {
+      "max_nudges": 2,
+      "max_retries": 3,
+      "max_task_tokens": 1000000,
+      "max_tool_calls": 80,
+      "max_wall_seconds": 900,
+      "retry_backoff_seconds": 5
+    },
+    "models": {
+      "claude-sonnet-5-5": {
+        "max_output_tokens": 16000,
+        "request": {
+          "output_config": {
+            "effort": "medium"
+          },
+          "thinking": {
+            "type": "adaptive"
+          }
+        },
+        "vendor": "anthropic"
+      },
+      "gpt-6.1-sol": {
+        "max_output_tokens": 16000,
+        "request": {
+          "include": [
+            "reasoning.encrypted_content"
+          ],
+          "reasoning": {
+            "effort": "medium"
+          },
+          "store": false
+        },
+        "vendor": "openai"
+      }
+    },
+    "plan": {
+      "blocks": [
+        {
+          "arm": "epsilon",
+          "half": "H2",
+          "id": "r4-epsilon",
+          "letter": "d",
+          "position": 1,
+          "roundSequence": 1,
+          "row": 4,
+          "runSuffix": "r4",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V03"
+            }
+          ],
+          "sequence": 1
+        },
+        {
+          "arm": "beta",
+          "half": "H2",
+          "id": "r4-beta",
+          "letter": "a",
+          "position": 2,
+          "roundSequence": 1,
+          "row": 4,
+          "runSuffix": "r4",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V03"
+            }
+          ],
+          "sequence": 2
+        },
+        {
+          "arm": "gamma",
+          "half": "H2",
+          "id": "r4-gamma",
+          "letter": "c",
+          "position": 3,
+          "roundSequence": 1,
+          "row": 4,
+          "runSuffix": "r4",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V07"
+            }
+          ],
+          "sequence": 3
+        },
+        {
+          "arm": "delta",
+          "half": "H2",
+          "id": "r4-delta",
+          "letter": "b",
+          "position": 4,
+          "roundSequence": 1,
+          "row": 4,
+          "runSuffix": "r4",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V07"
+            }
+          ],
+          "sequence": 4
+        },
+        {
+          "arm": "delta",
+          "half": "H2",
+          "id": "r2-delta",
+          "letter": "b",
+          "position": 1,
+          "roundSequence": 2,
+          "row": 2,
+          "runSuffix": "r2",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V03"
+            }
+          ],
+          "sequence": 5
+        },
+        {
+          "arm": "gamma",
+          "half": "H2",
+          "id": "r2-gamma",
+          "letter": "c",
+          "position": 2,
+          "roundSequence": 2,
+          "row": 2,
+          "runSuffix": "r2",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V02"
+            }
+          ],
+          "sequence": 6
+        },
+        {
+          "arm": "beta",
+          "half": "H2",
+          "id": "r2-beta",
+          "letter": "a",
+          "position": 3,
+          "roundSequence": 2,
+          "row": 2,
+          "runSuffix": "r2",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V03"
+            }
+          ],
+          "sequence": 7
+        },
+        {
+          "arm": "epsilon",
+          "half": "H2",
+          "id": "r2-epsilon",
+          "letter": "d",
+          "position": 4,
+          "roundSequence": 2,
+          "row": 2,
+          "runSuffix": "r2",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V06"
+            }
+          ],
+          "sequence": 8
+        },
+        {
+          "arm": "beta",
+          "half": "H1",
+          "id": "r1-beta",
+          "letter": "a",
+          "position": 1,
+          "roundSequence": 3,
+          "row": 1,
+          "runSuffix": "r1",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V01"
+            }
+          ],
+          "sequence": 9
+        },
+        {
+          "arm": "delta",
+          "half": "H1",
+          "id": "r1-delta",
+          "letter": "b",
+          "position": 2,
+          "roundSequence": 3,
+          "row": 1,
+          "runSuffix": "r1",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V05"
+            }
+          ],
+          "sequence": 10
+        },
+        {
+          "arm": "epsilon",
+          "half": "H1",
+          "id": "r1-epsilon",
+          "letter": "d",
+          "position": 3,
+          "roundSequence": 3,
+          "row": 1,
+          "runSuffix": "r1",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V08"
+            }
+          ],
+          "sequence": 11
+        },
+        {
+          "arm": "gamma",
+          "half": "H1",
+          "id": "r1-gamma",
+          "letter": "c",
+          "position": 4,
+          "roundSequence": 3,
+          "row": 1,
+          "runSuffix": "r1",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V01"
+            }
+          ],
+          "sequence": 12
+        },
+        {
+          "arm": "gamma",
+          "half": "H1",
+          "id": "r3-gamma",
+          "letter": "c",
+          "position": 1,
+          "roundSequence": 4,
+          "row": 3,
+          "runSuffix": "r3",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V01"
+            }
+          ],
+          "sequence": 13
+        },
+        {
+          "arm": "epsilon",
+          "half": "H1",
+          "id": "r3-epsilon",
+          "letter": "d",
+          "position": 2,
+          "roundSequence": 4,
+          "row": 3,
+          "runSuffix": "r3",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V05"
+            }
+          ],
+          "sequence": 14
+        },
+        {
+          "arm": "delta",
+          "half": "H1",
+          "id": "r3-delta",
+          "letter": "b",
+          "position": 3,
+          "roundSequence": 4,
+          "row": 3,
+          "runSuffix": "r3",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V08"
+            }
+          ],
+          "sequence": 15
+        },
+        {
+          "arm": "beta",
+          "half": "H1",
+          "id": "r3-beta",
+          "letter": "a",
+          "position": 4,
+          "roundSequence": 4,
+          "row": 3,
+          "runSuffix": "r3",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V08"
+            }
+          ],
+          "sequence": 16
+        },
+        {
+          "arm": "alpha",
+          "half": null,
+          "id": "ref-alpha",
+          "letter": null,
+          "position": null,
+          "roundSequence": null,
+          "row": null,
+          "runSuffix": "ref",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "V04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "V04"
+            }
+          ],
+          "sequence": 17
+        }
+      ],
+      "design": "williams-4-half",
+      "halfOfRow": {
+        "1": "H1",
+        "2": "H2",
+        "3": "H1",
+        "4": "H2"
+      },
+      "halves": {
+        "H1": [
+          "V01",
+          "V04",
+          "V05",
+          "V08"
+        ],
+        "H2": [
+          "V02",
+          "V03",
+          "V06",
+          "V07"
+        ]
+      },
+      "letters": {
+        "a": "beta",
+        "b": "delta",
+        "c": "gamma",
+        "d": "epsilon"
+      },
+      "modelOfTask": {
+        "1": {
+          "V01": "gpt-6.1-sol",
+          "V04": "claude-sonnet-5-5",
+          "V05": "gpt-6.1-sol",
+          "V08": "claude-sonnet-5-5"
+        },
+        "2": {
+          "V02": "claude-sonnet-5-5",
+          "V03": "gpt-6.1-sol",
+          "V06": "gpt-6.1-sol",
+          "V07": "claude-sonnet-5-5"
+        },
+        "3": {
+          "V01": "claude-sonnet-5-5",
+          "V04": "gpt-6.1-sol",
+          "V05": "claude-sonnet-5-5",
+          "V08": "gpt-6.1-sol"
+        },
+        "4": {
+          "V02": "gpt-6.1-sol",
+          "V03": "claude-sonnet-5-5",
+          "V06": "claude-sonnet-5-5",
+          "V07": "gpt-6.1-sol"
+        }
+      },
+      "reference": "alpha",
+      "roundOrder": [
+        4,
+        2,
+        1,
+        3
+      ],
+      "seed": 20261102,
+      "square": [
+        [
+          "a",
+          "b",
+          "d",
+          "c"
+        ],
+        [
+          "b",
+          "c",
+          "a",
+          "d"
+        ],
+        [
+          "c",
+          "d",
+          "b",
+          "a"
+        ],
+        [
+          "d",
+          "a",
+          "c",
+          "b"
+        ]
+      ]
+    },
+    "pricesDated": "2026-10-20",
+    "scoringContract": 2,
+    "seed": 20261102,
+    "systemPrompt": "You answer questions about the legacy systems of the USS Enterprise using only the tools you have. Work out the answer with the tools, then call submit_answer with it. If something cannot be determined with your tools, or a service does not answer, say so in the answer instead of guessing. Finish every task by calling submit_answer exactly once.",
+    "taskSet": "dev",
+    "voidRule": {
+      "health": {
+        "alpha": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "alpha",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/launch-state"
+          ]
+        },
+        "beta": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "beta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/launch-state"
+          ]
+        },
+        "delta": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "delta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/launch-state"
+          ]
+        },
+        "epsilon": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "epsilon",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/launch-state"
+          ]
+        },
+        "gamma": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "gamma",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/launch-state"
+          ]
+        }
+      },
+      "healthEveryRuns": 10
+    }
+  },
+  "limits": {
+    "max_nudges": 2,
+    "max_retries": 3,
+    "max_task_tokens": 1000000,
+    "max_tool_calls": 80,
+    "max_wall_seconds": 900,
+    "retry_backoff_seconds": 5
+  },
+  "machine": {
+    "cpuCount": 16,
+    "machine": "AMD64",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 167 Stepping 1, GenuineIntel",
+    "python": "3.14.8",
+    "totalMemoryBytes": 33912258560
+  },
+  "models": {
+    "claude-sonnet-5-5": {
+      "max_output_tokens": 16000,
+      "priceEntry": {
+        "cache_write": 2.5,
+        "cached_read": 0.1,
+        "input": 2.0,
+        "output": 10.0,
+        "source": "read from the Anthropic pricing page on 2026-10-20: input 2, five-minute cache write 2.50, cache hit 0.10 (0.05 times the input price for this model), output 10",
+        "vendor": "anthropic"
+      },
+      "request": {
+        "output_config": {
+          "effort": "medium"
+        },
+        "thinking": {
+          "type": "adaptive"
+        }
+      },
+      "vendor": "anthropic"
+    },
+    "gpt-6.1-sol": {
+      "max_output_tokens": 16000,
+      "priceEntry": {
+        "cache_write": 0.0,
+        "cached_read": 0.1,
+        "input": 2.0,
+        "output": 10.0,
+        "source": "OpenAI pricing page read 2026-10-20 (standard tier); the Responses API reports no cache-write tokens",
+        "vendor": "openai"
+      },
+      "request": {
+        "include": [
+          "reasoning.encrypted_content"
+        ],
+        "reasoning": {
+          "effort": "medium"
+        },
+        "store": false
+      },
+      "vendor": "openai"
+    }
+  },
+  "planHash": "f34203a5e2362d54be8d06ed12b4f6e4447b6400fa5356f6a057cc2d74a6fb28",
+  "pricesTableDate": "2026-10-20",
+  "provenance": {
+    "intended": {
+      "alpha": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:913ddbe81c4d46553a9d3379911e8126f41473b117115b2632a68e37b41b368b",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "legacy_ports": "<path>/legacy-ports.json",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8082/": "personnel-service",
+            "http://127.0.0.1:8083/": "starfleet-missions/missions",
+            "http://127.0.0.1:8084/": "assets-service"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:3cf8ab40456ffc8f79bd19510389a413c772ff6762f7ce1f0c38cd156e64dbb1",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.0.0"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:14fbeebc96141d2efa5f330cc8637093102e46e303e9385c04bfd3797622889c",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:8ebb005b62e7dfb12b3d269d2f1f2bc7d285d97c14358f57baa272397d55b8f3",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.0.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:e963d1103f21f7650fe283d9bcf13cd2cb484acfc91a4b9121a1c7d12cd68857",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      },
+      "beta": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:913ddbe81c4d46553a9d3379911e8126f41473b117115b2632a68e37b41b368b",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "legacy_ports": "<path>/legacy-ports.json",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8082/": "personnel-service",
+            "http://127.0.0.1:8083/": "starfleet-missions/missions",
+            "http://127.0.0.1:8084/": "assets-service"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:3cf8ab40456ffc8f79bd19510389a413c772ff6762f7ce1f0c38cd156e64dbb1",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.0.0"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:14fbeebc96141d2efa5f330cc8637093102e46e303e9385c04bfd3797622889c",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:8ebb005b62e7dfb12b3d269d2f1f2bc7d285d97c14358f57baa272397d55b8f3",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.0.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:e963d1103f21f7650fe283d9bcf13cd2cb484acfc91a4b9121a1c7d12cd68857",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      },
+      "delta": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:913ddbe81c4d46553a9d3379911e8126f41473b117115b2632a68e37b41b368b",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8170/": "router"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:3cf8ab40456ffc8f79bd19510389a413c772ff6762f7ce1f0c38cd156e64dbb1",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.0.0"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:14fbeebc96141d2efa5f330cc8637093102e46e303e9385c04bfd3797622889c",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:8ebb005b62e7dfb12b3d269d2f1f2bc7d285d97c14358f57baa272397d55b8f3",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.0.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:e963d1103f21f7650fe283d9bcf13cd2cb484acfc91a4b9121a1c7d12cd68857",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      },
+      "epsilon": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:913ddbe81c4d46553a9d3379911e8126f41473b117115b2632a68e37b41b368b",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8171/graphql": "cosmo-router"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:3cf8ab40456ffc8f79bd19510389a413c772ff6762f7ce1f0c38cd156e64dbb1",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.0.0"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:14fbeebc96141d2efa5f330cc8637093102e46e303e9385c04bfd3797622889c",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:8ebb005b62e7dfb12b3d269d2f1f2bc7d285d97c14358f57baa272397d55b8f3",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.0.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:e963d1103f21f7650fe283d9bcf13cd2cb484acfc91a4b9121a1c7d12cd68857",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      },
+      "gamma": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:913ddbe81c4d46553a9d3379911e8126f41473b117115b2632a68e37b41b368b",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8182/graphql": "personnel-adapter",
+            "http://127.0.0.1:8183/graphql": "missions-adapter",
+            "http://127.0.0.1:8184/graphql": "assets-adapter",
+            "http://127.0.0.1:8190/graphql": "mapping-adapter"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:3cf8ab40456ffc8f79bd19510389a413c772ff6762f7ce1f0c38cd156e64dbb1",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.0.0"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d23a432d804f6052b0db287d0c1d45324be1ca40cfe4047aeb591b4fd541d890",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:14fbeebc96141d2efa5f330cc8637093102e46e303e9385c04bfd3797622889c",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:8ebb005b62e7dfb12b3d269d2f1f2bc7d285d97c14358f57baa272397d55b8f3",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.0.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:e963d1103f21f7650fe283d9bcf13cd2cb484acfc91a4b9121a1c7d12cd68857",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      }
+    },
+    "observationCommands": [
+      "docker compose -p <project> ps --all --format json",
+      "docker inspect <container id> ..."
+    ],
+    "schema": 1
+  },
+  "resultsRootSetting": "LAB_RESULTS_DIR",
+  "schedule": {
+    "blocks": [
+      {
+        "arm": "epsilon",
+        "half": "H2",
+        "id": "r4-epsilon",
+        "letter": "d",
+        "position": 1,
+        "roundSequence": 1,
+        "row": 4,
+        "runSuffix": "r4",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V03"
+          }
+        ],
+        "sequence": 1
+      },
+      {
+        "arm": "beta",
+        "half": "H2",
+        "id": "r4-beta",
+        "letter": "a",
+        "position": 2,
+        "roundSequence": 1,
+        "row": 4,
+        "runSuffix": "r4",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V03"
+          }
+        ],
+        "sequence": 2
+      },
+      {
+        "arm": "gamma",
+        "half": "H2",
+        "id": "r4-gamma",
+        "letter": "c",
+        "position": 3,
+        "roundSequence": 1,
+        "row": 4,
+        "runSuffix": "r4",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V07"
+          }
+        ],
+        "sequence": 3
+      },
+      {
+        "arm": "delta",
+        "half": "H2",
+        "id": "r4-delta",
+        "letter": "b",
+        "position": 4,
+        "roundSequence": 1,
+        "row": 4,
+        "runSuffix": "r4",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V07"
+          }
+        ],
+        "sequence": 4
+      },
+      {
+        "arm": "delta",
+        "half": "H2",
+        "id": "r2-delta",
+        "letter": "b",
+        "position": 1,
+        "roundSequence": 2,
+        "row": 2,
+        "runSuffix": "r2",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V03"
+          }
+        ],
+        "sequence": 5
+      },
+      {
+        "arm": "gamma",
+        "half": "H2",
+        "id": "r2-gamma",
+        "letter": "c",
+        "position": 2,
+        "roundSequence": 2,
+        "row": 2,
+        "runSuffix": "r2",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V02"
+          }
+        ],
+        "sequence": 6
+      },
+      {
+        "arm": "beta",
+        "half": "H2",
+        "id": "r2-beta",
+        "letter": "a",
+        "position": 3,
+        "roundSequence": 2,
+        "row": 2,
+        "runSuffix": "r2",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V03"
+          }
+        ],
+        "sequence": 7
+      },
+      {
+        "arm": "epsilon",
+        "half": "H2",
+        "id": "r2-epsilon",
+        "letter": "d",
+        "position": 4,
+        "roundSequence": 2,
+        "row": 2,
+        "runSuffix": "r2",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V06"
+          }
+        ],
+        "sequence": 8
+      },
+      {
+        "arm": "beta",
+        "half": "H1",
+        "id": "r1-beta",
+        "letter": "a",
+        "position": 1,
+        "roundSequence": 3,
+        "row": 1,
+        "runSuffix": "r1",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V01"
+          }
+        ],
+        "sequence": 9
+      },
+      {
+        "arm": "delta",
+        "half": "H1",
+        "id": "r1-delta",
+        "letter": "b",
+        "position": 2,
+        "roundSequence": 3,
+        "row": 1,
+        "runSuffix": "r1",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V05"
+          }
+        ],
+        "sequence": 10
+      },
+      {
+        "arm": "epsilon",
+        "half": "H1",
+        "id": "r1-epsilon",
+        "letter": "d",
+        "position": 3,
+        "roundSequence": 3,
+        "row": 1,
+        "runSuffix": "r1",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V08"
+          }
+        ],
+        "sequence": 11
+      },
+      {
+        "arm": "gamma",
+        "half": "H1",
+        "id": "r1-gamma",
+        "letter": "c",
+        "position": 4,
+        "roundSequence": 3,
+        "row": 1,
+        "runSuffix": "r1",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V01"
+          }
+        ],
+        "sequence": 12
+      },
+      {
+        "arm": "gamma",
+        "half": "H1",
+        "id": "r3-gamma",
+        "letter": "c",
+        "position": 1,
+        "roundSequence": 4,
+        "row": 3,
+        "runSuffix": "r3",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V01"
+          }
+        ],
+        "sequence": 13
+      },
+      {
+        "arm": "epsilon",
+        "half": "H1",
+        "id": "r3-epsilon",
+        "letter": "d",
+        "position": 2,
+        "roundSequence": 4,
+        "row": 3,
+        "runSuffix": "r3",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V05"
+          }
+        ],
+        "sequence": 14
+      },
+      {
+        "arm": "delta",
+        "half": "H1",
+        "id": "r3-delta",
+        "letter": "b",
+        "position": 3,
+        "roundSequence": 4,
+        "row": 3,
+        "runSuffix": "r3",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V08"
+          }
+        ],
+        "sequence": 15
+      },
+      {
+        "arm": "beta",
+        "half": "H1",
+        "id": "r3-beta",
+        "letter": "a",
+        "position": 4,
+        "roundSequence": 4,
+        "row": 3,
+        "runSuffix": "r3",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V08"
+          }
+        ],
+        "sequence": 16
+      },
+      {
+        "arm": "alpha",
+        "half": null,
+        "id": "ref-alpha",
+        "letter": null,
+        "position": null,
+        "roundSequence": null,
+        "row": null,
+        "runSuffix": "ref",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "V04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "V04"
+          }
+        ],
+        "sequence": 17
+      }
+    ],
+    "design": "williams-4-half",
+    "halfOfRow": {
+      "1": "H1",
+      "2": "H2",
+      "3": "H1",
+      "4": "H2"
+    },
+    "halves": {
+      "H1": [
+        "V01",
+        "V04",
+        "V05",
+        "V08"
+      ],
+      "H2": [
+        "V02",
+        "V03",
+        "V06",
+        "V07"
+      ]
+    },
+    "letters": {
+      "a": "beta",
+      "b": "delta",
+      "c": "gamma",
+      "d": "epsilon"
+    },
+    "modelOfTask": {
+      "1": {
+        "V01": "gpt-6.1-sol",
+        "V04": "claude-sonnet-5-5",
+        "V05": "gpt-6.1-sol",
+        "V08": "claude-sonnet-5-5"
+      },
+      "2": {
+        "V02": "claude-sonnet-5-5",
+        "V03": "gpt-6.1-sol",
+        "V06": "gpt-6.1-sol",
+        "V07": "claude-sonnet-5-5"
+      },
+      "3": {
+        "V01": "claude-sonnet-5-5",
+        "V04": "gpt-6.1-sol",
+        "V05": "claude-sonnet-5-5",
+        "V08": "gpt-6.1-sol"
+      },
+      "4": {
+        "V02": "gpt-6.1-sol",
+        "V03": "claude-sonnet-5-5",
+        "V06": "claude-sonnet-5-5",
+        "V07": "gpt-6.1-sol"
+      }
+    },
+    "reference": "alpha",
+    "roundOrder": [
+      4,
+      2,
+      1,
+      3
+    ],
+    "seed": 20261102,
+    "square": [
+      [
+        "a",
+        "b",
+        "d",
+        "c"
+      ],
+      [
+        "b",
+        "c",
+        "a",
+        "d"
+      ],
+      [
+        "c",
+        "d",
+        "b",
+        "a"
+      ],
+      [
+        "d",
+        "a",
+        "c",
+        "b"
+      ]
+    ]
+  },
+  "scoringContract": {
+    "ambiguityFlags": [
+      "clarified",
+      "interpretationAccepted"
+    ],
+    "correctOutcomes": [
+      "correct"
+    ],
+    "harnessOutcomes": [
+      "did_not_finish",
+      "vendor_error"
+    ],
+    "notScored": [
+      "budget_stop"
+    ],
+    "outcomes": [
+      "correct",
+      "wrong_answer",
+      "format_error",
+      "definition_not_accepted",
+      "abstained"
+    ],
+    "scorerSha256": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+    "version": 2
+  },
+  "sdkVersions": {
+    "anthropic": "1.16.0",
+    "mcp": "2.3.0",
+    "openai": "3.35.1"
+  },
+  "stackFacts": {
+    "cpu_name": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+    "docker_compose_version": "5.5.1",
+    "docker_share_ncpu_memtotal_bytes": "16 16548524032",
+    "docker_version": "29.8.0",
+    "free_memory_kb_at_start": "15081044"
+  },
+  "stackRunsPerBlock": 1,
+  "studyRunId": "study2-dev-tool-1",
+  "telemetry": {
+    "apollo_router": "anonymous telemetry off (APOLLO_TELEMETRY_DISABLED)",
+    "cosmo_router": "anonymous telemetry off (COSMO_TELEMETRY_DISABLED)"
+  },
+  "tokenBudgets": {
+    "anthropic": {
+      "ceiling_basis": "decision Q5 of the Job study2_preflight_final (the lead developer, 2026-11-02): 28 dollars for all its development runs; runs 1 and 2 together",
+      "dollar_ceiling": 19.0,
+      "tokens": 12000000
+    },
+    "openai": {
+      "ceiling_basis": "decision Q5 of the Job study2_preflight_final (the lead developer, 2026-11-02): 28 dollars for all its development runs; runs 1 and 2 together",
+      "dollar_ceiling": 9.0,
+      "tokens": 8500000
+    }
+  },
+  "treeDirty": false,
+  "vendorErrorRequeues": 1,
+  "voidRule": {
+    "excludedWindow": "a category D task's own stopped service, from its stop until its restore",
+    "health": {
+      "alpha": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "alpha",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/launch-state"
+        ]
+      },
+      "beta": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "beta",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/launch-state"
+        ]
+      },
+      "delta": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "delta",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/launch-state"
+        ]
+      },
+      "epsilon": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "epsilon",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/launch-state"
+        ]
+      },
+      "gamma": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "gamma",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/launch-state"
+        ]
+      }
+    },
+    "healthEveryRuns": 10,
+    "healthPoints": [
+      "start",
+      "periodic",
+      "restore",
+      "end"
+    ],
+    "onVoid": "stop with status block_void; the resume repeats the block whole as the next attempt",
+    "spend": "the void attempt stays in the vendor ledgers and is reported apart in bundle.json (voidAttempts)",
+    "triggers": {
+      "health": "the health check finds a backend down, or cannot be read, at the block start, every health_every_runs runs or at the block end",
+      "provenance": "the provenance observation at the block start finds a declared backend down (no container, or not running)",
+      "restore": "after a category D task, the restored service, the MCP server or any backend does not answer again within the scenario's ready_timeout_seconds"
+    },
+    "voidRunsFolder": "runs-void/<block>/<attempt>/"
+  }
+}

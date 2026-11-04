@@ -1,0 +1,723 @@
+{
+ "schema": 1,
+ "about": "The step 7 and step 9 record of Abstraction ladder study 2's preflight and the calculation tool's development check (docs/STUDY-2-DESIGN.md: Preflight steps, The calculation tool), with the measurements the freeze needs and the go or no-go updated from preflight-record-20261101T013718Z.json. Written by the worker of the Job study2_preflight_final from the step 7 reports in this folder, the two paid development runs (score tables and manifests in 09-<run>/, checksums in 09-dev-runs-checksums.json) and the lead developer's decisions in the worker session. Prices of 2026-10-20 (dollars per million tokens): input 2, cached read 0.1, output 10, cache write 2.5.",
+ "study": "study-2",
+ "job": "study2_preflight_final",
+ "design": [
+  "docs/STUDY-2-DESIGN.md#preflight-steps",
+  "docs/STUDY-2-DESIGN.md#the-calculation-tool-calculate-decision-b",
+  "docs/STUDY-2-DESIGN.md#cost"
+ ],
+ "previousRecord": "preflight-record-20261101T013718Z.json",
+ "step7": {
+  "title": "Answerability on the real Oracle-backed stack",
+  "ranAt": "2026-11-02 (UTC)",
+  "mainCommit": "c705c83c3573893b375b1d974940757fa7cb7fed",
+  "reports": {
+   "07-answerability-alpha-all-real.json": "2979f3db499f69ac51bbc300085547ea03b3c2d8b44433c40c0c0e4c1efbe957",
+   "07-answerability-alpha-outage-assets-real.json": "574676703514c030ff16b0231efa32fb36bbe10cd2d18799ef84957f283b0093",
+   "07-answerability-alpha-outage-missions-real.json": "1f2b9067d0b7710d87e0e9bbd437d418b26ab7dd36cb92d47463515c222f7da6",
+   "07-answerability-alpha-outage-personnel-real.json": "01bb72ff4c31fd922bedcd5a59d4398032211196b6d2856d65164e2375dd2c91",
+   "07-answerability-beta-all-real.json": "bc83e71baeb8d9332e405727e37fc3751f9d64d8a72f4289f185ca8039b9c2da",
+   "07-answerability-beta-outage-assets-real.json": "c2e7ad5513b08cdab5b283b6b16844535c77de890bc290f89ce04fcf86b4ba94",
+   "07-answerability-beta-outage-missions-real.json": "c89ba7a57acc5afaeb760952716931815b3c24c105cb64ea3b5cc809e9a2f4b6",
+   "07-answerability-beta-outage-personnel-real.json": "af5d47a344e841be1bcb3a9a014ede404e5a651bf3b3df0e36c0b135324ff856",
+   "07-answerability-delta-all-real.json": "f95af169a7162e5d21005d9114e14d728ce5a48a4e17aace721fc603b2a7cd75",
+   "07-answerability-delta-outage-assets-real.json": "280448617e2d4f25d39ad1c73fce29a6cbd2fd4ab8ea6a11254c133447f5e709",
+   "07-answerability-delta-outage-missions-real.json": "9e7a87500e0ca66dec45652c278e1d107ba12f54902578a109496652bd31d16b",
+   "07-answerability-delta-outage-personnel-real.json": "ffc3cf2718da83e40d0400d74a94eb1d44bbdebc1c732b050ed059f3133c29f0",
+   "07-answerability-epsilon-all-real.json": "131126f314e4aaf8d2b682cc86458994cce8c9de0a8cde141bf3c4be5bf8ae37",
+   "07-answerability-epsilon-outage-assets-real.json": "cbc7db90c50bf02f89f7f38ff74b0155b7705c31674fd481d7296891677faced",
+   "07-answerability-epsilon-outage-missions-real.json": "086edae3e18871d03bfbece1e5847bcf22ba3f06600f19803db0a3f46dfc271f",
+   "07-answerability-epsilon-outage-personnel-real.json": "edb9097e5d7205f0ab70a94a7d82c01e0682a73c083bd745d01992c5c0ba56af",
+   "07-answerability-gamma-all-real.json": "20bdffab785f752ece2224900b584b3a1745ca498656bf51a8eb880591859a81",
+   "07-answerability-gamma-outage-assets-real.json": "fa1278a1bf09e4ddb5f3a607a7a925ac2a9f366a78cee9a3e418c1833638449c",
+   "07-answerability-gamma-outage-missions-real.json": "191e6d3e7f9dd92ac9e0f11060480c5ce196eff5abe0bcd67b00d403ee7742f6",
+   "07-answerability-gamma-outage-personnel-real.json": "34aa2b6ddda87c23acfc9b2e92e53df1f7529877ff88ee55f2b1dad1e8254997"
+  },
+  "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+  "result": "pass: every pool, ambiguity and development task correct in all five arms, each D task under its outage, every report verified against the real Missions backend, one dataset fingerprint, no task over the limits",
+  "excludedPoolTasks": [],
+  "finding": "Cosmo Federation's Assets recovery: after launch.py service start assets exited 0 and compose reported the container healthy (22:51:45Z), the next check through the Cosmo router (22:51:54Z) read Assets as down (HTTP 200 with GraphQL errors and null data); a diagnostic query at 22:52:25Z answered, and the re-check at 22:59:06Z passed. Step 6 had measured the router recovering 0.04 s after the start, so this delay was not seen in the backend preflight. The lead developer: \"Re-check now\", then \"Continue\". Not classified as a defect; kept for the outage tasks' timing.",
+  "draw": {
+   "seed": 313,
+   "statedBy": "the lead developer, in the worker session, 2026-11-02",
+   "eligible": "76 of 76",
+   "drawn": 48,
+   "commit": "f33ec6b101aa7bdb5d8ac061b0ddc54e5a395338",
+   "files": [
+    "study/corpus2/tasks.json",
+    "study/corpus2/schemas.json",
+    "study/corpus2/expected.json"
+   ]
+  }
+ },
+ "developmentRuns": {
+  "study2-dev-notool-1": {
+   "shape": "study-1 shape: gamma, beta, delta, epsilon, each started once; 8 dev tasks, both models, one trial (decision Q4)",
+   "runs": 64,
+   "harnessTools": [
+    "ask_requester"
+   ],
+   "mainCommit": "f33ec6b101aa7bdb5d8ac061b0ddc54e5a395338",
+   "ranAt": "2026-11-03T00:39Z to 01:22Z",
+   "status": "complete",
+   "outcomes": {
+    "abstained": 1,
+    "correct": 54,
+    "did_not_finish": 1,
+    "error": 2,
+    "wrong_answer": 6
+   },
+   "outcomesByArm": {
+    "beta": {
+     "claude-sonnet-5-5": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "error",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     },
+     "gpt-6.1-sol": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "wrong_answer",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     }
+    },
+    "gamma": {
+     "claude-sonnet-5-5": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "abstained",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     },
+     "gpt-6.1-sol": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "wrong_answer",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     }
+    },
+    "delta": {
+     "claude-sonnet-5-5": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "did_not_finish",
+      "V06": "wrong_answer",
+      "V07": "wrong_answer",
+      "V08": "correct"
+     },
+     "gpt-6.1-sol": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "wrong_answer",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     }
+    },
+    "epsilon": {
+     "claude-sonnet-5-5": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "error",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     },
+     "gpt-6.1-sol": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "wrong_answer",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     }
+    }
+   },
+   "spendDollars": {
+    "claude-sonnet-5-5": 4.0675,
+    "gpt-6.1-sol": 2.0572
+   }
+  },
+  "study2-dev-tool-1": {
+   "shape": "study 2's block schedule williams-4-half over beta, gamma, delta, epsilon with the alpha reference block: 17 blocks, 8 dev tasks, both models (decision Q4)",
+   "runs": 80,
+   "harnessTools": [
+    "calculate",
+    "ask_requester"
+   ],
+   "mainCommit": "4e88460fdb1dece0e8689b84d9a486eb824efc30",
+   "ranAt": "2026-11-03T17:34Z to 18:48Z",
+   "status": "complete",
+   "provenance": "17 of 17 blocks in schedule order, every block matching its arm's first observation; 45 health checks up",
+   "outcomes": {
+    "correct": 64,
+    "did_not_finish": 10,
+    "wrong_answer": 6
+   },
+   "outcomesByArm": {
+    "alpha": {
+     "claude-sonnet-5-5": {
+      "V01": "correct",
+      "V02": "did_not_finish",
+      "V03": "wrong_answer",
+      "V04": "correct",
+      "V05": "did_not_finish",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     },
+     "gpt-6.1-sol": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "wrong_answer",
+      "V04": "wrong_answer",
+      "V05": "did_not_finish",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "wrong_answer"
+     }
+    },
+    "beta": {
+     "claude-sonnet-5-5": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "did_not_finish",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     },
+     "gpt-6.1-sol": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "did_not_finish",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     }
+    },
+    "gamma": {
+     "claude-sonnet-5-5": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "did_not_finish",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     },
+     "gpt-6.1-sol": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "correct",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     }
+    },
+    "delta": {
+     "claude-sonnet-5-5": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "did_not_finish",
+      "V06": "wrong_answer",
+      "V07": "correct",
+      "V08": "correct"
+     },
+     "gpt-6.1-sol": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "did_not_finish",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     }
+    },
+    "epsilon": {
+     "claude-sonnet-5-5": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "did_not_finish",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "wrong_answer"
+     },
+     "gpt-6.1-sol": {
+      "V01": "correct",
+      "V02": "correct",
+      "V03": "correct",
+      "V04": "correct",
+      "V05": "did_not_finish",
+      "V06": "correct",
+      "V07": "correct",
+      "V08": "correct"
+     }
+    }
+   },
+   "spendDollars": {
+    "claude-sonnet-5-5": 6.7031,
+    "gpt-6.1-sol": 3.8718
+   }
+  },
+  "startedBy": "the lead developer, from their own terminal (decision Q6); the worker held no API key",
+  "dryRuns": "each paid run had a complete fake-client dry run first: study2-dev-notool-dry1 for run 1; for run 2, study2-dev-tool-dry2 and -dry2b were refused by provenance (findings below) and study2-dev-tool-dry2c passed",
+  "spendTotalDollars": 16.7,
+  "cap": "28 dollars for the whole Job (decision Q5)"
+ },
+ "toolCheck": {
+  "declared": "the tool is fit only if the failures where the agent says it cannot count and the failures from token volume fall, the definitional failures stay as they are, and no new kind of failure appears (a wrong operation or a wrong result id)",
+  "scope": "V05 to V08 in Guided Direct Access, GraphQL Adapters, Apollo Federation and Cosmo Federation, both models; run 1 without the tool, run 2 with it",
+  "failuresByCause": {
+   "tokenVolume": {
+    "run1": 1,
+    "run2": 7,
+    "rule": "must fall",
+    "met": false,
+    "runs": "run 1: delta V05 Claude; run 2: V05 Claude in all four arms and GPT in beta, delta and epsilon, each stopped at the 1,000,000-token task limit (1.00 to 1.09 M)"
+   },
+   "cannotCount": {
+    "run1": 7,
+    "run2": 2,
+    "rule": "must fall",
+    "met": true,
+    "runs": "run 1: gamma V05 Claude (declined: it would have to deduplicate over a thousand references by hand), V05 GPT in all four arms (609, 616, 620 with wrong ranks, and no count), delta V06 and V07 Claude (hand tallies); run 2: delta V06 Claude and epsilon V08 Claude, hand tallies in runs that did not call the tool"
+   },
+   "definitional": {
+    "run1": 0,
+    "run2": 0,
+    "rule": "must stay",
+    "met": true
+   },
+   "newKind": {
+    "run2": 0,
+    "rule": "none may appear",
+    "met": true,
+    "note": "12 calculate calls were refused in run 2 (a path that misses the result's body wrapper, or a missing argument); each was corrected on the next call and none led to a wrong answer"
+   },
+   "harnessError": {
+    "run1": 2,
+    "run2": 0,
+    "note": "beta and epsilon V05 Claude in run 1, VendorTransientError after a request cut at 60 s; no score, not model failures, no re-run (the lead developer, 2026-11-02)"
+   }
+  },
+  "cause": "Every fetched result still enters the conversation in full (a Missions list page is about 53,000 characters), the tool calls add turns that read that context again, and distinct returns every value. On V05, which needs all 300 missions, the models kept working with the tool instead of guessing and crossed the token limit; GraphQL Adapters with GPT answered V05 correctly.",
+  "verdict": "fails, on its token-volume clause",
+  "decidedBy": "the lead developer, in the worker session, 2026-11-03: \"The check fails. Record it and proceed\"",
+  "consequence": "Under the design the tool design returns to the lead developer before the corpus freeze; the freeze waits for a redesigned tool that passes. The redesign is a separate Job. The lead developer agreed how it is tested: an offline replay of run 2's stored results through the redesigned tool, a worker exercising it on the local stack, a fake-client dry run, then one paid confirmation of V05 to V08 in the four compared arms with run 1 as the baseline (\"I agree with the three cheap steps and one small paid step\"). The harness has no option to run only some tasks."
+ },
+ "step9": {
+  "title": "Paid smoke test: the development tasks in every arm, compared with the archived behaviour of study 1 and gamma-prime-1",
+  "basis": "run 2, all five arms with the tool; the development sets differ from study 1's, so behaviour per arm is compared, not tasks",
+  "perArm": {
+   "alpha": {
+    "name": "Direct Access",
+    "correct": 9,
+    "runs": 16,
+    "meanCostPerRun": 0.204,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.274,
+      "meanSeconds": 38.7,
+      "meanToolCalls": 32.4,
+      "meanTokens": 440277
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.134,
+      "meanSeconds": 50.5,
+      "meanToolCalls": 40.9,
+      "meanTokens": 331476
+     }
+    }
+   },
+   "beta": {
+    "name": "Guided Direct Access",
+    "correct": 14,
+    "runs": 16,
+    "meanCostPerRun": 0.145,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.167,
+      "meanSeconds": 21.3,
+      "meanToolCalls": 5.5,
+      "meanTokens": 175204
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.122,
+      "meanSeconds": 32.1,
+      "meanToolCalls": 7,
+      "meanTokens": 208500
+     }
+    }
+   },
+   "gamma": {
+    "name": "GraphQL Adapters",
+    "correct": 15,
+    "runs": 16,
+    "meanCostPerRun": 0.103,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.124,
+      "meanSeconds": 30.0,
+      "meanToolCalls": 16.4,
+      "meanTokens": 197709
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.082,
+      "meanSeconds": 42.1,
+      "meanToolCalls": 16.9,
+      "meanTokens": 144783
+     }
+    }
+   },
+   "delta": {
+    "name": "Apollo Federation",
+    "correct": 13,
+    "runs": 16,
+    "meanCostPerRun": 0.1,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.127,
+      "meanSeconds": 25.7,
+      "meanToolCalls": 11.1,
+      "meanTokens": 190097
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.072,
+      "meanSeconds": 28.6,
+      "meanToolCalls": 7.6,
+      "meanTokens": 178305
+     }
+    }
+   },
+   "epsilon": {
+    "name": "Cosmo Federation",
+    "correct": 13,
+    "runs": 16,
+    "meanCostPerRun": 0.109,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.145,
+      "meanSeconds": 25.2,
+      "meanToolCalls": 10.2,
+      "meanTokens": 214093
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.073,
+      "meanSeconds": 30.2,
+      "meanToolCalls": 7.1,
+      "meanTokens": 164670
+     }
+    }
+   }
+  },
+  "study1": {
+   "accuracy": {
+    "alpha": "39/64",
+    "beta": "53/64",
+    "delta": "55/64",
+    "epsilon": "54/64",
+    "gamma-prime": "50/64"
+   },
+   "meanCostPerRun": {
+    "gamma (gamma-prime-1)": 0.08,
+    "delta": 0.078,
+    "epsilon": 0.078,
+    "beta": 0.152,
+    "alpha": 0.163
+   }
+  },
+  "reading": "consistent: Direct Access is again the least accurate and the costliest arm, and Guided Direct Access again costs more per run than the access layers, 1.33 to 1.45 times (0.145 against 0.100 to 0.109 dollars), a smaller gap than study 1's, where it cost 1.90 to 1.95 times the access layers (0.152 against 0.078 to 0.080). Direct Access's 7 failures have three causes, counted from the transcripts by the HTTP status of each service call (Personnel 8082, Missions 8083, Assets 8084). Endpoint discovery: 4 wrong answers had no successful answer from any service (V03 Claude and GPT, V04 GPT, V08 GPT). Token limit after reaching the data: 2 runs (V05 GPT reached Missions and Personnel; V05 Claude reached Missions, not Personnel). Token limit during a mostly failed search: 1 run (V02 Claude, 66 of its 68 service calls failed and one call each to Missions and Assets succeeded); the share of discovery in that run is not established. Other Direct Access runs reached the same services, so none of this is classified as a real-service behaviour for decision L.",
+  "directAccessFailures": {
+   "endpointDiscovery": [
+    "alpha__V03__claude-sonnet-5-5__ref",
+    "alpha__V03__gpt-6.1-sol__ref",
+    "alpha__V04__gpt-6.1-sol__ref",
+    "alpha__V08__gpt-6.1-sol__ref"
+   ],
+   "tokenLimitAfterReachingTheData": [
+    "alpha__V05__gpt-6.1-sol__ref",
+    "alpha__V05__claude-sonnet-5-5__ref"
+   ],
+   "tokenLimitDuringAMostlyFailedSearch": [
+    "alpha__V02__claude-sonnet-5-5__ref"
+   ]
+  },
+  "verdict": "pass",
+  "decidedBy": "the lead developer, with decision Q7 in the worker session, 2026-11-03 (the worker's proposal as put to them)"
+ },
+ "measurementsForTheFreeze": {
+  "note": "Recorded only; setting the limits and tau is the freeze's work (study2_freeze). The tool will change, so its overhead must be measured again.",
+  "toolOverheadPerRequest": {
+   "claude-sonnet-5-5": {
+    "run1MedianFirstPromptTokens": 1268.5,
+    "run2MedianFirstPromptTokens": 2234.5,
+    "difference": 966.0
+   },
+   "gpt-6.1-sol": {
+    "run1MedianFirstPromptTokens": 473.5,
+    "run2MedianFirstPromptTokens": 950.5,
+    "difference": 477.0
+   }
+  },
+  "tokensPerRunWithTheTool": {
+   "V01-V04": {
+    "claude-sonnet-5-5": {
+     "run1Tokens": 583732,
+     "run2Tokens": 707911,
+     "ratio": 1.21,
+     "pairs": 16
+    },
+    "gpt-6.1-sol": {
+     "run1Tokens": 229812,
+     "run2Tokens": 296785,
+     "ratio": 1.29,
+     "pairs": 16
+    }
+   },
+   "V05-V08": {
+    "claude-sonnet-5-5": {
+     "run1Tokens": 4082054,
+     "run2Tokens": 5508916,
+     "ratio": 1.35,
+     "pairs": 16
+    },
+    "gpt-6.1-sol": {
+     "run1Tokens": 3097881,
+     "run2Tokens": 5273279,
+     "ratio": 1.7,
+     "pairs": 16
+    }
+   }
+  },
+  "designEstimate": "+20 percent",
+  "costPerRunPerArmAndModel": {
+   "study2-dev-notool-1": {
+    "beta": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.176,
+      "meanSeconds": 48.0,
+      "meanToolCalls": 4.8,
+      "meanTokens": 158795
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.081,
+      "meanSeconds": 15.1,
+      "meanToolCalls": 4,
+      "meanTokens": 112752
+     }
+    },
+    "gamma": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.08,
+      "meanSeconds": 29.3,
+      "meanToolCalls": 14.5,
+      "meanTokens": 82882
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.073,
+      "meanSeconds": 45.7,
+      "meanToolCalls": 13,
+      "meanTokens": 126893
+     }
+    },
+    "delta": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.14,
+      "meanSeconds": 25.4,
+      "meanToolCalls": 8.6,
+      "meanTokens": 185178
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.06,
+      "meanSeconds": 24.0,
+      "meanToolCalls": 6,
+      "meanTokens": 114134
+     }
+    },
+    "epsilon": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.112,
+      "meanSeconds": 57.9,
+      "meanToolCalls": 9.8,
+      "meanTokens": 156368
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.043,
+      "meanSeconds": 23.6,
+      "meanToolCalls": 5.5,
+      "meanTokens": 62183
+     }
+    }
+   },
+   "study2-dev-tool-1": {
+    "alpha": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.274,
+      "meanSeconds": 38.7,
+      "meanToolCalls": 32.4,
+      "meanTokens": 440277
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.134,
+      "meanSeconds": 50.5,
+      "meanToolCalls": 40.9,
+      "meanTokens": 331476
+     }
+    },
+    "beta": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.167,
+      "meanSeconds": 21.3,
+      "meanToolCalls": 5.5,
+      "meanTokens": 175204
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.122,
+      "meanSeconds": 32.1,
+      "meanToolCalls": 7,
+      "meanTokens": 208500
+     }
+    },
+    "gamma": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.124,
+      "meanSeconds": 30.0,
+      "meanToolCalls": 16.4,
+      "meanTokens": 197709
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.082,
+      "meanSeconds": 42.1,
+      "meanToolCalls": 16.9,
+      "meanTokens": 144783
+     }
+    },
+    "delta": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.127,
+      "meanSeconds": 25.7,
+      "meanToolCalls": 11.1,
+      "meanTokens": 190097
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.072,
+      "meanSeconds": 28.6,
+      "meanToolCalls": 7.6,
+      "meanTokens": 178305
+     }
+    },
+    "epsilon": {
+     "claude-sonnet-5-5": {
+      "meanCostPerRun": 0.145,
+      "meanSeconds": 25.2,
+      "meanToolCalls": 10.2,
+      "meanTokens": 214093
+     },
+     "gpt-6.1-sol": {
+      "meanCostPerRun": 0.073,
+      "meanSeconds": 30.2,
+      "meanToolCalls": 7.1,
+      "meanTokens": 164670
+     }
+    }
+   }
+  },
+  "limits": {
+   "declared": {
+    "toolCalls": 80,
+    "tokens": 1000000,
+    "seconds": 900,
+    "retries": 3
+   },
+   "observed": {
+    "study2-dev-notool-1": {
+     "maxToolCalls": 37,
+     "runsAt60OrMoreToolCalls": 0,
+     "maxSeconds": 308.984,
+     "maxTokens": 1038021,
+     "runsStoppedAtTheTokenLimit": 1,
+     "longestSuccessfulRequestSeconds": 54.664
+    },
+    "study2-dev-tool-1": {
+     "maxToolCalls": 72,
+     "runsAt60OrMoreToolCalls": 2,
+     "maxSeconds": 154.958,
+     "maxTokens": 1085644,
+     "runsStoppedAtTheTokenLimit": 10,
+     "longestSuccessfulRequestSeconds": 33.342
+    }
+   },
+   "reading": "tokens are the binding limit (10 runs of run 2 stopped there, 1 of run 1); tool calls reached 72 of 80 once; no run came near 900 s; one retry in run 2"
+  },
+  "requestCut": "In run 1, 9 attempts were cut at 60.06 to 60.16 s (8 Claude, 1 GPT); in run 2 one GPT attempt (18:00:04Z) was cut at 60.131 s and retried in the run. No request over 60 s succeeded in either run (longest 54.7 s and 33.3 s). The cut on both vendors points at the host network path; the cause is not established.",
+  "budgetAgain": {
+   "scoredRunsAtRun2CostPerRun": 71.39,
+   "scoredRuns": 540,
+   "basis": "run 2's mean cost per run per arm (both models) times 108 runs per arm; the dev set is half aggregation tasks, so this leans high, and it holds for the current tool only",
+   "developmentSpent": 16.7,
+   "designLines": {
+    "development": 28.15,
+    "scored": 71.39,
+    "contingency": 24.89,
+    "total": 124.43,
+    "ceiling": 125
+   },
+   "reading": "The scored estimate is close to the design's 71.39. Development has spent 16.70 of its 28.15 before the tool's redesign and its paid confirmation. Claude was 63 percent of run 2's spend."
+  }
+ },
+ "findings": [
+  {
+   "what": "The Assets image was rebuilt with a new id at every stack start, so the block schedule refused each arm's second start (dry run 2, r2-delta).",
+   "fixed": "Job study2_launch_images, 3baac2193e34c339ae3d5f77661dbcc4046ca951: launch.py build makes the six images once per study run and pins their ids in the config; up never builds"
+  },
+  {
+   "what": "Stopped containers of other arms stayed in the stack project and were read by the provenance observation (dry run 2b, r2-epsilon).",
+   "fixed": "this Job, transaction D (decisions Q11 and Q12), 4e88460fdb1dece0e8689b84d9a486eb824efc30: real-mode up and down remove the stack project's containers, and every real-mode compose call names its project"
+  }
+ ],
+ "goNoGo": {
+  "backend": "The conditional go of 2026-11-01 holds: step 7 passed and step 9 passed. Heavy host applications stay closed during scored runs.",
+  "tool": "No-go for the calculation tool as built: it fails its declared check. The corpus freeze waits for a redesigned tool that passes.",
+  "decidedBy": "the lead developer, decision Q7, 2026-11-03"
+ },
+ "stateLeft": "every study stack down and its containers removed; Oracle (starfleet-missions-data-20261009) and the Missions service (starfleet-missions-service) running (decision Q9)",
+ "generatedAt": "2026-11-04T03:10:46+00:00"
+}

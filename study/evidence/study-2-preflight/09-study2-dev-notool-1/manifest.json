@@ -1,0 +1,744 @@
+{
+  "commit": "f33ec6b101aa7bdb5d8ac061b0ddc54e5a395338",
+  "createdAt": "2026-11-03T00:39:14.149+00:00",
+  "datasetHashes": {
+    "mapping_release_1_3_manifest": "5c2b99f17211abd4add46cddc400b15961608172dd8f62eb56c3683a7639c39d"
+  },
+  "declaredSettings": {
+    "adapters": "answer __schema on their own endpoints unchanged; the MCP servers hide _service and _entities",
+    "apollo_router": {
+      "default": "off",
+      "supergraph.introspection": true,
+      "version": "v2.18.0"
+    },
+    "cosmo_router": {
+      "default": "on",
+      "introspection.enabled": true,
+      "version": "0.359.0"
+    },
+    "missions_backend": "real"
+  },
+  "harnessFiles": {
+    "agent.py": "a3a5e0bf08ad076acf32364d7d9ab8667807eabd18ca88e2d1b20fd378d1b4bb",
+    "budget.py": "4db0186dd5635af36fafa100e45a25074d210c5eaaf8bb0efcbb7ddf421e74a7",
+    "credentials.py": "dc72e7af7c974abb477e78e926eef6255ae7a3c8c21ec47ee168e8f661737984",
+    "fakes.py": "163cabca78e93edf7716ec6dff485041ff91a0ef0f05e22a5ba9bddab8e4509a",
+    "harness_tools.py": "e194caa6119a6c51f1242f7f990dbab7b7a794daaa2841b1f735b34b281330d5",
+    "launcher.py": "fecf0ba97e482f9644416d77cff367ddbbd5fcdaa270927a078a3043f08e4535",
+    "mcp_client.py": "288e266cb5ff8e407e67e54e5bf9ffefe55e60eb7d36cf6fb6c028a237fa2996",
+    "provenance.py": "a0a0ab0f9941425bc7d93adb60d781070a35396ed3871185804d26ec8cdbc395",
+    "runner.py": "c49b0afd197e6c2d3c3405d63f3c8ac017a6911f820098d7ea86c6afaa3ecce6",
+    "schedule.py": "a762d9767cc40dce906fb4913e775c7edf92064613d62210468938a2100bee27",
+    "scoring_contract.py": "27653bdb87ce62d604b3cae0e82acaf74d4c7b02e7d4cb7871d2e7c89b7f103b",
+    "study_common.py": "59cc9eab652a361ef9447149bff837346f87d1edf254670b8039aa40a259e9a3",
+    "study_gate.py": "c34e7693f758af5d98804d87a62881ef3974537470fb964b0767cc8cf55cb231",
+    "vendors.py": "3a14a11f98d618eb6f178fa9980c897f3026d68ce8baf9d07fbfe35c303ff400"
+  },
+  "harnessTools": {
+    "askRequesterText": "No requester response is available during this evaluation.",
+    "names": [
+      "ask_requester"
+    ],
+    "tools": [
+      {
+        "description": "Ask the person who requested this task a clarifying question about what they mean.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "question": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "question"
+          ],
+          "type": "object"
+        },
+        "name": "ask_requester"
+      }
+    ],
+    "version": 1
+  },
+  "identity": {
+    "corpusFreeze": "bfd447e38a8cce777d9319947a474fad7f7aee403a8a6200669d53fe8718d8ef",
+    "guides": {
+      "beta": "e9a4c12620fea0b924683666f20f44a60a4d8888088b583038e1e47cd0b3fade",
+      "delta": null,
+      "epsilon": null,
+      "gamma": null
+    },
+    "harnessTools": {
+      "askRequesterText": "No requester response is available during this evaluation.",
+      "names": [
+        "ask_requester"
+      ],
+      "tools": [
+        {
+          "description": "Ask the person who requested this task a clarifying question about what they mean.",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "question": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "question"
+            ],
+            "type": "object"
+          },
+          "name": "ask_requester"
+        }
+      ],
+      "version": 1
+    },
+    "limits": {
+      "max_nudges": 2,
+      "max_retries": 3,
+      "max_task_tokens": 1000000,
+      "max_tool_calls": 80,
+      "max_wall_seconds": 900,
+      "retry_backoff_seconds": 5
+    },
+    "models": {
+      "claude-sonnet-5-5": {
+        "max_output_tokens": 16000,
+        "request": {
+          "output_config": {
+            "effort": "medium"
+          },
+          "thinking": {
+            "type": "adaptive"
+          }
+        },
+        "vendor": "anthropic"
+      },
+      "gpt-6.1-sol": {
+        "max_output_tokens": 16000,
+        "request": {
+          "include": [
+            "reasoning.encrypted_content"
+          ],
+          "reasoning": {
+            "effort": "medium"
+          },
+          "store": false
+        },
+        "vendor": "openai"
+      }
+    },
+    "plan": [
+      {
+        "scenario": "gamma",
+        "units": [
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V05",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V03",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V01",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V07",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V02",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V04",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V08",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V06",
+            "trial": 1
+          }
+        ]
+      },
+      {
+        "scenario": "beta",
+        "units": [
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V01",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V02",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V07",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V05",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V04",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V06",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V03",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V08",
+            "trial": 1
+          }
+        ]
+      },
+      {
+        "scenario": "delta",
+        "units": [
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V02",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V04",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V07",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V08",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V05",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V03",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V01",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V06",
+            "trial": 1
+          }
+        ]
+      },
+      {
+        "scenario": "epsilon",
+        "units": [
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V07",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V08",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V03",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V01",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V04",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V06",
+            "trial": 1
+          },
+          {
+            "models": [
+              "gpt-6.1-sol",
+              "claude-sonnet-5-5"
+            ],
+            "task": "V05",
+            "trial": 1
+          },
+          {
+            "models": [
+              "claude-sonnet-5-5",
+              "gpt-6.1-sol"
+            ],
+            "task": "V02",
+            "trial": 1
+          }
+        ]
+      }
+    ],
+    "pricesDated": "2026-10-20",
+    "scoringContract": 2,
+    "seed": 20261102,
+    "systemPrompt": "You answer questions about the legacy systems of the USS Enterprise using only the tools you have. Work out the answer with the tools, then call submit_answer with it. If something cannot be determined with your tools, or a service does not answer, say so in the answer instead of guessing. Finish every task by calling submit_answer exactly once.",
+    "taskSet": "dev",
+    "trials": 1
+  },
+  "limits": {
+    "max_nudges": 2,
+    "max_retries": 3,
+    "max_task_tokens": 1000000,
+    "max_tool_calls": 80,
+    "max_wall_seconds": 900,
+    "retry_backoff_seconds": 5
+  },
+  "machine": {
+    "cpuCount": 16,
+    "machine": "AMD64",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 167 Stepping 1, GenuineIntel",
+    "python": "3.14.8",
+    "totalMemoryBytes": 33912258560
+  },
+  "models": {
+    "claude-sonnet-5-5": {
+      "max_output_tokens": 16000,
+      "priceEntry": {
+        "cache_write": 2.5,
+        "cached_read": 0.1,
+        "input": 2.0,
+        "output": 10.0,
+        "source": "read from the Anthropic pricing page on 2026-10-20: input 2, five-minute cache write 2.50, cache hit 0.10 (0.05 times the input price for this model), output 10",
+        "vendor": "anthropic"
+      },
+      "request": {
+        "output_config": {
+          "effort": "medium"
+        },
+        "thinking": {
+          "type": "adaptive"
+        }
+      },
+      "vendor": "anthropic"
+    },
+    "gpt-6.1-sol": {
+      "max_output_tokens": 16000,
+      "priceEntry": {
+        "cache_write": 0.0,
+        "cached_read": 0.1,
+        "input": 2.0,
+        "output": 10.0,
+        "source": "OpenAI pricing page read 2026-10-20 (standard tier); the Responses API reports no cache-write tokens",
+        "vendor": "openai"
+      },
+      "request": {
+        "include": [
+          "reasoning.encrypted_content"
+        ],
+        "reasoning": {
+          "effort": "medium"
+        },
+        "store": false
+      },
+      "vendor": "openai"
+    }
+  },
+  "planHash": "7312f1cb74bce8e965c17dc56a969a5310c8c5cbe31c8c1cd30dac7b93d18999",
+  "pricesTableDate": "2026-10-20",
+  "provenance": {
+    "intended": {
+      "beta": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "legacy_ports": "<path>/legacy-ports.json",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8082/": "personnel-service",
+            "http://127.0.0.1:8083/": "starfleet-missions/missions",
+            "http://127.0.0.1:8084/": "assets-service"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        }
+      },
+      "delta": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8170/": "router"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        }
+      },
+      "epsilon": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8171/graphql": "cosmo-router"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        }
+      },
+      "gamma": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8182/graphql": "personnel-adapter",
+            "http://127.0.0.1:8183/graphql": "missions-adapter",
+            "http://127.0.0.1:8184/graphql": "assets-adapter",
+            "http://127.0.0.1:8190/graphql": "mapping-adapter"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        }
+      }
+    },
+    "observationCommands": [
+      "docker compose -p <project> ps --all --format json",
+      "docker inspect <container id> ..."
+    ],
+    "schema": 1
+  },
+  "resultsRootSetting": "LAB_RESULTS_DIR",
+  "scoringContract": {
+    "ambiguityFlags": [
+      "clarified",
+      "interpretationAccepted"
+    ],
+    "correctOutcomes": [
+      "correct"
+    ],
+    "harnessOutcomes": [
+      "did_not_finish",
+      "vendor_error"
+    ],
+    "notScored": [
+      "budget_stop"
+    ],
+    "outcomes": [
+      "correct",
+      "wrong_answer",
+      "format_error",
+      "definition_not_accepted",
+      "abstained"
+    ],
+    "scorerSha256": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+    "version": 2
+  },
+  "sdkVersions": {
+    "anthropic": "1.16.0",
+    "mcp": "2.3.0",
+    "openai": "3.35.1"
+  },
+  "stackFacts": {
+    "cpu_name": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+    "docker_compose_version": "5.5.1",
+    "docker_share_ncpu_memtotal_bytes": "16 16548524032",
+    "docker_version": "29.8.0",
+    "free_memory_kb_at_start": "15401244"
+  },
+  "stackRunsPerScenario": 1,
+  "studyRunId": "study2-dev-notool-1",
+  "telemetry": {
+    "apollo_router": "anonymous telemetry off (APOLLO_TELEMETRY_DISABLED)",
+    "cosmo_router": "anonymous telemetry off (COSMO_TELEMETRY_DISABLED)"
+  },
+  "tokenBudgets": {
+    "anthropic": {
+      "ceiling_basis": "decision Q5 of the Job study2_preflight_final (the lead developer, 2026-11-02): 28 dollars for all its development runs; run 1's share",
+      "dollar_ceiling": 8.5,
+      "tokens": 11400000
+    },
+    "openai": {
+      "ceiling_basis": "decision Q5 of the Job study2_preflight_final (the lead developer, 2026-11-02): 28 dollars for all its development runs; run 1's share",
+      "dollar_ceiling": 4.0,
+      "tokens": 6800000
+    }
+  },
+  "treeDirty": false
+}
