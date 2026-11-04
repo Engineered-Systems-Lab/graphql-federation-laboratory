@@ -1,0 +1,33 @@
+runKey,scenario,taskId,category,model,trial,outcome,reason,score,tags,seconds,turns,toolCalls,tokens_cache_write,tokens_cached_read,tokens_input,tokens_output,attempt,calculateCalls,calculateErrors,askRequesterCalls
+beta__V05__claude-sonnet-5-5__t1,beta,V05,E,claude-sonnet-5-5,1,error,VendorTransientError: Connection error.,,,314.789,6,18,286692,657281,14,4526,1,0,0,0
+beta__V05__gpt-6.1-sol__t1,beta,V05,E,gpt-6.1-sol,1,did_not_finish,tokens,0,,97.569,9,15,0,875521,183423,6149,1,0,0,0
+beta__V06__claude-sonnet-5-5__t1,beta,V06,E,claude-sonnet-5-5,1,correct,,1,,16.773,3,5,51976,19905,8,2178,1,0,0,0
+beta__V06__gpt-6.1-sol__t1,beta,V06,E,gpt-6.1-sol,1,correct,,1,,13.237,3,5,0,10645,32466,542,1,0,0,0
+beta__V07__claude-sonnet-5-5__t1,beta,V07,E,claude-sonnet-5-5,1,correct,,1,,10.353,2,1,30132,6426,6,1210,1,0,0,0
+beta__V07__gpt-6.1-sol__t1,beta,V07,E,gpt-6.1-sol,1,correct,,1,,7.996,2,1,0,3310,19141,552,1,0,0,0
+beta__V08__claude-sonnet-5-5__t1,beta,V08,E,claude-sonnet-5-5,1,correct,,1,,23.326,2,3,45011,6459,6,3244,1,0,0,0
+beta__V08__gpt-6.1-sol__t1,beta,V08,E,gpt-6.1-sol,1,wrong_answer,,0,,24.507,3,4,0,32706,39862,1290,1,0,0,0
+delta__V05__claude-sonnet-5-5__t1,delta,V05,E,claude-sonnet-5-5,1,error,VendorTransientError: Connection error.,,,319.09,9,10,155142,368766,20,3734,1,0,0,0
+delta__V05__gpt-6.1-sol__t1,delta,V05,E,gpt-6.1-sol,1,correct,,1,,106.956,14,13,0,707178,100228,4666,1,0,0,0
+delta__V06__claude-sonnet-5-5__t1,delta,V06,E,claude-sonnet-5-5,1,correct,,1,,34.163,7,7,62264,104074,16,4282,1,0,0,0
+delta__V06__gpt-6.1-sol__t1,delta,V06,E,gpt-6.1-sol,1,correct,,1,,27.846,8,7,0,71266,24324,976,1,0,0,0
+delta__V07__claude-sonnet-5-5__t1,delta,V07,E,claude-sonnet-5-5,1,correct,,1,,13.984,8,7,6482,24213,18,1144,1,0,0,0
+delta__V07__gpt-6.1-sol__t1,delta,V07,E,gpt-6.1-sol,1,correct,,1,,15.161,5,4,0,6072,3849,662,1,0,0,0
+delta__V08__claude-sonnet-5-5__t1,delta,V08,E,claude-sonnet-5-5,1,correct,,1,,32.24,11,14,26948,96615,24,3682,1,0,0,0
+delta__V08__gpt-6.1-sol__t1,delta,V08,E,gpt-6.1-sol,1,correct,,1,,16.548,4,3,0,9582,19740,1035,1,0,0,0
+epsilon__V05__claude-sonnet-5-5__t1,epsilon,V05,E,claude-sonnet-5-5,1,did_not_finish,tokens,0,,59.41,10,12,234146,920359,22,5131,1,0,0,0
+epsilon__V05__gpt-6.1-sol__t1,epsilon,V05,E,gpt-6.1-sol,1,correct,,1,,102.29,14,13,0,624096,109631,4455,1,0,0,0
+epsilon__V06__claude-sonnet-5-5__t1,epsilon,V06,E,claude-sonnet-5-5,1,correct,,1,,30.719,6,5,58182,74608,14,4070,1,0,0,0
+epsilon__V06__gpt-6.1-sol__t1,epsilon,V06,E,gpt-6.1-sol,1,correct,,1,,24.197,6,5,0,47369,24973,918,1,0,0,0
+epsilon__V07__claude-sonnet-5-5__t1,epsilon,V07,E,claude-sonnet-5-5,1,correct,,1,,12.184,7,6,5224,15733,16,1073,1,0,0,0
+epsilon__V07__gpt-6.1-sol__t1,epsilon,V07,E,gpt-6.1-sol,1,correct,,1,,12.655,5,4,0,6118,3861,666,1,0,0,0
+epsilon__V08__claude-sonnet-5-5__t1,epsilon,V08,E,claude-sonnet-5-5,1,wrong_answer,,0,,30.903,10,9,23611,47384,22,3719,1,0,0,0
+epsilon__V08__gpt-6.1-sol__t1,epsilon,V08,E,gpt-6.1-sol,1,correct,,1,,21.091,5,4,0,14583,16784,1267,1,0,0,0
+gamma__V05__claude-sonnet-5-5__t1,gamma,V05,E,claude-sonnet-5-5,1,did_not_finish,tokens,0,,203.299,24,40,83300,915062,50,22524,1,0,0,0
+gamma__V05__gpt-6.1-sol__t1,gamma,V05,E,gpt-6.1-sol,1,did_not_finish,tokens,0,,187.769,26,37,0,937668,65892,17497,1,0,0,0
+gamma__V06__claude-sonnet-5-5__t1,gamma,V06,E,claude-sonnet-5-5,1,correct,,1,,48.48,11,25,35313,90602,24,6173,1,0,0,0
+gamma__V06__gpt-6.1-sol__t1,gamma,V06,E,gpt-6.1-sol,1,correct,,1,,23.578,7,15,0,53127,23851,1399,1,0,0,0
+gamma__V07__claude-sonnet-5-5__t1,gamma,V07,E,claude-sonnet-5-5,1,correct,,1,,12.28,7,7,5457,15307,16,1291,1,0,0,0
+gamma__V07__gpt-6.1-sol__t1,gamma,V07,E,gpt-6.1-sol,1,correct,,1,,20.926,7,7,0,9301,4288,832,1,0,0,0
+gamma__V08__claude-sonnet-5-5__t1,gamma,V08,E,claude-sonnet-5-5,1,correct,,1,,45.437,16,26,21086,120793,34,5065,1,0,0,0
+gamma__V08__gpt-6.1-sol__t1,gamma,V08,E,gpt-6.1-sol,1,correct,,1,,53.322,8,13,0,60993,19722,4162,1,0,0,0

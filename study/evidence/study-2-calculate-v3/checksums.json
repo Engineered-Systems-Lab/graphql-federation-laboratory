@@ -1,0 +1,37 @@
+{
+ "about": "Checksums that tie the committed evidence of the Job study2_calculate_v3's two paid runs (the new no-tool baseline and the confirmation of the calculation tool's version 3) to the raw run folders kept outside the repository. bundleChecksum is the runner's checksum over the bundle's file list (study/harness/runner.py, write_bundle); bundleJsonSha256, the sums-file digests and the evidence-file digests are SHA-256 of the exact bytes as the runs and the worker wrote them (LF). No archive zip was made: each run folder stays read-only in the machine-local results folder, with a per-file sums file beside it.",
+ "runs": {
+  "study2-baseline-totals-1": {
+   "bundleChecksum": "432502086258332f530ae6ece76b6ccaa3dc0b20eb0613f618d96710f3db33c7",
+   "bundleJsonSha256": "21ebd0f59fa5dc6a0607fb7bca5a5119145a365d66e7e1f8c963073a9ddebaec",
+   "bundleWrittenAt": "2026-11-04T22:07:53.043+00:00",
+   "status": "complete",
+   "evidenceFolder": "baseline-study2-baseline-totals-1",
+   "evidenceFiles": {
+    "manifest.json": "ef36d4a30a6b2aec8306cf3d84079e64e4ef0c6de13d1ae35d0de6c5847e88b5",
+    "scores.csv": "0e010cc408e092aa631428a3fb6952f0ba29d37a9d24d94388ac010c564ba9d3"
+   },
+   "filesInRun": 75,
+   "sumsFile": {
+    "name": "SHA256SUMS-study2-baseline-totals-1.txt",
+    "sha256": "82ca9bca59c0ef8155b2bd3191c3c59364cf165da9505314c81d36a71f6173e3"
+   }
+  },
+  "study2-confirm-v3-1": {
+   "bundleChecksum": "1623d499f23a2b2013543d07187b425caec7bf4a77f9d73fc92f494774a025c4",
+   "bundleJsonSha256": "17a107185241e0584550006e0b6a17114d0f97c337888ea802f76fd099edcde7",
+   "bundleWrittenAt": "2026-11-04T22:43:13.350+00:00",
+   "status": "complete",
+   "evidenceFolder": "confirm-study2-confirm-v3-1",
+   "evidenceFiles": {
+    "manifest.json": "a0fbc67307366c061bb8ccf2be6905677b6e0af5d38fb07548a8cb5e03e2140b",
+    "scores.csv": "cf20062051d70b2640d69429cc20b3f59dfdb18d8dce08d57d97c07656f3e384"
+   },
+   "filesInRun": 107,
+   "sumsFile": {
+    "name": "SHA256SUMS-study2-confirm-v3-1.txt",
+    "sha256": "b78f68bfeddd1a5792c79c64ed909e737f76bb67bbc75ba2c03b0186b78ddaee"
+   }
+  }
+ }
+}

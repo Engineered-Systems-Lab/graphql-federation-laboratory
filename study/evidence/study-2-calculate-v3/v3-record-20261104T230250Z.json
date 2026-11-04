@@ -1,0 +1,290 @@
+{
+ "schema": 1,
+ "about": "The record of the Job study2_calculate_v3: the offline replay of the calculation tool's version 3 on study2-confirm-1, the lead developer's choice, version 3's commit, the debug against the stack, the two fake-client dry runs, the new no-tool baseline study2-baseline-totals-1 and the paid confirmation study2-confirm-v3-1 on the graph with totals, and the declared tool check run for the last time against the new baseline, with the lead developer's verdict.",
+ "job": "study2_calculate_v3",
+ "generatedAt": "2026-11-04T23:02:50Z",
+ "previousRecord": "study/evidence/study-2-calculate-redesign/redesign-record-20261104T145628Z.json (toolCheck: version 2 fails, token volume 1 to 1 against run 1 and a new kind in two V05 answers)",
+ "decisions": {
+  "Q1": "(a) version 3 as the Job describes it: long calculate outputs stored and shown by shape, a read line on every calculate output, a stored output readable page by page through view",
+  "Q2": "10 dollars for the paid confirmation: Anthropic 7, OpenAI 3",
+  "Q3": "if the check fails, stop; the fallback is decided then, as a later Job",
+  "Q4": "keep 80 tool calls, 1 M tokens, 900 s and 3 retries",
+  "Q5": "8 dollars for the new no-tool baseline: Anthropic 5, OpenAI 3",
+  "version3": "the lead developer, 2026-11-04, in the worker session, after the replay table: \"Build it as replayed (Recommended)\"",
+  "guide": "the lead developer, 2026-11-04, in the worker session: \"Leave it unchanged (Recommended)\"; study/guide2/GUIDE.md line 103 names the tool and stays true of version 3",
+  "verdict": "the lead developer, 2026-11-04T23:00Z, in the worker session: \"The check fails (Recommended)\""
+ },
+ "replay": {
+  "method": "study2-confirm-1's 32 runs, the agents' calls held fixed, every calculate call recomputed by version 3 on the stored results. Projected usage: each turn's real prompt tokens minus the tokens version 3 takes out of the results before it, at the characters per token measured on that run (Claude 1.701, GPT 2.72), plus the real output tokens; version 2's projection reproduces the run's real 7,797,595 tokens. A stored calculate output is either never read again (lower bound) or read again in full page by page unless a later calculation names it (upper bound). No vendor call, no stack.",
+  "columns": [
+   "charsShown",
+   "projectedTokens",
+   "V05RunsAtOrOver1M",
+   "extraViewCalls",
+   "maxCallsInARun"
+  ],
+  "designs": {
+   "v2AsRun": [
+    1742294,
+    7797595,
+    2,
+    0,
+    53
+   ],
+   "v3Lower": [
+    778874,
+    5006351,
+    0,
+    16,
+    53
+   ],
+   "v3Upper": [
+    1547829,
+    7093890,
+    0,
+    187,
+    74
+   ]
+  },
+  "limits": "the agents' behaviour is held fixed; how many stored outputs an agent reads again is bracketed by the two bounds; the read line's effect cannot be replayed",
+  "files": {
+   "replay/SHA256SUMS": "dcf7d76ccf1d4774fcbe84349cc0f972597b251c58f75cc129a7fd2f8c922c41",
+   "replay/final/SHA256SUMS": "a65dd324a0028d3d988b624f07f6ac4be9b855cf16d388a735428a3d204636a2",
+   "replay3.py": "12fadbe882ca01677b4b70f626b80334c91744b843b464da6707e4bf8c93e1c9"
+  },
+  "note": "the first replay ran on the code the lead developer saw the table for; it was run again on the final version 3 after a view page was made to count its nextOffset key within the page (the figures above)"
+ },
+ "version3": {
+  "commit": "683eca07c4b5c3db2b17c3c110bab9ab7749c7f8",
+  "approvedBy": "the lead developer's typed go at preview 5a56b16212cba015c3f72f1b403059a7 (early conditional approval), 2026-11-04",
+  "checks": "staged-whitespace, continuity and study-tests passed (all nine study suites ran)",
+  "reviewFindings": "before the go the lead developer found two issues: a page did not count its missing key in its size, and a key longer than a page passed the page limit; both fixed with tests (a key longer than 120 characters is shown as its start and its length)"
+ },
+ "debug": {
+  "note": "not evidence; on the lead developer's go, 2026-11-04",
+  "what": "version 3 wrapped around the live gamma stack's graphql_query (Missions real, the 1.1.0 pins): missionsPage totalCount 300; a count over four pages of 100 read as 100; 100; 100; 0, never summed; the same page named twice listed twice; a stored distinct of 626 values read to its end in 2 pages; a view with limit 100 ended at 31 within the page limit with nextOffset; default introspection lists mission and missionsPage only, includeDeprecated shows missions too; refusals carry no read line. No change.",
+  "files": {
+   "calc_debug3.py": "9a9f61a3b474f0560fea3b13642efb89622138926599d1b0825ff6a12d4aaa4b",
+   "debug-3.txt": "5ca21a431468c37e075b6c49d5406f650b5f00cec7d3515042e6a7c88e0e787d"
+  }
+ },
+ "dryRuns": {
+  "study2-baseline-totals-dry1": {
+   "result": "complete, 32 runs, harness tools [ask_requester], provenance match in all four arms",
+   "manifestSha256": "2978e367af5d8a1bbb413b716b223cf0e7e5148ab550a63d91d23916d2c71f86",
+   "scoresSha256": "098fb30d01e08c8e469a42ffc05884e9c8b5c47aa5fe33265013de6a87d02ec7"
+  },
+  "study2-confirm-v3-dry1": {
+   "result": "complete, 32 runs, harness tools [calculate, ask_requester], provenance match in all four arms",
+   "manifestSha256": "aeab064f0e0e6eafaf9215033192dc5b4827e40342ce220b7e922313b7831cb6",
+   "scoresSha256": "c5fb2459b3a4a0343fd8fa26fdf73dd65eec82cd08479875d2b28eee70b79cd1"
+  },
+  "how": "one go of the lead developer for the debug stack and both dry runs, chained: the confirmation's dry run only after the baseline's exited 0"
+ },
+ "paidRuns": {
+  "startedBy": "the lead developer, from their own terminal, in one line: the confirmation ran only because the baseline exited 0; the worker never held an API key",
+  "shape": "V05 to V08 (task subset of dev), scenario order gamma, beta, delta, epsilon, claude-sonnet-5-5 and gpt-6.1-sol, one trial, seed 20261104, limits unchanged; configs made by study/launch/make_config.py, differing only in harness_tools, the run id and the Anthropic ceiling",
+  "pins": "the 1.1.0 pin set of 2026-11-04T19:22:08Z (adapters 1.1.0, the graph with missionsPage and assetsPage), the same intended pins in both runs; images.json sha256 1fb5551e7c5cd73adcdb0dae221da4600127e91430907d2f65a677b88c1e0929",
+  "graphChange": "the graph change has two effects, both live in these runs: totals (totalCount, offset, limit, hasMore) beside the Missions and Assets lists through missionsPage and assetsPage, and the deprecated missions and assets lists hidden from default introspection",
+  "study2-baseline-totals-1": {
+   "harnessTools": [
+    "ask_requester"
+   ],
+   "createdAt": "2026-11-04T21:28:20Z",
+   "finishedAt": "2026-11-04T22:07:53Z",
+   "planSha256": "5efd149c44c425fca69d364ef406aa49763d0b02f812c04c8f88f54a2f0abdc3",
+   "status": "complete",
+   "runs": 32,
+   "correct": 24,
+   "provenance": "match in all four arms, no problems",
+   "spend": {
+    "anthropic": 3.9069,
+    "openai": 2.2017,
+    "total": 6.1086,
+    "ceiling": 8.0
+   },
+   "retries": {
+    "anthropic": 8,
+    "openai": 0
+   }
+  },
+  "study2-confirm-v3-1": {
+   "harnessTools": [
+    "calculate",
+    "ask_requester"
+   ],
+   "createdAt": "2026-11-04T22:07:58Z",
+   "finishedAt": "2026-11-04T22:43:13Z",
+   "planSha256": "1ddff9c0ed96ed7a15a97c8a987665aa01e431eaa875c2397bb7716a44b4d03e",
+   "status": "complete",
+   "runs": 32,
+   "correct": 31,
+   "provenance": "match in all four arms, no problems",
+   "spend": {
+    "anthropic": 2.3141,
+    "openai": 1.2501,
+    "total": 3.5642,
+    "ceiling": 10.0
+   },
+   "retries": {
+    "anthropic": 0,
+    "openai": 0
+   }
+  }
+ },
+ "toolCheck": {
+  "declared": "the tool is fit only if the failures where the agent says it cannot count and the failures from token volume fall, the definitional failures stay as they are, and no new kind of failure appears (a wrong operation or a wrong result id)",
+  "scope": "V05 to V08 in beta, gamma, delta, epsilon, both models, one trial; the new baseline study2-baseline-totals-1 (no tool, graph with totals) against study2-confirm-v3-1 (calculate version 3, commit 683eca0); run 1, run 2 and study2-confirm-1 as history",
+  "sameIdentity": "both runs at commit 683eca0, treeDirty false, the same intended pins (1.1.0 set of 2026-11-04T19:22:08Z), provenance match with no problems in all four arms of both; the configs differ only in harness_tools, the run id and the Anthropic ceiling",
+  "outcomes": {
+   "run1": 22,
+   "run2": 23,
+   "confirm1": 27,
+   "baseline": 24,
+   "confirm3": 31
+  },
+  "failuresByCause": {
+   "tokenVolume": {
+    "run1": 1,
+    "run2": 7,
+    "confirm1": 1,
+    "baseline": 4,
+    "confirm3": 0,
+    "rule": "must fall",
+    "met": true,
+    "runs": "baseline: beta V05 GPT 1.07 M, epsilon V05 Claude 1.16 M, gamma V05 Claude 1.02 M (40 calls), gamma V05 GPT 1.02 M (37 calls); confirm3: no run at or over 1 M, the largest 864 k (beta V05 GPT)"
+   },
+   "cannotCount": {
+    "run1": 7,
+    "run2": 2,
+    "confirm1": 2,
+    "baseline": 2,
+    "confirm3": 0,
+    "rule": "must fall",
+    "met": true,
+    "runs": "baseline: beta V08 GPT and epsilon V08 Claude, both 103 for 104 distinct people with 177 places right, the distinct count done by hand; both had C-8280 -> PRS-2634 RESOLVED in what they read (GPT called it unmapped, Claude said its hand count may be off)"
+   },
+   "definitional": {
+    "run1": 0,
+    "run2": 0,
+    "confirm1": 0,
+    "baseline": 0,
+    "confirm3": 0,
+    "rule": "must stay",
+    "met": true
+   },
+   "newKind": {
+    "run2": 0,
+    "confirm1": 2,
+    "baseline": 0,
+    "confirm3": 1,
+    "rule": "none may appear",
+    "met": false,
+    "runs": "confirm3 delta V06 Claude: TRANSPORT 1 left out, every other type right. It fetched all 300 missions in one result (def3-15) and filtered on fixed asset positions (assets.0, .1, .2, then .3 for resolution only), joining the outputs by hand; the TRANSPORT mission ST-00000LDBG has 50 assets with its non-active held ones at positions 24 and 27. A wrong operation; its cause is that a filter condition's field cannot say 'any element' (field_of takes no *), so the question has no direct filter. The same task, arm and model failed in run 1 (MAINTENANCE 40) and run 2 (42) by hand counts"
+   },
+   "harnessError": {
+    "run1": 2,
+    "run2": 0,
+    "confirm1": 0,
+    "baseline": 2,
+    "confirm3": 0,
+    "runs": "baseline: beta V05 Claude (948 k at the error) and delta V05 Claude, VendorTransientError: Connection error. after the retries"
+   }
+  },
+  "overhead": {
+   "tokens": {
+    "run1": 7179935,
+    "run2": 10782195,
+    "confirm1": 7797595,
+    "baseline": 8896547,
+    "confirm3": 5593195
+   },
+   "medianTokensPerRun": {
+    "run1": 101330,
+    "run2": 157485,
+    "confirm1": 99580,
+    "baseline": 76556.5,
+    "confirm3": 105173
+   },
+   "V05tokens": {
+    "run1": 5382408,
+    "run2": 7910964,
+    "confirm1": 5576126,
+    "baseline": 7293173,
+    "confirm3": 3389058
+   },
+   "runsAtOrOver1M": {
+    "run1": 1,
+    "run2": 7,
+    "confirm1": 2,
+    "baseline": 4,
+    "confirm3": 0
+   },
+   "toolCalls": {
+    "run1": 350,
+    "run2": 475,
+    "confirm1": 607,
+    "baseline": 345,
+    "confirm3": 706
+   },
+   "maxToolCalls": {
+    "run1": 37,
+    "run2": 55,
+    "confirm1": 53,
+    "baseline": 40,
+    "confirm3": 75
+   },
+   "calculateCalls": {
+    "run2": 118,
+    "confirm1": 262,
+    "confirm3": 304
+   },
+   "calculateRefused": {
+    "run2": 12,
+    "confirm1": 11,
+    "confirm3": 15
+   },
+   "dollars": {
+    "baseline": {
+     "anthropic": 3.9069,
+     "openai": 2.2017,
+     "total": 6.1086,
+     "ceiling": 8.0
+    },
+    "confirm3": {
+     "anthropic": 2.3141,
+     "openai": 1.2501,
+     "total": 3.5642,
+     "ceiling": 10.0
+    }
+   },
+   "retries": {
+    "baseline": {
+     "anthropic": 8,
+     "openai": 0
+    },
+    "confirm3": {
+     "anthropic": 0,
+     "openai": 0
+    }
+   }
+  },
+  "listFields": "every graph query of the 48 graph-arm runs (gamma, delta, epsilon, both runs) parsed for its top-level fields: all 48 used missionsPage (gamma V06 and epsilon V06 also assetsPage); none named the deprecated missions or assets lists, and none asked introspection with includeDeprecated. Effects of the graph change: the totals (totalCount, hasMore) were added beside the lists, and the deprecated lists are hidden from default introspection",
+  "classifiedFrom": "each failing run's transcript and results (calls, arguments, result sizes, refusals, read lines) and its submission against the key (study/corpus2/keys-a.json); the transcripts hold no model reasoning text. Scripts outside the repository: check3.py sha256 4d936e46526792e8348b5388ba57b9887b5f5b91f546c70150de2b09780b30c6 (outcomes, the causes' counts, tokens), fields2.py sha256 1aaef98d5e5f70c0bcc9c03fc99f10f09788fbb3972bd39276fb41c82fe16a5f (the top-level Query fields of every graph query of the graph-arm runs)",
+  "proposedBy": "the worker",
+  "proposedVerdict": "fails: every other clause is met (token volume 4 to 0, cannot count 2 to 0, definitional 0 to 0), but a new kind of failure appeared: one wrong operation (delta V06 Claude, a filter on fixed list positions), which the agent could not replace by a direct filter because a condition cannot say \"any element\"",
+  "verdict": "fails",
+  "decidedBy": "the lead developer, in the worker session, 2026-11-04T23:00Z, selected \"The check fails (Recommended)\"",
+  "consequence": "Under entry 9 of the Job the work stops here: the fallback is decided under Q3, as a later Job, and study2_freeze still waits for a tool that passes. Version 3 stays in the harness as committed (683eca0); this Job changes it no further."
+ },
+ "limitsForTheFreeze": {
+  "decision": "Q4",
+  "limits": {
+   "max_tool_calls": 80,
+   "max_task_tokens": 1000000,
+   "max_wall_seconds": 900,
+   "max_retries": 3
+  },
+  "proposal": "no change: no confirmation run reached 1 M tokens (largest 864 k, beta V05 GPT) or a limit; the largest run used 75 tool calls (gamma V05 Claude, correct), within 5 of the limit, and the longest 234 s. The baseline's four token stops are the no-tool runs' own volume. The limits are set again once a tool passes"
+ }
+}
