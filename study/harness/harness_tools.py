@@ -15,8 +15,13 @@ logged like any other call.
 Stored results (version 2). When `calculate` is offered, a scenario result longer than `storeAboveChars` characters is stored in full and is
 not shown: the agent reads its id, its size and its shape, which is the result as `calculate` reads it with every list cut to its first
 element and its length, every object to its first keys and every long text to its start (`preview`). The generic operation `view` reads any
-part of a stored result, or of any other result. The rule is the same in every arm and knows no domain term; a shorter result and every
-`calculate` result are shown in full, as in version 1.
+part of a stored result, or of any other result. The rule is the same in every arm and knows no domain term.
+
+Version 3. A `calculate` output longer than `storeAboveChars` characters is stored the same way: the agent reads its id, its size and its
+shape, and `view` reads it page by page. A `view` page holds at most `viewPageChars` characters, so a page is always shown in full and is
+never stored; `nextOffset` says where the next page starts. Every successful `calculate` output begins, after its id line, with one read
+line: per source, in the order given, the result id, the path, the records it contributed and whether the path matched nothing. The line
+never adds the sources up, because sources can overlap.
 
 Reading a result. A source names a result id and an optional path: dot-separated keys or list positions, where `*` takes every element of a
 list (any other value counts as a list of one). A text met while walking the path, or at its end, is read as JSON when it starts with `{` or
@@ -35,7 +40,7 @@ from pathlib import Path
 from budget import estimate_tokens
 from study_common import append_jsonl, sha256_bytes, utc_now
 
-VERSION = 2
+VERSION = 3
 CALCULATE, ASK_REQUESTER = 'calculate', 'ask_requester'
 NAMES = (CALCULATE, ASK_REQUESTER)
 ASK_TEXT = 'No requester response is available during this evaluation.'
@@ -43,13 +48,16 @@ ID_LINE = 'result_id: %s\n'
 OPERATIONS = ('view', 'count', 'distinct', 'group_by', 'sort', 'filter', 'union', 'intersection', 'difference', 'arithmetic')
 COMPARISONS = ('eq', 'ne', 'lt', 'le', 'gt', 'ge')
 OPERATORS = ('add', 'subtract', 'multiply', 'divide')
-LIMITS = {'maxSourceChars': 5_000_000, 'maxRecords': 100_000, 'maxOutputChars': 50_000, 'maxSources': 100, 'storeAboveChars': 5_000,
-          'previewChars': 1_500, 'previewKeys': 20, 'previewTextChars': 120}
+LIMITS = {'maxSourceChars': 5_000_000, 'maxRecords': 100_000, 'maxStoredOutputChars': 5_000_000, 'maxSources': 100,
+          'storeAboveChars': 5_000, 'viewPageChars': 5_000, 'previewChars': 1_500, 'previewKeys': 20, 'previewTextChars': 120}
 STORED_LINE = ('stored, not shown: %d characters. Its shape as calculate reads it (a list shows its first element and its length):\n%s\n'
                'Read any part of it with calculate operation view: one source with a path, and offset and limit.')
-STORED_RULE = ('a scenario result longer than storeAboveChars characters is stored in full and shown as its id, its size and its shape '
-               '(lists cut to their first element and their length, objects to previewKeys keys, texts to previewTextChars characters, '
-               'the whole within previewChars); view reads any part of any result; shorter results and calculate results are shown in full')
+STORED_RULE = ('a scenario result or a calculate output longer than storeAboveChars characters is stored in full and shown as its id, '
+               'its size and its shape (lists cut to their first element and their length, objects to previewKeys keys, texts to '
+               'previewTextChars characters, the whole within previewChars); view reads any part of any result, at most viewPageChars '
+               'characters a page, with nextOffset for the next page, and a page is always shown in full; shorter results are shown in full')
+READ_RULE = ('every successful calculate output begins, after its id line, with one line "read: " naming per source, in the order given, '
+             'the result id, the path, the records it contributed and whether the path matched nothing; it never adds the sources up')
 _ID = re.compile(r'^([0-9a-f]{4})-([1-9][0-9]*)$')
 _NUMBER = re.compile(r'^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$')
 _SCALAR = {'type': ['string', 'number', 'boolean', 'null']}
@@ -62,11 +70,15 @@ _SOURCE = {'type': 'object', 'additionalProperties': False,
 CALCULATE_TOOL = {
     'name': CALCULATE,
     'description': ('Compute over results you already obtained in this task; it fetches nothing. Every tool result starts with a line '
-                    'result_id: <id>. A result longer than 5000 characters is stored, not shown: you see its size and its shape, where a '
-                    'list shows its first element and its length; read any part of it with view. Name one or more results in sources, '
-                    'each with an optional path to the part to use, and one generic operation. The records are the elements found at the '
-                    'paths of all sources, one after the other. view: the part at the path of one source; offset and limit page through '
-                    'a list, the keys of an object or the characters of a text. count: the number of records. distinct: the distinct values of field. group_by: groups by the fields in group_by, with aggregate count or '
+                    'result_id: <id>. A result longer than 5000 characters, a calculate result included, is stored, not shown: you see '
+                    'its size and its shape, where a list shows its first element and its length; read any part of it with view. Every '
+                    'calculate result then has a line read: that names, for each source in turn, its result id, its path, the records it '
+                    'gave and whether the path matched nothing; it does not add the sources up, as they can overlap. Name one or more '
+                    'results in sources, each with an optional path to the part to use, and one generic operation. The records are the '
+                    'elements found at the paths of all sources, one after the other. view: the part at the path of one source; offset '
+                    'and limit page through a list, the keys of an object or the characters of a text; a page holds at most 5000 '
+                    'characters and nextOffset gives the offset of the next page. count: the number of records. distinct: the distinct '
+                    'values of field. group_by: groups by the fields in group_by, with aggregate count or '
                     'sum of sum_field. sort: the records ordered by field (descending optional). filter: the records for which every '
                     'condition holds (eq, ne, lt, le, gt, ge against a literal value). union, intersection, difference: set operations on '
                     'the values of field taken per source (difference: the first source minus the others). arithmetic: operator add, '
@@ -125,7 +137,7 @@ def describe(names):
     if CALCULATE in names:
         out.update({'resultIdFormat': '<4 hex run tag>-<n>, shown as the first line "result_id: <id>" of every scenario tool result and '
                                       'every successful calculate result', 'operations': list(OPERATIONS), 'limits': dict(LIMITS),
-                    'storedResults': STORED_RULE})
+                    'storedResults': STORED_RULE, 'readLine': READ_RULE})
     return out
 
 
@@ -148,15 +160,18 @@ class ResultStore:
         self.items = {}
         self.count = 0
 
-    def add(self, tool, arguments, text, is_error, shown_in_full=True):
-        """Store `text` under the next id; `shown_in_full` records whether the agent read the whole text or only its shape."""
+    def add(self, tool, arguments, text, is_error, shown_in_full=True, read_line=None):
+        """Store `text` under the next id; `shown_in_full` records whether the agent read the whole text or only its shape, and
+        `read_line`, for a calculate output, the read line the agent saw above it."""
         self.count += 1
         result_id = '%s-%d' % (self.tag, self.count)
         self.items[result_id] = text
         data = text.encode('utf-8')
-        append_jsonl(self.path, self.redact({'resultId': result_id, 'at': utc_now(), 'tool': tool, 'arguments': arguments,
-                                             'isError': bool(is_error), 'bytes': len(data), 'sha256': sha256_bytes(data),
-                                             'shownInFull': bool(shown_in_full), 'text': text}))
+        entry = {'resultId': result_id, 'at': utc_now(), 'tool': tool, 'arguments': arguments, 'isError': bool(is_error),
+                 'bytes': len(data), 'sha256': sha256_bytes(data), 'shownInFull': bool(shown_in_full), 'text': text}
+        if read_line is not None:
+            entry['readLine'] = read_line
+        append_jsonl(self.path, self.redact(entry))
         return result_id
 
     def get(self, result_id):
@@ -284,6 +299,37 @@ def field_of(record, field):
     return _decoded(value) if isinstance(value, str) and value.strip()[:1] in ('{', '[', '<') else value
 
 
+# ---------------------------------------------------------------------------------------------------------------- the read line
+def _read(result_id, path, amount, matched, missing=0):
+    """What one source contributed, for the read line: `amount` is a count of records or, for view and arithmetic, a phrase."""
+    return {'resultId': result_id, 'path': path if isinstance(path, str) else '', 'records': amount, 'matchedNothing': not matched,
+            'missing': missing}
+
+
+def _records_phrase(amount):
+    if isinstance(amount, str):
+        return amount
+    return '%d record%s' % (amount, '' if amount == 1 else 's')
+
+
+def read_line(reads):
+    """The line that starts every calculate output: per source, in the order given, the result id, the path, what it contributed and
+    whether the path matched nothing. It never sums the sources: two sources can hold the same records."""
+    if not reads:
+        return 'read: no result (numbers only)'
+    parts = []
+    for item in reads:
+        path = (item['path'] or '').strip()
+        where = 'at %s' % json.dumps(path, ensure_ascii=False) if path else 'at the whole result'
+        part = '%s %s: %s' % (item['resultId'], where, _records_phrase(item['records']))
+        if item['matchedNothing']:
+            part += ' (the path matched nothing)'
+        if item['missing']:
+            part += ' (%d element%s lacked the rest of the path)' % (item['missing'], '' if item['missing'] == 1 else 's')
+        parts.append(part)
+    return 'read: ' + '; '.join(parts)
+
+
 # ---------------------------------------------------------------------------------------------------------------- values
 def number(value):
     """A Decimal for a number or a numeric text; None for anything else (booleans included)."""
@@ -379,9 +425,9 @@ def preview(text):
     return body[:LIMITS['previewChars']] + '...'
 
 
-def stored_text(result_id, text):
-    """What the agent reads of a stored result: its id line, its size and its shape."""
-    return ID_LINE % result_id + STORED_LINE % (len(text), preview(text))
+def stored_text(result_id, text, line=None):
+    """What the agent reads of a stored result: its id line, for a calculate output its read line, its size and its shape."""
+    return ID_LINE % result_id + ('%s\n' % line if line is not None else '') + STORED_LINE % (len(text), preview(text))
 
 
 def _sort_key(values):
@@ -389,6 +435,10 @@ def _sort_key(values):
     if all(n is not None for n in numbers):
         return lambda i: (0, numbers[i])
     return lambda i: (0 if values[i] is not None else 1, canonical(values[i]))
+
+
+def _page_text(output):
+    return json.dumps(plain(output), ensure_ascii=False, sort_keys=True)
 
 
 # ---------------------------------------------------------------------------------------------------------------- calculate
@@ -402,7 +452,7 @@ class Calculator:
             raise CalculationError('%s needs at least %d source%s' % (arguments.get('operation'), minimum, '' if minimum == 1 else 's'))
         if len(sources) > LIMITS['maxSources']:
             raise CalculationError('at most %d sources' % LIMITS['maxSources'])
-        out, ids, size, missing = [], [], 0, 0
+        out, ids, size, missing, reads = [], [], 0, 0, []
         for source in sources:
             if not isinstance(source, dict) or 'result_id' not in source:
                 raise CalculationError('every source needs a result_id')
@@ -411,10 +461,12 @@ class Calculator:
             size += len(text.encode('utf-8'))
             values, lost = walk(read_text(text), source.get('path'))
             missing += lost
-            out.append(records_of(values))
+            records = records_of(values)
+            reads.append(_read(source['result_id'], source.get('path'), len(records), bool(values), lost))
+            out.append(records)
         if sum(len(r) for r in out) > LIMITS['maxRecords']:
             raise CalculationError('more than %d records' % LIMITS['maxRecords'])
-        return out, ids, size, missing
+        return out, ids, size, missing, reads
 
     @staticmethod
     def _shorten(records, arguments):
@@ -425,7 +477,7 @@ class Calculator:
         return records[:limit] if limit else records
 
     def run(self, arguments):
-        """(output dict, result ids used, bytes read). Raises CalculationError for a refused call."""
+        """(output dict, result ids used, bytes read, reads for the read line). Raises CalculationError for a refused call."""
         if not isinstance(arguments, dict):
             raise CalculationError('the arguments must be an object')
         op = arguments.get('operation')
@@ -435,7 +487,7 @@ class Calculator:
             return self._arithmetic(arguments)
         if op == 'view':
             return self._view(arguments)
-        per_source, ids, size, missing = self._sources(arguments, 2 if op in ('union', 'intersection', 'difference') else 1)
+        per_source, ids, size, missing, reads = self._sources(arguments, 2 if op in ('union', 'intersection', 'difference') else 1)
         records = [r for group in per_source for r in group]
         field = arguments.get('field', '')
         out = {'operation': op}
@@ -481,7 +533,7 @@ class Calculator:
             out.update({'count': len(values), 'values': values[:arguments['limit']] if arguments.get('limit') else values})
         if missing:
             out['missing'] = missing
-        return out, ids, size
+        return out, ids, size, reads
 
     @staticmethod
     def _window(arguments):
@@ -493,8 +545,11 @@ class Calculator:
         return offset, (offset + limit if limit else None)
 
     def _view(self, arguments):
-        """The part at the path of one source: a list (or the elements a * spreads) from offset with at most limit records, an object
-        from its offset-th key with at most limit keys, a text from its offset-th character with at most limit characters, or one value."""
+        """One page of the part at the path of one source: a list (or the elements a * spreads) from offset with at most limit records, an
+        object from its offset-th key with at most limit keys, a text from its offset-th character with at most limit characters, or one
+        value. A page holds at most viewPageChars characters: it ends earlier when the window would be longer, and nextOffset names the
+        offset of the next page whenever the part goes on. A single record or key longer than a page is shown as its shape (shapeOnly);
+        a deeper path reads it."""
         sources = arguments.get('sources')
         if not isinstance(sources, list) or len(sources) != 1:
             raise CalculationError('view needs exactly one source')
@@ -504,25 +559,77 @@ class Calculator:
         text = self.store.get(source['result_id'])
         start, end = self._window(arguments)
         values, missing = walk(read_text(text), source.get('path'))
-        out = {'operation': 'view', 'offset': start}
         spread = '*' in _segments(source.get('path'))
         value = values if spread or len(values) != 1 else values[0]
+        rid, path = source['result_id'], source.get('path')
+        extra = {'missing': missing} if missing else {}
         if isinstance(value, list):
-            out['count'] = len(value)
-            out['records'] = self._shorten(value[start:end], {'fields': arguments.get('fields')})
+            fields = arguments.get('fields')
+
+            def build(n):
+                return {'operation': 'view', 'offset': start, 'count': len(value),
+                        'records': self._shorten(value[start:start + n], {'fields': fields})}
+            out = self._page(build, len(value), start, end, 'records', extra)
+            read = _read(rid, path, len(value), bool(values), missing)
         elif isinstance(value, dict):
             keys = list(value)
-            out['keyCount'] = len(keys)
-            out['value'] = {k: value[k] for k in keys[start:end]}
+
+            def build(n):
+                return {'operation': 'view', 'offset': start, 'keyCount': len(keys), 'value': {k: value[k] for k in keys[start:start + n]}}
+            out = self._page(build, len(keys), start, end, 'value', extra)
+            read = _read(rid, path, 'an object of %d keys' % len(keys), True, missing)
         elif isinstance(value, str):
-            out['length'] = len(value)
-            out['text'] = value[start:end]
+            def build(n):
+                return {'operation': 'view', 'offset': start, 'length': len(value), 'text': value[start:start + n]}
+            out = self._page(build, len(value), start, end, 'text', extra)
+            read = _read(rid, path, 'a text of %d characters' % len(value), True, missing)
         else:
-            del out['offset']
-            out['value'] = value
-        if missing:
-            out['missing'] = missing
-        return out, [source['result_id']], len(text.encode('utf-8'))
+            out = {'operation': 'view', 'value': value, **extra}
+            read = _read(rid, path, 'one value', True, missing)
+        return out, [rid], len(text.encode('utf-8')), [read]
+
+    @staticmethod
+    def _page(build, total, start, end, member, extra):
+        """The longest window from `start` (up to `end`, or the end of the part) whose page fits viewPageChars, found by halving; with
+        nextOffset when the part goes on after the page. Every key the page carries (`extra`, such as `missing`, and `nextOffset`) is
+        counted when it is sized. When not even one item fits, that item's shape stands in for it, and a key longer than previewTextChars
+        is shown as its start and its length, so the page always fits."""
+        def paged(n):
+            out = dict(build(n), **extra)
+            if start + n < total:
+                out['nextOffset'] = start + n
+            return out
+
+        def fits(out):
+            return len(_page_text(out)) <= LIMITS['viewPageChars']
+        end = total if end is None else min(end, total)
+        wanted = max(end - start, 0)
+        out = paged(wanted)
+        if wanted and not fits(out):
+            low, high = 0, wanted  # the longest n that fits lies in [low, high)
+            while high - low > 1:
+                middle = (low + high) // 2
+                if fits(paged(middle)):
+                    low = middle
+                else:
+                    high = middle
+            if low:
+                out = paged(low)
+            else:
+                one = paged(1)[member]
+                for limit in (LIMITS['viewPageChars'] // 2, LIMITS['viewPageChars'] // 8, LIMITS['previewTextChars']):
+                    out = paged(1)
+                    if member == 'records':
+                        out[member] = [bounded_shape(one[0], limit)]
+                    else:
+                        key = next(iter(one))
+                        cut = LIMITS['previewTextChars']
+                        shown = key if len(key) <= cut else key[:cut] + '... (%d characters)' % len(key)
+                        out[member] = {shown: bounded_shape(one[key], limit)}
+                    out['shapeOnly'] = [member]
+                    if fits(out):
+                        break
+        return out
 
     def _group_by(self, records, arguments):
         keys = arguments.get('group_by')
@@ -572,7 +679,7 @@ class Calculator:
         operands = arguments.get('operands')
         if not isinstance(operands, list) or len(operands) < 2:
             raise CalculationError('arithmetic needs at least two operands')
-        values, ids, size = [], [], 0
+        values, ids, size, reads = [], [], 0, []
         for operand in operands:
             if isinstance(operand, dict):
                 text = self.store.get(operand.get('result_id'))
@@ -582,6 +689,7 @@ class Calculator:
                 if len(found) != 1 or number(found[0]) is None:
                     raise CalculationError('the operand %s at %r is not one number' % (operand['result_id'], operand.get('path') or ''))
                 values.append(number(found[0]))
+                reads.append(_read(operand['result_id'], operand.get('path'), 'one number', True))
             elif number(operand) is not None and not isinstance(operand, str):
                 values.append(number(operand))
             else:
@@ -598,25 +706,29 @@ class Calculator:
                 if value == 0:
                     raise CalculationError('division by zero')
                 result /= value
-        return {'operation': 'arithmetic', 'value': self._rounded(result, arguments)}, ids, size
+        return {'operation': 'arithmetic', 'value': self._rounded(result, arguments)}, ids, size, reads
 
 
-def bounded_shape(value):
-    """The shape of `value` within previewChars characters, cutting depth first; past that, the start of its JSON text."""
+def bounded_shape(value, limit=None):
+    """The shape of `value` within `limit` characters (previewChars by default), cutting depth first; past that, the start of its JSON
+    text."""
+    limit = LIMITS['previewChars'] if limit is None else limit
     for depth in (8, 6, 4, 3, 2, 1):
         cut = shape(value, 0, depth)
-        if len(json.dumps(cut, ensure_ascii=False)) <= LIMITS['previewChars']:
+        if len(json.dumps(cut, ensure_ascii=False)) <= limit:
             return cut
-    return json.dumps(cut, ensure_ascii=False)[:LIMITS['previewChars']] + '...'
+    return json.dumps(cut, ensure_ascii=False)[:limit] + '...'
 
 
-def render(output):
-    """The output as the agent reads it, cut to the output limit by halving its longest list; when no list is left to cut, its longest
-    object with more than one key (by keys) or text (by characters), which only a view returns. What is still too long after that (an
-    object with one long member, at any depth) is replaced by its bounded shape and named in `shapeOnly`, so no output passes the limit."""
+def render(output, limit=None):
+    """The output as JSON text, cut to `limit` characters (maxStoredOutputChars by default) by halving its longest list; when no list is
+    left to cut, its longest object with more than one key (by keys) or text (by characters). What is still too long after that (an object
+    with one long member, at any depth) is replaced by its bounded shape and named in `shapeOnly`, so no output passes the limit. Every
+    output a calculation makes is far below the default, so the cut is a safeguard that keeps a stored output readable as a source."""
+    limit = LIMITS['maxStoredOutputChars'] if limit is None else limit
     output = plain(output)
     text = json.dumps(output, ensure_ascii=False, sort_keys=True)
-    while len(text) > LIMITS['maxOutputChars']:
+    while len(text) > limit:
         lists = [k for k, v in output.items() if isinstance(v, list) and v]
         if not lists:
             lists = [k for k, v in output.items() if isinstance(v, (dict, str)) and len(v) > 1 and k != 'operation']
@@ -627,7 +739,7 @@ def render(output):
         output[name] = dict(list(value.items())[:len(value) // 2]) if isinstance(value, dict) else value[:len(value) // 2]
         output['truncated'] = True
         text = json.dumps(output, ensure_ascii=False, sort_keys=True)
-    while len(text) > LIMITS['maxOutputChars']:
+    while len(text) > limit:
         fields = [k for k in output if k not in ('operation', 'truncated', 'shapeOnly') and k not in output.get('shapeOnly', [])]
         if not fields:
             return json.dumps({'operation': output.get('operation'), 'truncated': True, 'shapeOnly': output.get('shapeOnly', [])},
@@ -696,8 +808,9 @@ class HarnessToolSession:
         began = self.clock()
         operation = arguments.get('operation') if isinstance(arguments, dict) else None
         try:
-            output, ids, size = self.calculator.run(arguments)
+            output, ids, size, reads = self.calculator.run(arguments)
             text = render(output)
+            line = read_line(reads)
         except Exception as error:
             # the arguments come from the model unchecked and the calculator reads only this run's results, so every failure of the
             # calculation (a refusal, a numeric failure or an argument of the wrong type) is a logged tool error, never a stop of the study
@@ -709,11 +822,14 @@ class HarnessToolSession:
                                  'error': str(error), 'calcSeconds': round(self.clock() - began, 3), 'inputBytes': 0,
                                  'outputBytes': len(text.encode('utf-8')), 'addedTokensEstimate': estimate_tokens(text)}
             return text, True
-        result_id = self.store.add(CALCULATE, arguments, text, False)
-        shown = ID_LINE % result_id + text
+        stored = len(text) > LIMITS['storeAboveChars']
+        result_id = self.store.add(CALCULATE, arguments, text, False, shown_in_full=not stored, read_line=line)
+        shown = stored_text(result_id, text, line) if stored else ID_LINE % result_id + line + '\n' + text
         self.last_details = {'tool': CALCULATE, 'operation': operation, 'resultIds': ids, 'resultId': result_id, 'error': None,
                              'calcSeconds': round(self.clock() - began, 3), 'inputBytes': size, 'outputBytes': len(shown.encode('utf-8')),
-                             'addedTokensEstimate': estimate_tokens(shown)}
+                             'addedTokensEstimate': estimate_tokens(shown), 'read': reads}
+        if stored:
+            self.last_details.update({'stored': True, 'storedChars': len(text), 'shownChars': len(shown)})
         return shown, False
 
     def close(self):

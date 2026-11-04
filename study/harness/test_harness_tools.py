@@ -48,10 +48,14 @@ class Session:
         assert text.startswith('result_id: '), text
 
     def calc(self, **arguments):
+        """(output, result id, error) of a calculate call shown in full; the read line goes to `self.read`."""
         text, error = self.wrapped.call('calculate', arguments)
+        self.read = None
         if error:
             return text, None, True
-        line, body = text.split('\n', 1)
+        line, read, body = text.split('\n', 2)
+        assert read.startswith('read: '), text
+        self.read = read
         return json.loads(body), line.split(': ', 1)[1], False
 
 
@@ -182,13 +186,66 @@ class StoredResultTests(unittest.TestCase):
         out, _, _ = self.s.calc(operation='count', sources=[{'result_id': rid, 'path': 'body.items'}])
         self.assertEqual(out['count'], 60)
 
-    def test_a_long_calculate_result_is_shown_in_full_as_in_version_1(self):
+    def test_a_long_calculate_output_is_stored_and_shown_as_its_read_line_and_shape(self):
+        """Version 3: a calculate output over storeAboveChars is stored in full, like a long scenario result."""
         rid = self.s.fetch(json.dumps(LONG_PAGE))
         text, error = self.s.wrapped.call('calculate', {'operation': 'sort', 'sources': [{'result_id': rid, 'path': 'body.items'}], 'field': 'id'})
         self.assertFalse(error)
-        self.assertGreater(len(text), ht.LIMITS['storeAboveChars'])
-        self.assertNotIn('stored, not shown', text)
-        self.assertEqual(len(json.loads(text.split('\n', 1)[1])['records']), 60)
+        lines = text.split('\n')
+        self.assertEqual(lines[0], 'result_id: ab12-2')
+        self.assertEqual(lines[1], 'read: ab12-1 at "body.items": 60 records')
+        stored = read_jsonl(self.s.path)[-1]
+        self.assertTrue(lines[2].startswith('stored, not shown: %d characters.' % len(stored['text'])))
+        self.assertGreater(len(stored['text']), ht.LIMITS['storeAboveChars'])
+        self.assertLessEqual(len(text), ht.LIMITS['previewChars'] + 500)
+        shape = json.loads(lines[3])
+        self.assertEqual((shape['count'], shape['records'][0]['id'], shape['records'][1]), (60, 'M0', '... 60 elements in all'))
+        self.assertEqual((stored['shownInFull'], stored['readLine']), (False, lines[1]))
+        self.assertEqual(len(json.loads(stored['text'])['records']), 60)  # stored whole
+        details = self.s.wrapped.last_details
+        self.assertEqual((details['stored'], details['storedChars'], details['shownChars']), (True, len(stored['text']), len(text)))
+        self.assertEqual(details['read'], [{'resultId': 'ab12-1', 'path': 'body.items', 'records': 60, 'matchedNothing': False, 'missing': 0}])
+
+    def test_a_stored_calculate_output_is_a_source_read_in_full(self):
+        rid = self.s.fetch(json.dumps(LONG_PAGE))
+        _, error = self.s.wrapped.call('calculate', {'operation': 'sort', 'sources': [{'result_id': rid, 'path': 'body.items'}], 'field': 'id'})
+        self.assertFalse(error)
+        out, _, _ = self.s.calc(operation='count', sources=[{'result_id': 'ab12-2', 'path': 'records'}])
+        self.assertEqual(out['count'], 60)
+        self.assertEqual(self.s.read, 'read: ab12-2 at "records": 60 records')
+
+    def test_a_stored_calculate_output_is_read_page_by_page_and_never_only_as_its_shape(self):
+        """Every page of a view is shown in full within viewPageChars, never stored, and nextOffset leads to the next page until the end."""
+        rid = self.s.fetch(json.dumps(LONG_PAGE))
+        self.s.wrapped.call('calculate', {'operation': 'sort', 'sources': [{'result_id': rid, 'path': 'body.items'}], 'field': 'id'})
+        seen, offset, pages = [], 0, 0
+        while offset is not None:
+            text, error = self.s.wrapped.call('calculate', {'operation': 'view', 'sources': [{'result_id': 'ab12-2', 'path': 'records'}],
+                                                            'offset': offset})
+            self.assertFalse(error)
+            self.assertNotIn('stored, not shown', text)
+            body = text.split('\n', 2)[2]
+            self.assertLessEqual(len(body), ht.LIMITS['viewPageChars'])
+            out = json.loads(body)
+            self.assertEqual((out['offset'], out['count']), (offset, 60))
+            seen += [r['id'] for r in out['records']]
+            self.assertTrue(read_jsonl(self.s.path)[-1]['shownInFull'])
+            offset, pages = out.get('nextOffset'), pages + 1
+        self.assertEqual(seen, sorted('M%d' % i for i in range(60)))  # every record once, in the sort's (text) order
+        self.assertGreater(pages, 1)
+
+    def test_the_stored_calculate_output_is_the_same_in_every_arm(self):
+        shown = []
+        for key, tag in (('beta__V05__m__t1', 'aa11'), ('epsilon__V05__m__t1', 'aa11')):
+            tmp = tempfile.TemporaryDirectory()
+            self.addCleanup(tmp.cleanup)
+            inner = FakeToolSession([{'name': 'q', 'description': 'd', 'input_schema': {'type': 'object'}}], {'q': lambda a: mcp_text(json.dumps(LONG_PAGE))})
+            wrapped = ht.HarnessToolSession(inner, ['calculate', 'ask_requester'], ht.ResultStore(Path(tmp.name) / 'r.jsonl', tag), key)
+            wrapped.call('q', {})
+            shown.append(wrapped.call('calculate', {'operation': 'filter', 'sources': [{'result_id': 'aa11-1', 'path': 'body.items'}],
+                                                    'conditions': [{'field': 'status', 'op': 'eq', 'value': 'ACTIVE'}]})[0])
+        self.assertEqual(shown[0], shown[1])
+        self.assertIn('stored, not shown', shown[0])
 
     def test_an_xml_result_shows_its_shape_with_local_names(self):
         people = ''.join('<p:person rank="Lt"><p:id>P%d</p:id><p:name>%s</p:name></p:person>' % (i, 'n' * 60) for i in range(80))
@@ -253,46 +310,56 @@ class ViewTests(unittest.TestCase):
     def test_view_of_a_spread_path_lists_its_elements(self):
         out, _, _ = self.view('body.items.*.id', limit=3)
         self.assertEqual(out['records'], ['M0', 'M1', 'M2'])
-        self.assertEqual(out['count'], 60)
+        self.assertEqual((out['count'], out['nextOffset']), (60, 3))
+        self.assertEqual(self.s.read, 'read: ab12-1 at "body.items.*.id": 60 records')
 
     def test_view_pages_through_the_keys_of_an_object(self):
         out, _, _ = self.view('body', offset=1, limit=2)
-        self.assertEqual(out, {'operation': 'view', 'offset': 1, 'keyCount': 4, 'value': {'pageSize': 60, 'totalCount': 240}})
+        self.assertEqual(out, {'operation': 'view', 'offset': 1, 'keyCount': 4, 'value': {'pageSize': 60, 'totalCount': 240}, 'nextOffset': 3})
+        self.assertEqual(self.s.read, 'read: ab12-1 at "body": an object of 4 keys')
 
     def test_view_of_a_text_gives_its_characters_and_of_a_value_the_value(self):
         out, _, _ = self.view('body.items.3.note', offset=75, limit=10)
         self.assertEqual(out, {'operation': 'view', 'offset': 75, 'length': 80, 'text': 'nnnnn'})
         out, _, _ = self.view('body.totalCount')
         self.assertEqual(out, {'operation': 'view', 'value': 240})
+        self.assertEqual(self.s.read, 'read: ab12-1 at "body.totalCount": one value')
         out, _, _ = self.view('')
         self.assertEqual(out['keyCount'], 4)  # the whole result: status, contentType, truncated, body
+        self.assertEqual(self.s.read, 'read: ab12-1 at the whole result: an object of 4 keys')
 
-    def test_a_long_view_is_cut_to_the_output_limit_and_marked(self):
+    def test_a_long_view_ends_its_page_within_the_page_limit_and_names_the_next_offset(self):
+        """Version 3: a page is at most viewPageChars characters, whatever limit asked for; nextOffset names where the next one starts."""
         big = self.s.fetch(json.dumps({'k%04d' % i: 'v' * 100 for i in range(1500)}))
         out, _, _ = self.s.calc(operation='view', sources=[{'result_id': big, 'path': 'body'}])
-        self.assertTrue(out['truncated'])
         self.assertEqual(out['keyCount'], 1500)
         self.assertLess(len(out['value']), 1500)
+        self.assertEqual(out['nextOffset'], len(out['value']))
+        self.assertLessEqual(len(ht.render(out)), ht.LIMITS['viewPageChars'])
         text = self.s.fetch(json.dumps({'t': 'w' * 120_000}))
-        out, _, _ = self.s.calc(operation='view', sources=[{'result_id': text, 'path': 'body.t'}])
-        self.assertTrue(out['truncated'])
+        out, _, _ = self.s.calc(operation='view', sources=[{'result_id': text, 'path': 'body.t'}], offset=10)
         self.assertEqual(out['length'], 120_000)
-        self.assertLess(len(json.dumps(out)), ht.LIMITS['maxOutputChars'] + 100)
-        out, _, _ = self.view('body.items')
-        self.assertEqual(len(out['records']), 60)  # short enough: not cut
+        self.assertEqual(out['nextOffset'], 10 + len(out['text']))
+        self.assertLessEqual(len(ht.render(out)), ht.LIMITS['viewPageChars'])
+        self.assertGreater(len(out['text']), ht.LIMITS['viewPageChars'] - 200)  # the page is filled, not halved
+        out, _, _ = self.view('body.items', limit=40)
+        self.assertLess(len(out['records']), 40)
+        self.assertEqual(out['nextOffset'], len(out['records']))
+        out, _, _ = self.view('body.items', offset=59)
+        self.assertEqual((len(out['records']), 'nextOffset' in out), (1, False))  # the last page names no next offset
+        out, _, _ = self.view('body.items', offset=90)
+        self.assertEqual((out['records'], 'nextOffset' in out), ([], False))
 
-    def test_a_view_of_an_object_with_one_long_member_stays_within_the_limit(self):
-        """A single-key object, or one nested several levels deep, holding a text past the output limit: the halving finds nothing to cut,
-        so the member is replaced by its bounded shape and the output says so."""
+    def test_a_view_of_an_object_with_one_long_member_stays_within_the_page(self):
+        """A single record or key longer than a page is shown as its shape, named in shapeOnly; a deeper path reads it."""
         long = 'p' * 60_000
         for body, path in (({'payload': long}, 'body'), ({'a': {'b': {'c': long}}}, 'body'), ({'a': {'b': {'c': long}}}, 'body.a'),
-                           ({'x': long, 'y': long}, 'body'), ({'items': [{'note': long}]}, 'body')):
+                           ({'x': long, 'y': long}, 'body'), ({'items': [{'note': long}]}, 'body'), ({'items': [{'note': long}]}, 'body.items')):
             rid = self.s.fetch(json.dumps(body))
             text, error = self.s.wrapped.call('calculate', {'operation': 'view', 'sources': [{'result_id': rid, 'path': path}]})
             self.assertFalse(error, body)
-            self.assertLessEqual(len(text.split('\n', 1)[1]), ht.LIMITS['maxOutputChars'], (body, path))
-            out = json.loads(text.split('\n', 1)[1])
-            self.assertTrue(out['truncated'], (body, path))
+            self.assertNotIn('stored, not shown', text)
+            self.assertLessEqual(len(text.split('\n', 2)[2]), ht.LIMITS['viewPageChars'], (body, path))
             self.assertNotIn(long, text)
         rid = self.s.fetch(json.dumps({'payload': long}))
         out, _, _ = self.s.calc(operation='view', sources=[{'result_id': rid, 'path': 'body'}])
@@ -300,14 +367,48 @@ class ViewTests(unittest.TestCase):
         self.assertEqual(out['value'], {'payload': 'p' * ht.LIMITS['previewTextChars'] + '... (60000 characters)'})
         out, _, _ = self.s.calc(operation='view', sources=[{'result_id': rid, 'path': 'body.payload'}], offset=100, limit=5)
         self.assertEqual(out['text'], 'ppppp')  # the long member is still readable piece by piece
+        rid = self.s.fetch(json.dumps({'x': long, 'y': 1}))
+        out, _, _ = self.s.calc(operation='view', sources=[{'result_id': rid, 'path': 'body'}])
+        self.assertEqual((list(out['value']), out['shapeOnly'], out['nextOffset']), (['x'], ['value'], 1))
 
-    def test_render_never_passes_the_output_limit(self):
+    def test_a_key_longer_than_a_page_is_shown_by_its_start_and_length_within_the_page(self):
+        for key in ('k' * 6000, '{"a": [' + '1, ' * 3000 + '1]}'):  # a long key, and one that looks like JSON
+            rid = self.s.fetch(json.dumps({key: 1, 'b': 2}))
+            text, error = self.s.wrapped.call('calculate', {'operation': 'view', 'sources': [{'result_id': rid, 'path': 'body'}]})
+            self.assertFalse(error)
+            self.assertNotIn('stored, not shown', text)
+            body = text.split('\n', 2)[2]
+            self.assertLessEqual(len(body), ht.LIMITS['viewPageChars'])
+            out = json.loads(body)
+            self.assertEqual((out['shapeOnly'], out['nextOffset'], out['keyCount']), (['value'], 1, 2))
+            self.assertEqual(list(out['value']), [key[:ht.LIMITS['previewTextChars']] + '... (%d characters)' % len(key)])
+
+    def test_the_page_is_sized_with_every_key_it_carries(self):
+        """missing and nextOffset are counted when the page is sized, so a full page is never pushed past the limit and stored."""
+        rid = self.s.fetch(json.dumps([{'v': 'x'} for _ in range(3000)] + [{}]))
+        offset, seen = 0, 0
+        while offset is not None:
+            text, error = self.s.wrapped.call('calculate', {'operation': 'view', 'sources': [{'result_id': rid, 'path': 'body.*.v'}],
+                                                            'offset': offset})
+            self.assertFalse(error)
+            self.assertNotIn('stored, not shown', text)
+            body = text.split('\n', 2)[2]
+            self.assertLessEqual(len(body), ht.LIMITS['viewPageChars'])
+            out = json.loads(body)
+            self.assertEqual(out['missing'], 1)
+            seen += len(out['records'])
+            offset = out.get('nextOffset')
+        self.assertEqual(seen, 3000)
+
+    def test_render_never_passes_its_limit(self):
         long = 'q' * 70_000
         for output in ({'operation': 'view', 'value': {'k': long}}, {'operation': 'view', 'value': {'a': [{'b': {'c': long}}]}},
                        {'operation': 'view', 'value': long}, {'operation': 'sort', 'records': [{'n': long}]},
                        {'operation': 'view', 'value': {'k': long}, 'other': {'k': long}}):
-            self.assertLessEqual(len(ht.render(output)), ht.LIMITS['maxOutputChars'], output.keys())
+            self.assertLessEqual(len(ht.render(output, 50_000)), 50_000, output.keys())
+            self.assertEqual(json.loads(ht.render(output)), output)  # under maxStoredOutputChars nothing is cut
         self.assertEqual(ht.render({'operation': 'count', 'count': 3}), '{"count": 3, "operation": "count"}')  # short: unchanged
+        self.assertEqual(ht.LIMITS['maxStoredOutputChars'], ht.LIMITS['maxSourceChars'])  # a stored output stays readable as a source
 
     def test_view_refuses_other_shapes_of_its_arguments(self):
         for arguments, message in (({'sources': []}, 'exactly one source'),
@@ -486,12 +587,46 @@ class CalculateTests(unittest.TestCase):
         self.assertTrue(error)
         self.assertIn('document type', text)
 
-    def test_a_long_output_is_cut_and_marked(self):
+    def test_a_long_output_is_stored_whole_and_not_cut(self):
         many = self.s.fetch(json.dumps([{'n': i, 'pad': 'x' * 100} for i in range(2000)]))
-        out, _, _ = self.s.calc(operation='sort', sources=[{'result_id': many, 'path': 'body'}], field='n')
-        self.assertTrue(out['truncated'])
-        self.assertEqual(out['count'], 2000)
-        self.assertLess(len(json.dumps(out)), ht.LIMITS['maxOutputChars'] + 100)
+        text, error = self.s.wrapped.call('calculate', {'operation': 'sort', 'sources': [{'result_id': many, 'path': 'body'}], 'field': 'n'})
+        self.assertFalse(error)
+        self.assertIn('stored, not shown', text)
+        stored = json.loads(read_jsonl(self.s.path)[-1]['text'])
+        self.assertEqual((stored['count'], len(stored['records']), 'truncated' in stored), (2000, 2000, False))
+
+    def test_the_read_line_names_each_source_its_path_and_records_and_never_sums_them(self):
+        second = self.s.fetch(json.dumps({'data': {'missions': {'items': ROWS[:2]}}}))
+        empty = self.s.fetch(json.dumps({'data': {'missions': {'items': []}}}))
+        out, _, _ = self.s.calc(operation='count', sources=self.src() + self.src(rid=second) + self.src(rid=self.rows))
+        self.assertEqual(out['count'], 10)
+        self.assertEqual(self.s.read, 'read: %s at "body.data.missions.items": 4 records; %s at "body.data.missions.items": 2 records; '
+                                      '%s at "body.data.missions.items": 4 records' % (self.rows, second, self.rows))
+        self.assertNotIn('10', self.s.read)  # the sources are listed, never added up
+        out, _, _ = self.s.calc(operation='union', sources=[{'result_id': self.rows, 'path': 'body.data.missions.items.*.id'},
+                                                            {'result_id': empty, 'path': 'body.data.missions.items.*.id'}])
+        self.assertEqual(out['count'], 4)
+        self.assertEqual(self.s.read, 'read: %s at "body.data.missions.items.*.id": 4 records; %s at "body.data.missions.items.*.id": 0 records '
+                                      '(the path matched nothing)' % (self.rows, empty))
+        self.s.calc(operation='count', sources=self.src(rid=empty))
+        self.assertEqual(self.s.read, 'read: %s at "body.data.missions.items": 0 records' % empty)  # an empty list is found, not unmatched
+        self.s.calc(operation='count', sources=self.src('body.data.missions.items.*.tags.*'))
+        self.assertEqual(self.s.read, 'read: %s at "body.data.missions.items.*.tags.*": 1 record (2 elements lacked the rest of the path)'
+                         % self.rows)
+        self.s.calc(operation='count', sources=[{'result_id': self.rows}])
+        self.assertEqual(self.s.read, 'read: %s at the whole result: 1 record' % self.rows)
+
+    def test_the_read_line_of_arithmetic_names_its_results_and_stays_one_line(self):
+        _, total, _ = self.s.calc(operation='count', sources=self.src())
+        self.s.calc(operation='arithmetic', operator='add', operands=[{'result_id': total, 'path': 'count'}, 1])
+        self.assertEqual(self.s.read, 'read: %s at "count": one number' % total)
+        self.s.calc(operation='arithmetic', operator='add', operands=[2, 1])
+        self.assertEqual(self.s.read, 'read: no result (numbers only)')
+        text, error = self.s.wrapped.call('calculate', {'operation': 'count', 'sources': [{'result_id': self.rows, 'path': 'body\n.data'}]})
+        self.assertTrue(error)
+        self.assertNotIn('read: ', text)  # a refusal read nothing, so it has no read line
+        out, _, _ = self.s.calc(operation='count', sources=[{'result_id': total, 'path': ' count '}])
+        self.assertEqual(len(self.s.read.splitlines()), 1)
 
     def test_every_call_is_logged_with_ids_operation_bytes_and_tokens(self):
         out, rid, _ = self.s.calc(operation='count', sources=self.src())
@@ -508,7 +643,12 @@ class CalculateTests(unittest.TestCase):
         self.assertEqual(described['names'], ['calculate', 'ask_requester'])
         self.assertEqual(described['askRequesterText'], ht.ASK_TEXT)
         self.assertEqual(described['operations'], list(ht.OPERATIONS))
-        self.assertEqual((described['version'], described['limits']['storeAboveChars'], described['storedResults']), (2, 5000, ht.STORED_RULE))
+        self.assertEqual((described['version'], described['limits']['storeAboveChars'], described['storedResults']), (3, 5000, ht.STORED_RULE))
+        self.assertEqual((described['limits']['viewPageChars'], described['readLine']), (5000, ht.READ_RULE))
+        self.assertNotIn('maxOutputChars', described['limits'])
+        description = ht.CALCULATE_TOOL['description']
+        for words in ('a calculate result included', 'read:', 'does not add the sources up', 'at most 5000', 'nextOffset'):
+            self.assertIn(words, description)
         with self.assertRaisesRegex(ValueError, 'harness_tools'):
             ht.validate(['calculate', 'fetch'])
         with self.assertRaisesRegex(ValueError, 'harness_tools'):
