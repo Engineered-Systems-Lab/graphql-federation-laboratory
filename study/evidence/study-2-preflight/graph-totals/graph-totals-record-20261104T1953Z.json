@@ -1,0 +1,265 @@
+{
+  "about": "The record of the refreshed evidence of the Job study2_graph_totals (entries 7 and 8): the new images and configs, the fake-client dry run, step 7 run again for the three graph arms on the adapters 1.1.0 images, the graph-arm totals check (G2) and the draw check. Written by the worker of the Job from the machine-local files named below; the reports in this folder are the runs' reports with LF line ends. Historical / non-normative.",
+  "job": "study2_graph_totals",
+  "commit": "923d9f9174e9a052409fb3558a022442688ef0a4",
+  "codeCommit": "eb196ce59540d8e619618277132553276f8b1527",
+  "images": {
+    "writtenAt": "2026-11-04T19:22:08Z",
+    "pins": {
+      "starfleet-federation-stack-assets-service:1.0.0": "sha256:b821269aab24278a6c892a3e3e4ea3c75636d976f3a8fe9aee8f1e4efd6e1412",
+      "starfleet-federation-stack-personnel-service:2.0.0": "sha256:e3c98f470474bcd58bf14bae79ebe5046658d42fbd5df96ef1dbaa1be96707ea",
+      "starfleet-federation-stack-missions-adapter:1.1.0": "sha256:fd06ffd69a68ae6822d0a9fd37730f1e189a0c2c0ebbe9fdf8507e0bfccc5d00",
+      "starfleet-federation-stack-personnel-adapter:1.0.0": "sha256:7dd55be488783d565eb43870ba7549b34f8f0c79c2bc294a3a9e9eab3c263181",
+      "starfleet-federation-stack-assets-adapter:1.1.0": "sha256:f59aae3c2ba9636b150f271910d8992e8baec2dc9383cdf7bf2245f8d9d3a345",
+      "starfleet-federation-stack-mapping-adapter:1.0.0": "sha256:0d9fb3a9c5e4c2a7103bc44500d064c0b6bb1e8f26141863074a850b0149a535",
+      "starfleet-missions-service:1.0.0": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3"
+    },
+    "pinFileSha256": "1fb5551e7c5cd73adcdb0dae221da4600127e91430907d2f65a677b88c1e0929",
+    "finding": "Every image the stack builds got a new id in this build, including the Assets and Personnel services whose sources did not change; only the operator's Missions service image (read, never built) kept its id. Builds of the stack are not reproducible by id here (study/launch/README.md), so the 12 new graph-arm reports were observed on newer builds of those two services than the 8 original direct-arm reports. The image ids are recorded here, in the pin set, and in the dry run's provenance; a step 7 report holds the observation fingerprint and the image tags only. draw.py does not compare images across reports."
+  },
+  "configs": {
+    "study-config-step7.json": "1580bfdb0b6686f260a2447055f9f859fe28d46b7514caadc9801e95b2b10cb4",
+    "plan-step7.json": "8c88b10d0ecd2bcfe717191063c4b471a6caa209f2b4e08eab0c9285f18a83e9",
+    "study-config-dry.json": "30cd1eb12d770bacd4610c1b77b663e3b93193701230ce91d3fe606b206cf96e",
+    "plan-dry.json": "d2980b13f34df92c871fea7b246f3eb211ccc39868ef38dc0f8daa1597451b32",
+    "note": "Written by study/launch/make_config.py --missions real from the pin set above, with --corpus-dir study/corpus2 and --accept-apollo-elv2 (the lead developer's standing acceptance, set per command only). The step 7 plan has token budgets of 0, so it cannot start a paid run. The dry-run plan carries the confirmation plan's budgets because the harness refuses a token limit of 0; it was run with --dry-run only."
+  },
+  "dryRun": {
+    "go": "the lead developer, \"Go, dry run\" (2026-11-04)",
+    "runId": "study2-graph-totals-dry1",
+    "status": "complete",
+    "runs": 24,
+    "scope": "V05 to V08 x gamma, delta, epsilon x claude-sonnet-5-5 and gpt-6.1-sol, one trial, the fake vendor client (no key, no cost)",
+    "provenance": {
+      "gamma": "match",
+      "delta": "match",
+      "epsilon": "match"
+    },
+    "problems": [],
+    "manifestSha256": "b7c5ae0484a0c75eab8de0f3436c8918511dcf27c7709347ef189993012bff74",
+    "scoresSha256": "3a027828e5c0c57d6a058bcdbbb015b591c7178b8b0e2a50ebca32728ee43e6b"
+  },
+  "step7": {
+    "driver": {
+      "path": "C:/esl/_study2-graph-totals/step7_arm.py (machine-local, not committed)",
+      "sha256": "2cec2d7a805f10e7fcb13e4019566da86f5d09518f7f6d6defd82b9f1c1fb9b4",
+      "sequence": "the config's stack start, the arm's MCP server, run_reference.py --set all, totals_check.py, then for missions, assets and personnel: launch.py service stop, run_reference.py --set all --outage <service>, launch.py service start, run_reference.py --check-services; the MCP server stopped and launch.py down in every case. A refusal or a failure stops it with no retry."
+    },
+    "arms": {
+      "gamma": {
+        "go": "the lead developer, \"Go, gamma\" (2026-11-04)",
+        "result": "every command exit 0; every restore check passed"
+      },
+      "delta": {
+        "go": "the lead developer, \"Go, delta\" (2026-11-04), then \"Fresh full delta run\" for the second attempt",
+        "firstAttempt": {
+          "result": "stopped by the driver with code 13: after the Missions outage, run_reference.py --check-services, run about 7 s after the Missions service restarted (container start 2026-11-04T19:38:00Z), exited 3 with \"missions is down, not up\"; the stack was taken down and nothing was retried. The Assets and Personnel outages did not run. The Missions service answered HTTP 200 afterwards.",
+          "passedBeforeTheStop": {
+            "all": {
+              "correct": 75,
+              "skipped": 15
+            },
+            "outage missions": {
+              "correct": 4,
+              "skipped": 11
+            },
+            "totals check": "no problems"
+          },
+          "reading": "the worker's inference, not verified: a readiness race of the check through the router seconds after Tomcat restarted; in gamma the same check passed 8 s after the restart.",
+          "filesKeptMachineLocal": {
+            "07-answerability-delta-all-real.json": "ece87e4edf3dec0a2a5db5c7f5996212a0dc6be07f094d67018ead8fe96c210f",
+            "07-answerability-delta-outage-missions-real.json": "3e4245b1f1635e7c432ab74c2e4049b3fea6ba47bc66b556b9bc301f64a8a20b",
+            "07-totals-delta-real.json": "26dda946720b2c319c64fac7ef6ffec9b3c0f1a9a5b28194bb18c0b6bdf8ee24"
+          }
+        },
+        "secondAttempt": {
+          "change": "the lead developer's choice: a fresh full run from a new stack, with the driver's restore check asked up to 12 times, 5 s apart, and still stopping when a service is not back",
+          "result": "every command exit 0; each restore check passed on its first attempt, so the wait was not used"
+        }
+      },
+      "epsilon": {
+        "go": "the lead developer, \"Go, epsilon\" (2026-11-04)",
+        "result": "every command exit 0; every restore check passed on its first attempt"
+      }
+    },
+    "reports": {
+      "07-answerability-delta-all-real.json": {
+        "sha256": "4828d68af986f0806bf82020adaa612152550e02ba40d87e9ff3f16b4e11245c",
+        "summary": {
+          "correct": 75,
+          "skipped": 15
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-delta-outage-assets-real.json": {
+        "sha256": "1b943a656952c796e804b77b18232c176d7e96231072f2b2236678f186c80c9c",
+        "summary": {
+          "skipped": 9,
+          "correct": 6
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-delta-outage-missions-real.json": {
+        "sha256": "0854bd1a98906e71284024bb09263ce87bfc42761cb4fc0fe2d77b31f75c3a4b",
+        "summary": {
+          "correct": 4,
+          "skipped": 11
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-delta-outage-personnel-real.json": {
+        "sha256": "ee7da74ae289528bb2aa6ba3979ca335ae1f7d48c9b42dd4ad4ca2d8de2e826e",
+        "summary": {
+          "skipped": 10,
+          "correct": 5
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-epsilon-all-real.json": {
+        "sha256": "bf973414c08da4f32deb00e85b3ff451263d42831d9571b86c6dcc45415d9dbb",
+        "summary": {
+          "correct": 75,
+          "skipped": 15
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-epsilon-outage-assets-real.json": {
+        "sha256": "132a0131249ade143d0c2acc0c4342f37ea4a7f8cfe9b5bb76d6f66c5dc3f365",
+        "summary": {
+          "skipped": 9,
+          "correct": 6
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-epsilon-outage-missions-real.json": {
+        "sha256": "7a529c47abf6992978bcb059578123c438f7be3f416d00dc18df9a8d5c108491",
+        "summary": {
+          "correct": 4,
+          "skipped": 11
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-epsilon-outage-personnel-real.json": {
+        "sha256": "f53c67fd29309af525d6d5f6ebd5d3f16d2fe89bae1c13fc445e129b821991a0",
+        "summary": {
+          "skipped": 10,
+          "correct": 5
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-gamma-all-real.json": {
+        "sha256": "17e983c99f766ad52f6ac846fc75be56811a1dbe7da6c1c895327dac83e9e4aa",
+        "summary": {
+          "correct": 75,
+          "skipped": 15
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-gamma-outage-assets-real.json": {
+        "sha256": "982214002a8dee168939a00eaec16ad57e6381df08dd319b4ab02debabd5ac09",
+        "summary": {
+          "skipped": 9,
+          "correct": 6
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-gamma-outage-missions-real.json": {
+        "sha256": "fcaba45a20c1ac1c0b813bae0bcbd4aec9cb6dcc1f2f19bb37f2c836a7ce6f80",
+        "summary": {
+          "correct": 4,
+          "skipped": 11
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-answerability-gamma-outage-personnel-real.json": {
+        "sha256": "c53623e676dfe8ed577e91991a41ed4c357c8085e6724f6b721bfbda329aba17",
+        "summary": {
+          "skipped": 10,
+          "correct": 5
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-totals-delta-real.json": {
+        "sha256": "26dda946720b2c319c64fac7ef6ffec9b3c0f1a9a5b28194bb18c0b6bdf8ee24",
+        "summary": {
+          "selections": 57,
+          "sums": 9,
+          "withProblems": 0,
+          "totals": {
+            "missionsPage": 300,
+            "assetsPage": 32
+          }
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-totals-epsilon-real.json": {
+        "sha256": "68db404082f358692c2402997e46c4f10f66cfc3e36b2c474f12624f69f52738",
+        "summary": {
+          "selections": 57,
+          "sums": 9,
+          "withProblems": 0,
+          "totals": {
+            "missionsPage": 300,
+            "assetsPage": 32
+          }
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      },
+      "07-totals-gamma-real.json": {
+        "sha256": "f92966e3e3d00774128a057d14d8253989187e4a289402fa14c271cc07f4e835",
+        "summary": {
+          "selections": 57,
+          "sums": 9,
+          "withProblems": 0,
+          "totals": {
+            "missionsPage": 300,
+            "assetsPage": 32
+          }
+        },
+        "verified": true,
+        "problems": [],
+        "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+      }
+    }
+  },
+  "drawCheck": {
+    "command": "python -B study/corpus2/draw.py --seed 313 --answerability <the 8 alpha and beta reports of study/evidence/study-2-preflight/> <the 12 gamma, delta and epsilon reports of this folder> (no --write)",
+    "result": "exit 0, every report accepted; all 76 pool tasks eligible with the one Missions dataset fingerprint missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1; the 48 drawn tasks equal, in order, the first 48 of the committed study/corpus2/tasks.json; nothing written",
+    "outputSha256": "65c6cdf0201a86b6d215d35989794738964887c114a91fc85f7db80f78f99d16",
+    "note": "The committed draw and its 20 reports stay as they are, and the draw is not repeated. The original reports of GraphQL Adapters, Apollo Federation and Cosmo Federation stay as the record of the graph before the adapters 1.1.0."
+  },
+  "after": "every stack down; only starfleet-missions-data-20261009 and starfleet-missions-service running",
+  "notCovered": [
+    "no paid run (the new baseline belongs to study2_calculate_v3)",
+    "the direct arms were not run again",
+    "no study run used the page fields with a model"
+  ]
+}

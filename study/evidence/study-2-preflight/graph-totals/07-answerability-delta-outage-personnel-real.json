@@ -1,0 +1,306 @@
+{
+  "arm": "delta",
+  "name": "Apollo Federation",
+  "mode": "live",
+  "backend": "real",
+  "outage": "personnel",
+  "serviceStates": {
+    "missions": "up",
+    "assets": "up",
+    "personnel": "down"
+  },
+  "provenance": {
+    "verified": true,
+    "mode": "real",
+    "intended": {
+      "compose_projects": [
+        "starfleet-missions",
+        "starfleet-federation-stack"
+      ],
+      "backends": {
+        "missions": {
+          "mode": "real",
+          "service": "starfleet-missions/missions",
+          "image_ref": "starfleet-missions-service:1.0.0"
+        },
+        "assets": {
+          "mode": "real",
+          "service": "assets-service",
+          "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+          "dataset": {
+            "id": "assets-1.1",
+            "path": "<path>/1.1",
+            "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+          }
+        },
+        "personnel": {
+          "mode": "real",
+          "service": "personnel-service",
+          "image_ref": "starfleet-federation-stack-personnel-service:2.0.0"
+        }
+      },
+      "routing": {
+        "endpoints": {
+          "http://127.0.0.1:8170/": "router"
+        },
+        "env": {
+          "assets-adapter": {
+            "ASSETS_SERVICE_URL": "http://assets-service:8084"
+          },
+          "missions-adapter": {
+            "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+          },
+          "personnel-adapter": {
+            "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+          }
+        }
+      },
+      "launch_files": {
+        "launch_script": "<path>/launch.py",
+        "missions_real_overlay": "<path>/missions-real.compose.yaml",
+        "stack_compose": "<path>/compose.yaml"
+      }
+    },
+    "observationFingerprint": "6b46338da381d5524d811d7de334bf7bca7d87dd66c0e7443bf4268e12445ee1",
+    "mcpUrl": "http://127.0.0.1:8193/mcp",
+    "mcpServerCommand": [
+      "<STUDY_MCP_PYTHON>",
+      "-B",
+      "<path>/graph_server.py",
+      "--router-url",
+      "http://127.0.0.1:8170/",
+      "--name",
+      "graph-apollo",
+      "--port",
+      "8193"
+    ],
+    "outage": "personnel",
+    "allowedForOutage": [
+      "backend personnel (real): starfleet-federation-stack/personnel-service is exited, not running"
+    ],
+    "containers": {
+      "starfleet-federation-stack/assets-adapter": "starfleet-federation-stack-assets-adapter-1",
+      "starfleet-federation-stack/assets-bootstrap": "starfleet-federation-stack-assets-bootstrap-1",
+      "starfleet-federation-stack/assets-db": "starfleet-federation-stack-assets-db-1",
+      "starfleet-federation-stack/assets-service": "starfleet-federation-stack-assets-service-1",
+      "starfleet-federation-stack/mapping-adapter": "starfleet-federation-stack-mapping-adapter-1",
+      "starfleet-federation-stack/missions-adapter": "starfleet-federation-stack-missions-adapter-1",
+      "starfleet-federation-stack/personnel-adapter": "starfleet-federation-stack-personnel-adapter-1",
+      "starfleet-federation-stack/personnel-service": "starfleet-federation-stack-personnel-service-1",
+      "starfleet-federation-stack/router": "starfleet-federation-stack-router-1",
+      "starfleet-missions/missions": "starfleet-missions-service"
+    },
+    "datasets": {
+      "assets": {
+        "id": "assets-1.1",
+        "kind": "folder",
+        "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+      }
+    },
+    "problems": [],
+    "datasetFingerprint": {
+      "fingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+      "session": "oracle-instance:2026-11-01T14:06:31"
+    }
+  },
+  "inputs": {
+    "pool.json": "d8b61283d0d1375f33626c3411650a5115f23f78fe3c4c87bec9c62cbaf58a6f",
+    "ambiguity.json": "01a0a9d97578224ada95afb258101bf6b87f3e04f229efa292d3fd3032abd597",
+    "dev.json": "288eccc302e8a8e00e9dd7838864c0e3bb739825fbbc4796981550ee5ef3c78d",
+    "keys-a.json": "6f9500c78c37bb30e1213839b9354a596430c15d46d3f929b3471ccba23a1ab6",
+    "scoring.py": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+    "reference": "38650599d1602b0df2085506da1f17a4286dbd5f1da263ffec44a8999afc9067",
+    "datasets": "dc1f3f62279d613f1a7a9008198af88ee45e883e629e3c988fbc4594a4a5670e"
+  },
+  "limits": {
+    "toolCalls": 80,
+    "seconds": 900
+  },
+  "overLimits": [],
+  "summary": {
+    "skipped": 10,
+    "correct": 5
+  },
+  "tasks": [
+    {
+      "taskId": "D01",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of missions"
+    },
+    {
+      "taskId": "D02",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of missions"
+    },
+    {
+      "taskId": "D03",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of missions"
+    },
+    {
+      "taskId": "D14",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of missions"
+    },
+    {
+      "taskId": "D04",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D05",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D06",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D07",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D08",
+      "set": "pool",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    },
+    {
+      "taskId": "D09",
+      "set": "pool",
+      "category": "D",
+      "hashes": {
+        "question": "149a684762c3d015f85be27e3080d731090c667c341dc22af3777d5e8c62ed56",
+        "schema": "224f06af4f54ac255a7b97da36482b5cb52e7d5ab79b6bc88de3c6a89b2dbf58",
+        "key": "806cc19d7cf5eb65cff44591cf59c365899656ff9b5f74fffd56a3b03b2dc5d0"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 6,
+      "seconds": 4.169
+    },
+    {
+      "taskId": "D10",
+      "set": "pool",
+      "category": "D",
+      "hashes": {
+        "question": "63af25a82c92412ef2212cee526ffa96374be1f9ce9f22f61113c09ccda94d7a",
+        "schema": "d33ccc4dfe8e34b9b8462fd02bbbf898e09c16ce43f44ce94361495cdc6bd944",
+        "key": "c3c157c09e3d4fee189175ee24c65aab7a85026c4dd155c2c681417cf46e637f"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 1,
+      "seconds": 1.025
+    },
+    {
+      "taskId": "D11",
+      "set": "pool",
+      "category": "D",
+      "hashes": {
+        "question": "53567ef50f696dc6ae7113e011da477e0c9c3d4aefc06e51503fdbcd1e0ee9f9",
+        "schema": "94dae4aa6b41ea774352c27e3e4ff5e65326568f3bc179648306a358654c3869",
+        "key": "3251009813b94d0d4c9283f3f048ea2ca7c7de2680e8987bd9681f03aebc757e"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 2,
+      "seconds": 1.078
+    },
+    {
+      "taskId": "D12",
+      "set": "pool",
+      "category": "D",
+      "hashes": {
+        "question": "2cf9539eaa5c2f8ae8e4b42e4f6a3c688bdaf0c01f7cf68b951c15c165decc31",
+        "schema": "e2d340be268d52a1ea6cbbfee3381fa2afbea3a6ae6d97c94afbe86204cc12c6",
+        "key": "3f75553a3ac3149703e5d42a068572ca6edfd7c51e8a61aceb41b5dd396946aa"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 26,
+      "seconds": 19.844
+    },
+    {
+      "taskId": "D13",
+      "set": "pool",
+      "category": "D",
+      "hashes": {
+        "question": "90772d29d758360d90871c9176eab548e19c693d3e276121d1725de29b6a6836",
+        "schema": "605c09cb4ddd77fe982292f6872f13050205776fab50b9c2005b13e39e2bb718",
+        "key": "72211d825593bc64a86dcdb2e939ffe4011d4a0666e71dfa7ff4d0e7666a929f"
+      },
+      "outcome": "correct",
+      "submissions": [
+        {
+          "outcome": "correct",
+          "tags": [],
+          "failedChecks": [],
+          "honestyFailures": [],
+          "formatErrors": []
+        }
+      ],
+      "toolCalls": 4,
+      "seconds": 0.141
+    },
+    {
+      "taskId": "V04",
+      "set": "dev",
+      "category": "D",
+      "outcome": "skipped",
+      "reason": "needs the outage of assets"
+    }
+  ]
+}

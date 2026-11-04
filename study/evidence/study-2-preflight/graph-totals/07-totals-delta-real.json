@@ -1,0 +1,743 @@
+{
+  "check": "study2-graph-totals",
+  "arm": "delta",
+  "origin": {
+    "verified": true,
+    "mode": "real",
+    "intended": {
+      "compose_projects": [
+        "starfleet-missions",
+        "starfleet-federation-stack"
+      ],
+      "backends": {
+        "missions": {
+          "mode": "real",
+          "service": "starfleet-missions/missions",
+          "image_ref": "starfleet-missions-service:1.0.0"
+        },
+        "assets": {
+          "mode": "real",
+          "service": "assets-service",
+          "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+          "dataset": {
+            "id": "assets-1.1",
+            "path": "<path>/1.1",
+            "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+          }
+        },
+        "personnel": {
+          "mode": "real",
+          "service": "personnel-service",
+          "image_ref": "starfleet-federation-stack-personnel-service:2.0.0"
+        }
+      },
+      "routing": {
+        "endpoints": {
+          "http://127.0.0.1:8170/": "router"
+        },
+        "env": {
+          "assets-adapter": {
+            "ASSETS_SERVICE_URL": "http://assets-service:8084"
+          },
+          "missions-adapter": {
+            "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+          },
+          "personnel-adapter": {
+            "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+          }
+        }
+      },
+      "launch_files": {
+        "launch_script": "<path>/launch.py",
+        "missions_real_overlay": "<path>/missions-real.compose.yaml",
+        "stack_compose": "<path>/compose.yaml"
+      }
+    },
+    "observationFingerprint": "9f99e19a3c6d59bff8e27a097d9300050b136f2b1565dac2fe0ba6f0cdd43843",
+    "mcpUrl": "http://127.0.0.1:8193/mcp",
+    "mcpServerCommand": [
+      "<STUDY_MCP_PYTHON>",
+      "-B",
+      "<path>/graph_server.py",
+      "--router-url",
+      "http://127.0.0.1:8170/",
+      "--name",
+      "graph-apollo",
+      "--port",
+      "8193"
+    ],
+    "outage": null,
+    "allowedForOutage": [],
+    "containers": {
+      "starfleet-federation-stack/assets-adapter": "starfleet-federation-stack-assets-adapter-1",
+      "starfleet-federation-stack/assets-bootstrap": "starfleet-federation-stack-assets-bootstrap-1",
+      "starfleet-federation-stack/assets-db": "starfleet-federation-stack-assets-db-1",
+      "starfleet-federation-stack/assets-service": "starfleet-federation-stack-assets-service-1",
+      "starfleet-federation-stack/mapping-adapter": "starfleet-federation-stack-mapping-adapter-1",
+      "starfleet-federation-stack/missions-adapter": "starfleet-federation-stack-missions-adapter-1",
+      "starfleet-federation-stack/personnel-adapter": "starfleet-federation-stack-personnel-adapter-1",
+      "starfleet-federation-stack/personnel-service": "starfleet-federation-stack-personnel-service-1",
+      "starfleet-federation-stack/router": "starfleet-federation-stack-router-1",
+      "starfleet-missions/missions": "starfleet-missions-service"
+    },
+    "datasets": {
+      "assets": {
+        "id": "assets-1.1",
+        "kind": "folder",
+        "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+      }
+    },
+    "problems": [],
+    "datasetFingerprint": {
+      "fingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+      "session": "oracle-instance:2026-11-01T14:06:31"
+    }
+  },
+  "toolCalls": 129,
+  "inputs": {
+    "totals_check.py": "029c738b0349e884215843343ae86126465eb9675ba1c40ef61c3b5e783c2cc6",
+    "graph_access.py": "0fbccdf766f94b75059d094773d58ca5b991ebe9aad788299571d149d6c2795e"
+  },
+  "summary": {
+    "selections": 57,
+    "sums": 9,
+    "withProblems": 0,
+    "totals": {
+      "missionsPage": 300,
+      "assetsPage": 32
+    }
+  },
+  "selections": [
+    {
+      "field": "missionsPage",
+      "filters": {},
+      "totalCount": 300,
+      "paged": 300,
+      "pages": 3,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "DIPLOMATIC"
+      },
+      "totalCount": 30,
+      "paged": 30,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "EXPLORATION"
+      },
+      "totalCount": 27,
+      "paged": 27,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "SCIENTIFIC"
+      },
+      "totalCount": 52,
+      "paged": 52,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "FIRST_CONTACT"
+      },
+      "totalCount": 4,
+      "paged": 4,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "MEDICAL"
+      },
+      "totalCount": 21,
+      "paged": 21,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "RESCUE"
+      },
+      "totalCount": 19,
+      "paged": 19,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "HUMANITARIAN"
+      },
+      "totalCount": 13,
+      "paged": 13,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "SECURITY"
+      },
+      "totalCount": 42,
+      "paged": 42,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "TACTICAL"
+      },
+      "totalCount": 3,
+      "paged": 3,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "TRANSPORT"
+      },
+      "totalCount": 39,
+      "paged": 39,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "type": "MAINTENANCE"
+      },
+      "totalCount": 50,
+      "paged": 50,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "classification": "UNCLASSIFIED"
+      },
+      "totalCount": 216,
+      "paged": 216,
+      "pages": 3,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "classification": "SECRET"
+      },
+      "totalCount": 69,
+      "paged": 69,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "classification": "TOP_SECRET"
+      },
+      "totalCount": 15,
+      "paged": 15,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "status": "PLANNED"
+      },
+      "totalCount": 30,
+      "paged": 30,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "status": "AUTHORIZED"
+      },
+      "totalCount": 25,
+      "paged": 25,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "status": "ACTIVE"
+      },
+      "totalCount": 23,
+      "paged": 23,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "status": "POSTPONED"
+      },
+      "totalCount": 15,
+      "paged": 15,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "status": "COMPLETED"
+      },
+      "totalCount": 158,
+      "paged": 158,
+      "pages": 2,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "status": "FAILED"
+      },
+      "totalCount": 22,
+      "paged": 22,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "status": "CANCELLED"
+      },
+      "totalCount": 27,
+      "paged": 27,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "priority": 1
+      },
+      "totalCount": 31,
+      "paged": 31,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "priority": 2
+      },
+      "totalCount": 64,
+      "paged": 64,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "priority": 3
+      },
+      "totalCount": 70,
+      "paged": 70,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "priority": 4
+      },
+      "totalCount": 73,
+      "paged": 73,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "priority": 5
+      },
+      "totalCount": 62,
+      "paged": 62,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "issuingAuthority": "STARFLEET_COMMAND"
+      },
+      "totalCount": 63,
+      "paged": 63,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "issuingAuthority": "ENTERPRISE_COMMAND"
+      },
+      "totalCount": 103,
+      "paged": 103,
+      "pages": 2,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "issuingAuthority": "STARFLEET_MEDICAL"
+      },
+      "totalCount": 26,
+      "paged": 26,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "issuingAuthority": "STARFLEET_SCIENCE"
+      },
+      "totalCount": 66,
+      "paged": 66,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "issuingAuthority": "STARFLEET_SECURITY"
+      },
+      "totalCount": 23,
+      "paged": 23,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "issuingAuthority": "FEDERATION_COUNCIL"
+      },
+      "totalCount": 19,
+      "paged": 19,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "locationType": "PLANET"
+      },
+      "totalCount": 75,
+      "paged": 75,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "locationType": "STARBASE"
+      },
+      "totalCount": 45,
+      "paged": 45,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "locationType": "VESSEL"
+      },
+      "totalCount": 37,
+      "paged": 37,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "locationType": "SECTOR"
+      },
+      "totalCount": 53,
+      "paged": 53,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "locationType": "DEEP_SPACE"
+      },
+      "totalCount": 32,
+      "paged": 32,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "locationType": "ENTERPRISE"
+      },
+      "totalCount": 58,
+      "paged": 58,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filters": {
+        "locationType": "OTHER"
+      },
+      "totalCount": 0,
+      "paged": 0,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {},
+      "totalCount": 32,
+      "paged": 32,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "kind": "STARSHIP"
+      },
+      "totalCount": 5,
+      "paged": 5,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "kind": "SHUTTLE"
+      },
+      "totalCount": 5,
+      "paged": 5,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "kind": "ROVER"
+      },
+      "totalCount": 3,
+      "paged": 3,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "kind": "ARMORED_VEHICLE"
+      },
+      "totalCount": 3,
+      "paged": 3,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "kind": "PHASER"
+      },
+      "totalCount": 3,
+      "paged": 3,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "kind": "TRICORDER"
+      },
+      "totalCount": 3,
+      "paged": 3,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "kind": "COMMUNICATOR"
+      },
+      "totalCount": 3,
+      "paged": 3,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "kind": "SCIENTIFIC_INSTRUMENT"
+      },
+      "totalCount": 4,
+      "paged": 4,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "kind": "MUSICAL_INSTRUMENT"
+      },
+      "totalCount": 3,
+      "paged": 3,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "category": "VEHICLE"
+      },
+      "totalCount": 16,
+      "paged": 16,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "category": "EQUIPMENT"
+      },
+      "totalCount": 16,
+      "paged": 16,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "status": "ACTIVE"
+      },
+      "totalCount": 21,
+      "paged": 21,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "status": "MAINTENANCE"
+      },
+      "totalCount": 4,
+      "paged": 4,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "status": "DECOMMISSIONED"
+      },
+      "totalCount": 3,
+      "paged": 3,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "status": "DESTROYED"
+      },
+      "totalCount": 2,
+      "paged": 2,
+      "pages": 1,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filters": {
+        "status": "MISSING"
+      },
+      "totalCount": 2,
+      "paged": 2,
+      "pages": 1,
+      "problems": []
+    }
+  ],
+  "sums": [
+    {
+      "field": "missionsPage",
+      "filter": "type",
+      "sum": 300,
+      "unfiltered": 300,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filter": "classification",
+      "sum": 300,
+      "unfiltered": 300,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filter": "status",
+      "sum": 300,
+      "unfiltered": 300,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filter": "priority",
+      "sum": 300,
+      "unfiltered": 300,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filter": "issuingAuthority",
+      "sum": 300,
+      "unfiltered": 300,
+      "problems": []
+    },
+    {
+      "field": "missionsPage",
+      "filter": "locationType",
+      "sum": 300,
+      "unfiltered": 300,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filter": "kind",
+      "sum": 32,
+      "unfiltered": 32,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filter": "category",
+      "sum": 32,
+      "unfiltered": 32,
+      "problems": []
+    },
+    {
+      "field": "assetsPage",
+      "filter": "status",
+      "sum": 32,
+      "unfiltered": 32,
+      "problems": []
+    }
+  ]
+}
