@@ -27,6 +27,7 @@ from graphql_client import codes, post
 
 EXPECTED_FILE = Path(__file__).resolve().parent / 'expected-outcomes.json'
 EXPECTED = json.loads(EXPECTED_FILE.read_text(encoding='utf-8'))
+REPOSITORY = Path(__file__).resolve().parents[2]
 
 # The mapping release the questions ask (the assets and the crew sections), and the largest list the graph returns in one call. The data
 # is 300 missions, so every whole-list check PAGES: offset 0, 100 and 200 with the largest limit, never a larger one (the graph refuses
@@ -604,6 +605,95 @@ class AcceptanceQuestions(SuiteBase):
         self.facts['full pages (100 missions with assets, commanding officer and crew), warm'] = rows
 
 
+    # ---- the page fields with totals (adapters 1.1.0) --------------------------------------------------------------
+
+    def whole_page_field(self, field, arguments='', fields='id'):
+        """Every page of a page field, offset 0, 100, ... with limit 100, until hasMore is false. Each page must answer HTTP 200 with no
+        errors entry, carry the same totalCount, echo its offset and limit, and say hasMore exactly when rows remain after it. Returns
+        (items joined in page order, totalCount)."""
+        items, total, offset = [], None, 0
+        while True:
+            status, body, _ = self.ask('{ %s(%soffset: %d, limit: %d) { items { %s } totalCount offset limit hasMore } }'
+                                       % (field, arguments + ', ' if arguments else '', offset, PAGE, fields))
+            self.assertEqual(status, 200, body)
+            self.assertNotIn('errors', body)
+            page = body['data'][field]
+            if total is None:
+                total = page['totalCount']
+            self.assertEqual(page['totalCount'], total, 'every page of one selection has the same total')
+            self.assertEqual((page['offset'], page['limit']), (offset, PAGE))
+            items += page['items']
+            self.assertEqual(page['hasMore'], len(items) < total, (field, arguments, offset))
+            if not page['hasMore']:
+                break
+            self.assertEqual(len(page['items']), PAGE, 'a page before the last is full')
+            offset += PAGE
+        self.assertEqual(len(items), total, 'the total is the number of rows paged: %s(%s)' % (field, arguments))
+        return items, total
+
+    def test_17_the_missions_page_has_the_datasets_total_and_the_items_of_the_deprecated_list(self):
+        items, total = self.whole_page_field('missionsPage', fields='missionId')
+        self.assertEqual(total, len(EXPECTED['missionOrder']))
+        self.assertEqual([m['missionId'] for m in items], EXPECTED['missionOrder'])
+        self.assertEqual([m['missionId'] for m in items], list(self.missions()), 'the same items as the deprecated list, in its order')
+        self.facts['missionsPage total, unfiltered'] = total
+
+    def test_18_a_filtered_missions_total_counts_the_matching_missions_and_zero_matches_is_an_empty_page(self):
+        by_status = {}
+        for mission in EXPECTED['missions'].values():
+            by_status[mission['status']] = by_status.get(mission['status'], 0) + 1
+        totals = {}
+        for status in ('PLANNED', 'AUTHORIZED', 'ACTIVE', 'POSTPONED', 'COMPLETED', 'FAILED', 'CANCELLED'):
+            with self.subTest(status=status):
+                items, total = self.whole_page_field('missionsPage', 'status: %s' % status, 'missionId status')
+                self.assertEqual(total, by_status.get(status, 0))
+                self.assertEqual({m['status'] for m in items} - {status}, set())
+                totals[status] = total
+        self.assertEqual(sum(totals.values()), len(EXPECTED['missionOrder']))
+        self.facts['missionsPage totals by status'] = totals
+        status, body, _ = self.ask('{ missionsPage(assignedAssetId: "EQ-99999") { items { missionId } totalCount offset limit hasMore } }')
+        self.assertEqual(status, 200)
+        self.assertNotIn('errors', body)
+        self.assertEqual(body['data']['missionsPage'], {'items': [], 'totalCount': 0, 'offset': 0, 'limit': 20, 'hasMore': False})
+        total = len(EXPECTED['missionOrder'])
+        status, body, _ = self.ask('{ missionsPage(offset: %d, limit: 20) { items { missionId } totalCount offset limit hasMore } }' % total)
+        self.assertNotIn('errors', body)
+        self.assertEqual(body['data']['missionsPage'], {'items': [], 'totalCount': total, 'offset': total, 'limit': 20, 'hasMore': False})
+
+    def test_19_the_assets_page_has_the_datasets_total_filtered_and_unfiltered_and_the_items_of_the_deprecated_list(self):
+        dataset = json.loads((REPOSITORY / EXPECTED['derivedFrom']['assetsDataset1.1']['path']).read_text(encoding='utf-8'))['assets']
+        items, total = self.whole_page_field('assetsPage', fields='assetId')
+        self.assertEqual(total, len(dataset))
+        listed = []
+        for offset in range(0, total, PAGE):
+            listed += [a['assetId'] for a in self.ok('{ assets(offset: %d, limit: %d) { assetId } }' % (offset, PAGE))['assets']]
+        self.assertEqual([a['assetId'] for a in items], listed, 'the same items as the deprecated list, in its order')
+        self.assertEqual(sorted(a['assetId'] for a in items), sorted(a['assetId'] for a in dataset))
+        totals = {}
+        for status in ('ACTIVE', 'MAINTENANCE', 'DECOMMISSIONED', 'DESTROYED', 'MISSING'):
+            with self.subTest(status=status):
+                found, count = self.whole_page_field('assetsPage', 'status: %s' % status, 'assetId status')
+                self.assertEqual(count, sum(1 for a in dataset if a['status'] == status))
+                self.assertEqual({a['status'] for a in found} - {status}, set())
+                totals[status] = count
+        self.assertEqual(sum(totals.values()), total)
+        self.facts['assetsPage totals'] = {'unfiltered': total, 'by status': totals}
+
+    def test_20_a_default_introspection_shows_the_page_fields_and_not_the_deprecated_lists_which_still_answer(self):
+        names = {f['name'] for f in self.ok('{ __type(name: "Query") { fields { name } } }')['__type']['fields']}
+        self.assertTrue({'missionsPage', 'assetsPage', 'mission', 'asset', 'personnelMembers'} <= names, names)
+        self.assertFalse({'missions', 'assets'} & names, 'a default introspection leaves the deprecated lists out')
+        every = {f['name']: f for f in self.ok('{ __type(name: "Query") { fields(includeDeprecated: true) { name isDeprecated deprecationReason } } }')['__type']['fields']}
+        for name, page in (('missions', 'missionsPage'), ('assets', 'assetsPage')):
+            self.assertTrue(every[name]['isDeprecated'], name)
+            self.assertTrue(every[name]['deprecationReason'].startswith('Use %s:' % page), every[name])
+            self.assertFalse(every[page]['isDeprecated'])
+        for type_name in ('MissionPage', 'AssetPage'):
+            fields = [f['name'] for f in self.ok('{ __type(name: "%s") { fields { name } } }' % type_name)['__type']['fields']]
+            self.assertEqual(sorted(fields), sorted(['items', 'totalCount', 'offset', 'limit', 'hasMore']), type_name)  # a composed type lists its fields sorted
+        self.assertEqual(len(self.ok('{ assets(limit: 5) { assetId } }')['assets']), 5, 'the deprecated list still answers')
+        self.facts['default introspection of Query'] = sorted(names)
+
 class ControlledCases(SuiteBase):
     """The outages and the dead adapters. They stop and restore services of the stack, so they run in the order of their names."""
 
@@ -654,6 +744,25 @@ class ControlledCases(SuiteBase):
             self.assertEqual({e['extensions']['code'] for e in body['errors']}, {'SERVICE_UNAVAILABLE'})
             rows.append({'offset': offset, 'http': status, 'seconds': round(seconds, 2), 'entries': len(body['errors']), 'mapped references in the page': mapped})
         self.facts['outage whole list'] = rows
+
+    def page_field_down(self, field, list_field, owner):
+        """With the owning service down: the page field is null with exactly one errors entry, SERVICE_UNAVAILABLE, at the field's
+        path where the router gives one; the deprecated list answers exactly as it did, null with one entry of the same code."""
+        status, body, seconds = self.ask('{ %s(limit: 100) { items { %s } totalCount hasMore } }' % (field, 'missionId' if field == 'missionsPage' else 'assetId'))
+        self.assertEqual(status, 200, body)
+        self.assertIsNone(body['data'][field], 'a page is complete or absent')
+        self.assertEqual(len(body['errors']), 1, body['errors'])
+        entry = body['errors'][0]
+        self.assertEqual(self.router.code_of(entry), 'SERVICE_UNAVAILABLE', entry)
+        if 'path' in entry:
+            self.assertEqual(entry['path'], [field])
+        status, listed, _ = self.ask('{ %s(limit: 100) { %s } }' % (list_field, 'missionId' if field == 'missionsPage' else 'assetId'))
+        self.assertIsNone(listed['data'][list_field])
+        self.assertEqual([self.router.code_of(e) for e in listed['errors']], ['SERVICE_UNAVAILABLE'])
+        self.facts['%s with the %s service down' % (field, owner)] = {'http': status, 'seconds': round(seconds, 2), 'entry': entry}
+
+    def test_02b_with_the_assets_service_down_the_assets_page_is_null_with_one_entry(self):
+        self.page_field_down('assetsPage', 'assets', 'Assets')
 
     def test_03_the_graph_recovers_when_the_service_is_back(self):
         self.router.controls.restore('assets-service')
@@ -843,3 +952,18 @@ class ControlledCases(SuiteBase):
         self.assertEqual(status, 200)
         self.assertNotIn('errors', body)
         self.check_kept(body, False, False)
+
+    def test_09_with_the_missions_service_down_the_missions_page_is_null_with_one_entry_and_returns_when_it_is_back(self):
+        self.router.controls.stop('missions-stub')
+        try:
+            self.page_field_down('missionsPage', 'missions', 'Missions')
+        finally:
+            self.router.controls.restore('missions-stub')
+        deadline = time.monotonic() + 60
+        while True:
+            status, body, _ = self.ask('{ missionsPage(limit: 1) { totalCount } }')
+            if status == 200 and 'errors' not in body:
+                break
+            self.assertLess(time.monotonic(), deadline, body)
+            time.sleep(2)
+        self.assertEqual(body['data']['missionsPage']['totalCount'], len(EXPECTED['missionOrder']))

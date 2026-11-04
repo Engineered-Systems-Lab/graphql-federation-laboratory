@@ -144,7 +144,7 @@ services:
     build:
       context: ../..
       dockerfile: federation/adapters/missions/Dockerfile
-    image: ${STACK_MISSIONS_ADAPTER_IMAGE:-starfleet-federation-stack-missions-adapter:1.0.0}
+    image: ${STACK_MISSIONS_ADAPTER_IMAGE:-starfleet-federation-stack-missions-adapter:1.1.0}
     ports:
       - "127.0.0.1:${MISSIONS_ADAPTER_HOST_PORT:-8183}:8183"
     environment:
@@ -206,7 +206,7 @@ services:
     build:
       context: ..
       dockerfile: adapters/assets/Dockerfile
-    image: ${STACK_ASSETS_ADAPTER_IMAGE:-starfleet-federation-stack-assets-adapter:1.0.0}
+    image: ${STACK_ASSETS_ADAPTER_IMAGE:-starfleet-federation-stack-assets-adapter:1.1.0}
     ports:
       - "127.0.0.1:${ASSETS_ADAPTER_HOST_PORT:-8184}:8184"
     environment:

@@ -11,6 +11,8 @@ The scripts were written and tested with fakes only: no step has been run agains
 | `preflight.py` | One subcommand per step: `inventory`, `oracle`, `data`, `service`, `compare`, `stack`, `outage`, `provenance`, and `report`. |
 | `record-template.json` | The preflight record: the go or no-go thresholds, the nine steps, the decision-L gate with its five questions and its procedure, and the options on a failure. `preflight.py` reads its thresholds from here, and `report` fills it. |
 | `test_preflight.py` | The offline tests, with a fake machine in place of Docker, SQLPlus, HTTP and the launch kit. |
+| `totals_check.py` | The graph-arm totals check of the Job study2_graph_totals (G2), run with step 7's re-run for GraphQL Adapters, Apollo Federation and Cosmo Federation: on a verified live stack, through the arm's own `graphql_query` tool, every total of `missionsPage` and `assetsPage` equals the paged count, unfiltered and for every value of every enum filter, the items are the deprecated lists', a page at the total is empty and each filter's totals add up to the unfiltered one. It imports the reference access layer and `run_reference.verify_backend` without changing them, writes its report outside the repository and needs the lead developer's go to run against a stack. |
+| `test_totals_check.py` | The offline tests of the totals check, on an in-memory graph with switches for each fault. |
 
 ## How every step behaves
 

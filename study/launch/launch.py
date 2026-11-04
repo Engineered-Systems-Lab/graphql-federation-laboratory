@@ -128,9 +128,9 @@ OUTAGE_SERVICES = {'assets': 'assets-service', 'personnel': 'personnel-service',
 BUILT_IMAGES = {
     'starfleet-federation-stack-assets-service:1.0.0': ('assets-service', 'assets-bootstrap'),
     'starfleet-federation-stack-personnel-service:2.0.0': ('personnel-service',),
-    'starfleet-federation-stack-missions-adapter:1.0.0': ('missions-adapter',),
+    'starfleet-federation-stack-missions-adapter:1.1.0': ('missions-adapter',),
     'starfleet-federation-stack-personnel-adapter:1.0.0': ('personnel-adapter',),
-    'starfleet-federation-stack-assets-adapter:1.0.0': ('assets-adapter',),
+    'starfleet-federation-stack-assets-adapter:1.1.0': ('assets-adapter',),
     'starfleet-federation-stack-mapping-adapter:1.0.0': ('mapping-adapter',),
 }
 ONE_SHOT_SERVICES = ('assets-bootstrap',)  # restart: "no"; exited with code 0 is its normal completed state

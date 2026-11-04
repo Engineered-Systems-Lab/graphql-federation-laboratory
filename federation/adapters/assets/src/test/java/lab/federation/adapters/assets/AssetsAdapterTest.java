@@ -387,6 +387,226 @@ class AssetsAdapterTest {
         assertThat(STUB.calls()).containsExactly("/assets?offset=0&limit=50");
     }
 
+    // ---- the page field -------------------------------------------------------------------------------------------
+
+    private static final String PAGE_FIELDS = "items { assetId } totalCount offset limit hasMore";
+
+    /** A service answer of `count` assets numbered from `offset`, with the given total text (any JSON value). */
+    private static String counted(int offset, int limit, String total, int count) {
+        String[] items = new String[count];
+        for (int index = 0; index < count; index++) {
+            items[index] = asset(String.format("AST-%04d", offset + index + 1), "ACTIVE");
+        }
+        return "{\"items\":[" + String.join(",", items) + "],\"offset\":" + offset + ",\"limit\":" + limit + ",\"total\":" + total + "}";
+    }
+
+    /** The routes of a dataset of `total` assets for the calls of the window [offset, offset + limit). */
+    private static void dataset(int total, int offset, int limit) {
+        for (int from = 0; from < limit; from += 50) {
+            int size = Math.min(50, limit - from);
+            int start = offset + from;
+            STUB.route("/assets?offset=" + start + "&limit=" + size, 200, counted(start, size, Integer.toString(total), Math.max(0, Math.min(size, total - start))));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> page(Map<String, Object> result) {
+        return (Map<String, Object>) data(result).get("assetsPage");
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<String> idsIn(Object items) {
+        return ((List<Map<String, Object>>) items).stream().map(asset -> (String) asset.get("assetId")).toList();
+    }
+
+    /** The page and the deprecated list over the same routes: the same calls, the same items. */
+    private Map<String, Object> pageAgainstList(int total, int offset, int limit) {
+        dataset(total, offset, limit);
+        String window = "(offset: " + offset + ", limit: " + limit + ")";
+        var list = run("{ assets" + window + " { assetId } }");
+        assertThat(errors(list)).isEmpty();
+        List<String> listCalls = STUB.calls();
+        STUB.reset();
+        dataset(total, offset, limit);
+        var result = run("{ assetsPage" + window + " { " + PAGE_FIELDS + " } }");
+        assertThat(errors(result)).as(window).isEmpty();
+        assertThat(STUB.calls()).as("the page makes the list's calls: " + window).isEqualTo(listCalls);
+        STUB.reset();
+        Map<String, Object> page = page(result);
+        assertThat(idsIn(page.get("items"))).as(window).isEqualTo(idsIn(data(list).get("assets")));
+        assertThat(page).as(window).containsEntry("totalCount", total).containsEntry("offset", offset).containsEntry("limit", limit);
+        return page;
+    }
+
+    @Test
+    void thePageHasTheListsItemsAndCallsAndTheServicesTotal() {
+        assertThat(pageAgainstList(173, 0, 20)).containsEntry("hasMore", true);
+        assertThat(idsIn(pageAgainstList(173, 7, 13).get("items"))).startsWith("AST-0008").hasSize(13);
+        assertThat(idsIn(pageAgainstList(173, 10, 75).get("items"))).hasSize(75);
+        assertThat(idsIn(pageAgainstList(173, 30, 100).get("items"))).hasSize(100).endsWith("AST-0130");
+    }
+
+    @Test
+    void aFilteredTotalIsTheServicesTotalForTheFilters() {
+        STUB.route("/assets?kind=SHUTTLE&status=DESTROYED&offset=5&limit=10", 200, counted(5, 10, "12", 7));
+        var result = run("{ assetsPage(kind: SHUTTLE, status: DESTROYED, offset: 5, limit: 10) { " + PAGE_FIELDS + " } }");
+        assertThat(errors(result)).isEmpty();
+        assertThat(page(result)).containsEntry("totalCount", 12).containsEntry("hasMore", false);
+        assertThat(idsIn(page(result).get("items"))).hasSize(7);
+        assertThat(STUB.calls()).containsExactly("/assets?kind=SHUTTLE&status=DESTROYED&offset=5&limit=10");
+    }
+
+    @Test
+    void zeroMatchesIsAnEmptyPageWithTotalZeroAndNoMore() {
+        assertThat(pageAgainstList(0, 0, 20)).containsEntry("items", List.of()).containsEntry("hasMore", false);
+        assertThat(pageAgainstList(0, 0, 100)).containsEntry("items", List.of()).containsEntry("hasMore", false);
+    }
+
+    @Test
+    void aPageBeyondTheEndIsEmptyWithTheWholeTotal() {
+        assertThat(pageAgainstList(173, 173, 20)).containsEntry("items", List.of()).containsEntry("hasMore", false);
+        assertThat(pageAgainstList(173, 5000, 100)).containsEntry("items", List.of()).containsEntry("hasMore", false);
+        dataset(173, 2000000000, 5);
+        var far = run("{ assetsPage(offset: 2000000000, limit: 5) { " + PAGE_FIELDS + " } }");
+        assertThat(errors(far)).isEmpty();
+        assertThat(page(far)).containsEntry("items", List.of()).containsEntry("totalCount", 173).containsEntry("hasMore", false);
+    }
+
+    @Test
+    void hasMoreIsFalseExactlyFromTheLastRow() {
+        assertThat(pageAgainstList(173, 153, 20)).containsEntry("hasMore", false);
+        assertThat(pageAgainstList(173, 152, 20)).containsEntry("hasMore", true);
+        assertThat(pageAgainstList(173, 172, 1)).containsEntry("hasMore", false);
+        assertThat(pageAgainstList(173, 171, 1)).containsEntry("hasMore", true);
+        assertThat(pageAgainstList(100, 0, 100)).containsEntry("hasMore", false);
+        assertThat(pageAgainstList(101, 0, 100)).containsEntry("hasMore", true);
+        assertThat(pageAgainstList(50, 0, 100)).containsEntry("hasMore", false);
+        assertThat(pageAgainstList(173, 150, 100)).containsEntry("hasMore", false);
+    }
+
+    @Test
+    void countMetadataTheAdapterCannotUseIsOneUpstreamBadResponseForThePageAndChangesNothingForTheList() {
+        Map<String, String> cases = new java.util.LinkedHashMap<>();
+        cases.put("a missing total", "{\"items\":[" + asset("AST-0001", "ACTIVE") + "],\"offset\":0,\"limit\":20}");
+        cases.put("a null total", counted(0, 20, "null", 1));
+        cases.put("a string total", counted(0, 20, "\"1\"", 1));
+        cases.put("a float total", counted(0, 20, "1.0", 1));
+        cases.put("a boolean total", counted(0, 20, "true", 1));
+        cases.put("a negative total", counted(0, 20, "-1", 1));
+        cases.put("a total above a GraphQL Int", counted(0, 20, "2147483648", 20));
+        cases.put("a total far above a long", counted(0, 20, "99999999999999999999999", 20));
+        cases.put("fewer rows than the total says", counted(0, 20, "30", 5));
+        cases.put("more rows than the total says", counted(0, 20, "3", 5));
+        cases.put("rows on an empty total", counted(0, 20, "0", 2));
+        cases.put("another offset echoed", counted(0, 20, "1", 1).replace("\"offset\":0", "\"offset\":1"));
+        cases.put("another limit echoed", counted(0, 20, "1", 1).replace("\"limit\":20", "\"limit\":50"));
+        for (var entry : cases.entrySet()) {
+            STUB.route("/assets?offset=0&limit=20", 200, entry.getValue());
+            var result = run("{ assetsPage { " + PAGE_FIELDS + " } }");
+            assertThat(data(result)).as(entry.getKey()).containsEntry("assetsPage", null);
+            assertThat(errors(result)).as(entry.getKey()).hasSize(1);
+            assertThat(code(errors(result).get(0))).as(entry.getKey()).isEqualTo("UPSTREAM_BAD_RESPONSE");
+            assertThat((String) errors(result).get(0).get("message")).as(entry.getKey()).startsWith(AssetsGraph.COUNT_FAULT);
+            assertThat(errors(result).get(0).get("path")).isEqualTo(List.of("assetsPage"));
+            assertThat(errors(run("{ assets { assetId } }"))).as("the deprecated list does not check the counts: " + entry.getKey()).isEmpty();
+            STUB.reset();
+        }
+        STUB.route("/assets?offset=0&limit=50", 200, counted(0, 50, "75", 50));
+        STUB.route("/assets?offset=50&limit=50", 200, counted(50, 50, "76", 26));
+        var differing = run("{ assetsPage(limit: 100) { " + PAGE_FIELDS + " } }");
+        assertThat(data(differing)).containsEntry("assetsPage", null);
+        assertThat((String) errors(differing).get(0).get("message")).contains("different totals");
+        assertThat(errors(run("{ assets(limit: 100) { assetId } }"))).isEmpty();
+    }
+
+    @Test
+    void anOutageATimeoutOrABadBodyMakesTheWholePageNullWithOneEntry() {
+        STUB.route("/assets?offset=0&limit=20", 500, "{}");
+        var down = run("{ assetsPage { " + PAGE_FIELDS + " } }");
+        assertThat(data(down)).containsEntry("assetsPage", null);
+        assertThat(errors(down)).hasSize(1);
+        assertThat(code(errors(down).get(0))).isEqualTo("SERVICE_UNAVAILABLE");
+        assertThat(errors(down).get(0).get("message")).isEqualTo("Assets service unavailable");
+        STUB.reset();
+        STUB.route("/assets?offset=0&limit=20", 200, counted(0, 20, "1", 1), 2000);
+        var slow = run("{ assetsPage { " + PAGE_FIELDS + " } }");
+        assertThat(data(slow)).containsEntry("assetsPage", null);
+        assertThat(code(errors(slow).get(0))).isEqualTo("SERVICE_UNAVAILABLE");
+        STUB.reset();
+        STUB.route("/assets?offset=0&limit=50", 200, counted(0, 50, "75", 50));
+        STUB.route("/assets?offset=50&limit=25", 503, "{}");
+        var second = run("{ assetsPage(limit: 75) { " + PAGE_FIELDS + " } }");
+        assertThat(data(second)).containsEntry("assetsPage", null);
+        assertThat(errors(second)).hasSize(1);
+        assertThat(code(errors(second).get(0))).isEqualTo("SERVICE_UNAVAILABLE");
+        STUB.reset();
+        STUB.route("/assets?offset=0&limit=50", 500, "{}");
+        var first = run("{ assetsPage(limit: 100) { " + PAGE_FIELDS + " } }");
+        assertThat(errors(first)).hasSize(1);
+        assertThat(STUB.calls()).as("no call after the first failed").containsExactly("/assets?offset=0&limit=50");
+        STUB.reset();
+        for (String body : List.of("not json", "[]", "{\"offset\":0,\"limit\":20,\"total\":0}")) {
+            STUB.route("/assets?offset=0&limit=20", 200, body);
+            var bad = run("{ assetsPage { " + PAGE_FIELDS + " } }");
+            assertThat(data(bad)).as(body).containsEntry("assetsPage", null);
+            assertThat(errors(bad)).as(body).hasSize(1);
+            assertThat(code(errors(bad).get(0))).as(body).isEqualTo("UPSTREAM_BAD_RESPONSE");
+            assertThat(errors(bad).get(0).get("message")).as(body).isEqualTo("Assets service answered something the adapter cannot use");
+            STUB.reset();
+        }
+    }
+
+    @Test
+    void theLargestOffsetIsAnEmptyPageWithTheTotalAndTheSecondCallDoesNotOverflow() {
+        STUB.route("/assets?offset=2147483647&limit=50", 200, counted(2147483647, 50, "173", 0));
+        STUB.route("/assets?offset=2147483697&limit=50", 200,
+                "{\"items\":[],\"offset\":2147483697,\"limit\":50,\"total\":173}");
+        var result = run("{ assetsPage(offset: 2147483647, limit: 100) { " + PAGE_FIELDS + " } }");
+        assertThat(errors(result)).isEmpty();
+        assertThat(page(result)).containsEntry("items", List.of()).containsEntry("totalCount", 173).containsEntry("hasMore", false)
+                .containsEntry("offset", 2147483647).containsEntry("limit", 100);
+        assertThat(STUB.calls()).containsExactly("/assets?offset=2147483647&limit=50", "/assets?offset=2147483697&limit=50");
+    }
+
+    @Test
+    void aJsonNullBodyIsAnUpstreamBadResponseNotAnAdapterFault() {
+        STUB.route("/assets?offset=0&limit=20", 200, "null");
+        var result = run("{ assetsPage { " + PAGE_FIELDS + " } }");
+        assertThat(data(result)).containsEntry("assetsPage", null);
+        assertThat(errors(result)).hasSize(1);
+        assertThat(code(errors(result).get(0))).isEqualTo("UPSTREAM_BAD_RESPONSE");
+        assertThat(errors(result).get(0).get("message")).isEqualTo("Assets service answered something the adapter cannot use");
+        var list = run("{ assets { assetId } }");
+        assertThat(code(errors(list).get(0))).as("the deprecated list, as before").isEqualTo("UPSTREAM_BAD_RESPONSE");
+    }
+
+    @Test
+    void theWindowOfThePageIsCheckedAsTheListsIs() {
+        for (String arguments : List.of("limit: 101", "limit: 0", "offset: -1")) {
+            var result = run("{ assetsPage(" + arguments + ") { totalCount } }");
+            assertThat(data(result)).as(arguments).containsEntry("assetsPage", null);
+            assertThat(code(errors(result).get(0))).as(arguments).isEqualTo("BAD_USER_INPUT");
+        }
+        assertThat(STUB.calls()).isEmpty();
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void aDefaultIntrospectionShowsThePageAndNotTheDeprecatedList() {
+        var plain = run("{ __type(name: \"Query\") { fields { name } } }");
+        List<String> names = ((List<Map<String, Object>>) ((Map<String, Object>) data(plain).get("__type")).get("fields")).stream()
+                .map(field -> (String) field.get("name")).toList();
+        assertThat(names).contains("asset", "assetsPage").doesNotContain("assets");
+        var all = run("{ __type(name: \"Query\") { fields(includeDeprecated: true) { name isDeprecated deprecationReason } } }");
+        Map<String, Object> assets = ((List<Map<String, Object>>) ((Map<String, Object>) data(all).get("__type")).get("fields")).stream()
+                .filter(field -> "assets".equals(field.get("name"))).findFirst().orElseThrow();
+        assertThat(assets).containsEntry("isDeprecated", true)
+                .containsEntry("deprecationReason", "Use assetsPage: the same filters, offset, limit and items, with totalCount and hasMore.");
+        var page = run("{ __type(name: \"AssetPage\") { fields { name } } }");
+        assertThat(((List<Map<String, Object>>) ((Map<String, Object>) data(page).get("__type")).get("fields")).stream().map(field -> field.get("name")))
+                .containsExactly("items", "totalCount", "offset", "limit", "hasMore");
+    }
+
     // ---- the Federation entry points -------------------------------------------------------------------------------
 
     @Test
@@ -395,6 +615,7 @@ class AssetsAdapterTest {
         assertThat(sdl).contains("https://specs.apollo.dev/federation/v2.0");
         assertThat(sdl).contains("type AssetReference").contains("type Asset ").contains("enum Resolution").contains("enum MappingOutcome");
         assertThat(sdl).contains("UNMAPPED").contains("UNAVAILABLE").contains("RELEASE_REFUSED").contains("parent: Asset");
+        assertThat(sdl).contains("assetsPage(").contains("type AssetPage").contains("@deprecated(reason");
     }
 
     @Test
@@ -409,7 +630,7 @@ class AssetsAdapterTest {
         while (matcher.find()) {
             used.add(matcher.group(1));
         }
-        assertThat(used).containsExactlyInAnyOrder("link", "key", "requires", "external");
+        assertThat(used).containsExactlyInAnyOrder("link", "key", "requires", "external", "deprecated");
         assertThat(code).contains("@key(fields: \"assetId\")").contains("@key(fields: \"localRef release\")");
         assertThat(code).contains("@requires(fields: \"assetId mappingOutcome\")").contains("assetId: ID @external")
                 .contains("mappingOutcome: MappingOutcome! @external");

@@ -4,9 +4,26 @@ extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@
 
 type Query {
   asset(assetId: ID!): Asset
-  # Offset and limit at the graph level: the default limit is 20, the maximum 100. A page above 50 takes two calls to the
-  # service. All or nothing: if any call of the page fails the whole list is null, with one errors entry.
+  # Deprecated since adapter 1.1.0 in favour of assetsPage; it answers exactly as before. Offset and limit at the graph level: the default
+  # limit is 20, the maximum 100. A page above 50 takes two calls to the service. All or nothing: if any call of the page fails the whole
+  # list is null, with one errors entry.
   assets(kind: AssetKind, category: AssetCategory, status: AssetStatus, parentAssetId: ID, offset: Int = 0, limit: Int = 20): [Asset!]
+    @deprecated(reason: "Use assetsPage: the same filters, offset, limit and items, with totalCount and hasMore.")
+  # The same filters, offset, limit, calls and items as assets, as a page with the service's count of the assets that match the filters.
+  # All or nothing: a failed call, or count metadata the adapter cannot use, makes the whole page null with one errors entry.
+  assetsPage(kind: AssetKind, category: AssetCategory, status: AssetStatus, parentAssetId: ID, offset: Int = 0, limit: Int = 20): AssetPage
+}
+
+# A page of assets. totalCount is the number of assets that match the filters, read from the service's own count metadata (total),
+# independent of offset and limit. offset and limit are the values asked. hasMore is offset + the number of items < totalCount. A page
+# is a live view with no snapshot guarantee, as the service's pages are: two pages, or the two calls of one page, can see different
+# data if the assets change between them.
+type AssetPage {
+  items: [Asset!]!
+  totalCount: Int!
+  offset: Int!
+  limit: Int!
+  hasMore: Boolean!
 }
 
 type Asset @key(fields: "assetId") {

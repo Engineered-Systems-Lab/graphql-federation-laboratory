@@ -40,6 +40,13 @@ Every arm gets the same calculation tool (see [the tools](#the-tools)), system p
 - Direct Access is a new reference measurement, not a check that study 1 replicates: the corpus, the Missions backend and the calculation support all change.
 - Its single block leaves its performance confounded with the time window in which that block ran.
 
+**The graph arms gained page fields before the freeze** (the Job `study2_graph_totals`, 2026-11-04, [the D041 page totals revision](../project-governance/DECISIONS.md#d041-page-totals-revision-2026-11-04-accepted-scope)).
+- GraphQL Adapters, Apollo Federation and Cosmo Federation now offer `missionsPage` and `assetsPage`, which return the Missions and Assets lists with the service's `totalCount` and `hasMore`, and the lists `missions` and `assets` are deprecated.
+- It changes two things for the graph arms: a total beside every page, and what a default introspection shows, which leaves the deprecated lists out, so an agent that discovers the schema the default way sees only the page fields. A deprecated list still answers, so an agent can still use it.
+- Development failures motivated it: in the second failure of the calculation tool's declared check, two answers to a task that needs all 300 missions counted 200 of them, in GraphQL Adapters and in Cosmo Federation. It is an outcome-informed change made before the freeze, and the study report says so.
+- Direct Access and Guided Direct Access are unchanged: they already see the services' totals.
+- The reference solutions are unchanged. Step 7 is run again for the three graph arms on the new images, and a separate check of the graph arms confirms that each total equals the paged count. The baseline and the confirmation of the calculation tool that follow report which list field each graph-arm run used and name both effects.
+
 ## The corpus
 
 **Size.** 48 core scored tasks plus 6 in a separate ambiguity set, 54 in all. The power calculation (see [power](#power-tasks-against-trials)) shows that the number of distinct tasks, not of trials, decides what can be detected. The 48 is fixed by decision D (F follows it).

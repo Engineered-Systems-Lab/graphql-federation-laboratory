@@ -49,7 +49,7 @@ public class AssetsGraph {
     @Bean
     RuntimeWiringConfigurer assetsWiring() {
         return wiring -> wiring
-                .type("Query", type -> type.dataFetcher("asset", this::asset).dataFetcher("assets", this::assets))
+                .type("Query", type -> type.dataFetcher("asset", this::asset).dataFetcher("assets", this::assets).dataFetcher("assetsPage", this::assetsPage))
                 .type("AssetReference", type -> type
                         .dataFetcher("resolution", environment -> reference(environment, (entity, outcome) -> outcome.resolution().name()))
                         .dataFetcher("asset", environment -> reference(environment, (entity, outcome) -> outcome.value())))
@@ -178,18 +178,15 @@ public class AssetsGraph {
         return answer.build();
     }
 
+    /** The deprecated list: the window only, with no count check, exactly as in 1.0.0. */
     private DataFetcherResult<Object> assets(DataFetchingEnvironment environment) {
+        DataFetcherResult<Object> refused = refusedWindow(environment);
+        if (refused != null) {
+            return refused;
+        }
         int offset = environment.getArgument("offset");
         int limit = environment.getArgument("limit");
-        if (offset < 0 || limit < 1 || limit > MAX_LIMIT) {
-            return DataFetcherResult.newResult().error(FederationErrors.of(ErrorCode.BAD_USER_INPUT,
-                    "offset must be 0 or more and limit from 1 to " + MAX_LIMIT, environment)).build();
-        }
-        Map<String, String> filters = new LinkedHashMap<>();
-        for (String name : List.of("kind", "category", "status", "parentAssetId")) {
-            Object value = environment.getArgument(name);
-            filters.put(name, value == null ? null : value.toString());
-        }
+        Map<String, String> filters = filters(environment);
         List<Object> items = new ArrayList<>();
         // At most two calls (the service allows 50 per call); the second is made only when the first answered.
         for (int from = 0; from < limit; from += SERVICE_PAGE_LIMIT) {
@@ -204,9 +201,117 @@ public class AssetsGraph {
         return DataFetcherResult.newResult().data(items).build();
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * The page field: the same calls and the same items as the list, with the service's total of the assets that match the filters
+     * (independent of offset and limit), the offset and limit asked, and hasMore. All or nothing: a failed call or count metadata that
+     * cannot be used makes the whole page null, with one entry. A page is a live view with no snapshot guarantee, as the service's
+     * pages are: equal totals across the two calls of a page do not prove that the assets did not change between them.
+     */
+    private DataFetcherResult<Object> assetsPage(DataFetchingEnvironment environment) {
+        DataFetcherResult<Object> refused = refusedWindow(environment);
+        if (refused != null) {
+            return refused;
+        }
+        int offset = environment.getArgument("offset");
+        int limit = environment.getArgument("limit");
+        Map<String, String> filters = filters(environment);
+        List<Object> items = new ArrayList<>();
+        Long total = null;
+        for (int from = 0; from < limit; from += SERVICE_PAGE_LIMIT) {
+            int size = Math.min(SERVICE_PAGE_LIMIT, limit - from);
+            // The offset of the call is computed in long: offset + from can pass 2147483647 (the deprecated list keeps its int sum, as in 1.0.0).
+            long callOffset = (long) offset + from;
+            Outcome<Map<String, Object>> outcome = Outcomes.fromCall(client.list(filters, callOffset, size), null, Json::object);
+            if (outcome.resolution() != Resolution.RESOLVED) {
+                return DataFetcherResult.newResult().error(unavailable(outcome, environment)).build();
+            }
+            List<Object> rows;
+            try {
+                // A JSON null parses to no object at all: it is a body the adapter cannot use, like an answer without items.
+                if (outcome.value() == null) {
+                    throw new IllegalArgumentException("not a JSON object");
+                }
+                rows = items(outcome.value());
+            } catch (IllegalArgumentException error) {
+                return DataFetcherResult.newResult().error(unavailable(Outcome.unavailable(ErrorCode.UPSTREAM_BAD_RESPONSE, "no items"), environment)).build();
+            }
+            String fault = countFault(outcome.value(), rows.size(), callOffset, size, total);
+            if (fault != null) {
+                return DataFetcherResult.newResult().error(FederationErrors.of(ErrorCode.UPSTREAM_BAD_RESPONSE, COUNT_FAULT + fault, environment)).build();
+            }
+            total = ((Number) outcome.value().get("total")).longValue();
+            items.addAll(rows);
+        }
+        Map<String, Object> page = new LinkedHashMap<>();
+        page.put("items", items);
+        page.put("totalCount", total.intValue());
+        page.put("offset", offset);
+        page.put("limit", limit);
+        page.put("hasMore", (long) offset + items.size() < total);
+        return DataFetcherResult.newResult().data(page).build();
+    }
+
+    static final String COUNT_FAULT = "Assets service answered count metadata the adapter cannot use: ";
+
+    /**
+     * Why the count metadata of one answer cannot be used, or null. total must be a JSON integer from 0 to 2147483647 (a GraphQL Int;
+     * not a float, a string, a boolean or null), the same in every call of the page; the answer must echo the offset and limit asked;
+     * and its rows must be exactly min(limit, max(0, total - offset)) for that call, which covers zero matches, pages beyond the end
+     * and the last page.
+     */
+    static String countFault(Map<String, Object> answer, int rows, long callOffset, int callLimit, Long previousTotal) {
+        Object value = answer.get("total");
+        if (!(value instanceof Integer || value instanceof Long || value instanceof java.math.BigInteger)) {
+            return value == null ? "total is missing or null" : "total is not a whole number";
+        }
+        java.math.BigInteger whole = value instanceof java.math.BigInteger big ? big : java.math.BigInteger.valueOf(((Number) value).longValue());
+        if (whole.signum() < 0 || whole.compareTo(java.math.BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+            return "total is not from 0 to 2147483647";
+        }
+        long total = whole.longValue();
+        if (previousTotal != null && previousTotal != total) {
+            return "the calls of one page gave different totals";
+        }
+        if (!isWhole(answer.get("offset"), callOffset) || !isWhole(answer.get("limit"), callLimit)) {
+            return "the offset or limit the service echoed is not the one asked";
+        }
+        if (rows != Math.min(callLimit, Math.max(0, total - callOffset))) {
+            return "the number of assets on the page does not match total";
+        }
+        return null;
+    }
+
+    private static boolean isWhole(Object value, long expected) {
+        return (value instanceof Integer || value instanceof Long) && ((Number) value).longValue() == expected;
+    }
+
+    /** BAD_USER_INPUT, with no call, for an offset below 0 or a limit outside 1 to 100; null when the window is valid. */
+    private static DataFetcherResult<Object> refusedWindow(DataFetchingEnvironment environment) {
+        int offset = environment.getArgument("offset");
+        int limit = environment.getArgument("limit");
+        if (offset < 0 || limit < 1 || limit > MAX_LIMIT) {
+            return DataFetcherResult.newResult().error(FederationErrors.of(ErrorCode.BAD_USER_INPUT,
+                    "offset must be 0 or more and limit from 1 to " + MAX_LIMIT, environment)).build();
+        }
+        return null;
+    }
+
+    private static Map<String, String> filters(DataFetchingEnvironment environment) {
+        Map<String, String> filters = new LinkedHashMap<>();
+        for (String name : List.of("kind", "category", "status", "parentAssetId")) {
+            Object value = environment.getArgument(name);
+            filters.put(name, value == null ? null : value.toString());
+        }
+        return filters;
+    }
+
     private static List<Object> items(String body) {
-        Object items = Json.object(body).get("items");
+        return items(Json.object(body));
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Object> items(Map<String, Object> answer) {
+        Object items = answer.get("items");
         if (!(items instanceof List<?>)) {
             throw new IllegalArgumentException("no items");
         }

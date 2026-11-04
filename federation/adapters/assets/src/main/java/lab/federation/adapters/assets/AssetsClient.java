@@ -34,7 +34,7 @@ public class AssetsClient {
     }
 
     /** GET /assets with the filters that are present (a null value is left out), the offset and the limit (1 to 50 for the service). */
-    public HttpResult list(Map<String, String> filters, int offset, int limit) {
+    public HttpResult list(Map<String, String> filters, long offset, int limit) {
         StringBuilder query = new StringBuilder();
         filters.forEach((name, value) -> {
             if (value != null) {

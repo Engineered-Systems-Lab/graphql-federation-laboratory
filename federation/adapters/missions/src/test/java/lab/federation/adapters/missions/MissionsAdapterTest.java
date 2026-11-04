@@ -367,6 +367,214 @@ class MissionsAdapterTest {
         assertThat(errors(empty)).isEmpty();
     }
 
+    // ---- the page field -------------------------------------------------------------------------------------------
+
+    private static final String PAGE_FIELDS = "items { missionId } totalCount offset limit hasMore";
+
+    private Map<String, Object> page(Map<String, Object> result) {
+        return (Map<String, Object>) data(result).get("missionsPage");
+    }
+
+    private static List<String> pageIds(Map<String, Object> page) {
+        return ((List<Map<String, Object>>) page.get("items")).stream().map(mission -> (String) mission.get("missionId")).toList();
+    }
+
+    /** The page and the deprecated list for the same arguments: the same calls, the same items, and the page's total and hasMore. */
+    private Map<String, Object> pageAgainstList(String arguments) {
+        String parenthesized = arguments.isEmpty() ? "" : "(" + arguments + ")";
+        var list = run("{ missions" + parenthesized + " { missionId } }");
+        assertThat(errors(list)).as(arguments).isEmpty();
+        List<String> listCalls = STUB.calls();
+        STUB.reset();
+        var result = run("{ missionsPage" + parenthesized + " { " + PAGE_FIELDS + " } }");
+        assertThat(errors(result)).as(arguments).isEmpty();
+        assertThat(STUB.calls()).as("the page makes the list's calls: " + arguments).isEqualTo(listCalls);
+        STUB.reset();
+        Map<String, Object> page = page(result);
+        assertThat(pageIds(page)).as(arguments).isEqualTo(ids(list));
+        return page;
+    }
+
+    private static String listXml(long page, int pageSize, String totalCount, String totalPages, int from, int count) {
+        StringBuilder missions = new StringBuilder();
+        for (int index = from; index < from + count; index++) {
+            missions.append(missionXml(String.format("ST-%09d", index)));
+        }
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><missionList xmlns=\"" + StubMissions.NS + "\"><page>" + page + "</page><pageSize>" + pageSize
+                + "</pageSize><totalCount>" + totalCount + "</totalCount><totalPages>" + totalPages + "</totalPages>" + missions + "</missionList>";
+    }
+
+    @Test
+    void thePageHasTheListsItemsAndCallsAndTheServicesTotalOfTheWholeDataset() {
+        for (String arguments : List.of("", "offset: 5, limit: 10", "offset: 17, limit: 9", "offset: 28, limit: 100", "offset: 200, limit: 100")) {
+            Map<String, Object> page = pageAgainstList(arguments);
+            assertThat(page.get("totalCount")).as(arguments).isEqualTo(300);
+        }
+        Map<String, Object> first = pageAgainstList("");
+        assertThat(first).containsEntry("offset", 0).containsEntry("limit", 20).containsEntry("hasMore", true);
+        assertThat(pageAgainstList("offset: 28, limit: 100")).containsEntry("offset", 28).containsEntry("limit", 100);
+    }
+
+    @Test
+    void aFilteredTotalCountsTheMatchingMissionsWhateverTheOffsetAndLimit() {
+        long completed = BLOCKS.stream().filter(block -> "COMPLETED".equals(StubMissions.field(block, "status"))).count();
+        assertThat(completed).isBetween(21L, 299L);
+        for (String window : List.of("offset: 0, limit: 1", "offset: 7, limit: 13", "offset: 20, limit: 100", "offset: 299, limit: 100")) {
+            Map<String, Object> page = pageAgainstList("status: COMPLETED, " + window);
+            assertThat(page.get("totalCount")).as(window).isEqualTo((int) completed);
+        }
+        long both = BLOCKS.stream().filter(block -> "COMPLETED".equals(StubMissions.field(block, "status")) && members(block, "assetId").contains("EQ-64")).count();
+        assertThat(pageAgainstList("status: COMPLETED, assignedAssetId: \"EQ-64\", limit: 50").get("totalCount")).isEqualTo((int) both);
+    }
+
+    @Test
+    void zeroMatchesIsAnEmptyPageWithTotalZeroAndNoMore() {
+        STUB.route("/missions?page=1&pageSize=20", 200, StubMissions.fixture("valid/mission-list-empty.xml"));
+        var result = run("{ missionsPage { " + PAGE_FIELDS + " } }");
+        assertThat(errors(result)).isEmpty();
+        assertThat(page(result)).containsEntry("items", List.of()).containsEntry("totalCount", 0).containsEntry("hasMore", false);
+        STUB.reset();
+        STUB.route("/missions?page=1&pageSize=50", 200, listXml(1, 50, "0", "0", 0, 0));
+        var wide = run("{ missionsPage(limit: 100) { " + PAGE_FIELDS + " } }");
+        assertThat(errors(wide)).isEmpty();
+        assertThat(page(wide)).containsEntry("items", List.of()).containsEntry("totalCount", 0).containsEntry("hasMore", false);
+        assertThat(STUB.calls()).as("the empty first page ends the fetch").containsExactly("/missions?page=1&pageSize=50");
+    }
+
+    @Test
+    void aPageBeyondTheEndIsEmptyWithTheWholeTotalInOneCall() {
+        for (String window : List.of("offset: 300, limit: 20", "offset: 2000000000, limit: 5", "offset: 350, limit: 100")) {
+            var result = run("{ missionsPage(" + window + ") { " + PAGE_FIELDS + " } }");
+            assertThat(errors(result)).as(window).isEmpty();
+            assertThat(page(result)).as(window).containsEntry("items", List.of()).containsEntry("totalCount", 300).containsEntry("hasMore", false);
+            assertThat(STUB.calls()).as(window).hasSize(1);
+            STUB.reset();
+        }
+    }
+
+    @Test
+    void hasMoreIsFalseExactlyFromTheLastRow() {
+        assertThat(pageAgainstList("offset: 280, limit: 20")).containsEntry("hasMore", false);
+        assertThat(pageAgainstList("offset: 279, limit: 20")).containsEntry("hasMore", true);
+        assertThat(pageAgainstList("offset: 299, limit: 1")).containsEntry("hasMore", false);
+        assertThat(pageAgainstList("offset: 298, limit: 1")).containsEntry("hasMore", true);
+        assertThat(pageAgainstList("offset: 290, limit: 20")).containsEntry("hasMore", false);
+        assertThat(pageIds(pageAgainstList("offset: 200, limit: 100"))).hasSize(100);
+        assertThat(pageAgainstList("offset: 200, limit: 100")).containsEntry("hasMore", false);
+        assertThat(pageAgainstList("offset: 199, limit: 100")).containsEntry("hasMore", true);
+    }
+
+    @Test
+    void aPageThatSpansTwoServicePagesHasOneTotal() {
+        STUB.route("/missions?page=1&pageSize=50", 200, listXml(1, 50, "75", "2", 0, 50));
+        STUB.route("/missions?page=2&pageSize=50", 200, listXml(2, 50, "75", "2", 50, 25));
+        var result = run("{ missionsPage(limit: 100) { " + PAGE_FIELDS + " } }");
+        assertThat(errors(result)).isEmpty();
+        assertThat(pageIds(page(result))).hasSize(75).endsWith("ST-000000074");
+        assertThat(page(result)).containsEntry("totalCount", 75).containsEntry("hasMore", false).containsEntry("limit", 100);
+        assertThat(STUB.calls()).containsExactly("/missions?page=1&pageSize=50", "/missions?page=2&pageSize=50");
+    }
+
+    @Test
+    void countMetadataTheAdapterCannotUseIsOneUpstreamBadResponseForThePageAndChangesNothingForTheList() {
+        Map<String, String> cases = new java.util.LinkedHashMap<>();
+        cases.put("a total above a GraphQL Int", listXml(1, 20, "2147483648", "107374183", 0, 20));
+        cases.put("totalPages that does not match", listXml(1, 20, "30", "1", 0, 20));
+        cases.put("fewer rows than the total says", listXml(1, 20, "30", "2", 0, 5));
+        cases.put("more rows than the total says", listXml(1, 20, "3", "1", 0, 5));
+        cases.put("rows on an empty total", listXml(1, 20, "0", "0", 0, 2));
+        for (var entry : cases.entrySet()) {
+            STUB.route("/missions?page=1&pageSize=20", 200, entry.getValue());
+            var result = run("{ missionsPage { " + PAGE_FIELDS + " } }");
+            assertThat(data(result)).as(entry.getKey()).containsEntry("missionsPage", null);
+            assertThat(codes(result)).as(entry.getKey()).containsExactly("UPSTREAM_BAD_RESPONSE");
+            assertThat((String) errors(result).get(0).get("message")).as(entry.getKey()).startsWith(MissionPaging.COUNT_FAULT);
+            assertThat(errors(result).get(0).get("path")).isEqualTo(List.of("missionsPage"));
+            var list = run("{ missions { missionId } }");
+            assertThat(errors(list)).as("the deprecated list does not check the counts: " + entry.getKey()).isEmpty();
+            STUB.reset();
+        }
+        STUB.route("/missions?page=1&pageSize=50", 200, listXml(1, 50, "75", "2", 0, 50));
+        STUB.route("/missions?page=2&pageSize=50", 200, listXml(2, 50, "76", "2", 50, 26));
+        var differing = run("{ missionsPage(limit: 100) { " + PAGE_FIELDS + " } }");
+        assertThat(data(differing)).containsEntry("missionsPage", null);
+        assertThat(codes(differing)).containsExactly("UPSTREAM_BAD_RESPONSE");
+        assertThat((String) errors(differing).get(0).get("message")).contains("different totalCount");
+        assertThat(errors(run("{ missions(limit: 100) { missionId } }"))).isEmpty();
+    }
+
+    @Test
+    void aMissingNegativeOrNonDecimalTotalIsRefusedByTheContractParserForThePageAsForTheList() {
+        for (String total : List.of("", "-1", "007", "1.5", "99999999999999999999")) {
+            STUB.route("/missions?page=1&pageSize=20", 200, listXml(1, 20, total, "1", 0, 1).replace("<totalCount></totalCount>", ""));
+            var result = run("{ missionsPage { " + PAGE_FIELDS + " } }");
+            assertThat(data(result)).as(total).containsEntry("missionsPage", null);
+            assertThat(codes(result)).as(total).containsExactly("UPSTREAM_BAD_RESPONSE");
+            assertThat(codes(run("{ missions { missionId } }"))).as(total).containsExactly("UPSTREAM_BAD_RESPONSE");
+            STUB.reset();
+        }
+    }
+
+    @Test
+    void anOutageATimeoutOrABadBodyMakesTheWholePageNullWithOneEntry() {
+        STUB.route("/missions?page=1&pageSize=20", 500, StubMissions.error("INTERNAL_ERROR"));
+        var down = run("{ missionsPage { " + PAGE_FIELDS + " } }");
+        assertThat(data(down)).containsEntry("missionsPage", null);
+        assertThat(codes(down)).containsExactly("SERVICE_UNAVAILABLE");
+        assertThat(errors(down).get(0).get("message")).isEqualTo("Missions service unavailable");
+        STUB.reset();
+        STUB.route("/missions?page=1&pageSize=20", 200, pageXml(1, 20, 300, 0, 20), 2000);
+        var slow = run("{ missionsPage { " + PAGE_FIELDS + " } }");
+        assertThat(data(slow)).containsEntry("missionsPage", null);
+        assertThat(codes(slow)).containsExactly("SERVICE_UNAVAILABLE");
+        STUB.reset();
+        STUB.route("/missions?page=1&pageSize=50", 200, listXml(1, 50, "75", "2", 0, 50));
+        STUB.route("/missions?page=2&pageSize=50", 503, "");
+        var second = run("{ missionsPage(limit: 100) { " + PAGE_FIELDS + " } }");
+        assertThat(data(second)).containsEntry("missionsPage", null);
+        assertThat(codes(second)).containsExactly("SERVICE_UNAVAILABLE");
+        STUB.reset();
+        STUB.route("/missions?page=1&pageSize=50", 500, "");
+        var first = run("{ missionsPage(limit: 100) { " + PAGE_FIELDS + " } }");
+        assertThat(codes(first)).containsExactly("SERVICE_UNAVAILABLE");
+        assertThat(STUB.calls()).as("no call after the first failed").containsExactly("/missions?page=1&pageSize=50");
+        STUB.reset();
+        STUB.route("/missions?page=1&pageSize=20", 200, "not xml at all");
+        var bad = run("{ missionsPage { " + PAGE_FIELDS + " } }");
+        assertThat(data(bad)).containsEntry("missionsPage", null);
+        assertThat(codes(bad)).containsExactly("UPSTREAM_BAD_RESPONSE");
+        assertThat(errors(bad).get(0).get("message")).isEqualTo("Missions service answered something the adapter cannot use");
+    }
+
+    @Test
+    void theWindowAndTheFiltersOfThePageAreCheckedAsTheListsAre() {
+        for (String arguments : List.of("limit: 101", "limit: 0", "offset: -1")) {
+            var result = run("{ missionsPage(" + arguments + ") { totalCount } }");
+            assertThat(data(result)).as(arguments).containsEntry("missionsPage", null);
+            assertThat(codes(result)).as(arguments).containsExactly("BAD_USER_INPUT");
+        }
+        assertThat(STUB.calls()).isEmpty();
+        var refused = run("{ missionsPage(priority: 9) { totalCount } }");
+        assertThat(data(refused)).containsEntry("missionsPage", null);
+        assertThat(codes(refused)).containsExactly("BAD_USER_INPUT");
+    }
+
+    @Test
+    void aDefaultIntrospectionShowsThePageAndNotTheDeprecatedList() {
+        var plain = run("{ __type(name: \"Query\") { fields { name } } }");
+        List<String> names = ((List<Map<String, Object>>) ((Map<String, Object>) data(plain).get("__type")).get("fields")).stream()
+                .map(field -> (String) field.get("name")).toList();
+        assertThat(names).contains("mission", "missionsPage").doesNotContain("missions");
+        var all = run("{ __type(name: \"Query\") { fields(includeDeprecated: true) { name isDeprecated deprecationReason } } }");
+        Map<String, Object> missions = ((List<Map<String, Object>>) ((Map<String, Object>) data(all).get("__type")).get("fields")).stream()
+                .filter(field -> "missions".equals(field.get("name"))).findFirst().orElseThrow();
+        assertThat(missions).containsEntry("isDeprecated", true)
+                .containsEntry("deprecationReason", "Use missionsPage: the same filters, offset, limit and items, with totalCount and hasMore.");
+        var page = run("{ __type(name: \"MissionPage\") { fields { name } } }");
+        assertThat(((List<Map<String, Object>>) ((Map<String, Object>) data(page).get("__type")).get("fields")).stream().map(field -> field.get("name")))
+                .containsExactly("items", "totalCount", "offset", "limit", "hasMore");
+    }
+
     // ---- the asset references --------------------------------------------------------------------------------------
 
     @Test
@@ -444,6 +652,7 @@ class MissionsAdapterTest {
         assertThat(sdl).containsPattern("type Mission @key\\(fields\\s*:\\s*\"missionId\"");
         assertThat(sdl).contains("assets(release: String!): [AssetReference!]!").contains("crew(release: String!): [PersonnelReference!]!")
                 .contains("commandingOfficer(release: String!): PersonnelReference");
+        assertThat(sdl).contains("missionsPage(").contains("type MissionPage").contains("@deprecated(reason");
         assertThat(sdl).contains("estimatedCostCredits: String").doesNotContain("Float");
     }
 
@@ -459,7 +668,7 @@ class MissionsAdapterTest {
         while (matcher.find()) {
             used.add(matcher.group(1));
         }
-        assertThat(used).containsExactlyInAnyOrder("link", "key");
+        assertThat(used).containsExactlyInAnyOrder("link", "key", "deprecated");
         assertThat(code).contains("@key(fields: \"missionId\")").contains("@key(fields: \"localRef release\", resolvable: false)");
         assertThat(code).contains("import: [\"@key\"]");
     }

@@ -50,7 +50,8 @@ public class MissionsGraph {
     @Bean
     RuntimeWiringConfigurer missionsWiring() {
         return wiring -> wiring
-                .type("Query", type -> type.dataFetcher("mission", this::mission).dataFetcher("missions", this::missions))
+                .type("Query", type -> type.dataFetcher("mission", this::mission).dataFetcher("missions", this::missions)
+                        .dataFetcher("missionsPage", this::missionsPage))
                 .type("Mission", type -> type.dataFetcher("assets", MissionsGraph::assets).dataFetcher("crew", MissionsGraph::crew)
                         .dataFetcher("commandingOfficer", MissionsGraph::commandingOfficer));
     }
@@ -140,24 +141,66 @@ public class MissionsGraph {
         return !result.failed() && result.status() == 400 && code.equals(MissionXml.errorCode(result));
     }
 
+    /** The deprecated list: the window only, with no count check, exactly as in 1.0.0. */
     private DataFetcherResult<Object> missions(DataFetchingEnvironment environment) {
+        DataFetcherResult<Object> refused = refusedWindow(environment);
+        if (refused != null) {
+            return refused;
+        }
+        Map<String, String> filters = filters(environment);
+        MissionPaging.Result result = MissionPaging.fetch(environment.getArgument("offset"), environment.getArgument("limit"),
+                (page, pageSize) -> pageOf(client.list(filters, page, pageSize)));
+        if (result.failed()) {
+            // All or nothing: the whole list is null, with one entry for the call that failed.
+            return DataFetcherResult.newResult().error(failure(result.failure(), environment)).build();
+        }
+        return DataFetcherResult.newResult().data(new ArrayList<Object>(result.missions())).build();
+    }
+
+    /**
+     * The page field: the same calls and the same items as the list, with the service's totalCount of the missions that match the
+     * filters (independent of offset and limit), the offset and limit asked, and hasMore. All or nothing: a failed call or count metadata
+     * that cannot be used makes the whole page null, with one entry.
+     */
+    private DataFetcherResult<Object> missionsPage(DataFetchingEnvironment environment) {
+        DataFetcherResult<Object> refused = refusedWindow(environment);
+        if (refused != null) {
+            return refused;
+        }
+        int offset = environment.getArgument("offset");
+        int limit = environment.getArgument("limit");
+        Map<String, String> filters = filters(environment);
+        MissionPaging.Result result = MissionPaging.fetchCounted(offset, limit, (page, pageSize) -> pageOf(client.list(filters, page, pageSize)));
+        if (result.failed()) {
+            return DataFetcherResult.newResult().error(failure(result.failure(), environment)).build();
+        }
+        Map<String, Object> page = new LinkedHashMap<>();
+        page.put("items", new ArrayList<Object>(result.missions()));
+        page.put("totalCount", result.totalCount().intValue());
+        page.put("offset", offset);
+        page.put("limit", limit);
+        page.put("hasMore", (long) offset + result.missions().size() < result.totalCount());
+        return DataFetcherResult.newResult().data(page).build();
+    }
+
+    /** BAD_USER_INPUT, with no call, for an offset below 0 or a limit outside 1 to 100; null when the window is valid. */
+    private static DataFetcherResult<Object> refusedWindow(DataFetchingEnvironment environment) {
         int offset = environment.getArgument("offset");
         int limit = environment.getArgument("limit");
         if (offset < 0 || limit < 1 || limit > MAX_LIMIT) {
             return DataFetcherResult.newResult().error(FederationErrors.of(ErrorCode.BAD_USER_INPUT,
                     "offset must be 0 or more and limit from 1 to " + MAX_LIMIT, environment)).build();
         }
+        return null;
+    }
+
+    private static Map<String, String> filters(DataFetchingEnvironment environment) {
         Map<String, String> filters = new LinkedHashMap<>();
         for (String name : FILTERS) {
             Object value = environment.getArgument(name);
             filters.put(name, value == null ? null : value.toString());
         }
-        MissionPaging.Result result = MissionPaging.fetch(offset, limit, (page, pageSize) -> pageOf(client.list(filters, page, pageSize)));
-        if (result.failed()) {
-            // All or nothing: the whole list is null, with one entry for the call that failed.
-            return DataFetcherResult.newResult().error(failure(result.failure(), environment)).build();
-        }
-        return DataFetcherResult.newResult().data(new ArrayList<Object>(result.missions())).build();
+        return filters;
     }
 
     /** A 400 with INVALID_REQUEST can only come from a filter value, because the adapter's own page and pageSize are valid. */
@@ -211,7 +254,8 @@ public class MissionsGraph {
         String message = switch (outcome.errorCode()) {
             case SERVICE_UNAVAILABLE -> "Missions service unavailable";
             case BAD_USER_INPUT -> outcome.message();
-            default -> "Missions service answered something the adapter cannot use";
+            default -> outcome.message().startsWith(MissionPaging.COUNT_FAULT) ? outcome.message()
+                    : "Missions service answered something the adapter cannot use";
         };
         return FederationErrors.of(outcome.errorCode(), message, environment);
     }

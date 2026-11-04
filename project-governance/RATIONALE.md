@@ -54,6 +54,7 @@ The rows and sections for D001 to D049 were carried from the lab's rationale (th
 | D051 | explicit | The lead developer approved a narrow, enumerated exception because the recovery chain could not be adopted before the first runtime commit; see Set-up imports. |
 | D052 | explicit | The checkpoint tool could not prepare any transaction until the implementation checkpoint row was on main; the lead developer approved one more set-up commit; see Set-up imports. |
 | D053 | explicit | The lead developer chose to rewrite the commit email once to keep it private, keeping authorship, dates and content; see Set-up imports. |
+| D041 page totals revision | explicit | The lead developer chose option (a) of G1 to G4 in their own words (page fields with totals, the old lists deprecated, Personnel untouched, the reference code unchanged, the motive stated); the development failures that motivated it are source-stated; see Federation graph page totals. |
 
 ## Fair comparisons: D002, D003, D005, D006
 
@@ -400,6 +401,25 @@ No revisit condition supplies execution authority.
 **Evidence.** The [federation design](../docs/FEDERATION-DESIGN.md), the runtime commits lab commit `7dd97753e2b5f91bb70c6ec9906845e25c7f4360`, lab commit `9e97bc73170726a45c067658d54a8cb626293d2e`, lab commit `c7423336003d5bda1aa31b3bbbb71e0347ead1a6`, lab commit `21a76328252304759b761001eb0c2ffa6a54ec0f` and lab commit `1842bcc79cd80d9642b1ed685df7dc97391274c1`, the READMEs under `federation/`, the machine-local Job record of the design talk (where the lead developer's words were recorded as said, with typos corrected) and [D041](DECISIONS.md#d041---federation-graph-design-release-key-paging-names-codes-ports-and-layout-2026-10-16-accepted-scope). This explanation grants no approval and implements nothing.
 
 **Revisit when.** A consumer needs a partial page; an entity-interface experiment passes on every router; the Cosmo and Hive routers are built and need the block; or a port outside the ranges is needed.
+
+## Federation graph page totals: D041 page totals revision
+
+**Rationale status.** Explicit.
+
+**Decision / what we do.** Add `missionsPage` and `assetsPage` with the service's totals beside the graph's Missions and Assets lists, deprecate the two lists without removing them, leave Personnel and every other list as they are, and record that development failures motivated the change.
+
+**Why.** The reasons are labeled by who gave them.
+- Supplied by the lead developer (2026-11-04): the start of the work ("Let's consider adding a total count to the Missions service"); option (a) of each of G1 to G4; for G1, the revision that also deprecates the old lists, the names ("Using Page is fine", "G1 a, then") and Personnel left alone ("perfect" and "we don't touch it"); for G2 ("G2 (a) then."), the reference code kept unchanged; for G3, a revision that states its motive; and the review's points, passed on with "review and implement as needed".
+- Source-stated: in the second failure of the calculation tool's declared check, two Claude answers to a development task that needs all 300 missions counted 200 of them, in GraphQL Adapters and in Cosmo Federation (the step 7 and 9 records of study 2's preflight); the Missions and Assets adapters dropped the paging metadata their services already return (`totalCount` and `totalPages`; `total`), while the graph's `PersonnelPage` keeps it; the corpus's pagination category names only the Missions, Assets and Personnel lists; the services' pages are live views with no snapshot across requests (the Missions and Assets designs).
+- Agent-reasoned: a total beside the records it counts, with the filters bound once, lets an agent check that it has every row; a deprecated field drops out of a default introspection but keeps answering, so the agents of the graph arms see the page fields first while existing queries and the reference code are unchanged; checking the count against the rows of every call turns a contradictory answer into a visible `UPSTREAM_BAD_RESPONSE` instead of a wrong total.
+
+**Alternatives.** For G1: separate total fields `missionsTotal` and `assetsTotal` beside the lists (rejected: no snapshot between the two requests, and an agent could ask the total of a different selection); a cursor connection (rejected: it widens the Job for nothing, and the reviewer agreed); replacing the lists outright (rejected: it breaks every existing query and the reference code); the page fields without deprecating the lists (the first form of option a, revised by the lead developer). For G2: reference solutions that use the totals (rejected: the reference code's hash would change and step 7 would have to be run again in all five arms). For G3: a plain revision with no stated motive (rejected: the design was published before the runs, and the reviewer asked for the motive). For G4: counts on other lists of the graph (rejected: Personnel already has its page, and the corpus names no other list). All decided by the lead developer on 2026-11-04.
+
+**Tradeoffs or costs.** The revision is informed by development outcomes of study 2, so the graph arms of study 2 differ from the graph the design first described; the study report has to say so, and it changes two things for the graph arms, totals and what a default introspection shows. The new images of the two adapters stale the graph arms' step 7 reports, which are run again. A page field refuses count metadata that the deprecated list accepts, so the two can answer differently on a faulty service. The graph keeps two ways to read the same list until the deprecated ones are removed.
+
+**Evidence.** The Missions and Assets adapters' schemas and tests under `federation/adapters/`, the shared acceptance suite `federation/acceptance/shared_suite.py`, the recomposed `federation/routers/apollo/supergraph.graphql` and `federation/routers/cosmo/execution-config.json`, the [federation design](../docs/FEDERATION-DESIGN.md#paging-names-and-the-personnel-type), the [study 2 design](../docs/STUDY-2-DESIGN.md#the-arms), the step 7 and 9 record `study/evidence/study-2-preflight/preflight-record-steps-7-9-20261104T022919Z.json` and its successors, the machine-local Job record of study2_graph_totals and [the revision](DECISIONS.md#d041-page-totals-revision-2026-11-04-accepted-scope). This explanation grants no approval and implements nothing.
+
+**Revisit when.** No query of the project uses the deprecated lists any more and they could be removed; a service gains a snapshot or version marker that a page could carry like Personnel's `datasetVersion`; or another list of the graph needs a total.
 
 ## Federation crew mapping: D042
 
