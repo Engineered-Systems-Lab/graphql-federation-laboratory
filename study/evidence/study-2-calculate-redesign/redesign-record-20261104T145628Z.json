@@ -1,0 +1,268 @@
+{
+ "schema": 1,
+ "about": "The record of the Job study2_calculate_redesign: the offline replay of candidate designs for the calculation tool, the lead developer's choice, the version 2 built on it, the debug against the stack, the fake-client dry run, the paid confirmation study2-confirm-1, and the declared tool check run again with run 1 as the baseline, with the lead developer's verdict.",
+ "job": "study2_calculate_redesign",
+ "generatedAt": "2026-11-04T14:56:28Z",
+ "previousRecord": "study/evidence/study-2-preflight/preflight-record-steps-7-9-20261104T022919Z.json (toolCheck: version 1 fails on its token-volume clause, decision Q7)",
+ "decisions": {
+  "Q1": "the replay compares both families, tool-side and result-side (the lead developer, 2026-11-03)",
+  "Q2": "the confirmation runs the four check tasks only, through a task-subset option in the harness, 32 runs",
+  "Q3": "10 dollars for the one confirmation run: Anthropic 7, OpenAI 3",
+  "Q4": "keep 80 tool calls, 1 M tokens, 900 s and 3 retries unless the confirmation shows that a limit, not the design, still causes failures",
+  "R1": "the lead developer, 2026-11-03, in the worker session, selected \"R5000 (Recommended)\": result-side, threshold 5,000 characters, with a generic view operation; no tool-side sample cut. Not chosen: R5000 + T, R2000, T only",
+  "verdict": "the lead developer, 2026-11-04T14:54Z, in the worker session: \"The check fails\""
+ },
+ "replay": {
+  "method": "Run 2 (study2-dev-tool-1), V05 to V08 in beta, gamma, delta and epsilon, both models: 32 runs, their transcripts and results. The agents' calls held fixed; every calculate call re-run through each candidate on the stored results. Projected usage: each turn's real prompt tokens minus the tokens a design takes out of the results before it, at the characters per token measured from run 2 (Claude 1.731, GPT 3.248), plus the real output tokens. A stored result the agent never named in a calculate call is counted as read in full through view. No vendor call, no stack.",
+  "columns": [
+   "charsShown",
+   "projectedTokens",
+   "V05Tokens",
+   "V05RunsAtOrOver1M",
+   "extraViewCalls"
+  ],
+  "designs": {
+   "v1": [
+    4718027,
+    10782195,
+    7910964,
+    7,
+    0
+   ],
+   "T": [
+    4516887,
+    10586942,
+    7744037,
+    6,
+    0
+   ],
+   "R2000": [
+    2251496,
+    4744929,
+    2732434,
+    0,
+    79
+   ],
+   "R5000": [
+    2296730,
+    4767954,
+    2739934,
+    0,
+    44
+   ],
+   "R10000": [
+    2404756,
+    4892498,
+    2858584,
+    0,
+    35
+   ],
+   "R5000+T": [
+    2095590,
+    4581280,
+    2581581,
+    0,
+    44
+   ]
+  },
+  "projectedTokensByArmV1AndR5000": {
+   "beta": [
+    2796774,
+    984000
+   ],
+   "gamma": [
+    2465157,
+    1506000
+   ],
+   "delta": [
+    2718960,
+    1381000
+   ],
+   "epsilon": [
+    2801304,
+    894000
+   ]
+  },
+  "limits": "the agents' behaviour is held fixed; that a shape is enough to choose a path is assumed",
+  "files": {
+   "replay.py": "273d530fa8e3703e7ad5d5be1bc6118d1cab92d893bf11099cf309e58d3caf09",
+   "replay-output.txt": "e2ebeb219e71194f6fca06e3b9300794649317c1931b93dee49058c6fa2aab0b",
+   "replay.json": "bfb762b2a491bd9ea88456ee17cab830cf876fb23213c66eb2613ee28d9b726a",
+   "calib.py": "e622f542c56046cff20441cc0ac539733c73702a1846744ab301f627141c6645",
+   "stats.py": "56817b0747f0a0d69953e93eb1a4c8c66fd288746e1164510d3a76edd987975e"
+  }
+ },
+ "version2": {
+  "commit": "8b072fb72e13ceb8caa0e09c779a684613b5fe0e",
+  "approvedBy": "the lead developer's go at the preview (early conditional approval), 2026-11-04",
+  "reviewFinding": "before the go the lead developer found that view could pass the 50,000-character output limit with an object of one long member; render now replaces a part still too long by its shape within 1,500 characters, named in shapeOnly, with regression tests"
+ },
+ "debug": {
+  "note": "not evidence; on the lead developer's go, 2026-11-04T12:53Z",
+  "what": "calculate version 2 wrapped around the live gamma stack's graphql_query: short results shown with their id, a 20,749-character result stored and shown as 651 characters, view, count and distinct correct against the data, every refusal readable. A view with no limit returns the whole part at its path, as the replay assumed. No change.",
+  "files": {
+   "calc_debug.py": "7becba25838e0181c4634fbf96d1f465833b4edab43f8b173ef658d310a07068",
+   "debug-1.txt": "40c2647fc2a7d382709c9e82a54a5524c018f1f711ca7667e1d993c889fa0fc1"
+  }
+ },
+ "dryRun": {
+  "runId": "study2-confirm-dry1",
+  "startedAt": "2026-11-04T13:36:12Z",
+  "result": "complete, 32 runs, provenance match in all four arms, every image id equal to the pin set",
+  "finding": "a first attempt stopped before any stack start: the worker wrote the config without --corpus-dir, and make_config.py takes study 1's corpus (study/corpus) for a plan without a schedule; written again with study/corpus2, as run 1's config has it",
+  "noteSha256": "a43e9bd28fe4c30bd7222078e16309d8533b9b4297e3a24e6739ad6fca743ca4"
+ },
+ "confirmation": {
+  "runId": "study2-confirm-1",
+  "startedAt": "2026-11-04T13:59:42Z",
+  "finishedAt": "2026-11-04T14:49:32Z",
+  "startedBy": "the lead developer, from their own terminal; the worker never held an API key",
+  "shape": "V05 to V08 (task subset of dev), scenario order gamma, beta, delta, epsilon, claude-sonnet-5-5 and gpt-6.1-sol, one trial, seed 20261104, limits unchanged, harness tools calculate (version 2) and ask_requester; plan sha256 c34b95398b9702abc9e1fbce84190a04d61e65d37113dfc74e6f5e11dd62fa88",
+  "status": "complete",
+  "runs": 32,
+  "provenance": "match in all four arms, no problems",
+  "spend": {
+   "anthropic": 2.6924,
+   "openai": 2.0196,
+   "total": 4.712,
+   "ceiling": 10.0
+  },
+  "retries": {
+   "anthropic": 4,
+   "openai": 3
+  }
+ },
+ "toolCheck": {
+  "declared": "the tool is fit only if the failures where the agent says it cannot count and the failures from token volume fall, the definitional failures stay as they are, and no new kind of failure appears (a wrong operation or a wrong result id)",
+  "scope": "V05 to V08 in beta, gamma, delta, epsilon, both models, one trial; run 1 study2-dev-notool-1 (no tool) against study2-confirm-1 (calculate version 2, commit 8b072fb)",
+  "outcomes": {
+   "run1": "22 of 32 correct",
+   "run2": "23 of 32 correct",
+   "confirm": "27 of 32 correct"
+  },
+  "failuresByCause": {
+   "tokenVolume": {
+    "run1": 1,
+    "run2": 7,
+    "confirm": 1,
+    "rule": "must fall",
+    "met": false,
+    "runs": "confirm: beta V05 GPT stopped at the token limit (1.04 M, 46 calls, 28 calculate, 3 refused). gamma V05 Claude also passed 1 M (1.03 M) but answered, so it is counted under its cause below"
+   },
+   "cannotCount": {
+    "run1": 7,
+    "run2": 2,
+    "confirm": 2,
+    "rule": "must fall",
+    "met": true,
+    "runs": "confirm: beta V05 Claude (620 people right; the crew-to-person join done by hand from a 505-record filter, one civilian counted as CREWMAN: 298/3 for 297/4); epsilon V07 Claude (its one calculate call refused for a path missing the body wrapper, not retried; counted 38 of 39 transport missions by hand, cost exact)"
+   },
+   "definitional": {
+    "run1": 0,
+    "run2": 0,
+    "confirm": 0,
+    "rule": "must stay",
+    "met": true
+   },
+   "newKind": {
+    "run2": 0,
+    "confirm": 2,
+    "rule": "none may appear",
+    "met": false,
+    "runs": "incomplete mission pages, the same answer 569 in both: gamma V05 Claude fetched missions 100 to 400 (result 3932-9) but its distinct named only the result of missions 0 to 200 (3932-25), so the third hundred never entered the count (a wrong choice of result ids, the worker's reading); epsilon V05 Claude fetched only offsets 0 and 100 and never 200 (an incomplete fetch, no tool part). Neither pattern occurs in run 1 or run 2"
+   },
+   "harnessError": {
+    "run1": 2,
+    "run2": 0,
+    "confirm": 0
+   }
+  },
+  "overhead": {
+   "tokens": {
+    "run1": 7179935,
+    "run2": 10782195,
+    "confirm": 7797595
+   },
+   "medianTokensPerRun": {
+    "run1": 101330,
+    "run2": 157485,
+    "confirm": 99580
+   },
+   "V05tokens": {
+    "run1": 5382408,
+    "run2": 7910964,
+    "confirm": 5576126
+   },
+   "runsAtOrOver1M": {
+    "run1": 1,
+    "run2": 7,
+    "confirm": 2
+   },
+   "toolCalls": {
+    "run1": 350,
+    "run2": 475,
+    "confirm": 607
+   },
+   "calculateCalls": {
+    "run2": 118,
+    "confirm": 262
+   },
+   "calculateRefused": {
+    "run2": 12,
+    "confirm": 11
+   },
+   "resultChars": {
+    "about": "characters in results.jsonl over the 32 runs; scenario results are the scenario tools' results, calculate outputs the successful calculate results (refused calls are not stored), always shown in full; the id lines added when a result is shown are not counted",
+    "scenarioResultsShownInFull": {
+     "run2": 4198607,
+     "confirm": 274027
+    },
+    "scenarioResultsStoredNotShown": {
+     "run2": 0,
+     "confirm": 4791604
+    },
+    "scenarioResultsStored": {
+     "run2": 0,
+     "confirm": 124
+    },
+    "calculateOutputsShownInFull": {
+     "run2": 510068,
+     "confirm": 1359865
+    },
+    "calculateOutputs": {
+     "run2": 106,
+     "confirm": 251
+    }
+   },
+   "seconds": {
+    "run1": 1781,
+    "run2": 1488,
+    "confirm": 2587
+   },
+   "dollars": {
+    "run2": 6.44,
+    "confirm": 4.71,
+    "confirmByVendor": {
+     "anthropic": 2.6924,
+     "openai": 2.0196
+    }
+   },
+   "replayProjection": "the replay projected 4.77 M tokens for R5000 with the agents' calls held fixed; the agents made 262 calculate calls instead of 118, so the real total is 7.80 M"
+  },
+  "classifiedFrom": "each failing run's transcript and results (calls, arguments, result sizes, refusals) and its submission against the key; the transcripts hold no model reasoning text. Script check2.py sha256 0dbd5a3558457a9587d4f30d049015b9907fa5f1072ee28efb7bb89fc371787d, output check2-output.json sha256 ffa969863c1e1f380d0438ced1f60d8f0c6e0caa49b45e432784c0bb61b298ab",
+  "proposedBy": "the worker",
+  "verdict": "fails: the token-volume failures did not fall below run 1 (1 to 1, down from version 1's 7), and a new kind of failure appeared (two V05 answers built from 200 of the 300 missions, one by a choice of result ids)",
+  "decidedBy": "the lead developer, in the worker session, 2026-11-04T14:54Z: \"The check fails\"",
+  "consequence": "Under the design and this Job's scope the tool design returns to the lead developer before the corpus freeze; study2_freeze still waits for a tool that passes. Version 2 stays in the harness as committed; this Job changes it no further."
+ },
+ "limitsForTheFreeze": {
+  "decision": "Q4 (a)",
+  "limits": {
+   "max_tool_calls": 80,
+   "max_task_tokens": 1000000,
+   "max_wall_seconds": 900,
+   "max_retries": 3
+  },
+  "proposal": "no change: the one token stop (beta V05 GPT, 1.04 M) equals run 1's without the tool, and gamma V05 Claude passed 1 M but answered, wrong from missing data; the largest run used 53 tool calls and 549 s. The limits are set again once a tool passes"
+ }
+}

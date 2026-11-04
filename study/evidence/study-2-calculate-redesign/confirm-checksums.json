@@ -1,0 +1,20 @@
+{
+ "about": "Checksums that tie the committed evidence of the paid confirmation of the Job study2_calculate_redesign to the raw run folder kept outside the repository. bundleChecksum is the runner's checksum over the bundle's file list (study/harness/runner.py, write_bundle); bundleJsonSha256, the sums-file digest and the evidence-file digests are SHA-256 of the exact bytes as the run and the worker wrote them (LF). No archive zip was made: the run folder stays read-only in the machine-local results folder, with a per-file sums file beside it.",
+ "runs": {
+  "study2-confirm-1": {
+   "bundleChecksum": "48c51841a673c38549b878942ac7e12def900678e6b70365317879ea157d4ed1",
+   "bundleJsonSha256": "f8fe8b3d7364f6a29a5fde7f2fbe681a6b79fcf00a7b3ae65a0e682c762c7c4a",
+   "bundleWrittenAt": "2026-11-04T14:49:32.859+00:00",
+   "status": "complete",
+   "evidenceFiles": {
+    "manifest.json": "e839f985d63d6f357d64942a198289aedaa9dd70d2a427dfc4d2db980b5dddc4",
+    "scores.csv": "0cb863b5e1610aef68c3e3ab9791476dd07fdd90c82e4a51479768d79b0a3130"
+   },
+   "filesInRun": 107,
+   "sumsFile": {
+    "name": "SHA256SUMS-study2-confirm-1.txt",
+    "sha256": "125c6f7d104ab99be886d3675a47a0d0646a4bb64cc61330cc5bce91c6afbcf3"
+   }
+  }
+ }
+}
