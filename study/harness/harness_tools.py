@@ -1,16 +1,22 @@
 """The two tools the harness offers beside a scenario's MCP tools, identical in every arm and run (docs/STUDY-2-DESIGN.md, the tools).
 
 `calculate` computes over results the agent already obtained in the same run, named by result id. It never fetches: it has no network, file,
-database, backend or answer-key access, and it never sees another run's results. Its operations are generic only (count, distinct, group_by
-with count or sum, sort, filter by literal comparison, union, intersection, difference and arithmetic); none knows a domain term.
+database, backend or answer-key access, and it never sees another run's results. Its operations are generic only (view, count, distinct,
+group_by with count or sum, sort, filter by literal comparison, union, intersection, difference and arithmetic); none knows a domain term.
 
 `ask_requester` logs the agent's question with its run and always returns the same fixed text.
 
 Result ids. When `calculate` is offered, every result of a scenario tool and every successful `calculate` result gets an id `<tag>-<n>`:
 `tag` is four hex digits unique to the run and its attempt, `n` counts from 1. The id is shown to the agent as the first line of the result,
-`result_id: <id>`, and the result is stored in the run's `results.jsonl`, which the bundle checksum covers. An id with another tag belongs to
-another run and is refused; an id with this run's tag that was never given is unknown and refused. Every refusal is a tool error, logged like
-any other call.
+`result_id: <id>`, and the result is stored in full in the run's `results.jsonl`, which the bundle checksum covers. An id with another tag
+belongs to another run and is refused; an id with this run's tag that was never given is unknown and refused. Every refusal is a tool error,
+logged like any other call.
+
+Stored results (version 2). When `calculate` is offered, a scenario result longer than `storeAboveChars` characters is stored in full and is
+not shown: the agent reads its id, its size and its shape, which is the result as `calculate` reads it with every list cut to its first
+element and its length, every object to its first keys and every long text to its start (`preview`). The generic operation `view` reads any
+part of a stored result, or of any other result. The rule is the same in every arm and knows no domain term; a shorter result and every
+`calculate` result are shown in full, as in version 1.
 
 Reading a result. A source names a result id and an optional path: dot-separated keys or list positions, where `*` takes every element of a
 list (any other value counts as a list of one). A text met while walking the path, or at its end, is read as JSON when it starts with `{` or
@@ -29,15 +35,21 @@ from pathlib import Path
 from budget import estimate_tokens
 from study_common import append_jsonl, sha256_bytes, utc_now
 
-VERSION = 1
+VERSION = 2
 CALCULATE, ASK_REQUESTER = 'calculate', 'ask_requester'
 NAMES = (CALCULATE, ASK_REQUESTER)
 ASK_TEXT = 'No requester response is available during this evaluation.'
 ID_LINE = 'result_id: %s\n'
-OPERATIONS = ('count', 'distinct', 'group_by', 'sort', 'filter', 'union', 'intersection', 'difference', 'arithmetic')
+OPERATIONS = ('view', 'count', 'distinct', 'group_by', 'sort', 'filter', 'union', 'intersection', 'difference', 'arithmetic')
 COMPARISONS = ('eq', 'ne', 'lt', 'le', 'gt', 'ge')
 OPERATORS = ('add', 'subtract', 'multiply', 'divide')
-LIMITS = {'maxSourceChars': 5_000_000, 'maxRecords': 100_000, 'maxOutputChars': 50_000, 'maxSources': 100}
+LIMITS = {'maxSourceChars': 5_000_000, 'maxRecords': 100_000, 'maxOutputChars': 50_000, 'maxSources': 100, 'storeAboveChars': 5_000,
+          'previewChars': 1_500, 'previewKeys': 20, 'previewTextChars': 120}
+STORED_LINE = ('stored, not shown: %d characters. Its shape as calculate reads it (a list shows its first element and its length):\n%s\n'
+               'Read any part of it with calculate operation view: one source with a path, and offset and limit.')
+STORED_RULE = ('a scenario result longer than storeAboveChars characters is stored in full and shown as its id, its size and its shape '
+               '(lists cut to their first element and their length, objects to previewKeys keys, texts to previewTextChars characters, '
+               'the whole within previewChars); view reads any part of any result; shorter results and calculate results are shown in full')
 _ID = re.compile(r'^([0-9a-f]{4})-([1-9][0-9]*)$')
 _NUMBER = re.compile(r'^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$')
 _SCALAR = {'type': ['string', 'number', 'boolean', 'null']}
@@ -50,9 +62,11 @@ _SOURCE = {'type': 'object', 'additionalProperties': False,
 CALCULATE_TOOL = {
     'name': CALCULATE,
     'description': ('Compute over results you already obtained in this task; it fetches nothing. Every tool result starts with a line '
-                    'result_id: <id>. Name one or more results in sources, each with an optional path to the part to use, and one generic '
-                    'operation. The records are the elements found at the paths of all sources, one after the other. count: the number of '
-                    'records. distinct: the distinct values of field. group_by: groups by the fields in group_by, with aggregate count or '
+                    'result_id: <id>. A result longer than 5000 characters is stored, not shown: you see its size and its shape, where a '
+                    'list shows its first element and its length; read any part of it with view. Name one or more results in sources, '
+                    'each with an optional path to the part to use, and one generic operation. The records are the elements found at the '
+                    'paths of all sources, one after the other. view: the part at the path of one source; offset and limit page through '
+                    'a list, the keys of an object or the characters of a text. count: the number of records. distinct: the distinct values of field. group_by: groups by the fields in group_by, with aggregate count or '
                     'sum of sum_field. sort: the records ordered by field (descending optional). filter: the records for which every '
                     'condition holds (eq, ne, lt, le, gt, ge against a literal value). union, intersection, difference: set operations on '
                     'the values of field taken per source (difference: the first source minus the others). arithmetic: operator add, '
@@ -77,6 +91,7 @@ CALCULATE_TOOL = {
             'operands': {'type': 'array', 'items': {'type': ['number', 'object']}},
             'fields': {'type': 'array', 'items': {'type': 'string'}},
             'limit': {'type': 'integer', 'minimum': 1},
+            'offset': {'type': 'integer', 'minimum': 0},
             'round': {'type': 'integer', 'minimum': 0, 'maximum': 12},
         },
         'required': ['operation'],
@@ -109,7 +124,8 @@ def describe(names):
         out['askRequesterText'] = ASK_TEXT
     if CALCULATE in names:
         out.update({'resultIdFormat': '<4 hex run tag>-<n>, shown as the first line "result_id: <id>" of every scenario tool result and '
-                                      'every successful calculate result', 'operations': list(OPERATIONS), 'limits': dict(LIMITS)})
+                                      'every successful calculate result', 'operations': list(OPERATIONS), 'limits': dict(LIMITS),
+                    'storedResults': STORED_RULE})
     return out
 
 
@@ -132,13 +148,15 @@ class ResultStore:
         self.items = {}
         self.count = 0
 
-    def add(self, tool, arguments, text, is_error):
+    def add(self, tool, arguments, text, is_error, shown_in_full=True):
+        """Store `text` under the next id; `shown_in_full` records whether the agent read the whole text or only its shape."""
         self.count += 1
         result_id = '%s-%d' % (self.tag, self.count)
         self.items[result_id] = text
         data = text.encode('utf-8')
         append_jsonl(self.path, self.redact({'resultId': result_id, 'at': utc_now(), 'tool': tool, 'arguments': arguments,
-                                             'isError': bool(is_error), 'bytes': len(data), 'sha256': sha256_bytes(data), 'text': text}))
+                                             'isError': bool(is_error), 'bytes': len(data), 'sha256': sha256_bytes(data),
+                                             'shownInFull': bool(shown_in_full), 'text': text}))
         return result_id
 
     def get(self, result_id):
@@ -322,6 +340,50 @@ def compare(value, op, literal):
     return {'eq': left == right, 'ne': left != right, 'lt': left < right, 'le': left <= right, 'gt': left > right, 'ge': left >= right}[op]
 
 
+# ---------------------------------------------------------------------------------------------------------------- the shape of a stored result
+def _decoded_quietly(value):
+    try:
+        return _decoded(value)
+    except CalculationError:
+        return value
+
+
+def shape(value, depth=0, max_depth=8):
+    """`value` as calculate reads it, cut short: a list to its first element and its length, an object to its first previewKeys keys and
+    their count, a text to its first previewTextChars characters and its length, and nothing deeper than `max_depth` levels."""
+    value = _decoded_quietly(value) if isinstance(value, str) else value
+    if isinstance(value, dict):
+        if depth >= max_depth:
+            return '{... %d keys}' % len(value)
+        out = {k: shape(v, depth + 1, max_depth) for k, v in list(value.items())[:LIMITS['previewKeys']]}
+        if len(value) > LIMITS['previewKeys']:
+            out['...'] = '%d keys in all' % len(value)
+        return out
+    if isinstance(value, list):
+        if not value:
+            return []
+        if depth >= max_depth:
+            return '[... %d elements]' % len(value)
+        return [shape(value[0], depth + 1, max_depth)] + (['... %d elements in all' % len(value)] if len(value) > 1 else [])
+    if isinstance(value, str) and len(value) > LIMITS['previewTextChars']:
+        return value[:LIMITS['previewTextChars']] + '... (%d characters)' % len(value)
+    return plain(value)
+
+
+def preview(text):
+    """The shape of a result as the agent reads it in place of a stored result: within previewChars characters, cutting depth first."""
+    for depth in (8, 6, 4, 3, 2, 1):
+        body = json.dumps(shape(text, 0, depth), ensure_ascii=False)
+        if len(body) <= LIMITS['previewChars']:
+            return body
+    return body[:LIMITS['previewChars']] + '...'
+
+
+def stored_text(result_id, text):
+    """What the agent reads of a stored result: its id line, its size and its shape."""
+    return ID_LINE % result_id + STORED_LINE % (len(text), preview(text))
+
+
 def _sort_key(values):
     numbers = [number(v) for v in values]
     if all(n is not None for n in numbers):
@@ -371,6 +433,8 @@ class Calculator:
             raise CalculationError('unknown operation %r; the operations are %s' % (op, ', '.join(OPERATIONS)))
         if op == 'arithmetic':
             return self._arithmetic(arguments)
+        if op == 'view':
+            return self._view(arguments)
         per_source, ids, size, missing = self._sources(arguments, 2 if op in ('union', 'intersection', 'difference') else 1)
         records = [r for group in per_source for r in group]
         field = arguments.get('field', '')
@@ -418,6 +482,47 @@ class Calculator:
         if missing:
             out['missing'] = missing
         return out, ids, size
+
+    @staticmethod
+    def _window(arguments):
+        offset, limit = arguments.get('offset', 0), arguments.get('limit')
+        if isinstance(offset, bool) or not isinstance(offset, int) or offset < 0:
+            raise CalculationError('offset is a whole number of 0 or more')
+        if limit is not None and (isinstance(limit, bool) or not isinstance(limit, int) or limit < 1):
+            raise CalculationError('limit is a whole number of 1 or more')
+        return offset, (offset + limit if limit else None)
+
+    def _view(self, arguments):
+        """The part at the path of one source: a list (or the elements a * spreads) from offset with at most limit records, an object
+        from its offset-th key with at most limit keys, a text from its offset-th character with at most limit characters, or one value."""
+        sources = arguments.get('sources')
+        if not isinstance(sources, list) or len(sources) != 1:
+            raise CalculationError('view needs exactly one source')
+        source = sources[0]
+        if not isinstance(source, dict) or 'result_id' not in source:
+            raise CalculationError('every source needs a result_id')
+        text = self.store.get(source['result_id'])
+        start, end = self._window(arguments)
+        values, missing = walk(read_text(text), source.get('path'))
+        out = {'operation': 'view', 'offset': start}
+        spread = '*' in _segments(source.get('path'))
+        value = values if spread or len(values) != 1 else values[0]
+        if isinstance(value, list):
+            out['count'] = len(value)
+            out['records'] = self._shorten(value[start:end], {'fields': arguments.get('fields')})
+        elif isinstance(value, dict):
+            keys = list(value)
+            out['keyCount'] = len(keys)
+            out['value'] = {k: value[k] for k in keys[start:end]}
+        elif isinstance(value, str):
+            out['length'] = len(value)
+            out['text'] = value[start:end]
+        else:
+            del out['offset']
+            out['value'] = value
+        if missing:
+            out['missing'] = missing
+        return out, [source['result_id']], len(text.encode('utf-8'))
 
     def _group_by(self, records, arguments):
         keys = arguments.get('group_by')
@@ -496,16 +601,40 @@ class Calculator:
         return {'operation': 'arithmetic', 'value': self._rounded(result, arguments)}, ids, size
 
 
+def bounded_shape(value):
+    """The shape of `value` within previewChars characters, cutting depth first; past that, the start of its JSON text."""
+    for depth in (8, 6, 4, 3, 2, 1):
+        cut = shape(value, 0, depth)
+        if len(json.dumps(cut, ensure_ascii=False)) <= LIMITS['previewChars']:
+            return cut
+    return json.dumps(cut, ensure_ascii=False)[:LIMITS['previewChars']] + '...'
+
+
 def render(output):
-    """The output as the agent reads it, cut to the output limit by shortening its longest list."""
+    """The output as the agent reads it, cut to the output limit by halving its longest list; when no list is left to cut, its longest
+    object with more than one key (by keys) or text (by characters), which only a view returns. What is still too long after that (an
+    object with one long member, at any depth) is replaced by its bounded shape and named in `shapeOnly`, so no output passes the limit."""
     output = plain(output)
     text = json.dumps(output, ensure_ascii=False, sort_keys=True)
     while len(text) > LIMITS['maxOutputChars']:
         lists = [k for k, v in output.items() if isinstance(v, list) and v]
         if not lists:
+            lists = [k for k, v in output.items() if isinstance(v, (dict, str)) and len(v) > 1 and k != 'operation']
+        if not lists:
             break
         name = max(lists, key=lambda k: len(json.dumps(output[k], ensure_ascii=False)))
-        output[name] = output[name][:len(output[name]) // 2]
+        value = output[name]
+        output[name] = dict(list(value.items())[:len(value) // 2]) if isinstance(value, dict) else value[:len(value) // 2]
+        output['truncated'] = True
+        text = json.dumps(output, ensure_ascii=False, sort_keys=True)
+    while len(text) > LIMITS['maxOutputChars']:
+        fields = [k for k in output if k not in ('operation', 'truncated', 'shapeOnly') and k not in output.get('shapeOnly', [])]
+        if not fields:
+            return json.dumps({'operation': output.get('operation'), 'truncated': True, 'shapeOnly': output.get('shapeOnly', [])},
+                              ensure_ascii=False, sort_keys=True)
+        name = max(fields, key=lambda k: len(json.dumps(output[k], ensure_ascii=False)))
+        output[name] = bounded_shape(output[name])
+        output['shapeOnly'] = sorted(output.get('shapeOnly', []) + [name])
         output['truncated'] = True
         text = json.dumps(output, ensure_ascii=False, sort_keys=True)
     return text
@@ -553,6 +682,11 @@ class HarnessToolSession:
         if not self.ids_shown:
             self.last_details = None
             return text, is_error
+        if len(text) > LIMITS['storeAboveChars']:
+            result_id = self.store.add(name, arguments, text, is_error, shown_in_full=False)
+            shown = stored_text(result_id, text)
+            self.last_details = {'tool': name, 'resultId': result_id, 'stored': True, 'storedChars': len(text), 'shownChars': len(shown)}
+            return shown, is_error
         result_id = self.store.add(name, arguments, text, is_error)
         self.last_details = {'tool': name, 'resultId': result_id}
         return ID_LINE % result_id + text, is_error

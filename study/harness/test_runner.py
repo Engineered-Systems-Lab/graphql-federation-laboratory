@@ -273,6 +273,41 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual({t['id'] for t in scored if t['stoppedService']}, {'T10', 'T11'})
         self.assertTrue(all(t['schema'] and t['expected'] for t in dev + scored))
 
+    # ------------------------------------------------------------------ the task subset
+    def test_a_task_subset_keeps_the_named_tasks_in_the_sets_order(self):
+        subset = {'set': 'dev', 'tasks': ['P4', 'P2']}
+        self.assertEqual([t['id'] for t in load_tasks(self.corpus, subset)], ['P2', 'P4'])
+        self.assertEqual(load_tasks(self.corpus, subset), [t for t in load_tasks(self.corpus, 'dev') if t['id'] in ('P2', 'P4')])
+        real = load_tasks(Path(__file__).resolve().parent.parent / 'corpus2', {'set': 'dev', 'tasks': ['V05', 'V06', 'V07', 'V08']})
+        self.assertEqual([t['id'] for t in real], ['V05', 'V06', 'V07', 'V08'])
+
+    def test_a_malformed_task_subset_is_refused(self):
+        for bad, message in (({'set': 'dev', 'tasks': ['P1', 'P9']}, 'not in the dev set: P9'),
+                             ({'set': 'dev', 'tasks': ['P1', 'P1']}, 'each once'),
+                             ({'set': 'dev', 'tasks': []}, 'one or more'),
+                             ({'set': 'dev', 'tasks': 'P1'}, 'one or more'),
+                             ({'set': 'dev', 'tasks': ['P1'], 'trials': 2}, 'nothing else'),
+                             ({'set': {'set': 'dev', 'tasks': ['P1']}, 'tasks': ['P1']}, 'nothing else'),
+                             ({'tasks': ['P1']}, 'nothing else'),
+                             ('development', 'task_set must be')):
+            with self.assertRaisesRegex(ValueError, message):
+                load_tasks(self.corpus, bad)
+
+    def test_a_study_on_a_task_subset_plans_only_those_tasks_and_records_the_subset(self):
+        subset = {'set': 'dev', 'tasks': ['P1', 'P4']}
+        study = self.study(self.config(task_set=subset, trials=1))
+        self.assertEqual(sorted({u['task'] for s in study.plan for u in s['units']}), ['P1', 'P4'])
+        self.assertEqual(study.run(), 'complete')
+        self.assertEqual(len(list((study.dir / 'runs').glob('*/result.json'))), 2 * 2 * 2)  # scenarios x tasks x models
+        manifest = json.loads((study.dir / 'manifest.json').read_text(encoding='utf-8'))
+        self.assertEqual(manifest['identity']['taskSet'], subset)
+        self.assertNotEqual(manifest['planHash'], self.study(self.config(trials=1), run_id='r2').manifest()['planHash'])
+
+    def test_a_resume_refuses_a_changed_task_subset(self):
+        self.study(self.config(task_set={'set': 'dev', 'tasks': ['P1']}, trials=1), factory=self.clients()).run()
+        with self.assertRaisesRegex(RuntimeError, 'differ from the stored manifest'):
+            self.study(self.config(task_set={'set': 'dev', 'tasks': ['P1', 'P2']}, trials=1)).run(resume=True)
+
     def test_a_vendor_with_two_models_is_refused(self):
         models = {'models': {'a': {'vendor': 'v', 'request': {}, 'max_output_tokens': 1}, 'b': {'vendor': 'v', 'request': {}, 'max_output_tokens': 1}}}
         with self.assertRaisesRegex(ValueError, 'one model per vendor'):

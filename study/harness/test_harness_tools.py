@@ -69,6 +69,12 @@ class StoreTests(unittest.TestCase):
         self.assertEqual([(e['resultId'], e['tool'], e['isError'], e['text']) for e in lines],
                          [('ab12-1', 'lookup', False, 'one'), ('ab12-2', 'lookup', True, 'two')])
         self.assertTrue(all(len(e['sha256']) == 64 for e in lines))
+        self.assertEqual([e['shownInFull'] for e in lines], [True, True])
+
+    def test_the_store_records_a_result_the_agent_saw_only_as_its_shape(self):
+        self.store.add('lookup', {}, 'long text', False, shown_in_full=False)
+        self.assertEqual(self.store.get('ab12-1'), 'long text')
+        self.assertFalse(read_jsonl(Path(self.tmp.name) / 'results.jsonl')[0]['shownInFull'])
 
     def test_a_foreign_an_unknown_and_a_malformed_id_are_refused(self):
         self.store.add('lookup', {}, 'one', False)
@@ -133,6 +139,189 @@ class SessionTests(unittest.TestCase):
         calls = len(self.s.inner.calls)
         self.s.calc(operation='count', sources=[{'result_id': rid, 'path': 'body'}])
         self.assertEqual(len(self.s.inner.calls), calls)
+
+
+LONG_PAGE = {'page': 1, 'pageSize': 60, 'totalCount': 240, 'items': [{'id': 'M%d' % i, 'status': 'ACTIVE', 'note': 'n' * 80} for i in range(60)]}
+
+
+class StoredResultTests(unittest.TestCase):
+    """Version 2: a scenario result longer than storeAboveChars is stored in full and the agent reads its id, size and shape."""
+
+    def setUp(self):
+        self.s = Session()
+        self.addCleanup(self.s.tmp.cleanup)
+
+    def test_a_long_scenario_result_is_stored_in_full_and_shown_as_its_shape(self):
+        body = json.dumps(LONG_PAGE)
+        text, error = self.s.wrapped.call('lookup', {'body': body})
+        self.assertFalse(error)
+        full = mcp_text(body)
+        self.assertGreater(len(full), ht.LIMITS['storeAboveChars'])
+        self.assertTrue(text.startswith('result_id: ab12-1\nstored, not shown: %d characters.' % len(full)))
+        self.assertLessEqual(len(text), ht.LIMITS['previewChars'] + 400)
+        shape = json.loads(text.split('\n')[2])
+        self.assertEqual(shape['body']['totalCount'], 240)
+        self.assertEqual(shape['body']['items'][0]['id'], 'M0')
+        self.assertEqual(shape['body']['items'][1], '... 60 elements in all')
+        self.assertIn('calculate operation view', text)
+        stored = read_jsonl(self.s.path)[0]
+        self.assertEqual((stored['text'], stored['shownInFull']), (full, False))
+        self.assertEqual(self.s.wrapped.last_details, {'tool': 'lookup', 'resultId': 'ab12-1', 'stored': True, 'storedChars': len(full),
+                                                       'shownChars': len(text)})
+
+    def test_a_result_at_the_threshold_is_shown_in_full(self):
+        pad = ht.LIMITS['storeAboveChars'] - len(mcp_text(''))
+        text, _ = self.s.wrapped.call('lookup', {'body': 'x' * pad})
+        self.assertEqual(text, 'result_id: ab12-1\n' + mcp_text('x' * pad))
+        text, _ = self.s.wrapped.call('lookup', {'body': 'x' * (pad + 1)})
+        self.assertIn('stored, not shown', text)
+        self.assertTrue(read_jsonl(self.s.path)[0]['shownInFull'])
+
+    def test_calculate_reads_a_stored_result_in_full(self):
+        rid = self.s.fetch(json.dumps(LONG_PAGE))
+        out, _, _ = self.s.calc(operation='count', sources=[{'result_id': rid, 'path': 'body.items'}])
+        self.assertEqual(out['count'], 60)
+
+    def test_a_long_calculate_result_is_shown_in_full_as_in_version_1(self):
+        rid = self.s.fetch(json.dumps(LONG_PAGE))
+        text, error = self.s.wrapped.call('calculate', {'operation': 'sort', 'sources': [{'result_id': rid, 'path': 'body.items'}], 'field': 'id'})
+        self.assertFalse(error)
+        self.assertGreater(len(text), ht.LIMITS['storeAboveChars'])
+        self.assertNotIn('stored, not shown', text)
+        self.assertEqual(len(json.loads(text.split('\n', 1)[1])['records']), 60)
+
+    def test_an_xml_result_shows_its_shape_with_local_names(self):
+        people = ''.join('<p:person rank="Lt"><p:id>P%d</p:id><p:name>%s</p:name></p:person>' % (i, 'n' * 60) for i in range(80))
+        envelope = SOAP.split('<p:listResponse')[0] + '<p:listResponse xmlns:p="urn:example">' + people + '</p:listResponse></soap:Body></soap:Envelope>'
+        text, _ = self.s.wrapped.call('lookup', {'body': envelope, 'ctype': 'text/xml'})
+        shape = json.loads(text.split('\n')[2])
+        first = shape['body']['Envelope']['Body']['listResponse']['person']
+        self.assertEqual(first[0], {'@rank': 'Lt', 'id': 'P0', 'name': 'n' * 60})
+        self.assertEqual(first[1], '... 80 elements in all')
+
+    def test_the_shape_cuts_objects_texts_and_depth_and_stays_within_its_limit(self):
+        many_keys = {'k%03d' % i: i for i in range(50)}
+        self.assertEqual(len(ht.shape(many_keys)), ht.LIMITS['previewKeys'] + 1)
+        self.assertEqual(ht.shape(many_keys)['...'], '50 keys in all')
+        self.assertEqual(ht.shape('t' * 500), 't' * ht.LIMITS['previewTextChars'] + '... (500 characters)')
+        self.assertEqual(ht.shape([]), [])
+        self.assertEqual(ht.shape([7]), [7])
+        deep = {'a': {'b': {'c': [{'d': 'x' * 2000, 'e': {'f%d' % i: 'y' * 100 for i in range(30)}}] * 3}}}
+        self.assertLessEqual(len(ht.preview(json.dumps(deep))), ht.LIMITS['previewChars'] + 3)
+        self.assertEqual(ht.preview(json.dumps(deep)), ht.preview(json.dumps(deep)))
+        self.assertEqual(ht.shape('{"a": [1, 2]}'), {'a': [1, '... 2 elements in all']})
+        self.assertEqual(ht.shape('<!DOCTYPE x><x/>'), '<!DOCTYPE x><x/>')  # a text calculate refuses to read stays a text
+
+    def test_the_stored_rule_is_the_same_in_every_arm(self):
+        """The tools and the rule depend on nothing but the result: two sessions of different arms and runs show the same text for it."""
+        shown = []
+        for key, tag in (('beta__V05__m__t1', 'aa11'), ('epsilon__V05__m__t1', 'bb22')):
+            tmp = tempfile.TemporaryDirectory()
+            self.addCleanup(tmp.cleanup)
+            inner = FakeToolSession([{'name': 'q', 'description': 'd', 'input_schema': {'type': 'object'}}], {'q': lambda a: mcp_text(json.dumps(LONG_PAGE))})
+            wrapped = ht.HarnessToolSession(inner, ['calculate', 'ask_requester'], ht.ResultStore(Path(tmp.name) / 'r.jsonl', tag), key)
+            self.assertEqual(wrapped.tools()[1:], [ht.CALCULATE_TOOL, ht.ASK_REQUESTER_TOOL])
+            shown.append(wrapped.call('q', {})[0].split('\n', 1)[1])
+        self.assertEqual(shown[0], shown[1])
+
+    def test_the_tool_description_states_the_threshold_of_the_limits(self):
+        self.assertIn('longer than %d characters' % ht.LIMITS['storeAboveChars'], ht.CALCULATE_TOOL['description'])
+        self.assertIn('view', ht.CALCULATE_TOOL['input_schema']['properties']['operation']['enum'])
+
+    def test_without_calculate_a_long_result_is_shown_in_full(self):
+        wrapped = ht.HarnessToolSession(self.s.inner, ['ask_requester'], ht.ResultStore(self.s.path, 'ab12'), 'k')
+        text, _ = wrapped.call('lookup', {'body': json.dumps(LONG_PAGE)})
+        self.assertEqual(text, mcp_text(json.dumps(LONG_PAGE)))
+
+
+class ViewTests(unittest.TestCase):
+    def setUp(self):
+        self.s = Session()
+        self.addCleanup(self.s.tmp.cleanup)
+        self.page = self.s.fetch(json.dumps(LONG_PAGE))
+
+    def view(self, path, **kw):
+        return self.s.calc(operation='view', sources=[{'result_id': self.page, 'path': path}], **kw)
+
+    def test_view_pages_through_a_list_with_offset_limit_and_fields(self):
+        out, rid, error = self.view('body.items', offset=58, limit=5, fields=['id'])
+        self.assertFalse(error)
+        self.assertEqual(out, {'operation': 'view', 'offset': 58, 'count': 60, 'records': [{'id': 'M58'}, {'id': 'M59'}]})
+        self.assertEqual(self.s.wrapped.last_details['resultIds'], [self.page])
+        self.assertEqual(rid, 'ab12-2')
+
+    def test_view_of_a_spread_path_lists_its_elements(self):
+        out, _, _ = self.view('body.items.*.id', limit=3)
+        self.assertEqual(out['records'], ['M0', 'M1', 'M2'])
+        self.assertEqual(out['count'], 60)
+
+    def test_view_pages_through_the_keys_of_an_object(self):
+        out, _, _ = self.view('body', offset=1, limit=2)
+        self.assertEqual(out, {'operation': 'view', 'offset': 1, 'keyCount': 4, 'value': {'pageSize': 60, 'totalCount': 240}})
+
+    def test_view_of_a_text_gives_its_characters_and_of_a_value_the_value(self):
+        out, _, _ = self.view('body.items.3.note', offset=75, limit=10)
+        self.assertEqual(out, {'operation': 'view', 'offset': 75, 'length': 80, 'text': 'nnnnn'})
+        out, _, _ = self.view('body.totalCount')
+        self.assertEqual(out, {'operation': 'view', 'value': 240})
+        out, _, _ = self.view('')
+        self.assertEqual(out['keyCount'], 4)  # the whole result: status, contentType, truncated, body
+
+    def test_a_long_view_is_cut_to_the_output_limit_and_marked(self):
+        big = self.s.fetch(json.dumps({'k%04d' % i: 'v' * 100 for i in range(1500)}))
+        out, _, _ = self.s.calc(operation='view', sources=[{'result_id': big, 'path': 'body'}])
+        self.assertTrue(out['truncated'])
+        self.assertEqual(out['keyCount'], 1500)
+        self.assertLess(len(out['value']), 1500)
+        text = self.s.fetch(json.dumps({'t': 'w' * 120_000}))
+        out, _, _ = self.s.calc(operation='view', sources=[{'result_id': text, 'path': 'body.t'}])
+        self.assertTrue(out['truncated'])
+        self.assertEqual(out['length'], 120_000)
+        self.assertLess(len(json.dumps(out)), ht.LIMITS['maxOutputChars'] + 100)
+        out, _, _ = self.view('body.items')
+        self.assertEqual(len(out['records']), 60)  # short enough: not cut
+
+    def test_a_view_of_an_object_with_one_long_member_stays_within_the_limit(self):
+        """A single-key object, or one nested several levels deep, holding a text past the output limit: the halving finds nothing to cut,
+        so the member is replaced by its bounded shape and the output says so."""
+        long = 'p' * 60_000
+        for body, path in (({'payload': long}, 'body'), ({'a': {'b': {'c': long}}}, 'body'), ({'a': {'b': {'c': long}}}, 'body.a'),
+                           ({'x': long, 'y': long}, 'body'), ({'items': [{'note': long}]}, 'body')):
+            rid = self.s.fetch(json.dumps(body))
+            text, error = self.s.wrapped.call('calculate', {'operation': 'view', 'sources': [{'result_id': rid, 'path': path}]})
+            self.assertFalse(error, body)
+            self.assertLessEqual(len(text.split('\n', 1)[1]), ht.LIMITS['maxOutputChars'], (body, path))
+            out = json.loads(text.split('\n', 1)[1])
+            self.assertTrue(out['truncated'], (body, path))
+            self.assertNotIn(long, text)
+        rid = self.s.fetch(json.dumps({'payload': long}))
+        out, _, _ = self.s.calc(operation='view', sources=[{'result_id': rid, 'path': 'body'}])
+        self.assertEqual(out['shapeOnly'], ['value'])
+        self.assertEqual(out['value'], {'payload': 'p' * ht.LIMITS['previewTextChars'] + '... (60000 characters)'})
+        out, _, _ = self.s.calc(operation='view', sources=[{'result_id': rid, 'path': 'body.payload'}], offset=100, limit=5)
+        self.assertEqual(out['text'], 'ppppp')  # the long member is still readable piece by piece
+
+    def test_render_never_passes_the_output_limit(self):
+        long = 'q' * 70_000
+        for output in ({'operation': 'view', 'value': {'k': long}}, {'operation': 'view', 'value': {'a': [{'b': {'c': long}}]}},
+                       {'operation': 'view', 'value': long}, {'operation': 'sort', 'records': [{'n': long}]},
+                       {'operation': 'view', 'value': {'k': long}, 'other': {'k': long}}):
+            self.assertLessEqual(len(ht.render(output)), ht.LIMITS['maxOutputChars'], output.keys())
+        self.assertEqual(ht.render({'operation': 'count', 'count': 3}), '{"count": 3, "operation": "count"}')  # short: unchanged
+
+    def test_view_refuses_other_shapes_of_its_arguments(self):
+        for arguments, message in (({'sources': []}, 'exactly one source'),
+                                   ({'sources': [{'result_id': self.page}, {'result_id': self.page}]}, 'exactly one source'),
+                                   ({'sources': [{'path': 'body'}]}, 'needs a result_id'),
+                                   ({'sources': [{'result_id': self.page}], 'offset': -1}, 'offset is a whole number'),
+                                   ({'sources': [{'result_id': self.page}], 'offset': '2'}, 'offset is a whole number'),
+                                   ({'sources': [{'result_id': self.page}], 'limit': 0}, 'limit is a whole number'),
+                                   ({'sources': [{'result_id': 'ff00-1'}]}, 'belongs to another run'),
+                                   ({'sources': [{'result_id': self.page, 'path': 'body.nothing'}]}, 'has no key')):
+            text, _, error = self.s.calc(operation='view', **arguments)
+            self.assertTrue(error, arguments)
+            self.assertIn(message, text)
+        self.assertEqual(self.s.wrapped.counts['calculateErrors'], 8)
 
 
 class CalculateTests(unittest.TestCase):
@@ -319,6 +508,7 @@ class CalculateTests(unittest.TestCase):
         self.assertEqual(described['names'], ['calculate', 'ask_requester'])
         self.assertEqual(described['askRequesterText'], ht.ASK_TEXT)
         self.assertEqual(described['operations'], list(ht.OPERATIONS))
+        self.assertEqual((described['version'], described['limits']['storeAboveChars'], described['storedResults']), (2, 5000, ht.STORED_RULE))
         with self.assertRaisesRegex(ValueError, 'harness_tools'):
             ht.validate(['calculate', 'fetch'])
         with self.assertRaisesRegex(ValueError, 'harness_tools'):

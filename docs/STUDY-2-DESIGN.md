@@ -85,10 +85,14 @@ The size columns show where architecture matters, not only on large aggregations
 ### The calculation tool, `calculate` (decision B)
 
 - **One tool, identical in every arm,** Direct Access and Guided Direct Access included: the same name, description, schema and limits.
-- **Generic operations only:** count, distinct, group-by with count or sum, sort, filter by literal comparison, set union, intersection and difference, and arithmetic. No operation knows a domain term.
+- **Generic operations only:** view, count, distinct, group-by with count or sum, sort, filter by literal comparison, set union, intersection and difference, and arithmetic. No operation knows a domain term.
 - **Input: results of the same run, referenced by id** (decision G). The agent names earlier tool results it obtained in that run through its own tools; the harness stores them per run, covered by the bundle checksum.
   - The tool never fetches. It has no network, file, database, backend or answer-key access, and never sees the results of other runs.
   - An unknown or foreign id is an error, logged like any other call.
+- **Long results are stored, not shown (version 2).** When the tool is offered, a scenario result longer than 5,000 characters is stored in full and the agent reads its id, its size and its shape: the result as the tool reads it, with every list cut to its first element and its length. The `view` operation reads any part of it. Shorter results and the tool's own results are shown in full. The rule knows only sizes and shapes, so it is the same in every arm.
+  - Version 1 showed every result in full. It failed the declared check below on its token-volume clause (decision Q7 of the Job `study2_preflight_final`, 2026-11-03): its token-volume failures on V05 rose from 1 to 7, mostly because the fetched results stayed in the conversation and were read again at every turn.
+  - Version 2 was chosen by the lead developer (decision R1 of the Job `study2_calculate_redesign`, 2026-11-03) from a free replay of the development runs' stored results, which compared this result-side design, at thresholds of 2,000, 5,000 and 10,000 characters, with a tool-side design that shortens the tool's own outputs.
+  - Version 2 changes what every arm's agent sees of its fetched data. Its effect on the conversation's size differs by arm, so it is a condition of study 2 as a whole, and its overhead is measured again by the check below.
 - **Logged:** the result ids used, the operation, the output, failures, seconds, and the bytes and tokens the call added. Calculation calls count in the tool-call limit and in every declared measure.
 - **The agent stays responsible** for retrieving the right records and choosing the right calculation.
 - **Development preflight, before any freeze:**

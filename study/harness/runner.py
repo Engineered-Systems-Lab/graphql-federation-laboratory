@@ -80,8 +80,23 @@ def _strata(task):
 
 def load_tasks(corpus_dir, task_set):
     """The tasks of `dev` or `scored` as dicts: id, category, question, schema, expected, stoppedService, and set, size and systems when the
-    corpus gives them. Task text is read here at run time and is never copied anywhere else."""
+    corpus gives them. Task text is read here at run time and is never copied anywhere else.
+
+    The task subset: `task_set` may also be {"set": "dev" or "scored", "tasks": [task ids]}, which keeps only the named tasks, in the set's
+    own order. Every id must be in the set and named once. The config's `task_set` is part of the plan identity, so the manifest records
+    the subset and a resume must find it unchanged."""
     corpus_dir = Path(corpus_dir)
+    if isinstance(task_set, dict):
+        if set(task_set) != {'set', 'tasks'} or task_set['set'] not in ('dev', 'scored'):
+            raise ValueError('a task subset is {"set": "dev" or "scored", "tasks": [task ids]} and nothing else')
+        wanted = task_set['tasks']
+        if not (isinstance(wanted, list) and wanted and all(isinstance(t, str) for t in wanted)) or len(set(wanted)) != len(wanted):
+            raise ValueError('the task subset names one or more task ids, each once')
+        tasks = load_tasks(corpus_dir, task_set['set'])
+        unknown = sorted(set(wanted) - {t['id'] for t in tasks})
+        if unknown:
+            raise ValueError('the task subset names tasks that are not in the %s set: %s' % (task_set['set'], ', '.join(unknown)))
+        return [t for t in tasks if t['id'] in set(wanted)]
     if task_set == 'dev':
         data = json.loads((corpus_dir / 'dev.json').read_text(encoding='utf-8'))
         return [{'id': t['id'], 'category': t['category'], 'question': t['question'], 'schema': t['schema'], 'expected': t['expected'],
@@ -92,7 +107,7 @@ def load_tasks(corpus_dir, task_set):
         expected = json.loads((corpus_dir / 'expected.json').read_text(encoding='utf-8'))['expected']
         return [{'id': t['id'], 'category': t['category'], 'question': t['question'], 'schema': schemas[t['id']], 'expected': expected[t['id']],
                  'stoppedService': t.get('stoppedService'), **_strata(t)} for t in tasks]
-    raise ValueError('task_set must be dev or scored')
+    raise ValueError('task_set must be dev, scored or a task subset {"set": ..., "tasks": [...]}')
 
 
 # ---------------------------------------------------------------------------------------------------------------- the dataset fingerprint
