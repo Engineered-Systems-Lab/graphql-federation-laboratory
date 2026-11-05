@@ -1,0 +1,337 @@
+{
+ "schema": 1,
+ "about": "The record of the Job study2_calculate_v5: the last round of the calculation tool. Version 5 as one strictness pass from the independent trap audit, the lead developer's decision on the replay table and the five reviews of the draft, its two commits, the free replay of the 1,007 stored calls, the debug against the stack, the fake-client dry runs, the paid confirmation study2-confirm-v5-1 and the declared tool check run against the existing baseline study2-baseline-totals-1, with the worker's classification of the two failures and the lead developer's verdict.",
+ "job": "study2_calculate_v5",
+ "generatedAt": "2026-11-05T15:33:06Z",
+ "previousRecord": "study/evidence/study-2-calculate-v4/v4-record-20261105T021508Z.json (toolCheck: version 4 fails on one new kind, seven intersections with a field over a source of plain ids that returned 0 silently, then the stop at the tool-call limit)",
+ "decisions": {
+  "W1": "one generic strictness pass in calculate from the trap audit's proposed fixes, identical in every arm and with no domain term: refusals for silent wrong uses, compact report lines in the output, and warnings only for agent behaviour",
+  "W2": "the paid confirmation has the shape and pins of study2-confirm-v4-1, with only calculate at version 5 and a new run id",
+  "W3": "ceiling 6 dollars: Anthropic 4, OpenAI 2",
+  "W4": "the same declared check, the last time: version 5 is the last round of the tool; if the check fails, version 5 is kept, the failure is recorded as a deviation from the declared check citing the audit, and no further redesign is made",
+  "W5": "the audit's readable part, its summary and its checksums are committed as evidence in the code transaction",
+  "source": "the Job record, decisions made by the lead developer on 2026-11-05 in the Migration Coordinator session (\"I will take (a) 'version 5' and that will be the last iteration, so after that (b)\")"
+ },
+ "audit": {
+  "what": "an independent audit of the four paid runs that offered calculate (2026-11-04 and 2026-11-05): a GPT auditor in a task started outside the laboratory, read-only, with no network, no model call and no answer key; it replayed all 1,007 calculate calls under each run's own version of the tool and listed 25 patterns of silent or wasteful use (P01 to P25), 24 of them still possible in version 4 and four tied to an outcome",
+  "evidence": "study/evidence/study-2-trap-audit/ (REPORT.md, the readable part; summary.json; SHA256SUMS), committed in c8ff35cecfa503284dbe41101285e6f61be29051",
+  "fullReport": "outside the repository, in the audit's own folder, read only; REPORT.md sha256 21dfd1c1374dfc315bd888abcfe2fd7fc939218bc097cda5fe9f2292864af4ef",
+  "outcomeLinked": {
+   "P06": "version 2, gamma V05 Claude",
+   "P23": "version 2, epsilon V05 Claude",
+   "P16": "version 3, delta V06 Claude",
+   "P08": "version 4, gamma V05 Claude"
+  }
+ },
+ "version5": {
+  "commits": {
+   "c8ff35cecfa503284dbe41101285e6f61be29051": "version 5 of the harness tools with its tests, the harness README, the design's tool section, the audit's committed part and two rows of the project's classification table; approved by the lead developer's go on the preview and Approve on the sealed review, 6 of 6 checks",
+   "7a64dc213667fb53354217a66e0b558225ab1e2b": "the wording of the warning of held pages left out, found by the debug against the stack; approved by the lead developer's reply at the preview (early approval), 3 of 3 checks"
+  },
+  "what": "the output of a call that versions 4 and 5 both accept is what version 4 gave, except that a step in brackets, new syntax, names the key inside it where no object of the call has version 4's key. Refused, with every problem named at once and the shapes of the sources: an argument of the wrong form; a key that a source, a condition or an operand does not take; an argument that does not apply to the operation; a field on a source of plain values; a field that no record has, except in a condition that compares it with null; a * in a field outside a condition with elements; a * at an object other than one read from an XML element; a list or an object compared with one value without elements; conditions that contradict each other; a key with a dot in its name spelled as nested steps; a step in brackets that the objects of one call answer by more than one key; an output longer than 5,000,000 characters. After the read line, a coverage line of at most 600 characters when there is something to say, and at most two warning lines of 300 characters, never a refusal. An empty group_by list gives one group over all records. Manifest harnessTools version 5 with refusals, coverageLine and warningLines",
+  "decisionOnTheReplay": "the first replay showed 15 group_by calls that named a field no record has to get one total, which version 5 refuses; the lead developer answered \"Empty group_by\", so an empty list gives one group over all records",
+  "reviews": [
+   "first review of the lead developer (five findings, all applied): coverage could claim that all records were supplied; view with fields bypassed the field checks; brackets changed an accepted result and made two output keys collide; an empty group_by gave no group for no records; a repair hint named another refused call",
+   "second review of the lead developer (four points, all applied): the growth of the output measured per run and the lines capped; a wrong form named with the form it takes; unknown keys inside sources, conditions and operands refused; the refusal of an absent field given an instruction",
+   "third review of the lead developer (two points, both applied): a step in brackets is read one way in a whole call; lists of one name that add up to the total are named when nothing says where their pages stand",
+   "fourth review, the Coordinator's seven findings passed to the worker's session (five applied, one in part, one left): pages that state no total stood apart, so 121 of 166 lines that said records were missing were wrong on the stored calls, 0 after the fix; records alike in one page counted once; a null test of an absent field was refused; a cause was named for more records than the total; the warning of held pages asked for no tool and no record keys (applied); the list is still named by its last key (kept, because pages of one list come under alias keys); the scan of 200 postings for the repeat warning (left, advice only)",
+   "fifth review of the lead developer (two points and a caveat, all applied): a list is known by the keys that lead to it, not by a path text; nothing sets lists apart any more, and a list is short only when all the records of its name are fewer than its total; the documents no longer claim identical outputs for calls that write a step in brackets"
+  ],
+  "tests": "126 tests of the harness tools; the study gate passed (nine suites) before each preview and at each seal"
+ },
+ "replay": {
+  "what": "free, no vendor call: every stored calculate call of the four paid runs, with the agents' calls held fixed, computed by version 4 (1c52d16f28d0ff1546eb37965432e1d7ce198833) and by version 5 on the same stored inputs",
+  "result": {
+   "calls": 1007,
+   "acceptedByVersion4": 954,
+   "acceptedByVersion5": 896,
+   "refusedByVersion5Only": 71,
+   "acceptedByVersion5Only": 13,
+   "sameOutputWhereBothAccept": 883,
+   "otherOutputWhereBothAccept": 0,
+   "failuresInVersion5sOwnCode": 0,
+   "refusedByVersion5OnlyBySet": {
+    "study2-dev-tool-1": 17,
+    "study2-confirm-1": 18,
+    "study2-confirm-v3-1": 14,
+    "study2-confirm-v4-1": 22
+   },
+   "linesThatSayRecordsAreMissing": {
+    "lines": 45,
+    "right": 41,
+    "wrong": 0,
+    "notJudgeable": "4, built on a stored output that version 5 refuses to make"
+   },
+   "charactersOfTheCalculateResultsOfStudy2ConfirmV41": {
+    "version4": 449385,
+    "version5": 469735
+   },
+   "projectedTokens": "calls held fixed, every later turn reading a result again, three characters a token: plus 1.1 percent on V05, plus 1.3 percent over the 32 runs of study2-confirm-v4-1"
+  },
+  "outcomeLinkedCases": {
+   "P08": "the seven intersections are refused, with the path to use",
+   "P16": "warned",
+   "P06": "warned",
+   "P23": "not caught: the stored results carry no total and no hasMore"
+  },
+  "limit": "the agents' behaviour after a refusal, a coverage line or a warning cannot be replayed",
+  "files": {
+   "replay5.py": "79d9bf4509d19cdb75b5c8ec8b77e9215dca81ed85111ea83d19be8bf55e23dd",
+   "replay5-output.txt": "63f29297724462a23e04f7ef842c54ccf5e153c2d61e4e9fc45e2ad8e1d4f6f2",
+   "replay5.json": "0992a45fad4621aff41800d934d4c74beab06668936ac320c515a39c82017e50",
+   "harness_tools-v5-replayed.py": "9d2de6610e722d178ac00a34aad51b00c034ebab735c2830e5b08311a7a2c1a1"
+  }
+ },
+ "debug": {
+  "note": "not evidence; on the lead developer's go, 2026-11-05 (one go for the debug stack and the dry run, repeated on the fixed commit)",
+  "what": "version 5 wrapped around the live gamma stack's graphql_query (Missions real, the 1.1.0 pins). On c8ff35c 20 of 20 checks, and one finding: the warning of held pages left out called a result absent that was among the sources for another of its pages; fixed in 7a64dc2 on the lead developer's choice. On 7a64dc2 21 of 21 checks: over the 300 missions every page gives count 300 and no line of missing records, one page gives 100 of totalCount 300, three pages of which only the first states the total give no line of missing records, the same records with other fields give none, elements any agrees with the graph's own count, an empty group_by gives one group of 300, the null test of an absent field is answered, and eight refusals name their problem",
+  "files": {
+   "calc_debug5.py": "b5e77598a540c13a985cc83175f6610a92730ad6771040b9e14a31b6cdbb4fef",
+   "debug-5b.txt": "1c5ab82ab91c8ec94c370a28de541892fc74ef4f6feca1f499cbcb369d030e0a"
+  }
+ },
+ "dryRun": {
+  "study2-confirm-v5-dry1": "on c8ff35c: complete, 32 runs, harness tools version 5, provenance match in all four arms with no problems",
+  "study2-confirm-v5-dry2": {
+   "result": "on 7a64dc2: complete, 32 runs, harness tools version 5 [calculate, ask_requester], provenance match in all four arms with no problems",
+   "manifestSha256": "8255c759962fefb7ba8a6bdf8547fa1ddf6c69a30beefcf9cce9d3425a4f3541",
+   "scoresSha256": "30cd202af23255b5e6f562c5124b3d1822fbfb7bb0430408cfc67a4949f94812",
+   "planSha256": "b5845acf7394e23cc83e14910b968e8f59b766bbf529549a07b0815b00f2bcf2"
+  },
+  "planNote": "the plan hash differs from study2-confirm-v4-1's 4a415da4ee772d85b2d4888ec0c602ac5bcf49177101dcc2a45f305e59553eae only through the harness tools (version 5, its description, rules and limits)"
+ },
+ "paidRun": {
+  "startedBy": "the lead developer, from their own terminal, in one PowerShell line; the worker never held an API key",
+  "shape": "V05 to V08 (task subset of dev), scenario order gamma, beta, delta, epsilon, claude-sonnet-5-5 and gpt-6.1-sol, one trial, seed 20261104, limits unchanged; the config made by study/launch/make_config.py and equal to study2-confirm-v4-1's except the state folder, the about text and the source named for the two ceilings",
+  "pins": "the 1.1.0 pin set of study2-baseline-totals-1, images.json sha256 1fb5551e7c5cd73adcdb0dae221da4600127e91430907d2f65a677b88c1e0929",
+  "study2-confirm-v5-1": {
+   "harnessTools": [
+    "calculate",
+    "ask_requester"
+   ],
+   "harnessToolsVersion": 5,
+   "commit": "7a64dc213667fb53354217a66e0b558225ab1e2b",
+   "treeDirty": false,
+   "createdAt": "2026-11-05T14:41:57Z",
+   "finishedAt": "2026-11-05T15:15:15Z",
+   "planSha256": "b5845acf7394e23cc83e14910b968e8f59b766bbf529549a07b0815b00f2bcf2",
+   "status": "complete",
+   "runs": 32,
+   "correct": 30,
+   "provenance": "match in all four arms, no problems",
+   "spend": {
+    "anthropic": 2.3095,
+    "openai": 1.1385,
+    "total": 3.448,
+    "ceiling": 6.0
+   },
+   "retries": {
+    "anthropic": 0,
+    "openai": 0
+   }
+  }
+ },
+ "toolCheck": {
+  "declared": "the tool is fit only if the failures where the agent says it cannot count and the failures from token volume fall, the definitional failures stay as they are, and no new kind of failure appears (a wrong operation or a wrong result id)",
+  "scope": "V05 to V08 in beta, gamma, delta, epsilon, both models, one trial; the existing baseline study2-baseline-totals-1 (no tool) against study2-confirm-v5-1 (calculate version 5, commit 7a64dc2), on the same pins; run 1, run 2, study2-confirm-1, study2-confirm-v3-1 and study2-confirm-v4-1 as history",
+  "outcomes": {
+   "run1": 22,
+   "run2": 23,
+   "confirm1": 27,
+   "baseline": 24,
+   "confirm3": 31,
+   "confirm4": 31,
+   "confirm5": 30
+  },
+  "failuresByCause": {
+   "tokenVolume": {
+    "run1": 1,
+    "run2": 7,
+    "confirm1": 1,
+    "baseline": 4,
+    "confirm3": 0,
+    "confirm4": 0,
+    "confirm5": 1,
+    "rule": "must fall",
+    "met": true,
+    "runs": "confirm5 beta V05 Claude: did_not_finish at the limit of 1 M tokens, 1,055,328 tokens, 49 calls in 26 turns (31 calculate, 3 refused, of which version 4 refuses two as well). The same run was correct in confirm4 with 951,063 tokens and 45 calls. Version 5's own text in the run is estimated at about 10,500 tokens, at three characters a token and every later turn reading a result again (coverage and warning lines 5,957, the longer description 3,154, the one refusal only version 5 makes 1,360); the record holds no attribution of the other tokens. Calls observed: one union naming 180 sources, refused for more than 100 (10,646 characters of arguments), then two accepted unions of 90 sources each (about 5,350 characters of arguments and 5,340 of result each), and six views of 4,900 to 5,065 characters"
+   },
+   "cannotCount": {
+    "run1": 7,
+    "run2": 2,
+    "confirm1": 2,
+    "baseline": 2,
+    "confirm3": 0,
+    "confirm4": 0,
+    "confirm5": 1,
+    "rule": "must fall",
+    "met": true,
+    "runs": "confirm5 delta V08 Claude: wrong_answer, staffPlaces 178 where the key says 177 (distinctPeople 104 is right); 18 calls, 3 calculate calls, all accepted and right. Its explanation adds 161 crew places and 17 commanding-officer places; it never counted a person once per mission, and one commanding officer is also in the crew of the same mission. A count made by hand, as the baseline's two answers of 103 were. The same run was correct in confirm4, where the agent viewed the missions and made the count itself too"
+   },
+   "definitional": {
+    "run1": 0,
+    "run2": 0,
+    "confirm1": 0,
+    "baseline": 0,
+    "confirm3": 0,
+    "confirm4": 0,
+    "confirm5": 0,
+    "rule": "must stay",
+    "met": true
+   },
+   "newKind": {
+    "run2": 0,
+    "confirm1": 2,
+    "baseline": 0,
+    "confirm3": 1,
+    "confirm4": 1,
+    "confirm5": 0,
+    "rule": "none may appear",
+    "met": true
+   },
+   "harnessError": {
+    "run1": 2,
+    "run2": 0,
+    "confirm1": 0,
+    "baseline": 2,
+    "confirm3": 0,
+    "confirm4": 0,
+    "confirm5": 0
+   }
+  },
+  "earlierFailures": "the three runs that failed in earlier rounds are correct in confirm5: gamma V05 Claude (version 4's stop at 80 calls; 58 calls, 526,335 tokens), delta V06 Claude (version 3's fixed positions), epsilon V05 Claude (version 2's two pages of three)",
+  "overhead": {
+   "tokens": {
+    "run1": 7179935,
+    "run2": 10782195,
+    "confirm1": 7797595,
+    "baseline": 8896547,
+    "confirm3": 5593195,
+    "confirm4": 5993584,
+    "confirm5": 5455862
+   },
+   "medianTokensPerRun": {
+    "run1": 101330,
+    "run2": 157485,
+    "confirm1": 99580,
+    "baseline": 76556.5,
+    "confirm3": 105173,
+    "confirm4": 94381.5,
+    "confirm5": 92242.5
+   },
+   "V05tokens": {
+    "run1": 5382408,
+    "run2": 7910964,
+    "confirm1": 5576126,
+    "baseline": 7293173,
+    "confirm3": 3389058,
+    "confirm4": 3751902,
+    "confirm5": 3382468
+   },
+   "runsAtOrOver1M": {
+    "run1": 1,
+    "run2": 7,
+    "confirm1": 2,
+    "baseline": 4,
+    "confirm3": 0,
+    "confirm4": 0,
+    "confirm5": 1
+   },
+   "toolCalls": {
+    "run1": 350,
+    "run2": 475,
+    "confirm1": 607,
+    "baseline": 345,
+    "confirm3": 706,
+    "confirm4": 705,
+    "confirm5": 667
+   },
+   "maxToolCalls": {
+    "run1": 37,
+    "run2": 55,
+    "confirm1": 53,
+    "baseline": 40,
+    "confirm3": 75,
+    "confirm4": 80,
+    "confirm5": 58
+   },
+   "calculateCalls": {
+    "run2": 118,
+    "confirm1": 262,
+    "confirm3": 304,
+    "confirm4": 308,
+    "confirm5": 299
+   },
+   "calculateRefused": {
+    "run2": 12,
+    "confirm1": 11,
+    "confirm3": 15,
+    "confirm4": 12,
+    "confirm5": 23
+   },
+   "dollars": {
+    "baseline": {
+     "anthropic": 3.9069,
+     "openai": 2.2017,
+     "total": 6.1086,
+     "ceiling": 8.0
+    },
+    "confirm3": {
+     "anthropic": 2.3141,
+     "openai": 1.2501,
+     "total": 3.5642,
+     "ceiling": 10.0
+    },
+    "confirm4": {
+     "anthropic": 2.4596,
+     "openai": 1.2005,
+     "total": 3.6601,
+     "ceiling": 6.0
+    },
+    "confirm5": {
+     "anthropic": 2.3095,
+     "openai": 1.1385,
+     "total": 3.448,
+     "ceiling": 6.0
+    }
+   }
+  },
+  "version5InTheRun": {
+   "refusedByKind": {
+    "a * at an object": 7,
+    "a path that names no key": 4,
+    "more than 100 sources": 3,
+    "fewer than 2 sources": 2,
+    "a field no record has": 2,
+    "a field on plain values": 2,
+    "a * in a field": 2,
+    "fields on a part that is not a list": 1
+   },
+   "refusalsFollowedByAnAcceptedCalculateCall": "15 of 23",
+   "coverageLines": 186,
+   "warningsOfListsLeftOut": 7,
+   "warningsOfARepeatedScenarioResult": 7,
+   "emptyGroupByAccepted": 8,
+   "linesThatSayRecordsAreMissing": "7, each right: 5 in beta V05 Claude (two and nine of ten pages), 2 on one page of three in two correct runs",
+   "weakness": "in epsilon V05 Claude (correct) 10 calls carry a line that the records at \"items\" are more than the totalCount 300 their pages state: nine name 1300 records and one names 400. The line is true, and of no use, because the missions and the personnel are both lists named items in the graph arms and lists of one name count together; in gamma V05 Claude (correct) 4 calls carry the line that three pages add up to the total while no page states its place",
+   "toolLimitSeen": "the count of delta V08 (a person once per mission) cannot be made in one call: records read at items.*.crew.* do not carry the mission they belong to"
+  },
+  "listFields": "every graph query of the 24 graph-arm runs (gamma, delta, epsilon) parsed for its top-level fields: all 24 used missionsPage; none named the deprecated missions or assets lists. The parser's one hit, epsilon V06 Claude \"assets\", is Mission.assets inside a fragment (fragment F on Mission), checked by hand, as in confirm4",
+  "classifiedFrom": "each failing run's transcript and results (calls, arguments, result sizes, refusals, read, coverage and warning lines) and its outcome; the transcripts hold no model reasoning text. Scripts outside the repository: check5.py sha256 4524cf0de01cb035c124cca4aabf0ea20422797a4bdf8841d87c54c7002a9f24, fields5.py sha256 2fc5f2a78d416845f1ed332811a1161a1849882df175e4a10bfcd012990aca76 and calls5.py sha256 4d4cc6c8c5ad4d29a4c2b2daff3f29defe33474d3cf23477dca586f8061fd5fa; check5.py and fields5.py are copies of check4.py and fields4.py with the new run",
+  "proposedBy": "the worker",
+  "proposedVerdict": "passes on the letter of the declared check: against the baseline, token volume falls from 4 to 1 and counting from 2 to 1, the definitional failures stay at 0, and no new kind appears. Weaker than versions 3 and 4 on outcomes: 30 correct against 31, and one failure in each class that must fall where they had none. The class of delta V08 Claude decides it: read as definitional or as a new kind the check fails, and version 2's round counted a failure with no tool part as a new kind",
+  "verdict": "passes",
+  "decidedBy": "the lead developer, in the worker session, 2026-11-05 (UTC), answered \"Yes, it passes\"",
+  "singleTrial": "one trial of four tasks: one run moves each count",
+  "consequence": "Version 5 stays in the harness as committed (c8ff35c and 7a64dc2) and is the last round of the tool (decision W4); the check passed, so no deviation is recorded. The freeze is a later Job."
+ },
+ "limitsForTheFreeze": {
+  "limits": {
+   "max_tool_calls": 80,
+   "max_task_tokens": 1000000,
+   "max_wall_seconds": 900,
+   "max_retries": 3
+  },
+  "measured": "kept as they were for this run. The largest run reached the limit of 1 M tokens (beta V05 Claude, 1,055,328), the next used 704,733 (beta V05 GPT); the longest took 218.8 s; the most calls in one run were 58 (gamma V05 Claude); calculate calls count toward the 80"
+ }
+}
