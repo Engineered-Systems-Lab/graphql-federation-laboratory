@@ -1,0 +1,641 @@
+[
+  {
+    "pattern": "P01",
+    "name": "Successful empty outputs",
+    "occurrences": 27,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 7,
+        "gpt-6.1-sol": 1
+      },
+      "v3": {
+        "claude-sonnet-5-5": 4,
+        "gpt-6.1-sol": 1
+      },
+      "v4": {
+        "claude-sonnet-5-5": 12,
+        "gpt-6.1-sol": 1
+      }
+    },
+    "outcome_linked_runs": [
+      "V4 gamma__V05__claude-sonnet-5-5__t1"
+    ],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P02",
+    "name": "Missing operation fields accepted (exposures)",
+    "occurrences": 343,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 9,
+        "gpt-6.1-sol": 34
+      },
+      "v2": {
+        "claude-sonnet-5-5": 54,
+        "gpt-6.1-sol": 58
+      },
+      "v3": {
+        "claude-sonnet-5-5": 58,
+        "gpt-6.1-sol": 39
+      },
+      "v4": {
+        "claude-sonnet-5-5": 64,
+        "gpt-6.1-sol": 27
+      }
+    },
+    "outcome_linked_runs": [
+      "V4 gamma__V05__claude-sonnet-5-5__t1"
+    ],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P03",
+    "name": "Wildcard source-path omissions (disclosed)",
+    "occurrences": 63,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 6,
+        "gpt-6.1-sol": 18
+      },
+      "v2": {
+        "claude-sonnet-5-5": 5,
+        "gpt-6.1-sol": 16
+      },
+      "v3": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 6
+      },
+      "v4": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 8
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P04",
+    "name": "Read lines omit field coverage (exposures)",
+    "occurrences": 188,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v3": {
+        "claude-sonnet-5-5": 58,
+        "gpt-6.1-sol": 39
+      },
+      "v4": {
+        "claude-sonnet-5-5": 64,
+        "gpt-6.1-sol": 27
+      }
+    },
+    "outcome_linked_runs": [
+      "V4 gamma__V05__claude-sonnet-5-5__t1"
+    ],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P05",
+    "name": "Refusal recovery loops",
+    "occurrences": 11,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 3,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 1
+      },
+      "v3": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 2
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 3
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P06",
+    "name": "Wrong result selection while fuller data held",
+    "occurrences": 1,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [
+      "V2 gamma__V05__claude-sonnet-5-5__t1"
+    ],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P07",
+    "name": "Re-fetch of already-held data",
+    "occurrences": 9,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 3,
+        "gpt-6.1-sol": 1
+      },
+      "v3": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 2
+      },
+      "v4": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P08",
+    "name": "Record field applied to scalar IDs",
+    "occurrences": 9,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 8,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [
+      "V4 gamma__V05__claude-sonnet-5-5__t1"
+    ],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P09",
+    "name": "Dotted output keys fail on reuse",
+    "occurrences": 13,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 2
+      },
+      "v2": {
+        "claude-sonnet-5-5": 3,
+        "gpt-6.1-sol": 1
+      },
+      "v3": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 4,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P10",
+    "name": "Object wildcard is a one-item no-op",
+    "occurrences": 15,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 4
+      },
+      "v2": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 3
+      },
+      "v3": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 2
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 3
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P11",
+    "name": "Intersection across page partitions",
+    "occurrences": 2,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      },
+      "v3": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P12",
+    "name": "Stored output truncated",
+    "occurrences": 18,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 6
+      },
+      "v2": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 12
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P13",
+    "name": "Shortened intermediate consumed",
+    "occurrences": 16,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 3
+      },
+      "v2": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 12
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P14",
+    "name": "Arguments silently ignored",
+    "occurrences": 8,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 3
+      },
+      "v2": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 3
+      },
+      "v3": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 1
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P15",
+    "name": "Absent field satisfies predicate (exposures)",
+    "occurrences": 39,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 8
+      },
+      "v2": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 9
+      },
+      "v3": {
+        "claude-sonnet-5-5": 7,
+        "gpt-6.1-sol": 8
+      },
+      "v4": {
+        "claude-sonnet-5-5": 3,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P16",
+    "name": "Fixed positions for any-element task",
+    "occurrences": 36,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 7
+      },
+      "v2": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 10
+      },
+      "v3": {
+        "claude-sonnet-5-5": 10,
+        "gpt-6.1-sol": 8
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [
+      "V3 delta__V06__claude-sonnet-5-5__t1"
+    ],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P17",
+    "name": "Scalar comparison against collection",
+    "occurrences": 3,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v3": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P18",
+    "name": "Contradictory any/none conditions",
+    "occurrences": 1,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P19",
+    "name": "Null counted as set member (exposures)",
+    "occurrences": 79,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 4,
+        "gpt-6.1-sol": 6
+      },
+      "v2": {
+        "claude-sonnet-5-5": 7,
+        "gpt-6.1-sol": 17
+      },
+      "v3": {
+        "claude-sonnet-5-5": 9,
+        "gpt-6.1-sol": 11
+      },
+      "v4": {
+        "claude-sonnet-5-5": 15,
+        "gpt-6.1-sol": 10
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P20",
+    "name": "Composite groups split an ID (exposures)",
+    "occurrences": 6,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 2
+      },
+      "v2": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 1
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 2
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 1
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P21",
+    "name": "Long calculate output shown in full",
+    "occurrences": 101,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 7,
+        "gpt-6.1-sol": 22
+      },
+      "v2": {
+        "claude-sonnet-5-5": 24,
+        "gpt-6.1-sol": 48
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "no"
+  },
+  {
+    "pattern": "P22",
+    "name": "Non-numeric sum inputs skipped (disclosed)",
+    "occurrences": 25,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 4,
+        "gpt-6.1-sol": 5
+      },
+      "v2": {
+        "claude-sonnet-5-5": 3,
+        "gpt-6.1-sol": 3
+      },
+      "v3": {
+        "claude-sonnet-5-5": 3,
+        "gpt-6.1-sol": 3
+      },
+      "v4": {
+        "claude-sonnet-5-5": 2,
+        "gpt-6.1-sol": 2
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P23",
+    "name": "Incomplete collection drives final total",
+    "occurrences": 1,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [
+      "V2 epsilon__V05__claude-sonnet-5-5__t1"
+    ],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P24",
+    "name": "Identical calculation repeated",
+    "occurrences": 1,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  },
+  {
+    "pattern": "P25",
+    "name": "Wildcard used as scalar field",
+    "occurrences": 3,
+    "per_version_and_model": {
+      "v1": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      },
+      "v2": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      },
+      "v3": {
+        "claude-sonnet-5-5": 0,
+        "gpt-6.1-sol": 0
+      },
+      "v4": {
+        "claude-sonnet-5-5": 1,
+        "gpt-6.1-sol": 0
+      }
+    },
+    "outcome_linked_runs": [],
+    "still_possible_in_version_4": "yes"
+  }
+]
