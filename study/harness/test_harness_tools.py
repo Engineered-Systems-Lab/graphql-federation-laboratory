@@ -1669,19 +1669,33 @@ class WarningTests(Version5Tests):
         held({'totalCount': 6, 'hasMore': True, 'items': [{'name': 'x'}, {'name': 'y'}]})  # another list: other keys
         self.s.calc(operation='count', sources=self.src(PAGE, first))
         self.assertEqual(self.s.coverage, 'built from 2 of totalCount 6 at "items" (4 not among the sources)')
-        self.assertEqual(self.s.warnings, ['%s also holds records at "items" with totalCount 6 or no total and is not among the sources' % second])
+        self.assertEqual(self.s.warnings, ['%s holds 1 more list at "items" with totalCount 6 or no total, not among the sources' % second])
+
+    def test_a_result_that_is_among_the_sources_is_not_called_absent_for_its_other_pages(self):
+        """Found by the debug against the live stack: one result held four pages of a list under four keys, a call read one of them,
+        and the warning said that the result was not among the sources."""
+        rows = [{'id': n} for n in range(6)]
+        held = self.s.fetch(json.dumps({'data': {'p%d' % i: {'totalCount': 6, 'hasMore': i < 2, 'items': rows[2 * i:2 * i + 2]} for i in range(3)}}))
+        pages = [{'result_id': held, 'path': 'body.data.p%d.items' % i} for i in range(3)]
+        self.s.calc(operation='count', sources=pages[:1])
+        self.assertEqual(self.s.coverage, 'built from 2 of totalCount 6 at "items" (4 not among the sources)')
+        self.assertEqual(self.s.warnings, ['%s holds 2 more lists at "items" with totalCount 6, not among the sources' % held])
+        self.s.calc(operation='count', sources=pages[:2])
+        self.assertEqual(self.s.warnings, ['%s holds 1 more list at "items" with totalCount 6, not among the sources' % held])
+        self.s.calc(operation='count', sources=pages)
+        self.assertEqual((self.s.coverage, self.s.warnings), (None, []))
 
     def test_held_pages_that_are_not_among_the_sources_are_named(self):
         """The audit's P06, where the pages state their total."""
         first, second = self.s.fetch(page(ROWS[:2], total=4, more=True)), self.s.fetch(page(ROWS[2:], total=4, more=False))
         out, _, error = self.s.calc(operation='count', sources=self.src(PAGE, first))
         self.assertEqual((out['count'], error), (2, False))  # warned, never refused
-        self.assertEqual(self.s.warnings, ['%s also holds records at "items" with totalCount 4 and is not among the sources' % second])
+        self.assertEqual(self.s.warnings, ['%s holds 1 more list at "items" with totalCount 4, not among the sources' % second])
         self.s.calc(operation='count', sources=self.src(PAGE, first) + self.src(PAGE, second))
         self.assertEqual(self.s.warnings, [])
         third = self.s.fetch(page(ROWS[:1], total=4, more=True))
         self.s.calc(operation='distinct', sources=self.src(PAGE, second), field='id')
-        self.assertEqual(self.s.warnings, ['%s, %s also hold records at "items" with totalCount 4 and are not among the sources' % (first, third)])
+        self.assertEqual(self.s.warnings, ['%s, %s hold 2 more lists at "items" with totalCount 4, not among the sources' % (first, third)])
 
     def test_held_records_that_the_sources_leave_out_are_named(self):
         """The audit's P06, where nothing states a total: the sources read a second copy of some records of a longer held list."""

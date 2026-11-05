@@ -1731,24 +1731,25 @@ class Calculator:
                 'warnings': [_cut(warning, LIMITS['warningChars']) for warning in warnings[:LIMITS['maxWarnings']]], 'lineage': lineage}
 
     def _other_pages(self, lineage, incomplete):
-        """A warning naming the held results that have pages of a list the sources leave short and are not among the sources: lists of
-        the same tool, name and record keys that state the same total, or none."""
+        """A warning naming the held results that have pages of a list the sources leave short, which are not among the sources: lists
+        of the same tool, name and record keys that state the same total, or none. It says that those lists are not among the sources,
+        never that the result is not: a result can hold several pages of one list, of which the call reads some."""
         warnings, used, meta = [], set(lineage['pages']), getattr(self.store, 'meta', None) or {}
         for key, total, tool, shape in dict.fromkeys(incomplete):
-            others, unstated = [], False
+            others, unstated, lists = [], False, 0
             for result_id, sha, ident, name, said, _, _, keys in getattr(self.store, 'paged', []):
                 if name != key or said not in (total, None) or '%s %s' % (sha, ident) in used:
                     continue
                 if (meta.get(result_id) or {}).get('tool') != tool or not (keys <= shape or shape <= keys):
                     continue
                 others.append(result_id)
+                lists += 1
                 unstated = unstated or (said is None and total is not None)
             others = list(dict.fromkeys(others))
             if others:
                 stated = 'hasMore' if total is None else 'totalCount %d' % total + (' or no total' if unstated else '')
-                warnings.append('%s also hold%s records at %s with %s and %s not among the sources'
-                                % (_listed(others, 5), 's' if len(others) == 1 else '', _quoted(key), stated,
-                                   'is' if len(others) == 1 else 'are'))
+                warnings.append('%s hold%s %d more list%s at %s with %s, not among the sources'
+                                % (_listed(others, 5), 's' if len(others) == 1 else '', lists, '' if lists == 1 else 's', _quoted(key), stated))
         return warnings
 
     def _held_more(self, arguments):
