@@ -616,6 +616,80 @@ class ReadingCommandTests(StateDir):
         self.assertEqual(runner.parse_fingerprint(json.dumps(value))['session'], value['session'])
 
 
+class AnsweringMachine(ReadingMachine):
+    """ReadingMachine plus `request`: each URL answers from `answers` ({url: (status, text)}); every request is recorded."""
+
+    def __init__(self, answers=None, **kw):
+        super().__init__(**kw)
+        self.answers, self.requests = dict(answers or {}), []
+
+    def request(self, method, url, body=None, headers=None):
+        self.requests.append((method, url, body, dict(headers or {})))
+        return self.answers.get(url, (None, 'URLError'))
+
+
+class ReadyTests(StateDir):
+    def run_main(self, *argv, machine):
+        lines, err = [], io.StringIO()
+        with redirect_stderr(err):
+            code = launch.main(list(argv) + ['--state-dir', self.state], machine=machine, environ={}, out=lines.append)
+        return code, (json.loads(lines[0]) if lines else None), err.getvalue()
+
+    def test_a_graph_arm_asks_its_router_for_the_service(self):
+        ok = (200, json.dumps({'data': {'assetsPage': {'totalCount': 32}}}))
+        for scenario, url in (('delta', 'http://127.0.0.1:8170/'), ('epsilon', 'http://127.0.0.1:8171/graphql')):
+            machine = AnsweringMachine({url: ok})
+            code, value, _ = self.run_main('ready', 'assets', scenario, '--missions', 'real', machine=machine)
+            self.assertEqual((code, value['ready']), (0, True))
+            (method, asked, body, headers), = machine.requests
+            self.assertEqual((method, asked, json.loads(body)), ('POST', url, {'query': launch.READY_QUERIES['assets']}))
+            self.assertEqual(headers['Content-Type'], 'application/json')
+        self.assertFalse(Path(self.state).exists(), 'read only: no state folder is made')
+
+    def test_an_error_null_data_or_no_answer_is_not_ready(self):
+        url = 'http://127.0.0.1:8170/'
+        unavailable = json.dumps({'data': {'assetsPage': None}, 'errors': [{'message': 'down', 'extensions': {'code': 'SERVICE_UNAVAILABLE'}}]})
+        for answer, words in (((200, unavailable), 'SERVICE_UNAVAILABLE'), ((200, json.dumps({'data': {'assetsPage': None}})), 'without data'),
+                              ((200, json.dumps({'data': {}})), 'without data'), ((503, 'busy'), 'answered 503'),
+                              ((None, 'URLError'), 'answered None')):
+            code, value, _ = self.run_main('ready', 'assets', 'delta', '--missions', 'real', machine=AnsweringMachine({url: answer}))
+            self.assertEqual((code, value['ready']), (0, False), answer)
+            self.assertIn(words, value['detail'])
+
+    def test_gamma_asks_the_service_adapter(self):
+        for service, url in launch.ADAPTER_URLS.items():
+            page = {'missions': 'missionsPage', 'assets': 'assetsPage', 'personnel': 'personnelMembers'}[service]
+            machine = AnsweringMachine({url: (200, json.dumps({'data': {page: {'totalCount': 1}}}))})
+            code, value, _ = self.run_main('ready', service, 'gamma', '--missions', 'simulated', machine=machine)
+            self.assertTrue(value['ready'], service)
+            self.assertIn(page, json.loads(machine.requests[0][2])['query'])
+
+    def test_the_direct_arms_ask_the_service_itself(self):
+        for scenario in ('alpha', 'beta'):
+            for service, (method, url, body, headers) in launch.SERVICE_READY.items():
+                machine = AnsweringMachine({url: (200, '')})
+                code, value, _ = self.run_main('ready', service, scenario, '--missions', 'real', machine=machine)
+                self.assertTrue(value['ready'], (scenario, service))
+                self.assertEqual(machine.requests, [(method, url, body, headers)])
+                code, value, _ = self.run_main('ready', service, scenario, '--missions', 'real', machine=AnsweringMachine({url: (500, '')}))
+                self.assertFalse(value['ready'])
+        self.assertIn('<limit>1</limit>', launch.SERVICE_READY['personnel'][2])
+
+    def test_the_entry_points_are_the_ones_the_mcp_servers_use(self):
+        for scenario, url in launch.ROUTER_URLS.items():
+            self.assertEqual(make_config.SERVERS[scenario]['router_url'], url)
+        self.assertEqual({launch.ADAPTER_URLS[s] for s in launch.ADAPTER_URLS},
+                         {u for u, name in make_config.UPSTREAMS['adapters'].items() if name != 'mapping-adapter'})
+        for service, (_, url, _, _) in launch.SERVICE_READY.items():
+            self.assertTrue(url.startswith(make_config.UPSTREAMS['raw'][service]), service)
+
+    def test_the_output_is_what_the_harness_reads(self):
+        url = 'http://127.0.0.1:8183/graphql'
+        code, value, _ = self.run_main('ready', 'missions', 'gamma', '--missions', 'real',
+                                       machine=AnsweringMachine({url: (200, json.dumps({'data': {'missionsPage': {'totalCount': 3}}}))}))
+        self.assertEqual(runner.parse_ready(json.dumps(value)), (True, value['detail']))
+
+
 class GeneratorTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -722,6 +796,11 @@ class GeneratorTests(unittest.TestCase):
             self.assertEqual(scenario['health']['argv'][2:], [str(launch.HERE / 'launch.py'), 'health', name, '--missions', 'simulated',
                                                               '--state-dir', state])
             runner.validate_command(scenario['health'], name)
+            self.assertEqual(sorted(scenario['ready']), sorted(launch.OUTAGE_SERVICES))
+            for service, command in scenario['ready'].items():
+                self.assertEqual(command['argv'][2:], [str(launch.HERE / 'launch.py'), 'ready', service, name, '--missions', 'simulated',
+                                                       '--state-dir', state])
+            runner.validate_ready(scenario['ready'], sorted(launch.OUTAGE_SERVICES), name)
         runner.validate_command(config['dataset_fingerprint'], 'fingerprint')
         path = self.dir / 'config.json'
         self.assertEqual(runner.load_config(path)['schedule'], plan['schedule'])

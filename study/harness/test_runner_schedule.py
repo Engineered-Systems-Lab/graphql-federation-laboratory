@@ -85,6 +85,25 @@ class Health:
         return json.dumps(DOWN if down else UP)
 
 
+class Ready:
+    """The ready command: the arm answers for the service, except while `down_if(call)` is true; a reading that is an exception instance is
+    raised."""
+
+    def __init__(self, down_if=None, reading=None):
+        self.down_if, self.reading, self.calls, self.commands, self.timeouts = down_if, reading, 0, [], []
+
+    def __call__(self, command, timeout=None):
+        self.calls += 1
+        self.commands.append(command['argv'])
+        self.timeouts.append(timeout)
+        if self.reading is not None:
+            if isinstance(self.reading, Exception):
+                raise self.reading
+            return self.reading
+        down = self.down_if is not None and self.down_if(self.calls)
+        return json.dumps({'ready': not down, 'detail': 'SERVICE_UNAVAILABLE' if down else 'answered 200'})
+
+
 class Clock:
     """A clock that advances one second at every reading."""
 
@@ -113,7 +132,7 @@ class ScheduleRunnerTests(unittest.TestCase):
 
     def config(self, **over):
         scenarios = {name: {'mcp_url': name, 'stack': {}, 'warmup_calls': [{'tool': 'lookup', 'arguments': {}}], 'provenance': PROVENANCE,
-                            'health': {'argv': ['health', name]}}
+                            'health': {'argv': ['health', name]}, 'ready': {'assets': {'argv': ['ready', 'assets', name]}}}
                      for name in ARMS + ['alpha']}
         base = {'scenarios': scenarios, 'models': ['model-a', 'model-b'], 'seed': 7, 'task_set': 'dev', 'warmup_passes': 1,
                 'budgets': budgets(), 'limits': {'max_tool_calls': 5, 'retry_backoff_seconds': 0},
@@ -142,11 +161,13 @@ class ScheduleRunnerTests(unittest.TestCase):
         factory.made = made
         return factory
 
-    def study(self, config=None, run_id='s2', factory=None, fingerprints=None, docker=None, session_factory=None, health=None, clock=None):
+    def study(self, config=None, run_id='s2', factory=None, fingerprints=None, docker=None, session_factory=None, health=None, clock=None,
+              ready=None):
         return Study(config or self.config(), MODELS, PRICES, run_id, root=self.root, corpus_dir=self.corpus,
                      client_factory=factory or self.clients(), session_factory=session_factory or self.session_factory, stack_factory=FakeStack,
                      redactor=Redactor(['sk-ant-SECRETSECRETSECRET']), sleep=lambda s: None, docker=docker or fake_docker(),
-                     fingerprint_runner=fingerprints or Fingerprints(), health_runner=health or Health(), **({'clock': clock} if clock else {}))
+                     fingerprint_runner=fingerprints or Fingerprints(), health_runner=health or Health(), ready_runner=ready or Ready(),
+                     **({'clock': clock} if clock else {}))
 
     def keys(self, study, block):
         return [key for _, key in study.block_keys(block)]
@@ -676,6 +697,77 @@ class ScheduleRunnerTests(unittest.TestCase):
         self.assertEqual(study.run(), 'complete')
         restores = [c for c in read_jsonl(study.dir / 'health.jsonl') if c['point'] == 'restore']
         self.assertTrue(restores and all(c['result'] == 'up' and c['polls'] == 3 for c in restores))
+
+    def test_a_restore_waits_until_the_arm_answers_for_the_service_through_its_entry_point(self):
+        state = {'restore': None, 'polls': 0}
+
+        def unavailable_after_restore(call):  # the backend is healthy at once; the arm answers SERVICE_UNAVAILABLE for two more polls
+            log = FakeStack.log
+            if state['restore'] != len(log):
+                state['polls'] += 1
+                if state['polls'] <= 2:
+                    return True
+                state.update(restore=len(log), polls=0)
+            return False
+        ready = Ready(down_if=unavailable_after_restore)
+        study = self.study(ready=ready, clock=Clock())
+        self.assertEqual(study.run(), 'complete')
+        restores = [c for c in read_jsonl(study.dir / 'health.jsonl') if c['point'] == 'restore']
+        self.assertEqual(len(restores), sum(self.outage_runs(b) for b in study.plan['blocks']))
+        for check in restores:
+            self.assertEqual((check['result'], check['polls']), ('up', 1), 'the health check passed at once')
+            self.assertEqual(check['entryPoint'], {'service': 'assets', 'result': 'up', 'detail': 'answered 200', 'polls': 3})
+        self.assertEqual(ready.calls, 3 * len(restores))
+        self.assertTrue(all(argv[:2] == ['ready', 'assets'] for argv in ready.commands))
+        self.assertTrue(all(0 < t <= 900 for t in ready.timeouts), 'each ready check gets only the rest of the deadline')
+        others = [c for c in read_jsonl(study.dir / 'health.jsonl') if c['point'] != 'restore']
+        self.assertTrue(others and all('entryPoint' not in c for c in others), 'only a restore waits for the entry point')
+
+    def test_an_entry_point_that_does_not_answer_in_time_voids_the_attempt(self):
+        config = self.config()
+        for scenario in config['scenarios'].values():
+            scenario['ready_timeout_seconds'] = 8
+        study = self.study(config, ready=Ready(down_if=lambda call: True), clock=Clock())
+        self.assertEqual(study.run(), 'block_void')
+        void = self.events(study, 'void')[0]
+        self.assertEqual((void['block'], void['trigger'], void['point']), (self.outage_block(study)['id'], 'restore', 'restore'))
+        self.assertIn('did not answer for it through its entry point within 8 seconds', void['problems'][0])
+        self.assertIn('SERVICE_UNAVAILABLE', void['problems'][0])
+        last = [c for c in read_jsonl(study.dir / 'health.jsonl') if c['point'] == 'restore'][-1]
+        self.assertEqual(last['result'], 'up', 'every backend was healthy')
+        self.assertEqual(last['entryPoint']['result'], 'down')
+        self.assertGreater(last['entryPoint']['polls'], 1)
+
+    def test_an_unreadable_ready_check_counts_as_not_answering(self):
+        config = self.config()
+        for scenario in config['scenarios'].values():
+            scenario['ready_timeout_seconds'] = 6
+        study = self.study(config, ready=Ready(reading='not json'), clock=Clock())
+        self.assertEqual(study.run(), 'block_void')
+        last = [c for c in read_jsonl(study.dir / 'health.jsonl') if c['point'] == 'restore'][-1]
+        self.assertEqual(last['entryPoint']['result'], 'down')
+        self.assertIn('could not be read', last['entryPoint']['detail'])
+
+    def test_a_schedule_needs_a_ready_command_for_every_stopped_service(self):
+        config = self.config()
+        del config['scenarios']['gamma']['ready']
+        with self.assertRaisesRegex(ValueError, r'scenarios\.gamma\.ready'):
+            self.study(config)
+        config = self.config()
+        config['scenarios']['delta']['ready'] = {'personnel': {'argv': ['ready', 'personnel', 'delta']}}
+        with self.assertRaisesRegex(ValueError, 'no command for the stopped service\\(s\\) assets'):
+            self.study(config)
+        config = self.config()
+        config['scenarios']['delta']['ready'] = {'assets': {'argv': []}}
+        with self.assertRaisesRegex(ValueError, 'non-empty argv'):
+            self.study(config)
+
+    def test_the_ready_commands_are_in_the_plan_identity(self):
+        study = self.study()
+        self.assertEqual(study.plan_identity()['voidRule']['ready']['delta'], {'assets': {'argv': ['ready', 'assets', 'delta']}})
+        changed = self.config()
+        changed['scenarios']['delta']['ready']['assets'] = {'argv': ['ready', 'assets', 'delta', '--other']}
+        self.assertNotEqual(study.plan_identity(), self.study(changed).plan_identity())
 
     def test_a_restore_that_does_not_come_back_in_time_voids_the_attempt(self):
         config = self.config()

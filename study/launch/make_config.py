@@ -5,8 +5,9 @@
         [--accept-apollo-elv2] [--replace]
 
 The scenarios come from this kit: each one's stack commands (launch.py up, down and service), its MCP server, its warm-up calls, its
-`provenance` block, with the mode of every backend, and its `health` command (launch.py health <scenario>, read only). The run plan is the
-operator's: --plan names a JSON file copied as given, of one of two shapes:
+`provenance` block, with the mode of every backend, its `health` command (launch.py health <scenario>, read only) and its `ready`
+commands, one per outage service (launch.py ready <service> <scenario>, read only), which the harness runs after a restore. The run plan
+is the operator's: --plan names a JSON file copied as given, of one of two shapes:
 
 - study 2 (a block schedule): `schedule`, `task_set`, `models`, `seed`, `warmup_passes`, `limits` and `budgets`, and optionally
   `harness_tools`, `health_every_runs` and `earlier_study_runs`. The scenarios are the schedule's arms and its reference.
@@ -223,6 +224,7 @@ def scenario_config(scenario, mode, launch_python, mcp_python, state_dir, guide_
     out['stack'] = stack(scenario, mode, launch_python, mcp_python, state_dir, start_env)
     out['provenance'] = provenance_block(scenario, mode, pins)
     out['health'] = launch_command(launch_python, state_dir, mode, 'health', scenario)
+    out['ready'] = {name: launch_command(launch_python, state_dir, mode, 'ready', name, scenario) for name in launch.OUTAGE_SERVICES}
     return out
 
 

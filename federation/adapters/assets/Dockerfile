@@ -20,7 +20,7 @@ RUN --mount=type=cache,target=/root/.m2 mvn -B -ntp -pl adapters/assets -am veri
 
 FROM eclipse-temurin:21-jre@sha256:ccbad9e7cb84c27092b12c40a4143e5733e050db9c3784d84f632dcf423fb2ef
 WORKDIR /app
-COPY --from=build /build/adapters/assets/target/federation-assets-adapter-1.1.0.jar ./adapter.jar
+COPY --from=build /build/adapters/assets/target/federation-assets-adapter-1.1.1.jar ./adapter.jar
 ENV ADAPTER_BIND_HOST=0.0.0.0 ADAPTER_PORT=8184
 USER 10001:10001
 EXPOSE 8184

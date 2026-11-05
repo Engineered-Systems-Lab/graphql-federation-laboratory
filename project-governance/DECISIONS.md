@@ -231,6 +231,8 @@ The lead developer revised D041's paging on 2026-11-04 (decisions G1 to G4 of th
 - **A page is a live view.** Like the services' own pages, a page field has no snapshot guarantee: equal totals across the calls of one page do not prove that the records did not change between them.
 - **Where totals end.** Only the Missions and Assets lists change. `personnelMembers` and `PersonnelPage` are not touched, and no other list gains a count.
 
+**Addendum (2026-11-05), the lead developer's ruling.** The `UPSTREAM_BAD_RESPONSE` that the deprecated `assets` list gave from offset 2147483598 with a limit above 50 was not an answer this revision protects when it says the lists keep their answers exactly: it came from an int overflow, no real query reaches it, and every existing query answers as before. From the Assets adapter 1.1.1 (the Job study2_prerun_fixes) the list computes its call offset as a long, as `assetsPage` does, so those offsets answer an empty list. This reverses the 1.1.0 choice to keep the int sum of 1.0.0.
+
 The [federation design](../docs/FEDERATION-DESIGN.md#paging-names-and-the-personnel-type) owns the details and the [study 2 design](../docs/STUDY-2-DESIGN.md#the-arms) records the effect on the graph arms. Everything else of D041 stands. **Rationale.** See [the explanatory rationale](RATIONALE.md#federation-graph-page-totals-d041-page-totals-revision). Accepted scope records the lead developer's design direction; it does not substitute for G018 approval of any exact prepared checkpoint.
 
 ## D042 - Federation crew mapping and mapping release 1.1 (2026-10-16, Accepted scope)

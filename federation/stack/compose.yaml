@@ -206,7 +206,7 @@ services:
     build:
       context: ..
       dockerfile: adapters/assets/Dockerfile
-    image: ${STACK_ASSETS_ADAPTER_IMAGE:-starfleet-federation-stack-assets-adapter:1.1.0}
+    image: ${STACK_ASSETS_ADAPTER_IMAGE:-starfleet-federation-stack-assets-adapter:1.1.1}
     ports:
       - "127.0.0.1:${ASSETS_ADAPTER_HOST_PORT:-8184}:8184"
     environment:

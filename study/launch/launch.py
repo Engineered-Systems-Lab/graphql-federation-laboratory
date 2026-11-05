@@ -6,8 +6,9 @@
     python -B study/launch/launch.py service stop|start assets|personnel|missions <scenario> --missions simulated|real --state-dir <folder> [--dry-run]
     python -B study/launch/launch.py fingerprint --missions simulated|real --state-dir <folder>
     python -B study/launch/launch.py health <scenario> --missions simulated|real --state-dir <folder>
+    python -B study/launch/launch.py ready assets|personnel|missions <scenario> --missions simulated|real --state-dir <folder>
 
-The last two only read, and are the commands the study config names for the harness (make_config.py writes them):
+The last three only read, and are the commands the study config names for the harness (make_config.py writes them):
 
 - `fingerprint` prints {"fingerprint": ..., "session": ...}, which the harness checks at every block start of study 2. On the real service
   the fingerprint is the SHA-256 of the preflight data step's reading of the Missions schema (study/preflight/preflight.py,
@@ -18,6 +19,13 @@ The last two only read, and are the commands the study config names for the harn
 - `health` probes every backend of the scenario (missions, assets, personnel) and prints {"backends": {<name>: {"up": ..., "detail": ...}}}
   for the harness's void-block rule: a backend is up when its container is running and, where it has a healthcheck, healthy; the real
   Missions service must also answer GET /missions?pageSize=1. It reads docker inspect and sends that one GET, and exits 0 whatever it finds.
+- `ready` asks one backend through the scenario's own entry point, the way its agents reach it, and prints {"ready": ..., "detail": ...}:
+  the router for delta and epsilon and the backend's adapter for gamma (a one-row page field: missionsPage, assetsPage or
+  personnelMembers, ready when it answers 200 with data and no error), and the backend's own published port for alpha and beta (GET
+  /missions?pageSize=1, GET /assets?limit=1, or ListPersonnelMembers with limit 1; ready on 200). The harness runs it after a category D
+  task's service is started again, once the health check passes, because a backend can be healthy while its adapter or the router still
+  answers SERVICE_UNAVAILABLE for several seconds (seen on delta's Assets on 2026-11-05: about 6 s in two of four restores). It sends that
+  one request and exits 0 whatever it finds.
 
 Scenarios are the internal letters alpha to epsilon (study/README.md has the names). Every scenario starts the whole federation stack,
 as study 1 did; epsilon starts the Cosmo router instead of the Apollo one, and alpha and beta also publish the legacy services on their
@@ -123,6 +131,22 @@ STATE_FORMAT = ('{"running":{{json .State.Running}},"status":{{json .State.Statu
 # Outage services: the logical names of the corpus, mapped to compose services of the federation stack.
 OUTAGE_SERVICES = {'assets': 'assets-service', 'personnel': 'personnel-service', 'missions': 'missions-stub'}
 
+# `ready`: each scenario's entry point, the addresses its MCP server uses (make_config.py SERVERS and UPSTREAMS; a test pins them equal).
+ROUTER_URLS = {'delta': 'http://127.0.0.1:8170/', 'epsilon': 'http://127.0.0.1:8171/graphql'}
+ADAPTER_URLS = {'personnel': 'http://127.0.0.1:8182/graphql', 'missions': 'http://127.0.0.1:8183/graphql',
+                'assets': 'http://127.0.0.1:8184/graphql'}
+READY_QUERIES = {'missions': '{ missionsPage(limit: 1) { totalCount } }', 'assets': '{ assetsPage(limit: 1) { totalCount } }',
+                 'personnel': '{ personnelMembers(limit: 1) { totalCount } }'}
+PERSONNEL_NAMESPACE = 'urn:graphql-federation-lab:personnel:v2'
+SERVICE_READY = {
+    'missions': ('GET', 'http://127.0.0.1:8083/missions?pageSize=1', None, {}),
+    'assets': ('GET', 'http://127.0.0.1:8084/assets?limit=1', None, {}),
+    'personnel': ('POST', 'http://127.0.0.1:8082/soap/personnel-v2',
+                  '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ListPersonnelMembersRequest xmlns="%s">'
+                  '<offset>0</offset><limit>1</limit></ListPersonnelMembersRequest></soap:Body></soap:Envelope>' % PERSONNEL_NAMESPACE,
+                  {'Content-Type': 'text/xml; charset=utf-8', 'SOAPAction': '"%s:ListPersonnelMembers"' % PERSONNEL_NAMESPACE}),
+}
+
 # The images federation/stack/compose.yaml builds itself (`build:` with an `image:` name), with the compose services that run each; the
 # first service is the one `build` names. Every other image of the stack is pinned by digest in that file (a test pins both).
 BUILT_IMAGES = {
@@ -130,7 +154,7 @@ BUILT_IMAGES = {
     'starfleet-federation-stack-personnel-service:2.0.0': ('personnel-service',),
     'starfleet-federation-stack-missions-adapter:1.1.0': ('missions-adapter',),
     'starfleet-federation-stack-personnel-adapter:1.0.0': ('personnel-adapter',),
-    'starfleet-federation-stack-assets-adapter:1.1.0': ('assets-adapter',),
+    'starfleet-federation-stack-assets-adapter:1.1.1': ('assets-adapter',),
     'starfleet-federation-stack-mapping-adapter:1.0.0': ('mapping-adapter',),
 }
 ONE_SHOT_SERVICES = ('assets-bootstrap',)  # restart: "no"; exited with code 0 is its normal completed state
@@ -338,6 +362,17 @@ class Machine:
         except (OSError, ValueError):
             return None
 
+    def request(self, method, url, body=None, headers=None):
+        """(status or None, text) of one HTTP request, within 10 seconds."""
+        data = body.encode('utf-8') if body is not None else None
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, data=data, headers=headers or {}, method=method), timeout=10) as response:
+                return response.status, response.read().decode('utf-8', 'replace')
+        except urllib.error.HTTPError as error:
+            return error.code, error.read().decode('utf-8', 'replace')
+        except (OSError, ValueError) as error:
+            return None, type(error).__name__
+
     def port_taken(self, port):
         try:
             with socket.create_connection(('127.0.0.1', port), timeout=1):
@@ -542,6 +577,30 @@ def health(scenario, mode, machine):
     return {'scenario': scenario, 'missions': mode, 'backends': out}
 
 
+def ready(service, scenario, machine):
+    """{"ready": bool, "detail": text} of one request for `service` through the scenario's entry point (see the module text). Never raises
+    for a backend that does not answer."""
+    if scenario in ROUTER_URLS or scenario == 'gamma':
+        url = ROUTER_URLS.get(scenario) or ADAPTER_URLS[service]
+        status, text = machine.request('POST', url, json.dumps({'query': READY_QUERIES[service]}), {'Content-Type': 'application/json'})
+        try:
+            body = json.loads(text)
+        except ValueError:
+            body = None
+        errors = body.get('errors') if isinstance(body, dict) else None
+        data = body.get('data') if isinstance(body, dict) else None
+        up = status == 200 and not errors and isinstance(data, dict) and bool(data) and all(v is not None for v in data.values())
+        if errors:
+            codes = sorted({str(((e or {}).get('extensions') or {}).get('code') or (e or {}).get('message') or '')[:60] for e in errors})
+            detail = '%s answered %s with %s' % (url, status, ', '.join(codes))
+        else:
+            detail = '%s answered %s%s' % (url, status, '' if up else ' without data')
+        return {'scenario': scenario, 'service': service, 'ready': up, 'detail': detail}
+    method, url, body, headers = SERVICE_READY[service]
+    status, _ = machine.request(method, url, body, headers)
+    return {'scenario': scenario, 'service': service, 'ready': status == 200, 'detail': '%s %s answered %s' % (method, url, status)}
+
+
 def build_parser():
     parser = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     sub = parser.add_subparsers(dest='command', required=True)
@@ -566,6 +625,9 @@ def build_parser():
     reading.add_argument('--missions', choices=MODES, required=True)
     reading.add_argument('--state-dir', help='accepted for the shape of the other commands; nothing is written')
     common(sub.add_parser('health', help='print the health of every backend of a scenario (read only)'))
+    probe = sub.add_parser('ready', help="ask one backend through the scenario's entry point once (read only)")
+    probe.add_argument('service', choices=tuple(OUTAGE_SERVICES))
+    common(probe)
     return parser
 
 
@@ -573,10 +635,12 @@ def main(argv=None, machine=None, environ=None, out=print):
     args = build_parser().parse_args(argv)
     environ = dict(os.environ if environ is None else environ)
     machine = machine or Machine()
-    if args.command in ('fingerprint', 'health'):  # read only: no state folder is made or seeded
+    if args.command in ('fingerprint', 'health', 'ready'):  # read only: no state folder is made or seeded
         try:
             if args.command == 'fingerprint':
                 value = fingerprint(args.missions, machine)
+            elif args.command == 'ready':
+                value = ready(args.service, args.scenario, machine)
             else:
                 value = health(args.scenario, args.missions, machine)
         except Refused as error:

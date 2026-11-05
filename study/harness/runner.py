@@ -17,7 +17,9 @@ inside the schedule, block by block, and skips every block whose runs are all fi
 The void-block rule of the schedule (docs/STUDY-2-DESIGN.md, Exclusions; decisions F2 and F3 of the Job study2_build_followups): every block
 start carries the block's `attempt` (1, 2, ...), and every run record carries it as `blockAttempt`. The arm's declared `health` command
 probes every backend at the block start, after every restore of a category D task's stopped service (waiting up to the scenario's
-`ready_timeout_seconds` for every backend to answer again), every `health_every_runs` runs (default 10) and at the block end. A backend
+`ready_timeout_seconds` for every backend to answer again, and then for the arm's declared `ready` command of that service to find it
+answering through the arm's own entry point, its router, adapter or published port), every `health_every_runs` runs (default 10) and at
+the block end. A backend
 down, found by the health check or by the provenance observation at the block start, outside the window in which a category D task's own
 service is deliberately stopped, is a declared trigger: the attempt is void. The harness records a `void` event (the block, the attempt, the
 trigger and its problems), moves the attempt's run folders to runs-void/<block>/<attempt>/, so no void result stays a run's current result,
@@ -160,8 +162,8 @@ HEALTH_POINTS = ('start', 'periodic', 'restore', 'end')
 VOID_TRIGGERS = {
     'provenance': 'the provenance observation at the block start finds a declared backend down (no container, or not running)',
     'health': 'the health check finds a backend down, or cannot be read, at the block start, every health_every_runs runs or at the block end',
-    'restore': 'after a category D task, the restored service, the MCP server or any backend does not answer again within the scenario\'s '
-               'ready_timeout_seconds',
+    'restore': 'after a category D task, the restored service, the MCP server, any backend or the arm\'s entry point for the restored '
+               'service (its ready command) does not answer again within the scenario\'s ready_timeout_seconds',
 }
 VOID_FOLDER = 'runs-void'
 
@@ -193,14 +195,40 @@ def validate_command(command, what):
         raise ValueError('%s has unknown keys: %s' % (what, ', '.join(unknown)))
 
 
-def run_health_command(command, timeout=120):
-    """Run a scenario's declared health command (without the API keys in its environment) and return what it prints."""
+def run_health_command(command, timeout=120, what='health'):
+    """Run a scenario's declared health (or ready) command, without the API keys in its environment, and return what it prints."""
     done = subprocess.run(command['argv'], cwd=command.get('cwd'), env=child_environment(extra=command.get('env')), capture_output=True,
                           text=True, encoding='utf-8', timeout=timeout)
     if done.returncode != 0:
-        raise RuntimeError('the health command exited with %d: %s' % (done.returncode, provenance.redact_value(
+        raise RuntimeError('the %s command exited with %d: %s' % (what, done.returncode, provenance.redact_value(
             (done.stderr or done.stdout or '').strip()[-300:])))
     return done.stdout
+
+
+def run_ready_command(command, timeout=120):
+    return run_health_command(command, timeout=timeout, what='ready')
+
+
+def parse_ready(text):
+    """The ready command prints one JSON object {"ready": true|false, "detail": "..."}. Returns (ready, detail)."""
+    try:
+        value = json.loads((text or '').strip())
+    except ValueError:
+        raise ValueError('the ready command did not print a JSON object')
+    if not (isinstance(value, dict) and isinstance(value.get('ready'), bool)):
+        raise ValueError('the ready command printed no ready true or false')
+    return value['ready'], str(value.get('detail') or '')[:300]
+
+
+def validate_ready(value, services, what):
+    """A scenario's `ready`: {service: command} with a command for every service the task set stops."""
+    if not isinstance(value, dict):
+        raise ValueError('%s must be {service: command}, with a command for every service a task stops (%s)' % (what, ', '.join(services)))
+    missing = [s for s in services if s not in value]
+    if missing:
+        raise ValueError('%s has no command for the stopped service(s) %s' % (what, ', '.join(missing)))
+    for service, command in value.items():
+        validate_command(command, '%s.%s' % (what, service))
 
 
 def parse_health(text, backends):
@@ -385,12 +413,61 @@ def git_commit(repo_dir):
         return {'commit': None, 'treeDirty': None}
 
 
+REPO_ROOT = HERE.parent.parent
+# The Python files a study run executes besides the harness's own modules, from the repository root: the MCP servers the stack starts
+# (mcp_core and the three servers; setup_env.py only installs the environment), the launch kit whose stack, health, ready and fingerprint
+# commands the config names, and the preflight module that the real-mode fingerprint imports. None of them imports another repository
+# module (launch.py imports preflight.py and provenance.py, preflight.py imports launch.py). The corpus scorer is added from the corpus folder
+# the run uses. What the plan identity already hashes (the corpus manifest, the guides) is not repeated here.
+RUN_FILES = ('study/mcp/mcp_core.py', 'study/mcp/raw_server.py', 'study/mcp/adapters_server.py', 'study/mcp/graph_server.py',
+             'study/launch/launch.py', 'study/preflight/preflight.py')
+
+
+def code_files(corpus_dir, root=None):
+    """{path from the repository root: SHA-256, or None when missing} of every Python file the run executes: each non-test *.py of
+    study/harness, RUN_FILES and the corpus scorer (keyed `<corpus>/scoring.py` when the corpus folder is outside the repository)."""
+    root = Path(root or REPO_ROOT)
+    paths = [p for p in sorted((root / 'study' / 'harness').glob('*.py')) if not p.name.startswith('test_')]
+    paths += [root / name for name in RUN_FILES]
+    out = {}
+    for path in paths:
+        out[path.relative_to(root).as_posix()] = sha256_file(path) if path.is_file() else None
+    scorer = Path(corpus_dir) / 'scoring.py'
+    try:
+        key = scorer.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        key = '<corpus>/scoring.py'
+    out[key] = sha256_file(scorer) if scorer.is_file() else None
+    return out
+
+
+def code_changes(stored, current):
+    """What a resume finds changed in the code the run executes against the stored manifest (`codeFiles`): each file added, removed or
+    changed. Empty when they are the same. The commit is recorded but not compared, so a records-only commit between a stop and its resume
+    does not force a new study run."""
+    changes = []
+    before, after = stored.get('codeFiles') or {}, current.get('codeFiles') or {}
+    for name in sorted(set(before) | set(after)):
+        if name not in after or (after[name] is None and before[name] is not None):
+            changes.append('code file %s removed' % name)
+        elif name not in before or (before[name] is None and after[name] is not None):
+            changes.append('code file %s added' % name)
+        elif before[name] != after[name]:
+            changes.append('code file %s changed' % name)
+    return changes
+
+
 # ---------------------------------------------------------------------------------------------------------------- the study
 class Study:
     def __init__(self, config, models_config, prices, study_run_id, root=None, corpus_dir=DEFAULT_CORPUS, client_factory=None,
                  session_factory=None, stack_factory=None, clock=time.monotonic, sleep=time.sleep, redactor=None, repo_dir=None, docker=None,
-                 hasher=provenance.hash_path, fingerprint_runner=run_fingerprint_command, health_runner=run_health_command):
+                 hasher=provenance.hash_path, fingerprint_runner=run_fingerprint_command, health_runner=run_health_command, code_facts=None,
+                 ready_runner=run_ready_command, code_root=None):
         self.config, self.models_config, self.prices = config, models_config, prices
+        # The code a run uses: the commit and whether the tree is dirty (recorded for provenance) and the hash of every Python file the run
+        # executes (codeFiles, compared on resume).
+        self.code_facts = code_facts or (lambda: {**git_commit(self.repo_dir or self.config.get('repo_dir')),
+                                                  'codeFiles': code_files(self.corpus_dir, code_root)})
         self.schedule = config.get('schedule')
         if self.schedule is not None:
             schedule.validate(self.schedule, config['scenarios'], config['models'])
@@ -412,6 +489,7 @@ class Study:
         harness_tools.validate(self.tool_names)
         self.fingerprint_runner = fingerprint_runner
         self.health_runner = health_runner
+        self.ready_runner = ready_runner
         self.carry = None  # the earlier study runs' spend, read at the start (schedule only)
         self.void = None  # the BlockVoid that stopped this run, if one did
         self.docker = docker or provenance.DockerCli()
@@ -432,6 +510,12 @@ class Study:
         self.tasks = load_tasks(self.corpus_dir, config['task_set'])
         self.by_id = {t['id']: t for t in self.tasks}
         self.plan = schedule.build(config, self.tasks) if self.schedule is not None else build_plan(config, self.tasks)
+        if self.schedule is not None:
+            stopped = sorted({t['stoppedService'] for t in self.tasks if t.get('stoppedService')})
+            for scenario in self.scenarios:
+                if stopped:
+                    validate_ready(config['scenarios'][scenario].get('ready'), stopped,
+                                   'scenarios.%s.ready (after a restore the harness waits until the arm answers for the service)' % scenario)
         vendors = [models_config['models'][m]['vendor'] for m in config['models']]
         if len(set(vendors)) != len(vendors):
             raise ValueError('The budget is per vendor and the price entry per model: this round has one model per vendor')
@@ -464,8 +548,13 @@ class Study:
     def void_rule_identity(self):
         """The part of the void-block rule a resume must find unchanged: the health interval (fixed for the study run, decision F3) and
         every arm's health command."""
-        return {'healthEveryRuns': self.health_every,
-                'health': {s: provenance.redact_command(self.config['scenarios'][s]['health']) for s in self.scenarios}}
+        identity = {'healthEveryRuns': self.health_every,
+                    'health': {s: provenance.redact_command(self.config['scenarios'][s]['health']) for s in self.scenarios}}
+        ready = {s: {name: provenance.redact_command(command) for name, command in sorted(self.config['scenarios'][s]['ready'].items())}
+                 for s in self.scenarios if self.config['scenarios'][s].get('ready')}
+        if ready:
+            identity['ready'] = ready
+        return identity
 
     def _guide_path(self, scenario):
         guide = self.config['scenarios'][scenario].get('guide_file')
@@ -474,10 +563,9 @@ class Study:
     def manifest(self):
         identity = self.plan_identity()
         hashed = {label: sha256_file(path) for label, path in (self.config.get('hash_files') or {}).items()}
-        harness_files = {p.name: sha256_file(p) for p in sorted(HERE.glob('*.py')) if not p.name.startswith('test_')}
         manifest = {
             'studyRunId': self.study_run_id, 'createdAt': utc_now(), 'planHash': sha256_json(identity), 'identity': identity,
-            **git_commit(self.repo_dir or self.config.get('repo_dir')), 'sdkVersions': sdk_versions(), 'harnessFiles': harness_files,
+            **self.code_facts(), 'sdkVersions': sdk_versions(),
             'models': {m: {**self.models_config['models'][m], 'priceEntry': self.prices['models'][m]} for m in self.config['models']},
             'pricesTableDate': self.prices['dated'], 'limits': self.limits.as_dict(),
             'tokenBudgets': {v: b for v, b in self.config['budgets'].items()}, 'telemetry': self.config.get('telemetry'),
@@ -604,7 +692,7 @@ class Study:
             problems = ['the health check could not be read: %s: %s' % (type(error).__name__, provenance.redact_value(error))]
         return result, self.redactor.deep(statuses), self.redactor.deep(problems)
 
-    def record_health(self, block, attempt, point, probe, after=None, polls=None):
+    def record_health(self, block, attempt, point, probe, after=None, polls=None, entry_point=None):
         result, statuses, problems = probe
         entry = {'at': utc_now(), 'block': block['id'], 'arm': block['arm'], 'attempt': attempt, 'point': point, 'result': result,
                  'backends': statuses, 'problems': problems}
@@ -612,6 +700,8 @@ class Study:
             entry['afterRun'] = after
         if polls is not None:
             entry['polls'] = polls
+        if entry_point is not None:
+            entry['entryPoint'] = entry_point
         append_jsonl(self.dir / 'health.jsonl', self.redactor.deep(entry))
         return problems
 
@@ -619,9 +709,39 @@ class Study:
         """One recorded health check; returns its problems (empty when every backend of the arm is up)."""
         return self.record_health(block, attempt, point, self.probe_health(block), after=after)
 
+    def await_entry_point(self, block, service, deadline):
+        """Poll the arm's ready command for `service` until it answers ready or the deadline passes. Each poll gets only the rest of the
+        deadline, and an answer after it does not count. Returns {'service', 'result' (up, down or unreadable), 'detail', 'polls'}; a
+        scenario that declares no ready command for the service (a config without the schedule's requirement) gives None."""
+        command = (self.config['scenarios'][block['arm']].get('ready') or {}).get(service)
+        if command is None:
+            return None
+        polls, last = 0, None
+        while True:
+            polls += 1
+            remaining = deadline - self.clock()
+            if remaining <= 0:
+                return {'service': service, 'result': 'down', 'polls': polls,
+                        'detail': 'no ready check started before the deadline' + ('; the last answered: %s' % last if last else '')}
+            try:
+                up, detail = parse_ready(self.ready_runner(command, timeout=max(remaining, 0.001)))
+                result = 'up' if up else 'down'
+            except Exception as error:
+                result, detail = 'unreadable', 'the ready check could not be read: %s: %s' % (type(error).__name__,
+                                                                                               provenance.redact_value(error))
+            if self.clock() > deadline:
+                return {'service': service, 'result': 'down', 'polls': polls,
+                        'detail': ('answered only after the deadline: ' if result == 'up' else '') + detail}
+            if result == 'up':
+                return {'service': service, 'result': 'up', 'detail': detail, 'polls': polls}
+            last = detail
+            self.sleep(2)
+
     def restore(self, stack, block, attempt, service, timeout, key):
-        """Start the stopped service again and wait, within the scenario's ready_timeout_seconds, until the MCP server answers and the
-        health check passes for every backend. Returns the problems of a restore that did not come back in time (a void trigger)."""
+        """Start the stopped service again and wait, within the scenario's ready_timeout_seconds, until the MCP server answers, the
+        health check passes for every backend and the arm's ready command finds the service answering through the arm's entry point (a
+        backend can be healthy while its adapter or the router still answers SERVICE_UNAVAILABLE). Returns the problems of a restore that
+        did not come back in time (a void trigger)."""
         deadline = self.clock() + timeout
         late = 'after %s was started again %%s did not answer within %s seconds' % (service, timeout)
         try:
@@ -647,10 +767,15 @@ class Study:
             if (probe[0] == 'up' and in_time) or not in_time:  # the passing check, or the last one, is recorded with the number of polls
                 if probe[0] == 'up' and not in_time:
                     probe = ('down', probe[1], ['every backend answered only after the deadline'])
-                problems = self.record_health(block, attempt, 'restore', probe, after=key, polls=polls)
+                entry = self.await_entry_point(block, service, deadline) if probe[0] == 'up' else None
+                problems = self.record_health(block, attempt, 'restore', probe, after=key, polls=polls,
+                                              entry_point=self.redactor.deep(entry) if entry else None)
                 if problems:
                     return ['after %s was started again the health check did not pass for every backend within %s seconds: %s'
                             % (service, timeout, '; '.join(problems))]
+                if entry is not None and entry['result'] != 'up':
+                    return self.redactor.deep(['after %s was started again the arm did not answer for it through its entry point within %s '
+                                               'seconds: %s' % (service, timeout, entry['detail'])])
                 return []
             self.sleep(2)
 
@@ -1014,6 +1139,10 @@ class Study:
             if stored['planHash'] != sha256_json(self.plan_identity()):
                 raise RuntimeError('The plan, models, limits, prompt, guides or corpus differ from the stored manifest: a resume repeats the '
                                    'same study. Start a new study run instead.')
+            code = code_changes(stored, self.code_facts())
+            if code:
+                raise RuntimeError('The code the run executes differs from the stored manifest: a resume runs the same code as the runs it continues. '
+                                   'Start a new study run instead. Changes:\n- ' + '\n- '.join(code))
             stored_intended = (stored.get('provenance') or {}).get('intended')
             if stored_intended is None:
                 raise RuntimeError('The stored manifest records no provenance, so a resume cannot verify the backends. Start a new study run '

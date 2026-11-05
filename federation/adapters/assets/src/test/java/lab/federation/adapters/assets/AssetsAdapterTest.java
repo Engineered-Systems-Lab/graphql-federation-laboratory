@@ -357,6 +357,21 @@ class AssetsAdapterTest {
     }
 
     @Test
+    void theDeprecatedListAtTheLargestOffsetIsEmptyAndItsSecondCallDoesNotOverflow() {
+        STUB.route("/assets?offset=2147483647&limit=50", 200, "{\"items\":[],\"offset\":2147483647,\"limit\":50,\"total\":32}");
+        STUB.route("/assets?offset=2147483697&limit=50", 200, "{\"items\":[],\"offset\":2147483697,\"limit\":50,\"total\":32}");
+        var result = run("{ assets(offset: 2147483647, limit: 100) { assetId } }");
+        assertThat(errors(result)).isEmpty();
+        assertThat(data(result).get("assets")).isEqualTo(List.of());
+        assertThat(STUB.calls()).containsExactly("/assets?offset=2147483647&limit=50", "/assets?offset=2147483697&limit=50");
+        STUB.reset();
+        STUB.route("/assets?offset=2147483600&limit=50", 200, "{\"items\":[],\"offset\":2147483600,\"limit\":50,\"total\":32}");
+        STUB.route("/assets?offset=2147483650&limit=50", 200, "{\"items\":[],\"offset\":2147483650,\"limit\":50,\"total\":32}");
+        assertThat(errors(run("{ assets(offset: 2147483600, limit: 100) { assetId } }"))).isEmpty();
+        assertThat(STUB.calls()).containsExactly("/assets?offset=2147483600&limit=50", "/assets?offset=2147483650&limit=50");
+    }
+
+    @Test
     void aLimitAbove100OrBelow1OrANegativeOffsetIsBadUserInputWithNoCall() {
         for (String arguments : List.of("limit: 101", "limit: 0", "offset: -1")) {
             var result = run("{ assets(" + arguments + ") { assetId } }");

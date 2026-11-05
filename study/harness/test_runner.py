@@ -9,6 +9,7 @@ from pathlib import Path
 
 from fakes import FakeDocker, FakeVendorClient, container, submit, turn
 from mcp_client import FakeToolSession
+import runner
 from runner import Study, build_plan, load_tasks, run_key
 from study_common import Redactor, child_environment, read_jsonl, sha256_file
 
@@ -215,6 +216,72 @@ class RunnerTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, 'differ from the stored manifest'):
             self.study(self.config(limits={'max_tool_calls': 6})).run(resume=True)
 
+    def code(self, commit='c' * 40, **files):
+        """Injected code facts: a commit and the code files' hashes (two harness files unless given)."""
+        return lambda: {'commit': commit, 'treeDirty': False,
+                        'codeFiles': files or {'study/harness/agent.py': 'a' * 64, 'study/harness/runner.py': 'b' * 64}}
+
+    def stopped(self, code_facts=None, code_root=None):
+        """A study that stopped on its budget, and the config whose larger budget lets a resume finish it."""
+        config = self.config(budgets={'va': {'tokens': 1_000_000}, 'vb': {'tokens': 400}})
+        self.assertEqual(self.study(config, code_facts=code_facts, code_root=code_root).run(), 'budget_stop')
+        config['budgets']['vb']['tokens'] = 1_000_000
+        return config
+
+    def test_a_resume_after_another_commit_with_the_same_code_continues(self):
+        config = self.stopped(self.code())
+        self.assertEqual(self.study(config, code_facts=self.code(commit='d' * 40)).run(resume=True), 'complete')
+        manifest = json.loads((self.root / 'r1' / 'manifest.json').read_text(encoding='utf-8'))
+        self.assertEqual(manifest['commit'], 'c' * 40, 'the commit stays recorded as it was')
+
+    def test_a_resume_refuses_a_changed_added_or_removed_code_file(self):
+        config = self.stopped(self.code())
+        changed = self.code(**{'study/harness/agent.py': 'a' * 64, 'study/harness/runner.py': 'e' * 64, 'study/mcp/raw_server.py': 'f' * 64})
+        with self.assertRaises(RuntimeError) as refused:
+            self.study(config, code_facts=changed).run(resume=True)
+        self.assertIn('code the run executes differs', str(refused.exception))
+        self.assertIn('code file study/harness/runner.py changed', str(refused.exception))
+        self.assertIn('code file study/mcp/raw_server.py added', str(refused.exception))
+        self.assertNotIn('agent.py', str(refused.exception))  # only what differs is named
+        self.assertFalse((self.root / 'r1' / 'resumes.jsonl').exists())  # refused before anything is written
+        with self.assertRaisesRegex(RuntimeError, 'code file study/harness/agent.py removed'):
+            self.study(config, code_facts=self.code(**{'study/harness/runner.py': 'b' * 64})).run(resume=True)
+
+    def code_tree(self):
+        """A repository-shaped folder with every file the run executes and a document it does not."""
+        root = Path(self.tmp.name) / 'repo'
+        for name in ['study/harness/runner.py', 'study/harness/agent.py', 'study/harness/test_runner.py'] + list(runner.RUN_FILES):
+            (root / name).parent.mkdir(parents=True, exist_ok=True)
+            (root / name).write_text('# %s\n' % name, encoding='utf-8')
+        (root / 'docs').mkdir()
+        (root / 'docs' / 'README.md').write_text('a document\n', encoding='utf-8')
+        return root
+
+    def test_a_resume_refuses_a_changed_file_outside_the_harness_folder(self):
+        root = self.code_tree()
+        config = self.stopped(code_root=root)
+        (root / 'study' / 'mcp' / 'mcp_core.py').write_text('# changed\n', encoding='utf-8')
+        with self.assertRaisesRegex(RuntimeError, 'code file study/mcp/mcp_core.py changed'):
+            self.study(config, code_root=root).run(resume=True)
+
+    def test_a_resume_after_a_change_the_run_does_not_execute_continues(self):
+        root = self.code_tree()
+        config = self.stopped(code_root=root)
+        (root / 'docs' / 'README.md').write_text('a changed document\n', encoding='utf-8')
+        (root / 'study' / 'harness' / 'test_runner.py').write_text('# a changed test\n', encoding='utf-8')
+        self.assertEqual(self.study(config, code_root=root).run(resume=True), 'complete')
+
+    def test_the_manifest_records_the_real_code_files(self):
+        self.study().run()
+        manifest = json.loads((self.root / 'r1' / 'manifest.json').read_text(encoding='utf-8'))
+        repo = Path(__file__).resolve().parent.parent.parent
+        harness = {'study/harness/' + p.name: sha256_file(p) for p in sorted((repo / 'study' / 'harness').glob('*.py'))
+                   if not p.name.startswith('test_')}
+        others = {name: sha256_file(repo / name) for name in runner.RUN_FILES}
+        self.assertEqual(manifest['codeFiles'], {**harness, **others, '<corpus>/scoring.py': sha256_file(self.corpus / 'scoring.py')})
+        self.assertTrue(all(manifest['codeFiles'].values()), 'every file the run executes exists in this repository')
+        self.assertNotIn('harnessFiles', manifest)
+
     def test_a_completed_study_resumes_to_nothing(self):
         study = self.study()
         study.run()
@@ -230,7 +297,7 @@ class RunnerTests(unittest.TestCase):
         text = (study.dir / 'manifest.json').read_text(encoding='utf-8')
         manifest = json.loads(text)
         for field in ('commit', 'treeDirty', 'sdkVersions', 'models', 'pricesTableDate', 'limits', 'tokenBudgets', 'telemetry', 'declaredSettings', 'machine',
-                      'planHash', 'harnessFiles', 'datasetHashes', 'provenance'):
+                      'planHash', 'codeFiles', 'datasetHashes', 'provenance'):
             self.assertIn(field, manifest)
         self.assertEqual(manifest['models']['model-a']['priceEntry']['output'], 10.0)
         self.assertEqual(manifest['pricesTableDate'], '2026-10-20')

@@ -178,7 +178,7 @@ public class AssetsGraph {
         return answer.build();
     }
 
-    /** The deprecated list: the window only, with no count check, exactly as in 1.0.0. */
+    /** The deprecated list: the window only, with no count check, as in 1.0.0, except that since 1.1.1 the offset of each call is a long. */
     private DataFetcherResult<Object> assets(DataFetchingEnvironment environment) {
         DataFetcherResult<Object> refused = refusedWindow(environment);
         if (refused != null) {
@@ -191,7 +191,8 @@ public class AssetsGraph {
         // At most two calls (the service allows 50 per call); the second is made only when the first answered.
         for (int from = 0; from < limit; from += SERVICE_PAGE_LIMIT) {
             int size = Math.min(SERVICE_PAGE_LIMIT, limit - from);
-            Outcome<List<Object>> outcome = Outcomes.fromCall(client.list(filters, offset + from, size), null, AssetsGraph::items);
+            // In long, as the page field does: offset + from can pass 2147483647, and an int sum wrapped negative (1.0.0 and 1.1.0).
+            Outcome<List<Object>> outcome = Outcomes.fromCall(client.list(filters, (long) offset + from, size), null, AssetsGraph::items);
             if (outcome.resolution() != Resolution.RESOLVED) {
                 // All or nothing: the whole list is null, with one entry for the failed call.
                 return DataFetcherResult.newResult().error(unavailable(outcome, environment)).build();
@@ -219,7 +220,7 @@ public class AssetsGraph {
         Long total = null;
         for (int from = 0; from < limit; from += SERVICE_PAGE_LIMIT) {
             int size = Math.min(SERVICE_PAGE_LIMIT, limit - from);
-            // The offset of the call is computed in long: offset + from can pass 2147483647 (the deprecated list keeps its int sum, as in 1.0.0).
+            // The offset of the call is computed in long: offset + from can pass 2147483647 (so does the deprecated list's since 1.1.1).
             long callOffset = (long) offset + from;
             Outcome<Map<String, Object>> outcome = Outcomes.fromCall(client.list(filters, callOffset, size), null, Json::object);
             if (outcome.resolution() != Resolution.RESOLVED) {

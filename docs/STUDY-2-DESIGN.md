@@ -240,6 +240,7 @@ Frozen with the scorer before the first scored run.
 
 - A vendor error is queued again once, at the end of its block. If it errs again it is missing in the main analysis and wrong in a sensitivity analysis. Study 1's vendor errors fell on long-context runs, so they are not treated as ignorable.
 - A block in which the provenance or health check finds a backend down outside a category D task is void and repeated whole. The trigger is declared, not judged.
+  - Added 2026-11-05 (the Job `study2_prerun_fixes`), before the freeze: after a category D task's service is restored, the harness also waits until the arm answers for that service through its own entry point (router, adapter or the service's port), and a restore that does not get there in time is the same declared trigger. On delta the router answered `SERVICE_UNAVAILABLE` for Assets for about 6 seconds after every backend was healthy, in two of four restores.
 - No other repeated runs, and no tuning of the prompt, the tools or the guide after the freeze.
 
 ### Power: tasks against trials
@@ -322,7 +323,7 @@ Study 2 relies on the Job `run_provenance`, built in this repository before the 
 - the redacted launch configuration and the script hashes in the bundle;
 - drift detection on resume.
 
-Study 2 adds one requirement: an observation per block, because every block restarts the access layer. Completed runs are saved after every run, and `--resume` already runs only the missing runs ([the harness](../study/harness/README.md)); it must also resume inside the block schedule.
+Study 2 adds one requirement: an observation per block, because every block restarts the access layer. Completed runs are saved after every run, and `--resume` already runs only the missing runs ([the harness](../study/harness/README.md)); it must also resume inside the block schedule. Since 2026-11-05 (the Job `study2_prerun_fixes`, before the freeze) a resume also refuses when any Python file the run executes (the harness, the MCP servers, the launch kit, the preflight module the fingerprint imports, the corpus scorer) differs from its manifest; the commit is recorded but not compared, so a records-only commit between a stop and its resume does not force a new study run.
 
 ## The backend: the real Missions service on Oracle
 
