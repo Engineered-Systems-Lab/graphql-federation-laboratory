@@ -2,7 +2,8 @@
 
 `calculate` computes over results the agent already obtained in the same run, named by result id. It never fetches: it has no network, file,
 database, backend or answer-key access, and it never sees another run's results. Its operations are generic only (view, count, distinct,
-group_by with count or sum, sort, filter by literal comparison, union, intersection, difference and arithmetic); none knows a domain term.
+group_by with count or sum, sort, filter by literal comparison of a value or of the elements of a list, union, intersection, difference and
+arithmetic); none knows a domain term.
 
 `ask_requester` logs the agent's question with its run and always returns the same fixed text.
 
@@ -23,6 +24,15 @@ never stored; `nextOffset` says where the next page starts. Every successful `ca
 line: per source, in the order given, the result id, the path, the records it contributed and whether the path matched nothing. The line
 never adds the sources up, because sources can overlap.
 
+Version 4. A filter condition may carry `elements`: with `any` it holds when at least one value at its field satisfies the comparison, with
+`none` when no value does. The values at the field are found as a source's path finds its records: `*` takes every element of a list, a
+list at the end gives its elements, and an element that lacks the rest of the field is left out, so an empty list or a missing field has no
+values (`any` does not hold, `none` does). A condition whose field has a path segment that is exactly `*` and no `elements` is refused
+(`Wildcard fields require elements: "any" or "none".`): version 3 treated such a field as missing, which could silently include or
+exclude records depending on the comparison. This
+is the one deliberate exception to "existing conditions unchanged", asked for by the lead developer; every other condition without
+`elements` is unchanged.
+
 Reading a result. A source names a result id and an optional path: dot-separated keys or list positions, where `*` takes every element of a
 list (any other value counts as a list of one). A text met while walking the path, or at its end, is read as JSON when it starts with `{` or
 `[`, or as XML when it starts with `<`. XML is read generically: local tag names without namespaces, attributes as `@name`, an element's own
@@ -40,13 +50,15 @@ from pathlib import Path
 from budget import estimate_tokens
 from study_common import append_jsonl, sha256_bytes, utc_now
 
-VERSION = 3
+VERSION = 4
 CALCULATE, ASK_REQUESTER = 'calculate', 'ask_requester'
 NAMES = (CALCULATE, ASK_REQUESTER)
 ASK_TEXT = 'No requester response is available during this evaluation.'
 ID_LINE = 'result_id: %s\n'
 OPERATIONS = ('view', 'count', 'distinct', 'group_by', 'sort', 'filter', 'union', 'intersection', 'difference', 'arithmetic')
 COMPARISONS = ('eq', 'ne', 'lt', 'le', 'gt', 'ge')
+ELEMENTS = ('any', 'none')
+WILDCARD_REFUSAL = 'Wildcard fields require elements: "any" or "none".'
 OPERATORS = ('add', 'subtract', 'multiply', 'divide')
 LIMITS = {'maxSourceChars': 5_000_000, 'maxRecords': 100_000, 'maxStoredOutputChars': 5_000_000, 'maxSources': 100,
           'storeAboveChars': 5_000, 'viewPageChars': 5_000, 'previewChars': 1_500, 'previewKeys': 20, 'previewTextChars': 120}
@@ -58,6 +70,11 @@ STORED_RULE = ('a scenario result or a calculate output longer than storeAboveCh
                'characters a page, with nextOffset for the next page, and a page is always shown in full; shorter results are shown in full')
 READ_RULE = ('every successful calculate output begins, after its id line, with one line "read: " naming per source, in the order given, '
              'the result id, the path, the records it contributed and whether the path matched nothing; it never adds the sources up')
+ELEMENTS_RULE = ('a filter condition with elements any holds when at least one value at its field satisfies its comparison, with elements '
+                 'none when no value does; the values are found as a source path finds records (* takes every element of a list, a list '
+                 'at the end gives its elements, an element lacking the rest of the field is left out), so an empty list or a missing '
+                 'field has none; a condition whose field has a * path segment and no elements is refused; any other condition without '
+                 'elements is unchanged')
 _ID = re.compile(r'^([0-9a-f]{4})-([1-9][0-9]*)$')
 _NUMBER = re.compile(r'^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$')
 _SCALAR = {'type': ['string', 'number', 'boolean', 'null']}
@@ -80,7 +97,11 @@ CALCULATE_TOOL = {
                     'characters and nextOffset gives the offset of the next page. count: the number of records. distinct: the distinct '
                     'values of field. group_by: groups by the fields in group_by, with aggregate count or '
                     'sum of sum_field. sort: the records ordered by field (descending optional). filter: the records for which every '
-                    'condition holds (eq, ne, lt, le, gt, ge against a literal value). union, intersection, difference: set operations on '
+                    'condition holds (eq, ne, lt, le, gt, ge against a literal value); a condition with elements any holds when at least '
+                    'one value at its field does, with elements none when no value does, where * in the field takes every element of a '
+                    'list and a list at its end gives its elements (an empty list or a missing field has no values); a field with a * '
+                    'segment needs elements any or none. union, '
+                    'intersection, difference: set operations on '
                     'the values of field taken per source (difference: the first source minus the others). arithmetic: operator add, '
                     'subtract, multiply or divide over operands, each a number or {result_id, path} naming one number. fields and limit '
                     'shorten a list of records; round sets decimal places. A field is a dot-separated path inside a record; empty means the '
@@ -96,7 +117,7 @@ CALCULATE_TOOL = {
             'sum_field': {'type': 'string'},
             'conditions': {'type': 'array', 'items': {'type': 'object', 'additionalProperties': False,
                                                       'properties': {'field': {'type': 'string'}, 'op': {'type': 'string', 'enum': list(COMPARISONS)},
-                                                                     'value': _SCALAR},
+                                                                     'value': _SCALAR, 'elements': {'type': 'string', 'enum': list(ELEMENTS)}},
                                                       'required': ['field', 'op', 'value']}},
             'descending': {'type': 'boolean'},
             'operator': {'type': 'string', 'enum': list(OPERATORS)},
@@ -137,7 +158,7 @@ def describe(names):
     if CALCULATE in names:
         out.update({'resultIdFormat': '<4 hex run tag>-<n>, shown as the first line "result_id: <id>" of every scenario tool result and '
                                       'every successful calculate result', 'operations': list(OPERATIONS), 'limits': dict(LIMITS),
-                    'storedResults': STORED_RULE, 'readLine': READ_RULE})
+                    'storedResults': STORED_RULE, 'readLine': READ_RULE, 'conditionElements': ELEMENTS_RULE})
     return out
 
 
@@ -148,6 +169,11 @@ def run_tag(run_key, attempt):
 
 class CalculationError(Exception):
     """A refused calculate call; its text goes back to the agent as a tool error."""
+
+
+class PathMissing(CalculationError):
+    """A step of a path that the value does not have, before the first `*`. A source's path refuses it like any other error; a condition
+    with `elements` reads it as a field with no values. A text that cannot be read as JSON or XML is never this, so it is always refused."""
 
 
 # ---------------------------------------------------------------------------------------------------------------- the result store
@@ -271,7 +297,7 @@ def walk(value, path):
                 nxt.append(_step(item, segment, where))
             except KeyError as error:
                 if not spread:
-                    raise CalculationError('path %r: %s' % (path, error.args[0]))
+                    raise PathMissing('path %r: %s' % (path, error.args[0]))
                 missing += 1
         if segment == '*':
             spread = True
@@ -297,6 +323,32 @@ def field_of(record, field):
         except (KeyError, CalculationError):
             return None
     return _decoded(value) if isinstance(value, str) and value.strip()[:1] in ('{', '[', '<') else value
+
+
+def field_values(record, field):
+    """The values at `field` inside a record for a condition with `elements`, found as a source's path finds its records: `*` takes every
+    element of a list, a list at the end gives its elements, and an element that lacks the rest of the field is left out. A record that
+    lacks the field has no values. A text on the way that cannot be read (broken XML, a document type) is refused, never taken as missing."""
+    try:
+        values, _ = walk(record, field)
+    except PathMissing:
+        return []
+    return [_decoded(value) for value in records_of(values)]  # a list at the end gives its elements read as * would read them
+
+
+def has_wildcard(field):
+    """Whether a field has a path segment that is exactly `*`; an asterisk inside a key name is part of that name."""
+    return isinstance(field, str) and '*' in _segments(field)
+
+
+def holds(record, condition):
+    """Whether one filter condition holds for a record: a literal comparison of the value at its field or, with `elements`, of the values
+    there (any: at least one holds; none: no value holds)."""
+    elements = condition.get('elements')
+    if elements is None:
+        return compare(field_of(record, condition.get('field', '')), condition['op'], condition['value'])
+    found = any(compare(value, condition['op'], condition['value']) for value in field_values(record, condition.get('field', '')))
+    return found if elements == 'any' else not found
 
 
 # ---------------------------------------------------------------------------------------------------------------- the read line
@@ -513,7 +565,11 @@ class Calculator:
             for condition in conditions:
                 if not isinstance(condition, dict) or condition.get('op') not in COMPARISONS or 'value' not in condition:
                     raise CalculationError('a condition needs field, op (%s) and value' % ', '.join(COMPARISONS))
-            kept = [r for r in records if all(compare(field_of(r, c.get('field', '')), c['op'], c['value']) for c in conditions)]
+                if 'elements' in condition and condition['elements'] not in ELEMENTS:
+                    raise CalculationError('elements is %s, or left out' % ' or '.join(ELEMENTS))
+                if 'elements' not in condition and has_wildcard(condition.get('field', '')):
+                    raise CalculationError(WILDCARD_REFUSAL)
+            kept = [r for r in records if all(holds(r, c) for c in conditions)]
             out.update({'count': len(kept), 'records': self._shorten(kept, arguments)})
         else:
             sets = []

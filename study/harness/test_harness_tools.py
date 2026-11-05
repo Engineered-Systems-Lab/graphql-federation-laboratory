@@ -643,16 +643,156 @@ class CalculateTests(unittest.TestCase):
         self.assertEqual(described['names'], ['calculate', 'ask_requester'])
         self.assertEqual(described['askRequesterText'], ht.ASK_TEXT)
         self.assertEqual(described['operations'], list(ht.OPERATIONS))
-        self.assertEqual((described['version'], described['limits']['storeAboveChars'], described['storedResults']), (3, 5000, ht.STORED_RULE))
+        self.assertEqual((described['version'], described['limits']['storeAboveChars'], described['storedResults']), (4, 5000, ht.STORED_RULE))
         self.assertEqual((described['limits']['viewPageChars'], described['readLine']), (5000, ht.READ_RULE))
+        self.assertEqual(described['conditionElements'], ht.ELEMENTS_RULE)
         self.assertNotIn('maxOutputChars', described['limits'])
         description = ht.CALCULATE_TOOL['description']
-        for words in ('a calculate result included', 'read:', 'does not add the sources up', 'at most 5000', 'nextOffset'):
+        for words in ('a calculate result included', 'read:', 'does not add the sources up', 'at most 5000', 'nextOffset', 'elements any',
+                      'elements none', 'an empty list or a missing field has no values', 'a field with a * segment needs elements any or none'):
             self.assertIn(words, description)
         with self.assertRaisesRegex(ValueError, 'harness_tools'):
             ht.validate(['calculate', 'fetch'])
         with self.assertRaisesRegex(ValueError, 'harness_tools'):
             ht.validate(['calculate', 'calculate'])
+
+
+def _held(status):
+    return {'asset': {'status': status}}
+
+
+# N1 has 50 elements, the two that are not ACTIVE at positions 24 and 27; N5's first element lacks the rest of the field
+NESTED = [{'id': 'N1', 'assets': [_held('DESTROYED' if i == 24 else 'MISSING' if i == 27 else 'ACTIVE') for i in range(50)]},
+          {'id': 'N2', 'assets': [_held('ACTIVE'), _held('ACTIVE')]},
+          {'id': 'N3', 'assets': []},
+          {'id': 'N4'},
+          {'id': 'N5', 'assets': [{'note': 'no asset'}, _held('MISSING')]}]
+LEGS = [{'id': 'L1', 'legs': [{'assets': [{'status': 'ACTIVE', 'crew': 1}]}, {'assets': [{'status': 'DESTROYED', 'crew': 3}]}]},
+        {'id': 'L2', 'legs': [{'assets': [{'status': 'ACTIVE', 'crew': 2}]}, {'assets': []}]},
+        {'id': 'L3', 'legs': []}]
+
+
+class FilterElementsTests(unittest.TestCase):
+    """Version 4: a filter condition with elements any or none tests the values at a list path."""
+
+    def setUp(self):
+        self.s = Session()
+        self.addCleanup(self.s.tmp.cleanup)
+        self.nested = self.s.fetch(json.dumps({'data': {'missions': {'items': NESTED}}}))
+        self.legs = self.s.fetch(json.dumps({'data': {'missions': {'items': LEGS}}}))
+        self.rows = self.s.fetch(json.dumps({'data': {'missions': {'items': ROWS}}}))
+
+    def ids(self, rid, *conditions):
+        out, _, error = self.s.calc(operation='filter', sources=[{'result_id': rid, 'path': 'body.data.missions.items'}], fields=['id'],
+                                    conditions=list(conditions))
+        self.assertFalse(error, out)
+        return [r['id'] for r in out['records']]
+
+    def test_any_holds_when_an_element_at_any_position_satisfies_the_comparison(self):
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.*.asset.status', 'elements': 'any', 'op': 'ne', 'value': 'ACTIVE'}), ['N1', 'N5'])
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.*.asset.status', 'elements': 'any', 'op': 'eq', 'value': 'DESTROYED'}), ['N1'])
+        fixed = [{'field': 'assets.%d.asset.status' % i, 'op': 'eq', 'value': 'ACTIVE'} for i in range(4)]
+        self.assertIn('N1', self.ids(self.nested, *fixed))  # fixed positions 0 to 3 cannot see positions 24 and 27
+
+    def test_none_is_the_negation_and_holds_for_an_empty_list_and_a_missing_field(self):
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.*.asset.status', 'elements': 'none', 'op': 'ne', 'value': 'ACTIVE'}),
+                         ['N2', 'N3', 'N4'])
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.*.asset.status', 'elements': 'any', 'op': 'eq', 'value': 'ACTIVE'}), ['N1', 'N2'])
+        self.assertEqual(self.ids(self.nested, {'field': 'nothing.*.here', 'elements': 'any', 'op': 'ne', 'value': 'x'}), [])
+        self.assertEqual(self.ids(self.nested, {'field': 'nothing.*.here', 'elements': 'none', 'op': 'ne', 'value': 'x'}),
+                         ['N1', 'N2', 'N3', 'N4', 'N5'])
+
+    def test_an_element_that_lacks_the_rest_of_the_field_is_left_out_and_never_read_as_null(self):
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.*.asset.status', 'elements': 'any', 'op': 'eq', 'value': None}), [])
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.*.asset.status', 'elements': 'none', 'op': 'eq', 'value': 'MISSING'}),
+                         ['N2', 'N3', 'N4'])
+
+    def test_nested_lists_and_numeric_comparisons(self):
+        self.assertEqual(self.ids(self.legs, {'field': 'legs.*.assets.*.status', 'elements': 'any', 'op': 'eq', 'value': 'DESTROYED'}), ['L1'])
+        self.assertEqual(self.ids(self.legs, {'field': 'legs.*.assets.*.crew', 'elements': 'any', 'op': 'ge', 'value': 2}), ['L1', 'L2'])
+        self.assertEqual(self.ids(self.legs, {'field': 'legs.*.assets', 'elements': 'none', 'op': 'ne', 'value': 'x'}), ['L3'])
+
+    def test_a_list_at_the_end_of_the_field_gives_its_elements(self):
+        self.assertEqual(self.ids(self.rows, {'field': 'tags', 'elements': 'any', 'op': 'eq', 'value': 'x'}), ['M1'])
+        self.assertEqual(self.ids(self.rows, {'field': 'tags.*', 'elements': 'any', 'op': 'eq', 'value': 'x'}), ['M1'])
+        self.assertEqual(self.ids(self.rows, {'field': 'tags', 'elements': 'none', 'op': 'eq', 'value': 'x'}), ['M2', 'M3', 'M4'])
+        self.assertEqual(self.ids(self.rows, {'field': 'status', 'elements': 'any', 'op': 'eq', 'value': 'ACTIVE'}), ['M1', 'M3'])
+
+    def test_every_condition_must_hold_with_elements_beside_plain_ones(self):
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.*.asset.status', 'elements': 'any', 'op': 'ne', 'value': 'ACTIVE'},
+                                  {'field': 'id', 'op': 'ne', 'value': 'N1'}), ['N5'])
+
+    def test_an_ordinary_scalar_condition_without_elements_is_unchanged(self):
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.24.asset.status', 'op': 'eq', 'value': 'DESTROYED'}), ['N1'])
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.0.asset.status', 'op': 'ne', 'value': 'ACTIVE'}), ['N3', 'N4', 'N5'])
+        self.assertEqual(self.ids(self.rows, {'field': 'tags', 'op': 'eq', 'value': 'x'}), [])  # a list compares as no scalar, as before
+        self.assertEqual(self.ids(self.rows, {'field': 'crew', 'op': 'gt', 'value': 3}), ['M1', 'M3'])
+        self.assertEqual(self.ids(self.rows, {'field': 'cost', 'op': 'eq', 'value': None}), ['M4'])
+        starred = self.s.fetch(json.dumps({'data': {'missions': {'items': [{'id': 'S1', 'a*b': 1, 'x': {'*y': 2}}, {'id': 'S2', 'a*b': 2}]}}}))
+        self.assertEqual(self.ids(starred, {'field': 'a*b', 'op': 'eq', 'value': 1}), ['S1'])  # an asterisk inside a key name
+        self.assertEqual(self.ids(starred, {'field': 'x.*y', 'op': 'eq', 'value': 2}), ['S1'])
+
+    def test_a_wildcard_field_without_elements_is_refused(self):
+        for field in ('assets.*.asset.status', 'tags.*', '*', '*.id', 'legs.*.assets.*.status'):
+            for op, value in (('eq', 'ACTIVE'), ('ne', 'ACTIVE'), ('gt', 1)):
+                text, _, error = self.s.calc(operation='filter', sources=[{'result_id': self.nested, 'path': 'body.data.missions.items'}],
+                                             conditions=[{'field': 'id', 'op': 'ne', 'value': 'x'}, {'field': field, 'op': op, 'value': value}])
+                self.assertTrue(error, field)
+                self.assertEqual(text, 'calculate refused: Wildcard fields require elements: "any" or "none".')
+                self.assertNotIn('read: ', text)
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.*.asset.status', 'elements': 'any', 'op': 'ne', 'value': 'ACTIVE'}), ['N1', 'N5'])
+        self.assertEqual(self.ids(self.nested, {'field': 'assets.*.asset.status', 'elements': 'none', 'op': 'ne', 'value': 'ACTIVE'}),
+                         ['N2', 'N3', 'N4'])
+        self.assertEqual(self.ids(self.rows, {'field': 'tags.*', 'elements': 'none', 'op': 'eq', 'value': 'x'}), ['M2', 'M3', 'M4'])
+
+    def test_elements_other_than_any_or_none_are_refused(self):
+        for elements in ('all', 'ANY', 'some', None, 1, True, ['any']):
+            text, _, error = self.s.calc(operation='filter', sources=[{'result_id': self.nested, 'path': 'body.data.missions.items'}],
+                                         conditions=[{'field': 'assets.*.asset.status', 'elements': elements, 'op': 'eq', 'value': 'x'}])
+            self.assertTrue(error, elements)
+            self.assertIn('elements is any or none', text)
+            self.assertNotIn('read: ', text)
+        for condition, message in (({'field': 'assets', 'elements': 'any', 'op': 'contains', 'value': 'x'}, 'a condition needs'),
+                                   ({'field': 'assets.*.asset.status', 'elements': 'any', 'op': 'lt', 'value': True}, 'use eq or ne'),
+                                   ({'field': 'assets', 'elements': 'any', 'op': 'eq'}, 'a condition needs')):
+            text, _, error = self.s.calc(operation='filter', sources=[{'result_id': self.nested, 'path': 'body.data.missions.items'}],
+                                         conditions=[condition])
+            self.assertTrue(error, condition)
+            self.assertIn(message, text)
+        self.assertEqual(self.s.wrapped.counts['calculateErrors'], 10)
+
+    def test_a_text_that_cannot_be_read_is_refused_and_never_taken_as_a_missing_field(self):
+        broken = self.s.fetch(json.dumps({'data': {'missions': {'items': [
+            {'id': 'B1', 'values': ['hit', '<broken'], 'doc': '<broken', 'typed': ['<!DOCTYPE x [<!ENTITY a "b">]><x>&a;</x>']}]}}}))
+        for field, op, value, message in (('values.*', 'eq', 'hit', 'cannot be read'), ('values', 'eq', 'hit', 'cannot be read'),
+                                          ('doc.x.*', 'ne', 'x', 'cannot be read'), ('typed.*', 'ne', 'x', 'document type')):
+            for elements in ('any', 'none'):
+                text, _, error = self.s.calc(operation='filter', sources=[{'result_id': broken, 'path': 'body.data.missions.items'}],
+                                             conditions=[{'field': field, 'elements': elements, 'op': op, 'value': value}])
+                self.assertTrue(error, (field, elements))
+                self.assertIn(message, text)
+        self.assertEqual(self.ids(broken, {'field': 'absent.*.x', 'elements': 'none', 'op': 'eq', 'value': 'x'}), ['B1'])
+
+    def test_the_read_line_the_output_and_the_stored_output_are_unchanged(self):
+        out, _, _ = self.s.calc(operation='filter', sources=[{'result_id': self.nested, 'path': 'body.data.missions.items'}], fields=['id'],
+                                conditions=[{'field': 'assets.*.asset.status', 'elements': 'any', 'op': 'ne', 'value': 'ACTIVE'}])
+        self.assertEqual(self.s.read, 'read: %s at "body.data.missions.items": 5 records' % self.nested)
+        self.assertEqual(out, {'operation': 'filter', 'count': 2, 'records': [{'id': 'N1'}, {'id': 'N5'}]})
+        many = self.s.fetch(json.dumps([{'n': i, 'tags': ['a', 'b' if i % 2 else 'c'], 'pad': 'x' * 100} for i in range(400)]))
+        text, error = self.s.wrapped.call('calculate', {'operation': 'filter', 'sources': [{'result_id': many, 'path': 'body'}],
+                                                        'conditions': [{'field': 'tags', 'elements': 'any', 'op': 'eq', 'value': 'b'}]})
+        self.assertFalse(error)
+        lines = text.split('\n')
+        self.assertEqual(lines[1], 'read: %s at "body": 400 records' % many)
+        self.assertTrue(lines[2].startswith('stored, not shown: '))
+        stored = json.loads(read_jsonl(self.s.path)[-1]['text'])
+        self.assertEqual((stored['count'], len(stored['records']), sorted(stored)), (200, 200, ['count', 'operation', 'records']))
+
+    def test_the_schema_offers_elements_as_an_optional_key_of_a_condition(self):
+        condition = ht.CALCULATE_TOOL['input_schema']['properties']['conditions']['items']
+        self.assertEqual(condition['properties']['elements'], {'type': 'string', 'enum': ['any', 'none']})
+        self.assertEqual((condition['required'], condition['additionalProperties']), (['field', 'op', 'value'], False))
+        self.assertEqual(condition['properties']['op']['enum'], list(ht.COMPARISONS))
 
 
 class AgentWithToolsTests(unittest.TestCase):
