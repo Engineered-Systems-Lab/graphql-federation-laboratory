@@ -1,0 +1,21 @@
+{
+ "about": "Checksums that tie the committed evidence of the Job study2_calculate_v4's paid run (the confirmation of the calculation tool's version 4) to the raw run folder kept outside the repository. bundleChecksum is the runner's checksum over the bundle's file list (study/harness/runner.py, write_bundle); bundleJsonSha256, the sums-file digest and the evidence-file digests are SHA-256 of the exact bytes as the run and the worker wrote them (LF). No archive zip was made: the run folder stays read-only in the machine-local results folder, with a per-file sums file beside it. The baseline study2-baseline-totals-1 is not copied again: its evidence is in study/evidence/study-2-calculate-v3/.",
+ "runs": {
+  "study2-confirm-v4-1": {
+   "bundleChecksum": "2712584fb6d62fc00934442c4934ee547d03ab1a0b9ff561f766ef7ad1411473",
+   "bundleJsonSha256": "9edcca19d791536255b5c7fe422a9f9cfc433ab4fc7f14c36536bc9459e5a38c",
+   "bundleWrittenAt": "2026-11-05T01:55:16.749+00:00",
+   "status": "complete",
+   "evidenceFolder": "confirm-study2-confirm-v4-1",
+   "evidenceFiles": {
+    "manifest.json": "78834dabffc36fe0a09547eaa952deb33ed376aea793a58eea26c0f33812e007",
+    "scores.csv": "40386cc5e320755016936fac651250f565def079be5065a5ce03b4dc72555e55"
+   },
+   "filesInRun": 107,
+   "sumsFile": {
+    "name": "SHA256SUMS-study2-confirm-v4-1.txt",
+    "sha256": "12f9efaf62d573d8e7d3b29f0b6057451fdbca74fd2c57d75382c6d78642573e"
+   }
+  }
+ }
+}
