@@ -56,6 +56,7 @@ The budget is in tokens per vendor, with input, cached read, cache write and out
   - A listed run without a manifest, or with a ledger of a vendor its manifest does not price, refuses the start (`budget_carry_refused`, exit 3), before anything is written. A resume whose earlier ledgers no longer hash as recorded is refused the same way.
   - A resume with another `dollar_ceiling` or `ceiling_basis` records the old and new values in `resumes.jsonl` (`ceilingChanges`, and the `ceilings` then in force). A changed ceiling with an unchanged basis refuses the resume: a raise needs its basis.
   - The carry is in dollars against `dollar_ceiling`; the token figure stays per run. The budget snapshots add `carriedDollars` and `dollarCeiling`.
+- The harness prints its budget once, at the end of a run. To follow the spend, the room under each ceiling and an estimate of the rest after every block, without seeing any outcome, run the launch kit's read-only [watcher](../launch/README.md#watching-a-run) beside it.
 
 ## The run protocol
 
