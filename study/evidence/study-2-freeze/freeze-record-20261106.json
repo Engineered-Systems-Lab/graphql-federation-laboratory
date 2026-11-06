@@ -1,0 +1,1054 @@
+{
+  "schema": 1,
+  "about": "The record of the Job study2_freeze (transaction A, the content): every hash frozen before the scored run of study 2, the lead developer's decisions, the two free dry runs on the fake vendor client that came before it, the run watcher tried on the second, the between-task spread and the power tables behind the frozen power figures, and the measurements behind the limits. The run folders and the scripts stay outside the repository, cited by checksum. The frozen rows of the classification table and the frozen manifest follow in transaction B of the same Job, because a frozen path cannot enter a checkpoint.",
+  "job": "study2_freeze",
+  "generatedAt": "2026-11-06T18:30:00Z",
+  "base": {
+    "commit": "c6d66e034b0a7933ff9437c7b1c1be7145c6beac",
+    "note": "main when transaction A was prepared; the corpus tests accept a frozen manifest since this commit (the Job study2_corpus_tests_frozen)"
+  },
+  "decisions": {
+    "Z1": "(b): the code changes before the freeze in a separate Job, study2_prerun_fixes (landed 484683b, abd061e)",
+    "Z2": "(a): the 60-second connection cut investigated in study2_prerun_fixes",
+    "Z3": "(b): the lead developer's revision of the design's draft justification of +-10, in the frozen plan, section 5, rule 5",
+    "Z4": "(d): tau from the paid development runs and from study 1 with gamma-prime-1, both reported, the frozen power figures from the larger tau",
+    "Z5": "(a) and (i): the limits kept at 80 tool calls, 1,000,000 tokens, 900 s and 3 retries; the coverage line that several pages add up to the total while no page states its place kept, and noted among version 5's known limits in the design",
+    "transactions": "two transactions in one mission (the lead developer, 2026-11-06, \"Two in one mission\"): A the content, B the frozen rows",
+    "codeBeforeTheFreeze": "the lead developer's \"Yes, code Job first\" twice (2026-11-06): study2_freeze_code (d35696631e12ca4d15c27de07f9ed6ae638d783e: the manifest lists the drawn files and takes a frozen status by an explicit option, the plan hash in the plan identity, every resume refusal STOP with exit 3) and study2_corpus_tests_frozen (c6d66e034b0a7933ff9437c7b1c1be7145c6beac: the corpus tests accept a frozen manifest)",
+    "C1": "the corpus manifest is frozen with derive_a.py --write --frozen <date>, not by hand",
+    "C2": "pool.json, ambiguity.json, dev.json and keys-a.json keep the stamp \"draft, not frozen\"; the manifest's status governs",
+    "C5": "the free dry run repeated on the new main before the freeze",
+    "W4": "the run watcher study/launch/watch_run.py gets no frozen row; its commit and hash are named here",
+    "source": "the Job record study2_freeze, the lead developer's answers in the Coordinator session (2026-11-05 and 2026-11-06) and in the worker's session (2026-11-06)"
+  },
+  "frozen": {
+    "analysisPlan": {
+      "path": "study/analysis2/PLAN.md",
+      "sha256": "46be3e4e3d71d9383fa5fee10c0018b2e2333a1087b6644fa0bd4498151f8bb5",
+      "status": "frozen on 2026-11-06; goes in every manifest as identity.analysisPlan"
+    },
+    "corpusManifest": {
+      "path": "study/corpus2/corpus-manifest.json",
+      "sha256": "c57081e3fbcaaf298fc3591b486930fa4fb5dd88a0772f3c29798e26a1a354bb",
+      "status": "frozen-2026-11-06",
+      "writtenBy": "python -B study/corpus2/derive_a.py --write --frozen 2026-11-06",
+      "files": {
+        "pool.json": "d8b61283d0d1375f33626c3411650a5115f23f78fe3c4c87bec9c62cbaf58a6f",
+        "ambiguity.json": "01a0a9d97578224ada95afb258101bf6b87f3e04f229efa292d3fd3032abd597",
+        "dev.json": "288eccc302e8a8e00e9dd7838864c0e3bb739825fbbc4796981550ee5ef3c78d",
+        "keys-a.json": "6f9500c78c37bb30e1213839b9354a596430c15d46d3f929b3471ccba23a1ab6",
+        "tasks.json": "18b0ce00f4b6a31aead892042a117e45c7206681427c54f42034d7b89ad41320",
+        "schemas.json": "c57328b2fdfd60539e40ce6992b0033e3c36bc2a715ea9864c307442fac05995",
+        "expected.json": "f37db58cb1b4c0ce83f358221bc346546a859d5e65cc0a344bf822639cf4f017"
+      },
+      "note": "goes in every manifest as identity.corpusFreeze"
+    },
+    "drawnFiles": {
+      "tasks.json": "18b0ce00f4b6a31aead892042a117e45c7206681427c54f42034d7b89ad41320",
+      "schemas.json": "c57328b2fdfd60539e40ce6992b0033e3c36bc2a715ea9864c307442fac05995",
+      "expected.json": "f37db58cb1b4c0ce83f358221bc346546a859d5e65cc0a344bf822639cf4f017"
+    },
+    "derivedFilesKeepTheirStamp": {
+      "pool.json": "draft, not frozen",
+      "ambiguity.json": "draft, not frozen",
+      "dev.json": "draft, not frozen",
+      "keys-a.json": "draft, not frozen"
+    },
+    "scorer": {
+      "path": "study/corpus2/scoring.py",
+      "sha256": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+      "scoringContract": {
+        "ambiguityFlags": [
+          "clarified",
+          "interpretationAccepted"
+        ],
+        "correctOutcomes": [
+          "correct"
+        ],
+        "harnessOutcomes": [
+          "did_not_finish",
+          "vendor_error"
+        ],
+        "notScored": [
+          "budget_stop"
+        ],
+        "outcomes": [
+          "correct",
+          "wrong_answer",
+          "format_error",
+          "definition_not_accepted",
+          "abstained"
+        ],
+        "scorerSha256": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+        "version": 2
+      }
+    },
+    "guide": {
+      "path": "study/guide2/GUIDE.md",
+      "sha256": "e9a4c12620fea0b924683666f20f44a60a4d8888088b583038e1e47cd0b3fade",
+      "bytes": 10990,
+      "arm": "beta (Guided Direct Access)"
+    },
+    "systemPrompt": {
+      "text": "You answer questions about the legacy systems of the USS Enterprise using only the tools you have. Work out the answer with the tools, then call submit_answer with it. If something cannot be determined with your tools, or a service does not answer, say so in the answer instead of guessing. Finish every task by calling submit_answer exactly once.",
+      "sha256": "dc626090974f6e8cbbfebf8939e3d6faea6135c782158f308b2fa72de75b9dbc"
+    },
+    "harnessTools": {
+      "version": 5,
+      "names": [
+        "calculate",
+        "ask_requester"
+      ],
+      "sha256": "7efb981e3c7f0a36ca18a4cac89360c733217e25b4a9e7887bb3c39044fd35f8",
+      "note": "sha256_json (study/harness/study_common.py) of identity.harnessTools, which holds both tools' descriptions, schemas, rules and limits"
+    },
+    "limits": {
+      "values": {
+        "max_nudges": 2,
+        "max_retries": 3,
+        "max_task_tokens": 1000000,
+        "max_tool_calls": 80,
+        "max_wall_seconds": 900,
+        "retry_backoff_seconds": 5
+      },
+      "sha256": "4e08fb642964606adca58734b367edab2951785bef23f2972881e4e9c4bf6054"
+    },
+    "models": {
+      "claude-sonnet-5-5": {
+        "max_output_tokens": 16000,
+        "request": {
+          "output_config": {
+            "effort": "medium"
+          },
+          "thinking": {
+            "type": "adaptive"
+          }
+        },
+        "vendor": "anthropic"
+      },
+      "gpt-6.1-sol": {
+        "max_output_tokens": 16000,
+        "request": {
+          "include": [
+            "reasoning.encrypted_content"
+          ],
+          "reasoning": {
+            "effort": "medium"
+          },
+          "store": false
+        },
+        "vendor": "openai"
+      }
+    },
+    "harness": {
+      "commit": "d35696631e12ca4d15c27de07f9ed6ae638d783e",
+      "note": "the last commit that changed a file the run executes; the repeated dry run ran the same bytes at 4e506d517c6c74a8531939ccfd3229023724689a",
+      "codeFiles": {
+        "study/corpus2/scoring.py": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+        "study/harness/agent.py": "a3a5e0bf08ad076acf32364d7d9ab8667807eabd18ca88e2d1b20fd378d1b4bb",
+        "study/harness/budget.py": "4db0186dd5635af36fafa100e45a25074d210c5eaaf8bb0efcbb7ddf421e74a7",
+        "study/harness/credentials.py": "dc72e7af7c974abb477e78e926eef6255ae7a3c8c21ec47ee168e8f661737984",
+        "study/harness/fakes.py": "2ef68abaa9b95e7ff6414a0b5be6c689ad47d876a70a08c703ba5b0c3f83ebe2",
+        "study/harness/harness_tools.py": "9d2de6610e722d178ac00a34aad51b00c034ebab735c2830e5b08311a7a2c1a1",
+        "study/harness/launcher.py": "fecf0ba97e482f9644416d77cff367ddbbd5fcdaa270927a078a3043f08e4535",
+        "study/harness/mcp_client.py": "288e266cb5ff8e407e67e54e5bf9ffefe55e60eb7d36cf6fb6c028a237fa2996",
+        "study/harness/provenance.py": "ab5db27c80ac117a774197b99f8186c383e4b59b3b1e5ce43362111ebe8d7bd1",
+        "study/harness/runner.py": "972df510d4d3d0c68dcd0fde2a79a7fd19e933483dda5e31fbd2f4c28277875d",
+        "study/harness/schedule.py": "a762d9767cc40dce906fb4913e775c7edf92064613d62210468938a2100bee27",
+        "study/harness/scoring_contract.py": "27653bdb87ce62d604b3cae0e82acaf74d4c7b02e7d4cb7871d2e7c89b7f103b",
+        "study/harness/study_common.py": "59cc9eab652a361ef9447149bff837346f87d1edf254670b8039aa40a259e9a3",
+        "study/harness/study_gate.py": "c34e7693f758af5d98804d87a62881ef3974537470fb964b0767cc8cf55cb231",
+        "study/harness/vendors.py": "3a14a11f98d618eb6f178fa9980c897f3026d68ce8baf9d07fbfe35c303ff400",
+        "study/launch/launch.py": "640b39df4846d040b262f2d8ce2a0228c84c35ef0a8d0ed18f9ec9abb46d257a",
+        "study/mcp/adapters_server.py": "c9687a984dd48d091b7c7178e70172ddd3dae979597a2f4789aebff04d0b4fdc",
+        "study/mcp/graph_server.py": "48830a4227a6fc4abd824d263d3fd458aec65db524aaae790f40741af99fc52b",
+        "study/mcp/mcp_core.py": "09c448de6dc80b14d854ee35f86ca5c139d00f6e509a2c31666c6ceca7103718",
+        "study/mcp/raw_server.py": "d802ce52c884544f4161e9c5f536a4c3205579be7690809a3d762885919ca147",
+        "study/preflight/preflight.py": "0b3a1d4a83b512d6665ab3321e3968b07b8407c4b9f21eb4ce664ae69ce60b6d"
+      }
+    }
+  },
+  "notFrozen": {
+    "runWatcher": {
+      "path": "study/launch/watch_run.py",
+      "commit": "4e506d517c6c74a8531939ccfd3229023724689a",
+      "sha256": "4f958206f22d06f2cdbc4964e6761d2fcdbc988eaae2f3af7aa23d52ce37d945",
+      "note": "read only, not part of a run; no frozen row (decision W4)"
+    },
+    "scripts": "the analysis scripts of study/analysis2 are not frozen; the plan is"
+  },
+  "dryRuns": {
+    "study2-freeze-dry1": {
+      "when": "2026-11-06 02:11 to 02:59 UTC",
+      "commit": "abd061e9ae0865ff0e1b923f256a59625c6c2e61",
+      "treeDirty": false,
+      "go": "\"Go, nominal budgets (Recommended)\", the lead developer in the worker's session",
+      "result": "complete, bundle checksum 1bf379b62c58b420b53875ed314d73481c1bd3d54b0a2304e2452afec43136f1, plan hash 1bce391fc71d3dc78ca5466a90a993a1884493454dece747faa204c854eae269; 17 of 17 blocks, 540 of 540 runs (format_error, the fake client's empty answer), attempt 1 only, no void; 79 restores, every one with entryPoint and up at the first poll; 151 health checks up; 21 codeFiles; 18 provenance checks match; every category D task twice in each of the five arms",
+      "stopAndResume": "the runner killed inside r1-gamma after 99 runs; a resume with one byte changed in study/harness/study_common.py refused and named it (then an uncaught RuntimeError, exit 1, fixed in d356966); the file restored byte for byte; the next resume kept 99 runs",
+      "sha256sums": {
+        "lab-results/study2-freeze-dry1/manifest.json": "7b1c5b7e35fe7d0eeebd5bf8dccfbb5dd7fde72e9ea86ecdcb7809c22e3f3032",
+        "lab-results/study2-freeze-dry1/bundle.json": "24fb4c8021e367d601f9ce20d8c0aeabd88f13850df0313f71b9eb0ef3a0450f",
+        "lab-results/study2-freeze-dry1/blocks.jsonl": "88ea9f9c84a34d61ddca8ad1335f62cdf8b60a54607f31b1fe224b0948a19187",
+        "lab-results/study2-freeze-dry1/health.jsonl": "b0a521b40858096b8ae75bdb9f31618d438a2dc4ea67e0c8ba1438f9528ecd3d",
+        "lab-results/study2-freeze-dry1/resumes.jsonl": "993e3212c73c69c1b4457d339fbcce2ac615bc18e32461e47c54c21f633a8e62",
+        "lab-results/study2-freeze-dry1/samples.jsonl": "d3351b86992c56415f58616956d472dea6c375727ad75227e99d9cad324c0c36",
+        "lab-results/study2-freeze-dry1/scores.jsonl": "7193a64ddf8e50a8f44a688e7bd57ee3641f51afcb6a438f9b96b72cdb8e58a7",
+        "lab-results/study2-freeze-dry1/scores.csv": "3a9e7ed8c197f8a798ddfa942f0be375ded5eae7246cad472eb71ea0d0fec601",
+        "lab-results/study2-freeze-dry1/budget-anthropic.jsonl": "481426bd9420da9383f5d2d890234a4cd6ce5aa3ffefb522415197f8a2e51dc1",
+        "lab-results/study2-freeze-dry1/budget-openai.jsonl": "793fa2e4cb9f862a2791cd6d0e1f356e124bf6d33408123c0743cfcba63bd115",
+        "lab-results/study2-freeze-dry1/provenance/checks.jsonl": "ea17d93098cdd6dcaf9c9de2f00d6756fda4e3bd646942ea7cba6c68e58b95d6",
+        "config/plan-dryrun.json": "d9c352543da71e6dcc2959a5e04b8c9900e2671aaf556cbde4e05457bbaf5334",
+        "config/study-config-dryrun.json": "9217df27a9ee112d88b9ae03a8ba40d274f6f42cbc0b02dba718c890512045a7",
+        "state/images.json": "00f80398128e8d4c83cdd785284d84e52863596c3951e452f7bc90ff9fe189e4",
+        "dry1-a.log": "0c6868c2c44f053619cef1cc383e1d530743b574ca192ace9168a9ccf46a86e3",
+        "dry1-b-tampered.log": "8e477525186412920e35049c0a5cc3f1e55c2f25916bf995a7f95402273bf90a",
+        "dry1-c-resume.log": "d4d05b0b7ff3f13aea8ab179ecbc84c7367f9a124adbe51de2b7af54fa993f1c",
+        "gamma-down-after-kill.log": "783ef834f1c8c250016d737bbd361d79aafba91e3a35b5234fb8b39f348541d8",
+        "check_dry1.py": "0f34a2c89c22896cd48bd4c8f35e172ad1f49cfc269c744c06ab2b6ba806cd82",
+        "check-dry1.json": "e21dce82cba7c8da0bc2578f405acb3faa000215c053705b1baedf69fa34ef14",
+        "study_common.py.orig": "59cc9eab652a361ef9447149bff837346f87d1edf254670b8039aa40a259e9a3",
+        "power/power-c-study1.json": "9eb4d79e89a1d96e9ac0bf003768500873dbaf44eebdc40ab1451b78b53a046d",
+        "power/profiles-c-study1.json": "9d8ead6a9efe67dcd25aecc6787dcda807d50ff8751a5518ef1b2a0334f875c2",
+        "power/power-c.log": "bbe72b6d165523808da72f09ac5c1be1584bf29b7e214a44a34857f6b690a6c2"
+      },
+      "sha256sumsFile": "34062fdea47faf4b8baf8f41190ea2d3bc8556ef7254e23dd1381ac097cd7073",
+      "supersededEntry": "power/profiles-c-study1.json is cited above as 9d8ead6a...: the table power.py --write-profiles wrote from power.profiles_from_evidence, which power-c-study1.json was computed from. The tau script later wrote its own table to that path (3421b461..., the c-study1 table below): the same 16 tasks and the same values, with other about and sources fields. The 9d8ead6a bytes are kept machine-local as power/profiles-c-study1-power-py.json, rebuilt byte for byte from power.profiles_from_evidence on c6d66e0; this citation is historical and superseded at that path."
+    },
+    "study2-freeze-dry2": {
+      "when": "2026-11-06 16:18 to 17:07 UTC",
+      "commit": "4e506d517c6c74a8531939ccfd3229023724689a",
+      "treeDirty": false,
+      "go": "\"Go (Recommended)\", the lead developer in the worker's session",
+      "planHash": "099869a172d4846542031ea214ea238e5a0e94b21b38f0d846c271f283bb7164",
+      "identityAnalysisPlan": "dd4cca9dbad894ce0567b924ee420721b2ee03dcc54a3f4d4bec289a4d9f4e33",
+      "note": "its analysis plan and corpus manifest hashes are those of main before the freeze; the frozen ones are above",
+      "result": {
+        "bundleStatus": "complete",
+        "bundleChecksum": "3e1d259ab9c982257830908d29c6a374ff2849885e6e364e740ca3611a27b6eb",
+        "planHash": "099869a172d4846542031ea214ea238e5a0e94b21b38f0d846c271f283bb7164",
+        "commit": "4e506d517c6c74a8531939ccfd3229023724689a",
+        "treeDirty": false,
+        "blockEvents": {
+          "start": 18,
+          "end": 17
+        },
+        "voidEvents": [],
+        "attempts": [
+          1
+        ],
+        "blocksStartedTwice": {
+          "r1-gamma": 2
+        },
+        "scheduleBlocks": 17,
+        "blocksWithoutEnd": [],
+        "firstEvent": "2026-11-06T16:18:35.112+00:00",
+        "lastEvent": "2026-11-06T17:06:41.836+00:00",
+        "expectedRuns": 540,
+        "runOutcomes": {
+          "format_error": 540
+        },
+        "missingRuns": [],
+        "archivedAttempts": [],
+        "runsVoidFolder": false,
+        "healthPoints": {
+          "start": 18,
+          "restore": 79,
+          "periodic": 38,
+          "end": 17
+        },
+        "healthResults": {
+          "up": 152
+        },
+        "restores": 79,
+        "restoresWithEntryPoint": 79,
+        "restoreEntryPointResults": {
+          "up": 79
+        },
+        "restoreEntryPointPolls": {
+          "1": 79
+        },
+        "restoreHealthPolls": {
+          "1": 79
+        },
+        "restoresByArmService": {
+          "delta/assets": 6,
+          "delta/personnel": 6,
+          "epsilon/personnel": 6,
+          "epsilon/assets": 6,
+          "beta/personnel": 6,
+          "beta/assets": 6,
+          "gamma/personnel": 6,
+          "gamma/assets": 5,
+          "beta/missions": 4,
+          "delta/missions": 4,
+          "gamma/missions": 4,
+          "epsilon/missions": 4,
+          "alpha/personnel": 6,
+          "alpha/assets": 6,
+          "alpha/missions": 4
+        },
+        "restoresNotUp": [],
+        "categoryD": {
+          "tasks": [
+            "D03",
+            "D04",
+            "D05",
+            "D06",
+            "D10",
+            "D11",
+            "D12",
+            "D14"
+          ],
+          "runsPerArmAndTask": [
+            2
+          ]
+        },
+        "provenanceChecks": {
+          "match": 18
+        },
+        "provenanceChecksByArm": {
+          "delta:match": 4,
+          "epsilon:match": 4,
+          "beta:match": 4,
+          "gamma:match": 5,
+          "alpha:match": 1
+        },
+        "resumes": [
+          {
+            "at": "2026-11-06T16:28:27.377+00:00",
+            "ceilings": {
+              "anthropic": {
+                "ceiling_basis": "decision D of docs/STUDY-2-DESIGN.md (125 dollars for all of study 2: Anthropic 85); this dry run spends nothing",
+                "dollar_ceiling": 85.0
+              },
+              "openai": {
+                "ceiling_basis": "decision D of docs/STUDY-2-DESIGN.md (125 dollars for all of study 2: OpenAI 40); this dry run spends nothing",
+                "dollar_ceiling": 40.0
+              }
+            },
+            "completedRunsKept": 98
+          }
+        ],
+        "codeFiles": [
+          "study/corpus2/scoring.py",
+          "study/harness/agent.py",
+          "study/harness/budget.py",
+          "study/harness/credentials.py",
+          "study/harness/fakes.py",
+          "study/harness/harness_tools.py",
+          "study/harness/launcher.py",
+          "study/harness/mcp_client.py",
+          "study/harness/provenance.py",
+          "study/harness/runner.py",
+          "study/harness/schedule.py",
+          "study/harness/scoring_contract.py",
+          "study/harness/study_common.py",
+          "study/harness/study_gate.py",
+          "study/harness/vendors.py",
+          "study/launch/launch.py",
+          "study/mcp/adapters_server.py",
+          "study/mcp/graph_server.py",
+          "study/mcp/mcp_core.py",
+          "study/mcp/raw_server.py",
+          "study/preflight/preflight.py"
+        ]
+      },
+      "stopAndResume": "the runner killed at 16:27:01 inside r1-gamma after 98 runs and gamma's stack taken down; a resume with one byte changed in study/harness/study_common.py printed STOP naming it and exited 3; the file restored byte for byte (59cc9eab...), git status clean; the next resume kept 98 runs",
+      "sha256sums": {
+        "lab-results/study2-freeze-dry2/manifest.json": "869d4ff02ba62c04f7def718054130d4ff7c428f6af3ff03c1e135d5e8b63212",
+        "lab-results/study2-freeze-dry2/bundle.json": "aae9abfed369b480dd69a1f5fd5d5a29e967500f0dd6c72227217e3ebf5c29ee",
+        "lab-results/study2-freeze-dry2/scores.csv": "80e515e1bb3a2d077d5a99f92da58ba2bcd8fb5f7171c95ca2278bcebb71fe9b",
+        "lab-results/study2-freeze-dry2/scores.jsonl": "f9269797abe9a96aedc8620523274943e4793d5e77d6dcd4bc3fcb0cec9404ae",
+        "lab-results/study2-freeze-dry2/blocks.jsonl": "ad1f96b0d767c70d6061afacd35f2b00acf40a36c3459409ebdbea2eeaf665e8",
+        "lab-results/study2-freeze-dry2/health.jsonl": "6920f0a97373b6004dafd2b8d4e77a0612bd27a14377bee887ff1735d9708026",
+        "lab-results/study2-freeze-dry2/resumes.jsonl": "2a5ffceb3000f613138c3408984ef5e8c5fc8d5074cff55c5f1b79f393e5558c",
+        "lab-results/study2-freeze-dry2/budget-anthropic.jsonl": "1987052a84baf44f432c0ef698075ab8ff6fdf9d45adf357ac1e70b7f6c6a66c",
+        "lab-results/study2-freeze-dry2/budget-openai.jsonl": "e5594e4868c381952f7a087d39898f90eba54047ba74b275a9715ae5d1b7730f",
+        "lab-results/study2-freeze-dry2/provenance/checks.jsonl": "1debb533850958fa597fcf5a8d5a047eb702e8032ba54bc0ed45736b8d266789",
+        "config/plan-dryrun2.json": "deee6de79cf709d2ade47d85bac90384ae45fe1037e52b81d2cbe7d40dcc8f74",
+        "config/study-config-dryrun2.json": "2f8b8a5ef69f2774323e3344178b1c1520022c120a6dda438e4615c5b732b73a",
+        "state/images.json": "00f80398128e8d4c83cdd785284d84e52863596c3951e452f7bc90ff9fe189e4",
+        "dry2-a.log": "0c6868c2c44f053619cef1cc383e1d530743b574ca192ace9168a9ccf46a86e3",
+        "dry2-b-tampered.log": "1a035408056b49d3923da3b6463da17fc691f329b64769acb136006d38aa1852",
+        "dry2-c-resume.log": "d97f7265c09f04aec87f1012e3d35827af6af3100d77f859806e4f26dec2d562",
+        "dry2-gamma-down-after-kill.log": "7c19ff8d0d64e83b40fe53d710787b5748d9de654bd682b67af638ab68ea30c2",
+        "watch-dry2-partway.log": "957030bd5ebec0dd8414feed72e7a752a23d6d2ed0364e01615de1d96b611c69",
+        "watch-dry2-end.log": "ca9b2a8de0a871352fb954eb256fb42e946dd743fc6265d8e7ffa9a7b90e49d7",
+        "check_dry2.py": "2aec5b224464543ab398e31ed424a3929d1c1ec4b3fd9fffdf9b96979c8cc6cf",
+        "check-dry2.json": "ed5eb1ee0c3c8e4a908f41f409f64047f79fee4ca71ee17817c4684696c279de"
+      },
+      "sha256sumsFile": "b28810d33c688f228253c521f99d6dfb33ead40c6b6bdfbfca03335d0c839890"
+    },
+    "shared": "both: --dry-run (the fake vendor client, no key, no vendor call, no spend) on corpus 2's scored draw, the Williams schedule over the four full arms with the Direct Access block, both models, seed 20261106 (the dry runs' own), the frozen limits, nominal budgets of 12,000,000 tokens per vendor (a budget of 0 stops at the first reservation), ceilings 85 and 40 dollars, on rider 2's pin set of the Assets adapter 1.1.1 (state/images.json 00f80398...); every federation stack down afterwards, Oracle and the Missions service left running"
+  },
+  "runWatcherTried": {
+    "run": "study2-freeze-dry2",
+    "command": "python -B study/launch/watch_run.py --once <run folder>",
+    "partway": "at 16:25:04 UTC, 3 of 17 blocks and 81 runs: tokens 585 (Anthropic) and 630 (OpenAI), equal to the ledgers' settled usage up to then",
+    "end": "17 of 17 blocks and 540 runs: 4,050 tokens and 0.02 dollars per vendor, equal to budget.py ledger_dollars on both ledgers (4,050 tokens, 0.0189 dollars: the fake client's nominal usage at the manifest's prices, not a vendor charge); the resume and the double start of r1-gamma reported, no void, no stop, no health check down",
+    "outcomes": "none shown in either reading"
+  },
+  "power": {
+    "method": "tau^2 = the between-task variance of the per-task contrast d_t = sum_a w_a p_ta less the mean binomial noise sum_a w_a^2 p_ta (1 - p_ta) / n_ta; per task and arm the share of correct runs among the scored ones (error, vendor_error and budget_stop left out); the power by study/analysis2/power.py --profiles <table> --tasks 48 --holm (400 simulations per line, seed 20261027), unchanged since abd061e",
+    "tauScript": {
+      "sha256": "309b239aaf91221cc67f3351ca45a958480c126bfb56f499ee829fcc7e0ffaf5",
+      "note": "machine-local, read only; on c6d66e0 its outputs are byte for byte those below"
+    },
+    "tau": {
+      "a-development": {
+        "tasks": [
+          "V01",
+          "V02",
+          "V03",
+          "V04",
+          "V05",
+          "V06",
+          "V07",
+          "V08"
+        ],
+        "scoredRunsPerSource": {
+          "study-2-calculate-redesign/confirm-study2-confirm-1": 32,
+          "study-2-calculate-v3/baseline-study2-baseline-totals-1": 30,
+          "study-2-calculate-v3/confirm-study2-confirm-v3-1": 32,
+          "study-2-calculate-v4/confirm-study2-confirm-v4-1": 32,
+          "study-2-calculate-v5/confirm-study2-confirm-v5-1": 32,
+          "study-2-preflight/09-study2-dev-notool-1": 62,
+          "study-2-preflight/09-study2-dev-tool-1": 64
+        },
+        "sources": {
+          "study-2-calculate-redesign/confirm-study2-confirm-1/scores.csv": "0cb863b5e1610aef68c3e3ab9791476dd07fdd90c82e4a51479768d79b0a3130",
+          "study-2-calculate-v3/baseline-study2-baseline-totals-1/scores.csv": "0e010cc408e092aa631428a3fb6952f0ba29d37a9d24d94388ac010c564ba9d3",
+          "study-2-calculate-v3/confirm-study2-confirm-v3-1/scores.csv": "cf20062051d70b2640d69429cc20b3f59dfdb18d8dce08d57d97c07656f3e384",
+          "study-2-calculate-v4/confirm-study2-confirm-v4-1/scores.csv": "40386cc5e320755016936fac651250f565def079be5065a5ce03b4dc72555e55",
+          "study-2-calculate-v5/confirm-study2-confirm-v5-1/scores.csv": "3152911141792252531eadc04a975ff0d5730e8b7670a57f706dda0fa74ad4f0",
+          "study-2-preflight/09-study2-dev-notool-1/scores.csv": "27e45c2cdb1affe399ab3d6ccc188a440bced8f121f0295e605f1f02aaf9ffa4",
+          "study-2-preflight/09-study2-dev-tool-1/scores.csv": "5e9edc674083b3769c0f94a93b3710511dc5a0005fd592e2e80de74add6fae1b"
+        },
+        "runsPerTaskArm": {
+          "V01/beta": 4,
+          "V01/delta": 4,
+          "V01/epsilon": 4,
+          "V01/gamma": 4,
+          "V02/beta": 4,
+          "V02/delta": 4,
+          "V02/epsilon": 4,
+          "V02/gamma": 4,
+          "V03/beta": 4,
+          "V03/delta": 4,
+          "V03/epsilon": 4,
+          "V03/gamma": 4,
+          "V04/beta": 4,
+          "V04/delta": 4,
+          "V04/epsilon": 4,
+          "V04/gamma": 4,
+          "V05/beta": 12,
+          "V05/delta": 13,
+          "V05/epsilon": 13,
+          "V05/gamma": 14,
+          "V06/beta": 14,
+          "V06/delta": 14,
+          "V06/epsilon": 14,
+          "V06/gamma": 14,
+          "V07/beta": 14,
+          "V07/delta": 14,
+          "V07/epsilon": 14,
+          "V07/gamma": 14,
+          "V08/beta": 14,
+          "V08/delta": 14,
+          "V08/epsilon": 14,
+          "V08/gamma": 14
+        },
+        "tauPoints": {
+          "P1": {
+            "meanDifferencePoints": -1.65,
+            "meanNoiseSdPoints": 6.64,
+            "rawSdPoints": 8.41,
+            "tauPoints": 5.17
+          },
+          "P2": {
+            "meanDifferencePoints": 0.29,
+            "meanNoiseSdPoints": 7.28,
+            "rawSdPoints": 10.28,
+            "tauPoints": 7.27
+          },
+          "apollo-cosmo": {
+            "meanDifferencePoints": -0.82,
+            "meanNoiseSdPoints": 9.33,
+            "rawSdPoints": 8.98,
+            "tauPoints": 0.0
+          }
+        }
+      },
+      "c-study1": {
+        "tasks": [
+          "T01",
+          "T02",
+          "T03",
+          "T04",
+          "T05",
+          "T06",
+          "T07",
+          "T08",
+          "T09",
+          "T10",
+          "T11",
+          "T12",
+          "T13",
+          "T14",
+          "T15",
+          "T16"
+        ],
+        "scoredRunsPerSource": {
+          "gamma-prime-1": 64,
+          "study-1": 189
+        },
+        "sources": {
+          "gamma-prime-1/scores.csv": "9c6c0ad4be8b567a2232f7284183793390b017092c9de57ae68f5f2709ec2f8c",
+          "study-1/scores.csv": "5dc06fc023c73083686e36ecb37a2a51c9d1f69ecb247179f7e428905f447798"
+        },
+        "runsPerTaskArm": {
+          "T01/beta": 4,
+          "T01/delta": 4,
+          "T01/epsilon": 4,
+          "T01/gamma": 4,
+          "T02/beta": 4,
+          "T02/delta": 4,
+          "T02/epsilon": 4,
+          "T02/gamma": 4,
+          "T03/beta": 4,
+          "T03/delta": 4,
+          "T03/epsilon": 4,
+          "T03/gamma": 4,
+          "T04/beta": 4,
+          "T04/delta": 4,
+          "T04/epsilon": 4,
+          "T04/gamma": 4,
+          "T05/beta": 4,
+          "T05/delta": 4,
+          "T05/epsilon": 4,
+          "T05/gamma": 4,
+          "T06/beta": 4,
+          "T06/delta": 4,
+          "T06/epsilon": 4,
+          "T06/gamma": 4,
+          "T07/beta": 4,
+          "T07/delta": 4,
+          "T07/epsilon": 4,
+          "T07/gamma": 4,
+          "T08/beta": 4,
+          "T08/delta": 4,
+          "T08/epsilon": 4,
+          "T08/gamma": 4,
+          "T09/beta": 4,
+          "T09/delta": 4,
+          "T09/epsilon": 4,
+          "T09/gamma": 4,
+          "T10/beta": 4,
+          "T10/delta": 4,
+          "T10/epsilon": 4,
+          "T10/gamma": 4,
+          "T11/beta": 4,
+          "T11/delta": 4,
+          "T11/epsilon": 4,
+          "T11/gamma": 4,
+          "T12/beta": 4,
+          "T12/delta": 4,
+          "T12/epsilon": 4,
+          "T12/gamma": 4,
+          "T13/beta": 4,
+          "T13/delta": 4,
+          "T13/epsilon": 4,
+          "T13/gamma": 4,
+          "T14/beta": 3,
+          "T14/delta": 3,
+          "T14/epsilon": 3,
+          "T14/gamma": 4,
+          "T15/beta": 4,
+          "T15/delta": 4,
+          "T15/epsilon": 4,
+          "T15/gamma": 4,
+          "T16/beta": 4,
+          "T16/delta": 4,
+          "T16/epsilon": 4,
+          "T16/gamma": 4
+        },
+        "tauPoints": {
+          "P1": {
+            "meanDifferencePoints": 7.03,
+            "meanNoiseSdPoints": 10.94,
+            "rawSdPoints": 19.88,
+            "tauPoints": 16.6
+          },
+          "P2": {
+            "meanDifferencePoints": 1.82,
+            "meanNoiseSdPoints": 8.26,
+            "rawSdPoints": 24.53,
+            "tauPoints": 23.1
+          },
+          "apollo-cosmo": {
+            "meanDifferencePoints": 1.56,
+            "meanNoiseSdPoints": 9.38,
+            "rawSdPoints": 11.06,
+            "tauPoints": 5.87
+          }
+        }
+      }
+    },
+    "profiles": {
+      "a-development": {
+        "about": "per-task accuracy profiles: a-development, both models pooled",
+        "arms": [
+          "beta",
+          "gamma",
+          "delta",
+          "epsilon"
+        ],
+        "sources": {
+          "study-2-calculate-redesign/confirm-study2-confirm-1/scores.csv": "0cb863b5e1610aef68c3e3ab9791476dd07fdd90c82e4a51479768d79b0a3130",
+          "study-2-calculate-v3/baseline-study2-baseline-totals-1/scores.csv": "0e010cc408e092aa631428a3fb6952f0ba29d37a9d24d94388ac010c564ba9d3",
+          "study-2-calculate-v3/confirm-study2-confirm-v3-1/scores.csv": "cf20062051d70b2640d69429cc20b3f59dfdb18d8dce08d57d97c07656f3e384",
+          "study-2-calculate-v4/confirm-study2-confirm-v4-1/scores.csv": "40386cc5e320755016936fac651250f565def079be5065a5ce03b4dc72555e55",
+          "study-2-calculate-v5/confirm-study2-confirm-v5-1/scores.csv": "3152911141792252531eadc04a975ff0d5730e8b7670a57f706dda0fa74ad4f0",
+          "study-2-preflight/09-study2-dev-notool-1/scores.csv": "27e45c2cdb1affe399ab3d6ccc188a440bced8f121f0295e605f1f02aaf9ffa4",
+          "study-2-preflight/09-study2-dev-tool-1/scores.csv": "5e9edc674083b3769c0f94a93b3710511dc5a0005fd592e2e80de74add6fae1b"
+        },
+        "tasks": {
+          "V01": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "V02": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "V03": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "V04": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "V05": {
+            "beta": 0.4166666666666667,
+            "delta": 0.6923076923076923,
+            "epsilon": 0.6153846153846154,
+            "gamma": 0.5
+          },
+          "V06": {
+            "beta": 1.0,
+            "delta": 0.7857142857142857,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "V07": {
+            "beta": 1.0,
+            "delta": 0.9285714285714286,
+            "epsilon": 0.9285714285714286,
+            "gamma": 1.0
+          },
+          "V08": {
+            "beta": 0.9285714285714286,
+            "delta": 0.9285714285714286,
+            "epsilon": 0.8571428571428571,
+            "gamma": 1.0
+          }
+        }
+      },
+      "c-study1": {
+        "about": "per-task accuracy profiles: c-study1, both models pooled",
+        "arms": [
+          "beta",
+          "gamma",
+          "delta",
+          "epsilon"
+        ],
+        "sources": {
+          "gamma-prime-1/scores.csv": "9c6c0ad4be8b567a2232f7284183793390b017092c9de57ae68f5f2709ec2f8c",
+          "study-1/scores.csv": "5dc06fc023c73083686e36ecb37a2a51c9d1f69ecb247179f7e428905f447798"
+        },
+        "tasks": {
+          "T01": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T02": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T03": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T04": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T05": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T06": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T07": {
+            "beta": 0.0,
+            "delta": 1.0,
+            "epsilon": 0.75,
+            "gamma": 0.75
+          },
+          "T08": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T09": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T10": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 0.5
+          },
+          "T11": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 0.75,
+            "gamma": 0.25
+          },
+          "T12": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T13": {
+            "beta": 1.0,
+            "delta": 1.0,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          },
+          "T14": {
+            "beta": 0.3333333333333333,
+            "delta": 0.0,
+            "epsilon": 0.0,
+            "gamma": 0.0
+          },
+          "T15": {
+            "beta": 0.0,
+            "delta": 0.0,
+            "epsilon": 0.0,
+            "gamma": 0.0
+          },
+          "T16": {
+            "beta": 1.0,
+            "delta": 0.75,
+            "epsilon": 1.0,
+            "gamma": 1.0
+          }
+        }
+      }
+    },
+    "tables": {
+      "a-development": {
+        "designRule": [
+          {
+            "contrast": "P1",
+            "differencePoints": 0,
+            "power": 0.76,
+            "monteCarloSe": 0.021354156504062624,
+            "degenerate": 10,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "P1",
+            "differencePoints": 5,
+            "power": 0.3025,
+            "monteCarloSe": 0.02296702799667384,
+            "degenerate": 14,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "P2",
+            "differencePoints": 0,
+            "power": 0.7675,
+            "monteCarloSe": 0.02112130145137842,
+            "degenerate": 13,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "P2",
+            "differencePoints": 5,
+            "power": 0.3625,
+            "monteCarloSe": 0.024036105653786763,
+            "degenerate": 6,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "apollo-cosmo",
+            "differencePoints": 0,
+            "power": 0.4725,
+            "monteCarloSe": 0.02496215886096393,
+            "degenerate": 12,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "apollo-cosmo",
+            "differencePoints": 5,
+            "power": 0.205,
+            "monteCarloSe": 0.020185081124434453,
+            "degenerate": 6,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          }
+        ],
+        "planHolmRule": [
+          {
+            "P1": {
+              "established": 272,
+              "monteCarloSe": 0.0233238075793812,
+              "power": 0.68
+            },
+            "P2": {
+              "established": 274,
+              "monteCarloSe": 0.02322579385080303,
+              "power": 0.685
+            },
+            "differencePoints": 0,
+            "referenceShifts": {
+              "beta": 0.011446886446886378,
+              "gamma": -0.01648351648351648
+            },
+            "rule": "P1 and P2 Holm-adjusted two one-sided tests, full fit usability rule",
+            "runsPerTaskAndArm": 2,
+            "seed": 20261027,
+            "simulations": 400,
+            "tasks": 48,
+            "unusableFits": 49
+          },
+          {
+            "P1": {
+              "established": 99,
+              "monteCarloSe": 0.021577983571223702,
+              "power": 0.2475
+            },
+            "P2": {
+              "established": 108,
+              "monteCarloSe": 0.022197972880423113,
+              "power": 0.27
+            },
+            "differencePoints": 5,
+            "referenceShifts": {
+              "beta": -0.04713827838827839,
+              "gamma": -0.06648351648351652
+            },
+            "rule": "P1 and P2 Holm-adjusted two one-sided tests, full fit usability rule",
+            "runsPerTaskAndArm": 2,
+            "seed": 20261027,
+            "simulations": 400,
+            "tasks": 48,
+            "unusableFits": 39
+          }
+        ]
+      },
+      "c-study1": {
+        "designRule": [
+          {
+            "contrast": "P1",
+            "differencePoints": 0,
+            "power": 0.6575,
+            "monteCarloSe": 0.023727291775506112,
+            "degenerate": 0,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "P1",
+            "differencePoints": 5,
+            "power": 0.3675,
+            "monteCarloSe": 0.024106210299422844,
+            "degenerate": 1,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "P2",
+            "differencePoints": 0,
+            "power": 0.525,
+            "monteCarloSe": 0.02496873044429772,
+            "degenerate": 1,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "P2",
+            "differencePoints": 5,
+            "power": 0.2975,
+            "monteCarloSe": 0.022857917118582788,
+            "degenerate": 0,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "apollo-cosmo",
+            "differencePoints": 0,
+            "power": 0.9,
+            "monteCarloSe": 0.015,
+            "degenerate": 7,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          },
+          {
+            "contrast": "apollo-cosmo",
+            "differencePoints": 5,
+            "power": 0.4725,
+            "monteCarloSe": 0.02496215886096393,
+            "degenerate": 1,
+            "notConverged": 0,
+            "simulations": 400,
+            "tasks": 48
+          }
+        ],
+        "planHolmRule": [
+          {
+            "P1": {
+              "established": 260,
+              "monteCarloSe": 0.023848480035423638,
+              "power": 0.65
+            },
+            "P2": {
+              "established": 207,
+              "monteCarloSe": 0.024984682807672385,
+              "power": 0.5175
+            },
+            "differencePoints": 0,
+            "referenceShifts": {
+              "beta": 0.09722222222222224,
+              "gamma": 0.22500000000000003
+            },
+            "rule": "P1 and P2 Holm-adjusted two one-sided tests, full fit usability rule",
+            "runsPerTaskAndArm": 2,
+            "seed": 20261027,
+            "simulations": 400,
+            "tasks": 48,
+            "unusableFits": 0
+          },
+          {
+            "P1": {
+              "established": 130,
+              "monteCarloSe": 0.023418742493993994,
+              "power": 0.325
+            },
+            "P2": {
+              "established": 88,
+              "monteCarloSe": 0.02071231517720798,
+              "power": 0.22
+            },
+            "differencePoints": 5,
+            "referenceShifts": {
+              "beta": -0.03630952380952385,
+              "gamma": 0.065
+            },
+            "rule": "P1 and P2 Holm-adjusted two one-sided tests, full fit usability rule",
+            "runsPerTaskAndArm": 2,
+            "seed": 20261027,
+            "simulations": 400,
+            "tasks": 48,
+            "unusableFits": 0
+          }
+        ]
+      }
+    },
+    "files": {
+      "tau.json": "d36fab989ef41cdeafdf38e30f296d4eaa01c948d728945ccdb7b87854bbe85b",
+      "profiles-a-development.json": "47be91d8a659bd024438d15e86b49f5edf51efb5c577d66bb68669cadf654ef8",
+      "profiles-c-study1.json": "3421b461e5fad9476193dcecc3fba6ee5c7b9ca2f4e19b0013833462b0fbfda9",
+      "power-a-development.json": "05b473269528963d9890308c09fb74c7f478df821f496593e68bf722ea6f05eb",
+      "power-c-study1.json": "9eb4d79e89a1d96e9ac0bf003768500873dbaf44eebdc40ab1451b78b53a046d",
+      "profiles-c-study1-power-py.json": "9d8ead6a9efe67dcd25aecc6787dcda807d50ff8751a5518ef1b2a0334f875c2"
+    },
+    "tableOfTheFrozenFigures": "power-c-study1.json was computed from power.profiles_from_evidence (profiles-c-study1-power-py.json, 9d8ead6a...); profiles-c-study1.json (3421b461...) is the tau script's table of the same values",
+    "frozen": "study 1's tau is the larger for P1, P2 and Apollo - Cosmo, so the frozen figures are study 1's under the plan's rules at 48 tasks: P1 0.650 and P2 0.517 at a true difference of 0, 0.325 and 0.220 at 5 points, no unusable fit (PLAN.md section 12, rule 5)"
+  },
+  "limits": {
+    "values": {
+      "max_tool_calls": 80,
+      "max_task_tokens": 1000000,
+      "max_wall_seconds": 900,
+      "max_retries": 3
+    },
+    "measured": "the seven paid development runs, 304 runs: 18 did_not_finish at the tool-call or token limit, 17 at the token limit (16 on V05, one on V02 in Direct Access) and one at the tool-call limit (the version 4 confirmation); none at 900 s; the longest run 548.9 s (the version 2 confirmation); the largest 1,159,658 tokens (the no-tool baseline, a token stop). Version 5's confirmation: one token stop (beta V05 Claude, 1,055,328 tokens; 951,063 and correct under version 4), next 704,733, longest 218.8 s, most calls 58"
+  },
+  "rider2": {
+    "what": "step 7 and the totals check on the Assets adapter 1.1.1 identical to 1.1.0 in gamma, delta and epsilon (2026-11-06, the Job study2_prerun_fixes, routed to this Job): every per-task outcome the same, every report verified, 57 selections and 9 sums with no problems",
+    "sha256sums": {
+      "reports/07-answerability-delta-all-real.json": "7f113c1373213e4ac19d498a1eb997c7e88782e037ca47fb48fd992badc6bdbe",
+      "reports/07-answerability-delta-outage-assets-real.json": "4f892b0e1867190beec564cf84f95727fd099415a358cdcc26a045cb1804673c",
+      "reports/07-answerability-delta-outage-missions-real.json": "6aced21d868fee27deb34b9d2a50d242d442a1ab942c6a210733725917eef71f",
+      "reports/07-answerability-delta-outage-personnel-real.json": "6ffc0315eae7345b881f7afa58c8d63ba9e701fb405ffd741808ab6b6880d72f",
+      "reports/07-answerability-epsilon-all-real.json": "0d85863fbddf4e2848586528755e186681e10fbbbf1a0afc488f1fbbfc4c0174",
+      "reports/07-answerability-epsilon-outage-assets-real.json": "f9fcbff76c2ae6abd2594d1f81a390fb96d9a1852c97061b6afde8ecdece1add",
+      "reports/07-answerability-epsilon-outage-missions-real.json": "ebf22e02d4aa486169ad5e5b367cdba6947843f47c9c02f0ad6ada856083bde2",
+      "reports/07-answerability-epsilon-outage-personnel-real.json": "d9ef29779087dc8b1aa3494144315d5d9bde33ff402667c1e15560db92774a4b",
+      "reports/07-answerability-gamma-all-real.json": "947118f5acb7249479983b37ec937a6bb3dd6d66f5f7e466416ba037864c1686",
+      "reports/07-answerability-gamma-outage-assets-real.json": "f1d5dbcf9302ecf2f74e522238c075bcad1eaed1cadabcfc789e8a229e47c330",
+      "reports/07-answerability-gamma-outage-missions-real.json": "0b57932b3a941f6512ce4e7ecb3fd723ada8b14ac99646adf3fb82d723a13322",
+      "reports/07-answerability-gamma-outage-personnel-real.json": "b1ab7f098ede9b376e9ed434b5321a98e814b6dba1d5229ed25cbffb19e0281f",
+      "reports/07-totals-delta-real.json": "5099981e1aedbd10ac68b6eb062d9752408cf89ef0f4ac641e0d6e94d6a4b0aa",
+      "reports/07-totals-epsilon-real.json": "077b6f707a0da4da3b8a98d3ad729a61ab1f9c977b65bc2fc5837ff3b4caa09c",
+      "reports/07-totals-gamma-real.json": "d867525f2b084282e2bb0e713b944ba153b7a046b771614c2295151c0bbc9879",
+      "state/images.json": "00f80398128e8d4c83cdd785284d84e52863596c3951e452f7bc90ff9fe189e4",
+      "config/plan-step7.json": "957f1739339632e2abbf652a99d5b9c2dbc1c31f0e7b6cc0cceafd0550a166d1",
+      "config/study-config-step7.json": "5ef2b8db32fe75ab9fbec7bb2bde65f4246e2e661e413b4d796d5761b800ae4f",
+      "step7_arm.py": "2cec2d7a805f10e7fcb13e4019566da86f5d09518f7f6d6defd82b9f1c1fb9b4"
+    },
+    "where": "machine-local, C:/esl/_study2-prerun-fixes/rider2, with its SHA256SUMS"
+  },
+  "didNotFinish": "the tool-call, token and time limits and a run with no submission end a run as did_not_finish (incorrect); a request that still fails after its 3 retries ends it as a vendor error, queued again once and then vendor_error (missing in the main analysis): PLAN.md section 13",
+  "knownGaps": {
+    "corpusFilesNotCheckedByTheRunner": "the frozen manifest pins tasks.json, schemas.json and expected.json, and the runner records its hash as identity.corpusFreeze, but study/harness/runner.py load_tasks reads the three files from the configured corpus folder without checking them against the manifest, so a stale schema or key there would run, on a start or a resume, under the same recorded hash; the analysis checks tasks.json against the manifest, not schemas.json or expected.json. Found in the lead developer's review of transaction A (2026-11-06); a check before the paid run starts or resumes is code, outside this Job, reported for before the paid run"
+  },
+  "outOfScope": "the scored run, its budget and the top-up (the Job study2_scored_run); no task, key, schema, wording, stack or image changed here"
+}

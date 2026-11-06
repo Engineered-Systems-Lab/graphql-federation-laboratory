@@ -54,6 +54,20 @@ The rows and sections for D001 to D049 were carried from the lab's rationale (th
 | D051 | explicit | The lead developer approved a narrow, enumerated exception because the recovery chain could not be adopted before the first runtime commit; see Set-up imports. |
 | D052 | explicit | The checkpoint tool could not prepare any transaction until the implementation checkpoint row was on main; the lead developer approved one more set-up commit; see Set-up imports. |
 | D053 | explicit | The lead developer chose to rewrite the commit email once to keep it private, keeping authorship, dates and content; see Set-up imports. |
+| D054 | inferred | The same models as study 1 let the study's model effect be read beside study 1's; the reason for keeping them is not stated in the design; see Study 2 design. |
+| D055 | explicit | The design states that study 2 compares access architectures that share calculation support; one identical tool keeps the arms comparable; see Study 2 design. |
+| D056 | explicit | The lead developer's question names the two comparisons (federation against adapters and against documented direct access); see Study 2 design. |
+| D057 | inferred | Descriptive names make the report readable while the letters keep the configurations and bundles stable; the reason is not stated beyond the design's rule; see Study 2 design. |
+| D058 | explicit | The design's power and cost analysis: spending on tasks beats spending on runs, and W4-full costs about 1.7 times W4-half; see Study 2 design. |
+| D059 | explicit | The study only reads, so Oracle can stay up while the fingerprint shows the data unchanged; see Study 2 design. |
+| D060 | explicit | It follows D058; see Study 2 design. |
+| D061 | explicit | A tool that never fetches cannot become an access layer of its own, so the arms differ only in their access; see Study 2 design. |
+| D062 | explicit | A declined answer is neither right nor a wrong answer, so it is counted incorrect and shown apart; see Study 2 design. |
+| D063 | explicit | A fixed answer keeps every arm equal and makes a clarification observable only in the log; see Study 2 design. |
+| D064 | explicit | Study 2's blindness rules: the guide must not carry knowledge of the scored corpus or of study 1's task-level findings; see Study 2 design. |
+| D065 | explicit | One predeclared margin with no fallback leaves no room to choose a margin after the results; the justification and the power are in the frozen plan; see Study 2 design. |
+| D066 | explicit | The scored run uses the real service, so a difference from the simulator must be understood before the freeze; see Study 2 design. |
+| D067 | explicit | Placing the reference block last keeps it from preceding any arm of the balanced square; see Study 2 design. |
 | D041 page totals revision | explicit | The lead developer chose option (a) of G1 to G4 in their own words (page fields with totals, the old lists deprecated, Personnel untouched, the reference code unchanged, the motive stated); the development failures that motivated it are source-stated; see Federation graph page totals. |
 
 ## Fair comparisons: D002, D003, D005, D006
@@ -612,3 +626,22 @@ No revisit condition supplies execution authority.
 **Evidence.** The set-up commits `7ff9121406f3f9dfa0221cfe1abbb770780eaa44`, `c29f73d72574d0a8c753b09d5c2615ecf98f89e0`, `23faf6932b1ab6f91f362effa829d51c540aeedf`, `e958c9554f5fe330285ee6c71a02ebff548b097d`, `94f7e34494876b2953ee099b1b2a7653f380d91d` and `3acf04447a5095316168959bafa21daa4180e6dc`; the recovery-chain commit `e7853c93f4214f859c92ec85f71f8960c6290caf` and the [devlog entry](../devlog/2026-10-22T2342Z-recovery-chain-adopted.md) it added; the reconstruction contract's fact in commit `49ca89b7e119de096e7c8d21844b3cfd7ca09c50`; the deadlock in `governance/tools/lifecycle/checkpoint_lifecycle.py` (`preparation_gate`, `committed_checkpoint`); and, in the private provenance record, the exception's record, the by-hand evidence of each commit and the verification of the rewrite (13 commits, same names, dates, messages and trees apart from the D052 commit, no old email left on main). These decisions were recorded on 2026-10-24 in the import of the project's records, after the commits that put them into effect, as D051 itself foresaw. This explanation grants no approval and implements nothing.
 
 **Revisit when.** Never for new work: the endpoint of D051 is reached and D052 and D053 were one-time. Reread them if a later record seems to rely on a set-up commit as if it had been sealed, or if the old history must be consulted.
+
+## Study 2 design: D054-D067
+
+**Rationale status.** Explicit for most; inferred for D054 and D057.
+
+**Decision / what we do.** Run Abstraction ladder study 2 as its design records the lead developer's decisions A to M of 2026-10-21 (and the unlettered decision on names): the same models as study 1 (D054), one shared calculation tool (D055) that reads results of the same run by id (D061), four full arms with two planned comparisons and an exploratory Direct Access block (D056) under descriptive names (D057), W4-half with 48 core and 6 ambiguity tasks and a ceiling of 125 dollars (D058, D060), Oracle per session with a fingerprint per block (D059), abstained as its own outcome (D062), `ask_requester` with the ambiguity set scored apart (D063), a new blind guide (D064), a margin of 10 percentage points and no other (D065), the gate of the real Missions service against the simulator (D066), and the Direct Access block last (D067).
+
+**Why.** The reasons are labeled by who gave them.
+- Supplied by the lead developer (2026-10-21): every decision, as answers to the questions of the study-2 design and execution proposal of that day, which stays private with its working scripts and tables; and the study's question, in their words, "does federation improve on separate adapters or well-documented direct access?", which gives D056 its two comparisons.
+- Source-stated (the design): study 2 compares access architectures that share calculation support, which is why one tool is identical in every arm (D055) and never fetches (D061); spending on tasks beats spending on runs, and W4-full would cost about 1.7 times W4-half (D058); the study only reads, so Oracle can stay up while a fingerprint shows the data unchanged (D059); the blindness rules forbid the guide's author the scored corpus and study 1's task-level findings (D064); the power calculation at the margin and its meaning (D065); the real service is what the scored run uses (D066); and placing the reference block last keeps it from preceding any arm of the balanced square, its time-window confound stated with its results (D067).
+- Agent-reasoned: the same models as study 1 let the model effect be read beside study 1's (D054), and descriptive names keep the report readable while the letters keep configurations and bundles stable (D057); neither reason is stated in the design.
+
+**Alternatives.** The design names some: W4-full (every block running all 54 tasks, 4 runs per task and arm, about 1.7 times the scored cost) against W4-half (D058); a margin of 15 percentage points, removed (D065); two rounds instead of four, an earlier draft (the schedule under D058). The alternatives of the other decisions are in the private proposal and are not recorded here.
+
+**Tradeoffs or costs.** One shared tool means the study cannot say what the arms would do without it, which the report states (D055). The Direct Access block's single place leaves its results confounded with its time window (D067). The power to establish equivalence is modest: P2 about 52 percent at a true difference of 0 under the frozen plan's rules (D065).
+
+**Evidence.** The [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer), written on 2026-10-27, which records the answers of 2026-10-21; the [frozen analysis plan](../study/analysis2/PLAN.md); the [freeze record](../study/evidence/study-2-freeze/freeze-record-20261106.json). These decisions were recorded on 2026-11-06, at the freeze, after the work that applied them, as the Job `study2_freeze` was scoped to do. This explanation grants no approval and implements nothing.
+
+**Revisit when.** A later study is designed (these decisions are study 2's), or the scored run cannot be made as they say and the lead developer must decide again.

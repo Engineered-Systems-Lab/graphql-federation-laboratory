@@ -48,6 +48,20 @@ D001 to D049 were carried from the lab's register at lab commit `0f9b1dbd416bc90
 | D051 | 2026-10-22 | Accepted | [A narrowly scoped bootstrap exception for importing the lab's code content](#d051---a-narrowly-scoped-bootstrap-exception-for-importing-the-labs-code-content-2026-10-22-accepted) |
 | D052 | 2026-10-22 | Accepted | [One set-up commit to start the recovery chain](#d052---one-set-up-commit-to-start-the-recovery-chain-2026-10-22-accepted) |
 | D053 | 2026-10-23 | Accepted | [The commit identity is rewritten once to hide the lead developer's email](#d053---the-commit-identity-is-rewritten-once-to-hide-the-lead-developers-email-2026-10-23-accepted) |
+| D054 | 2026-10-21 | Accepted | [Study 2 decision A: the models](#d054---study-2-decision-a-the-models-2026-10-21-accepted) |
+| D055 | 2026-10-21 | Accepted | [Study 2 decision B: one shared calculation tool](#d055---study-2-decision-b-one-shared-calculation-tool-2026-10-21-accepted) |
+| D056 | 2026-10-21 | Accepted | [Study 2 decision C: the arms and the planned comparisons](#d056---study-2-decision-c-the-arms-and-the-planned-comparisons-2026-10-21-accepted) |
+| D057 | 2026-10-21 | Accepted | [Study 2 decision on names: descriptive scenario names](#d057---study-2-decision-on-names-descriptive-scenario-names-2026-10-21-accepted) |
+| D058 | 2026-10-21 | Accepted | [Study 2 decision D: the schedule W4-half and the ceiling of 125 dollars](#d058---study-2-decision-d-the-schedule-w4-half-and-the-ceiling-of-125-dollars-2026-10-21-accepted) |
+| D059 | 2026-10-21 | Accepted | [Study 2 decision E: Oracle per session and the fingerprint per block](#d059---study-2-decision-e-oracle-per-session-and-the-fingerprint-per-block-2026-10-21-accepted) |
+| D060 | 2026-10-21 | Accepted | [Study 2 decision F: 48 core tasks](#d060---study-2-decision-f-48-core-tasks-2026-10-21-accepted) |
+| D061 | 2026-10-21 | Accepted | [Study 2 decision G: the calculation tool reads results of the same run by id](#d061---study-2-decision-g-the-calculation-tool-reads-results-of-the-same-run-by-id-2026-10-21-accepted) |
+| D062 | 2026-10-21 | Accepted | [Study 2 decision H: abstained is its own outcome](#d062---study-2-decision-h-abstained-is-its-own-outcome-2026-10-21-accepted) |
+| D063 | 2026-10-21 | Accepted | [Study 2 decision I: the ask_requester tool and the ambiguity set](#d063---study-2-decision-i-the-ask_requester-tool-and-the-ambiguity-set-2026-10-21-accepted) |
+| D064 | 2026-10-21 | Accepted | [Study 2 decision J: a new blind guide for Guided Direct Access](#d064---study-2-decision-j-a-new-blind-guide-for-guided-direct-access-2026-10-21-accepted) |
+| D065 | 2026-10-21 | Accepted | [Study 2 decision K: a margin of 10 percentage points, the only one](#d065---study-2-decision-k-a-margin-of-10-percentage-points-the-only-one-2026-10-21-accepted) |
+| D066 | 2026-10-21 | Accepted | [Study 2 decision L: the real Missions service against the simulator](#d066---study-2-decision-l-the-real-missions-service-against-the-simulator-2026-10-21-accepted) |
+| D067 | 2026-10-21 | Accepted | [Study 2 decision M: the Direct Access block runs last](#d067---study-2-decision-m-the-direct-access-block-runs-last-2026-10-21-accepted) |
 
 ## D014 freeze status (2026-09-30)
 
@@ -385,3 +399,73 @@ The reason is a deadlock in the checkpoint tool: once the classification table h
 Before the documents and devlog entries are imported, the laboratory's history is rewritten once, outside the checkpoint workflow, so that no commit carries the lead developer's personal email: the author and committer email of every commit becomes the lead developer's GitHub no-reply address. Names, dates, messages and file contents stay as they were, except that the one commit citing other laboratory commits (the D052 commit) cites their new ids. Historical Truth holds: who authored what, when, and every record's content are unchanged; only the address is private. The old-to-new id table is kept in the private provenance record, and the rewrite is verified in a throwaway clone (same trees, continuity and conformance passing) and approved by the lead developer before main moves. The backup bundle of the old history stays private.
 
 The rewrite covered the 13 commits on main at the time, from commit `8e5ad2e1372d4f75da9a47a89a5d20569258917e` to commit `e7853c93f4214f859c92ec85f71f8960c6290caf`, the D052 commit, whose Progress row and devlog entry now cite the rewritten ids. Every commit was compared with its original: names, dates and messages the same, every tree the same except the D052 commit's, and no old email left on main. See [the explanatory rationale](RATIONALE.md#set-up-imports-d051-d053).
+
+## D054 - Study 2 decision A: the models (2026-10-21, Accepted)
+
+Decision A of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#the-arms)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Study 2 uses the same models as study 1: Claude Sonnet 5.5 and GPT-6.1 Sol, at medium effort and pinned, in every arm. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D055 - Study 2 decision B: one shared calculation tool (2026-10-21, Accepted)
+
+Decision B of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#the-calculation-tool-calculate-decision-b)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Study 2 offers one shared calculation tool, `calculate`, the same in every arm, Direct Access and Guided Direct Access included: the same name, description, schema and limits, with generic operations only and no domain term.
+
+Since then: The tool went through five versions in development; version 5 passed its declared check (the lead developer's verdict, 2026-11-05) and was frozen on 2026-11-06 with its known limits, which the design lists. The report says that the architectural results hold with shared calculation support and that no arm runs without the calculator (the lead developer, 2026-11-05). See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D056 - Study 2 decision C: the arms and the planned comparisons (2026-10-21, Accepted)
+
+Decision C of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#hypotheses-and-analysis)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Study 2 has four full repeated arms (Guided Direct Access, GraphQL Adapters, Apollo Federation, Cosmo Federation), one exploratory Direct Access block, and two planned comparisons: P1, the mean of the two federation arms minus GraphQL Adapters, and P2, the same mean minus Guided Direct Access, in accuracy, two-sided, with Holm's correction over the two. The adapters-only arm is named GraphQL Adapters.
+
+Since then: The frozen analysis plan (`study/analysis2/PLAN.md`, sections 5 and 6) defines the tests. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D057 - Study 2 decision on names: descriptive scenario names (2026-10-21, Accepted)
+
+The decision on names of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#the-arms)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Study 2 uses descriptive scenario names (Direct Access, Guided Direct Access, GraphQL Adapters, Apollo Federation, Cosmo Federation), with one mapping to the letters in the methods (Alpha, Beta, Gamma, Delta and Epsilon in that order); the letters stay as internal identifiers in configurations, run keys and bundles, and study 1 keeps its own names. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D058 - Study 2 decision D: the schedule W4-half and the ceiling of 125 dollars (2026-10-21, Accepted)
+
+Decision D of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#what-each-block-runs-and-the-split-between-the-models)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Study 2 runs W4-half: 48 core tasks plus 6 ambiguity tasks, the four full arms in a Williams square of four rounds, each task once per model in each arm (2 runs per task and arm). Its ceiling is 125 dollars for all of study 2, development included (Anthropic 85, OpenAI 40), estimated again after the development preflight; anything above it needs the lead developer's word. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D059 - Study 2 decision E: Oracle per session and the fingerprint per block (2026-10-21, Accepted)
+
+Decision E of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#the-schedule-a-williams-square-in-four-rounds)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Oracle stays up for a whole session; only the access layer restarts per block. The database fingerprint is checked unchanged at the start of each block, a changed fingerprint stops the session, and the session is recorded beside the round. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D060 - Study 2 decision F: 48 core tasks (2026-10-21, Accepted)
+
+Decision F of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#the-corpus)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Following decision D (D058), study 2's core set has 48 tasks.
+
+Since then: The draw of seed 313 made the 48 core tasks and the 6 ambiguity tasks (`study/corpus2/tasks.json`), frozen with the corpus manifest on 2026-11-06. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D061 - Study 2 decision G: the calculation tool reads results of the same run by id (2026-10-21, Accepted)
+
+Decision G of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#the-calculation-tool-calculate-decision-b)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). The calculation tool takes results of the same run by result id. It never fetches: no network, file, database, backend or answer-key access, and never the results of other runs. An unknown or foreign id is an error, logged like any other call. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D062 - Study 2 decision H: abstained is its own outcome (2026-10-21, Accepted)
+
+Decision H of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#the-scoring-contract)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Abstained is its own outcome: incorrect in primary accuracy, reported separately from wrong answers, with its definition frozen with the scoring.
+
+Since then: Its definition is in the corpus 2 README and the scorer (scoring contract version 2, `study/corpus2/scoring.py`), frozen on 2026-11-06. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D063 - Study 2 decision I: the ask_requester tool and the ambiguity set (2026-10-21, Accepted)
+
+Decision I of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#the-ask_requester-tool-decision-i)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). `ask_requester` is offered identically in every arm and run and always returns the fixed text "No requester response is available during this evaluation." A clarification counts only from the tool log (ASKED is dropped from the schema). The ambiguity set is scored separately; requests and answers with an accepted interpretation are reported separately, and a request alone is not success. Clarification calls count in usage. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D064 - Study 2 decision J: a new blind guide for Guided Direct Access (2026-10-21, Accepted)
+
+Decision J of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#the-corpus)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Guided Direct Access gets a new integration guide, written by a fresh worker without exposure to the scored corpus, the answer key or study 1's task-level findings; given only the study-2 service contracts, the tool capabilities and general business context; independently checked for accuracy and coverage; frozen with its version and hash before scored execution; with no revisions driven by outcomes. Study 1's guide stays unchanged.
+
+Since then: The guide `study/guide2/GUIDE.md` was written and checked on 2026-11-01 (the Job `study2_guide`) and frozen on 2026-11-06, SHA-256 `e9a4c12620fea0b924683666f20f44a60a4d8888088b583038e1e47cd0b3fade`. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D065 - Study 2 decision K: a margin of 10 percentage points, the only one (2026-10-21, Accepted)
+
+Decision K of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#power-to-establish-equivalence-at-10-percentage-points-decision-k)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). Plus or minus 10 percentage points is study 2's only predeclared equivalence margin; the margin of 15 is removed, with no fallback. Differences and intervals are reported whether or not equivalence is established, and "equivalence not established" does not prove a difference. The practical justification of the margin is documented before scored execution. A documented power calculation at the margin replaces the earlier rough figure; it states that power is the chance of establishing equivalence under the stated assumptions, and that a failure to establish equivalence authorizes no extra tasks, repeated runs or spending; any change goes to the lead developer first.
+
+Since then: The frozen analysis plan (2026-11-06) gives the justification as the lead developer's revision of the design's draft and the final power figures from the larger between-task spread, study 1's (sections 5 and 12). See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D066 - Study 2 decision L: the real Missions service against the simulator (2026-10-21, Accepted)
+
+Decision L of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#preflight-steps)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). If the real Missions service differs from the simulator, it is first determined whether the difference affects the contracts, the tool behaviour, the guide's accuracy, the answerability of tasks or the expected answers; the difference is recorded, any affected setup is fixed, and the relevant Direct Access and Guided Direct Access smoke checks are run again. An unexplained discrepancy blocks the freeze. Expected latency differences are documented, and the real service is not made to imitate the simulator.
+
+Since then: The backend preflight of 2026-10-30 to 2026-11-01 applied this rule; its record, with the classification and the lead developer's judgement, is in `study/evidence/study-2-preflight/`. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D067 - Study 2 decision M: the Direct Access block runs last (2026-10-21, Accepted)
+
+Decision M of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#randomized-held-constant-and-the-direct-access-block)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). The Direct Access reference block, all 54 tasks with both models, runs last in the schedule, after round 4. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).

@@ -1,6 +1,6 @@
 {
-  "about": "Checksums of corpus 2 as derived, and of the drawn files as committed. NOT frozen: the freeze writes the frozen status with derive_a.py --write --frozen <date>.",
-  "status": "draft, not frozen",
+  "about": "Checksums of corpus 2 as derived, and of the drawn files as committed. Frozen on 2026-11-06. The other derived files keep the status \"draft, not frozen\"; this manifest's status governs.",
+  "status": "frozen-2026-11-06",
   "poolTasks": 76,
   "ambiguityTasks": 6,
   "devTasks": 8,

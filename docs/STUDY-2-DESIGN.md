@@ -1,6 +1,6 @@
 # Abstraction ladder study 2: design
 
-Status: design record of Abstraction ladder study 2 (run id `study-2`), written on 2026-10-27 from the repository at commit `eab14958de78e5f26c1437a1ff34fdebf048718a`. It is published before any study-2 run so that what was decided in advance is on record. It is non-normative: it is not the frozen analysis plan, which is written, tested and frozen before the first scored run (see [the build work](#build-work)), and where the frozen plan, the frozen scoring contract or the frozen guide differ from this page, they win. Nothing here is queued, built or authorized by this page.
+Status: design record of Abstraction ladder study 2 (run id `study-2`), written on 2026-10-27 from the repository at commit `eab14958de78e5f26c1437a1ff34fdebf048718a`. It is published before any study-2 run so that what was decided in advance is on record. It is non-normative: it is not the frozen analysis plan, which is written, tested and frozen before the first scored run (see [the build work](#build-work)), and where the frozen plan, the frozen scoring contract or the frozen guide differ from this page, they win. Nothing here is queued, built or authorized by this page. The analysis plan, the corpus, the guide, the prompt, the tools and the limits were frozen on 2026-11-06, before any scored run (see [the freeze](#the-freeze)).
 
 The content is carried from the study-2 design and execution proposal of 2026-10-21, which stays private with its working scripts and tables; the power and cost results below are stated, not their scripts. The page holds no task text and no findings of study 1 about single tasks, because study 2's own blindness rules forbid them to the workers who build its corpus and its guide (see [the corpus](#the-corpus)). Study 1's findings are in the [Abstraction ladder study report](AGENT-STUDY-REPORT.md); the corpus is rebuilt for study 2.
 
@@ -113,6 +113,12 @@ The size columns show where architecture matters, not only on large aggregations
   - Version 5 was chosen by the lead developer as the last round of the tool (decisions W1 to W5 of the Job `study2_calculate_v5`, 2026-11-05): one generic pass over every pattern that version 4 still allowed, as refusals, as coverage and as warnings where only the agent can judge. A free replay of the 1,007 stored calls, with the agents' calls held fixed and versions 4 and 5 computed on the same stored inputs, showed that version 5 refuses 71 calls that version 4 accepted and gives version 4's output for every one of the 883 calls that both accept; none of them writes a step in brackets. The agents' behaviour after a refusal or a warning cannot be replayed.
   - One addition came from that replay (the lead developer, 2026-11-05): an empty `group_by` list gives one group over all records. The paid runs had named a field that no record has to get one total, 15 times, which version 5 refuses; 13 calls of those runs had tried the empty list first, which version 4 refused.
   - Its text is kept short, because every later turn of a run reads a result again: the coverage line speaks only of what is missing, is at most 600 characters, and at most two warnings of 300 characters follow it. On the stored calls of version 4's confirmation, version 5 shows 4.5 percent more characters in the `calculate` results (469,819 against 449,385), and its description is 364 characters longer (2,410 against 2,046); with the calls held fixed that projects to 1.3 percent more tokens over the 32 runs and 1.1 percent on V05, at the harness's estimate of three characters a token. Its paid confirmation, the same 32 runs against `study2-baseline-totals-1`, measures it.
+- **Frozen at version 5** (the Job `study2_freeze`, 2026-11-06), the version whose paid confirmation passed the declared check (the lead developer's verdict, 2026-11-05). Its known limits, recorded with that check and kept:
+  - **A list with no total and no `hasMore` gives nothing to compare,** so a total built from too few of its pages passes unremarked (the audited total from two pages of three is not caught).
+  - **Lists of one name count together.** Nothing a result holds shows that two lists of one name are different lists; in the graph arms the missions and the personnel are both lists named `items`, so a true and useless line can say that the records are more than a total, and a shortfall of one list is not said when another list of its name holds enough records to fill it.
+  - **A per-parent count cannot be made in one call.** Records read through a list inside a list do not carry the record they belong to, so "a person once per mission" needs a call per mission or the agent's own count.
+  - **The line that several pages add up to the total while no page states its place** (decision Z5 (i) of the Job `study2_freeze`, kept, and noted here at the lead developer's request). When the records of several pages are exactly as many as the total but no page states its place (an offset, a page or `hasMore`), the tool cannot tell a complete read from a coincidence, so it says so without claiming completeness. The line is cautious, not redundant, and it therefore also appears on correct calculations: 14 replayed calls in 4 runs, and 4 calls in one correct run of the confirmation.
+- **The report's scope** (the lead developer, 2026-11-05, after a review by another vendor's model): `calculate` stays in every arm, so the architectural results hold with shared calculation support; there is no arm with and without the calculator, and the report says so.
 - **Logged:** the result ids used, the operation, the output with its read line, its coverage line and its warnings, failures, seconds, and the bytes and tokens the call added. Calculation calls count in the tool-call limit and in every declared measure.
 - **The agent stays responsible** for retrieving the right records and choosing the right calculation.
 - **Development preflight, before any freeze:**
@@ -180,7 +186,7 @@ Why this design:
 **Held constant and recorded:**
 
 - **Models:** Claude Sonnet 5.5 and GPT-6.1 Sol at medium effort, pinned.
-- **Prompt, tools and limits:** the system prompt and the tool descriptions, the calculation tool, and the limits (80 tool calls, 1 M tokens, 900 s, 3 retries), set again from the development runs once the tool exists, before the freeze.
+- **Prompt, tools and limits:** the system prompt and the tool descriptions, the calculation tool, and the limits (80 tool calls, 1 M tokens, 900 s, 3 retries). The limits were to be set again from the development runs once the tool existed; at the freeze the lead developer kept them (decision Z5 (a) of the Job `study2_freeze`, 2026-11-05), and the frozen plan gives the measurements behind them (section 13): in version 5's confirmation one run in 32 reached the token limit, and the limit is the same in every arm.
 - **Data:** the corpus and the scorer, and the datasets: Missions release 1.2 on Oracle, mapping release 1.3, Personnel `personnel-v2-large-004`, Assets release 1.1.
 - **Versions:** the router versions, the image digests and the harness commit.
 - **Environment:** the machine, the Docker resource share and the container limits, and the VPN exit (Ashburn, recorded this time).
@@ -202,7 +208,7 @@ The analysis plan is frozen before the first scored run and committed in this re
 - Each is reported as a difference in percentage points with its 95 percent interval and a superiority test, and is tested for equivalence at **±10 percentage points, the only predeclared margin** (decision K; no other margin and no fallback).
 - Equivalence holds only if the whole 95 percent interval lies inside ±10 percentage points.
 - Differences and intervals are reported whether or not equivalence is established, and the report says that "equivalence not established" does not prove a difference.
-- The practical justification of ±10 is written into the frozen plan before scored execution. The draft: a difference under 10 percentage points is fewer than one more correct answer in ten business questions, and the comparisons of cost, time and outage handling would then decide.
+- The practical justification of ±10 is written into the frozen plan before scored execution. The draft: a difference under 10 percentage points is fewer than one more correct answer in ten business questions, and the comparisons of cost, time and outage handling would then decide. The frozen plan gives the lead developer's revision of this draft (section 5, rule 5; decision Z3 of the Job `study2_freeze`): "A difference of less than 10 percentage points means fewer than one additional correct answer per ten business questions, on average. If the study establishes that accuracy is equivalent within that margin, the choice between architectures would rest on cost, elapsed time and how each handles outages, which the study also compares."
 
 **Secondary, Holm-corrected as one family:**
 
@@ -263,7 +269,7 @@ Reading:
 
 - With 48 tasks, P1 reaches the meaningful 10 percentage points and P2 comes close (11.3).
 - **Spending on tasks beats spending on runs.** 64 core tasks with 2 runs give about 8.8 percentage points for P1 and 9.8 for P2: as good as W4-full at 48 tasks or better, for about 36 dollars less all in (see [cost](#cost)).
-- **Caveats:** τ comes from only 16 tasks, the gamma-prime-1 run was not interleaved with study 1, and a corpus with a calculation tool may spread differently. The development runs estimate τ again before the freeze, the task count is fixed then, and a simulation under the GEE model confirms the figures.
+- **Caveats:** τ comes from only 16 tasks, the gamma-prime-1 run was not interleaved with study 1, and a corpus with a calculation tool may spread differently. The development runs estimate τ again before the freeze, the task count is fixed then, and a simulation under the GEE model confirms the figures. Done at the freeze (decision Z4 (d) of the Job `study2_freeze`): the development runs, 8 tasks with the tool versions mixed, give τ of 5.2, 7.3 and 0.0 points against study 1's 16.6, 23.1 and 5.9; the task count stays 48; the frozen figures come from the larger τ, study 1's (the frozen plan, section 12, rule 5).
 
 ### Power to establish equivalence at ±10 percentage points (decision K)
 
@@ -312,7 +318,7 @@ Reading:
 - **Limits:**
   - round and session are left out of the simulation (the Williams schedule makes them close to orthogonal to arm);
   - a corpus with a calculation tool may spread differently;
-  - the development runs estimate τ again before the freeze, and the frozen plan records the final power figures.
+  - the development runs estimate τ again before the freeze, and the frozen plan records the final power figures. At the freeze study 1's τ was the larger, so the frozen figures are those of the plan's rules on study 1's table at 48 tasks: P1 65.0 and P2 51.7 percent at a true difference of 0, 32.5 and 22.0 percent at 5 points (the frozen plan, section 12, rule 5, with the development table's figures beside them).
 
 ### Provenance
 
@@ -471,6 +477,22 @@ The work this design implies, as a plan; nothing is queued by this page.
 5. The new Guided Direct Access guide (decision J): a fresh blind author, an independent check of accuracy and coverage without exposure to the corpus, and a freeze with its hash recorded before scored execution.
 6. The memory limit of the Missions service image and the preflight scripts (see [the backend](#the-backend-the-real-missions-service-on-oracle)).
 7. The frozen analysis plan and its scripts, tested on simulated data. The plan carries the written justification of ±10 percentage points and the final equivalence power, estimated again from the development runs.
+
+## The freeze
+
+On 2026-11-06 the Job `study2_freeze` froze what the scored run uses, before any scored run. The [freeze record](../study/evidence/study-2-freeze/freeze-record-20261106.json) holds every hash below, the hash of each file the run executes, and the two free dry runs on the fake vendor client that came before it. The frozen rows of the [project's classification table](../project-governance/ARTIFACT-CLASSIFICATION.md) follow in a second transaction of the same Job, because a frozen path cannot enter a checkpoint.
+
+| What | Frozen as | SHA-256 |
+| --- | --- | --- |
+| The analysis plan | [study/analysis2/PLAN.md](../study/analysis2/PLAN.md), status frozen on 2026-11-06; every manifest's `identity.analysisPlan` | `46be3e4e3d71d9383fa5fee10c0018b2e2333a1087b6644fa0bd4498151f8bb5` |
+| The corpus manifest | [study/corpus2/corpus-manifest.json](../study/corpus2/corpus-manifest.json), status `frozen-2026-11-06`, written by `derive_a.py --write --frozen`; every manifest's `identity.corpusFreeze` | `c57081e3fbcaaf298fc3591b486930fa4fb5dd88a0772f3c29798e26a1a354bb` |
+| The scored tasks | `study/corpus2/tasks.json` (48 core and 6 ambiguity tasks, the draw of seed 313), listed in the manifest | `18b0ce00f4b6a31aead892042a117e45c7206681427c54f42034d7b89ad41320` |
+| The scorer | `study/corpus2/scoring.py`, scoring contract version 2 | `b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d` |
+| The guide of Guided Direct Access | [study/guide2/GUIDE.md](../study/guide2/README.md), 10,990 bytes | `e9a4c12620fea0b924683666f20f44a60a4d8888088b583038e1e47cd0b3fade` |
+
+The system prompt, the harness tools (`calculate` version 5 and `ask_requester`, their descriptions and rules), the limits and the code the run executes are frozen as the code at commit `d35696631e12ca4d15c27de07f9ed6ae638d783e` holds them, the last commit that changed any file the run executes (the repeated dry run ran the same bytes at commit `4e506d517c6c74a8531939ccfd3229023724689a`); the freeze record gives their hashes. A resume refuses a changed plan, corpus manifest, guide, prompt, tool or limit through the plan hash, and changed run code through the code files' hashes. The corpus manifest pins `tasks.json`, `schemas.json` and `expected.json`, but the runner does not yet enforce it: the runner records the manifest's hash in every run manifest (`identity.corpusFreeze`) but loads `tasks.json`, `schemas.json` and `expected.json` from the configured corpus folder without checking them against it, so a stale file there would run under the same recorded hash; the analysis checks `tasks.json` against the manifest, not the other two. Checking those files against the frozen manifest before the paid run starts or resumes is code, reported for before the paid run. The run watcher `study/launch/watch_run.py` reads a run and changes nothing; it is named in the freeze record and not frozen (decision W4 of the Job `study2_run_watch`).
+
+Decisions A to M below are the project decisions [D054 to D067](../project-governance/DECISIONS.md#d054---study-2-decision-a-the-models-2026-10-21-accepted) since the freeze.
 
 ## Decisions of the lead developer
 

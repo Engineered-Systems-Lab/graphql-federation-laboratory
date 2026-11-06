@@ -1,8 +1,8 @@
 # Study 2 analysis
 
-The scripts that turn a scored bundle of [Abstraction ladder study 2](../../docs/STUDY-2-DESIGN.md) into its tables and figures, the seeded power calculation, and the [draft analysis plan](PLAN.md) that says exactly what they compute. Study 1's analysis is in [study/analysis](../analysis/README.md) and is unchanged, so study 1's report stays reproducible; this folder imports its plain helpers read-only (`data.verify_copy`, `data.dollars`, `stats.holm`, `stats.equivalence` and the figures of `svg.py`).
+The scripts that turn a scored bundle of [Abstraction ladder study 2](../../docs/STUDY-2-DESIGN.md) into its tables and figures, the seeded power calculation, and the [frozen analysis plan](PLAN.md) that says exactly what they compute. Study 1's analysis is in [study/analysis](../analysis/README.md) and is unchanged, so study 1's report stays reproducible; this folder imports its plain helpers read-only (`data.verify_copy`, `data.dollars`, `stats.holm`, `stats.equivalence` and the figures of `svg.py`).
 
-**Nothing here is frozen and nothing here has seen a study-2 run.** The plan is a draft: a later Job freezes it with the written justification of the ±10 margin and the final power figures from the development runs, before the first scored run. The scripts are tested only on simulated bundles, on one fake bundle that the harness writes on its offline fakes, and, for the power check, on study 1's committed [evidence](../evidence/README.md).
+**The plan is frozen; the scripts are not, and nothing here has seen a scored study-2 run.** The Job `study2_freeze` froze the plan on 2026-11-06, before the first scored run, with the written justification of the ±10 margin, the final power figures and the limits; its hash is in the [freeze record](../evidence/study-2-freeze/freeze-record-20261106.json) and in every manifest (`identity.analysisPlan`), and the analysis stops when the two differ. The scripts are tested only on simulated bundles, on one fake bundle that the harness writes on its offline fakes, and, for the power check, on study 1's committed [evidence](../evidence/README.md).
 
 **Blindness.** The analysis keys only on a task's category, set, size and systems, and splits category D by the tag `fullyAnswerableWithoutStoppedService`. It reads corpus 2's `tasks.json` field by field (id, category, set, size, systems, stopped service and that one tag) and never a question, a schema, a key or a reference solution; a task id is a cluster label and nothing else.
 
@@ -16,7 +16,7 @@ The scripts that turn a scored bundle of [Abstraction ladder study 2](../../docs
 | `power.py` | The power to establish equivalence at ±10 points under the planned GEE, seeded, from a table of per-task accuracies. |
 | `simulate.py` | Seeded simulated bundles in the harness's format with known true effects. |
 | `test_analysis2.py` | The tests, offline. |
-| `PLAN.md` | The draft analysis plan, rule by rule, with the two places a later Job fills before the freeze. |
+| `PLAN.md` | The frozen analysis plan, rule by rule, with the justification of ±10, the final power figures, the limits and the changes made at the freeze. |
 
 The statistics packages are study 1's pins, `statsmodels` 0.15.0 and `scipy` 1.18.1 ([study/analysis/requirements.txt](../analysis/requirements.txt), with their lock file beside it); no other package is used.
 
@@ -36,7 +36,7 @@ The power calculation, on study 1's evidence by default (`--profiles` takes anot
 "$STUDY_MCP_PYTHON" -B study/analysis2/power.py --contrasts P1 P2 apollo-cosmo --differences 0 5 --holm
 ```
 
-The per-contrast lines use the design's rule, so they reproduce its figures; `--holm` adds P1 and P2 under this draft's rules.
+The per-contrast lines use the design's rule, so they reproduce its figures; `--holm` adds P1 and P2 under the plan's rules.
 
 A simulated bundle, to try the command:
 
