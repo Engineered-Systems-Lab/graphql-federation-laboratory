@@ -13,7 +13,7 @@ from mcp_client import FakeToolSession
 from runner import Study
 from study_common import Redactor, read_jsonl, sha256_file
 from runner import ResumeRefused
-from test_runner import CORPUS, MODELS, PRICES, FakeStack, assert_resume_refused, task
+from test_runner import CORPUS, MODELS, PRICES, FakeStack, assert_resume_refused, task, write_manifest
 
 STUB_ID = 'sha256:' + '1' * 64
 REAL_ID = 'sha256:' + '2' * 64
@@ -388,8 +388,8 @@ class StudyProvenanceTests(unittest.TestCase):
         self.corpus = root / 'corpus'
         self.corpus.mkdir()
         shutil.copy(CORPUS / 'scoring.py', self.corpus / 'scoring.py')
-        (self.corpus / 'corpus-manifest.json').write_text('{"freeze": "test"}\n', encoding='utf-8')
         (self.corpus / 'dev.json').write_text(json.dumps({'tasks': [task('P1'), task('P2')]}), encoding='utf-8')
+        write_manifest(self.corpus)
         self.results = root / 'results'
         FakeStack.log = []
         self.made = []

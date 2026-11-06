@@ -168,6 +168,49 @@
       }
     }
   },
+  "harnessAfterFreeze": {
+    "date": "2026-11-06",
+    "job": "study2_runner_corpus_check",
+    "why": "the check of the Job study2_runner_corpus_check, closing knownGaps.corpusFilesNotCheckedByTheRunner: on every start and every resume, before any task is used, study/harness/runner.py checks each corpus file the task set reads (tasks.json, schemas.json and expected.json for the scored set, dev.json for the development set, the files of its set for a task subset) against the hash corpus-manifest.json lists for it under files, with CRLF read as LF as the manifest hashes them, and refuses a file that differs, is missing or is not listed with STOP and exit 3 (corpus_refused), writing nothing. The plan identity and corpusFreeze are unchanged, so the plan hash of a config is the same as before.",
+    "commit": "this record's commit: a commit cannot name its own hash; the Job record study2_runner_corpus_check and its report give it. frozen.harness above stays as written and names the code before this entry",
+    "codeFilesChanged": [
+      "study/harness/runner.py"
+    ],
+    "otherFilesChanged": [
+      "docs/STUDY-2-DESIGN.md",
+      "study/analysis2/test_analysis2.py",
+      "study/corpus2/README.md",
+      "study/evidence/study-2-freeze/freeze-record-20261106.json",
+      "study/harness/README.md",
+      "study/harness/test_provenance.py",
+      "study/harness/test_runner.py",
+      "study/harness/test_runner_corpus.py",
+      "study/harness/test_runner_schedule.py"
+    ],
+    "codeFiles": {
+      "study/corpus2/scoring.py": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+      "study/harness/agent.py": "a3a5e0bf08ad076acf32364d7d9ab8667807eabd18ca88e2d1b20fd378d1b4bb",
+      "study/harness/budget.py": "4db0186dd5635af36fafa100e45a25074d210c5eaaf8bb0efcbb7ddf421e74a7",
+      "study/harness/credentials.py": "dc72e7af7c974abb477e78e926eef6255ae7a3c8c21ec47ee168e8f661737984",
+      "study/harness/fakes.py": "2ef68abaa9b95e7ff6414a0b5be6c689ad47d876a70a08c703ba5b0c3f83ebe2",
+      "study/harness/harness_tools.py": "9d2de6610e722d178ac00a34aad51b00c034ebab735c2830e5b08311a7a2c1a1",
+      "study/harness/launcher.py": "fecf0ba97e482f9644416d77cff367ddbbd5fcdaa270927a078a3043f08e4535",
+      "study/harness/mcp_client.py": "288e266cb5ff8e407e67e54e5bf9ffefe55e60eb7d36cf6fb6c028a237fa2996",
+      "study/harness/provenance.py": "ab5db27c80ac117a774197b99f8186c383e4b59b3b1e5ce43362111ebe8d7bd1",
+      "study/harness/runner.py": "65f462abbec4cc9aa83de3a67a1c35400e2fd4d6d9bca3a088ecf9266b8f58de",
+      "study/harness/schedule.py": "a762d9767cc40dce906fb4913e775c7edf92064613d62210468938a2100bee27",
+      "study/harness/scoring_contract.py": "27653bdb87ce62d604b3cae0e82acaf74d4c7b02e7d4cb7871d2e7c89b7f103b",
+      "study/harness/study_common.py": "59cc9eab652a361ef9447149bff837346f87d1edf254670b8039aa40a259e9a3",
+      "study/harness/study_gate.py": "c34e7693f758af5d98804d87a62881ef3974537470fb964b0767cc8cf55cb231",
+      "study/harness/vendors.py": "3a14a11f98d618eb6f178fa9980c897f3026d68ce8baf9d07fbfe35c303ff400",
+      "study/launch/launch.py": "640b39df4846d040b262f2d8ce2a0228c84c35ef0a8d0ed18f9ec9abb46d257a",
+      "study/mcp/adapters_server.py": "c9687a984dd48d091b7c7178e70172ddd3dae979597a2f4789aebff04d0b4fdc",
+      "study/mcp/graph_server.py": "48830a4227a6fc4abd824d263d3fd458aec65db524aaae790f40741af99fc52b",
+      "study/mcp/mcp_core.py": "09c448de6dc80b14d854ee35f86ca5c139d00f6e509a2c31666c6ceca7103718",
+      "study/mcp/raw_server.py": "d802ce52c884544f4161e9c5f536a4c3205579be7690809a3d762885919ca147",
+      "study/preflight/preflight.py": "0b3a1d4a83b512d6665ab3321e3968b07b8407c4b9f21eb4ce664ae69ce60b6d"
+    }
+  },
   "notFrozen": {
     "runWatcher": {
       "path": "study/launch/watch_run.py",
@@ -1048,7 +1091,10 @@
   },
   "didNotFinish": "the tool-call, token and time limits and a run with no submission end a run as did_not_finish (incorrect); a request that still fails after its 3 retries ends it as a vendor error, queued again once and then vendor_error (missing in the main analysis): PLAN.md section 13",
   "knownGaps": {
-    "corpusFilesNotCheckedByTheRunner": "the frozen manifest pins tasks.json, schemas.json and expected.json, and the runner records its hash as identity.corpusFreeze, but study/harness/runner.py load_tasks reads the three files from the configured corpus folder without checking them against the manifest, so a stale schema or key there would run, on a start or a resume, under the same recorded hash; the analysis checks tasks.json against the manifest, not schemas.json or expected.json. Found in the lead developer's review of transaction A (2026-11-06); a check before the paid run starts or resumes is code, outside this Job, reported for before the paid run"
+    "corpusFilesNotCheckedByTheRunner": {
+      "status": "closed by harnessAfterFreeze (2026-11-06, the Job study2_runner_corpus_check)",
+      "text": "the frozen manifest pins tasks.json, schemas.json and expected.json, and the runner records its hash as identity.corpusFreeze, but study/harness/runner.py load_tasks reads the three files from the configured corpus folder without checking them against the manifest, so a stale schema or key there would run, on a start or a resume, under the same recorded hash; the analysis checks tasks.json against the manifest, not schemas.json or expected.json. Found in the lead developer's review of transaction A (2026-11-06); a check before the paid run starts or resumes is code, outside this Job, reported for before the paid run"
+    }
   },
   "outOfScope": "the scored run, its budget and the top-up (the Job study2_scored_run); no task, key, schema, wording, stack or image changed here"
 }

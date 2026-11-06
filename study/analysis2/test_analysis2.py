@@ -602,8 +602,9 @@ class HarnessBundleTests(Workspace):
         (corpus / 'schemas.json').write_text(json.dumps({'schemas': {t['id']: SCHEMA for t in tasks}}), encoding='utf-8')
         (corpus / 'expected.json').write_text(json.dumps({'expected': {t['id']: {} for t in tasks}}), encoding='utf-8')
         (corpus / 'scoring.py').write_text(SCORER, encoding='utf-8')
-        (corpus / 'corpus-manifest.json').write_text(json.dumps({'files': {'tasks.json': data2.sha256_file(corpus / 'tasks.json')}}),
-                                                     encoding='utf-8')
+        # The runner checks the three files the scored set reads against the manifest at the start (study2_runner_corpus_check).
+        listed = {name: data2.sha256_file(corpus / name) for name in ('tasks.json', 'schemas.json', 'expected.json')}
+        (corpus / 'corpus-manifest.json').write_text(json.dumps({'files': listed}), encoding='utf-8')
         stub = 'sha256:' + 'a' * 64
         prov = {'compose_projects': ['lab'], 'backends': {'missions': {'mode': 'simulated', 'service': 'missions-stub', 'image_id': stub}}}
         arms = list(data2.SQUARE_ARMS)

@@ -9,6 +9,10 @@ everything completed kept, and a resume runs only the missing or incomplete runs
 Before the warm-up and the first paid request of each scenario (dry runs included), the running stack is observed read-only and compared
 with the scenario's declared provenance (provenance.py); a mismatch, or on resume a drift from the stored observation, refuses the run.
 
+On every start and every resume, before any task is used, every corpus file the task set reads (dev.json, or tasks.json, schemas.json and
+expected.json) is checked against the hash the corpus manifest lists for it; a file that differs or is not listed refuses the run with
+nothing written (check_corpus).
+
 With a `schedule` in the config (study 2) the unit is a block instead of a scenario: the Williams square of schedule.py, then the reference
 block. Every block starts its arm's stack, observes its provenance and checks the dataset fingerprint before any paid request, runs its runs
 in their order, queues a run that ended on a vendor error again once at the end of the block, and tears the stack down. A resume continues
@@ -110,6 +114,58 @@ def load_tasks(corpus_dir, task_set):
         return [{'id': t['id'], 'category': t['category'], 'question': t['question'], 'schema': schemas[t['id']], 'expected': expected[t['id']],
                  'stoppedService': t.get('stoppedService'), **_strata(t)} for t in tasks]
     raise ValueError('task_set must be dev, scored or a task subset {"set": ..., "tasks": [...]}')
+
+
+# ---------------------------------------------------------------------------------------------------------------- the corpus check
+# The corpus files load_tasks reads for each set. A task subset reads the files of its set.
+CORPUS_FILES = {'dev': ('dev.json',), 'scored': ('tasks.json', 'schemas.json', 'expected.json')}
+
+
+class CorpusRefused(RuntimeError):
+    """The study does not start or resume: a corpus file the task set reads is missing, differs from the hash the corpus manifest lists for
+    it, or is not listed in the manifest's `files`. Nothing is written; main() prints STOP and corpus_refused and exits 3."""
+
+    def __init__(self, problems):
+        self.problems = list(problems)
+        super().__init__('The corpus files the task set reads do not match corpus-manifest.json, so the run would read other tasks, schemas '
+                         'or keys than its recorded corpusFreeze names. Nothing was written. Use the corpus the manifest describes:\n- '
+                         + '\n- '.join(self.problems))
+
+
+def corpus_files(task_set):
+    """The corpus files the task set reads: dev.json for `dev`, the three drawn files for `scored`, a subset the files of its set. An
+    unknown set reads none here; load_tasks refuses it."""
+    name = task_set.get('set') if isinstance(task_set, dict) else task_set
+    return CORPUS_FILES.get(name, ()) if isinstance(name, str) else ()
+
+
+def sha256_lf(path):
+    """The SHA-256 of a file with CRLF read as LF, as both corpus manifests hash their files (study 1's derive_corpus.py hashes the LF text
+    it writes, corpus 2's derive_a.py uses this same rule), so a CRLF checkout of the same text matches."""
+    return sha256_bytes(Path(path).read_bytes().replace(b'\r\n', b'\n'))
+
+
+def check_corpus(corpus_dir, task_set):
+    """Check every corpus file the task set reads against the `files` entry of the folder's corpus-manifest.json, before any task is used.
+    Raises CorpusRefused naming each file with the hash the manifest lists and the hash it has; reads only, never writes or repairs."""
+    corpus_dir = Path(corpus_dir)
+    try:
+        manifest = json.loads((corpus_dir / 'corpus-manifest.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError) as error:
+        raise CorpusRefused(['corpus-manifest.json cannot be read: %s' % error.__class__.__name__])
+    listed = manifest.get('files') if isinstance(manifest, dict) else None
+    listed = listed if isinstance(listed, dict) else {}
+    problems = []
+    for name in corpus_files(task_set):
+        expected = listed.get(name)
+        path = corpus_dir / name
+        actual = sha256_lf(path) if path.is_file() else None
+        if not isinstance(expected, str):
+            problems.append('%s is not listed in the manifest\'s files (the file hashes to %s)' % (name, actual or 'nothing: it is missing'))
+        elif actual != expected:
+            problems.append('%s: the manifest lists %s, the file hashes to %s' % (name, expected, actual or 'nothing: it is missing'))
+    if problems:
+        raise CorpusRefused(problems)
 
 
 # ---------------------------------------------------------------------------------------------------------------- the dataset fingerprint
@@ -517,6 +573,7 @@ class Study:
             raise ValueError('analysis_plan names no file: %s' % config['analysis_plan'])
         self.scoring = load_scoring(self.corpus_dir)
         self.contract = scoring_contract.Contract(self.scoring, self.corpus_dir / 'scoring.py')
+        check_corpus(self.corpus_dir, config['task_set'])  # on every start and every resume, before any task is used
         self.tasks = load_tasks(self.corpus_dir, config['task_set'])
         self.by_id = {t['id']: t for t in self.tasks}
         self.plan = schedule.build(config, self.tasks) if self.schedule is not None else build_plan(config, self.tasks)
@@ -1323,6 +1380,10 @@ def main(argv=None):
     except MissingCredentialError as error:
         print('STOP: ' + str(error))
         return 2
+    except CorpusRefused as error:
+        print('STOP: ' + str(error))
+        print('Study run %s: corpus_refused' % args.run_id)
+        return 3
     try:
         status = study.run(resume=args.resume)
     except ResumeRefused as error:

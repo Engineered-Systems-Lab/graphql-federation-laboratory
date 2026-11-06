@@ -31,6 +31,13 @@ STUB_ID = 'sha256:' + 'a' * 64
 PROVENANCE = {'compose_projects': ['lab'], 'backends': {'missions': {'mode': 'simulated', 'service': 'missions-stub', 'image_id': STUB_ID}}}
 
 
+def write_manifest(corpus, names=('dev.json',)):
+    """A test corpus's corpus-manifest.json listing the hashes of the files its task set reads, which the runner checks at every start and
+    resume (check_corpus)."""
+    files = {name: sha256_file(Path(corpus) / name) for name in names}
+    (Path(corpus) / 'corpus-manifest.json').write_text(json.dumps({'freeze': 'test', 'files': files}) + '\n', encoding='utf-8')
+
+
 def fake_docker():
     """The scripted stack every scenario of these tests declares: one simulated Missions backend."""
     return FakeDocker([container('lab', 'missions-stub', 'stub:1', STUB_ID)])
@@ -91,7 +98,6 @@ class RunnerTests(unittest.TestCase):
         self.corpus = root / 'corpus'
         self.corpus.mkdir()
         shutil.copy(CORPUS / 'scoring.py', self.corpus / 'scoring.py')
-        (self.corpus / 'corpus-manifest.json').write_text('{"freeze": "test"}\n', encoding='utf-8')
         self.write_dev([task('P1'), task('P2'), task('P3', 'D', 'assets'), task('P4')])
         self.root = root / 'results'
         FakeStack.log = []
@@ -99,6 +105,7 @@ class RunnerTests(unittest.TestCase):
 
     def write_dev(self, tasks):
         (self.corpus / 'dev.json').write_text(json.dumps({'tasks': [{k: v for k, v in t.items()} for t in tasks]}), encoding='utf-8')
+        write_manifest(self.corpus)
 
     def config(self, **over):
         base = {'scenarios': {'alpha': {'mcp_url': 'x', 'stack': {}, 'warmup_calls': [{'tool': 'lookup', 'arguments': {}}], 'provenance': PROVENANCE},

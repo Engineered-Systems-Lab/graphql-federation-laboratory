@@ -18,7 +18,7 @@ import runner as runner_module
 from runner import SYSTEM_PROMPT, BudgetCarryRefused, FingerprintRefused, Study, load_config, parse_fingerprint
 from study_common import Redactor, read_jsonl, sha256_file, sha256_json
 from runner import ResumeRefused
-from test_runner import CORPUS, MODELS, PRICES, PROVENANCE, STUB_ID, FakeStack, assert_resume_refused, fake_docker, task
+from test_runner import CORPUS, MODELS, PRICES, PROVENANCE, STUB_ID, FakeStack, assert_resume_refused, fake_docker, task, write_manifest
 from vendors import VendorFatalError
 
 ARMS = ['beta', 'gamma', 'delta', 'epsilon']
@@ -124,9 +124,9 @@ class ScheduleRunnerTests(unittest.TestCase):
         self.corpus = root / 'corpus'
         self.corpus.mkdir()
         shutil.copy(CORPUS / 'scoring.py', self.corpus / 'scoring.py')
-        (self.corpus / 'corpus-manifest.json').write_text('{"freeze": "test"}\n', encoding='utf-8')
         tasks = [task('P1'), task('P2'), task('P3', 'D', 'assets'), task('P4')]
         (self.corpus / 'dev.json').write_text(json.dumps({'tasks': tasks}), encoding='utf-8')
+        write_manifest(self.corpus)
         self.root = root / 'results'
         FakeStack.log = []
         self.sessions = []
