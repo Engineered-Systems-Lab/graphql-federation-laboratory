@@ -13,6 +13,7 @@
 import copy
 import hashlib
 import io
+import shutil
 import json
 import math
 import re
@@ -21,7 +22,7 @@ import sys
 import tempfile
 import unittest
 from collections import Counter
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -90,11 +91,145 @@ class TheDerivation(unittest.TestCase):
         for name, text in derive_a.derive().items():
             self.assertEqual((HERE / name).read_bytes().replace(b'\r\n', b'\n').decode('utf-8'), text, name)
 
-    def test_the_manifest_holds_the_checksums_and_is_not_frozen(self):
+    def test_the_manifest_holds_the_checksums_of_all_seven_files_and_is_not_frozen(self):
+        # this Job freezes nothing: the committed manifest stays draft (decision C1); the freeze writes frozen-<date>
         manifest = load('corpus-manifest.json')
+        self.assertEqual(manifest['status'], derive_a.STAMP)
         self.assertIn('not frozen', manifest['status'])
+        self.assertEqual(list(manifest['files']), ['pool.json', 'ambiguity.json', 'dev.json', 'keys-a.json', 'tasks.json', 'schemas.json',
+                                                   'expected.json'])
         for name, digest in manifest['files'].items():
             self.assertEqual(scoring_sha(HERE / name), digest, name)
+
+
+class TheManifestStatus(unittest.TestCase):
+    """The draft status or frozen-<YYYY-MM-DD>, written only by an explicit option and only in the manifest (decisions C1 and C2)."""
+    FILES = ('pool.json', 'ambiguity.json', 'dev.json', 'keys-a.json', 'corpus-manifest.json') + derive_a.DRAWN
+
+    def setUp(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.folder = Path(tmp.name)
+        for name in self.FILES:
+            shutil.copy(HERE / name, self.folder / name)
+
+    def main(self, *argv):
+        out, err = io.StringIO(), io.StringIO()
+        with redirect_stdout(out), redirect_stderr(err):
+            code = derive_a.main(list(argv), folder=self.folder)
+        return code, out.getvalue() + err.getvalue()
+
+    def bytes_of(self, name):
+        return (self.folder / name).read_bytes()
+
+    def edit_manifest(self, change):
+        path = self.folder / 'corpus-manifest.json'
+        manifest = json.loads(path.read_text(encoding='utf-8'))
+        change(manifest)
+        path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+
+    def test_the_statuses_the_check_accepts_and_refuses(self):
+        for status in (derive_a.STAMP, 'frozen-2026-11-07', 'frozen-2028-02-29'):
+            self.assertTrue(derive_a.status_ok(status), status)
+        for status in ('frozen', 'frozen-2026-11', 'frozen-2026-02-30', 'frozen-2026-11-07 ', 'Frozen-2026-11-07', 'frozen-26-11-07',
+                       'frozen-2026-11-07-x', 'draft', '', None, 7, 'frozen-2026-1-07'):
+            self.assertFalse(derive_a.status_ok(status), status)
+        with self.assertRaises(ValueError):
+            derive_a.derive('frozen-2026-13-01')
+
+    def test_the_draft_check_passes_on_the_committed_files(self):
+        code, text = self.main()
+        self.assertEqual(code, 0, text)
+        self.assertIn('manifest status: draft, not frozen', text)
+
+    def test_the_freeze_writes_the_frozen_status_in_the_manifest_only(self):
+        before = {name: self.bytes_of(name) for name in self.FILES}
+        code, text = self.main('--write', '--frozen', '2026-11-07')
+        self.assertEqual(code, 0, text)
+        for name in self.FILES:
+            if name != 'corpus-manifest.json':
+                self.assertEqual(self.bytes_of(name), before[name], name)
+        manifest = json.loads(self.bytes_of('corpus-manifest.json'))
+        draft = json.loads(before['corpus-manifest.json'])
+        self.assertEqual(manifest['status'], 'frozen-2026-11-07')
+        self.assertIn('Frozen on 2026-11-07', manifest['about'])
+        self.assertEqual({k: v for k, v in manifest.items() if k not in ('status', 'about')},
+                         {k: v for k, v in draft.items() if k not in ('status', 'about')})
+        for name in ('pool.json', 'ambiguity.json', 'dev.json', 'keys-a.json'):
+            self.assertEqual(json.loads(self.bytes_of(name))['status'], derive_a.STAMP, name)
+        code, text = self.main()
+        self.assertEqual(code, 0, text)
+        self.assertIn('manifest status: frozen-2026-11-07', text)
+
+    def test_a_write_without_the_option_does_not_unfreeze_and_a_bad_option_refuses(self):
+        self.assertEqual(self.main('--write', '--frozen', '2026-11-07')[0], 0)
+        frozen = self.bytes_of('corpus-manifest.json')
+        code, text = self.main('--write')
+        self.assertEqual(code, 1)
+        self.assertIn('would unfreeze it', text)
+        for argv, words in ((('--write', '--frozen', '2026-02-30'), 'needs a date'), (('--write', '--frozen', 'tomorrow'), 'needs a date'),
+                            (('--frozen', '2026-11-07'), 'with --write'), (('--write', '--frozen'), 'usage'), (('--freeze',), 'usage')):
+            code, text = self.main(*argv)
+            self.assertEqual(code, 2, argv)
+            self.assertIn(words, text, argv)
+        self.assertEqual(self.bytes_of('corpus-manifest.json'), frozen, 'a refused write changes nothing')
+
+    def test_a_second_freeze_refuses_and_changes_nothing(self):
+        self.assertEqual(self.main('--write', '--frozen', '2026-11-07')[0], 0)
+        before = {name: self.bytes_of(name) for name in self.FILES}
+        for date in ('2026-11-08', '2026-11-07'):
+            code, text = self.main('--write', '--frozen', date)
+            self.assertEqual(code, 1, date)
+            self.assertIn('already frozen-2026-11-07', text)
+        self.assertEqual({name: self.bytes_of(name) for name in self.FILES}, before)
+
+    def test_a_freeze_over_a_drifted_file_refuses_and_changes_nothing(self):
+        # a derived file names itself; a drawn file shows as the manifest, which holds its hash
+        for name, named in (('pool.json', 'pool.json'), ('keys-a.json', 'keys-a.json'), ('tasks.json', 'corpus-manifest.json')):
+            with self.subTest(name=name):
+                for each in self.FILES:
+                    shutil.copy(HERE / each, self.folder / each)
+                (self.folder / name).write_bytes(self.bytes_of(name) + b' ')
+                before = {each: self.bytes_of(each) for each in self.FILES}
+                code, text = self.main('--write', '--frozen', '2026-11-07')
+                self.assertEqual(code, 1)
+                self.assertIn('the freeze writes the manifest only', text)
+                self.assertIn(named, text)
+                self.assertEqual({each: self.bytes_of(each) for each in self.FILES}, before)
+
+    def test_a_malformed_status_fails_the_check(self):
+        for status in ('frozen', 'frozen-2026-02-30', 'frozen 2026-11-07', None):
+            with self.subTest(status=status):
+                self.edit_manifest(lambda m: m.update(status=status))
+                code, text = self.main()
+                self.assertEqual(code, 1)
+                self.assertIn('is neither', text)
+
+    def test_a_hand_edit_of_a_draft_or_a_frozen_manifest_fails_the_check(self):
+        edits = (lambda m: m['files'].update({'tasks.json': '0' * 64}), lambda m: m['files'].pop('expected.json'),
+                 lambda m: m.update(about=m['about'] + ' '), lambda m: m.update(poolTasks=75))
+        for frozen in (False, True):
+            for number, edit in enumerate(edits):
+                with self.subTest(frozen=frozen, edit=number):
+                    shutil.copy(HERE / 'corpus-manifest.json', self.folder / 'corpus-manifest.json')
+                    if frozen:
+                        self.assertEqual(self.main('--write', '--frozen', '2026-11-07')[0], 0)
+                    self.assertEqual(self.main()[0], 0)
+                    self.edit_manifest(edit)
+                    code, text = self.main()
+                    self.assertEqual(code, 1)
+                    self.assertIn('differs from the derivation: corpus-manifest.json', text)
+
+    def test_a_changed_drawn_file_fails_the_check(self):
+        for name in derive_a.DRAWN:
+            with self.subTest(name=name):
+                shutil.copy(HERE / name, self.folder / name)
+                self.assertEqual(self.main()[0], 0)
+                (self.folder / name).write_bytes(self.bytes_of(name) + b' ')
+                code, text = self.main()
+                self.assertEqual(code, 1)
+                self.assertIn('corpus-manifest.json', text)
+                shutil.copy(HERE / name, self.folder / name)
 
     def test_every_task_has_a_key_and_nothing_else_has_one(self):
         ids = [t['id'] for t in POOL + AMBIGUITY + DEV]

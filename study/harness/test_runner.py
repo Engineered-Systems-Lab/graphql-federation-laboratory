@@ -1,16 +1,19 @@
 """Tests of the run protocol with a fake stack, fake MCP sessions and fake vendor clients: the plan, the split-plot order, results saved at once,
 the budget stop and the resume, the service stops, the manifest and the bundle. No real model call, no stack, no key."""
+import io
 import json
 import re
 import shutil
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
+from unittest import mock
 
 from fakes import FakeDocker, FakeVendorClient, container, submit, turn
 from mcp_client import FakeToolSession
 import runner
-from runner import Study, build_plan, load_tasks, run_key
+from runner import ResumeRefused, Study, build_plan, load_tasks, run_key
 from study_common import Redactor, child_environment, read_jsonl, sha256_file
 
 CORPUS = Path(__file__).resolve().parent.parent / 'corpus'
@@ -53,6 +56,31 @@ class FakeStack:
 
     def teardown(self):
         self.log.append(('teardown', self.scenario))
+
+
+def refusal_exit(error, run_id='r9'):
+    """What runner.main prints and returns when the study's run raises `error` (a refusal caught from a real Study): (exit code, stdout)."""
+    class Refusing:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def client_for(self, model):
+            return None
+
+        def run(self, resume=False):
+            raise error
+    out = io.StringIO()
+    with mock.patch.object(runner, 'Study', Refusing), mock.patch.object(runner, 'load_config', lambda path: {'models': ['model-a']}), \
+            redirect_stdout(out):
+        code = runner.main(['--config', 'unused.json', '--run-id', run_id, '--resume'])
+    return code, out.getvalue()
+
+
+def assert_resume_refused(test, error, words):
+    """A resume refusal (decision C4): the named class, its message unchanged, and main prints STOP and resume_refused and exits 3."""
+    test.assertIs(type(error), ResumeRefused)
+    test.assertIn(words, str(error))
+    test.assertEqual(refusal_exit(error), (3, 'STOP: %s\nStudy run r9: resume_refused\n' % error))
 
 
 class RunnerTests(unittest.TestCase):
@@ -209,12 +237,61 @@ class RunnerTests(unittest.TestCase):
     def test_a_resume_refuses_a_changed_study_and_a_second_start_refuses_to_overwrite(self):
         study = self.study()
         study.run()
-        with self.assertRaisesRegex(RuntimeError, 'already exists'):
+        with self.assertRaises(ResumeRefused) as refused:
             self.study().run()
-        with self.assertRaisesRegex(RuntimeError, 'differ from the stored manifest'):
-            self.study(self.config(trials=3)).run(resume=True)
-        with self.assertRaisesRegex(RuntimeError, 'differ from the stored manifest'):
-            self.study(self.config(limits={'max_tool_calls': 6})).run(resume=True)
+        assert_resume_refused(self, refused.exception, 'Study run r1 already exists: use --resume to continue it, or choose a new run id')
+        for config in (self.config(trials=3), self.config(limits={'max_tool_calls': 6})):
+            with self.assertRaises(ResumeRefused) as refused:
+                self.study(config).run(resume=True)
+            assert_resume_refused(self, refused.exception, 'The plan, models, limits, prompt, guides or corpus differ from the stored '
+                                                           'manifest: a resume repeats the same study. Start a new study run instead.')
+
+    def test_the_other_refusals_keep_their_own_exit_lines(self):
+        for error, line in ((runner.BudgetCarryRefused('x'), 'budget_carry_refused'),
+                            (runner.FingerprintRefused('B1', ['x']), 'fingerprint_refused')):
+            self.assertEqual(refusal_exit(error), (3, 'STOP: %s\nStudy run r9: %s\n' % (error, line)))
+        with self.assertRaises(RuntimeError):  # any other error is not a refusal: it is not caught
+            refusal_exit(RuntimeError('not a refusal'))
+
+    # ------------------------------------------------------------------ the analysis plan in the plan identity (decision C3)
+    def analysis_plan(self, text='# The analysis plan\n'):
+        path = Path(self.tmp.name) / 'PLAN.md'
+        path.write_text(text, encoding='utf-8')
+        return path
+
+    def test_a_named_analysis_plan_is_in_the_plan_identity_and_the_manifest(self):
+        plan = self.analysis_plan()
+        study = self.study(self.config(analysis_plan=str(plan)))
+        self.assertEqual(study.plan_identity()['analysisPlan'], sha256_file(plan))
+        study.run()
+        text = (study.dir / 'manifest.json').read_text(encoding='utf-8')
+        manifest = json.loads(text)
+        self.assertEqual(manifest['identity']['analysisPlan'], sha256_file(plan))
+        self.assertNotIn(str(plan).replace('\\', '\\\\'), text, 'the manifest holds the hash, not the path')
+        without = self.study(run_id='r2').plan_identity()
+        self.assertNotIn('analysisPlan', without)
+        self.assertEqual({k: v for k, v in study.plan_identity().items() if k != 'analysisPlan'}, without)
+
+    def test_a_resume_refuses_a_one_byte_change_of_the_analysis_plan(self):
+        plan = self.analysis_plan()
+        config = self.stopped_with(analysis_plan=str(plan))
+        plan.write_bytes(plan.read_bytes().replace(b'analysis', b'Analysis'))
+        with self.assertRaises(ResumeRefused) as refused:
+            self.study(config).run(resume=True)
+        assert_resume_refused(self, refused.exception, 'differ from the stored manifest')
+        self.assertFalse((self.root / 'r1' / 'resumes.jsonl').exists())
+        plan.write_bytes(plan.read_bytes().replace(b'Analysis', b'analysis'))
+        self.assertEqual(self.study(config).run(resume=True), 'complete', 'the unchanged plan resumes')
+
+    def test_an_analysis_plan_that_names_no_file_is_refused(self):
+        with self.assertRaisesRegex(ValueError, 'analysis_plan names no file'):
+            self.study(self.config(analysis_plan=str(Path(self.tmp.name) / 'missing.md')))
+
+    def stopped_with(self, **over):
+        config = self.config(budgets={'va': {'tokens': 1_000_000}, 'vb': {'tokens': 400}}, **over)
+        self.assertEqual(self.study(config).run(), 'budget_stop')
+        config['budgets']['vb']['tokens'] = 1_000_000
+        return config
 
     def code(self, commit='c' * 40, **files):
         """Injected code facts: a commit and the code files' hashes (two harness files unless given)."""
@@ -237,8 +314,10 @@ class RunnerTests(unittest.TestCase):
     def test_a_resume_refuses_a_changed_added_or_removed_code_file(self):
         config = self.stopped(self.code())
         changed = self.code(**{'study/harness/agent.py': 'a' * 64, 'study/harness/runner.py': 'e' * 64, 'study/mcp/raw_server.py': 'f' * 64})
-        with self.assertRaises(RuntimeError) as refused:
+        with self.assertRaises(ResumeRefused) as refused:
             self.study(config, code_facts=changed).run(resume=True)
+        assert_resume_refused(self, refused.exception, 'The code the run executes differs from the stored manifest: a resume runs the same '
+                                                       'code as the runs it continues. Start a new study run instead. Changes:\n- ')
         self.assertIn('code the run executes differs', str(refused.exception))
         self.assertIn('code file study/harness/runner.py changed', str(refused.exception))
         self.assertIn('code file study/mcp/raw_server.py added', str(refused.exception))

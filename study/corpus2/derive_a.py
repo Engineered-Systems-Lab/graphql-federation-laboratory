@@ -6,14 +6,25 @@ Inputs (all committed, all immutable releases; the readers reuse those of federa
   (32 assets) and the Personnel v2 snapshot personnel-v2-large-004 (1,000 people).
 
 Output (this folder): pool.json, ambiguity.json, dev.json, keys-a.json and corpus-manifest.json (written with --write, compared without
-it). The task texts, their population rules and their answer schemas are authored here, in the enterprise's words; the keys are computed
-from the released files. Every pick is asserted by the property that made it fit, so a pick that stops fitting fails the derivation.
+it). The manifest also lists the hashes of the drawn files tasks.json, schemas.json and expected.json as committed (draw.py writes them,
+and test_corpus2.py checks they are what it writes), so the corpus a run hashes binds every file the scored run reads. The task texts,
+their population rules and their answer schemas are authored here, in the enterprise's words; the keys are computed from the released
+files. Every pick is asserted by the property that made it fit, so a pick that stops fitting fails the derivation.
 
 The second, independent derivation (derive_b.py) and the test that compares the two belong to another Job. Its author reads the landed
 questions and the released data, never this file. Any disagreement goes to the lead developer; neither derivation is quietly fixed.
 
-Usage (from anywhere inside a checkout): python -B study/corpus2/derive_a.py [--write]
+Usage (from anywhere inside a checkout): python -B study/corpus2/derive_a.py [--write [--frozen <YYYY-MM-DD>]]
+
+The manifest's status is 'draft, not frozen' or 'frozen-<YYYY-MM-DD>'. --write writes the draft status; the freeze writes the frozen one
+with --write --frozen <date>, and only the manifest changes: the other derived files keep the status 'draft, not frozen' and their
+bytes, because the draw record in tasks.json holds the hashes of the pool and the keys. The manifest's status governs. The freeze writes
+corpus-manifest.json alone and refuses, writing nothing, a manifest that is already frozen and any derived or drawn file that differs
+from the derivation under the draft status. A --write without --frozen refuses to replace a frozen manifest. Without --write the check
+accepts either well-formed status and compares every file with the derivation under the status the committed manifest holds; any other
+status fails.
 """
+import datetime
 import hashlib
 import json
 import re
@@ -31,6 +42,8 @@ import derive_expected as DE  # noqa: E402  (the readers of the released files)
 import scoring  # noqa: E402
 
 STAMP = 'draft, not frozen'
+FROZEN = re.compile(r'frozen-(\d{4}-\d{2}-\d{2})')
+DRAWN = ('tasks.json', 'schemas.json', 'expected.json')  # written by draw.py, hashed into the manifest as committed
 RELEASES = {'missions': '1.2', 'mapping': '1.0 to 1.3', 'assets': '1.1', 'personnel': 'personnel-v2-large-004'}
 MAPPING_DIR = ROOT / 'federation' / 'mapping-releases'
 SERVICES = ('missions', 'assets', 'personnel')
@@ -1293,7 +1306,39 @@ def sources():
     }
 
 
-def derive():
+def status_ok(status):
+    """The draft status, or frozen-<YYYY-MM-DD> with a real calendar date."""
+    if status == STAMP:
+        return True
+    match = FROZEN.fullmatch(status) if isinstance(status, str) else None
+    if not match:
+        return False
+    try:
+        return datetime.date.fromisoformat(match.group(1)).isoformat() == match.group(1)
+    except ValueError:
+        return False
+
+
+def frozen_status(date):
+    """The manifest status of a freeze on the given ISO date (YYYY-MM-DD); anything else refuses."""
+    status = 'frozen-%s' % date
+    if not status_ok(status):
+        raise ValueError('--frozen needs a date YYYY-MM-DD, not %r' % date)
+    return status
+
+
+def manifest_about(status):
+    if status == STAMP:
+        return ('Checksums of corpus 2 as derived, and of the drawn files as committed. NOT frozen: the freeze writes the frozen status with '
+                'derive_a.py --write --frozen <date>.')
+    return ('Checksums of corpus 2 as derived, and of the drawn files as committed. Frozen on %s. The other derived files keep the status '
+            '"%s"; this manifest\'s status governs.' % (FROZEN.fullmatch(status).group(1), STAMP))
+
+
+def derive(status=STAMP, folder=HERE):
+    """The texts of the derived files and of the manifest with the given status. The drawn files are read from `folder` as committed."""
+    if not status_ok(status):
+        raise ValueError('the manifest status %r is neither %r nor frozen-<YYYY-MM-DD>' % (status, STAMP))
     corpus = build(World())
     self_check(corpus)
     g = corpus.groups
@@ -1316,27 +1361,87 @@ def derive():
                         'keys': {t['id']: {'taskId': t['id'], **k} for rows in (g['core'], g['ambiguity'], g['dev']) for t, _, k in rows}},
     }
     texts = {name: render(data) for name, data in files.items()}
-    manifest = {'about': 'Checksums of corpus 2 as derived. NOT frozen: the freeze belongs to a later Job, which writes the final manifest.',
-                'status': STAMP, 'poolTasks': len(g['core']), 'ambiguityTasks': len(g['ambiguity']), 'devTasks': len(g['dev']),
-                'files': {name: hashlib.sha256(text.encode('utf-8')).hexdigest() for name, text in texts.items()},
-                'derivedFrom': sources()}
+    hashes = {name: hashlib.sha256(text.encode('utf-8')).hexdigest() for name, text in texts.items()}
+    hashes.update({name: sha256_lf(Path(folder) / name) for name in DRAWN})
+    manifest = {'about': manifest_about(status), 'status': status, 'poolTasks': len(g['core']), 'ambiguityTasks': len(g['ambiguity']),
+                'devTasks': len(g['dev']), 'files': hashes, 'derivedFrom': sources()}
     texts['corpus-manifest.json'] = render(manifest)
     return texts
 
 
-def main(argv):
-    texts = derive()
-    if '--write' in argv:
+def committed_status(folder=HERE):
+    """The status the committed manifest holds, or None when it is missing or unreadable."""
+    try:
+        return json.loads((Path(folder) / 'corpus-manifest.json').read_text(encoding='utf-8')).get('status')
+    except (OSError, ValueError, AttributeError):
+        return None
+
+
+USAGE = 'usage: derive_a.py [--write [--frozen <YYYY-MM-DD>]]'
+
+
+def stale_files(texts, folder):
+    """The files whose committed text differs from the derivation's (the drawn files are covered by the manifest's hashes)."""
+    return [name for name, text in texts.items()
+            if not (folder / name).exists() or (folder / name).read_bytes().replace(b'\r\n', b'\n').decode('utf-8') != text]
+
+
+def main(argv, folder=HERE):
+    folder = Path(folder)
+    args = list(argv)
+    date = None
+    if '--frozen' in args:
+        at = args.index('--frozen')
+        if at + 1 >= len(args):
+            print(USAGE, file=sys.stderr)
+            return 2
+        date = args[at + 1]
+        del args[at:at + 2]
+    write = args == ['--write']
+    if args not in ([], ['--write']):
+        print(USAGE, file=sys.stderr)
+        return 2
+    if date is not None and not write:
+        print('FAIL: --frozen is given with --write, at the freeze', file=sys.stderr)
+        return 2
+    if write:
+        held = committed_status(folder)
+        if date is not None:
+            try:
+                status = frozen_status(date)
+            except ValueError as error:
+                print('FAIL: %s' % error, file=sys.stderr)
+                return 2
+            if held != STAMP and status_ok(held):
+                print('FAIL: the committed manifest is already %s; a freeze does not replace its date' % held, file=sys.stderr)
+                return 1
+            # the freeze changes only the manifest: every derived and drawn file must already be the derivation's, under the draft status
+            stale = stale_files(derive(STAMP, folder), folder)
+            if stale:
+                print('FAIL: the freeze writes the manifest only, and these differ from the derivation: %s' % ', '.join(stale), file=sys.stderr)
+                return 1
+            name = 'corpus-manifest.json'
+            (folder / name).write_bytes(derive(status, folder)[name].encode('utf-8'))
+            print('wrote', name, 'with the manifest status', status)
+            return 0
+        status = STAMP
+        if held != STAMP and status_ok(held):
+            print('FAIL: the committed manifest is %s; a --write without --frozen would unfreeze it' % held, file=sys.stderr)
+            return 1
+        texts = derive(status, folder)
         for name, text in texts.items():
-            (HERE / name).write_bytes(text.encode('utf-8'))
-        print('wrote', ', '.join(texts))
+            (folder / name).write_bytes(text.encode('utf-8'))
+        print('wrote', ', '.join(texts), 'with the manifest status', status)
         return 0
-    stale = [name for name, text in texts.items()
-             if not (HERE / name).exists() or (HERE / name).read_bytes().replace(b'\r\n', b'\n').decode('utf-8') != text]
+    status = committed_status(folder)
+    if not status_ok(status):
+        print('FAIL: the manifest status %r is neither %r nor frozen-<YYYY-MM-DD>' % (status, STAMP), file=sys.stderr)
+        return 1
+    stale = stale_files(derive(status, folder), folder)
     if stale:
         print('FAIL: differs from the derivation:', ', '.join(stale), file=sys.stderr)
         return 1
-    print('ok: corpus 2 matches the released files')
+    print('ok: corpus 2 matches the released files (manifest status: %s)' % status)
     return 0
 
 

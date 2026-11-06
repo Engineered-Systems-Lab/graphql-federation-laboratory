@@ -6,7 +6,7 @@ Status: **draft, not frozen.** It says, rule by rule and in the order of the out
 
 1. The input is a copy of one study-2 run folder, its archive's per-file sums file, its bundle checksum and the corpus folder it ran. The raw folder stays outside the repository and read-only.
 2. The copy is verified before anything is computed, as study 1's are: every file against the sums, no file missing or extra, the bundle checksum recomputed from the bundle's file list and equal to the one given, and a bundle of status `complete` of the named run.
-3. The manifest must name its scorer contract (version 2, with the scorer's hash), its corpus hash (`identity.corpusFreeze`) and its harness commit, and hold a `williams-4-half` schedule of the four full arms with Direct Access as the reference block.
+3. The manifest must name its scorer contract (version 2, with the scorer's hash), its corpus hash (`identity.corpusFreeze`), its analysis plan hash (`identity.analysisPlan`, which must be the SHA-256 of this file's bytes) and its harness commit, and hold a `williams-4-half` schedule of the four full arms with Direct Access as the reference block.
 4. The corpus folder's `corpus-manifest.json` must hash to the corpus hash and must list the hash of `tasks.json`, which must match; `tasks.json` must hold exactly the tasks of the schedule, each once, every category-D task with its tag (section 2), and every run's category must equal its task's. Today's corpus 2 manifest does not list `tasks.json`, so the analysis refuses it until the freeze adds that hash.
 5. Any failure stops the analysis with `STOP` and exit code 2, and nothing is written.
 

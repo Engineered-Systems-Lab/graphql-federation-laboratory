@@ -12,7 +12,8 @@ from fakes import FakeDocker, FakeVendorClient, container, submit
 from mcp_client import FakeToolSession
 from runner import Study
 from study_common import Redactor, read_jsonl, sha256_file
-from test_runner import CORPUS, MODELS, PRICES, FakeStack, task
+from runner import ResumeRefused
+from test_runner import CORPUS, MODELS, PRICES, FakeStack, assert_resume_refused, task
 
 STUB_ID = 'sha256:' + '1' * 64
 REAL_ID = 'sha256:' + '2' * 64
@@ -509,8 +510,10 @@ class StudyProvenanceTests(unittest.TestCase):
     def test_a_resume_refuses_a_changed_declaration(self):
         self.study(FakeDocker(self.lab.containers())).run()
         declaration = self.lab.declaration(image_ref='stack-missions-stub:1.0.1')
-        with self.assertRaisesRegex(RuntimeError, 'declared provenance differs'):
+        with self.assertRaises(ResumeRefused) as refused:
             self.study(FakeDocker(self.lab.containers()), self.config(declaration)).run(resume=True)
+        assert_resume_refused(self, refused.exception, 'The declared provenance differs from the stored manifest, so a resume would run '
+                                                       'against other backends. Start a new study run instead. Changes:\n- ')
 
     def test_a_resume_of_a_bundle_without_provenance_is_refused(self):
         study = self.study(FakeDocker(self.lab.containers()))
@@ -518,8 +521,10 @@ class StudyProvenanceTests(unittest.TestCase):
         manifest = json.loads((study.dir / 'manifest.json').read_text(encoding='utf-8'))
         del manifest['provenance']
         (study.dir / 'manifest.json').write_text(json.dumps(manifest), encoding='utf-8')
-        with self.assertRaisesRegex(RuntimeError, 'records no provenance'):
+        with self.assertRaises(ResumeRefused) as refused:
             self.study(FakeDocker(self.lab.containers())).run(resume=True)
+        assert_resume_refused(self, refused.exception, 'The stored manifest records no provenance, so a resume cannot verify the backends. '
+                                                       'Start a new study run instead.')
 
     def test_nothing_written_holds_a_password_a_key_a_script_or_a_host_path(self):
         containers = self.lab.containers()

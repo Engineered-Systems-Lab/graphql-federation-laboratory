@@ -127,6 +127,20 @@ class VerificationTests(Workspace):
                 edit_json(Path(facts['bundle']) / 'manifest.json', drop)
                 self.assertStops(reseal(facts), text)
 
+    def test_the_analysis_plan_hash_must_be_the_plan_it_runs_under(self):
+        # the harness records the plan's raw-byte SHA-256 as identity.analysisPlan; the analysis compares it with study/analysis2/PLAN.md
+        facts = self.simulated(name='sim-plan-ok')
+        manifest = json.loads((Path(facts['bundle']) / 'manifest.json').read_text(encoding='utf-8'))
+        self.assertEqual(manifest['identity']['analysisPlan'], data2.sha256_file(data2.PLAN))
+        verified, _ = data2.verify_bundle(facts['bundle'], facts['sums'], facts['runId'], facts['checksum'])  # the matching hash passes
+        self.assertTrue(verified)
+        for name, change, text in (('missing', lambda m: m['identity'].pop('analysisPlan'), 'names no analysis plan hash'),
+                                   ('other', lambda m: m['identity'].update(analysisPlan='0' * 64), 'is not the hash of the plan')):
+            with self.subTest(name=name):
+                facts = self.simulated(name='sim-plan-' + name)
+                edit_json(Path(facts['bundle']) / 'manifest.json', change)
+                self.assertStops(reseal(facts), text)
+
     def test_a_scorer_contract_other_than_version_2_is_refused(self):
         facts = self.simulated()
         edit_json(Path(facts['bundle']) / 'manifest.json', lambda m: m['scoringContract'].update(version=1))
@@ -601,7 +615,8 @@ class HarnessBundleTests(Workspace):
                   'budgets': {v: {'tokens': 100_000_000, 'dollar_ceiling': 1000.0, 'ceiling_basis': 'test ceiling'} for v in ('va', 'vb')},
                   'limits': {'max_tool_calls': 5, 'retry_backoff_seconds': 0},
                   'schedule': {'design': 'williams-4-half', 'arms': arms, 'reference': 'alpha'},
-                  'dataset_fingerprint': {'argv': ['fingerprint']}, 'harness_tools': ['calculate', 'ask_requester']}
+                  'dataset_fingerprint': {'argv': ['fingerprint']}, 'harness_tools': ['calculate', 'ask_requester'],
+                  'analysis_plan': str(data2.PLAN)}
         models = {'models': {'model-a': {'vendor': 'va', 'request': {}, 'max_output_tokens': 100},
                              'model-b': {'vendor': 'vb', 'request': {}, 'max_output_tokens': 100}}}
         prices = {'dated': '2026-10-20', 'models': {m: {'input': 2.0, 'cached_read': 0.2, 'cache_write': 2.5, 'output': 10.0}

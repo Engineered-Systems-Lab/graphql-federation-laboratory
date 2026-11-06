@@ -789,6 +789,8 @@ class GeneratorTests(unittest.TestCase):
         self.assertNotIn('trials', config)
         self.assertEqual(list(config['scenarios']), ['beta', 'gamma', 'delta', 'epsilon', 'alpha'])
         self.assertEqual(config['corpus_dir'], str(ROOT / 'study' / 'corpus2'))
+        self.assertEqual(config['analysis_plan'], str(ROOT / 'study' / 'analysis2' / 'PLAN.md'))
+        self.assertTrue(Path(config['analysis_plan']).is_file())
         state = str((self.dir / 'state').resolve())
         self.assertEqual(config['dataset_fingerprint']['argv'][2:], [str(launch.HERE / 'launch.py'), 'fingerprint', '--missions',
                                                                       'simulated', '--state-dir', state])
@@ -823,6 +825,7 @@ class GeneratorTests(unittest.TestCase):
     def test_the_corpus_folder_is_recorded(self):
         code, config, _ = self.generate('simulated')
         self.assertEqual(config['corpus_dir'], str(ROOT / 'study' / 'corpus'), 'a study-1 plan reads study 1\'s corpus')
+        self.assertNotIn('analysis_plan', config, 'a study-1 config names no analysis plan, so its plan hash is unchanged')
         code, config, _ = self.generate('simulated', '--corpus-dir', str(ROOT / 'study' / 'corpus2'), output='c2.json')
         self.assertEqual(config['corpus_dir'], str(ROOT / 'study' / 'corpus2'))
         code, _, err = self.generate('simulated', '--corpus-dir', str(self.dir), output='bad.json')

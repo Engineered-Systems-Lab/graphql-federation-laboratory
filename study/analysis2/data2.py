@@ -45,6 +45,7 @@ sys.path.insert(0, str(HERE.parent / 'analysis'))
 import data  # noqa: E402  (study 1's reader, used read-only: verify_copy, sha256_file, dollars, VerificationError)
 
 VerificationError = data.VerificationError
+PLAN = HERE / 'PLAN.md'  # the analysis plan this analysis runs under; its hash must be the bundle's identity.analysisPlan
 
 # The arms by their internal identifiers (the scenario names of the configuration) and their descriptive names (docs/STUDY-2-DESIGN.md).
 SQUARE_ARMS = ['beta', 'gamma', 'delta', 'epsilon']
@@ -91,6 +92,13 @@ def verify_bundle(folder, sums_file, run_id, bundle_checksum):
     corpus = (manifest.get('identity') or {}).get('corpusFreeze')
     if not corpus:
         raise VerificationError('%s: the manifest names no corpus hash (identity.corpusFreeze)' % run_id)
+    analysis_plan = (manifest.get('identity') or {}).get('analysisPlan')
+    if not analysis_plan:
+        raise VerificationError('%s: the manifest names no analysis plan hash (identity.analysisPlan)' % run_id)
+    # the raw-byte SHA-256, as the harness hashes the plan into the plan identity (study_common.sha256_file), so the two compare
+    if analysis_plan != sha256_file(PLAN):
+        raise VerificationError('%s: the manifest\'s analysis plan hash %s is not the hash of the plan this analysis runs under '
+                                '(study/analysis2/PLAN.md, %s)' % (run_id, analysis_plan, sha256_file(PLAN)))
     if not manifest.get('commit'):
         raise VerificationError('%s: the manifest names no harness commit' % run_id)
     plan = manifest.get('schedule')

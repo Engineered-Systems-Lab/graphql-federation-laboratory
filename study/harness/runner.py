@@ -273,6 +273,11 @@ def validate_health_every(value):
         raise ValueError('health_every_runs must be a whole number of runs, 1 or more')
 
 
+class ResumeRefused(RuntimeError):
+    """A start or resume the stored manifest refuses: a run that exists without --resume, or a resume whose plan, code, provenance or
+    dollar ceiling differs. Nothing is written; main() prints STOP and resume_refused and exits 3, like the other refusals."""
+
+
 class BudgetCarryRefused(RuntimeError):
     """The study does not start: an earlier study run listed in earlier_study_runs is missing, cannot be priced, or changed."""
 
@@ -505,6 +510,11 @@ class Study:
         self.redactor = redactor or Redactor.from_env()
         self.repo_dir = repo_dir
         self.limits = Limits(**config.get('limits', {}))
+        if self.schedule is not None and not config.get('analysis_plan'):
+            raise ValueError('A config with a schedule (study 2) names its analysis_plan: the plan\'s hash goes in every manifest '
+                             '(make_config.py writes study/analysis2/PLAN.md)')
+        if config.get('analysis_plan') and not Path(config['analysis_plan']).is_file():
+            raise ValueError('analysis_plan names no file: %s' % config['analysis_plan'])
         self.scoring = load_scoring(self.corpus_dir)
         self.contract = scoring_contract.Contract(self.scoring, self.corpus_dir / 'scoring.py')
         self.tasks = load_tasks(self.corpus_dir, config['task_set'])
@@ -524,12 +534,15 @@ class Study:
 
     # ---------------------------------------------------------------- identity of the plan
     def plan_identity(self):
-        """What a resume must find unchanged. A config without a schedule, harness tools or a version-2 scorer gives exactly the identity of
-        the study-1 harness, so its plan hash is unchanged."""
+        """What a resume must find unchanged. A config without a schedule, harness tools, an analysis plan or a version-2 scorer gives
+        exactly the identity of the study-1 harness, so its plan hash is unchanged. A config that names an analysis plan (`analysis_plan`,
+        study 2) puts the plan file's SHA-256 here, so every manifest holds it and a resume refuses a changed plan."""
         guides = {s: (sha256_file(self._guide_path(s)) if self._guide_path(s) else None) for s in self.scenarios}
         identity = {'plan': self.plan, 'models': self.models_config['models'], 'limits': self.limits.as_dict(), 'systemPrompt': SYSTEM_PROMPT,
                     'taskSet': self.config['task_set'], 'seed': self.config['seed'], 'guides': guides,
                     'corpusFreeze': sha256_file(self.corpus_dir / 'corpus-manifest.json'), 'pricesDated': self.prices['dated']}
+        if self.config.get('analysis_plan'):
+            identity['analysisPlan'] = sha256_file(self.config['analysis_plan'])
         if self.schedule is None:
             identity['trials'] = self.config['trials']
         else:
@@ -893,9 +906,9 @@ class Study:
             before = last.get(vendor, {})
             if before != now:
                 if before.get('dollar_ceiling') != now['dollar_ceiling'] and before.get('ceiling_basis') == now['ceiling_basis']:
-                    raise RuntimeError('The dollar ceiling of %s changed from %s to %s with the same ceiling_basis; a changed ceiling needs '
-                                       'its basis (decision D, or the lead developer\'s dated raise)'
-                                       % (vendor, before.get('dollar_ceiling'), now['dollar_ceiling']))
+                    raise ResumeRefused('The dollar ceiling of %s changed from %s to %s with the same ceiling_basis; a changed ceiling needs '
+                                        'its basis (decision D, or the lead developer\'s dated raise)'
+                                        % (vendor, before.get('dollar_ceiling'), now['dollar_ceiling']))
                 changes.append({'vendor': vendor, 'old': before, 'new': now})
         return changes
 
@@ -1134,23 +1147,23 @@ class Study:
         manifest_path = self.dir / 'manifest.json'
         if manifest_path.exists():
             if not resume:
-                raise RuntimeError('Study run %s already exists: use --resume to continue it, or choose a new run id' % self.study_run_id)
+                raise ResumeRefused('Study run %s already exists: use --resume to continue it, or choose a new run id' % self.study_run_id)
             stored = json.loads(manifest_path.read_text(encoding='utf-8'))
             if stored['planHash'] != sha256_json(self.plan_identity()):
-                raise RuntimeError('The plan, models, limits, prompt, guides or corpus differ from the stored manifest: a resume repeats the '
-                                   'same study. Start a new study run instead.')
+                raise ResumeRefused('The plan, models, limits, prompt, guides or corpus differ from the stored manifest: a resume repeats the '
+                                    'same study. Start a new study run instead.')
             code = code_changes(stored, self.code_facts())
             if code:
-                raise RuntimeError('The code the run executes differs from the stored manifest: a resume runs the same code as the runs it continues. '
-                                   'Start a new study run instead. Changes:\n- ' + '\n- '.join(code))
+                raise ResumeRefused('The code the run executes differs from the stored manifest: a resume runs the same code as the runs it continues. '
+                                    'Start a new study run instead. Changes:\n- ' + '\n- '.join(code))
             stored_intended = (stored.get('provenance') or {}).get('intended')
             if stored_intended is None:
-                raise RuntimeError('The stored manifest records no provenance, so a resume cannot verify the backends. Start a new study run '
-                                   'instead.')
+                raise ResumeRefused('The stored manifest records no provenance, so a resume cannot verify the backends. Start a new study run '
+                                    'instead.')
             changes = provenance.drift(stored_intended, self.redactor.deep(self.intended_provenance()))
             if changes:
-                raise RuntimeError('The declared provenance differs from the stored manifest, so a resume would run against other backends. '
-                                   'Start a new study run instead. Changes:\n- ' + '\n- '.join(changes))
+                raise ResumeRefused('The declared provenance differs from the stored manifest, so a resume would run against other backends. '
+                                    'Start a new study run instead. Changes:\n- ' + '\n- '.join(changes))
             resume = {'at': utc_now()}
             if self.schedule is not None:
                 self.carry = self.check_carry(stored.get('budgetCarry'))
@@ -1312,6 +1325,10 @@ def main(argv=None):
         return 2
     try:
         status = study.run(resume=args.resume)
+    except ResumeRefused as error:
+        print('STOP: ' + str(error))
+        print('Study run %s: resume_refused' % args.run_id)
+        return 3
     except BudgetCarryRefused as error:
         print('STOP: ' + str(error))
         print('Study run %s: budget_carry_refused' % args.run_id)

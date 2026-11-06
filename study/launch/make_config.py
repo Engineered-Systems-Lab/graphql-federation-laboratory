@@ -46,6 +46,7 @@ SCHEDULE_PLAN_KEYS = ('schedule',) + COMMON_PLAN_KEYS  # study 2
 OPTIONAL_PLAN_KEYS = ('about', 'harness_tools')
 OPTIONAL_SCHEDULE_KEYS = OPTIONAL_PLAN_KEYS + ('health_every_runs', 'earlier_study_runs')
 CORPUS = {True: ROOT / 'study' / 'corpus2', False: ROOT / 'study' / 'corpus'}  # with a schedule, without
+ANALYSIS_PLAN = ROOT / 'study' / 'analysis2' / 'PLAN.md'  # study 2 only: its hash goes in the plan identity
 
 # Image names as federation/stack/compose.yaml and uss-enterprise/missions/compose.yaml give them by default (a test pins them).
 IMAGES = {
@@ -289,6 +290,8 @@ def build(plan, mode, launch_python, mcp_python, state_dir, guide_file, accept_e
     if not (corpus / 'scoring.py').is_file():
         raise Refused('the corpus folder %s has no scoring.py' % corpus)
     config['corpus_dir'] = str(corpus)
+    if with_schedule:  # a resume then refuses a changed analysis plan (study 1 names none, so its plan hash is unchanged)
+        config['analysis_plan'] = str(ANALYSIS_PLAN)
     config['dataset_fingerprint'] = launch_command(launch_python, state_dir, mode, 'fingerprint')
     config['scenarios'] = {name: scenario_config(name, mode, launch_python, mcp_python, state_dir, guide_file, start_env, pins)
                            for name in scenarios_of(plan)}

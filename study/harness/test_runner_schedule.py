@@ -17,7 +17,8 @@ from mcp_client import FakeToolSession
 import runner as runner_module
 from runner import SYSTEM_PROMPT, BudgetCarryRefused, FingerprintRefused, Study, load_config, parse_fingerprint
 from study_common import Redactor, read_jsonl, sha256_file, sha256_json
-from test_runner import CORPUS, MODELS, PRICES, PROVENANCE, STUB_ID, FakeStack, fake_docker, task
+from runner import ResumeRefused
+from test_runner import CORPUS, MODELS, PRICES, PROVENANCE, STUB_ID, FakeStack, assert_resume_refused, fake_docker, task
 from vendors import VendorFatalError
 
 ARMS = ['beta', 'gamma', 'delta', 'epsilon']
@@ -138,9 +139,15 @@ class ScheduleRunnerTests(unittest.TestCase):
                 'budgets': budgets(), 'limits': {'max_tool_calls': 5, 'retry_backoff_seconds': 0},
                 'schedule': {'design': 'williams-4-half', 'arms': list(ARMS), 'reference': 'alpha'},
                 'dataset_fingerprint': {'argv': ['fingerprint', '--db-password', 'hunter2hunter2']},
-                'harness_tools': ['calculate', 'ask_requester']}
+                'harness_tools': ['calculate', 'ask_requester'], 'analysis_plan': str(self.analysis_plan())}
         base.update(over)
         return base
+
+    def analysis_plan(self):
+        path = Path(self.tmp.name) / 'PLAN.md'
+        if not path.exists():
+            path.write_text('# An analysis plan\n', encoding='utf-8')
+        return path
 
     def session_factory(self, scenario, run_id, tools=None):
         session = FakeToolSession(tools or [{'name': 'lookup', 'description': 'd', 'input_schema': {'type': 'object'}}], {'lookup': lambda a: '[1]'})
@@ -516,7 +523,7 @@ class ScheduleRunnerTests(unittest.TestCase):
     # ------------------------------------------------------------------ study 1 unchanged, and the config
     def test_a_study_1_config_keeps_its_exact_plan_identity(self):
         config = self.config(scenario_order=['alpha', 'beta'], trials=2)
-        for name in ('schedule', 'dataset_fingerprint', 'harness_tools'):
+        for name in ('schedule', 'dataset_fingerprint', 'harness_tools', 'analysis_plan'):
             del config[name]
         study = self.study(config)
         identity = study.plan_identity()
@@ -527,6 +534,7 @@ class ScheduleRunnerTests(unittest.TestCase):
                     'corpusFreeze': sha256_file(self.corpus / 'corpus-manifest.json'), 'pricesDated': PRICES['dated']}
         self.assertEqual(sha256_json(identity), sha256_json(expected))
         self.assertIsInstance(study.plan, list)
+        self.assertNotIn('analysisPlan', identity, 'a study-1 config names no analysis plan, so its plan hash is unchanged (decision C3)')
 
     def test_load_config_needs_the_fingerprint_with_a_schedule_and_the_order_without(self):
         path = Path(self.tmp.name) / 'config.json'
@@ -541,6 +549,18 @@ class ScheduleRunnerTests(unittest.TestCase):
         path.write_text(json.dumps(config), encoding='utf-8')
         with self.assertRaisesRegex(ValueError, 'scenario_order'):
             load_config(path)
+
+    def test_a_schedule_config_must_name_its_analysis_plan(self):
+        for value in (None, ''):
+            config = self.config()
+            if value is None:
+                del config['analysis_plan']
+            else:
+                config['analysis_plan'] = value
+            with self.assertRaisesRegex(ValueError, 'names its analysis_plan'):
+                self.study(config)
+        study = self.study(self.config())
+        self.assertEqual(study.plan_identity()['analysisPlan'], sha256_file(self.analysis_plan()))
 
     def test_a_schedule_without_a_fingerprint_command_or_with_a_bad_one_is_refused(self):
         for command, message in ((None, 'dataset_fingerprint'), ({'argv': []}, 'non-empty argv'), ({'argv': ['x'], 'shell': True}, 'unknown keys')):
@@ -972,8 +992,10 @@ class ScheduleRunnerTests(unittest.TestCase):
         self.assertEqual(self.study(config).run(), 'budget_stop')
         config['budgets']['vb']['tokens'] = 10_000_000
         config['budgets']['va']['dollar_ceiling'] = 95.0
-        with self.assertRaisesRegex(RuntimeError, 'needs its basis'):
+        with self.assertRaises(ResumeRefused) as refused:
             self.study(config).run(resume=True)
+        assert_resume_refused(self, refused.exception, 'The dollar ceiling of va changed from 85.0 to 95.0 with the same ceiling_basis; a '
+                                                       "changed ceiling needs its basis (decision D, or the lead developer's dated raise)")
         config['budgets']['va']['ceiling_basis'] = "the lead developer's raise of 2026-11-05"
         study = self.study(config)
         self.assertEqual(study.run(resume=True), 'complete')

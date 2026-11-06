@@ -193,7 +193,7 @@ Why this design:
 
 ### Hypotheses and analysis
 
-The analysis plan is frozen before the first scored run and committed in this repository, and its hash goes in every manifest. What follows is its design.
+The analysis plan is frozen before the first scored run and committed in this repository, and its hash goes in every manifest (the plan identity's `analysisPlan`, so a resume refuses a changed plan; see [the harness README](../study/harness/README.md#token-budget)). What follows is its design.
 
 **Planned comparisons** (decision C), defined now, two-sided, with Holm's correction over the two (family α 0.05):
 

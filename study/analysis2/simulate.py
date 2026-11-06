@@ -37,6 +37,7 @@ import schedule  # noqa: E402  (the harness's schedule, read-only)
 
 SQUARE_ARMS = ['beta', 'gamma', 'delta', 'epsilon']
 REFERENCE = 'alpha'
+ANALYSIS_PLAN = HERE / 'PLAN.md'  # its hash goes in the simulated identity, as the harness records it (identity.analysisPlan)
 MODELS = ['claude-sonnet-5-5', 'gpt-6.1-sol']
 VENDORS = {'claude-sonnet-5-5': 'anthropic', 'gpt-6.1-sol': 'openai'}
 PRICES = {'claude-sonnet-5-5': {'input': 3.0, 'cached_read': 0.3, 'cache_write': 3.75, 'output': 15.0},
@@ -191,7 +192,7 @@ def simulate(out, seed=1, run_id='study-2-sim', truth=None, session_boundary=6, 
     manifest = {
         'studyRunId': run_id, 'createdAt': '2026-11-02T07:59:00.000+00:00', 'commit': '0' * 40, 'treeDirty': False,
         'identity': {'plan': plan, 'corpusFreeze': sha256_file(corpus / 'corpus-manifest.json'), 'seed': seed, 'taskSet': 'scored',
-                     'scoringContract': 2},
+                     'scoringContract': 2, 'analysisPlan': sha256_file(ANALYSIS_PLAN)},
         'models': {m: {'vendor': VENDORS[m], 'request': {}, 'max_output_tokens': 16000, 'priceEntry': PRICES[m]} for m in MODELS},
         'scoringContract': {'version': 2, 'outcomes': ['correct', 'wrong_answer', 'format_error', 'definition_not_accepted', 'abstained'],
                             'correctOutcomes': ['correct'], 'harnessOutcomes': ['did_not_finish', 'vendor_error'], 'notScored': ['budget_stop'],
