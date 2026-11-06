@@ -29,6 +29,9 @@ BLOCKS = (('r1-beta', 'beta', 'H1', 'r1'), ('r1-gamma', 'gamma', 'H2', 'r1'), ('
           ('ref-alpha', 'alpha', None, 'ref'))
 T0 = datetime(2026, 11, 6, 10, 0, tzinfo=timezone.utc)
 # Text a report must never hold: every outcome the harness writes, the word score, and markers put in the records' score and reason.
+# The full report's header in UTC, as the tests of today's report read it: the run id, the time, the zone, the offset and the reason.
+HEAD = r'^== \S+ at \S+ \S+ UTC, UTC\+00:00 \((.*)\) ==$'
+VERBOSE = {'verbose': True, 'zone': timezone.utc}
 FORBIDDEN = tuple(TERMINAL) + ('score', 'SCORE-MARKER', 'REASON-MARKER', 'SUBMISSION-MARKER', 'outcome')
 
 
@@ -60,9 +63,13 @@ class RunFolder:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(value, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
 
-    def manifest(self, schedule=True, carried=None, ceilings=None):
+    def manifest(self, schedule=True, carried=None, ceilings=None, last_runs=None):
+        """`last_runs` gives the last block (the reference, alpha) that many runs instead of four, as study 2's reference block has four
+        times the runs of the others."""
         blocks = [{'id': bid, 'arm': arm, 'half': half, 'runSuffix': suffix, 'sequence': n + 1, 'row': 1 if half else None,
                    'runs': [{'model': model, 'task': task} for task, model in TASKS]} for n, (bid, arm, half, suffix) in enumerate(BLOCKS)]
+        if last_runs:
+            blocks[-1]['runs'] = [{'model': (GPT, CLAUDE)[n % 2], 'task': 'T%d' % (n + 1)} for n in range(last_runs)]
         ceilings = ceilings or {'anthropic': 20.0, 'openai': 10.0}
         body = {'studyRunId': self.run_id, 'models': {m: {'vendor': p['vendor'], 'priceEntry': dict(p)} for m, p in PRICES.items()},
                 'tokenBudgets': {v: {'dollar_ceiling': c, 'ceiling_basis': 'fixture', 'tokens': 5_000_000} for v, c in ceilings.items()}}
@@ -130,10 +137,11 @@ def snapshot(folder):
     return out
 
 
-def once(folder, balances=None, now=None):
+def once(folder, balances=None, now=None, verbose=True, zone=timezone.utc):
+    """One report of the folder: by default the full one in UTC, which the tests of today's report read."""
     out = io.StringIO()
     code = watch_run.follow(Path(folder), out, once=True, balances=balances, sleep=lambda _s: None,
-                            now=lambda: now or T0 + timedelta(hours=2))
+                            now=lambda: now or T0 + timedelta(hours=2), verbose=verbose, zone=zone)
     return code, out.getvalue()
 
 
@@ -264,7 +272,7 @@ class WatchRunTests(unittest.TestCase):
             f.whole_block(block, outcomes=('correct', 'format_error', 'definition_not_accepted', 'did_not_finish'))
         f.bundle('complete')
         out, sleeps = io.StringIO(), []
-        self.assertEqual(watch_run.follow(f.dir, out, sleep=sleeps.append, now=lambda: T0 + timedelta(hours=3)), 0)
+        self.assertEqual(watch_run.follow(f.dir, out, sleep=sleeps.append, now=lambda: T0 + timedelta(hours=3), **VERBOSE), 0)
         text = out.getvalue()
         self.assertEqual(sleeps, [], 'a complete run is reported once')
         self.assertIn('blocks ended 4 of 4; runs finished 16 of 16', text)
@@ -285,7 +293,7 @@ class WatchRunTests(unittest.TestCase):
 
         def harness(_seconds):
             f.whole_block('r1-gamma')
-        watch_run.follow(f.dir, out, balances={'anthropic': 60.0}, polls=1, sleep=harness, now=lambda: T0)
+        watch_run.follow(f.dir, out, balances={'anthropic': 60.0}, polls=1, sleep=harness, now=lambda: T0, **VERBOSE)
         self.assertIn('anthropic: 60.00 - 0.20 spent since = 59.80 room', out.getvalue())
         self.assertEqual(watch_run.parse_balance('openai=12.5'), ('openai', 12.5))
         for bad in ('openai', 'openai=', '=3', 'openai=-1', 'openai=lots'):
@@ -305,9 +313,10 @@ class WatchRunTests(unittest.TestCase):
                           f.block('void', 'r1-gamma', trigger='health', point='start', problems=['x'], runs=[], spend={})),
                  lambda: f.bundle('block_void'), lambda: self.fail('the watcher polled after the bundle')]
         out = io.StringIO()
-        code = watch_run.follow(f.dir, out, sleep=lambda s: steps.pop(0)() if s == watch_run.DEFAULT_INTERVAL else None, now=lambda: T0)
+        code = watch_run.follow(f.dir, out, sleep=lambda s: steps.pop(0)() if s == watch_run.DEFAULT_INTERVAL else None, now=lambda: T0,
+                                **VERBOSE)
         self.assertEqual(code, 0)
-        heads = re.findall(r'^== study2-fixture-1 at \S+ \S+ UTC \((.*)\) ==$', out.getvalue(), re.M)
+        heads = re.findall(HEAD, out.getvalue(), re.M)
         self.assertEqual(heads, ['watcher start', 'a resume started', 'the end of block r1-beta', 'a void of block r1-gamma',
                                  'the harness wrote bundle.json (block_void)'])
         self.assertNoOutcome(out.getvalue())
@@ -468,7 +477,7 @@ class WatchRunTests(unittest.TestCase):
             f.append('budget-openai.jsonl', {'event': 'settle', 'seq': f.seq['openai'], 'usage': {'input': 0, 'cached_read': 0,
                      'cache_write': 0, 'output': 5000}, 'retry': False, 'note': None, 'ts': f.at()})  # settles for 0.05
             f.block('end', 'r1-gamma', session='s1', outcomes={})
-        watch_run.follow(f.dir, out, balances={'openai': 5.0}, polls=1, sleep=harness, now=lambda: T0)
+        watch_run.follow(f.dir, out, balances={'openai': 5.0}, polls=1, sleep=harness, now=lambda: T0, **VERBOSE)
         first, second = out.getvalue().split('\n\n')
         self.assertIn('openai: 5.00 - 0.00 spent since - 0.20 held by open reservations at the output price = 4.80 room', first)
         self.assertIn('openai: 5.00 - 0.05 spent since = 4.95 room', second)
@@ -502,9 +511,10 @@ class WatchRunTests(unittest.TestCase):
                         f.resume(12)
                 out = io.StringIO()
                 with unittest.mock.patch.object(watch_run.RunState, 'read', staticmethod(reading)):
-                    code = watch_run.follow(f.dir, out, polls=5, sleep=harness if hook_at == 2 else (lambda _s: None), now=lambda: T0)
+                    code = watch_run.follow(f.dir, out, polls=5, sleep=harness if hook_at == 2 else (lambda _s: None), now=lambda: T0,
+                                            **VERBOSE)
                 self.assertEqual(code, 0)
-                heads = re.findall(r'^== \S+ at \S+ \S+ UTC \((.*)\) ==$', out.getvalue(), re.M)
+                heads = re.findall(HEAD, out.getvalue(), re.M)
                 self.assertEqual(heads[-1], 'the harness wrote bundle.json (complete)', heads)
                 self.assertIn('blocks ended 4 of 4; runs finished 16 of 16', out.getvalue().split('\n\n')[-1])
                 self.assertLess(len(calls), 5, 'it stopped on the bundle instead of polling on')
@@ -538,10 +548,11 @@ class WatchRunTests(unittest.TestCase):
                         f.resume(12)
                 out = io.StringIO()
                 with unittest.mock.patch.object(watch_run, 'block_events', reading):
-                    code = watch_run.follow(f.dir, out, polls=5, sleep=harness if hook_at == 3 else (lambda _s: None), now=lambda: T0)
+                    code = watch_run.follow(f.dir, out, polls=5, sleep=harness if hook_at == 3 else (lambda _s: None), now=lambda: T0,
+                                            **VERBOSE)
                 self.assertEqual(code, 0)
                 reports = out.getvalue().split('\n\n')
-                heads = re.findall(r'^== \S+ at \S+ \S+ UTC \((.*)\) ==$', out.getvalue(), re.M)
+                heads = re.findall(HEAD, out.getvalue(), re.M)
                 self.assertEqual(heads[-1], 'the harness wrote bundle.json (complete)', heads)
                 self.assertIn('blocks ended 4 of 4; runs finished 16 of 16', reports[-1])
                 for text in reports:
@@ -561,6 +572,336 @@ class WatchRunTests(unittest.TestCase):
         with redirect_stderr(io.StringIO()) as printed:
             self.assertEqual(watch_run.main([str(self.run_folder.dir), '--once']), 2)
         self.assertIn('holds no block schedule', printed.getvalue())
+
+
+# A fixed time zone named as Windows names it, so that the display is tested without the machine's zone.
+EST = timezone(timedelta(hours=-5), 'Eastern Standard Time')
+
+
+def at(minutes):
+    """The fixture clock: T0 plus that many minutes (every event moves it by one)."""
+    return T0 + timedelta(minutes=minutes)
+
+
+def line_of(text, start):
+    """The one line of the text that starts with `start` (after its indent)."""
+    found = [line.strip() for line in text.splitlines() if line.strip().startswith(start)]
+    if len(found) != 1:
+        raise AssertionError('%d lines start with %r in:\n%s' % (len(found), start, text))
+    return found[0]
+
+
+class TimeLeftTests(unittest.TestCase):
+    """The estimate of the time left (decision E1 (a) of the Job study2_watch_eta, 2026-11-06): the mean time per run of the ended
+    blocks times the runs left, plus the mean time between blocks times the starts left. In the fixture a whole block takes 9 minutes
+    for 4 runs (2m15s, 135 s per run) and the next block starts one minute after an end."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix='watch-run-')
+        self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
+        self.f = RunFolder(self.tmp)
+
+    def left(self, now, verbose=False):
+        """The time-left text of the compact report, or of the full one with its basis line."""
+        text = once(self.f.dir, now=now, verbose=verbose, zone=EST)[1]
+        if not verbose:
+            return line_of(text, 'Time left')[len('Time left'):].strip()
+        lines = text.splitlines()
+        n = next(i for i, line in enumerate(lines) if line.startswith('  time left'))
+        self.assertTrue(lines[n - 1].startswith('  time: '), 'the time left follows the time line of Progress')
+        basis = lines[n + 1].strip() if lines[n + 1].startswith('    based on') else None
+        return lines[n].split(': ', 1)[1], basis
+
+    def test_too_early_before_the_first_block_ends(self):
+        self.f.manifest()
+        self.assertEqual(self.left(at(0)), 'too early (no block has ended yet)')
+        self.f.block('start', 'r1-beta', session='s1', runsFinishedBefore=0)
+        self.f.run('r1-beta', 'T1', GPT)
+        self.assertEqual(self.left(at(5)), 'too early (no block has ended yet)')
+        self.assertEqual(self.left(at(5), verbose=True), ('too early (no block has ended yet)', None))
+
+    def test_after_the_first_block_the_setup_is_not_measured_yet(self):
+        self.f.manifest()
+        self.f.whole_block('r1-beta')  # minutes 1 to 10
+        # 12 runs at 135 s; no gap between blocks is known yet, and the line says so instead of counting it as nothing
+        self.assertEqual(self.left(at(10)), 'about 27m00s plus the setup before 3 block(s), not measured yet; finish after 05:37')
+
+    def test_partway_and_the_block_running_now(self):
+        f = self.f
+        f.manifest()
+        f.whole_block('r1-beta')  # 1 to 10
+        f.whole_block('r1-gamma')  # 11 to 20
+        # 8 runs left at 135 s and 2 starts at 60 s: 20 minutes; the end is in local time (EST), the records stay UTC
+        self.assertEqual(self.left(at(20)), 'about 20m00s, finish about 05:40')
+        self.assertEqual(self.left(at(20), verbose=True),
+                         ('about 20m00s, finish about 05:40', 'based on 8 run(s) in 2 ended block(s) and 1 gap(s) between blocks, leaving '
+                                                              'out a gap that holds a resume; 8 run(s) and 2 block start(s) left'))
+        f.block('start', 'r2-beta', session='s1', runsFinishedBefore=0)  # 21
+        f.run('r2-beta', 'T1', GPT)  # 22, 23
+        # the running block is credited with the 4 minutes it has run: 540 - 240 s, then alpha's 540 s and its start
+        self.assertEqual(self.left(at(25)), 'about 15m00s, finish about 05:40')
+        self.assertEqual(self.left(at(25), verbose=True)[1], 'based on 8 run(s) in 2 ended block(s) and 2 gap(s) between blocks, leaving '
+                                                              'out a gap that holds a resume; 8 run(s) and 1 block start(s) left')
+        # a block that runs longer than its estimate counts nothing more, never less than nothing
+        self.assertEqual(self.left(at(40)), 'about 10m00s, finish about 05:50')
+
+    def test_a_gap_that_holds_a_stop_and_a_resume_is_left_out(self):
+        f = self.f
+        f.manifest()
+        f.whole_block('r1-beta')  # 1 to 10
+        f.bundle('stopped')  # 11: the harness stopped between blocks (no event)
+        f.resume(4)  # 12
+        f.whole_block('r1-gamma')  # 13 to 22: its gap from 10 holds the resume and is left out
+        f.whole_block('r2-beta')  # 23 to 32: its gap of one minute counts
+        # alpha's 4 runs at 135 s and one start at 60 s; with the 3 minutes of the stop the mean gap would be 2 minutes, and 11m00s
+        self.assertEqual(self.left(at(32)), 'about 10m00s, finish about 05:42')
+        self.assertIn('and 1 gap(s) between blocks', self.left(at(32), verbose=True)[1])
+
+    def test_a_stopped_block_counts_from_its_last_start(self):
+        f = self.f
+        f.manifest()
+        f.whole_block('r1-beta')  # 1 to 10
+        f.block('start', 'r1-gamma', session='s1', runsFinishedBefore=0)  # 11
+        f.run('r1-gamma', 'T1', GPT)  # 12, 13
+        f.block('stopped', 'r1-gamma', session='s1', reason='budget_stop', runKey=key('r1-gamma', 'T3', GPT))  # 14
+        f.bundle('budget_stop')  # 15
+        # stopped: the stopped block still has its 4 runs (its records are not read) and a start, and so have the two after it
+        self.assertEqual(self.left(at(15)), 'about 30m00s once resumed (the harness has stopped; finish about 05:45 if resumed now)')
+        f.resume(5)  # 16
+        f.block('start', 'r1-gamma', session='s1', runsFinishedBefore=1)  # 17
+        for task, model in TASKS[1:]:
+            f.run('r1-gamma', task, model)  # 18 to 23
+        f.block('end', 'r1-gamma', session='s1', outcomes={})  # 24
+        # r1-gamma counts 3 runs in 7 minutes since its last start: (9 + 7) / 7 minutes per run, 8 runs and 2 starts left. From its
+        # first start (13 minutes for 4 runs) it would be 24m00s.
+        self.assertEqual(self.left(at(24)), 'about 20m17s, finish about 05:44')
+
+    def test_a_void_block_counts_its_runs_again(self):
+        f = self.f
+        f.manifest()
+        f.whole_block('r1-beta')  # 1 to 10
+        f.block('start', 'r1-gamma', session='s1', runsFinishedBefore=0)  # 11
+        f.run('r1-gamma', 'T1', GPT)  # 12, 13
+        f.block('void', 'r1-gamma', trigger='health', point='periodic', problems=['x'], runs=[key('r1-gamma', 'T1', GPT)], spend={})  # 14
+        f.bundle('block_void')  # 15
+        f.resume(4)  # 16
+        f.block('start', 'r1-gamma', attempt=2, session='s1', runsFinishedBefore=0)  # 17
+        # the repeat runs all 4 again (540 s less the minute it ran), then 2 blocks of 540 s and 2 starts of 60 s; the void attempt
+        # gives neither time nor runs to the mean
+        self.assertEqual(self.left(at(18)), 'about 28m00s, finish about 05:46')
+        self.assertEqual(self.left(at(18), verbose=True)[1], 'based on 4 run(s) in 1 ended block(s) and 1 gap(s) between blocks, leaving '
+                                                              'out a gap that holds a resume; 12 run(s) and 2 block start(s) left')
+
+    def test_a_last_block_four_times_longer_counts_four_times(self):
+        f = self.f
+        f.manifest(last_runs=16)
+        for block in ('r1-beta', 'r1-gamma', 'r2-beta'):
+            f.whole_block(block)  # 1 to 30
+        # alpha's 16 runs at 135 s and its start: 37 minutes, where a mean per block would say 10
+        self.assertEqual(self.left(at(30)), 'about 37m00s, finish about 06:07')
+        self.assertIn('12 of 28 runs', once(f.dir, now=at(30), verbose=False, zone=EST)[1])
+
+    def test_ended(self):
+        f = self.f
+        f.manifest()
+        for block, _, _, _ in BLOCKS:
+            f.whole_block(block)
+        f.bundle('complete')
+        self.assertEqual(self.left(at(60)), 'done')
+        self.assertEqual(self.left(at(60), verbose=True), ('done', None))
+
+    def test_nothing_per_arm_model_or_task(self):
+        f = self.f
+        f.manifest()
+        f.whole_block('r1-beta')
+        f.whole_block('r1-gamma', outputs=(30000, 50000, 10000, 10000))
+        state = watch_run.RunState.read(f.dir)
+        estimate = watch_run.time_left(state, at(20))
+        self.assertEqual(sorted(estimate), ['blocks', 'gaps', 'runs', 'runs_left', 'seconds', 'starts_left', 'state', 'stopped'])
+        for verbose in (False, True):
+            text = once(f.dir, now=at(20), verbose=verbose, zone=EST)[1]
+            lines = [line for line in text.splitlines() if 'time left' in line.lower() or line.strip().startswith('based on 8 run')]
+            self.assertTrue(lines)
+            for line in lines:
+                for name in ('alpha', 'beta', 'gamma', 'r1-', 'r2-', CLAUDE, GPT, 'T1', 'T2', 'T3', 'T4'):
+                    self.assertNotIn(name, line)
+            self.assertNotIn('2m15s', text, 'the mean per run is never printed')
+
+
+class LocalTimeTests(unittest.TestCase):
+    """Every time a report prints is local, with the zone named once in its header (decision E2 of the Job study2_watch_eta,
+    2026-11-06); the records stay UTC."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix='watch-run-')
+        self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
+        self.f = RunFolder(self.tmp)
+
+    def test_every_printed_time_is_local(self):
+        f = self.f
+        f.manifest()
+        f.whole_block('r1-beta')  # 1 to 10, UTC
+        f.block('start', 'r1-gamma', session='s1')  # 11
+        f.block('stopped', 'r1-gamma', session='s1', reason='budget_stop', runKey='x')  # 12
+        f.bundle('budget_stop')  # 13
+        f.resume(4)  # 14
+        f.block('start', 'r1-gamma', session='s1')  # 15
+        text = once(f.dir, now=at(20), zone=EST)[1]
+        self.assertTrue(text.startswith('== study2-fixture-1 at 2026-11-06 05:20:00 EST, UTC-05:00 (watcher start) ==\n'), text)
+        self.assertIn('now: block r1-gamma (sequence 2, arm gamma, half H2, attempt 1) since 2026-11-06 05:15:00', text)
+        self.assertIn('stops: budget_stop in block r1-gamma at 2026-11-06 05:12:00', text)
+        self.assertIn('resumes: 1 (last at 2026-11-06 05:14:00, 4 finished runs kept)', text)
+        self.assertNotIn('UTC\n', text)
+        self.assertEqual(text.count('EST'), 1, 'the zone is named once')
+        f.bundle('budget_stop')  # 16
+        self.assertIn('the harness wrote bundle.json at 2026-11-06 05:16:00', once(f.dir, now=at(20), zone=EST)[1])
+        compact = once(f.dir, now=at(20), verbose=False, zone=EST)[1]
+        self.assertTrue(compact.startswith('study2-fixture-1   05:20 EST (UTC-05:00)   '), compact)
+        self.assertIn('stops: budget_stop in block r1-gamma at 2026-11-06 05:12:00', compact)
+        self.assertEqual(compact.count('EST'), 1)
+        # what the harness wrote is unchanged and in UTC
+        self.assertIn('"at": "2026-11-06T10:12:00.000+00:00"', (f.dir / 'blocks.jsonl').read_text(encoding='utf-8'))
+
+    def test_zone_names_and_the_date_of_a_later_end(self):
+        moment = at(0)
+        self.assertEqual(watch_run.zone_name(moment, EST), 'EST')
+        self.assertEqual(watch_run.zone_name(moment, timezone(timedelta(hours=1), 'CET')), 'CET')
+        self.assertEqual(watch_run.zone_name(moment, timezone(timedelta(hours=5, minutes=30))), 'UTC+05:30')
+        brasilia = 'Bras' + chr(0xed) + 'lia'  # not ASCII; the source stays ASCII
+        self.assertEqual(watch_run.zone_name(moment, timezone(timedelta(hours=-3), 'Hora de ' + brasilia)), 'HDB', 'the initials of a long name')
+        self.assertEqual(watch_run.zone_name(moment, timezone(timedelta(hours=-3), brasilia)),
+                         'UTC-03:00', 'a name that is not ASCII gives way to the offset')
+        self.assertEqual(watch_run.utc_offset(moment, EST), 'UTC-05:00')
+        self.assertEqual(watch_run.clock(moment, EST), '2026-11-06 05:00:00')
+        self.assertEqual(watch_run.clock(moment), moment.astimezone().strftime('%Y-%m-%d %H:%M:%S'), 'no zone given: the machine\'s')
+        self.assertEqual(watch_run.finish_at(moment, 3600, EST), '06:00')
+        self.assertEqual(watch_run.finish_at(moment, 20 * 3600, EST), '2026-11-07 01:00')
+
+
+class CompactReportTests(unittest.TestCase):
+    """The compact report, the default (decision E3 of the Job study2_watch_eta, 2026-11-06): a header, progress, the time left, a
+    money table and the health."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix='watch-run-')
+        self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
+        self.f = RunFolder(self.tmp)
+
+    def partway(self):
+        """test_partway's folder: two blocks ended, the third running with one run done and a request in flight."""
+        f = self.f
+        f.manifest()
+        f.whole_block('r1-beta')
+        f.whole_block('r1-gamma', outputs=(30000, 50000, 10000, 10000))
+        f.block('start', 'r2-beta', session='s1')
+        f.run('r2-beta', 'T1', GPT, output=20000)
+        f.request(key('r2-beta', 'T3', GPT), GPT, 0, settle=False)
+
+    def compact(self, balances=None, now=None):
+        return once(self.f.dir, balances=balances, now=now or T0 + timedelta(hours=2), verbose=False, zone=EST)[1]
+
+    def assertCompact(self, text):
+        """What the compact report never holds: tokens, basis lines, health-check counts, outcomes; and only ASCII."""
+        self.assertTrue(text.isascii(), text)
+        for word in ('token', 'based on', 'health check', 'not up', 'requeue per run', ',000'):
+            self.assertNotIn(word, text.lower())
+        WatchRunTests.assertNoOutcome(self, text)
+
+    def test_layout_all_clear(self):
+        self.partway()
+        text = self.compact()
+        # the money of test_partway: anthropic 0.80 spent, carried 1.50, ceiling 20; openai 1.00 with the open reservation, carried
+        # 0.50, ceiling 10; the rest as the full report estimates it. Time: alpha's 4 runs and its start (the running block has run
+        # longer than its estimate).
+        self.assertEqual(text, '\n'.join([
+            'study2-fixture-1   07:00 EST (UTC-05:00)   after block 2 of 4 (r1-gamma), block r2-beta running',
+            '',
+            '  Progress   [########........]  8 of 16 runs    1h59m so far',
+            '  Time left  about 10m00s, finish about 07:10',
+            '',
+            '  Money      spent   room (ceiling)   rest, est.   left after',
+            '  Anthropic  $0.80           $17.70        $0.60       $17.10',
+            '  OpenAI     $1.00            $8.50        $0.50        $8.00',
+            '',
+            '  Health     all clear',
+            '']))
+        self.assertCompact(text)
+
+    def test_with_balances(self):
+        self.partway()
+        text = self.compact(balances={'anthropic': 60.0, 'openai': 5.0})
+        self.assertIn('  Money      spent   room (ceiling)   room (balance)   rest, est.   left after\n', text)
+        # anthropic: the balance is the tighter room only if lower than the ceiling's; openai: 5.00 less the open reservation's 0.20
+        self.assertIn('  Anthropic  $0.80           $17.70           $60.00        $0.60       $17.10\n', text)
+        self.assertIn('  OpenAI     $1.00            $8.50            $4.80        $0.50        $4.30\n', text)
+        text = self.compact(balances={'openai': 5.0})
+        self.assertIn('  Anthropic  $0.80           $17.70                -        $0.60       $17.10\n', text)
+        self.assertCompact(text)
+
+    def test_too_early_for_the_rest(self):
+        self.f.manifest()
+        text = self.compact(now=at(0))
+        self.assertIn('study2-fixture-1   05:00 EST (UTC-05:00)   no block ended yet\n', text)
+        self.assertIn('  Progress   [................]  0 of 16 runs    not started\n', text)
+        self.assertIn('  Anthropic  $0.00           $18.50    too early            -\n', text)
+        self.assertCompact(text)
+
+    def test_resumes_are_counted_in_brackets(self):
+        f = self.f
+        f.manifest()
+        f.whole_block('r1-beta')
+        f.bundle('stopped')
+        f.resume(4)
+        self.assertIn('  Health     all clear (1 resume)\n', self.compact())
+        self.assertIn('study2-fixture-1   07:00 EST (UTC-05:00)   after block 1 of 4 (r1-beta), resumed\n', self.compact())
+        f.resume(4)
+        self.assertIn('  Health     all clear (2 resumes)\n', self.compact())
+
+    def test_each_kind_of_health_event(self):
+        f = self.f
+        f.manifest()
+        f.block('start', 'r1-beta', session='s1')
+        run = key('r1-beta', 'T1', GPT)
+        f.request(run, GPT, 0, retry=True, note='transient: Connection error.')
+        f.request(run, GPT, 10000, note='after 1 retries')
+        f.write('runs/%s/result.json' % run, {'runKey': run, 'model': GPT, 'outcome': 'error', 'vendorErrors': 1, 'requeued': False})
+        f.run('r1-beta', 'T2', CLAUDE, outcome='vendor_error', vendor_errors=2, requeued=True)
+        f.block('end', 'r1-beta', session='s1', outcomes={'error': 1})
+        f.block('start', 'r1-gamma', session='s1')
+        f.block('void', 'r1-gamma', trigger='health', point='start', problems=['assets: assets-service is not running'], runs=[], spend={})
+        f.bundle('block_void')
+        f.resume(2)
+        f.block('start', 'r1-gamma', attempt=2, session='s1')
+        f.block('stopped', 'r1-gamma', attempt=2, session='s1', reason='budget_stop', runKey='x')
+        f.bundle('budget_stop')
+        f.resume(2)
+        f.block('start', 'r1-gamma', attempt=2, session='s1')
+        with open(f.dir / 'health.jsonl', 'a', encoding='utf-8', newline='\n') as handle:
+            handle.write('not json\n')
+        text = self.compact()
+        health = text[text.index('  Health'):]
+        self.assertEqual(health, '\n'.join([
+            '  Health     ! voids: block r1-gamma attempt 1, trigger health at start, 1 problem(s): assets: assets-service is not running',
+            '             ! stops: budget_stop in block r1-gamma at 2026-11-06 05:14:00',
+            '             ! blocks started again within one attempt (a stop with no event, then a resume): r1-gamma attempt 2 (2 starts)',
+            '             ! retries: openai: 2 requests settled, 1 retried; notes: "after 1 retries" x1, "transient: Connection error." x1',
+            '             ! vendor errors: 3 attempt(s) ended on one; 1 run(s) queued again',
+            '             ! unreadable lines: 1 (left out of this report)',
+            '             (2 resumes)',
+            '']))
+        self.assertCompact(text)
+
+    def test_the_command_line_prints_the_compact_report_and_the_full_one_with_verbose(self):
+        self.partway()
+        with redirect_stdout(io.StringIO()) as printed:
+            self.assertEqual(watch_run.main([str(self.f.dir), '--once']), 0)
+        self.assertIn('  Time left  ', printed.getvalue())
+        self.assertNotIn('== study2-fixture-1 at ', printed.getvalue())
+        with redirect_stdout(io.StringIO()) as printed:
+            self.assertEqual(watch_run.main([str(self.f.dir), '--once', '--verbose']), 0)
+        self.assertTrue(printed.getvalue().startswith('== study2-fixture-1 at '))
+        for section in ('\nProgress\n', '\nHealth\n', "\nSpend (dollars at the manifest's prices)\n", '\nEstimate of the rest'):
+            self.assertIn(section, printed.getvalue())
 
 
 if __name__ == '__main__':

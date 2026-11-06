@@ -1,16 +1,18 @@
 """Watch a study-2 run folder while the harness writes it, and print where the run stands: read only, never an outcome.
 
-    python -B study/launch/watch_run.py <run folder> [--once] [--interval <seconds>] [--balance <vendor>=<dollars> ...]
+    python -B study/launch/watch_run.py <run folder> [--once] [--verbose] [--interval <seconds>] [--balance <vendor>=<dollars> ...]
 
 The run folder is LAB_RESULTS_DIR/<study run id>/, the folder the harness (study/harness/runner.py) writes. The watcher prints one report
 at its start and then, while it follows the folder, one after every block `end`, `void` or `stopped` event of blocks.jsonl and every new
 line of resumes.jsonl. It ends by itself when the harness writes bundle.json again (a stop or the end of the run), after a last report.
 Started on a run that has ended, it prints one report and ends. `--once` prints one report and ends.
 
-A report shows:
+Every time a report prints is in the machine's local time, with the time zone named once in its header; the files the harness writes
+keep UTC. By default a report is compact: a header, the progress with the time so far, the time left, a money table per vendor and a
+health line that says "all clear" when nothing happened. `--verbose` prints the full report, which shows:
 
 - progress: the blocks ended out of the schedule's, the runs finished out of its runs, the current block (arm, half, attempt) and the
-  time since the first block start, in blocks and per ended block on average;
+  time since the first block start, in blocks and per ended block on average, and the time left with the expected end (`time_left`);
 - the health of the run: the void attempts (block, attempt, trigger, point and the first problem), the budget stops, the retried requests
   and the notes the ledgers hold, the vendor errors and requeued runs, the resumes and the health checks recorded;
 - the spend per vendor: this run's dollars, priced from its ledgers with the manifest's price entries (budget.py `dollars`), plus the
@@ -26,6 +28,12 @@ A report shows:
 - with --balance, the room under each account balance given: the balance as read when the watcher starts, less what this run settled
   since and what its open reservations may still cost. The balances are kept in memory and printed, never written anywhere (decision
   W3).
+
+The time left is one figure for the whole run, pooled over arms (decision E1 (a) of the Job study2_watch_eta, 2026-11-06): the mean
+time per run of the ended blocks times the runs left, plus the mean time between blocks times the block starts left. A block's runs
+and time are those since its current attempt's last start (the start event's runsFinishedBefore gives the runs done before it), and a
+gap between blocks is an end followed by the next start, left out when a resume lies in it. The block running now is credited with the
+time it has run. Before a block has ended it is "too early". Nothing is shown per arm, per model or per task, the mean per run included.
 
 A report never shows an outcome, a score, a correctness count or any result of an arm: the `outcomes` field of a block's end event is
 dropped when the event is read, a run record is reduced on reading to whether it is finished and its vendor-error count, and no cost is
@@ -47,7 +55,7 @@ import json
 import os
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -337,6 +345,27 @@ class RunState:
     def first_start(self):
         return next((parse_time(e.get('at')) for e in self.events if e.get('event') == 'start'), None)
 
+    def last_resume(self):
+        return parse_time(self.resumes[-1].get('at')) if self.resumes else None
+
+    def running_block(self):
+        """(block, attempt, started at) of the block running now, as the report's `now` line reads it, or None: the harness has not
+        stopped, and no resume came after the block's start."""
+        current, last_resume = self.current_block(), self.last_resume()
+        if self.stopped or not current or current[0] not in {b['id'] for b in self.blocks}:
+            return None
+        if last_resume and current[2] and last_resume > current[2]:
+            return None
+        return current
+
+    def last_starts(self):
+        """{(block id, attempt): (time, runsFinishedBefore)} of the last start event of every attempt."""
+        out = {}
+        for event in self.events:
+            if event.get('event') == 'start':
+                out[(event.get('block'), event.get('attempt'))] = (parse_time(event.get('at')), int(event.get('runsFinishedBefore') or 0))
+        return out
+
 
 # ---------------------------------------------------------------------------------------------------------------- the report
 def money(value):
@@ -352,8 +381,101 @@ def span(seconds):
     return '%dh%02dm' % (hours, minutes) if hours else '%dm%02ds' % (minutes, secs)
 
 
-def clock(moment):
-    return moment.astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC') if moment else '-'
+def local(moment, zone=None):
+    """The moment in `zone`, or in the machine's local time zone when `zone` is None. Only the display is local: the records stay UTC."""
+    return moment.astimezone(zone) if zone is not None else moment.astimezone()
+
+
+def clock(moment, zone=None):
+    """A moment as the report prints it: local date and time, with no zone (the header names it once)."""
+    return local(moment, zone).strftime('%Y-%m-%d %H:%M:%S') if moment else '-'
+
+
+def zone_name(moment, zone=None):
+    """A short name of the local time zone at that moment, in ASCII: the zone's own abbreviation (EST), or the initials of a long name
+    such as Windows gives (Eastern Standard Time), or the offset from UTC when the zone has no name."""
+    moment = local(moment, zone)
+    name = (moment.tzname() or '').strip()
+    if ' ' in name:
+        name = ''.join(word[0] for word in name.split() if word[:1].isalpha()).upper()
+    return name if name and name.isascii() else utc_offset(moment, zone)
+
+
+def utc_offset(moment, zone=None):
+    offset = int(local(moment, zone).utcoffset().total_seconds() // 60)
+    return 'UTC%s%02d:%02d' % ('-' if offset < 0 else '+', abs(offset) // 60, abs(offset) % 60)
+
+
+def time_left(state, now):
+    """The estimate of the time left, one figure for the whole run, pooled over arms (decision E1 (a) of the Job study2_watch_eta,
+    2026-11-06). Returns {'state': 'done'} when every block has ended, {'state': 'too early'} before a block has ended with runs in its
+    last part, else the seconds left and the counts it rests on. The mean per run and per gap stay inside this function: they are not
+    in its result and never printed."""
+    if len(state.ended) == len(state.blocks):
+        return {'state': 'done'}
+    by_id, attempts, last = {b['id']: b for b in state.blocks}, state.attempts(), state.last_starts()
+    # The run time: per ended block, from the last start of its current attempt to its end, and the runs done in that part. An earlier
+    # part that a stop cut off has no end event and is left out with its runs, and a void attempt counts neither time nor runs.
+    run_seconds, runs, blocks_used = 0.0, 0, 0
+    for block_id, (_, end) in state.ended.items():
+        start = last.get((block_id, attempts[block_id]))
+        done = len(by_id[block_id]['runs']) - (start[1] if start else 0)
+        if not start or start[0] is None or end is None or done <= 0:
+            continue
+        run_seconds, runs, blocks_used = run_seconds + (end - start[0]).total_seconds(), runs + done, blocks_used + 1
+    if not runs:
+        return {'state': 'too early'}
+    per_run = run_seconds / runs
+    # The setup between blocks: an end followed by the next start (the teardown, then the next stack's start), left out when a resume
+    # lies in it, because then it holds a stop and a wait for the operator.
+    resumes = [moment for moment in (parse_time(r.get('at')) for r in state.resumes) if moment]
+    gaps, previous = [], None
+    for event in state.events:
+        if event.get('event') == 'start' and previous is not None and previous.get('event') == 'end':
+            ended_at, started_at = parse_time(previous.get('at')), parse_time(event.get('at'))
+            if ended_at and started_at and started_at >= ended_at and not any(ended_at < r <= started_at for r in resumes):
+                gaps.append((started_at - ended_at).total_seconds())
+        previous = event
+    per_gap = sum(gaps) / len(gaps) if gaps else 0.0
+    running = state.running_block()
+    seconds, runs_left, starts_left = 0.0, 0, 0
+    for block in state.blocks:
+        if block['id'] in state.ended:
+            continue
+        start = last.get((block['id'], attempts[block['id']]))
+        left = max(0, len(block['runs']) - (start[1] if start else 0))  # a void's repeat has a new attempt: its runs count again
+        runs_left += left
+        if running and running[0] == block['id'] and running[1] == attempts[block['id']]:
+            ran = (now - running[2]).total_seconds() if running[2] else 0.0
+            seconds += max(0.0, per_run * left - ran)
+        else:
+            seconds += per_run * left
+            starts_left += 1
+    seconds += per_gap * starts_left
+    return {'state': 'estimate', 'seconds': seconds, 'runs': runs, 'blocks': blocks_used, 'gaps': len(gaps), 'runs_left': runs_left,
+            'starts_left': starts_left, 'stopped': state.stopped}
+
+
+def finish_at(now, seconds, zone=None):
+    """The expected end in local time: the time of day, with the date when it falls on another day."""
+    end, today = local(now + timedelta(seconds=seconds), zone), local(now, zone)
+    return end.strftime('%H:%M') if end.date() == today.date() else end.strftime('%Y-%m-%d %H:%M')
+
+
+def time_left_text(estimate, now, zone=None):
+    """The time left as one line of text, for both reports."""
+    if estimate['state'] == 'done':
+        return 'done'
+    if estimate['state'] == 'too early':
+        return 'too early (no block has ended yet)'
+    left, end = span(estimate['seconds']), finish_at(now, estimate['seconds'], zone)
+    if not estimate['gaps'] and estimate['starts_left']:
+        # After the first block no gap between blocks is measured yet, and the setup before each block can take as long as a block.
+        return 'about %s plus the setup before %d block(s), not measured yet; finish after %s%s' % (
+            left, estimate['starts_left'], end, ' (the harness has stopped)' if estimate['stopped'] else '')
+    if estimate['stopped']:
+        return 'about %s once resumed (the harness has stopped; finish about %s if resumed now)' % (left, end)
+    return 'about %s, finish about %s' % (left, end)
 
 
 def projection(state):
@@ -397,9 +519,10 @@ def projection(state):
     return out
 
 
-def report(state, now, reason, balances=None, spent_at_start=None):
-    """The report as text. `balances` is {vendor: dollars} from the command line; `spent_at_start` is {vendor: dollars} at watcher start."""
-    lines = ['== %s at %s (%s) ==' % (state.run_id, clock(now), reason)]
+def report(state, now, reason, balances=None, spent_at_start=None, zone=None):
+    """The full report (--verbose) as text. `balances` is {vendor: dollars} from the command line; `spent_at_start` is {vendor: dollars}
+    at watcher start; `zone` is the time zone of the display, None for the machine's."""
+    lines = ['== %s at %s %s, %s (%s) ==' % (state.run_id, clock(now, zone), zone_name(now, zone), utc_offset(now, zone), reason)]
     total_runs = len(state.key_of)
     finished = sum(1 for key in state.key_of if state.finished(key))
     ended = state.ended
@@ -413,16 +536,17 @@ def report(state, now, reason, balances=None, spent_at_start=None):
     last_event = parse_time(state.events[-1].get('at')) if state.events else None
     if state.stopped:
         lines.append('  now: no block running; the harness wrote bundle.json at %s (%s, from the events)'
-                     % (clock(state.bundle_written), state.stop_status()))
+                     % (clock(state.bundle_written, zone), state.stop_status()))
     elif current and current[0] in by_id and not (last_resume and current[2] and last_resume > current[2]):
         block = by_id[current[0]]
         lines.append('  now: block %s (sequence %s, arm %s, half %s, attempt %s) since %s'
-                     % (block['id'], block.get('sequence', '?'), block['arm'], block.get('half') or '-', current[1], clock(current[2])))
+                     % (block['id'], block.get('sequence', '?'), block['arm'], block.get('half') or '-', current[1],
+                        clock(current[2], zone)))
     elif last_resume and (last_event is None or last_resume > last_event):
-        lines.append('  now: a resume started at %s; no block has started since' % clock(last_resume))
+        lines.append('  now: a resume started at %s; no block has started since' % clock(last_resume, zone))
     elif state.events:
         lines.append('  now: no block running (last event: %s of block %s at %s)'
-                     % (state.events[-1].get('event'), state.events[-1].get('block'), clock(last_event)))
+                     % (state.events[-1].get('event'), state.events[-1].get('block'), clock(last_event, zone)))
     else:
         lines.append('  now: no block has started yet')
     first = state.first_start()
@@ -432,6 +556,14 @@ def report(state, now, reason, balances=None, spent_at_start=None):
         lines.append('  time: %s since the first block start; %s in ended blocks, %s per ended block on average'
                      % (span((until - first).total_seconds()), span(sum(durations)) if durations else '-',
                         span(sum(durations) / len(durations)) if durations else '-'))
+    estimate = time_left(state, now)
+    lines.append('  time left (an estimate, all arms pooled): %s' % time_left_text(estimate, now, zone))
+    if estimate['state'] == 'estimate':
+        lines.append('    based on %d run(s) in %d ended block(s) and %s; %d run(s) and %d block start(s) left'
+                     % (estimate['runs'], estimate['blocks'],
+                        '%d gap(s) between blocks, leaving out a gap that holds a resume' % estimate['gaps'] if estimate['gaps']
+                        else 'no gap between blocks yet, so the setup before a block is not counted',
+                        estimate['runs_left'], estimate['starts_left']))
 
     lines.append('Health')
     voids = [e for e in state.events if e.get('event') == 'void']
@@ -444,7 +576,7 @@ def report(state, now, reason, balances=None, spent_at_start=None):
     else:
         lines.append('  voids: none')
     stops = [e for e in state.events if e.get('event') == 'stopped']
-    lines.append('  stops: ' + ('; '.join('%s in block %s at %s' % (e.get('reason'), e.get('block'), clock(parse_time(e.get('at'))))
+    lines.append('  stops: ' + ('; '.join('%s in block %s at %s' % (e.get('reason'), e.get('block'), clock(parse_time(e.get('at')), zone))
                                          for e in stops) if stops else 'none'))
     for vendor in state.vendors:
         ledger = state.ledgers.get(vendor)
@@ -458,7 +590,7 @@ def report(state, now, reason, balances=None, spent_at_start=None):
                  % (errors, requeued, state.requeues if state.requeues is not None else '?'))
     if state.resumes:
         last = state.resumes[-1]
-        lines.append('  resumes: %d (last at %s, %s finished runs kept)' % (len(state.resumes), clock(parse_time(last.get('at'))),
+        lines.append('  resumes: %d (last at %s, %s finished runs kept)' % (len(state.resumes), clock(parse_time(last.get('at')), zone),
                                                                            last.get('completedRunsKept', '?')))
     else:
         lines.append('  resumes: none')
@@ -537,6 +669,135 @@ def report(state, now, reason, balances=None, spent_at_start=None):
     return '\n'.join(lines) + '\n'
 
 
+VENDOR_NAMES = {'anthropic': 'Anthropic', 'openai': 'OpenAI'}
+BAR = 16  # characters of the progress bar
+
+
+def dollars_text(value):
+    return '%s$%.2f' % ('-' if value < -0.005 else '', abs(value))
+
+
+def health_lines(state, zone=None):
+    """The compact report's health: one line per kind of event that happened, marked `!`, worded as the full report words them; none
+    when the run is clear. Resumes are not an event here: the caller counts them."""
+    out = []
+    voids = [e for e in state.events if e.get('event') == 'void']
+    if voids:
+        out.append('voids: ' + '; '.join('block %s attempt %s, trigger %s at %s, %d problem(s)%s'
+                                         % (e.get('block'), e.get('attempt'), e.get('trigger'), e.get('point'),
+                                            len(e.get('problems') or []), (': ' + str(e['problems'][0])[:100]) if e.get('problems') else '')
+                                         for e in voids))
+    stops = ['%s in block %s at %s' % (e.get('reason'), e.get('block'), clock(parse_time(e.get('at')), zone))
+             for e in state.events if e.get('event') == 'stopped']
+    if stops:
+        out.append('stops: ' + '; '.join(stops))
+    starts = {}
+    for event in state.events:
+        if event.get('event') == 'start':
+            starts[(event.get('block'), event.get('attempt'))] = starts.get((event.get('block'), event.get('attempt')), 0) + 1
+    again = ['%s attempt %s (%d starts)' % (block, attempt, count) for (block, attempt), count in starts.items() if count > 1]
+    if again:  # a line of its own, as in the full report, which says "stops: none" beside it
+        out.append('blocks started again within one attempt (a stop with no event, then a resume): ' + '; '.join(again))
+    retried = []
+    for vendor in state.vendors:
+        ledger = state.ledgers.get(vendor)
+        if ledger and (ledger.retries or ledger.notes):
+            notes = ', '.join('"%s" x%d' % (note, count) for note, count in sorted(ledger.notes.items()))
+            retried.append('%s: %d requests settled, %d retried%s'
+                           % (vendor, ledger.settled, ledger.retries, ('; notes: ' + notes) if notes else ''))
+    if retried:
+        out.append('retries: ' + '; '.join(retried))
+    errors = sum(r['vendorErrors'] for r in state.records.values())
+    requeued = sum(1 for r in state.records.values() if r['requeued'])
+    if errors or requeued:
+        out.append('vendor errors: %d attempt(s) ended on one; %d run(s) queued again' % (errors, requeued))
+    if state.unreadable:
+        out.append('unreadable lines: %d (left out of this report)' % state.unreadable)
+    return out
+
+
+def situation(state):
+    """Where the run stands, for the compact header."""
+    total, ended = len(state.blocks), len(state.ended)
+    if state.stopped and state.stop_status() == 'complete':
+        return 'ended, all %d blocks' % total
+    last_end = next((e.get('block') for e in reversed(state.events) if e.get('event') == 'end' and e.get('block') in state.ended), None)
+    text = 'after block %d of %d (%s)' % (ended, total, last_end) if ended else 'no block ended yet'
+    running, last_resume = state.running_block(), state.last_resume()
+    last_event = parse_time(state.events[-1].get('at')) if state.events else None
+    if state.stopped:
+        text += ', stopped (%s)' % state.stop_status()
+    elif running:
+        text += ', block %s running' % running[0]
+    elif last_resume and (last_event is None or last_resume > last_event):
+        text += ', resumed'
+    return text
+
+
+def compact(state, now, balances=None, spent_at_start=None, zone=None):
+    """The compact report (the default) as text: the header, progress, time left, money and health, and nothing else (decision E3 of
+    the Job study2_watch_eta, 2026-11-06). The header gives the zone's short name with its offset from UTC, because a short name taken
+    from the initials of a long Windows name can mislead (W. Europe Standard Time gives WEST, a summer abbreviation, in winter)."""
+    label = 11  # the width of the first column
+    lines = ['%s   %s %s (%s)   %s' % (state.run_id, local(now, zone).strftime('%H:%M'), zone_name(now, zone), utc_offset(now, zone),
+                                       situation(state)), '']
+    total = len(state.key_of)
+    finished = sum(1 for key in state.key_of if state.finished(key))
+    filled = int(round(BAR * finished / total)) if total else 0
+    first = state.first_start()
+    so_far = span(((state.bundle_written if state.stopped else now) - first).total_seconds()) + ' so far' if first else 'not started'
+    lines.append('  %s[%s]  %d of %d runs    %s' % ('Progress'.ljust(label), '#' * filled + '.' * (BAR - filled), finished, total, so_far))
+    lines.append('  %s%s' % ('Time left'.ljust(label), time_left_text(time_left(state, now), now, zone)))
+    lines.append('')
+
+    estimate = projection(state)
+    headers = ['spent', 'room (ceiling)'] + (['room (balance)'] if balances else []) + ['rest, est.', 'left after']
+    rows = []
+    for vendor in state.vendors:
+        ledger = state.ledgers.get(vendor)
+        spent = ledger.counted_dollars if ledger else 0.0
+        ceiling = state.budgets.get(vendor, {}).get('dollar_ceiling')
+        rooms = []
+        row = [dollars_text(spent)]
+        if ceiling is not None:
+            rooms.append(float(ceiling) - state.carried.get(vendor, 0.0) - spent)
+            row.append(dollars_text(rooms[-1]))
+        else:
+            row.append('-')
+        if balances:
+            if vendor in balances:
+                settled = ledger.dollars if ledger else 0.0  # as the full report's balances count it
+                since = settled - (spent_at_start or {}).get(vendor, settled)
+                rooms.append(balances[vendor] - since - (ledger.open_dollars if ledger else 0.0))
+                row.append(dollars_text(rooms[-1]))
+            else:
+                row.append('-')
+        facts = estimate[vendor]
+        if facts['too_early']:
+            row += ['too early', '-']
+        else:
+            row += [dollars_text(facts['dollars']), dollars_text(min(rooms) - facts['dollars']) if rooms else '-']
+        rows.append([VENDOR_NAMES.get(vendor, vendor.capitalize())] + row)
+    first_width = max([label] + [len(row[0]) + 2 for row in rows])
+    widths = [max([len(h)] + [len(row[i + 1]) for row in rows]) for i, h in enumerate(headers)]
+    lines.append('  ' + 'Money'.ljust(first_width) + '   '.join(h.rjust(w) for h, w in zip(headers, widths)))
+    for row in rows:
+        lines.append('  ' + row[0].ljust(first_width) + '   '.join(v.rjust(w) for v, w in zip(row[1:], widths)))
+    lines.append('')
+
+    events = health_lines(state, zone)
+    resumes = len(state.resumes)
+    counted = '%d resume%s' % (resumes, '' if resumes == 1 else 's')
+    if not events:
+        lines.append('  %sall clear%s' % ('Health'.ljust(label), (' (%s)' % counted) if resumes else ''))
+    else:
+        for n, event in enumerate(events):
+            lines.append('  %s! %s' % (('Health' if n == 0 else '').ljust(label), event))
+        if resumes:
+            lines.append('  %s(%s)' % (''.ljust(label), counted))
+    return '\n'.join(lines) + '\n'
+
+
 # ---------------------------------------------------------------------------------------------------------------- following
 def signature_of(events, resumes, bundle_listing):
     return {'events': [(e.get('event'), e.get('block'), e.get('attempt'), e.get('at')) for e in events if e.get('event') in REPORT_EVENTS],
@@ -569,9 +830,15 @@ def reason_of(before, after):
 
 
 def follow(folder, out, interval=DEFAULT_INTERVAL, once=False, balances=None, polls=None, sleep=time.sleep,
-           now=lambda: datetime.now(timezone.utc)):
-    """Print the reports; returns the exit code. `polls` bounds the number of polls (for tests); None follows until the run stops.
-    `sleep` is called with `interval` between polls."""
+           now=lambda: datetime.now(timezone.utc), verbose=False, zone=None):
+    """Print the reports, compact or full (`verbose`); returns the exit code. `polls` bounds the number of polls (for tests); None
+    follows until the run stops. `sleep` is called with `interval` between polls. `zone` is the time zone of the display, None for the
+    machine's local one."""
+    def render(state, reason):
+        if verbose:
+            return report(state, now(), reason, balances, spent_at_start, zone)
+        return compact(state, now(), balances, spent_at_start, zone)
+
     def write(text):
         out.write(text)
         out.flush()
@@ -590,7 +857,7 @@ def follow(folder, out, interval=DEFAULT_INTERVAL, once=False, balances=None, po
         return 2
     seen = state_signature(state)
     spent_at_start = {v: ledger.dollars for v, ledger in state.ledgers.items()}  # settled only: see the balances
-    write(report(state, now(), 'watcher start', balances, spent_at_start))
+    write(render(state, 'watcher start'))
     if once or (state.stopped and state.stop_status() == 'complete'):
         return 0
     while polls is None or polls > 0:
@@ -604,7 +871,7 @@ def follow(folder, out, interval=DEFAULT_INTERVAL, once=False, balances=None, po
         reason = ('the harness wrote bundle.json (%s)' % state.stop_status() if bundle_written and state.stopped
                   else reason_of(seen, current))
         seen = current
-        write('\n' + report(state, now(), reason, balances, spent_at_start))
+        write('\n' + render(state, reason))
         if bundle_written and state.stopped:
             return 0
     return 0
@@ -626,6 +893,7 @@ def main(argv=None):
                                                  'the rest, never an outcome.')
     parser.add_argument('folder', type=Path, help='the run folder, LAB_RESULTS_DIR/<study run id>')
     parser.add_argument('--once', action='store_true', help='print one report and end')
+    parser.add_argument('--verbose', action='store_true', help='print the full report instead of the compact one')
     parser.add_argument('--interval', type=float, default=DEFAULT_INTERVAL, help='seconds between two reads of the folder (default 15)')
     parser.add_argument('--balance', action='append', type=parse_balance, default=[], metavar='VENDOR=DOLLARS',
                         help='an account balance as read now, for the room under it; repeat per vendor; never stored')
@@ -635,7 +903,8 @@ def main(argv=None):
         parser.error('--interval must be a positive number of seconds')
     balances = dict(args.balance)
     try:
-        return follow(args.folder, sys.stdout, interval=args.interval, once=args.once, balances=balances, polls=args.polls)
+        return follow(args.folder, sys.stdout, interval=args.interval, once=args.once, balances=balances, polls=args.polls,
+                      verbose=args.verbose)
     except ValueError as error:
         print(str(error), file=sys.stderr)
         return 2

@@ -151,7 +151,7 @@ From the repository root, in Git Bash; every folder in angle brackets is outside
 
 ## Watching a run
 
-`watch_run.py` follows a study-2 run folder while the harness writes it and prints, after every block, where the run stands: how far it has got, how healthy it is, what it has spent, how much room is left under each ceiling (and under your account balances, if you give them) and an estimate of what the rest will cost. It only reads, and it never shows an outcome. The harness itself prints its budget only once, at the end of a run.
+`watch_run.py` follows a study-2 run folder while the harness writes it and prints, after every block, where the run stands: how far it has got, how long the rest should take, how healthy it is, what it has spent, how much room is left under each ceiling (and under your account balances, if you give them) and an estimate of what the rest will cost. It only reads, and it never shows an outcome. The harness itself prints its budget only once, at the end of a run.
 
 Start it in a second terminal beside the run, from the repository root, in PowerShell or Git Bash, with the run's folder in `LAB_RESULTS_DIR`:
 
@@ -159,15 +159,46 @@ Start it in a second terminal beside the run, from the repository root, in Power
 py -3 -B study/launch/watch_run.py '<results folder>/<study run id>'
 py -3 -B study/launch/watch_run.py '<results folder>/<study run id>' --balance anthropic=<dollars> --balance openai=<dollars>
 py -3 -B study/launch/watch_run.py '<results folder>/<study run id>' --once
+py -3 -B study/launch/watch_run.py '<results folder>/<study run id>' --verbose
 ```
 
-It prints one report when it starts, and one after every block `end`, `void` or `stopped` event and every resume. It ends by itself when the harness writes `bundle.json` again (a stop or the end of the run), after a last report, and Ctrl+C ends it at any time without effect on the run. Started before the run, it waits for the manifest. `--once` prints one report and ends; `--interval` sets the seconds between two reads of the folder (default 15). A report holds:
+It prints one report when it starts, and one after every block `end`, `void` or `stopped` event and every resume. It ends by itself when the harness writes `bundle.json` again (a stop or the end of the run), after a last report, and Ctrl+C ends it at any time without effect on the run. Started before the run, it waits for the manifest. `--once` prints one report and ends; `--interval` sets the seconds between two reads of the folder (default 15). Every time a report prints is in the machine's local time, and its header names the time zone once; the files the harness writes stay in UTC.
 
-- **Progress:** the blocks ended out of the schedule's, the runs finished out of its runs, the current block (arm, half, attempt) and the time since the first block start, in ended blocks and per ended block on average.
+**The compact report** is the default (decision E3 of the Job study2_watch_eta, 2026-11-06). Replayed on `study2-freeze-dry2` after its sixth block, with `--balance anthropic=60 --balance openai=25`:
+
+```text
+study2-freeze-dry2   11:35 EST (UTC-05:00)   after block 6 of 17 (r4-delta)
+
+  Progress   [#####...........]  162 of 540 runs    16m29s so far
+  Time left  about 32m44s, finish about 12:07
+
+  Money      spent   room (ceiling)   room (balance)   rest, est.   left after
+  Anthropic  $0.02           $84.98           $60.00        $0.01       $59.99
+  OpenAI     $0.02           $39.98           $25.00        $0.01       $24.99
+
+  Health     ! blocks started again within one attempt (a stop with no event, then a resume): r1-gamma attempt 1 (2 starts)
+             (1 resume)
+```
+
+The header gives the run, the local time with the time zone and its offset from UTC, and where the run stands. The zone's short name is the machine's own abbreviation or, for a long name such as Windows gives, its initials (Eastern Standard Time gives EST), which can mislead (W. Europe Standard Time gives WEST, a summer abbreviation, in winter); the offset is exact. Progress counts the runs finished, as the full report does, with a bar of `#` and `.` (plain ASCII, so that no console code page fails on a character), and the time since the first block start. In the money table, `spent` is this run's spend; `room (ceiling)` is the ceiling less the carried dollars and the spend; `room (balance)`, shown only with `--balance`, is the balance less what was spent since the watcher started; `rest, est.` is the estimate of the rest below ("too early" while a model has no finished run); and `left after` is the tighter room less that estimate. Open reservations count as the budget counts them, as in the full report. Health says "all clear" when there is no void, stop, block started again within one attempt (a stop that left no event), retry, vendor error or unreadable line, with the resumes in brackets; otherwise it prints one line per kind of event, marked `!`, worded as the full report words it. The compact report holds nothing else: no tokens, no basis lines and no health-check counts.
+
+**The full report** comes with `--verbose`: the report the watcher printed before the compact one existed, with the time left added to Progress and every time in local time. It holds:
+
+- **Progress:** the blocks ended out of the schedule's, the runs finished out of its runs, the current block (arm, half, attempt), the time since the first block start, in ended blocks and per ended block on average, and the time left with what it is based on.
 - **Health:** the void attempts (block, attempt, trigger, point and the first problem), the budget stops, per vendor the requests settled and retried with the notes the ledger holds (`transient: Connection error.`, `after 1 retries`), the attempts that ended on a vendor error and the runs queued again, the resumes, a block started again within one attempt (a stop that left no event) and the health checks recorded.
 - **Spend:** per vendor, this run's dollars, priced from its ledger with the manifest's price entries by the harness's own `dollars`, plus the dollars carried from earlier study-2 runs (`budgetCarry`), against the `dollar_ceiling` (the last one a resume recorded), with the room left, and the tokens against the token budget. A reservation with no settlement, such as the request in flight, is counted at the output price, as `ledger_dollars` counts it for the carry. On `study2-dev-tool-1` the watcher gives 6.70 and 3.87 dollars, 10.57 in all, equal to the run's score rows and to `ledger_dollars`.
 - **Estimate of the rest (decision W2):** every run not finished yet is priced at the mean cost of this run's finished runs of the same arm and model, or of the same model while that arm has none, and "too early" while the model has none; the line names how many finished runs it rests on and how many runs were priced each way. A run's cost is what its run key cost in the ledger since its block's current attempt began (the attempt's first start event, against the ledger's times), retries included; the spend of a void attempt is left out, so it is neither a run's cost nor a credit against its repeat. A block that has not ended may hold runs that are finished (a resume keeps a stopped block's finished runs) beside runs half done, and their records are not read until it ends, so spend alone cannot tell them apart: the estimate prices every such run at its whole mean, and gives in brackets the low end, with nothing for the runs that already have spend in the block's current attempt. It is an estimate: an arm that has not run yet is priced at the other arms' mean, and the reference block (alpha) runs last, so the estimate tends to be low until it has run. Replayed on `study2-dev-tool-1`, the estimate after 9 of its 17 blocks put the total with the carry at 7.34 (Anthropic) and 4.54 dollars (OpenAI), and after 16 at 9.70 and 5.56; the run ended at 10.77 and 5.93.
 - **Balances (decision W3):** with `--balance <vendor>=<dollars>`, the balance as you read it when the watcher starts, less what this run settled since and what its open reservations may still cost at the output price, and the room after the estimated rest. A reservation open when the watcher starts counts as spent when it settles, so the spend since never goes below zero; the room can still rise when a reservation settles for less than its allowance at the output price. The balances are what the account can pay, and the ceiling is only what the harness allows; they are kept in memory and printed, and never written anywhere.
+
+**The time left (decision E1 of the Job study2_watch_eta, 2026-11-06).** One figure for the whole run: the mean time per run of the ended blocks times the runs left, plus the mean time between blocks times the block starts left, and the expected end in local time. Following the runs, not the blocks, counts the reference block (alpha, 108 runs) four times as long as a block of 27, and counting the gaps per start counts the setup between blocks (the teardown and the next stack's start, 1m50s on average on the dry run, longer than a dry-run block). What it counts and leaves out:
+
+- A block's time and runs are those since its current attempt's last start, to its end: the start event's `runsFinishedBefore` gives the runs done before a resume, so a stopped and resumed block counts only its last part, and the part a stop cut off is left out with its runs.
+- A gap is a block's end followed by the next start; a gap that holds a resume is left out, because it holds a stop and the wait for the operator.
+- A void attempt counts neither time nor runs, and the repeat of a void block counts all its runs again.
+- The block running now is credited with the time it has run, never below nothing; a stopped run's estimate is the time once resumed.
+- Before a block has ended it says "too early". After the first block no gap is measured yet: it then says that the setup before the blocks left is not counted, and gives the end as a time after which the run finishes.
+
+Replayed on `study2-freeze-dry2` (17 blocks, 49 minutes from the first start, with one stop and resume), the expected end after block 1 was 31 minutes early, with the setup not counted yet, and from block 2 on it was within two minutes of the real end, within 30 seconds from block 8. It is pooled over arms on purpose: elapsed time per run is one of study 2's four measures, and a time per arm, per model or per task, even the mean per run that the estimate uses inside, would show an interim result of an arm. The report prints the counts it rests on (runs, ended blocks, gaps), never a mean.
 
 **What it never shows, and why.** No outcome, score, correctness count or result of an arm: interim results must not steer a scored run. The `outcomes` field of a block's `end` event is dropped when the event is read, a run's `result.json` is reduced on reading to whether the run is finished and its vendor-error count, and cost is shown per vendor only, never per task or per arm. The tests check every report against every outcome name and the fixtures' scores.
 
