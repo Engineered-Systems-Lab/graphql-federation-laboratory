@@ -1,7 +1,8 @@
 """The tests of corpus 2. Offline: no stack, no MCP server, no API key.
 
-- The derivation reproduces every derived file from the released files, every key fits its schema and scores correct, and chosen
-  wrong answers are refused.
+- The derivation reproduces every derived file from the released files, under the status the committed manifest holds (the draft status
+  or a well-formed frozen one, also checked on a frozen copy), every key fits its schema and scores correct, and chosen wrong answers are
+  refused.
 - The three scoring rules (abstention, ask_requester in a core task, the ambiguity rubric) and the honesty checks, on example submissions.
 - The pool meets the 1.4 rule in every cell, the ambiguity and development sets have their sizes, and the three are disjoint.
 - The draw, on fake answerability reports: quotas and coverage, reproducible from its seed; the corpus files hold no task before it.
@@ -86,38 +87,104 @@ def wrong(value):
     raise TypeError(value)
 
 
-class TheDerivation(unittest.TestCase):
-    def test_the_derived_files_reproduce_from_the_released_files(self):
-        for name, text in derive_a.derive().items():
-            self.assertEqual((HERE / name).read_bytes().replace(b'\r\n', b'\n').decode('utf-8'), text, name)
+CORPUS_FILES = ('pool.json', 'ambiguity.json', 'dev.json', 'keys-a.json', 'corpus-manifest.json') + derive_a.DRAWN
+_DRAFT = {}
 
-    def test_the_manifest_holds_the_checksums_of_all_seven_files_and_is_not_frozen(self):
-        # this Job freezes nothing: the committed manifest stays draft (decision C1); the freeze writes frozen-<date>
-        manifest = load('corpus-manifest.json')
-        self.assertEqual(manifest['status'], derive_a.STAMP)
-        self.assertIn('not frozen', manifest['status'])
+
+def draft_manifest():
+    """The draft manifest's bytes, derived from the released files and the committed drawn files, whatever the committed manifest holds."""
+    if 'bytes' not in _DRAFT:
+        _DRAFT['bytes'] = derive_a.derive(derive_a.STAMP)['corpus-manifest.json'].encode('utf-8')
+    return _DRAFT['bytes']
+
+
+def draft_copy(folder):
+    """Copy the corpus files into `folder`, with a draft manifest in place of the committed one."""
+    for name in CORPUS_FILES:
+        shutil.copy(HERE / name, Path(folder) / name)
+    (Path(folder) / 'corpus-manifest.json').write_bytes(draft_manifest())
+
+
+def run_check(*argv, folder=HERE):
+    """derive_a.py's command line on `folder`: its exit code and everything it printed."""
+    out, err = io.StringIO(), io.StringIO()
+    with redirect_stdout(out), redirect_stderr(err):
+        code = derive_a.main(list(argv), folder=folder)
+    return code, out.getvalue() + err.getvalue()
+
+
+class CommittedCorpusChecks:
+    """The checks of the committed corpus files, under the status the committed manifest holds: the draft status, or a well-formed
+    frozen-<YYYY-MM-DD> once the freeze is committed (decisions C1 and C2). TheDerivation runs them on this folder and TheFrozenManifest
+    on a temporary copy frozen by derive_a.py --write --frozen <date>."""
+
+    def corpus(self):
+        return HERE
+
+    def test_the_derived_files_reproduce_from_the_released_files(self):
+        folder = self.corpus()
+        status = derive_a.committed_status(folder)
+        self.assertTrue(derive_a.status_ok(status), status)
+        for name, text in derive_a.derive(status, folder).items():
+            self.assertEqual((folder / name).read_bytes().replace(b'\r\n', b'\n').decode('utf-8'), text, name)
+
+    def test_the_manifest_holds_the_checksums_of_all_seven_files_and_a_well_formed_status(self):
+        folder = self.corpus()
+        manifest = json.loads((folder / 'corpus-manifest.json').read_text(encoding='utf-8'))
+        self.assertTrue(derive_a.status_ok(manifest['status']), manifest['status'])
         self.assertEqual(list(manifest['files']), ['pool.json', 'ambiguity.json', 'dev.json', 'keys-a.json', 'tasks.json', 'schemas.json',
                                                    'expected.json'])
         for name, digest in manifest['files'].items():
-            self.assertEqual(scoring_sha(HERE / name), digest, name)
+            self.assertEqual(scoring_sha(folder / name), digest, name)
+
+    def test_the_check_passes_on_the_committed_files_under_their_status(self):
+        folder = self.corpus()
+        code, text = run_check(folder=folder)
+        self.assertEqual(code, 0, text)
+        self.assertIn('manifest status: %s)' % derive_a.committed_status(folder), text)
+
+
+class TheDerivation(CommittedCorpusChecks, unittest.TestCase):
+    pass
+
+
+class TheFrozenManifest(CommittedCorpusChecks, unittest.TestCase):
+    """A manifest frozen by derive_a.py --write --frozen <date> in a temporary copy of the corpus passes the checks of the committed files."""
+
+    @classmethod
+    def setUpClass(cls):
+        tmp = tempfile.TemporaryDirectory()
+        cls.addClassCleanup(tmp.cleanup)
+        cls.folder = Path(tmp.name)
+        draft_copy(cls.folder)
+        code, text = run_check('--write', '--frozen', '2026-11-07', folder=cls.folder)
+        if code != 0:
+            raise AssertionError('the freeze of the copy failed: %s' % text)
+
+    def corpus(self):
+        return self.folder
+
+    def test_the_copy_holds_a_frozen_manifest_and_only_the_manifest_changed(self):
+        self.assertEqual(derive_a.committed_status(self.folder), 'frozen-2026-11-07')
+        self.assertNotEqual((self.folder / 'corpus-manifest.json').read_bytes(), draft_manifest())
+        for name in CORPUS_FILES:
+            if name != 'corpus-manifest.json':
+                self.assertEqual((self.folder / name).read_bytes(), (HERE / name).read_bytes(), name)
 
 
 class TheManifestStatus(unittest.TestCase):
-    """The draft status or frozen-<YYYY-MM-DD>, written only by an explicit option and only in the manifest (decisions C1 and C2)."""
-    FILES = ('pool.json', 'ambiguity.json', 'dev.json', 'keys-a.json', 'corpus-manifest.json') + derive_a.DRAWN
+    """The draft status or frozen-<YYYY-MM-DD>, written only by an explicit option and only in the manifest (decisions C1 and C2). Each
+    test starts from its own draft copy of the corpus, whatever status the committed manifest holds."""
+    FILES = CORPUS_FILES
 
     def setUp(self):
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)
         self.folder = Path(tmp.name)
-        for name in self.FILES:
-            shutil.copy(HERE / name, self.folder / name)
+        draft_copy(self.folder)
 
     def main(self, *argv):
-        out, err = io.StringIO(), io.StringIO()
-        with redirect_stdout(out), redirect_stderr(err):
-            code = derive_a.main(list(argv), folder=self.folder)
-        return code, out.getvalue() + err.getvalue()
+        return run_check(*argv, folder=self.folder)
 
     def bytes_of(self, name):
         return (self.folder / name).read_bytes()
@@ -137,7 +204,7 @@ class TheManifestStatus(unittest.TestCase):
         with self.assertRaises(ValueError):
             derive_a.derive('frozen-2026-13-01')
 
-    def test_the_draft_check_passes_on_the_committed_files(self):
+    def test_the_draft_check_passes_on_a_draft_copy(self):
         code, text = self.main()
         self.assertEqual(code, 0, text)
         self.assertIn('manifest status: draft, not frozen', text)
@@ -187,8 +254,7 @@ class TheManifestStatus(unittest.TestCase):
         # a derived file names itself; a drawn file shows as the manifest, which holds its hash
         for name, named in (('pool.json', 'pool.json'), ('keys-a.json', 'keys-a.json'), ('tasks.json', 'corpus-manifest.json')):
             with self.subTest(name=name):
-                for each in self.FILES:
-                    shutil.copy(HERE / each, self.folder / each)
+                draft_copy(self.folder)
                 (self.folder / name).write_bytes(self.bytes_of(name) + b' ')
                 before = {each: self.bytes_of(each) for each in self.FILES}
                 code, text = self.main('--write', '--frozen', '2026-11-07')
@@ -211,7 +277,7 @@ class TheManifestStatus(unittest.TestCase):
         for frozen in (False, True):
             for number, edit in enumerate(edits):
                 with self.subTest(frozen=frozen, edit=number):
-                    shutil.copy(HERE / 'corpus-manifest.json', self.folder / 'corpus-manifest.json')
+                    (self.folder / 'corpus-manifest.json').write_bytes(draft_manifest())
                     if frozen:
                         self.assertEqual(self.main('--write', '--frozen', '2026-11-07')[0], 0)
                     self.assertEqual(self.main()[0], 0)
