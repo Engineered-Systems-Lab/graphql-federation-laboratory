@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 456" width="760" height="456" role="img" aria-labelledby="s1-title s1-desc">
+<title id="s1-title">Study 1 design: five scenarios run one after another</title>
+<desc id="s1-desc">The design of Abstraction ladder study 1 (run study-1). Five scenarios ran one after another in one session, in the fixed order Raw access (Alpha), Raw access with a guide (Beta), Adapters (Gamma), Apollo router (Delta) and Cosmo router (Epsilon), with one stack start each. Each scenario ran 16 tasks with 2 models and 2 trials, 64 runs, with the task and trial units shuffled and the model order interleaved within the scenario. In all 320 runs. A separate later run, gamma-prime-1, ran the Adapters scenario alone again, 64 runs, not interleaved with study-1. No results are shown.</desc>
+<style>
+text{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;font-size:12px;fill:#1f2328}
+.t{font-size:16px;font-weight:600}
+.h{font-size:13px;font-weight:600}
+.b{font-weight:600}
+.s{font-size:11px}
+.m{fill:#57606a}
+.panel{fill:#f7f8fa;stroke:#c9ced6}
+.strip{fill:#ffffff;stroke:#c9ced6}
+.rule{stroke:#9aa3ad}
+.arrow{stroke:#57606a;fill:none}
+.head{fill:#57606a}
+.k1{fill:#e8eef7;stroke:#6b7f99}
+.k2{fill:#fbeedd;stroke:#b7791f}
+.k3{fill:#e3f1e6;stroke:#3f8a4f}
+.k4{fill:#e6e8fb;stroke:#5a63c4}
+.k5{fill:#f6e4ef;stroke:#a84f86}
+@media (prefers-color-scheme: dark){
+text{fill:#e6edf3}
+.m{fill:#9da7b3}
+.panel{fill:#161b22;stroke:#3d444d}
+.strip{fill:#0d1117;stroke:#3d444d}
+.rule{stroke:#5b636d}
+.arrow{stroke:#9da7b3}
+.head{fill:#9da7b3}
+.k1{fill:#1d2733;stroke:#8aa4c8}
+.k2{fill:#33281a;stroke:#d9a24f}
+.k3{fill:#18301f;stroke:#6cbf7d}
+.k4{fill:#1f2240;stroke:#9aa1ee}
+.k5{fill:#371d2e;stroke:#d585b8}
+}
+</style>
+<rect class="panel" x="0.5" y="0.5" width="759" height="455" rx="8"/>
+<text class="t" x="20" y="32">Study 1 (study-1): five scenarios, one after another</text>
+<text class="m" x="20" y="52">One session, in a fixed order, one stack start per scenario. Every scenario has the same agent loop,</text>
+<text class="m" x="20" y="68">system prompt, limits and MCP tool mechanism; only what sits behind the tools differs.</text>
+<g transform="translate(0,10)">
+<line class="arrow" x1="20" y1="88" x2="732" y2="88" stroke-width="1.5"/>
+<path class="head" d="M740 88 L730 83 L730 93 Z"/>
+<text class="s m" x="20" y="82">time: Alpha first, Epsilon last</text>
+<rect class="k1" x="20" y="100" width="136" height="186" rx="6"/>
+<text class="h" x="30" y="122">Raw access</text>
+<text class="s m" x="30" y="138">Alpha</text>
+<text class="s" x="30" y="160">a request tool for</text>
+<text class="s" x="30" y="175">HTTP and SOAP, with</text>
+<text class="s" x="30" y="190">what the systems</text>
+<text class="s" x="30" y="205">publish themselves</text>
+<line class="rule" x1="30" y1="224" x2="146" y2="224"/>
+<text class="s" x="30" y="242">16 tasks &#215; 2 models</text>
+<text class="s" x="30" y="257">&#215; 2 trials</text>
+<text class="b" x="30" y="276">64 runs</text>
+<rect class="k2" x="166" y="100" width="136" height="186" rx="6"/>
+<text class="h" x="176" y="122">Raw access + guide</text>
+<text class="s m" x="176" y="138">Beta</text>
+<text class="s" x="176" y="160">Alpha plus a guide</text>
+<text class="s" x="176" y="175">written blind by a</text>
+<text class="s" x="176" y="190">separate session,</text>
+<text class="s" x="176" y="205">frozen before the run</text>
+<line class="rule" x1="176" y1="224" x2="292" y2="224"/>
+<text class="s" x="176" y="242">16 tasks &#215; 2 models</text>
+<text class="s" x="176" y="257">&#215; 2 trials</text>
+<text class="b" x="176" y="276">64 runs</text>
+<rect class="k3" x="312" y="100" width="136" height="186" rx="6"/>
+<text class="h" x="322" y="122">Adapters</text>
+<text class="s m" x="322" y="138">Gamma</text>
+<text class="s" x="322" y="160">the four adapters as</text>
+<text class="s" x="322" y="175">separate GraphQL</text>
+<text class="s" x="322" y="190">APIs; the federation</text>
+<text class="s" x="322" y="205">plumbing is refused</text>
+<line class="rule" x1="322" y1="224" x2="438" y2="224"/>
+<text class="s" x="322" y="242">16 tasks &#215; 2 models</text>
+<text class="s" x="322" y="257">&#215; 2 trials</text>
+<text class="b" x="322" y="276">64 runs</text>
+<rect class="k4" x="458" y="100" width="136" height="186" rx="6"/>
+<text class="h" x="468" y="122">Apollo router</text>
+<text class="s m" x="468" y="138">Delta</text>
+<text class="s" x="468" y="160">the adapters behind</text>
+<text class="s" x="468" y="175">the Apollo router</text>
+<text class="s" x="468" y="190">v2.18.0</text>
+<line class="rule" x1="468" y1="224" x2="584" y2="224"/>
+<text class="s" x="468" y="242">16 tasks &#215; 2 models</text>
+<text class="s" x="468" y="257">&#215; 2 trials</text>
+<text class="b" x="468" y="276">64 runs</text>
+<rect class="k5" x="604" y="100" width="136" height="186" rx="6"/>
+<text class="h" x="614" y="122">Cosmo router</text>
+<text class="s m" x="614" y="138">Epsilon</text>
+<text class="s" x="614" y="160">the adapters behind</text>
+<text class="s" x="614" y="175">the Cosmo router</text>
+<text class="s" x="614" y="190">0.359.0</text>
+<line class="rule" x1="614" y1="224" x2="730" y2="224"/>
+<text class="s" x="614" y="242">16 tasks &#215; 2 models</text>
+<text class="s" x="614" y="257">&#215; 2 trials</text>
+<text class="b" x="614" y="276">64 runs</text>
+<rect class="strip" x="20" y="298" width="720" height="44" rx="6"/>
+<text x="32" y="316">Within each scenario: the (task, trial) units are shuffled from a recorded seed, and the order of</text>
+<text x="32" y="332">the two models, Claude Sonnet 5.5 and GPT-6.1 Sol (pinned), is interleaved and counterbalanced.</text>
+<text class="b" x="20" y="366">study-1: 16 tasks &#215; 5 scenarios &#215; 2 models &#215; 2 trials = 320 runs</text>
+<text class="m" x="20" y="384">A limit the report names: with one block per scenario in a fixed order, time effects are confounded with the scenario.</text>
+<rect class="k3" x="20" y="396" width="720" height="38" rx="6" stroke-dasharray="5 3"/>
+<text x="32" y="420">Later and separately, gamma-prime-1: Adapters (Gamma) alone again, 64 runs, not interleaved with study-1.</text>
+</g>
+</svg>

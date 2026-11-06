@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 576" width="760" height="576" role="img" aria-labelledby="s2-title s2-desc">
+<title id="s2-title">Study 2 design: a Williams square in four rounds, then a Direct Access block</title>
+<desc id="s2-desc">The design of Abstraction ladder study 2 (run study-2). Four full arms, GraphQL Adapters, Guided Direct Access, Apollo Federation and Cosmo Federation, run in four rounds of four blocks laid out as a Williams Latin square with the letters a to d. Rounds 1 and 3 run half H1 of the tasks and rounds 2 and 4 run half H2, 27 tasks each, so every block is 27 runs. The scored run's seed assigns the four arms to the letters and sets the order in which the rounds run; the diagram shows no assignment. After all four rounds one Direct Access block runs all 54 tasks with both models, 108 runs, as an exploratory reference. In all 540 runs, one at a time. No results are shown.</desc>
+<style>
+text{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;font-size:12px;fill:#1f2328}
+.t{font-size:16px;font-weight:600}
+.h{font-size:13px;font-weight:600}
+.b{font-weight:600}
+.s{font-size:11px}
+.m{fill:#57606a}
+.L{font-size:18px;font-weight:600}
+.panel{fill:#f7f8fa;stroke:#c9ced6}
+.card{fill:#ffffff;stroke:#c9ced6}
+.ref{fill:#eef0f3;stroke:#6e7781}
+.arrow{stroke:#57606a;fill:none}
+.head{fill:#57606a}
+.ka{fill:#dbeafe;stroke:#3b6fb6}
+.kb{fill:#fde2cf;stroke:#c2622d}
+.kc{fill:#dcf2e4;stroke:#2f8a57}
+.kd{fill:#ece3fb;stroke:#7a52c2}
+@media (prefers-color-scheme: dark){
+text{fill:#e6edf3}
+.m{fill:#9da7b3}
+.panel{fill:#161b22;stroke:#3d444d}
+.card{fill:#0d1117;stroke:#3d444d}
+.ref{fill:#21262d;stroke:#8b949e}
+.arrow{stroke:#9da7b3}
+.head{fill:#9da7b3}
+.ka{fill:#1b2a40;stroke:#7fa8e0}
+.kb{fill:#3a2617;stroke:#e39a6a}
+.kc{fill:#16301f;stroke:#6cc394}
+.kd{fill:#2a2140;stroke:#b195ea}
+}
+</style>
+<rect class="panel" x="0.5" y="0.5" width="759" height="575" rx="8"/>
+<text class="t" x="20" y="32">Study 2 (study-2): a Williams square in four rounds, then a reference block</text>
+<text class="m" x="20" y="52">Every arm has the same calculate tool, ask_requester tool, system prompt, limits and two models</text>
+<text class="m" x="20" y="68">(Claude Sonnet 5.5 and GPT-6.1 Sol, pinned). Arms are named; the internal identifier follows in grey.</text>
+<rect class="card" x="20" y="84" width="320" height="282" rx="6"/>
+<text class="h" x="32" y="106">The four full arms</text>
+<text class="b" x="32" y="128">GraphQL Adapters <tspan class="s m">Gamma</tspan></text>
+<text class="s" x="32" y="143">the four adapters as separate GraphQL APIs</text>
+<text class="b" x="32" y="166">Guided Direct Access <tspan class="s m">Beta</tspan></text>
+<text class="s" x="32" y="181">raw SOAP and REST, with a new guide written blind</text>
+<text class="b" x="32" y="204">Apollo Federation <tspan class="s m">Delta</tspan></text>
+<text class="s" x="32" y="219">the adapters behind Apollo Router v2.18.0</text>
+<text class="b" x="32" y="242">Cosmo Federation <tspan class="s m">Epsilon</tspan></text>
+<text class="s" x="32" y="257">the adapters behind Cosmo Router 0.359.0</text>
+<text class="b" x="32" y="284">The seed</text>
+<text class="s" x="32" y="300">The scored run's seed assigns these four arms to the</text>
+<text class="s" x="32" y="315">letters a to d of the square, and sets the order in</text>
+<text class="s" x="32" y="330">which the four rounds run. The square on the right is</text>
+<text class="s" x="32" y="345">what the design fixes; it shows no assignment.</text>
+<text class="s m" x="360" y="100">Round (half)</text>
+<text class="s m" x="476" y="100">Position 1</text>
+<text class="s m" x="548" y="100">Position 2</text>
+<text class="s m" x="620" y="100">Position 3</text>
+<text class="s m" x="692" y="100">Position 4</text>
+<text class="b" x="360" y="128">Round 1</text>
+<text class="s m" x="360" y="143">half H1</text>
+<rect class="ka" x="452" y="108" width="66" height="44" rx="5"/>
+<text class="L" x="463" y="134">a</text><text class="s" x="477" y="143">27 runs</text>
+<rect class="kb" x="524" y="108" width="66" height="44" rx="5"/>
+<text class="L" x="535" y="134">b</text><text class="s" x="549" y="143">27 runs</text>
+<rect class="kd" x="596" y="108" width="66" height="44" rx="5"/>
+<text class="L" x="607" y="134">d</text><text class="s" x="621" y="143">27 runs</text>
+<rect class="kc" x="668" y="108" width="66" height="44" rx="5"/>
+<text class="L" x="679" y="134">c</text><text class="s" x="693" y="143">27 runs</text>
+<text class="b" x="360" y="178">Round 2</text>
+<text class="s m" x="360" y="193">half H2</text>
+<rect class="kb" x="452" y="158" width="66" height="44" rx="5"/>
+<text class="L" x="463" y="184">b</text><text class="s" x="477" y="193">27 runs</text>
+<rect class="kc" x="524" y="158" width="66" height="44" rx="5"/>
+<text class="L" x="535" y="184">c</text><text class="s" x="549" y="193">27 runs</text>
+<rect class="ka" x="596" y="158" width="66" height="44" rx="5"/>
+<text class="L" x="607" y="184">a</text><text class="s" x="621" y="193">27 runs</text>
+<rect class="kd" x="668" y="158" width="66" height="44" rx="5"/>
+<text class="L" x="679" y="184">d</text><text class="s" x="693" y="193">27 runs</text>
+<text class="b" x="360" y="228">Round 3</text>
+<text class="s m" x="360" y="243">half H1</text>
+<rect class="kc" x="452" y="208" width="66" height="44" rx="5"/>
+<text class="L" x="463" y="234">c</text><text class="s" x="477" y="243">27 runs</text>
+<rect class="kd" x="524" y="208" width="66" height="44" rx="5"/>
+<text class="L" x="535" y="234">d</text><text class="s" x="549" y="243">27 runs</text>
+<rect class="kb" x="596" y="208" width="66" height="44" rx="5"/>
+<text class="L" x="607" y="234">b</text><text class="s" x="621" y="243">27 runs</text>
+<rect class="ka" x="668" y="208" width="66" height="44" rx="5"/>
+<text class="L" x="679" y="234">a</text><text class="s" x="693" y="243">27 runs</text>
+<text class="b" x="360" y="278">Round 4</text>
+<text class="s m" x="360" y="293">half H2</text>
+<rect class="kd" x="452" y="258" width="66" height="44" rx="5"/>
+<text class="L" x="463" y="284">d</text><text class="s" x="477" y="293">27 runs</text>
+<rect class="ka" x="524" y="258" width="66" height="44" rx="5"/>
+<text class="L" x="535" y="284">a</text><text class="s" x="549" y="293">27 runs</text>
+<rect class="kc" x="596" y="258" width="66" height="44" rx="5"/>
+<text class="L" x="607" y="284">c</text><text class="s" x="621" y="293">27 runs</text>
+<rect class="kb" x="668" y="258" width="66" height="44" rx="5"/>
+<text class="L" x="679" y="284">b</text><text class="s" x="693" y="293">27 runs</text>
+<text class="s m" x="452" y="322">16 blocks, one start of an arm's access layer each</text>
+<line class="arrow" x1="593" y1="328" x2="593" y2="344" stroke-width="1.5"/>
+<path class="head" d="M593 352 L588 342 L598 342 Z"/>
+<text class="s m" x="360" y="374">then, last</text>
+<rect class="ref" x="452" y="356" width="282" height="76" rx="6"/>
+<text class="b" x="464" y="376">Direct Access <tspan class="s m">Alpha</tspan></text>
+<text class="s" x="464" y="392">one block, after all four rounds:</text>
+<text class="s" x="464" y="407">54 tasks &#215; 2 models = <tspan class="b">108 runs</tspan></text>
+<text class="s" x="464" y="422">an exploratory reference</text>
+<g transform="translate(0,16)">
+<rect class="card" x="20" y="430" width="720" height="82" rx="6"/>
+<text x="32" y="450">Halves: rounds 1 and 3 run H1, rounds 2 and 4 run H2, 27 tasks each, stratified by category, size and</text>
+<text x="32" y="466">system; each half stays with its pair of rows whatever order the rounds run in. Within a half, a task runs</text>
+<text x="32" y="482">with Claude in one of its two rounds and with GPT in the other, so each task meets each arm once per model.</text>
+<text x="32" y="498">The four blocks of a round run the same 27 tasks. Each arm sits once in every position and follows each other arm once.</text>
+<text class="b" x="20" y="536">study-2: 16 blocks &#215; 27 runs = 432, plus the Direct Access block of 108 = 540 runs, one at a time</text>
+</g>
+</svg>

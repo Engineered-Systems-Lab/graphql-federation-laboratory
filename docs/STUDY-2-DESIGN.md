@@ -4,6 +4,8 @@ Status: design record of Abstraction ladder study 2 (run id `study-2`), written 
 
 The content is carried from the study-2 design and execution proposal of 2026-10-21, which stays private with its working scripts and tables; the power and cost results below are stated, not their scripts. The page holds no task text and no findings of study 1 about single tasks, because study 2's own blindness rules forbid them to the workers who build its corpus and its guide (see [the corpus](#the-corpus)). Study 1's findings are in the [Abstraction ladder study report](AGENT-STUDY-REPORT.md); the corpus is rebuilt for study 2.
 
+A short non-normative overview of the design of both studies, without results, is in [the study overview](STUDY-OVERVIEW.md).
+
 ## The question and what "better" means
 
 **The question,** in the lead developer's words: "does federation improve on separate adapters or well-documented direct access?" As comparisons: does Apollo Federation or Cosmo Federation improve on GraphQL Adapters, and on Guided Direct Access? For the business: document the existing interfaces well, build adapters, or build adapters plus federation?

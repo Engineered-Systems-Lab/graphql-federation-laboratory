@@ -72,6 +72,8 @@ Can an AI agent answer an enterprise's questions over its legacy systems without
 - **Scoring without a judge.** Every task ends with a `submit_answer` call with a fixed schema per task, scored by [the corpus scorer](../study/corpus/scoring.py) against the expected answers: exact, or exact plus declared variants. An answer that claims completeness during an outage is wrong. For the ambiguous tasks a stated definition from a declared list earns full credit and a silent guess scores zero. The free-text explanation is kept for reading and never scored.
 - **Runs.** study-1: 16 tasks x 5 scenarios x 2 models x 2 trials = 320 runs, scenarios in the order Alpha, Beta, Gamma, Delta, Epsilon, on 2026-10-20 and 21 (23:05 to 02:42 UTC). gamma-prime-1: Gamma only, 64 runs, on 2026-10-21 (12:22 to 13:10 UTC). Limits per task: 80 tool calls, 1,000,000 tokens (cached reads counted), 900 seconds. No run was repeated.
 
+Later context (2026-11-06): a short non-normative overview of the design of this study and of study 2, without results, is in [the study overview](STUDY-OVERVIEW.md).
+
 ## Honesty note
 
 The analysis plan was written after a descriptive look at study-1 and gamma-prime-1 (the Coordinator's tables of 2026-10-21). What was fixed before the run carries the confirmatory claims: the scenarios, the models and correctness as the primary outcome. The six named comparisons and the equivalence tests are confirmatory. Everything chosen because of the descriptive look is exploratory and labelled so below. Before the plan, the lead developer stated that nothing was ruled yet, that the pattern was only a suspicion, and that the analysis was to be planned first to see what holds.
