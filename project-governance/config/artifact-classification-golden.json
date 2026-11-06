@@ -2431,6 +2431,19 @@
       "why": "Abstraction ladder study, imported as a set-up commit under D051",
       "approval_sensitivity": "low"
     },
+    "study/analysis2/PLAN.md": {
+      "class": "record",
+      "profile": "record-only",
+      "boundary": [
+        "frozen"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Abstraction ladder study 2 analysis plan, frozen before the scored run",
+      "approval_sensitivity": "low"
+    },
     "study/corpus/README.md": {
       "class": "record",
       "profile": "record-only",
@@ -2534,6 +2547,58 @@
       "why": "Abstraction ladder study, imported as a set-up commit under D051",
       "approval_sensitivity": "low"
     },
+    "study/corpus2/corpus-manifest.json": {
+      "class": "tooling",
+      "profile": "study",
+      "boundary": [
+        "frozen"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Abstraction ladder study 2 corpus manifest, frozen before the scored run",
+      "approval_sensitivity": "low"
+    },
+    "study/corpus2/expected.json": {
+      "class": "tooling",
+      "profile": "study",
+      "boundary": [
+        "frozen"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Abstraction ladder study 2 expected answers, frozen before the scored run",
+      "approval_sensitivity": "low"
+    },
+    "study/corpus2/schemas.json": {
+      "class": "tooling",
+      "profile": "study",
+      "boundary": [
+        "frozen"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Abstraction ladder study 2 answer schemas, frozen before the scored run",
+      "approval_sensitivity": "low"
+    },
+    "study/corpus2/tasks.json": {
+      "class": "tooling",
+      "profile": "study",
+      "boundary": [
+        "frozen"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Abstraction ladder study 2 scored tasks, frozen before the scored run",
+      "approval_sensitivity": "low"
+    },
     "study/evidence/README.md": {
       "class": "record",
       "profile": "record-only",
@@ -2622,6 +2687,19 @@
       "subclass": [],
       "reachable": false,
       "why": "Abstraction ladder study guide, frozen before the scored runs",
+      "approval_sensitivity": "low"
+    },
+    "study/guide2/GUIDE.md": {
+      "class": "tooling",
+      "profile": "study",
+      "boundary": [
+        "frozen"
+      ],
+      "bound": false,
+      "invariants": null,
+      "subclass": [],
+      "reachable": false,
+      "why": "Abstraction ladder study 2 guide, frozen before the scored run",
       "approval_sensitivity": "low"
     },
     "study/harness/README.md": {

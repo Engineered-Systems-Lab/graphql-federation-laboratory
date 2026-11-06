@@ -480,7 +480,7 @@ The work this design implies, as a plan; nothing is queued by this page.
 
 ## The freeze
 
-On 2026-11-06 the Job `study2_freeze` froze what the scored run uses, before any scored run. The [freeze record](../study/evidence/study-2-freeze/freeze-record-20261106.json) holds every hash below, the hash of each file the run executes, and the two free dry runs on the fake vendor client that came before it. The frozen rows of the [project's classification table](../project-governance/ARTIFACT-CLASSIFICATION.md) follow in a second transaction of the same Job, because a frozen path cannot enter a checkpoint.
+On 2026-11-06 the Job `study2_freeze` froze what the scored run uses, before any scored run. The [freeze record](../study/evidence/study-2-freeze/freeze-record-20261106.json) holds every hash below, the hash of each file the run executes, and the two free dry runs on the fake vendor client that came before it. In a second transaction of the same Job, because a frozen path cannot enter a checkpoint, the plan, the guide, the corpus manifest and `tasks.json`, `schemas.json` and `expected.json` got exact frozen rows in the [project's classification table](../project-governance/ARTIFACT-CLASSIFICATION.md) and their checksums in the frozen manifest, so the continuity check refuses any change to them (the lead developer's choice of the set the run reads). The scorer and the four derived corpus files are not frozen there; the scorer is bound by its hash in every manifest.
 
 | What | Frozen as | SHA-256 |
 | --- | --- | --- |
