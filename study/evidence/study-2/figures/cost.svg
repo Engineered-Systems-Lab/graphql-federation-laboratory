@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 224" width="720" height="224" role="img" aria-label="Cost per run by arm (geometric mean, exploratory)">
+<style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;fill:var(--fig-text,#222)}.t{font-size:15px;font-weight:600}.s{font-size:11px;fill:var(--fig-muted,#6b6b6b)}</style>
+<rect x="0" y="0" width="720" height="224" fill="var(--fig-bg,#ffffff)"/>
+<text class="t" x="16" y="26">Cost per run by arm (geometric mean, exploratory)</text>
+<line x1="230.0" y1="48" x2="230.0" y2="176" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="230.0" y="192" text-anchor="middle">0</text>
+<line x1="320.0" y1="48" x2="320.0" y2="176" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="320.0" y="192" text-anchor="middle">0.01</text>
+<line x1="410.0" y1="48" x2="410.0" y2="176" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="410.0" y="192" text-anchor="middle">0.02</text>
+<line x1="500.0" y1="48" x2="500.0" y2="176" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="500.0" y="192" text-anchor="middle">0.03</text>
+<line x1="590.0" y1="48" x2="590.0" y2="176" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="590.0" y="192" text-anchor="middle">0.04</text>
+<line x1="680.0" y1="48" x2="680.0" y2="176" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="680.0" y="192" text-anchor="middle">0.05</text>
+<text class="s" x="455.0" y="210" text-anchor="middle">cost per run (USD), 95% interval</text>
+<text x="218" y="67.0" text-anchor="end" dominant-baseline="middle">Guided Direct Access</text>
+<line x1="487.4" y1="67.0" x2="604.3" y2="67.0" stroke="var(--fig-accent, #b35900)" stroke-width="2.5" stroke-dasharray="4 3"/>
+<circle cx="540.4" cy="67.0" r="5" fill="var(--fig-accent, #b35900)"/>
+<text x="218" y="97.0" text-anchor="end" dominant-baseline="middle">GraphQL Adapters</text>
+<line x1="460.5" y1="97.0" x2="569.9" y2="97.0" stroke="var(--fig-accent, #b35900)" stroke-width="2.5" stroke-dasharray="4 3"/>
+<circle cx="509.9" cy="97.0" r="5" fill="var(--fig-accent, #b35900)"/>
+<text x="218" y="127.0" text-anchor="end" dominant-baseline="middle">Apollo Federation</text>
+<line x1="439.2" y1="127.0" x2="511.3" y2="127.0" stroke="var(--fig-accent, #b35900)" stroke-width="2.5" stroke-dasharray="4 3"/>
+<circle cx="472.6" cy="127.0" r="5" fill="var(--fig-accent, #b35900)"/>
+<text x="218" y="157.0" text-anchor="end" dominant-baseline="middle">Cosmo Federation</text>
+<line x1="433.9" y1="157.0" x2="500.6" y2="157.0" stroke="var(--fig-accent, #b35900)" stroke-width="2.5" stroke-dasharray="4 3"/>
+<circle cx="464.9" cy="157.0" r="5" fill="var(--fig-accent, #b35900)"/>
+</svg>

@@ -1,0 +1,6998 @@
+{
+  "budgetCarry": {
+    "rule": "the dollars of these ledgers count against each vendor's dollar_ceiling from the first request of this run; a reservation never settled is counted at the output price",
+    "runs": [
+      {
+        "ledgers": {
+          "anthropic": {
+            "dollars": 4.067533,
+            "sha256": "e44b7142f34a20a65dfd0081fc0fcb7d90e7d2de8872db838f3bf0db85f6a8ec",
+            "tokens": 4665786
+          },
+          "openai": {
+            "dollars": 2.057153,
+            "sha256": "55fce1ccba383ae8f754ed4e13890542f2aa373541d7e7059a40fabf8538ceaf",
+            "tokens": 3327693
+          }
+        },
+        "runId": "study2-dev-notool-1"
+      },
+      {
+        "ledgers": {
+          "anthropic": {
+            "dollars": 6.70313,
+            "sha256": "62dcae8ab8ec2f01e1a9d06069b7dd9745c0ec72083de22605157c2800c7206f",
+            "tokens": 9739045
+          },
+          "openai": {
+            "dollars": 3.871778,
+            "sha256": "f3bd90d70731333b44db2671ba6ed08fe5c1d3a05d07d3f54a799cc7c5255140",
+            "tokens": 8221873
+          }
+        },
+        "runId": "study2-dev-tool-1"
+      },
+      {
+        "ledgers": {
+          "anthropic": {
+            "dollars": 2.6924,
+            "sha256": "d959ca20889cd3aeb61320710494a8ea29b27c165e1f55af5fea98bb47420a0a",
+            "tokens": 3603162
+          },
+          "openai": {
+            "dollars": 2.019602,
+            "sha256": "0e08a661298a5566181e8db668138db9186d8c3b34b7ab471167a7969d4a3439",
+            "tokens": 4194433
+          }
+        },
+        "runId": "study2-confirm-1"
+      },
+      {
+        "ledgers": {
+          "anthropic": {
+            "dollars": 3.906854,
+            "sha256": "5bea8a630899dbea448e82fb2f2f9750f700d931a7681c4017d45c75c9a72725",
+            "tokens": 4687909
+          },
+          "openai": {
+            "dollars": 2.201703,
+            "sha256": "58edaa2e045b8df0492ff8c2e025fa241e438be49f84bb1f9e0ca161635c033b",
+            "tokens": 4208638
+          }
+        },
+        "runId": "study2-baseline-totals-1"
+      },
+      {
+        "ledgers": {
+          "anthropic": {
+            "dollars": 2.314067,
+            "sha256": "0654b7207922bc9a3d2f393aeedd3803c70ee35405f9601f1d3b87257d4fa981",
+            "tokens": 3420250
+          },
+          "openai": {
+            "dollars": 1.250139,
+            "sha256": "a44373a65e68bb3ff8391be93fca36f1f8841d982a23b9e902e313fbbe0db489",
+            "tokens": 2172945
+          }
+        },
+        "runId": "study2-confirm-v3-1"
+      },
+      {
+        "ledgers": {
+          "anthropic": {
+            "dollars": 2.459627,
+            "sha256": "fe1946a6c13f078e053f5f46c137a3448f966aea126a0ad9e468c6a2dc7524c6",
+            "tokens": 3879164
+          },
+          "openai": {
+            "dollars": 1.200504,
+            "sha256": "af5a2dcf7a36c8844921e0164da8d44798deab27a6a7f2d4be99cde1fc07a422",
+            "tokens": 2114420
+          }
+        },
+        "runId": "study2-confirm-v4-1"
+      },
+      {
+        "ledgers": {
+          "anthropic": {
+            "dollars": 2.309503,
+            "sha256": "5a2bb729f9c7c6900d0ded5361be844a0bd8fc254538816a7f3610b5c806379d",
+            "tokens": 3482921
+          },
+          "openai": {
+            "dollars": 1.138483,
+            "sha256": "9eadd562294b302df1b6809d42811f7b6d2e4161b3b1c211e1d418ecf26134bc",
+            "tokens": 1972941
+          }
+        },
+        "runId": "study2-confirm-v5-1"
+      }
+    ],
+    "totals": {
+      "anthropic": 24.453114,
+      "openai": 13.739363
+    }
+  },
+  "codeFiles": {
+    "study/corpus2/scoring.py": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+    "study/harness/agent.py": "a3a5e0bf08ad076acf32364d7d9ab8667807eabd18ca88e2d1b20fd378d1b4bb",
+    "study/harness/budget.py": "4db0186dd5635af36fafa100e45a25074d210c5eaaf8bb0efcbb7ddf421e74a7",
+    "study/harness/credentials.py": "dc72e7af7c974abb477e78e926eef6255ae7a3c8c21ec47ee168e8f661737984",
+    "study/harness/fakes.py": "2ef68abaa9b95e7ff6414a0b5be6c689ad47d876a70a08c703ba5b0c3f83ebe2",
+    "study/harness/harness_tools.py": "9d2de6610e722d178ac00a34aad51b00c034ebab735c2830e5b08311a7a2c1a1",
+    "study/harness/launcher.py": "fecf0ba97e482f9644416d77cff367ddbbd5fcdaa270927a078a3043f08e4535",
+    "study/harness/mcp_client.py": "288e266cb5ff8e407e67e54e5bf9ffefe55e60eb7d36cf6fb6c028a237fa2996",
+    "study/harness/provenance.py": "ab5db27c80ac117a774197b99f8186c383e4b59b3b1e5ce43362111ebe8d7bd1",
+    "study/harness/runner.py": "65f462abbec4cc9aa83de3a67a1c35400e2fd4d6d9bca3a088ecf9266b8f58de",
+    "study/harness/schedule.py": "a762d9767cc40dce906fb4913e775c7edf92064613d62210468938a2100bee27",
+    "study/harness/scoring_contract.py": "27653bdb87ce62d604b3cae0e82acaf74d4c7b02e7d4cb7871d2e7c89b7f103b",
+    "study/harness/study_common.py": "59cc9eab652a361ef9447149bff837346f87d1edf254670b8039aa40a259e9a3",
+    "study/harness/study_gate.py": "c34e7693f758af5d98804d87a62881ef3974537470fb964b0767cc8cf55cb231",
+    "study/harness/vendors.py": "3a14a11f98d618eb6f178fa9980c897f3026d68ce8baf9d07fbfe35c303ff400",
+    "study/launch/launch.py": "640b39df4846d040b262f2d8ce2a0228c84c35ef0a8d0ed18f9ec9abb46d257a",
+    "study/mcp/adapters_server.py": "c9687a984dd48d091b7c7178e70172ddd3dae979597a2f4789aebff04d0b4fdc",
+    "study/mcp/graph_server.py": "48830a4227a6fc4abd824d263d3fd458aec65db524aaae790f40741af99fc52b",
+    "study/mcp/mcp_core.py": "09c448de6dc80b14d854ee35f86ca5c139d00f6e509a2c31666c6ceca7103718",
+    "study/mcp/raw_server.py": "d802ce52c884544f4161e9c5f536a4c3205579be7690809a3d762885919ca147",
+    "study/preflight/preflight.py": "0b3a1d4a83b512d6665ab3321e3968b07b8407c4b9f21eb4ce664ae69ce60b6d"
+  },
+  "commit": "32e6b828d53a8f09bab55eff1a5703a65d50be58",
+  "createdAt": "2026-11-06T23:51:43.892+00:00",
+  "datasetFingerprint": {
+    "command": {
+      "argv": [
+        "<path>/python.exe",
+        "-B",
+        "<path>/launch.py",
+        "fingerprint",
+        "--missions",
+        "real",
+        "--state-dir",
+        "<path>/state"
+      ]
+    },
+    "rule": "checked at every block start; it must equal the study's first fingerprint and its session's first fingerprint"
+  },
+  "datasetHashes": {
+    "mapping_release_1_3_manifest": "5c2b99f17211abd4add46cddc400b15961608172dd8f62eb56c3683a7639c39d"
+  },
+  "declaredSettings": {
+    "adapters": "answer __schema on their own endpoints unchanged; the MCP servers hide _service and _entities",
+    "apollo_router": {
+      "default": "off",
+      "supergraph.introspection": true,
+      "version": "v2.18.0"
+    },
+    "cosmo_router": {
+      "default": "on",
+      "introspection.enabled": true,
+      "version": "0.359.0"
+    },
+    "missions_backend": "real"
+  },
+  "harnessTools": {
+    "askRequesterText": "No requester response is available during this evaluation.",
+    "conditionElements": "a filter condition with elements any holds when at least one value at its field satisfies its comparison, with elements none when no value does; the values are found as a source path finds records (* takes every element of a list, a list at the end gives its elements, an element lacking the rest of the field is left out), so an empty list or a missing field has none; a condition whose field has a * path segment and no elements is refused; any other condition without elements is unchanged",
+    "coverageLine": "after the read line, when there is something to say, one line \"coverage: \" of at most coverageLineChars characters: per field that some records lack or hold null, how many have it; what each condition did alone when a filter kept nothing; the records a sum added; a null among distinct values; the size of each set in the order of the sources; groups that are not unique values of one field; and, when a source carries totalCount, total or hasMore or is a shortened calculate output, that the sources hold fewer (or more) records than the total it states, or as many from several pages of which two at one place share no record, none states its place in a list (offset, page, hasMore) or each says hasMore, which stays with every output built from it; the lists the sources read count together when they have the same name, with or without a total and whatever their fields, and a list is short only when all the records of that name are fewer than its total; a record that two pages hold is seen as one only where the plain values that every record has tell the records of each page apart; it never says that a list is complete",
+    "limits": {
+      "coverageLineChars": 600,
+      "maxRecords": 100000,
+      "maxSourceChars": 5000000,
+      "maxSources": 100,
+      "maxStoredOutputChars": 5000000,
+      "maxWarnings": 2,
+      "previewChars": 1500,
+      "previewKeys": 20,
+      "previewTextChars": 120,
+      "refusalChars": 1500,
+      "repeatMinRecords": 10,
+      "storeAboveChars": 5000,
+      "viewPageChars": 5000,
+      "warningChars": 300
+    },
+    "names": [
+      "calculate",
+      "ask_requester"
+    ],
+    "operations": [
+      "view",
+      "count",
+      "distinct",
+      "group_by",
+      "sort",
+      "filter",
+      "union",
+      "intersection",
+      "difference",
+      "arithmetic"
+    ],
+    "readLine": "every successful calculate output begins, after its id line, with one line \"read: \" naming per source, in the order given, the result id, the path, the records it contributed, whether the path matched nothing and how many elements were left out for lacking which step of the path; it never adds the sources up",
+    "refusals": "refused, with every problem of the call named at once and the shapes of the sources where the problem is one of shape: an argument of the wrong form, named with the form it takes; a key that a source, a condition or an operand does not take; an argument that does not apply to the operation; a field on a source of plain values; a field that no record of any source has, except in a condition that compares it with null; a * in a field outside a filter condition with elements; a * at an object (an XML element that occurs once counts as a list of one); a comparison of a list or an object with one value without elements; conditions that contradict each other; a key with a dot in its name spelled as nested steps (written in brackets, [a.b]); a step in brackets that the objects of one call answer by more than one key; an output longer than maxStoredOutputChars characters",
+    "resultIdFormat": "<4 hex run tag>-<n>, shown as the first line \"result_id: <id>\" of every scenario tool result and every successful calculate result",
+    "storedResults": "a scenario result or a calculate output longer than storeAboveChars characters is stored in full and shown as its id, its size and its shape (lists cut to their first element and their length, objects to previewKeys keys, texts to previewTextChars characters, the whole within previewChars); view reads any part of any result, at most viewPageChars characters a page, with nextOffset for the next page, and a page is always shown in full; shorter results are shown in full; the coverage and warning lines of a calculate output count toward storeAboveChars, and a view page carries its lines above it",
+    "tools": [
+      {
+        "description": "Compute over results you already obtained in this task; it fetches nothing. Every tool result starts with a line result_id: <id>. A result longer than 5000 characters, a calculate result included, is stored, not shown: you see its size and its shape, where a list shows its first element and its length; read any part of it with view. Every calculate result then has a line read: that names, for each source in turn, its result id, its path, the records it gave and whether the path matched nothing; it does not add the sources up, as they can overlap. Name one or more results in sources, each with an optional path to the part to use, and one generic operation. The records are the elements found at the paths of all sources, one after the other. view: the part at the path of one source; offset and limit page through a list, the keys of an object or the characters of a text; a page holds at most 5000 characters and nextOffset gives the offset of the next page. count: the number of records. distinct: the distinct values of field. group_by: groups by the fields in group_by (an empty list gives one group over all records), with aggregate count or sum of sum_field. sort: the records ordered by field (descending optional). filter: the records for which every condition holds (eq, ne, lt, le, gt, ge against a literal value); a condition with elements any holds when at least one value at its field does, with elements none when no value does, where * in the field takes every element of a list and a list at its end gives its elements (an empty list or a missing field has no values); a field with a * segment needs elements any or none. union, intersection, difference: set operations on the values of field taken per source (difference: the first source minus the others). arithmetic: operator add, subtract, multiply or divide over operands, each a number or {result_id, path} naming one number. fields and limit shorten a list of records; round sets decimal places. A field is a dot-separated path inside a record; empty means the record itself. A key with a dot in its name is written in brackets: [a.b]. The result has a result_id of its own. A wrong use is refused with every problem named at once. After read:, a line coverage: names fields that some records lack, the size of each set and records short of totalCount; a line warning: flags repeats, held pages left out and fixed list positions.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "aggregate": {
+              "enum": [
+                "count",
+                "sum"
+              ],
+              "type": "string"
+            },
+            "conditions": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "elements": {
+                    "enum": [
+                      "any",
+                      "none"
+                    ],
+                    "type": "string"
+                  },
+                  "field": {
+                    "type": "string"
+                  },
+                  "op": {
+                    "enum": [
+                      "eq",
+                      "ne",
+                      "lt",
+                      "le",
+                      "gt",
+                      "ge"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": [
+                      "string",
+                      "number",
+                      "boolean",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "field",
+                  "op",
+                  "value"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "descending": {
+              "type": "boolean"
+            },
+            "field": {
+              "type": "string"
+            },
+            "fields": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "group_by": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "limit": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "offset": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "operands": {
+              "items": {
+                "type": [
+                  "number",
+                  "object"
+                ]
+              },
+              "type": "array"
+            },
+            "operation": {
+              "enum": [
+                "view",
+                "count",
+                "distinct",
+                "group_by",
+                "sort",
+                "filter",
+                "union",
+                "intersection",
+                "difference",
+                "arithmetic"
+              ],
+              "type": "string"
+            },
+            "operator": {
+              "enum": [
+                "add",
+                "subtract",
+                "multiply",
+                "divide"
+              ],
+              "type": "string"
+            },
+            "round": {
+              "maximum": 12,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sources": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "path": {
+                    "description": "Optional. Dot-separated keys or list positions into that result; * takes every element of a list. A text that holds JSON or XML is read as such. Empty means the whole result.",
+                    "type": "string"
+                  },
+                  "result_id": {
+                    "description": "The id from the first line of an earlier result of this task.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "result_id"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "sum_field": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "type": "object"
+        },
+        "name": "calculate"
+      },
+      {
+        "description": "Ask the person who requested this task a clarifying question about what they mean.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "question": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "question"
+          ],
+          "type": "object"
+        },
+        "name": "ask_requester"
+      }
+    ],
+    "version": 5,
+    "warningLines": "at most maxWarnings lines \"warning: \" of at most warningChars characters, never a refusal: a request or a calculation that repeats one already held, with the earlier result id; held pages of the same collection that are not among the sources; conditions on fixed list positions where elements would test the whole list"
+  },
+  "identity": {
+    "analysisPlan": "46be3e4e3d71d9383fa5fee10c0018b2e2333a1087b6644fa0bd4498151f8bb5",
+    "corpusFreeze": "c57081e3fbcaaf298fc3591b486930fa4fb5dd88a0772f3c29798e26a1a354bb",
+    "datasetFingerprint": {
+      "argv": [
+        "<path>/python.exe",
+        "-B",
+        "<path>/launch.py",
+        "fingerprint",
+        "--missions",
+        "real",
+        "--state-dir",
+        "<path>/state"
+      ]
+    },
+    "earlierStudyRuns": [
+      "study2-dev-notool-1",
+      "study2-dev-tool-1",
+      "study2-confirm-1",
+      "study2-baseline-totals-1",
+      "study2-confirm-v3-1",
+      "study2-confirm-v4-1",
+      "study2-confirm-v5-1"
+    ],
+    "guides": {
+      "alpha": null,
+      "beta": "e9a4c12620fea0b924683666f20f44a60a4d8888088b583038e1e47cd0b3fade",
+      "delta": null,
+      "epsilon": null,
+      "gamma": null
+    },
+    "harnessTools": {
+      "askRequesterText": "No requester response is available during this evaluation.",
+      "conditionElements": "a filter condition with elements any holds when at least one value at its field satisfies its comparison, with elements none when no value does; the values are found as a source path finds records (* takes every element of a list, a list at the end gives its elements, an element lacking the rest of the field is left out), so an empty list or a missing field has none; a condition whose field has a * path segment and no elements is refused; any other condition without elements is unchanged",
+      "coverageLine": "after the read line, when there is something to say, one line \"coverage: \" of at most coverageLineChars characters: per field that some records lack or hold null, how many have it; what each condition did alone when a filter kept nothing; the records a sum added; a null among distinct values; the size of each set in the order of the sources; groups that are not unique values of one field; and, when a source carries totalCount, total or hasMore or is a shortened calculate output, that the sources hold fewer (or more) records than the total it states, or as many from several pages of which two at one place share no record, none states its place in a list (offset, page, hasMore) or each says hasMore, which stays with every output built from it; the lists the sources read count together when they have the same name, with or without a total and whatever their fields, and a list is short only when all the records of that name are fewer than its total; a record that two pages hold is seen as one only where the plain values that every record has tell the records of each page apart; it never says that a list is complete",
+      "limits": {
+        "coverageLineChars": 600,
+        "maxRecords": 100000,
+        "maxSourceChars": 5000000,
+        "maxSources": 100,
+        "maxStoredOutputChars": 5000000,
+        "maxWarnings": 2,
+        "previewChars": 1500,
+        "previewKeys": 20,
+        "previewTextChars": 120,
+        "refusalChars": 1500,
+        "repeatMinRecords": 10,
+        "storeAboveChars": 5000,
+        "viewPageChars": 5000,
+        "warningChars": 300
+      },
+      "names": [
+        "calculate",
+        "ask_requester"
+      ],
+      "operations": [
+        "view",
+        "count",
+        "distinct",
+        "group_by",
+        "sort",
+        "filter",
+        "union",
+        "intersection",
+        "difference",
+        "arithmetic"
+      ],
+      "readLine": "every successful calculate output begins, after its id line, with one line \"read: \" naming per source, in the order given, the result id, the path, the records it contributed, whether the path matched nothing and how many elements were left out for lacking which step of the path; it never adds the sources up",
+      "refusals": "refused, with every problem of the call named at once and the shapes of the sources where the problem is one of shape: an argument of the wrong form, named with the form it takes; a key that a source, a condition or an operand does not take; an argument that does not apply to the operation; a field on a source of plain values; a field that no record of any source has, except in a condition that compares it with null; a * in a field outside a filter condition with elements; a * at an object (an XML element that occurs once counts as a list of one); a comparison of a list or an object with one value without elements; conditions that contradict each other; a key with a dot in its name spelled as nested steps (written in brackets, [a.b]); a step in brackets that the objects of one call answer by more than one key; an output longer than maxStoredOutputChars characters",
+      "resultIdFormat": "<4 hex run tag>-<n>, shown as the first line \"result_id: <id>\" of every scenario tool result and every successful calculate result",
+      "storedResults": "a scenario result or a calculate output longer than storeAboveChars characters is stored in full and shown as its id, its size and its shape (lists cut to their first element and their length, objects to previewKeys keys, texts to previewTextChars characters, the whole within previewChars); view reads any part of any result, at most viewPageChars characters a page, with nextOffset for the next page, and a page is always shown in full; shorter results are shown in full; the coverage and warning lines of a calculate output count toward storeAboveChars, and a view page carries its lines above it",
+      "tools": [
+        {
+          "description": "Compute over results you already obtained in this task; it fetches nothing. Every tool result starts with a line result_id: <id>. A result longer than 5000 characters, a calculate result included, is stored, not shown: you see its size and its shape, where a list shows its first element and its length; read any part of it with view. Every calculate result then has a line read: that names, for each source in turn, its result id, its path, the records it gave and whether the path matched nothing; it does not add the sources up, as they can overlap. Name one or more results in sources, each with an optional path to the part to use, and one generic operation. The records are the elements found at the paths of all sources, one after the other. view: the part at the path of one source; offset and limit page through a list, the keys of an object or the characters of a text; a page holds at most 5000 characters and nextOffset gives the offset of the next page. count: the number of records. distinct: the distinct values of field. group_by: groups by the fields in group_by (an empty list gives one group over all records), with aggregate count or sum of sum_field. sort: the records ordered by field (descending optional). filter: the records for which every condition holds (eq, ne, lt, le, gt, ge against a literal value); a condition with elements any holds when at least one value at its field does, with elements none when no value does, where * in the field takes every element of a list and a list at its end gives its elements (an empty list or a missing field has no values); a field with a * segment needs elements any or none. union, intersection, difference: set operations on the values of field taken per source (difference: the first source minus the others). arithmetic: operator add, subtract, multiply or divide over operands, each a number or {result_id, path} naming one number. fields and limit shorten a list of records; round sets decimal places. A field is a dot-separated path inside a record; empty means the record itself. A key with a dot in its name is written in brackets: [a.b]. The result has a result_id of its own. A wrong use is refused with every problem named at once. After read:, a line coverage: names fields that some records lack, the size of each set and records short of totalCount; a line warning: flags repeats, held pages left out and fixed list positions.",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "aggregate": {
+                "enum": [
+                  "count",
+                  "sum"
+                ],
+                "type": "string"
+              },
+              "conditions": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "elements": {
+                      "enum": [
+                        "any",
+                        "none"
+                      ],
+                      "type": "string"
+                    },
+                    "field": {
+                      "type": "string"
+                    },
+                    "op": {
+                      "enum": [
+                        "eq",
+                        "ne",
+                        "lt",
+                        "le",
+                        "gt",
+                        "ge"
+                      ],
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": [
+                        "string",
+                        "number",
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "op",
+                    "value"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "descending": {
+                "type": "boolean"
+              },
+              "field": {
+                "type": "string"
+              },
+              "fields": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "group_by": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "limit": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "offset": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "operands": {
+                "items": {
+                  "type": [
+                    "number",
+                    "object"
+                  ]
+                },
+                "type": "array"
+              },
+              "operation": {
+                "enum": [
+                  "view",
+                  "count",
+                  "distinct",
+                  "group_by",
+                  "sort",
+                  "filter",
+                  "union",
+                  "intersection",
+                  "difference",
+                  "arithmetic"
+                ],
+                "type": "string"
+              },
+              "operator": {
+                "enum": [
+                  "add",
+                  "subtract",
+                  "multiply",
+                  "divide"
+                ],
+                "type": "string"
+              },
+              "round": {
+                "maximum": 12,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "sources": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "path": {
+                      "description": "Optional. Dot-separated keys or list positions into that result; * takes every element of a list. A text that holds JSON or XML is read as such. Empty means the whole result.",
+                      "type": "string"
+                    },
+                    "result_id": {
+                      "description": "The id from the first line of an earlier result of this task.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "result_id"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "sum_field": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "operation"
+            ],
+            "type": "object"
+          },
+          "name": "calculate"
+        },
+        {
+          "description": "Ask the person who requested this task a clarifying question about what they mean.",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "question": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "question"
+            ],
+            "type": "object"
+          },
+          "name": "ask_requester"
+        }
+      ],
+      "version": 5,
+      "warningLines": "at most maxWarnings lines \"warning: \" of at most warningChars characters, never a refusal: a request or a calculation that repeats one already held, with the earlier result id; held pages of the same collection that are not among the sources; conditions on fixed list positions where elements would test the whole list"
+    },
+    "limits": {
+      "max_nudges": 2,
+      "max_retries": 3,
+      "max_task_tokens": 1000000,
+      "max_tool_calls": 80,
+      "max_wall_seconds": 900,
+      "retry_backoff_seconds": 5
+    },
+    "models": {
+      "claude-sonnet-5-5": {
+        "max_output_tokens": 16000,
+        "request": {
+          "output_config": {
+            "effort": "medium"
+          },
+          "thinking": {
+            "type": "adaptive"
+          }
+        },
+        "vendor": "anthropic"
+      },
+      "gpt-6.1-sol": {
+        "max_output_tokens": 16000,
+        "request": {
+          "include": [
+            "reasoning.encrypted_content"
+          ],
+          "reasoning": {
+            "effort": "medium"
+          },
+          "store": false
+        },
+        "vendor": "openai"
+      }
+    },
+    "plan": {
+      "blocks": [
+        {
+          "arm": "epsilon",
+          "half": "H2",
+          "id": "r4-epsilon",
+          "letter": "d",
+          "position": 1,
+          "roundSequence": 1,
+          "row": 4,
+          "runSuffix": "r4",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E16"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D04"
+            }
+          ],
+          "sequence": 1
+        },
+        {
+          "arm": "beta",
+          "half": "H2",
+          "id": "r4-beta",
+          "letter": "a",
+          "position": 2,
+          "roundSequence": 1,
+          "row": 4,
+          "runSuffix": "r4",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E16"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B10"
+            }
+          ],
+          "sequence": 2
+        },
+        {
+          "arm": "delta",
+          "half": "H2",
+          "id": "r4-delta",
+          "letter": "c",
+          "position": 3,
+          "roundSequence": 1,
+          "row": 4,
+          "runSuffix": "r4",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E16"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E11"
+            }
+          ],
+          "sequence": 3
+        },
+        {
+          "arm": "gamma",
+          "half": "H2",
+          "id": "r4-gamma",
+          "letter": "b",
+          "position": 4,
+          "roundSequence": 1,
+          "row": 4,
+          "runSuffix": "r4",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E16"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C08"
+            }
+          ],
+          "sequence": 4
+        },
+        {
+          "arm": "gamma",
+          "half": "H2",
+          "id": "r2-gamma",
+          "letter": "b",
+          "position": 1,
+          "roundSequence": 2,
+          "row": 2,
+          "runSuffix": "r2",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E16"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D04"
+            }
+          ],
+          "sequence": 5
+        },
+        {
+          "arm": "delta",
+          "half": "H2",
+          "id": "r2-delta",
+          "letter": "c",
+          "position": 2,
+          "roundSequence": 2,
+          "row": 2,
+          "runSuffix": "r2",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E16"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E01"
+            }
+          ],
+          "sequence": 6
+        },
+        {
+          "arm": "beta",
+          "half": "H2",
+          "id": "r2-beta",
+          "letter": "a",
+          "position": 3,
+          "roundSequence": 2,
+          "row": 2,
+          "runSuffix": "r2",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E16"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B09"
+            }
+          ],
+          "sequence": 7
+        },
+        {
+          "arm": "epsilon",
+          "half": "H2",
+          "id": "r2-epsilon",
+          "letter": "d",
+          "position": 4,
+          "roundSequence": 2,
+          "row": 2,
+          "runSuffix": "r2",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E16"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D14"
+            }
+          ],
+          "sequence": 8
+        },
+        {
+          "arm": "delta",
+          "half": "H1",
+          "id": "r3-delta",
+          "letter": "c",
+          "position": 1,
+          "roundSequence": 3,
+          "row": 3,
+          "runSuffix": "r3",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F01"
+            }
+          ],
+          "sequence": 9
+        },
+        {
+          "arm": "epsilon",
+          "half": "H1",
+          "id": "r3-epsilon",
+          "letter": "d",
+          "position": 2,
+          "roundSequence": 3,
+          "row": 3,
+          "runSuffix": "r3",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A04"
+            }
+          ],
+          "sequence": 10
+        },
+        {
+          "arm": "gamma",
+          "half": "H1",
+          "id": "r3-gamma",
+          "letter": "b",
+          "position": 3,
+          "roundSequence": 3,
+          "row": 3,
+          "runSuffix": "r3",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A04"
+            }
+          ],
+          "sequence": 11
+        },
+        {
+          "arm": "beta",
+          "half": "H1",
+          "id": "r3-beta",
+          "letter": "a",
+          "position": 4,
+          "roundSequence": 3,
+          "row": 3,
+          "runSuffix": "r3",
+          "runs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E03"
+            }
+          ],
+          "sequence": 12
+        },
+        {
+          "arm": "beta",
+          "half": "H1",
+          "id": "r1-beta",
+          "letter": "a",
+          "position": 1,
+          "roundSequence": 4,
+          "row": 1,
+          "runSuffix": "r1",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C01"
+            }
+          ],
+          "sequence": 13
+        },
+        {
+          "arm": "gamma",
+          "half": "H1",
+          "id": "r1-gamma",
+          "letter": "b",
+          "position": 2,
+          "roundSequence": 4,
+          "row": 1,
+          "runSuffix": "r1",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D05"
+            }
+          ],
+          "sequence": 14
+        },
+        {
+          "arm": "epsilon",
+          "half": "H1",
+          "id": "r1-epsilon",
+          "letter": "d",
+          "position": 3,
+          "roundSequence": 4,
+          "row": 1,
+          "runSuffix": "r1",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A04"
+            }
+          ],
+          "sequence": 15
+        },
+        {
+          "arm": "delta",
+          "half": "H1",
+          "id": "r1-delta",
+          "letter": "c",
+          "position": 4,
+          "roundSequence": 4,
+          "row": 1,
+          "runSuffix": "r1",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E10"
+            }
+          ],
+          "sequence": 16
+        },
+        {
+          "arm": "alpha",
+          "half": null,
+          "id": "ref-alpha",
+          "letter": null,
+          "position": null,
+          "roundSequence": null,
+          "row": null,
+          "runSuffix": "ref",
+          "runs": [
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G10"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B11"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E14"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F06"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B07"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C03"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D06"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C04"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E10"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A02"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E12"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B08"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B09"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D12"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C08"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C09"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B14"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "B02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "B02"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "C01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "C01"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F01"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "F05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "F05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A05"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "D03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "D03"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E11"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "G05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "G05"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A04"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "E16"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "E16"
+            },
+            {
+              "model": "claude-sonnet-5-5",
+              "task": "A07"
+            },
+            {
+              "model": "gpt-6.1-sol",
+              "task": "A07"
+            }
+          ],
+          "sequence": 17
+        }
+      ],
+      "design": "williams-4-half",
+      "halfOfRow": {
+        "1": "H1",
+        "2": "H2",
+        "3": "H1",
+        "4": "H2"
+      },
+      "halves": {
+        "H1": [
+          "A03",
+          "A04",
+          "A08",
+          "B02",
+          "B05",
+          "B08",
+          "B11",
+          "B12",
+          "C01",
+          "C07",
+          "C09",
+          "C10",
+          "D03",
+          "D05",
+          "D06",
+          "D12",
+          "E03",
+          "E06",
+          "E10",
+          "E12",
+          "E14",
+          "F01",
+          "F02",
+          "F03",
+          "G02",
+          "G06",
+          "G09"
+        ],
+        "H2": [
+          "A02",
+          "A05",
+          "A07",
+          "B04",
+          "B07",
+          "B09",
+          "B10",
+          "B14",
+          "C03",
+          "C04",
+          "C06",
+          "C08",
+          "D04",
+          "D10",
+          "D11",
+          "D14",
+          "E01",
+          "E05",
+          "E09",
+          "E11",
+          "E16",
+          "F04",
+          "F05",
+          "F06",
+          "G04",
+          "G05",
+          "G10"
+        ]
+      },
+      "letters": {
+        "a": "beta",
+        "b": "gamma",
+        "c": "delta",
+        "d": "epsilon"
+      },
+      "modelOfTask": {
+        "1": {
+          "A03": "claude-sonnet-5-5",
+          "A04": "gpt-6.1-sol",
+          "A08": "gpt-6.1-sol",
+          "B02": "claude-sonnet-5-5",
+          "B05": "gpt-6.1-sol",
+          "B08": "claude-sonnet-5-5",
+          "B11": "gpt-6.1-sol",
+          "B12": "claude-sonnet-5-5",
+          "C01": "gpt-6.1-sol",
+          "C07": "claude-sonnet-5-5",
+          "C09": "claude-sonnet-5-5",
+          "C10": "gpt-6.1-sol",
+          "D03": "claude-sonnet-5-5",
+          "D05": "gpt-6.1-sol",
+          "D06": "claude-sonnet-5-5",
+          "D12": "gpt-6.1-sol",
+          "E03": "gpt-6.1-sol",
+          "E06": "claude-sonnet-5-5",
+          "E10": "gpt-6.1-sol",
+          "E12": "gpt-6.1-sol",
+          "E14": "claude-sonnet-5-5",
+          "F01": "gpt-6.1-sol",
+          "F02": "claude-sonnet-5-5",
+          "F03": "claude-sonnet-5-5",
+          "G02": "gpt-6.1-sol",
+          "G06": "gpt-6.1-sol",
+          "G09": "claude-sonnet-5-5"
+        },
+        "2": {
+          "A02": "claude-sonnet-5-5",
+          "A05": "gpt-6.1-sol",
+          "A07": "gpt-6.1-sol",
+          "B04": "claude-sonnet-5-5",
+          "B07": "claude-sonnet-5-5",
+          "B09": "gpt-6.1-sol",
+          "B10": "gpt-6.1-sol",
+          "B14": "claude-sonnet-5-5",
+          "C03": "claude-sonnet-5-5",
+          "C04": "gpt-6.1-sol",
+          "C06": "claude-sonnet-5-5",
+          "C08": "gpt-6.1-sol",
+          "D04": "gpt-6.1-sol",
+          "D10": "claude-sonnet-5-5",
+          "D11": "claude-sonnet-5-5",
+          "D14": "gpt-6.1-sol",
+          "E01": "gpt-6.1-sol",
+          "E05": "claude-sonnet-5-5",
+          "E09": "claude-sonnet-5-5",
+          "E11": "gpt-6.1-sol",
+          "E16": "gpt-6.1-sol",
+          "F04": "claude-sonnet-5-5",
+          "F05": "claude-sonnet-5-5",
+          "F06": "gpt-6.1-sol",
+          "G04": "gpt-6.1-sol",
+          "G05": "claude-sonnet-5-5",
+          "G10": "gpt-6.1-sol"
+        },
+        "3": {
+          "A03": "gpt-6.1-sol",
+          "A04": "claude-sonnet-5-5",
+          "A08": "claude-sonnet-5-5",
+          "B02": "gpt-6.1-sol",
+          "B05": "claude-sonnet-5-5",
+          "B08": "gpt-6.1-sol",
+          "B11": "claude-sonnet-5-5",
+          "B12": "gpt-6.1-sol",
+          "C01": "claude-sonnet-5-5",
+          "C07": "gpt-6.1-sol",
+          "C09": "gpt-6.1-sol",
+          "C10": "claude-sonnet-5-5",
+          "D03": "gpt-6.1-sol",
+          "D05": "claude-sonnet-5-5",
+          "D06": "gpt-6.1-sol",
+          "D12": "claude-sonnet-5-5",
+          "E03": "claude-sonnet-5-5",
+          "E06": "gpt-6.1-sol",
+          "E10": "claude-sonnet-5-5",
+          "E12": "claude-sonnet-5-5",
+          "E14": "gpt-6.1-sol",
+          "F01": "claude-sonnet-5-5",
+          "F02": "gpt-6.1-sol",
+          "F03": "gpt-6.1-sol",
+          "G02": "claude-sonnet-5-5",
+          "G06": "claude-sonnet-5-5",
+          "G09": "gpt-6.1-sol"
+        },
+        "4": {
+          "A02": "gpt-6.1-sol",
+          "A05": "claude-sonnet-5-5",
+          "A07": "claude-sonnet-5-5",
+          "B04": "gpt-6.1-sol",
+          "B07": "gpt-6.1-sol",
+          "B09": "claude-sonnet-5-5",
+          "B10": "claude-sonnet-5-5",
+          "B14": "gpt-6.1-sol",
+          "C03": "gpt-6.1-sol",
+          "C04": "claude-sonnet-5-5",
+          "C06": "gpt-6.1-sol",
+          "C08": "claude-sonnet-5-5",
+          "D04": "claude-sonnet-5-5",
+          "D10": "gpt-6.1-sol",
+          "D11": "gpt-6.1-sol",
+          "D14": "claude-sonnet-5-5",
+          "E01": "claude-sonnet-5-5",
+          "E05": "gpt-6.1-sol",
+          "E09": "gpt-6.1-sol",
+          "E11": "claude-sonnet-5-5",
+          "E16": "claude-sonnet-5-5",
+          "F04": "gpt-6.1-sol",
+          "F05": "gpt-6.1-sol",
+          "F06": "claude-sonnet-5-5",
+          "G04": "claude-sonnet-5-5",
+          "G05": "gpt-6.1-sol",
+          "G10": "claude-sonnet-5-5"
+        }
+      },
+      "reference": "alpha",
+      "roundOrder": [
+        4,
+        2,
+        3,
+        1
+      ],
+      "seed": 20220213,
+      "square": [
+        [
+          "a",
+          "b",
+          "d",
+          "c"
+        ],
+        [
+          "b",
+          "c",
+          "a",
+          "d"
+        ],
+        [
+          "c",
+          "d",
+          "b",
+          "a"
+        ],
+        [
+          "d",
+          "a",
+          "c",
+          "b"
+        ]
+      ]
+    },
+    "pricesDated": "2026-10-20",
+    "scoringContract": 2,
+    "seed": 20220213,
+    "systemPrompt": "You answer questions about the legacy systems of the USS Enterprise using only the tools you have. Work out the answer with the tools, then call submit_answer with it. If something cannot be determined with your tools, or a service does not answer, say so in the answer instead of guessing. Finish every task by calling submit_answer exactly once.",
+    "taskSet": "scored",
+    "voidRule": {
+      "health": {
+        "alpha": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "alpha",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "beta": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "beta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "delta": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "delta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "epsilon": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "epsilon",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "gamma": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "health",
+            "gamma",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        }
+      },
+      "healthEveryRuns": 10,
+      "ready": {
+        "alpha": {
+          "assets": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "assets",
+              "alpha",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "missions": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "missions",
+              "alpha",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "personnel": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "personnel",
+              "alpha",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          }
+        },
+        "beta": {
+          "assets": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "assets",
+              "beta",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "missions": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "missions",
+              "beta",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "personnel": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "personnel",
+              "beta",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          }
+        },
+        "delta": {
+          "assets": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "assets",
+              "delta",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "missions": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "missions",
+              "delta",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "personnel": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "personnel",
+              "delta",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          }
+        },
+        "epsilon": {
+          "assets": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "assets",
+              "epsilon",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "missions": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "missions",
+              "epsilon",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "personnel": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "personnel",
+              "epsilon",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          }
+        },
+        "gamma": {
+          "assets": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "assets",
+              "gamma",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "missions": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "missions",
+              "gamma",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          },
+          "personnel": {
+            "argv": [
+              "<path>/python.exe",
+              "-B",
+              "<path>/launch.py",
+              "ready",
+              "personnel",
+              "gamma",
+              "--missions",
+              "real",
+              "--state-dir",
+              "<path>/state"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "limits": {
+    "max_nudges": 2,
+    "max_retries": 3,
+    "max_task_tokens": 1000000,
+    "max_tool_calls": 80,
+    "max_wall_seconds": 900,
+    "retry_backoff_seconds": 5
+  },
+  "machine": {
+    "cpuCount": 16,
+    "machine": "AMD64",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 167 Stepping 1, GenuineIntel",
+    "python": "3.14.8",
+    "totalMemoryBytes": 33912258560
+  },
+  "models": {
+    "claude-sonnet-5-5": {
+      "max_output_tokens": 16000,
+      "priceEntry": {
+        "cache_write": 2.5,
+        "cached_read": 0.1,
+        "input": 2.0,
+        "output": 10.0,
+        "source": "read from the Anthropic pricing page on 2026-10-20: input 2, five-minute cache write 2.50, cache hit 0.10 (0.05 times the input price for this model), output 10",
+        "vendor": "anthropic"
+      },
+      "request": {
+        "output_config": {
+          "effort": "medium"
+        },
+        "thinking": {
+          "type": "adaptive"
+        }
+      },
+      "vendor": "anthropic"
+    },
+    "gpt-6.1-sol": {
+      "max_output_tokens": 16000,
+      "priceEntry": {
+        "cache_write": 0.0,
+        "cached_read": 0.1,
+        "input": 2.0,
+        "output": 10.0,
+        "source": "OpenAI pricing page read 2026-10-20 (standard tier); the Responses API reports no cache-write tokens",
+        "vendor": "openai"
+      },
+      "request": {
+        "include": [
+          "reasoning.encrypted_content"
+        ],
+        "reasoning": {
+          "effort": "medium"
+        },
+        "store": false
+      },
+      "vendor": "openai"
+    }
+  },
+  "planHash": "7d4ea34cfbbc6c1d5b8ba9285aa62d768575e177090588a9d1ffaaa74a9a9dec",
+  "pricesTableDate": "2026-10-20",
+  "provenance": {
+    "intended": {
+      "alpha": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:414e8e1625bae52524245aeb3b6c279e79736c3fe0bdcd06b6778d0aaf62bc70",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "legacy_ports": "<path>/legacy-ports.json",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8082/": "personnel-service",
+            "http://127.0.0.1:8083/": "starfleet-missions/missions",
+            "http://127.0.0.1:8084/": "assets-service"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:a8c79b2f0f477e96dd570523bc10d392a3290e4053c85c1f3cc4d85c98b52c07",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.1.1"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:5d4b266644e77d10ee3e00287fba755765c72db1c41e60350a05ef6b02f1c14d",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:9fe8473757c5073d3b280124326308d9b68d68a99f7ea80cb20982c9e72ac4de",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.1.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:4da0aa79ec31e490e031211e1200269f4376ae58c5a33d975205b16977b6d574",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      },
+      "beta": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:414e8e1625bae52524245aeb3b6c279e79736c3fe0bdcd06b6778d0aaf62bc70",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "legacy_ports": "<path>/legacy-ports.json",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8082/": "personnel-service",
+            "http://127.0.0.1:8083/": "starfleet-missions/missions",
+            "http://127.0.0.1:8084/": "assets-service"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:a8c79b2f0f477e96dd570523bc10d392a3290e4053c85c1f3cc4d85c98b52c07",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.1.1"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:5d4b266644e77d10ee3e00287fba755765c72db1c41e60350a05ef6b02f1c14d",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:9fe8473757c5073d3b280124326308d9b68d68a99f7ea80cb20982c9e72ac4de",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.1.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:4da0aa79ec31e490e031211e1200269f4376ae58c5a33d975205b16977b6d574",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      },
+      "delta": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:414e8e1625bae52524245aeb3b6c279e79736c3fe0bdcd06b6778d0aaf62bc70",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8170/": "router"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:a8c79b2f0f477e96dd570523bc10d392a3290e4053c85c1f3cc4d85c98b52c07",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.1.1"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:5d4b266644e77d10ee3e00287fba755765c72db1c41e60350a05ef6b02f1c14d",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:9fe8473757c5073d3b280124326308d9b68d68a99f7ea80cb20982c9e72ac4de",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.1.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:4da0aa79ec31e490e031211e1200269f4376ae58c5a33d975205b16977b6d574",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      },
+      "epsilon": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:414e8e1625bae52524245aeb3b6c279e79736c3fe0bdcd06b6778d0aaf62bc70",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8171/graphql": "cosmo-router"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:a8c79b2f0f477e96dd570523bc10d392a3290e4053c85c1f3cc4d85c98b52c07",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.1.1"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:5d4b266644e77d10ee3e00287fba755765c72db1c41e60350a05ef6b02f1c14d",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:9fe8473757c5073d3b280124326308d9b68d68a99f7ea80cb20982c9e72ac4de",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.1.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:4da0aa79ec31e490e031211e1200269f4376ae58c5a33d975205b16977b6d574",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      },
+      "gamma": {
+        "backends": {
+          "assets": {
+            "dataset": {
+              "id": "assets-1.1",
+              "path": "<path>/1.1",
+              "sha256": "ae1c6eb4ff12d2d18bcdfa626b73ec58721835ddcc6180f5997aa75abbb57cdf"
+            },
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "mode": "real",
+            "service": "assets-service"
+          },
+          "missions": {
+            "image_id": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3",
+            "image_ref": "starfleet-missions-service:1.0.0",
+            "mode": "real",
+            "service": "starfleet-missions/missions"
+          },
+          "personnel": {
+            "image_id": "sha256:414e8e1625bae52524245aeb3b6c279e79736c3fe0bdcd06b6778d0aaf62bc70",
+            "image_ref": "starfleet-federation-stack-personnel-service:2.0.0",
+            "mode": "real",
+            "service": "personnel-service"
+          }
+        },
+        "compose_projects": [
+          "starfleet-missions",
+          "starfleet-federation-stack"
+        ],
+        "launch_files": {
+          "launch_script": "<path>/launch.py",
+          "missions_real_overlay": "<path>/missions-real.compose.yaml",
+          "stack_compose": "<path>/compose.yaml"
+        },
+        "routing": {
+          "endpoints": {
+            "http://127.0.0.1:8182/graphql": "personnel-adapter",
+            "http://127.0.0.1:8183/graphql": "missions-adapter",
+            "http://127.0.0.1:8184/graphql": "assets-adapter",
+            "http://127.0.0.1:8190/graphql": "mapping-adapter"
+          },
+          "env": {
+            "assets-adapter": {
+              "ASSETS_SERVICE_URL": "http://assets-service:8084"
+            },
+            "missions-adapter": {
+              "MISSIONS_SERVICE_URL": "http://starfleet-missions-service:8083"
+            },
+            "personnel-adapter": {
+              "PERSONNEL_SERVICE_URL": "http://personnel-service:8082/soap/personnel-v2"
+            }
+          }
+        },
+        "service_images": {
+          "assets-adapter": {
+            "image_id": "sha256:a8c79b2f0f477e96dd570523bc10d392a3290e4053c85c1f3cc4d85c98b52c07",
+            "image_ref": "starfleet-federation-stack-assets-adapter:1.1.1"
+          },
+          "assets-bootstrap": {
+            "image_id": "sha256:d0473c47b0ff27131cf0dd684908fe56a6d87f6559bd34c74ac99a5e57952f18",
+            "image_ref": "starfleet-federation-stack-assets-service:1.0.0",
+            "one_shot": true
+          },
+          "mapping-adapter": {
+            "image_id": "sha256:5d4b266644e77d10ee3e00287fba755765c72db1c41e60350a05ef6b02f1c14d",
+            "image_ref": "starfleet-federation-stack-mapping-adapter:1.0.0"
+          },
+          "missions-adapter": {
+            "image_id": "sha256:9fe8473757c5073d3b280124326308d9b68d68a99f7ea80cb20982c9e72ac4de",
+            "image_ref": "starfleet-federation-stack-missions-adapter:1.1.0"
+          },
+          "personnel-adapter": {
+            "image_id": "sha256:4da0aa79ec31e490e031211e1200269f4376ae58c5a33d975205b16977b6d574",
+            "image_ref": "starfleet-federation-stack-personnel-adapter:1.0.0"
+          }
+        }
+      }
+    },
+    "observationCommands": [
+      "docker compose -p <project> ps --all --format json",
+      "docker inspect <container id> ..."
+    ],
+    "schema": 1
+  },
+  "resultsRootSetting": "LAB_RESULTS_DIR",
+  "schedule": {
+    "blocks": [
+      {
+        "arm": "epsilon",
+        "half": "H2",
+        "id": "r4-epsilon",
+        "letter": "d",
+        "position": 1,
+        "roundSequence": 1,
+        "row": 4,
+        "runSuffix": "r4",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E16"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D04"
+          }
+        ],
+        "sequence": 1
+      },
+      {
+        "arm": "beta",
+        "half": "H2",
+        "id": "r4-beta",
+        "letter": "a",
+        "position": 2,
+        "roundSequence": 1,
+        "row": 4,
+        "runSuffix": "r4",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E16"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B10"
+          }
+        ],
+        "sequence": 2
+      },
+      {
+        "arm": "delta",
+        "half": "H2",
+        "id": "r4-delta",
+        "letter": "c",
+        "position": 3,
+        "roundSequence": 1,
+        "row": 4,
+        "runSuffix": "r4",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E16"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E11"
+          }
+        ],
+        "sequence": 3
+      },
+      {
+        "arm": "gamma",
+        "half": "H2",
+        "id": "r4-gamma",
+        "letter": "b",
+        "position": 4,
+        "roundSequence": 1,
+        "row": 4,
+        "runSuffix": "r4",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E16"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C08"
+          }
+        ],
+        "sequence": 4
+      },
+      {
+        "arm": "gamma",
+        "half": "H2",
+        "id": "r2-gamma",
+        "letter": "b",
+        "position": 1,
+        "roundSequence": 2,
+        "row": 2,
+        "runSuffix": "r2",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E16"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D04"
+          }
+        ],
+        "sequence": 5
+      },
+      {
+        "arm": "delta",
+        "half": "H2",
+        "id": "r2-delta",
+        "letter": "c",
+        "position": 2,
+        "roundSequence": 2,
+        "row": 2,
+        "runSuffix": "r2",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E16"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E01"
+          }
+        ],
+        "sequence": 6
+      },
+      {
+        "arm": "beta",
+        "half": "H2",
+        "id": "r2-beta",
+        "letter": "a",
+        "position": 3,
+        "roundSequence": 2,
+        "row": 2,
+        "runSuffix": "r2",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E16"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B09"
+          }
+        ],
+        "sequence": 7
+      },
+      {
+        "arm": "epsilon",
+        "half": "H2",
+        "id": "r2-epsilon",
+        "letter": "d",
+        "position": 4,
+        "roundSequence": 2,
+        "row": 2,
+        "runSuffix": "r2",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E16"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D14"
+          }
+        ],
+        "sequence": 8
+      },
+      {
+        "arm": "delta",
+        "half": "H1",
+        "id": "r3-delta",
+        "letter": "c",
+        "position": 1,
+        "roundSequence": 3,
+        "row": 3,
+        "runSuffix": "r3",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F01"
+          }
+        ],
+        "sequence": 9
+      },
+      {
+        "arm": "epsilon",
+        "half": "H1",
+        "id": "r3-epsilon",
+        "letter": "d",
+        "position": 2,
+        "roundSequence": 3,
+        "row": 3,
+        "runSuffix": "r3",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A04"
+          }
+        ],
+        "sequence": 10
+      },
+      {
+        "arm": "gamma",
+        "half": "H1",
+        "id": "r3-gamma",
+        "letter": "b",
+        "position": 3,
+        "roundSequence": 3,
+        "row": 3,
+        "runSuffix": "r3",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A04"
+          }
+        ],
+        "sequence": 11
+      },
+      {
+        "arm": "beta",
+        "half": "H1",
+        "id": "r3-beta",
+        "letter": "a",
+        "position": 4,
+        "roundSequence": 3,
+        "row": 3,
+        "runSuffix": "r3",
+        "runs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E03"
+          }
+        ],
+        "sequence": 12
+      },
+      {
+        "arm": "beta",
+        "half": "H1",
+        "id": "r1-beta",
+        "letter": "a",
+        "position": 1,
+        "roundSequence": 4,
+        "row": 1,
+        "runSuffix": "r1",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C01"
+          }
+        ],
+        "sequence": 13
+      },
+      {
+        "arm": "gamma",
+        "half": "H1",
+        "id": "r1-gamma",
+        "letter": "b",
+        "position": 2,
+        "roundSequence": 4,
+        "row": 1,
+        "runSuffix": "r1",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D05"
+          }
+        ],
+        "sequence": 14
+      },
+      {
+        "arm": "epsilon",
+        "half": "H1",
+        "id": "r1-epsilon",
+        "letter": "d",
+        "position": 3,
+        "roundSequence": 4,
+        "row": 1,
+        "runSuffix": "r1",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A04"
+          }
+        ],
+        "sequence": 15
+      },
+      {
+        "arm": "delta",
+        "half": "H1",
+        "id": "r1-delta",
+        "letter": "c",
+        "position": 4,
+        "roundSequence": 4,
+        "row": 1,
+        "runSuffix": "r1",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E10"
+          }
+        ],
+        "sequence": 16
+      },
+      {
+        "arm": "alpha",
+        "half": null,
+        "id": "ref-alpha",
+        "letter": null,
+        "position": null,
+        "roundSequence": null,
+        "row": null,
+        "runSuffix": "ref",
+        "runs": [
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G10"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B11"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E14"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F06"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B07"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C03"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D06"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C04"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E10"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A02"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E12"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B08"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B09"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D12"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C08"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C09"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B14"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "B02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "B02"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "C01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "C01"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F01"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "F05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "F05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A05"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "D03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "D03"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E11"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "G05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "G05"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A04"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "E16"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "E16"
+          },
+          {
+            "model": "claude-sonnet-5-5",
+            "task": "A07"
+          },
+          {
+            "model": "gpt-6.1-sol",
+            "task": "A07"
+          }
+        ],
+        "sequence": 17
+      }
+    ],
+    "design": "williams-4-half",
+    "halfOfRow": {
+      "1": "H1",
+      "2": "H2",
+      "3": "H1",
+      "4": "H2"
+    },
+    "halves": {
+      "H1": [
+        "A03",
+        "A04",
+        "A08",
+        "B02",
+        "B05",
+        "B08",
+        "B11",
+        "B12",
+        "C01",
+        "C07",
+        "C09",
+        "C10",
+        "D03",
+        "D05",
+        "D06",
+        "D12",
+        "E03",
+        "E06",
+        "E10",
+        "E12",
+        "E14",
+        "F01",
+        "F02",
+        "F03",
+        "G02",
+        "G06",
+        "G09"
+      ],
+      "H2": [
+        "A02",
+        "A05",
+        "A07",
+        "B04",
+        "B07",
+        "B09",
+        "B10",
+        "B14",
+        "C03",
+        "C04",
+        "C06",
+        "C08",
+        "D04",
+        "D10",
+        "D11",
+        "D14",
+        "E01",
+        "E05",
+        "E09",
+        "E11",
+        "E16",
+        "F04",
+        "F05",
+        "F06",
+        "G04",
+        "G05",
+        "G10"
+      ]
+    },
+    "letters": {
+      "a": "beta",
+      "b": "gamma",
+      "c": "delta",
+      "d": "epsilon"
+    },
+    "modelOfTask": {
+      "1": {
+        "A03": "claude-sonnet-5-5",
+        "A04": "gpt-6.1-sol",
+        "A08": "gpt-6.1-sol",
+        "B02": "claude-sonnet-5-5",
+        "B05": "gpt-6.1-sol",
+        "B08": "claude-sonnet-5-5",
+        "B11": "gpt-6.1-sol",
+        "B12": "claude-sonnet-5-5",
+        "C01": "gpt-6.1-sol",
+        "C07": "claude-sonnet-5-5",
+        "C09": "claude-sonnet-5-5",
+        "C10": "gpt-6.1-sol",
+        "D03": "claude-sonnet-5-5",
+        "D05": "gpt-6.1-sol",
+        "D06": "claude-sonnet-5-5",
+        "D12": "gpt-6.1-sol",
+        "E03": "gpt-6.1-sol",
+        "E06": "claude-sonnet-5-5",
+        "E10": "gpt-6.1-sol",
+        "E12": "gpt-6.1-sol",
+        "E14": "claude-sonnet-5-5",
+        "F01": "gpt-6.1-sol",
+        "F02": "claude-sonnet-5-5",
+        "F03": "claude-sonnet-5-5",
+        "G02": "gpt-6.1-sol",
+        "G06": "gpt-6.1-sol",
+        "G09": "claude-sonnet-5-5"
+      },
+      "2": {
+        "A02": "claude-sonnet-5-5",
+        "A05": "gpt-6.1-sol",
+        "A07": "gpt-6.1-sol",
+        "B04": "claude-sonnet-5-5",
+        "B07": "claude-sonnet-5-5",
+        "B09": "gpt-6.1-sol",
+        "B10": "gpt-6.1-sol",
+        "B14": "claude-sonnet-5-5",
+        "C03": "claude-sonnet-5-5",
+        "C04": "gpt-6.1-sol",
+        "C06": "claude-sonnet-5-5",
+        "C08": "gpt-6.1-sol",
+        "D04": "gpt-6.1-sol",
+        "D10": "claude-sonnet-5-5",
+        "D11": "claude-sonnet-5-5",
+        "D14": "gpt-6.1-sol",
+        "E01": "gpt-6.1-sol",
+        "E05": "claude-sonnet-5-5",
+        "E09": "claude-sonnet-5-5",
+        "E11": "gpt-6.1-sol",
+        "E16": "gpt-6.1-sol",
+        "F04": "claude-sonnet-5-5",
+        "F05": "claude-sonnet-5-5",
+        "F06": "gpt-6.1-sol",
+        "G04": "gpt-6.1-sol",
+        "G05": "claude-sonnet-5-5",
+        "G10": "gpt-6.1-sol"
+      },
+      "3": {
+        "A03": "gpt-6.1-sol",
+        "A04": "claude-sonnet-5-5",
+        "A08": "claude-sonnet-5-5",
+        "B02": "gpt-6.1-sol",
+        "B05": "claude-sonnet-5-5",
+        "B08": "gpt-6.1-sol",
+        "B11": "claude-sonnet-5-5",
+        "B12": "gpt-6.1-sol",
+        "C01": "claude-sonnet-5-5",
+        "C07": "gpt-6.1-sol",
+        "C09": "gpt-6.1-sol",
+        "C10": "claude-sonnet-5-5",
+        "D03": "gpt-6.1-sol",
+        "D05": "claude-sonnet-5-5",
+        "D06": "gpt-6.1-sol",
+        "D12": "claude-sonnet-5-5",
+        "E03": "claude-sonnet-5-5",
+        "E06": "gpt-6.1-sol",
+        "E10": "claude-sonnet-5-5",
+        "E12": "claude-sonnet-5-5",
+        "E14": "gpt-6.1-sol",
+        "F01": "claude-sonnet-5-5",
+        "F02": "gpt-6.1-sol",
+        "F03": "gpt-6.1-sol",
+        "G02": "claude-sonnet-5-5",
+        "G06": "claude-sonnet-5-5",
+        "G09": "gpt-6.1-sol"
+      },
+      "4": {
+        "A02": "gpt-6.1-sol",
+        "A05": "claude-sonnet-5-5",
+        "A07": "claude-sonnet-5-5",
+        "B04": "gpt-6.1-sol",
+        "B07": "gpt-6.1-sol",
+        "B09": "claude-sonnet-5-5",
+        "B10": "claude-sonnet-5-5",
+        "B14": "gpt-6.1-sol",
+        "C03": "gpt-6.1-sol",
+        "C04": "claude-sonnet-5-5",
+        "C06": "gpt-6.1-sol",
+        "C08": "claude-sonnet-5-5",
+        "D04": "claude-sonnet-5-5",
+        "D10": "gpt-6.1-sol",
+        "D11": "gpt-6.1-sol",
+        "D14": "claude-sonnet-5-5",
+        "E01": "claude-sonnet-5-5",
+        "E05": "gpt-6.1-sol",
+        "E09": "gpt-6.1-sol",
+        "E11": "claude-sonnet-5-5",
+        "E16": "claude-sonnet-5-5",
+        "F04": "gpt-6.1-sol",
+        "F05": "gpt-6.1-sol",
+        "F06": "claude-sonnet-5-5",
+        "G04": "claude-sonnet-5-5",
+        "G05": "gpt-6.1-sol",
+        "G10": "claude-sonnet-5-5"
+      }
+    },
+    "reference": "alpha",
+    "roundOrder": [
+      4,
+      2,
+      3,
+      1
+    ],
+    "seed": 20220213,
+    "square": [
+      [
+        "a",
+        "b",
+        "d",
+        "c"
+      ],
+      [
+        "b",
+        "c",
+        "a",
+        "d"
+      ],
+      [
+        "c",
+        "d",
+        "b",
+        "a"
+      ],
+      [
+        "d",
+        "a",
+        "c",
+        "b"
+      ]
+    ]
+  },
+  "scoringContract": {
+    "ambiguityFlags": [
+      "clarified",
+      "interpretationAccepted"
+    ],
+    "correctOutcomes": [
+      "correct"
+    ],
+    "harnessOutcomes": [
+      "did_not_finish",
+      "vendor_error"
+    ],
+    "notScored": [
+      "budget_stop"
+    ],
+    "outcomes": [
+      "correct",
+      "wrong_answer",
+      "format_error",
+      "definition_not_accepted",
+      "abstained"
+    ],
+    "scorerSha256": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+    "version": 2
+  },
+  "sdkVersions": {
+    "anthropic": "1.16.0",
+    "mcp": "2.3.0",
+    "openai": "3.35.1"
+  },
+  "stackFacts": {
+    "cpu_name": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+    "docker_compose_version": "5.5.1",
+    "docker_share_ncpu_memtotal_bytes": "16 16548524032",
+    "docker_version": "29.8.0",
+    "free_memory_kb_at_start": "13263888"
+  },
+  "stackRunsPerBlock": 1,
+  "studyRunId": "study2-scored-1",
+  "telemetry": {
+    "apollo_router": "anonymous telemetry off (APOLLO_TELEMETRY_DISABLED)",
+    "cosmo_router": "anonymous telemetry off (COSMO_TELEMETRY_DISABLED)"
+  },
+  "tokenBudgets": {
+    "anthropic": {
+      "ceiling_basis": "decision D of docs/STUDY-2-DESIGN.md (125 dollars for all of study 2, development included: Anthropic 85); the seven earlier paid study-2 runs are carried in earlier_study_runs",
+      "dollar_ceiling": 85.0,
+      "tokens": 12000000
+    },
+    "openai": {
+      "ceiling_basis": "decision D of docs/STUDY-2-DESIGN.md (125 dollars for all of study 2, development included: OpenAI 40); the seven earlier paid study-2 runs are carried in earlier_study_runs",
+      "dollar_ceiling": 40.0,
+      "tokens": 12000000
+    }
+  },
+  "treeDirty": false,
+  "vendorErrorRequeues": 1,
+  "voidRule": {
+    "excludedWindow": "a category D task's own stopped service, from its stop until its restore",
+    "health": {
+      "alpha": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "alpha",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/state"
+        ]
+      },
+      "beta": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "beta",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/state"
+        ]
+      },
+      "delta": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "delta",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/state"
+        ]
+      },
+      "epsilon": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "epsilon",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/state"
+        ]
+      },
+      "gamma": {
+        "argv": [
+          "<path>/python.exe",
+          "-B",
+          "<path>/launch.py",
+          "health",
+          "gamma",
+          "--missions",
+          "real",
+          "--state-dir",
+          "<path>/state"
+        ]
+      }
+    },
+    "healthEveryRuns": 10,
+    "healthPoints": [
+      "start",
+      "periodic",
+      "restore",
+      "end"
+    ],
+    "onVoid": "stop with status block_void; the resume repeats the block whole as the next attempt",
+    "ready": {
+      "alpha": {
+        "assets": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "assets",
+            "alpha",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "missions": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "missions",
+            "alpha",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "personnel": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "personnel",
+            "alpha",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        }
+      },
+      "beta": {
+        "assets": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "assets",
+            "beta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "missions": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "missions",
+            "beta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "personnel": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "personnel",
+            "beta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        }
+      },
+      "delta": {
+        "assets": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "assets",
+            "delta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "missions": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "missions",
+            "delta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "personnel": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "personnel",
+            "delta",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        }
+      },
+      "epsilon": {
+        "assets": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "assets",
+            "epsilon",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "missions": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "missions",
+            "epsilon",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "personnel": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "personnel",
+            "epsilon",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        }
+      },
+      "gamma": {
+        "assets": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "assets",
+            "gamma",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "missions": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "missions",
+            "gamma",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        },
+        "personnel": {
+          "argv": [
+            "<path>/python.exe",
+            "-B",
+            "<path>/launch.py",
+            "ready",
+            "personnel",
+            "gamma",
+            "--missions",
+            "real",
+            "--state-dir",
+            "<path>/state"
+          ]
+        }
+      }
+    },
+    "spend": "the void attempt stays in the vendor ledgers and is reported apart in bundle.json (voidAttempts)",
+    "triggers": {
+      "health": "the health check finds a backend down, or cannot be read, at the block start, every health_every_runs runs or at the block end",
+      "provenance": "the provenance observation at the block start finds a declared backend down (no container, or not running)",
+      "restore": "after a category D task, the restored service, the MCP server, any backend or the arm's entry point for the restored service (its ready command) does not answer again within the scenario's ready_timeout_seconds"
+    },
+    "voidRunsFolder": "runs-void/<block>/<attempt>/"
+  }
+}

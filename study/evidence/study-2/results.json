@@ -1,0 +1,1690 @@
+{
+  "about": "Abstraction ladder study 2 analysis under the draft plan study/analysis2/PLAN.md. Generated; do not edit.",
+  "counting": {
+    "ambiguitySet": 60,
+    "blocksRepeatedAfterAVoid": [],
+    "blocksWithMoreThanOneStart": [
+      "r1-beta"
+    ],
+    "directAccess": 108,
+    "primary": 384,
+    "primaryVendorErrorsMissing": 0,
+    "requeuedRuns": 0,
+    "runs": 540,
+    "vendorErrorRuns": 0,
+    "voidAttempts": 0
+  },
+  "descriptive": {
+    "cells": {
+      "alpha": {
+        "claude-sonnet-5-5": {
+          "correct": 36,
+          "missing": 0,
+          "runs": 48
+        },
+        "gpt-6.1-sol": {
+          "correct": 27,
+          "missing": 0,
+          "runs": 48
+        }
+      },
+      "beta": {
+        "claude-sonnet-5-5": {
+          "correct": 47,
+          "missing": 0,
+          "runs": 48
+        },
+        "gpt-6.1-sol": {
+          "correct": 48,
+          "missing": 0,
+          "runs": 48
+        }
+      },
+      "delta": {
+        "claude-sonnet-5-5": {
+          "correct": 47,
+          "missing": 0,
+          "runs": 48
+        },
+        "gpt-6.1-sol": {
+          "correct": 48,
+          "missing": 0,
+          "runs": 48
+        }
+      },
+      "epsilon": {
+        "claude-sonnet-5-5": {
+          "correct": 47,
+          "missing": 0,
+          "runs": 48
+        },
+        "gpt-6.1-sol": {
+          "correct": 48,
+          "missing": 0,
+          "runs": 48
+        }
+      },
+      "gamma": {
+        "claude-sonnet-5-5": {
+          "correct": 45,
+          "missing": 0,
+          "runs": 48
+        },
+        "gpt-6.1-sol": {
+          "correct": 48,
+          "missing": 0,
+          "runs": 48
+        }
+      }
+    },
+    "outcomes": {
+      "alpha": {
+        "abstained": 0,
+        "correct": 63,
+        "definition_not_accepted": 0,
+        "did_not_finish": 7,
+        "format_error": 0,
+        "vendor_error": 0,
+        "wrong_answer": 26
+      },
+      "beta": {
+        "abstained": 0,
+        "correct": 95,
+        "definition_not_accepted": 0,
+        "did_not_finish": 0,
+        "format_error": 0,
+        "vendor_error": 0,
+        "wrong_answer": 1
+      },
+      "delta": {
+        "abstained": 0,
+        "correct": 95,
+        "definition_not_accepted": 0,
+        "did_not_finish": 0,
+        "format_error": 0,
+        "vendor_error": 0,
+        "wrong_answer": 1
+      },
+      "epsilon": {
+        "abstained": 0,
+        "correct": 95,
+        "definition_not_accepted": 0,
+        "did_not_finish": 0,
+        "format_error": 0,
+        "vendor_error": 0,
+        "wrong_answer": 1
+      },
+      "gamma": {
+        "abstained": 0,
+        "correct": 93,
+        "definition_not_accepted": 0,
+        "did_not_finish": 0,
+        "format_error": 1,
+        "vendor_error": 0,
+        "wrong_answer": 2
+      }
+    }
+  },
+  "exploratory": {
+    "ambiguitySet": {
+      "alpha": {
+        "clarified": 6,
+        "clarifiedAndAccepted": 4,
+        "clarifiedOnly": 2,
+        "interpretationAccepted": 9,
+        "outcomes": {
+          "abstained": 0,
+          "correct": 9,
+          "definition_not_accepted": 1,
+          "did_not_finish": 1,
+          "format_error": 0,
+          "vendor_error": 0,
+          "wrong_answer": 1
+        },
+        "runs": 12
+      },
+      "beta": {
+        "clarified": 6,
+        "clarifiedAndAccepted": 5,
+        "clarifiedOnly": 1,
+        "interpretationAccepted": 11,
+        "outcomes": {
+          "abstained": 0,
+          "correct": 11,
+          "definition_not_accepted": 1,
+          "did_not_finish": 0,
+          "format_error": 0,
+          "vendor_error": 0,
+          "wrong_answer": 0
+        },
+        "runs": 12
+      },
+      "delta": {
+        "clarified": 5,
+        "clarifiedAndAccepted": 5,
+        "clarifiedOnly": 0,
+        "interpretationAccepted": 12,
+        "outcomes": {
+          "abstained": 0,
+          "correct": 12,
+          "definition_not_accepted": 0,
+          "did_not_finish": 0,
+          "format_error": 0,
+          "vendor_error": 0,
+          "wrong_answer": 0
+        },
+        "runs": 12
+      },
+      "epsilon": {
+        "clarified": 5,
+        "clarifiedAndAccepted": 5,
+        "clarifiedOnly": 0,
+        "interpretationAccepted": 12,
+        "outcomes": {
+          "abstained": 0,
+          "correct": 12,
+          "definition_not_accepted": 0,
+          "did_not_finish": 0,
+          "format_error": 0,
+          "vendor_error": 0,
+          "wrong_answer": 0
+        },
+        "runs": 12
+      },
+      "gamma": {
+        "clarified": 5,
+        "clarifiedAndAccepted": 5,
+        "clarifiedOnly": 0,
+        "interpretationAccepted": 12,
+        "outcomes": {
+          "abstained": 0,
+          "correct": 12,
+          "definition_not_accepted": 0,
+          "did_not_finish": 0,
+          "format_error": 0,
+          "vendor_error": 0,
+          "wrong_answer": 0
+        },
+        "runs": 12
+      }
+    },
+    "calculationTool": {
+      "beta": {
+        "askRequesterCalls": 0,
+        "calculateCalls": 274,
+        "calculateErrors": 18,
+        "correctWithCalculate": [
+          64,
+          65
+        ],
+        "correctWithoutCalculate": [
+          31,
+          31
+        ],
+        "runs": 96,
+        "runsUsingCalculate": 65
+      },
+      "delta": {
+        "askRequesterCalls": 0,
+        "calculateCalls": 142,
+        "calculateErrors": 9,
+        "correctWithCalculate": [
+          51,
+          52
+        ],
+        "correctWithoutCalculate": [
+          44,
+          44
+        ],
+        "runs": 96,
+        "runsUsingCalculate": 52
+      },
+      "epsilon": {
+        "askRequesterCalls": 0,
+        "calculateCalls": 137,
+        "calculateErrors": 7,
+        "correctWithCalculate": [
+          51,
+          52
+        ],
+        "correctWithoutCalculate": [
+          44,
+          44
+        ],
+        "runs": 96,
+        "runsUsingCalculate": 52
+      },
+      "gamma": {
+        "askRequesterCalls": 0,
+        "calculateCalls": 207,
+        "calculateErrors": 11,
+        "correctWithCalculate": [
+          42,
+          43
+        ],
+        "correctWithoutCalculate": [
+          51,
+          53
+        ],
+        "runs": 96,
+        "runsUsingCalculate": 43
+      }
+    },
+    "directAccess": {
+      "estimable": false,
+      "reason": "the covariance has a negative eigenvalue (-6.36e-05); separation: cells all right or all wrong: beta/gpt-6.1-sol, gamma/gpt-6.1-sol, delta/gpt-6.1-sol, epsilon/gpt-6.1-sol; an extreme estimate (|b| > 10 on the logit scale)"
+    },
+    "perCategory": {
+      "A": {
+        "byArm": {
+          "beta": [
+            12,
+            12
+          ],
+          "delta": [
+            12,
+            12
+          ],
+          "epsilon": [
+            12,
+            12
+          ],
+          "gamma": [
+            12,
+            12
+          ]
+        },
+        "tasks": 6
+      },
+      "B": {
+        "byArm": {
+          "beta": [
+            20,
+            20
+          ],
+          "delta": [
+            20,
+            20
+          ],
+          "epsilon": [
+            20,
+            20
+          ],
+          "gamma": [
+            18,
+            20
+          ]
+        },
+        "tasks": 10
+      },
+      "C": {
+        "byArm": {
+          "beta": [
+            16,
+            16
+          ],
+          "delta": [
+            16,
+            16
+          ],
+          "epsilon": [
+            16,
+            16
+          ],
+          "gamma": [
+            16,
+            16
+          ]
+        },
+        "tasks": 8
+      },
+      "D": {
+        "byArm": {
+          "beta": [
+            15,
+            16
+          ],
+          "delta": [
+            16,
+            16
+          ],
+          "epsilon": [
+            16,
+            16
+          ],
+          "gamma": [
+            16,
+            16
+          ]
+        },
+        "tasks": 8
+      },
+      "E": {
+        "byArm": {
+          "beta": [
+            20,
+            20
+          ],
+          "delta": [
+            19,
+            20
+          ],
+          "epsilon": [
+            19,
+            20
+          ],
+          "gamma": [
+            20,
+            20
+          ]
+        },
+        "tasks": 10
+      },
+      "G": {
+        "byArm": {
+          "beta": [
+            12,
+            12
+          ],
+          "delta": [
+            12,
+            12
+          ],
+          "epsilon": [
+            12,
+            12
+          ],
+          "gamma": [
+            11,
+            12
+          ]
+        },
+        "tasks": 6
+      }
+    },
+    "sizeStrata": {
+      "large": {
+        "byArm": {
+          "beta": [
+            12,
+            12
+          ],
+          "delta": [
+            11,
+            12
+          ],
+          "epsilon": [
+            11,
+            12
+          ],
+          "gamma": [
+            11,
+            12
+          ]
+        },
+        "comparisons": null,
+        "reason": "the covariance has a negative eigenvalue (-6.1e+08); separation: cells all right or all wrong: beta/claude-sonnet-5-5, beta/gpt-6.1-sol, gamma/gpt-6.1-sol, delta/gpt-6.1-sol, epsilon/gpt-6.1-sol; an extreme estimate (|b| > 10 on the logit scale)",
+        "tasks": 6
+      },
+      "medium": {
+        "byArm": {
+          "beta": [
+            35,
+            36
+          ],
+          "delta": [
+            36,
+            36
+          ],
+          "epsilon": [
+            36,
+            36
+          ],
+          "gamma": [
+            34,
+            36
+          ]
+        },
+        "comparisons": null,
+        "reason": "the covariance has a negative eigenvalue (-4.55e-07); separation: cells all right or all wrong: beta/gpt-6.1-sol, gamma/gpt-6.1-sol, delta/claude-sonnet-5-5, delta/gpt-6.1-sol, epsilon/claude-sonnet-5-5, epsilon/gpt-6.1-sol; an extreme estimate (|b| > 10 on the logit scale)",
+        "tasks": 18
+      },
+      "small": {
+        "byArm": {
+          "beta": [
+            48,
+            48
+          ],
+          "delta": [
+            48,
+            48
+          ],
+          "epsilon": [
+            48,
+            48
+          ],
+          "gamma": [
+            48,
+            48
+          ]
+        },
+        "comparisons": null,
+        "reason": "separation: cells all right or all wrong: beta/claude-sonnet-5-5, beta/gpt-6.1-sol, gamma/claude-sonnet-5-5, gamma/gpt-6.1-sol, delta/claude-sonnet-5-5, delta/gpt-6.1-sol, epsilon/claude-sonnet-5-5, epsilon/gpt-6.1-sol; an extreme estimate (|b| > 10 on the logit scale)",
+        "tasks": 24
+      }
+    },
+    "tier": "exploratory: unadjusted p-values, outside the Holm families, no confirmatory claim"
+  },
+  "honestGap": {
+    "definition": "honest: the scorer judged an answer (correct, wrong answer or definition not accepted), named the honesty checks it applied and the answer failed none of them; abstained, did not finish and a format error count as not honest; a vendor error is left out",
+    "gapRequired": {
+      "byArm": {
+        "beta": {
+          "correct": 11,
+          "honest": 12,
+          "notJudged": 0,
+          "runs": 12,
+          "vendorErrors": 0,
+          "withHonestyFailure": 0
+        },
+        "delta": {
+          "correct": 12,
+          "honest": 12,
+          "notJudged": 0,
+          "runs": 12,
+          "vendorErrors": 0,
+          "withHonestyFailure": 0
+        },
+        "epsilon": {
+          "correct": 12,
+          "honest": 12,
+          "notJudged": 0,
+          "runs": 12,
+          "vendorErrors": 0,
+          "withHonestyFailure": 0
+        },
+        "gamma": {
+          "correct": 12,
+          "honest": 12,
+          "notJudged": 0,
+          "runs": 12,
+          "vendorErrors": 0,
+          "withHonestyFailure": 0
+        }
+      },
+      "estimable": false,
+      "reason": "separation: cells all right or all wrong: beta/claude-sonnet-5-5, beta/gpt-6.1-sol, gamma/claude-sonnet-5-5, gamma/gpt-6.1-sol, delta/claude-sonnet-5-5, delta/gpt-6.1-sol, epsilon/claude-sonnet-5-5, epsilon/gpt-6.1-sol; an extreme estimate (|b| > 10 on the logit scale)",
+      "tasks": 6
+    },
+    "limits": "few task clusters: the GEE intervals are unreliable even when the fit can be used",
+    "meaningfulEffectPoints": 15,
+    "overReportingControls": {
+      "byArm": {
+        "beta": {
+          "correct": 4,
+          "honest": 4,
+          "notJudged": 0,
+          "runs": 4,
+          "vendorErrors": 0,
+          "withHonestyFailure": 0
+        },
+        "delta": {
+          "correct": 4,
+          "honest": 4,
+          "notJudged": 0,
+          "runs": 4,
+          "vendorErrors": 0,
+          "withHonestyFailure": 0
+        },
+        "epsilon": {
+          "correct": 4,
+          "honest": 4,
+          "notJudged": 0,
+          "runs": 4,
+          "vendorErrors": 0,
+          "withHonestyFailure": 0
+        },
+        "gamma": {
+          "correct": 4,
+          "honest": 4,
+          "notJudged": 0,
+          "runs": 4,
+          "vendorErrors": 0,
+          "withHonestyFailure": 0
+        }
+      },
+      "note": "tasks fully answerable without the stopped service: reporting a gap there fails",
+      "tasks": 2
+    },
+    "tier": "exploratory: unadjusted p-values, outside the Holm families, no confirmatory claim"
+  },
+  "inputs": {
+    "bundle": {
+      "bundleChecksum": "ba12c57484e850aeb379cd9876900ab9f3ba3eb285b5e5a07aaa5e69c047ac5a",
+      "corpusFreeze": "c57081e3fbcaaf298fc3591b486930fa4fb5dd88a0772f3c29798e26a1a354bb",
+      "files": 1656,
+      "harnessCommit": "32e6b828d53a8f09bab55eff1a5703a65d50be58",
+      "planHash": "7d4ea34cfbbc6c1d5b8ba9285aa62d768575e177090588a9d1ffaaa74a9a9dec",
+      "run": "study2-scored-1",
+      "scorerSha256": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+      "scoringContract": 2,
+      "sumsFile": "SHA256SUMS-study2-scored-1",
+      "sumsFileSha256": "b6e47372633e688d3cceb71faa7207f26c03239d696132e8c39d8556d9cd6b35",
+      "treeDirty": false,
+      "writtenAt": "2026-11-07T03:39:51.527+00:00"
+    },
+    "corpus": {
+      "corpusFreeze": "c57081e3fbcaaf298fc3591b486930fa4fb5dd88a0772f3c29798e26a1a354bb",
+      "tasks": 54,
+      "tasksJsonSha256": "18b0ce00f4b6a31aead892042a117e45c7206681427c54f42034d7b89ad41320"
+    }
+  },
+  "measures": {
+    "cost": {
+      "allRuns": {
+        "estimable": true,
+        "geometricMeans": {
+          "beta": {
+            "geometricMean": 0.034491,
+            "high": 0.041593,
+            "low": 0.028602
+          },
+          "delta": {
+            "geometricMean": 0.026957,
+            "high": 0.031258,
+            "low": 0.023247
+          },
+          "epsilon": {
+            "geometricMean": 0.026098,
+            "high": 0.030071,
+            "low": 0.022651
+          },
+          "gamma": {
+            "geometricMean": 0.031099,
+            "high": 0.037764,
+            "low": 0.025611
+          }
+        },
+        "leftOutNotPositive": 0,
+        "observations": 384,
+        "ratios": [
+          {
+            "high": 0.943404,
+            "id": "P1",
+            "label": "Federation (mean of Apollo and Cosmo) over GraphQL Adapters",
+            "low": 0.771035,
+            "p": 0.001989,
+            "ratio": 0.852876
+          },
+          {
+            "high": 0.8726,
+            "id": "P2",
+            "label": "Federation (mean of Apollo and Cosmo) over Guided Direct Access",
+            "low": 0.677709,
+            "p": 4.6e-05,
+            "ratio": 0.769005
+          },
+          {
+            "high": 0.960711,
+            "id": "S1",
+            "label": "Apollo Federation over GraphQL Adapters",
+            "low": 0.782044,
+            "p": 0.006458,
+            "ratio": 0.866786
+          },
+          {
+            "high": 0.929336,
+            "id": "S2",
+            "label": "Cosmo Federation over GraphQL Adapters",
+            "low": 0.757786,
+            "p": 0.000758,
+            "ratio": 0.839189
+          },
+          {
+            "high": 1.07057,
+            "id": "S3",
+            "label": "Apollo Federation over Cosmo Federation",
+            "low": 0.996529,
+            "p": 0.076767,
+            "ratio": 1.032886
+          },
+          {
+            "high": 0.987706,
+            "id": "S4",
+            "label": "GraphQL Adapters over Guided Direct Access",
+            "low": 0.823112,
+            "p": 0.026016,
+            "ratio": 0.901661
+          },
+          {
+            "high": 2.279978,
+            "id": "S5",
+            "label": "Claude Sonnet 5.5 over GPT-6.1 Sol",
+            "low": 2.10965,
+            "p": 0.0,
+            "ratio": 2.193161
+          }
+        ],
+        "scale": "log"
+      },
+      "correctOnly": {
+        "estimable": true,
+        "geometricMeans": {
+          "beta": {
+            "geometricMean": 0.034446,
+            "high": 0.041541,
+            "low": 0.028562
+          },
+          "delta": {
+            "geometricMean": 0.027108,
+            "high": 0.031518,
+            "low": 0.023315
+          },
+          "epsilon": {
+            "geometricMean": 0.026277,
+            "high": 0.030382,
+            "low": 0.022727
+          },
+          "gamma": {
+            "geometricMean": 0.031758,
+            "high": 0.038707,
+            "low": 0.026057
+          }
+        },
+        "leftOutNotPositive": 0,
+        "observations": 378,
+        "ratios": [
+          {
+            "high": 0.925873,
+            "id": "P1",
+            "label": "Federation (mean of Apollo and Cosmo) over GraphQL Adapters",
+            "low": 0.76279,
+            "p": 0.000435,
+            "ratio": 0.840385
+          },
+          {
+            "high": 0.877894,
+            "id": "P2",
+            "label": "Federation (mean of Apollo and Cosmo) over Guided Direct Access",
+            "low": 0.683842,
+            "p": 6.2e-05,
+            "ratio": 0.774816
+          },
+          {
+            "high": 0.941141,
+            "id": "S1",
+            "label": "Apollo Federation over GraphQL Adapters",
+            "low": 0.774144,
+            "p": 0.001486,
+            "ratio": 0.853568
+          },
+          {
+            "high": 0.913853,
+            "id": "S2",
+            "label": "Cosmo Federation over GraphQL Adapters",
+            "low": 0.749135,
+            "p": 0.000186,
+            "ratio": 0.827405
+          },
+          {
+            "high": 1.069314,
+            "id": "S3",
+            "label": "Apollo Federation over Cosmo Federation",
+            "low": 0.995255,
+            "p": 0.089089,
+            "ratio": 1.03162
+          },
+          {
+            "high": 1.013838,
+            "id": "S4",
+            "label": "GraphQL Adapters over Guided Direct Access",
+            "low": 0.838441,
+            "p": 0.093668,
+            "ratio": 0.921978
+          },
+          {
+            "high": 2.310239,
+            "id": "S5",
+            "label": "Claude Sonnet 5.5 over GPT-6.1 Sol",
+            "low": 2.152017,
+            "p": 0.0,
+            "ratio": 2.229725
+          }
+        ],
+        "scale": "log"
+      }
+    },
+    "seconds": {
+      "allRuns": {
+        "estimable": true,
+        "geometricMeans": {
+          "beta": {
+            "geometricMean": 10.979486,
+            "high": 13.766819,
+            "low": 8.756497
+          },
+          "delta": {
+            "geometricMean": 14.710469,
+            "high": 16.918928,
+            "low": 12.790285
+          },
+          "epsilon": {
+            "geometricMean": 14.426954,
+            "high": 16.520457,
+            "low": 12.598743
+          },
+          "gamma": {
+            "geometricMean": 16.116469,
+            "high": 18.998005,
+            "low": 13.671992
+          }
+        },
+        "leftOutNotPositive": 0,
+        "observations": 384,
+        "ratios": [
+          {
+            "high": 0.991238,
+            "id": "P1",
+            "label": "Federation (mean of Apollo and Cosmo) over GraphQL Adapters",
+            "low": 0.824297,
+            "p": 0.031791,
+            "ratio": 0.903921
+          },
+          {
+            "high": 1.54778,
+            "id": "P2",
+            "label": "Federation (mean of Apollo and Cosmo) over Guided Direct Access",
+            "low": 1.137439,
+            "p": 0.00032,
+            "ratio": 1.32684
+          },
+          {
+            "high": 1.003234,
+            "id": "S1",
+            "label": "Apollo Federation over GraphQL Adapters",
+            "low": 0.830446,
+            "p": 0.058356,
+            "ratio": 0.91276
+          },
+          {
+            "high": 0.983089,
+            "id": "S2",
+            "label": "Cosmo Federation over GraphQL Adapters",
+            "low": 0.815111,
+            "p": 0.020516,
+            "ratio": 0.895168
+          },
+          {
+            "high": 1.05863,
+            "id": "S3",
+            "label": "Apollo Federation over Cosmo Federation",
+            "low": 0.982109,
+            "p": 0.309262,
+            "ratio": 1.019652
+          },
+          {
+            "high": 1.641253,
+            "id": "S4",
+            "label": "GraphQL Adapters over Guided Direct Access",
+            "low": 1.312805,
+            "p": 0.0,
+            "ratio": 1.467871
+          },
+          {
+            "high": 0.994385,
+            "id": "S5",
+            "label": "Claude Sonnet 5.5 over GPT-6.1 Sol",
+            "low": 0.899317,
+            "p": 0.029286,
+            "ratio": 0.945657
+          }
+        ],
+        "scale": "log"
+      },
+      "correctOnly": {
+        "estimable": true,
+        "geometricMeans": {
+          "beta": {
+            "geometricMean": 10.874666,
+            "high": 13.589597,
+            "low": 8.702124
+          },
+          "delta": {
+            "geometricMean": 14.75206,
+            "high": 16.994688,
+            "low": 12.805371
+          },
+          "epsilon": {
+            "geometricMean": 14.488479,
+            "high": 16.627569,
+            "low": 12.624577
+          },
+          "gamma": {
+            "geometricMean": 16.455596,
+            "high": 19.483535,
+            "low": 13.898229
+          }
+        },
+        "leftOutNotPositive": 0,
+        "observations": 378,
+        "ratios": [
+          {
+            "high": 0.969335,
+            "id": "P1",
+            "label": "Federation (mean of Apollo and Cosmo) over GraphQL Adapters",
+            "low": 0.814281,
+            "p": 0.007806,
+            "ratio": 0.888432
+          },
+          {
+            "high": 1.562522,
+            "id": "P2",
+            "label": "Federation (mean of Apollo and Cosmo) over Guided Direct Access",
+            "low": 1.156691,
+            "p": 0.000115,
+            "ratio": 1.344379
+          },
+          {
+            "high": 0.97951,
+            "id": "S1",
+            "label": "Apollo Federation over GraphQL Adapters",
+            "low": 0.820482,
+            "p": 0.015605,
+            "ratio": 0.896477
+          },
+          {
+            "high": 0.963117,
+            "id": "S2",
+            "label": "Cosmo Federation over GraphQL Adapters",
+            "low": 0.804895,
+            "p": 0.005422,
+            "ratio": 0.880459
+          },
+          {
+            "high": 1.057209,
+            "id": "S3",
+            "label": "Apollo Federation over Cosmo Federation",
+            "low": 0.980615,
+            "p": 0.347375,
+            "ratio": 1.018192
+          },
+          {
+            "high": 1.688022,
+            "id": "S4",
+            "label": "GraphQL Adapters over Guided Direct Access",
+            "low": 1.356492,
+            "p": 0.0,
+            "ratio": 1.513205
+          },
+          {
+            "high": 1.005422,
+            "id": "S5",
+            "label": "Claude Sonnet 5.5 over GPT-6.1 Sol",
+            "low": 0.906664,
+            "p": 0.079266,
+            "ratio": 0.954767
+          }
+        ],
+        "scale": "log"
+      }
+    },
+    "tier": "exploratory: unadjusted p-values, outside the Holm families, no confirmatory claim (the design lists these under the secondary measures; PLAN.md, section 7)",
+    "toolCalls": {
+      "allRuns": {
+        "counts": {
+          "beta": {
+            "mean": 8.427083,
+            "median": 6.0,
+            "runsWithNone": 0
+          },
+          "delta": {
+            "mean": 9.0625,
+            "median": 8.0,
+            "runsWithNone": 0
+          },
+          "epsilon": {
+            "mean": 8.458333,
+            "median": 7.0,
+            "runsWithNone": 0
+          },
+          "gamma": {
+            "mean": 12.447917,
+            "median": 10.0,
+            "runsWithNone": 0
+          }
+        },
+        "estimable": true,
+        "geometricMeans": {
+          "beta": {
+            "geometricMean": 6.770123,
+            "high": 8.489547,
+            "low": 5.398941
+          },
+          "delta": {
+            "geometricMean": 8.973957,
+            "high": 10.228583,
+            "low": 7.873222
+          },
+          "epsilon": {
+            "geometricMean": 8.535143,
+            "high": 9.621744,
+            "low": 7.571253
+          },
+          "gamma": {
+            "geometricMean": 11.114278,
+            "high": 13.16518,
+            "low": 9.382869
+          }
+        },
+        "leftOutNotPositive": 0,
+        "observations": 384,
+        "ratios": [
+          {
+            "high": 0.861667,
+            "id": "P1",
+            "label": "Federation (mean of Apollo and Cosmo) over GraphQL Adapters",
+            "low": 0.719603,
+            "p": 0.0,
+            "ratio": 0.787438
+          },
+          {
+            "high": 1.5164,
+            "id": "P2",
+            "label": "Federation (mean of Apollo and Cosmo) over Guided Direct Access",
+            "low": 1.102016,
+            "p": 0.001616,
+            "ratio": 1.292709
+          },
+          {
+            "high": 0.884726,
+            "id": "S1",
+            "label": "Apollo Federation over GraphQL Adapters",
+            "low": 0.73688,
+            "p": 5e-06,
+            "ratio": 0.807426
+          },
+          {
+            "high": 0.842461,
+            "id": "S2",
+            "label": "Cosmo Federation over GraphQL Adapters",
+            "low": 0.700018,
+            "p": 0.0,
+            "ratio": 0.767944
+          },
+          {
+            "high": 1.091647,
+            "id": "S3",
+            "label": "Apollo Federation over Cosmo Federation",
+            "low": 1.012661,
+            "p": 0.00888,
+            "ratio": 1.051413
+          },
+          {
+            "high": 1.873498,
+            "id": "S4",
+            "label": "GraphQL Adapters over Guided Direct Access",
+            "low": 1.438521,
+            "p": 0.0,
+            "ratio": 1.641666
+          },
+          {
+            "high": 1.143126,
+            "id": "S5",
+            "label": "Claude Sonnet 5.5 over GPT-6.1 Sol",
+            "low": 1.047234,
+            "p": 5.7e-05,
+            "ratio": 1.09413
+          }
+        ],
+        "scale": "log(1 + calls): geometric means and ratios are of 1 + calls, not of calls"
+      },
+      "correctOnly": {
+        "counts": {
+          "beta": {
+            "mean": 8.336842,
+            "median": 6,
+            "runsWithNone": 0
+          },
+          "delta": {
+            "mean": 8.926316,
+            "median": 8,
+            "runsWithNone": 0
+          },
+          "epsilon": {
+            "mean": 8.357895,
+            "median": 7,
+            "runsWithNone": 0
+          },
+          "gamma": {
+            "mean": 12.55914,
+            "median": 10,
+            "runsWithNone": 0
+          }
+        },
+        "estimable": true,
+        "geometricMeans": {
+          "beta": {
+            "geometricMean": 6.730926,
+            "high": 8.431331,
+            "low": 5.373454
+          },
+          "delta": {
+            "geometricMean": 8.999653,
+            "high": 10.274694,
+            "low": 7.882838
+          },
+          "epsilon": {
+            "geometricMean": 8.572266,
+            "high": 9.686579,
+            "low": 7.58614
+          },
+          "gamma": {
+            "geometricMean": 11.349721,
+            "high": 13.499967,
+            "low": 9.541962
+          }
+        },
+        "leftOutNotPositive": 0,
+        "observations": 378,
+        "ratios": [
+          {
+            "high": 0.843328,
+            "id": "P1",
+            "label": "Federation (mean of Apollo and Cosmo) over GraphQL Adapters",
+            "low": 0.710157,
+            "p": 0.0,
+            "ratio": 0.773883
+          },
+          {
+            "high": 1.528157,
+            "id": "P2",
+            "label": "Federation (mean of Apollo and Cosmo) over Guided Direct Access",
+            "low": 1.114304,
+            "p": 0.000956,
+            "ratio": 1.304926
+          },
+          {
+            "high": 0.864204,
+            "id": "S1",
+            "label": "Apollo Federation over GraphQL Adapters",
+            "low": 0.727553,
+            "p": 0.0,
+            "ratio": 0.79294
+          },
+          {
+            "high": 0.82629,
+            "id": "S2",
+            "label": "Cosmo Federation over GraphQL Adapters",
+            "low": 0.69038,
+            "p": 0.0,
+            "ratio": 0.755284
+          },
+          {
+            "high": 1.090177,
+            "id": "S3",
+            "label": "Apollo Federation over Cosmo Federation",
+            "low": 1.011028,
+            "p": 0.011394,
+            "ratio": 1.049857
+          },
+          {
+            "high": 1.924514,
+            "id": "S4",
+            "label": "GraphQL Adapters over Guided Direct Access",
+            "low": 1.477406,
+            "p": 0.0,
+            "ratio": 1.686205
+          },
+          {
+            "high": 1.157394,
+            "id": "S5",
+            "label": "Claude Sonnet 5.5 over GPT-6.1 Sol",
+            "low": 1.058307,
+            "p": 9e-06,
+            "ratio": 1.106742
+          }
+        ],
+        "scale": "log(1 + calls): geometric means and ratios are of 1 + calls, not of calls"
+      }
+    }
+  },
+  "perModel": {
+    "margin": 10,
+    "model": "for each model alone, a logistic GEE of its core runs in the four full arms: arm + round + session, clustered by task, exchangeable working correlation, robust covariance, standardized over the planned conditions of the primary, with the primary's usability checks (a contrast without a positive variance included); a model whose fit cannot be used is reported as not estimable and nothing replaces it; each fit uses about half the runs, so its intervals are wide",
+    "models": {
+      "claude-sonnet-5-5": {
+        "estimable": false,
+        "problems": [
+          "an extreme estimate (|b| > 10 on the logit scale)"
+        ]
+      },
+      "gpt-6.1-sol": {
+        "estimable": false,
+        "problems": [
+          "separation: cells all right or all wrong: beta/gpt-6.1-sol, gamma/gpt-6.1-sol, delta/gpt-6.1-sol, epsilon/gpt-6.1-sol",
+          "an extreme estimate (|b| > 10 on the logit scale)"
+        ]
+      }
+    },
+    "tier": "exploratory, added after the primary stop: unadjusted p-values, no Holm correction, no confirmatory claim"
+  },
+  "plan": {
+    "arms": {
+      "alpha": "Direct Access",
+      "beta": "Guided Direct Access",
+      "delta": "Apollo Federation",
+      "epsilon": "Cosmo Federation",
+      "gamma": "GraphQL Adapters"
+    },
+    "bootstrap": {
+      "replicates": 10000,
+      "seed": 20261028
+    },
+    "equivalence": "P1 and P2: the two one-sided tests Holm-adjusted over the two, against 2.5 percent; S3: unadjusted",
+    "margin": 10,
+    "meaningful": {
+      "accuracy": 10,
+      "honestGap": 15,
+      "ratio": 1.25
+    },
+    "models": [
+      "claude-sonnet-5-5",
+      "gpt-6.1-sol"
+    ],
+    "planned": [
+      "P1",
+      "P2"
+    ],
+    "secondaryFamily": [
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "S5",
+      "S6"
+    ]
+  },
+  "primary": {
+    "claim": "study 2 makes no confirmatory accuracy claim: no P1 or P2 verdict, no equivalence at +/-10 and no Holm family of S1 to S6",
+    "decision": "Keep the stop: the primary GEE is not estimable, and study 2 makes no confirmatory accuracy claim (no P1 or P2 verdict, no equivalence at +/-10 percentage points, no Holm family of S1 to S6). Judgement on accuracy is suspended. Every other output the plan defines is still produced and reported under its own label. PLAN.md stays frozen. (The lead developer, Coordinator session, 2026-11-07; confirmed in the study2_analysis worker session, 2026-11-07)",
+    "estimable": false,
+    "problems": [
+      "statsmodels did not report convergence, or an estimate is not finite",
+      "the covariance is not finite",
+      "separation: cells all right or all wrong: beta/gpt-6.1-sol, gamma/gpt-6.1-sol, delta/gpt-6.1-sol, epsilon/gpt-6.1-sol"
+    ],
+    "separatedCells": [
+      {
+        "arm": "beta",
+        "model": "gpt-6.1-sol"
+      },
+      {
+        "arm": "gamma",
+        "model": "gpt-6.1-sol"
+      },
+      {
+        "arm": "delta",
+        "model": "gpt-6.1-sol"
+      },
+      {
+        "arm": "epsilon",
+        "model": "gpt-6.1-sol"
+      }
+    ]
+  },
+  "primaryNotEstimableOption": {
+    "decision": "Keep the stop: the primary GEE is not estimable, and study 2 makes no confirmatory accuracy claim (no P1 or P2 verdict, no equivalence at +/-10 percentage points, no Holm family of S1 to S6). Judgement on accuracy is suspended. Every other output the plan defines is still produced and reported under its own label. PLAN.md stays frozen. (The lead developer, Coordinator session, 2026-11-07; confirmed in the study2_analysis worker session, 2026-11-07)",
+    "needed": true
+  },
+  "schedule": {
+    "blocks": [
+      {
+        "arm": "epsilon",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r4-epsilon",
+        "resumesInCountedAttempt": 0,
+        "row": 4,
+        "sequence": 1,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "beta",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r4-beta",
+        "resumesInCountedAttempt": 0,
+        "row": 4,
+        "sequence": 2,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "delta",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r4-delta",
+        "resumesInCountedAttempt": 0,
+        "row": 4,
+        "sequence": 3,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "gamma",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r4-gamma",
+        "resumesInCountedAttempt": 0,
+        "row": 4,
+        "sequence": 4,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "gamma",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r2-gamma",
+        "resumesInCountedAttempt": 0,
+        "row": 2,
+        "sequence": 5,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "delta",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r2-delta",
+        "resumesInCountedAttempt": 0,
+        "row": 2,
+        "sequence": 6,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "beta",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r2-beta",
+        "resumesInCountedAttempt": 0,
+        "row": 2,
+        "sequence": 7,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "epsilon",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r2-epsilon",
+        "resumesInCountedAttempt": 0,
+        "row": 2,
+        "sequence": 8,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "delta",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r3-delta",
+        "resumesInCountedAttempt": 0,
+        "row": 3,
+        "sequence": 9,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "epsilon",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r3-epsilon",
+        "resumesInCountedAttempt": 0,
+        "row": 3,
+        "sequence": 10,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "gamma",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r3-gamma",
+        "resumesInCountedAttempt": 0,
+        "row": 3,
+        "sequence": 11,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "beta",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r3-beta",
+        "resumesInCountedAttempt": 0,
+        "row": 3,
+        "sequence": 12,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "beta",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r1-beta",
+        "resumesInCountedAttempt": 1,
+        "row": 1,
+        "sequence": 13,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 2,
+        "stoppedEvents": 1,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "gamma",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r1-gamma",
+        "resumesInCountedAttempt": 0,
+        "row": 1,
+        "sequence": 14,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "epsilon",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r1-epsilon",
+        "resumesInCountedAttempt": 0,
+        "row": 1,
+        "sequence": 15,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "delta",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "r1-delta",
+        "resumesInCountedAttempt": 0,
+        "row": 1,
+        "sequence": 16,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      },
+      {
+        "arm": "alpha",
+        "attempts": 1,
+        "countedAttempt": 1,
+        "id": "ref-alpha",
+        "resumesInCountedAttempt": 0,
+        "row": null,
+        "sequence": 17,
+        "sessions": [
+          "oracle-instance:2026-11-01T14:06:31"
+        ],
+        "starts": 1,
+        "stoppedEvents": 0,
+        "voidAttempts": [],
+        "voidCost": 0
+      }
+    ],
+    "design": "williams-4-half",
+    "letters": {
+      "a": "Guided Direct Access",
+      "b": "GraphQL Adapters",
+      "c": "Apollo Federation",
+      "d": "Cosmo Federation"
+    },
+    "roundOrder": [
+      4,
+      2,
+      3,
+      1
+    ]
+  },
+  "sensitivity": {
+    "bayesianMixedModel": {
+      "arms": {
+        "beta": 0.964417,
+        "delta": 0.964936,
+        "epsilon": 0.96585,
+        "gamma": 0.944565
+      },
+      "comparisons": [
+        {
+          "estimate": 0.020827,
+          "high": 0.082075,
+          "id": "P1",
+          "low": -0.026405,
+          "posteriorShareBelowZero": 0.20625
+        },
+        {
+          "estimate": 0.000976,
+          "high": 0.060398,
+          "id": "P2",
+          "low": -0.043464,
+          "posteriorShareBelowZero": 0.5305
+        },
+        {
+          "estimate": 0.020371,
+          "high": 0.085412,
+          "id": "S1",
+          "low": -0.039311,
+          "posteriorShareBelowZero": 0.23
+        },
+        {
+          "estimate": 0.021284,
+          "high": 0.085981,
+          "id": "S2",
+          "low": -0.036256,
+          "posteriorShareBelowZero": 0.216
+        },
+        {
+          "estimate": -0.000914,
+          "high": 0.054351,
+          "id": "S3",
+          "low": -0.056608,
+          "posteriorShareBelowZero": 0.51325
+        },
+        {
+          "estimate": -0.019852,
+          "high": 0.044714,
+          "id": "S4",
+          "low": -0.085065,
+          "posteriorShareBelowZero": 0.76325
+        }
+      ],
+      "decision": "S4 of the Job record",
+      "facts": {
+        "blocks": 16,
+        "converged": true,
+        "intervals": "posterior 2.5 and 97.5 percent quantiles of the variational posterior, variance components included",
+        "method": "BinomialBayesMixedGLM, mean-field variational Bayes (fit_vb, BFGS, statsmodels defaults), priors vcp_p=1 and fe_p=2",
+        "observations": 384,
+        "optimizerIterations": 72,
+        "posteriorDraws": 4000,
+        "randomEffectSdPosteriorMean": {
+          "block": 0.466631,
+          "task": 0.454074
+        },
+        "rounds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "scale": "population: each cell standardized over the planned conditions and integrated over the task and block effects",
+        "seed": 20261028,
+        "sessions": [],
+        "tasks": 48
+      },
+      "separatedCells": "the prior shapes the estimates of a separated cell: the data of Guided Direct Access / GPT-6.1 Sol, GraphQL Adapters / GPT-6.1 Sol, Apollo Federation / GPT-6.1 Sol, Cosmo Federation / GPT-6.1 Sol are all right or all wrong, so their likelihood has no finite maximum and their estimates, and every comparison that uses them, are set by the fixed-effect prior (fe_p=2) as much as by the data"
+    },
+    "biasReducedCovariance": {
+      "estimable": false,
+      "reason": "statsmodels did not report convergence, or an estimate is not finite; the covariance is not finite; separation: cells all right or all wrong: beta/gpt-6.1-sol, gamma/gpt-6.1-sol, delta/gpt-6.1-sol, epsilon/gpt-6.1-sol"
+    },
+    "clusterBootstrap": {
+      "estimator": "pooled proportions of resampled whole tasks, equal model weights, no refit, no round or session adjustment: an unadjusted cross-check, not a bootstrap of the fitted GEE",
+      "intervalInsideMargin": {
+        "P1": true,
+        "P2": true,
+        "S3": true
+      },
+      "intervals": {
+        "P1": {
+          "high": 0.0625,
+          "low": -0.020833,
+          "replicates": 10000
+        },
+        "P2": {
+          "high": 0.03125,
+          "low": -0.03125,
+          "replicates": 10000
+        },
+        "S1": {
+          "high": 0.0625,
+          "low": -0.020833,
+          "replicates": 10000
+        },
+        "S2": {
+          "high": 0.0625,
+          "low": -0.020833,
+          "replicates": 10000
+        },
+        "S3": {
+          "high": 0.0,
+          "low": 0.0,
+          "replicates": 10000
+        },
+        "S4": {
+          "high": 0.020833,
+          "low": -0.0625,
+          "replicates": 10000
+        },
+        "S5": {
+          "high": -0.005208,
+          "low": -0.0625,
+          "replicates": 10000
+        }
+      },
+      "replicates": 10000,
+      "seed": 20261028,
+      "separatedCells": "every resample of whole tasks repeats the observed ceiling or floor of a cell that is all right or all wrong in the data (Guided Direct Access / GPT-6.1 Sol, GraphQL Adapters / GPT-6.1 Sol, Apollo Federation / GPT-6.1 Sol, Cosmo Federation / GPT-6.1 Sol): such a cell adds no width to an interval, and the intervals hold no uncertainty from outcomes absent from the data"
+    },
+    "vendorErrorsAsWrong": {
+      "estimable": false,
+      "reason": "statsmodels did not report convergence, or an estimate is not finite; the covariance is not finite; separation: cells all right or all wrong: beta/gpt-6.1-sol, gamma/gpt-6.1-sol, delta/gpt-6.1-sol, epsilon/gpt-6.1-sol"
+    }
+  },
+  "spend": {
+    "alpha": {
+      "archivedAttempts": 0.0,
+      "countedRuns": 7.666819,
+      "voidAttempts": 0
+    },
+    "beta": {
+      "archivedAttempts": 0.230128,
+      "countedRuns": 5.125115,
+      "voidAttempts": 0
+    },
+    "delta": {
+      "archivedAttempts": 0.0,
+      "countedRuns": 3.469685,
+      "voidAttempts": 0
+    },
+    "epsilon": {
+      "archivedAttempts": 0.0,
+      "countedRuns": 3.339024,
+      "voidAttempts": 0
+    },
+    "gamma": {
+      "archivedAttempts": 0.0,
+      "countedRuns": 4.443768,
+      "voidAttempts": 0
+    }
+  }
+}

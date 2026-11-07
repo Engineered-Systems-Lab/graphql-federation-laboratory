@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 422" width="720" height="422" role="img" aria-label="Correct answers by arm and model, core set (descriptive)">
+<style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:13px;fill:var(--fig-text,#222)}.t{font-size:15px;font-weight:600}.s{font-size:11px;fill:var(--fig-muted,#6b6b6b)}</style>
+<rect x="0" y="0" width="720" height="422" fill="var(--fig-bg,#ffffff)"/>
+<text class="t" x="16" y="26">Correct answers by arm and model, core set (descriptive)</text>
+<line x1="230.0" y1="48" x2="230.0" y2="356" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="230.0" y="372" text-anchor="middle">0</text>
+<line x1="320.0" y1="48" x2="320.0" y2="356" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="320.0" y="372" text-anchor="middle">20</text>
+<line x1="410.0" y1="48" x2="410.0" y2="356" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="410.0" y="372" text-anchor="middle">40</text>
+<line x1="500.0" y1="48" x2="500.0" y2="356" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="500.0" y="372" text-anchor="middle">60</text>
+<line x1="590.0" y1="48" x2="590.0" y2="356" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="590.0" y="372" text-anchor="middle">80</text>
+<line x1="680.0" y1="48" x2="680.0" y2="356" stroke="var(--fig-grid,#d0d0d0)" stroke-width="1"/>
+<text class="s" x="680.0" y="372" text-anchor="middle">100</text>
+<text class="s" x="455.0" y="390" text-anchor="middle">percent correct, observed share (no interval)</text>
+<text x="218" y="67.0" text-anchor="end" dominant-baseline="middle">Guided Direct Access, Claude</text>
+<circle cx="670.6" cy="67.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text x="218" y="97.0" text-anchor="end" dominant-baseline="middle">Guided Direct Access, GPT-6.1</text>
+<circle cx="680.0" cy="97.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text x="218" y="127.0" text-anchor="end" dominant-baseline="middle">GraphQL Adapters, Claude</text>
+<circle cx="651.9" cy="127.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text x="218" y="157.0" text-anchor="end" dominant-baseline="middle">GraphQL Adapters, GPT-6.1</text>
+<circle cx="680.0" cy="157.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text x="218" y="187.0" text-anchor="end" dominant-baseline="middle">Apollo Federation, Claude</text>
+<circle cx="670.6" cy="187.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text x="218" y="217.0" text-anchor="end" dominant-baseline="middle">Apollo Federation, GPT-6.1</text>
+<circle cx="680.0" cy="217.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text x="218" y="247.0" text-anchor="end" dominant-baseline="middle">Cosmo Federation, Claude</text>
+<circle cx="670.6" cy="247.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text x="218" y="277.0" text-anchor="end" dominant-baseline="middle">Cosmo Federation, GPT-6.1</text>
+<circle cx="680.0" cy="277.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text x="218" y="307.0" text-anchor="end" dominant-baseline="middle">Direct Access, Claude</text>
+<circle cx="567.5" cy="307.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text x="218" y="337.0" text-anchor="end" dominant-baseline="middle">Direct Access, GPT-6.1</text>
+<circle cx="483.1" cy="337.0" r="5" fill="var(--fig-muted, #6b6b6b)"/>
+<text class="s" x="16" y="412">Direct Access: one reference block, last in the schedule. Observed shares only: the primary GEE is not estimable.</text>
+</svg>

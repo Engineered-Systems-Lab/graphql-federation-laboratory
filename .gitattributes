@@ -57,3 +57,6 @@ federation/adapters/mapping/src/test/resources/releases/*/*.json text eol=lf
 # The relay folders of study 2's guide keep the bytes their ledgers hash: no line-ending conversion, and a CR before a line end is not trailing whitespace.
 study/guide2/relay/* -text whitespace=cr-at-eol
 study/guide2/check/relay/* -text whitespace=cr-at-eol
+
+# The analysis tables of study 2 are kept byte for byte as study/analysis2/analyze2.py wrote them, and that file ends with a blank line.
+study/evidence/study-2/tables.md whitespace=-blank-at-eof
