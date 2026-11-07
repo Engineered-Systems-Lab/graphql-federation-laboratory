@@ -8,7 +8,8 @@ study-2 bundle.
 The copy is verified first (data2.verify_bundle, data2.load_strata, data2.load_bundle); any difference stops the run with STOP and exit
 code 2 before a number is computed, and nothing is written. If the primary GEE cannot be used (it did not converge, its covariance is not
 positive definite, a cell is separated, an estimate is extreme, or a planned contrast has no positive variance) the run stops with STOP
-and exit code 3, names the problem, and writes nothing: the plan allows no fallback without the lead developer's word. Otherwise it writes
+and exit code 3, names the problem, and writes nothing: the plan allows no fallback without the lead developer's word. Any other analysis whose fit, or a contrast, marginal, geometric mean or ratio computed from a fit
+that passed its checks, cannot be computed is reported as not estimable with its reason, and never stops the run. Otherwise it writes
 results.json, tables.md and figures/*.svg into --out, and nothing else. --out must not exist yet, so no file of an earlier run can stand
 beside the new ones. The same inputs give the same bytes. The tiers stay apart in every output: planned, secondary, sensitivity,
 exploratory and descriptive. Outputs name the arms and categories by their descriptive names; the letters are internal identifiers.
@@ -142,12 +143,21 @@ def comparisons_only(fit, models):
     return out
 
 
+# What a non-primary analysis catches, from its fit and from what it computes from a fit that passed its checks (contrasts, marginals,
+# geometric means, ratios): a failure makes that one entry not estimable, with the reason, and every other analysis is still written.
+ESTIMATION_ERRORS = (stats2.FitError, ValueError, ZeroDivisionError, OverflowError, ArithmeticError)
+
+
+def failure(error):
+    return '%s: %s' % (type(error).__name__, error)
+
+
 def try_fit(rows, outcome, models, **options):
     """A fit for a non-primary analysis: (fit, None) when usable, (None, reason) otherwise."""
     try:
         fit = stats2.fit_gee(rows, outcome, options.pop('arms', ARMS), models, **options)
-    except (stats2.FitError, ValueError, ZeroDivisionError, OverflowError, ArithmeticError) as error:
-        return None, '%s: %s' % (type(error).__name__, error)
+    except ESTIMATION_ERRORS as error:
+        return None, failure(error)
     problems = fit.problems()
     return (fit, None) if not problems else (None, '; '.join(problems))
 
@@ -210,19 +220,24 @@ def measures(rows, models, conditions):
             if fit is None:
                 out[outcome][subset] = dict(entry, estimable=False, reason=reason)
                 continue
-            geo = {}
-            for a in ARMS:
-                value, grad = fit.marginal(a)
-                se = math.sqrt(float(grad @ fit.cov @ grad))
-                geo[a] = {'geometricMean': math.exp(value), 'low': math.exp(value - stats2.Z95 * se), 'high': math.exp(value + stats2.Z95 * se)}
-            ratios = []
-            for cid, label, weights in PLANNED + SECONDARY_PAIRS:
-                c = contrast(fit, weights)
-                ratios.append({'id': cid, 'label': label.replace(' minus ', ' over '), 'ratio': math.exp(c['estimate']), 'low': math.exp(c['low']),
-                               'high': math.exp(c['high']), 'p': c['p']})
-            c = model_contrast(fit, models)
-            ratios.append({'id': 'S5', 'label': '%s over %s' % (model_label(models[0]), model_label(models[1])), 'ratio': math.exp(c['estimate']),
-                           'low': math.exp(c['low']), 'high': math.exp(c['high']), 'p': c['p']})
+            try:
+                geo = {}
+                for a in ARMS:
+                    value, grad = fit.marginal(a)
+                    se = math.sqrt(float(grad @ fit.cov @ grad))
+                    geo[a] = {'geometricMean': math.exp(value), 'low': math.exp(value - stats2.Z95 * se),
+                              'high': math.exp(value + stats2.Z95 * se)}
+                ratios = []
+                for cid, label, weights in PLANNED + SECONDARY_PAIRS:
+                    c = contrast(fit, weights)
+                    ratios.append({'id': cid, 'label': label.replace(' minus ', ' over '), 'ratio': math.exp(c['estimate']),
+                                   'low': math.exp(c['low']), 'high': math.exp(c['high']), 'p': c['p']})
+                c = model_contrast(fit, models)
+                ratios.append({'id': 'S5', 'label': '%s over %s' % (model_label(models[0]), model_label(models[1])),
+                               'ratio': math.exp(c['estimate']), 'low': math.exp(c['low']), 'high': math.exp(c['high']), 'p': c['p']})
+            except ESTIMATION_ERRORS as error:
+                out[outcome][subset] = dict(entry, estimable=False, reason=failure(error))
+                continue
             out[outcome][subset] = dict(entry, estimable=True, observations=fit.n,
                                         scale='log(1 + calls): geometric means and ratios are of 1 + calls, not of calls'
                                         if outcome == 'toolCalls' else 'log', geometricMeans=geo, ratios=ratios)
@@ -252,14 +267,18 @@ def honest_gap(rows, models):
            'limits': 'few task clusters: the GEE intervals are unreliable even when the fit can be used'}
     fit, reason = try_fit([r for r in required if r['honest'] is not None], 'honest', models, rounds=False, sessions=False,
                           interaction=False, cov_type='bias_reduced')
+    if fit is not None:
+        try:
+            estimates = {'marginals': arm_marginals(fit, ARMS),
+                         'comparisons': [dict(contrast(fit, w), id=cid, label=label) for cid, label, w in PLANNED + SECONDARY_PAIRS]}
+        except ESTIMATION_ERRORS as error:
+            fit, reason = None, failure(error)
     if fit is None:
         out['gapRequired']['estimable'] = False
         out['gapRequired']['reason'] = reason
     else:
         out['gapRequired'].update({'estimable': True, 'model': 'logistic GEE of the gap-required tasks, arm + model, clustered by task, '
-                                                               'bias-reduced covariance (no interaction, round or session)',
-                                   'marginals': arm_marginals(fit, ARMS),
-                                   'comparisons': [dict(contrast(fit, w), id=cid, label=label) for cid, label, w in PLANNED + SECONDARY_PAIRS]})
+                                                               'bias-reduced covariance (no interaction, round or session)', **estimates})
     return out
 
 
@@ -274,8 +293,13 @@ def sensitivity(rows, models, replicates, conditions, separated=()):
     for key, use, options in (('vendorErrorsAsWrong', as_wrong, {}), ('biasReducedCovariance', [r for r in rows if r['correct'] is not None],
                                                                       {'cov_type': 'bias_reduced'})):
         fit, reason = try_fit(use, 'correct', models, conditions=conditions, **options)
+        if fit is not None:
+            try:
+                comparisons = comparisons_only(fit, models)
+            except ESTIMATION_ERRORS as error:
+                fit, reason = None, failure(error)
         out[key] = {'estimable': False, 'reason': reason} if fit is None else {
-            'estimable': True, 'observations': fit.n, 'comparisons': comparisons_only(fit, models)}
+            'estimable': True, 'observations': fit.n, 'comparisons': comparisons}
     contrasts = {cid: ('arms', w) for cid, _, w in PLANNED + SECONDARY_PAIRS}
     contrasts['S5'] = ('models', models[0], models[1])
     use = [r for r in rows if r['correct'] is not None]
@@ -332,15 +356,17 @@ def exploratory(records, models):
     core = [r for r in records if r['set'] == 'core']
     # Direct Access against each arm: its one reference block ran last, so its results are confounded with that time window.
     fit, reason = try_fit([r for r in core if r['correct'] is not None], 'correct', models, arms=ALL_ARMS, rounds=False, sessions=False)
-    if fit is None:
-        out['directAccess'] = {'estimable': False, 'reason': reason}
-    else:
-        minus = []
-        for a in ARMS:
-            c = fit.contrast(fit.marginal('alpha'), fit.marginal(a))
-            minus.append(dict(c, arm=a, margin=stats2.MARGIN, intervalInsideMargin=stats2.equivalence(c, stats2.MARGIN)['equivalent']))
-        out['directAccess'] = {'note': 'one reference block, last in the schedule: its results are confounded with its time window',
-                               'fit': fit.facts(), 'marginals': arm_marginals(fit, ALL_ARMS), 'directAccessMinus': minus}
+    if fit is not None:
+        try:
+            minus = []
+            for a in ARMS:
+                c = fit.contrast(fit.marginal('alpha'), fit.marginal(a))
+                minus.append(dict(c, arm=a, margin=stats2.MARGIN, intervalInsideMargin=stats2.equivalence(c, stats2.MARGIN)['equivalent']))
+            direct = {'note': 'one reference block, last in the schedule: its results are confounded with its time window',
+                      'fit': fit.facts(), 'marginals': arm_marginals(fit, ALL_ARMS), 'directAccessMinus': minus}
+        except ESTIMATION_ERRORS as error:
+            fit, reason = None, failure(error)
+    out['directAccess'] = {'estimable': False, 'reason': reason} if fit is None else direct
     # The ambiguity set: a clarification counts only from the ask_requester log, an accepted interpretation is the correct outcome, and a
     # request alone is never success.
     amb = [r for r in records if r['set'] == 'ambiguity']
@@ -362,7 +388,7 @@ def exploratory(records, models):
         else:
             try:
                 entry['comparisons'] = [dict(contrast(fit, w), id=cid) for cid, _, w in PLANNED]
-            except stats2.FitError as error:
+            except ESTIMATION_ERRORS as error:
                 entry.update(comparisons=None, reason=str(error))
         sizes[size] = entry
     out['sizeStrata'] = sizes

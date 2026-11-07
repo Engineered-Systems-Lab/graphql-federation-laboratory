@@ -722,6 +722,145 @@ class NotEstimableTests(Workspace):
         self.assertIn("needs the lead developer's decision", err.getvalue())
 
 
+# ---------------------------------------------------------------------------------------------------------------- one entry fails
+def sections(tables):
+    """tables.md by its '## ' sections, keyed by their heading line."""
+    return {part.split('\n', 1)[0]: part for part in tables.split('\n## ')}
+
+
+class EntryFailureTests(unittest.TestCase):
+    """A fit that passes its checks and then fails in what is computed from it (a contrast, a marginal): only that entry is not
+    estimable, the run exits 0 and every other entry is as without the failure. Seed 2 is a usable bundle whose four places all have a
+    usable fit; the separated bundle (with the option) has one in the measures."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.root = Path(cls.tmp.name)
+        cls.scenarios = {'usable': (dict(seed=2), []), 'separated': (dict(seed=1, truth=CEILING), ['--accept-primary-not-estimable', DECISION])}
+        cls.cache = {}
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def run_once(self, scenario, name, mark=None):
+        """Run the CLI on the scenario's bundle; `mark` (predicate of outcome, options and rows; how; error) makes the first usable fit of
+        try_fit that matches fail:
+        how 'contrast' raises `error` from its contrasts, how 'marginal' makes its marginals exactly 1, so arm_marginals divides by 0."""
+        if scenario not in self.cache:
+            options, extra = self.scenarios[scenario]
+            self.cache[scenario] = (simulate.simulate(self.root / scenario, **options), extra)
+        facts, extra = self.cache[scenario]
+        out = self.root / ('%s-%s' % (scenario, name))
+        if mark is None and (scenario, name) in self.cache:
+            return self.cache[scenario, name]
+        if mark is None:
+            code, _, err = run_cli(args_for(facts, out) + extra)
+        else:
+            predicate, how, error = mark
+            real_try, real_contrast, real_marginal = analyze2.try_fit, stats2.Fit.contrast, stats2.Fit.marginal
+            marked = []
+
+            def try_fit(rows, outcome, models, **options):
+                fit, reason = real_try(rows, outcome, models, **options)
+                if fit is not None and not marked and predicate(outcome, options, rows):
+                    fit.fails, fit.how = error, how
+                    marked.append(outcome)
+                return fit, reason
+
+            def contrast(fit, a, b):
+                if getattr(fit, 'how', None) == 'contrast':
+                    raise fit.fails
+                return real_contrast(fit, a, b)
+
+            def marginal(fit, arm, models=None):
+                value, grad = real_marginal(fit, arm, models)
+                return (1.0, grad) if getattr(fit, 'how', None) == 'marginal' else (value, grad)
+            with mock.patch.object(analyze2, 'try_fit', try_fit), mock.patch.object(stats2.Fit, 'contrast', contrast), \
+                    mock.patch.object(stats2.Fit, 'marginal', marginal):
+                code, _, err = run_cli(args_for(facts, out) + extra)
+            self.assertEqual(len(marked), 1, 'one usable fit was made to fail')
+        self.assertEqual(code, 0, err)
+        result = out, json.loads((out / 'results.json').read_text(encoding='utf-8')), (out / 'tables.md').read_text(encoding='utf-8')
+        if mark is None:
+            self.cache[scenario, name] = result
+        return result
+
+    def assertOnlyEntryFails(self, scenario, mark, path, expected, section, shown, figures=()):
+        """`path`: the keys to the entry in results.json; `expected(entry without the failure)`: the entry with it; `section`: the one
+        heading of tables.md that may change, where `shown(reason)` must be; `figures`: the figures that may change."""
+        base_out, base, base_tables = self.run_once(scenario, 'plain')
+        out, res, tables = self.run_once(scenario, path[-1], mark)
+        before, after = base, res
+        for key in path[:-1]:
+            before, after = before[key], after[key]
+        original = before.pop(path[-1])
+        got = after.pop(path[-1])
+        try:
+            self.assertEqual(got, expected(original))
+            self.assertEqual(res, base, 'every other entry is as without the failure')
+        finally:
+            before[path[-1]] = original  # the cached run stays whole for the next test
+        old, new = sections(base_tables), sections(tables)
+        self.assertEqual(sorted(old), sorted(new))
+        self.assertEqual([h for h in old if old[h] != new[h]], [section])
+        self.assertIn(shown(got['reason']), new[section])
+        names = sorted(p.relative_to(base_out).as_posix() for p in (base_out / 'figures').iterdir())
+        self.assertEqual(names, sorted(p.relative_to(out).as_posix() for p in (out / 'figures').iterdir()))
+        for name in names:
+            if name.split('/')[-1] not in figures:
+                self.assertEqual((base_out / name).read_bytes(), (out / name).read_bytes(), name)
+        return got
+
+    def not_estimable(self, keep=()):
+        return lambda entry: dict({k: entry[k] for k in keep}, estimable=False, reason=mock.ANY)
+
+    def test_a_measure_whose_ratio_fails_is_not_estimable_alone(self):
+        for scenario in ('usable', 'separated'):
+            with self.subTest(scenario=scenario):
+                got = self.assertOnlyEntryFails(
+                    scenario, (lambda outcome, options, rows: outcome == 'toolCalls', 'contrast', stats2.FitError('a test contrast')),
+                    ['measures', 'toolCalls', 'allRuns'], self.not_estimable(('leftOutNotPositive', 'counts')),
+                    'Exploratory: 1 + tool calls per run, all runs (ratios of geometric means, 95 percent intervals, unadjusted p)',
+                    lambda reason: 'Not estimable: %s' % reason)
+                self.assertEqual(got['reason'], 'FitError: a test contrast')
+
+    def test_an_honest_gap_whose_marginal_is_one_is_not_estimable_alone(self):
+        got = self.assertOnlyEntryFails(
+            'usable', (lambda outcome, options, rows: outcome == 'honest', 'marginal', None), ['honestGap', 'gapRequired'],
+            self.not_estimable(('tasks', 'byArm')), 'Exploratory: the honest-gap rate on category D',
+            lambda reason: 'Not estimable by the GEE: %s' % reason)
+        self.assertTrue(got['reason'].startswith('ZeroDivisionError: '), got['reason'])
+
+    def test_a_sensitivity_whose_contrast_fails_is_not_estimable_alone(self):
+        for key, predicate in (('vendorErrorsAsWrong', lambda outcome, options, rows: outcome == 'correct' and sorted(options) == ['conditions']),
+                               ('biasReducedCovariance', lambda outcome, options, rows: outcome == 'correct' and options.get('cov_type') == 'bias_reduced')):
+            with self.subTest(key=key):
+                got = self.assertOnlyEntryFails(
+                    'usable', (predicate, 'contrast', stats2.FitError('a test contrast')), ['sensitivity', key], self.not_estimable(),
+                    'Sensitivity of the comparisons (percentage points)', lambda reason: 'not estimable: %s' % reason)
+                self.assertEqual(got, {'estimable': False, 'reason': 'FitError: a test contrast'})
+
+    def test_direct_access_whose_marginal_is_one_is_not_estimable_alone(self):
+        got = self.assertOnlyEntryFails(
+            'usable', (lambda outcome, options, rows: 'arms' in options, 'marginal', None), ['exploratory', 'directAccess'], self.not_estimable(),
+            'Exploratory: Direct Access against each arm (one block, last in the schedule)', lambda reason: 'Not estimable: %s' % reason,
+            figures=('accuracy.svg',))
+        self.assertTrue(got['reason'].startswith('ZeroDivisionError: '), got['reason'])
+
+    def test_a_size_stratum_whose_contrast_overflows_is_not_estimable_alone(self):
+        _, base, _ = self.run_once('usable', 'plain')
+        size = next(s for s, v in base['exploratory']['sizeStrata'].items() if v['comparisons'] is not None)
+
+        def stratum(outcome, options, rows):
+            return outcome == 'correct' and options.get('rounds') is False and 'arms' not in options and all(r['size'] == size for r in rows)
+        got = self.assertOnlyEntryFails(
+            'usable', (stratum, 'contrast', OverflowError('a test overflow')), ['exploratory', 'sizeStrata', size],
+            lambda entry: dict(entry, comparisons=None, reason='a test overflow'), 'Exploratory: size strata', lambda reason: '| %s |' % size)
+        self.assertIsNone(got['comparisons'])
+
+
 # ---------------------------------------------------------------------------------------------------------------- the harness
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {'value': {'type': 'string'}}, 'required': ['value']}
 SCORER = '''SCORING_CONTRACT = 2
