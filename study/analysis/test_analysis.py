@@ -91,9 +91,10 @@ def make_run(root, run_id, scenarios, seed):
     return folder
 
 
-def write_sums(root, run_id, folder):
-    path = Path(root) / ('SHA256SUMS-%s.txt' % run_id)
-    lines = ['%s *%s/%s' % (sha(p), run_id, p.relative_to(folder).as_posix()) for p in sorted(folder.rglob('*')) if p.is_file()]
+def write_sums(root, run_id, folder, mark='*', name=None):
+    """A sums file of the folder, with the binary mark `*` (the default) or the text mark, a second space."""
+    path = Path(root) / (name or 'SHA256SUMS-%s.txt' % run_id)
+    lines = ['%s %s%s/%s' % (sha(p), mark, run_id, p.relative_to(folder).as_posix()) for p in sorted(folder.rglob('*')) if p.is_file()]
     path.write_text('\n'.join(lines) + '\n', encoding='utf-8', newline='\n')
     return path
 
@@ -161,6 +162,36 @@ class VerificationTests(Fixture):
     def test_a_different_bundle_checksum_stops(self):
         with self.assertRaisesRegex(data.VerificationError, 'expected'):
             data.verify_copy(self.s1, self.sums1, 'study-1', expected_checksum='0' * 64)
+
+
+class SumsFormTests(Fixture):
+    def test_both_sums_line_forms_give_the_same_sums_and_verify(self):
+        text = write_sums(self.tmp, 'study-1', self.s1, mark=' ', name='SHA256SUMS-study-1-text')
+        self.assertIn('  study-1/', text.read_text(encoding='utf-8').splitlines()[0])
+        self.assertEqual(data.read_sums(text, 'study-1'), data.read_sums(self.sums1, 'study-1'))
+        facts_binary = data.verify_copy(self.s1, self.sums1, 'study-1')
+        facts_text = data.verify_copy(self.s1, text, 'study-1')
+        self.assertEqual(facts_text['files'], facts_binary['files'])
+        self.assertEqual(facts_text['bundleChecksum'], facts_binary['bundleChecksum'])
+
+    def test_only_one_mark_character_is_dropped(self):
+        path = Path(tempfile.mkdtemp(prefix='sums-', dir=self.tmp)) / 'SHA256SUMS-marks'
+        a, b, c, d = ('%064x' % n for n in range(1, 5))
+        lines = ['%s  *run/a.txt' % a,  # text mark, path '*run/a.txt'
+                 '%s **run/b.txt' % b,  # binary mark, path '*run/b.txt'
+                 '%s   run/c.txt' % c,  # text mark, path ' run/c.txt'
+                 '%s * run/d.txt' % d]  # binary mark, path ' run/d.txt'
+        path.write_text('\n'.join(lines) + '\n', encoding='utf-8', newline='\n')
+        self.assertEqual(data.read_sums(path, '*run'), {'a.txt': a, 'b.txt': b})
+        self.assertEqual(data.read_sums(path, ' run'), {'c.txt': c, 'd.txt': d})
+        with self.assertRaisesRegex(data.VerificationError, 'lists no file of run'):
+            data.read_sums(path, 'run')
+
+    def test_a_sums_file_with_no_file_of_the_run_still_refuses(self):
+        text = write_sums(self.tmp, 'study-1', self.s1, mark=' ', name='SHA256SUMS-study-1-text-other')
+        for sums in (self.sums1, text):
+            with self.assertRaisesRegex(data.VerificationError, 'the sums file lists no file of gamma-prime-1'):
+                data.read_sums(sums, 'gamma-prime-1')
 
 
 class LoadTests(Fixture):

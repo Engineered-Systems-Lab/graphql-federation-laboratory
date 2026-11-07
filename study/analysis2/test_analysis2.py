@@ -93,6 +93,15 @@ class VerificationTests(Workspace):
         for name in ('results.json', 'tables.md', 'figures/accuracy.svg', 'figures/comparisons.svg', 'figures/cost.svg', 'figures/seconds.svg'):
             self.assertTrue((self.root / 'out' / name).is_file(), name)
 
+    def test_a_sums_file_in_the_two_space_form_verifies(self):
+        facts = self.simulated()
+        binary = Path(facts['sums']).read_text(encoding='utf-8').splitlines()
+        self.assertTrue(binary and all(line[64:66] == ' *' for line in binary))
+        text = self.root / 'SHA256SUMS-text'
+        text.write_text(''.join(line[:64] + '  ' + line[66:] + '\n' for line in binary), encoding='utf-8', newline='\n')
+        verified, _ = data2.verify_bundle(facts['bundle'], text, facts['runId'], facts['checksum'])
+        self.assertEqual(verified['files'], len(binary))
+
     def test_a_tampered_copy_stops_before_any_output(self):
         facts = self.simulated()
         target = sorted(Path(facts['bundle']).glob('runs/*/result.json'))[0]

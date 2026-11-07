@@ -1,7 +1,7 @@
 """Reading a study run for the analysis: verify a copy of the run folder, then load one record per agent run.
 
 The raw run folders stay outside the repository and are read-only; the analysis reads COPIES. Before anything is read, a copy is checked
-three ways: every file against the per-file sums of the archive (SHA256SUMS-*.txt, lines `<sha256> *<run>/<path>`), no file missing or
+three ways: every file against the per-file sums of the archive (SHA256SUMS-*, lines `<sha256> *<run>/<path>` or `<sha256>  <run>/<path>`), no file missing or
 extra, and the bundle checksum recomputed from the bundle's file list the way the runner writes it (study/harness/runner.py,
 write_bundle). A copy that fails any check stops the analysis.
 """
@@ -30,14 +30,19 @@ def sha256_file(path):
 
 
 def read_sums(sums_file, run_id):
-    """The {relative path: sha256} of one run in an archive sums file."""
+    """The {relative path: sha256} of one run in an archive sums file.
+
+    A line is `<sha256> *<path>` (the binary mark) or `<sha256>  <path>` (the text mark, a second space): after the first space exactly
+    one mark character is dropped, so a path that itself starts with a space or a `*` keeps it.
+    """
     sums = {}
     prefix = run_id + '/'
     for line in Path(sums_file).read_text(encoding='utf-8').splitlines():
         if not line.strip():
             continue
         digest, name = line.split(' ', 1)
-        name = name.lstrip('*')
+        if name[:1] in ('*', ' '):
+            name = name[1:]
         if name.startswith(prefix):
             sums[name[len(prefix):]] = digest
     if not sums:
