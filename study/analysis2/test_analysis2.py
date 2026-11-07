@@ -562,6 +562,165 @@ class OutputTests(Workspace):
         self.assertEqual(res['honestGap']['gapRequired']['tasks'], 6)
         self.assertNotIn(str(self.root), (outs[0] / 'results.json').read_text(encoding='utf-8'), 'no absolute path is written')
 
+    def test_an_output_folder_that_exists_is_refused_and_left_as_it_was(self):
+        facts = self.simulated()
+        out = self.root / 'out-old'
+        (out / 'figures').mkdir(parents=True)
+        stale = out / 'figures' / 'comparisons.svg'
+        stale.write_text('<svg>an earlier run</svg>\n', encoding='utf-8', newline='\n')
+        with self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()) as err:
+            analyze2.main(args_for(facts, out))
+        self.assertIn('--out must not exist yet', err.getvalue())
+        self.assertEqual(sorted(p.relative_to(out).as_posix() for p in out.rglob('*')), ['figures', 'figures/comparisons.svg'])
+        self.assertEqual(stale.read_text(encoding='utf-8'), '<svg>an earlier run</svg>\n')
+
+    def test_the_exploratory_results_carry_no_equivalence_wording(self):
+        facts = self.simulated()
+        out = self.root / 'out'
+        code, _, err = run_cli(args_for(facts, out))
+        self.assertEqual(code, 0, err)
+        res = json.loads((out / 'results.json').read_text(encoding='utf-8'))
+        self.assertNotIn('equivalen', json.dumps(res['exploratory']))
+        self.assertTrue(all(isinstance(c['intervalInsideMargin'], bool) for c in res['exploratory']['directAccess']['directAccessMinus']))
+        boot = res['sensitivity']['clusterBootstrap']
+        self.assertEqual(sorted(boot['intervalInsideMargin']), ['P1', 'P2', 'S3'])
+        self.assertNotIn('equivalent', boot)
+        tables = (out / 'tables.md').read_text(encoding='utf-8')
+        direct = tables.split('## Exploratory: Direct Access')[1].split('\n## ')[0]
+        self.assertIn('Whole 95% interval inside +/-10', direct)
+        self.assertNotIn('equivalen', direct)
+
+
+# ---------------------------------------------------------------------------------------------------------------- not estimable
+DECISION = ('The lead developer, 2026-11-07, Coordinator session: the primary GEE is recorded as not estimable; judgement on accuracy is '
+            'suspended (a simulated decision of the tests)')
+CEILING = {'model': dict(simulate.DEFAULT_TRUTH['model'], **{simulate.MODELS[1]: 30.0})}  # the second model right in every run
+
+
+class NotEstimableTests(Workspace):
+    """--accept-primary-not-estimable on a simulated bundle whose second model is right in every run, so its cells are separated."""
+
+    def separated(self, name='separated'):
+        return self.simulated(name=name, truth=CEILING)
+
+    def test_without_the_option_a_separated_primary_stops_and_writes_nothing(self):
+        self.assertStops(self.separated(), 'separation', code=3)
+
+    def test_with_the_option_every_other_output_is_written_and_the_primary_is_not_estimable(self):
+        facts = self.separated()
+        outs = [self.root / 'out-1', self.root / 'out-2']
+        for out in outs:
+            code, _, err = run_cli(args_for(facts, out) + ['--accept-primary-not-estimable', DECISION])
+            self.assertEqual(code, 0, err)
+        files = sorted(p.relative_to(outs[0]).as_posix() for p in outs[0].rglob('*') if p.is_file())
+        self.assertEqual(files, ['figures/accuracy.svg', 'figures/cost.svg', 'figures/seconds.svg', 'results.json', 'tables.md'])
+        for name in files:
+            self.assertEqual((outs[0] / name).read_bytes(), (outs[1] / name).read_bytes(), name)
+        res = json.loads((outs[0] / 'results.json').read_text(encoding='utf-8'))
+        prim = res['primary']
+        self.assertEqual(sorted(prim), ['claim', 'decision', 'estimable', 'problems', 'separatedCells'])
+        self.assertIs(prim['estimable'], False)
+        self.assertEqual(prim['decision'], DECISION)
+        self.assertTrue(any(p.startswith('separation') for p in prim['problems']))
+        second = simulate.MODELS[1]
+        self.assertEqual(prim['separatedCells'], [{'arm': a, 'model': second} for a in data2.SQUARE_ARMS])
+        self.assertEqual(res['primaryNotEstimableOption'], {'decision': DECISION, 'needed': True})
+        tables = (outs[0] / 'tables.md').read_text(encoding='utf-8')
+        self.assertIn(DECISION, tables)
+        self.assertIn('no confirmatory accuracy claim', tables)
+        self.assertIn('figures/comparisons.svg is not written', tables)
+        for heading in ('## Planned: probability', '## Planned comparisons', '## Secondary comparisons of accuracy'):
+            self.assertNotIn(heading, tables)
+        for heading in ('## Correct answers in the core set by arm and model (descriptive)', '## Exploratory: cost per run', '## Sensitivity',
+                        '## Exploratory: the honest-gap rate', '## Exploratory: Direct Access', '## The schedule'):
+            self.assertIn(heading, tables)
+        self.assertIn('adds no width to an interval', tables)
+        if 'facts' in res['sensitivity']['bayesianMixedModel']:
+            self.assertIn('the prior shapes the estimates of a separated cell', tables)
+            self.assertIn('Apollo Federation / %s' % analyze2.model_label(second), res['sensitivity']['bayesianMixedModel']['separatedCells'])
+        # decision N2: the observed shares, no interval, the four full arms then Direct Access
+        picture = (outs[0] / 'figures' / 'accuracy.svg').read_text(encoding='utf-8')
+        self.assertIn('(descriptive)', picture)
+        self.assertNotIn('stroke-width="2.5"', picture, 'no interval is drawn')
+        cells, expected = res['descriptive']['cells'], []
+        for a in data2.SQUARE_ARMS + [data2.REFERENCE_ARM]:
+            for m in res['plan']['models']:
+                scored = cells[a][m]['runs'] - cells[a][m]['missing']
+                expected.append('%.1f' % (analyze2.svg.LEFT + cells[a][m]['correct'] / scored * (analyze2.svg.WIDTH - analyze2.svg.LEFT
+                                                                                                 - analyze2.svg.RIGHT)))
+        self.assertEqual([part.split('"')[0] for part in picture.split('<circle cx="')[1:]], expected)
+        self.assertEqual(picture.count('>Direct Access, '), 2)
+        self.assertIn('Direct Access: one reference block, last in the schedule', picture)
+
+    def test_the_per_model_fits_report_the_model_with_variation_and_not_the_separated_one(self):
+        facts = self.separated()
+        out = self.root / 'out'
+        code, _, err = run_cli(args_for(facts, out) + ['--accept-primary-not-estimable', DECISION])
+        self.assertEqual(code, 0, err)
+        block = json.loads((out / 'results.json').read_text(encoding='utf-8'))['perModel']
+        self.assertTrue(block['tier'].startswith('exploratory, added after the primary stop'))
+        first, second = block['models'][simulate.MODELS[0]], block['models'][simulate.MODELS[1]]
+        self.assertIs(first['estimable'], True)
+        self.assertEqual(sorted(first['marginals']), sorted(data2.SQUARE_ARMS))
+        self.assertEqual([c['id'] for c in first['comparisons']], ['P1', 'P2', 'S1', 'S2', 'S3', 'S4'])
+        self.assertTrue(all(isinstance(c['intervalInsideMargin'], bool) and 'pHolm' not in c and 'equivalence' not in c
+                            for c in first['comparisons']))
+        self.assertEqual(first['fit']['diagnostics'], [])
+        self.assertEqual(sorted(second), ['estimable', 'problems'])
+        self.assertTrue(any(p.startswith('separation') for p in second['problems']))
+        self.assertNotIn('equivalen', json.dumps(block))
+        tables = (out / 'tables.md').read_text(encoding='utf-8')
+        section = tables.split('## Exploratory, added after the primary stop: accuracy of each model alone')[1].split('\n## ')[0]
+        self.assertIn('### %s' % analyze2.model_label(simulate.MODELS[0]), section)
+        self.assertIn('Not estimable: separation', section)
+        self.assertLess(tables.index('## Exploratory: use of the calculation tool'), tables.index('## Exploratory, added after the primary stop'))
+
+    def test_a_per_model_contrast_without_a_positive_variance_is_local_to_that_model(self):
+        facts = self.separated()
+        real = stats2.fit_gee
+
+        def flat(rows, outcome, arms, models, *a, **k):
+            fit = real(rows, outcome, arms, models, *a, **k)
+            if list(models) == [simulate.MODELS[0]]:  # the per-model fit of the first model: it passes its checks, its contrasts cannot
+                fit.cov = numpy.zeros_like(fit.cov)
+            return fit
+        out = self.root / 'out'
+        with mock.patch.object(stats2, 'fit_gee', flat):
+            code, _, err = run_cli(args_for(facts, out) + ['--accept-primary-not-estimable', DECISION])
+        self.assertEqual(code, 0, err)
+        res = json.loads((out / 'results.json').read_text(encoding='utf-8'))
+        first = res['perModel']['models'][simulate.MODELS[0]]
+        self.assertEqual(sorted(first), ['estimable', 'problems'])
+        self.assertIn('the covariance gives the variance', first['problems'][0])
+        self.assertIs(res['perModel']['models'][simulate.MODELS[1]]['estimable'], False)
+        for name in ('tables.md', 'figures/accuracy.svg', 'figures/cost.svg', 'figures/seconds.svg'):
+            self.assertTrue((out / name).is_file(), name)
+
+    def test_a_usable_bundle_gives_the_same_bytes_with_and_without_the_option(self):
+        facts = self.simulated()
+        plain, given = self.root / 'out-plain', self.root / 'out-option'
+        for out, extra in ((plain, []), (given, ['--accept-primary-not-estimable', DECISION])):
+            code, _, err = run_cli(args_for(facts, out) + extra)
+            self.assertEqual(code, 0, err)
+        files = sorted(p.relative_to(plain).as_posix() for p in plain.rglob('*') if p.is_file())
+        self.assertEqual(files, sorted(p.relative_to(given).as_posix() for p in given.rglob('*') if p.is_file()))
+        self.assertIn('figures/comparisons.svg', files)
+        for name in files:
+            if name != 'results.json':
+                self.assertEqual((plain / name).read_bytes(), (given / name).read_bytes(), name)
+        without = json.loads((plain / 'results.json').read_text(encoding='utf-8'))
+        with_option = json.loads((given / 'results.json').read_text(encoding='utf-8'))
+        self.assertNotIn('primaryNotEstimableOption', without)
+        self.assertEqual(with_option.pop('primaryNotEstimableOption'), {'decision': DECISION, 'needed': False})
+        self.assertEqual(with_option, without)
+        self.assertNotIn('perModel', without)
+
+    def test_the_option_needs_a_decision_text(self):
+        facts = self.simulated()
+        with self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()) as err:
+            analyze2.main(args_for(facts, self.root / 'out') + ['--accept-primary-not-estimable', '  '])
+        self.assertIn("needs the lead developer's decision", err.getvalue())
+
 
 # ---------------------------------------------------------------------------------------------------------------- the harness
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {'value': {'type': 'string'}}, 'required': ['value']}

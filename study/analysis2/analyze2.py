@@ -2,15 +2,23 @@
 study-2 bundle.
 
     python -B study/analysis2/analyze2.py --bundle <copy of the run folder> --sums <SHA256SUMS file> --bundle-checksum <sha256>
-        --corpus-dir <the corpus the bundle ran> --out <folder outside the repository> [--run-id study-2] [--replicates 10000]
+        --corpus-dir <the corpus the bundle ran> --out <new folder outside the repository> [--run-id study-2] [--replicates 10000]
+        [--accept-primary-not-estimable <the lead developer's decision, quoted with its date and source>]
 
 The copy is verified first (data2.verify_bundle, data2.load_strata, data2.load_bundle); any difference stops the run with STOP and exit
 code 2 before a number is computed, and nothing is written. If the primary GEE cannot be used (it did not converge, its covariance is not
 positive definite, a cell is separated, an estimate is extreme, or a planned contrast has no positive variance) the run stops with STOP
 and exit code 3, names the problem, and writes nothing: the plan allows no fallback without the lead developer's word. Otherwise it writes
-results.json, tables.md and figures/*.svg into --out, and nothing else. The same inputs give the same bytes. The tiers stay apart in every
-output: planned, secondary, sensitivity, exploratory and descriptive. Outputs name the arms and categories by their descriptive names;
-the letters are internal identifiers.
+results.json, tables.md and figures/*.svg into --out, and nothing else. --out must not exist yet, so no file of an earlier run can stand
+beside the new ones. The same inputs give the same bytes. The tiers stay apart in every output: planned, secondary, sensitivity,
+exploratory and descriptive. Outputs name the arms and categories by their descriptive names; the letters are internal identifiers.
+
+--accept-primary-not-estimable carries the lead developer's word for the one case PLAN.md, section 4, rule 5 leaves to it. With it, a
+primary GEE that cannot be used does not stop the run: the primary is recorded as not estimable (its problems and the decision as given),
+study 2 makes no confirmatory accuracy claim (no marginals, no P1, P2 or S1 to S6, no equivalence verdict), no other model takes its
+place, every other analysis is run and written as without it, figures/comparisons.svg is not written, figures/accuracy.svg shows the
+observed shares, and each model alone gets an exploratory GEE added after the primary stop. With the option and a usable primary fit the
+run is the run without it, and results.json records that the option was given and not needed.
 """
 import argparse
 import json
@@ -55,6 +63,13 @@ COUNTING_LABELS = {'runs': 'runs in the bundle', 'primary': 'runs in the primary
                    'voidAttempts': 'void attempts (excluded; each block repeated whole)',
                    'blocksRepeatedAfterAVoid': 'blocks repeated whole after a void attempt'}
 EXPLORATORY = 'exploratory: unadjusted p-values, outside the Holm families, no confirmatory claim'
+# The not-estimable route (--accept-primary-not-estimable): what study 2 then does not claim, and the tier of the per-model fits.
+NO_CLAIM = 'study 2 makes no confirmatory accuracy claim: no P1 or P2 verdict, no equivalence at +/-10 and no Holm family of S1 to S6'
+POST_STOP = 'exploratory, added after the primary stop: unadjusted p-values, no Holm correction, no confirmatory claim'
+PER_MODEL = ('for each model alone, a logistic GEE of its core runs in the four full arms: arm + round + session, clustered by task, '
+             'exchangeable working correlation, robust covariance, standardized over the planned conditions of the primary, with the '
+             "primary's usability checks (a contrast without a positive variance included); a model whose fit cannot be used is reported "
+             'as not estimable and nothing replaces it; each fit uses about half the runs, so its intervals are wide')
 
 
 def r6(value):
@@ -138,13 +153,45 @@ def try_fit(rows, outcome, models, **options):
 
 
 # ------------------------------------------------------------------------------------------------------------------ the pieces
-def primary(rows, models, conditions):
-    fit = stats2.fit_gee(rows, 'correct', ARMS, models, conditions=conditions)
-    problems = fit.problems(interaction=True)
-    if problems:
-        raise stats2.FitError('the primary GEE cannot be used: ' + '; '.join(problems))
-    planned, secondary = planned_and_secondary(fit, models)
+def primary(rows, models, conditions, accept=None):
+    """The primary GEE and its planned and secondary comparisons. A fit that cannot be used raises FitError, unless `accept` (the lead
+    developer's decision of --accept-primary-not-estimable) is given: then it returns (None, the not-estimable entry)."""
+    fit = None
+    try:
+        fit = stats2.fit_gee(rows, 'correct', ARMS, models, conditions=conditions)
+        problems = fit.problems(interaction=True)
+        if problems:
+            raise stats2.FitError('the primary GEE cannot be used: ' + '; '.join(problems))
+        planned, secondary = planned_and_secondary(fit, models)
+    except stats2.FitError as error:
+        if accept is None:
+            raise
+        problems = (fit.problems(interaction=True) if fit is not None else []) or [str(error)]
+        return None, {'estimable': False, 'problems': problems, 'decision': accept, 'claim': NO_CLAIM,
+                      'separatedCells': [{'arm': a, 'model': m} for a, m in (fit.separated if fit is not None else [])]}
     return fit, {'fit': fit.facts(), 'marginals': arm_marginals(fit, ARMS), 'planned': planned, 'secondary': secondary}
+
+
+def per_model(rows, models, conditions):
+    """The exploratory fits added after the primary stop (decision N1): each model alone, the primary's usability checks applied to each;
+    a model whose fit or any of whose contrasts cannot be used is reported as not estimable, and the others are still reported."""
+    out = {'tier': POST_STOP, 'model': PER_MODEL, 'margin': stats2.MARGIN, 'models': {}}
+    for model in models:
+        use = [r for r in rows if r['model'] == model]
+        try:
+            fit = stats2.fit_gee(use, 'correct', ARMS, [model], conditions=conditions)
+            problems = fit.problems(interaction=True)
+            if not problems:
+                marginals = arm_marginals(fit, ARMS)
+                comparisons = []
+                for cid, label, weights in PLANNED + SECONDARY_PAIRS:
+                    c = contrast(fit, weights)
+                    comparisons.append(dict(c, id=cid, label=label, intervalInsideMargin=stats2.equivalence(c, stats2.MARGIN)['equivalent']))
+        except (stats2.FitError, ValueError, ZeroDivisionError, ArithmeticError) as error:
+            problems = ['%s: %s' % (type(error).__name__, error)]
+        out['models'][model] = ({'estimable': False, 'problems': problems} if problems else
+                                {'estimable': True, 'fit': fit.facts(), 'marginals': marginals, 'comparisons': comparisons})
+    return out
 
 
 def measures(rows, models, conditions):
@@ -216,7 +263,12 @@ def honest_gap(rows, models):
     return out
 
 
-def sensitivity(rows, models, replicates, conditions):
+def separated_text(cells):
+    return ', '.join('%s / %s' % (NAMES[c['arm']], model_label(c['model'])) for c in cells)
+
+
+def sensitivity(rows, models, replicates, conditions, separated=()):
+    """`separated`: the cells the not-estimable primary named as all right or all wrong, labelled in the bootstrap and the mixed model."""
     out = {}
     as_wrong = [dict(r, correct=0) if r['correct'] is None else r for r in rows]
     for key, use, options in (('vendorErrorsAsWrong', as_wrong, {}), ('biasReducedCovariance', [r for r in rows if r['correct'] is not None],
@@ -231,12 +283,22 @@ def sensitivity(rows, models, replicates, conditions):
     out['clusterBootstrap'] = {'seed': stats2.BOOTSTRAP_SEED, 'replicates': replicates, 'intervals': boot,
                                'estimator': 'pooled proportions of resampled whole tasks, equal model weights, no refit, no round or '
                                             'session adjustment: an unadjusted cross-check, not a bootstrap of the fitted GEE',
-                               'equivalent': {cid: bool(100 * boot[cid]['low'] > -stats2.MARGIN and 100 * boot[cid]['high'] < stats2.MARGIN)
-                                              for cid in ('P1', 'P2', 'S3')}}
+                               'intervalInsideMargin': {cid: bool(100 * boot[cid]['low'] > -stats2.MARGIN
+                                                                  and 100 * boot[cid]['high'] < stats2.MARGIN) for cid in ('P1', 'P2', 'S3')}}
+    if separated:
+        out['clusterBootstrap']['separatedCells'] = (
+            'every resample of whole tasks repeats the observed ceiling or floor of a cell that is all right or all wrong in the data (%s): '
+            'such a cell adds no width to an interval, and the intervals hold no uncertainty from outcomes absent from the data'
+            % separated_text(separated))
     try:
         mixed = stats2.fit_mixed(use, ARMS, models, conditions)
         out['bayesianMixedModel'] = {'decision': 'S4 of the Job record', 'facts': mixed['facts'], 'arms': mixed['arm'],
                                      'comparisons': [dict(mixed['contrast'](w), id=cid) for cid, _, w in PLANNED + SECONDARY_PAIRS]}
+        if separated:
+            out['bayesianMixedModel']['separatedCells'] = (
+                'the prior shapes the estimates of a separated cell: the data of %s are all right or all wrong, so their likelihood has no '
+                'finite maximum and their estimates, and every comparison that uses them, are set by the fixed-effect prior (fe_p=2) as '
+                'much as by the data' % separated_text(separated))
     except Exception as error:  # a sensitivity analysis that cannot be fitted is reported; it does not stop the planned results
         out['bayesianMixedModel'] = {'estimable': False, 'reason': '%s: %s' % (type(error).__name__, error)}
     return out
@@ -276,7 +338,7 @@ def exploratory(records, models):
         minus = []
         for a in ARMS:
             c = fit.contrast(fit.marginal('alpha'), fit.marginal(a))
-            minus.append(dict(c, arm=a, equivalence=stats2.equivalence(c, stats2.MARGIN)))
+            minus.append(dict(c, arm=a, margin=stats2.MARGIN, intervalInsideMargin=stats2.equivalence(c, stats2.MARGIN)['equivalent']))
         out['directAccess'] = {'note': 'one reference block, last in the schedule: its results are confounded with its time window',
                                'fit': fit.facts(), 'marginals': arm_marginals(fit, ALL_ARMS), 'directAccessMinus': minus}
     # The ambiguity set: a clarification counts only from the ask_requester log, an accepted interpretation is the correct outcome, and a
@@ -367,7 +429,20 @@ def tables_md(res):
                                    for m in models] + [sum(d['cells'][a][m]['missing'] for m in models)] for a in ALL_ARMS]), '']
     parts += ['## Outcomes in the core set by arm (descriptive)', '',
               table(['Arm'] + list(data2.OUTCOMES), [[NAMES[a]] + [d['outcomes'][a][o] for o in data2.OUTCOMES] for a in ALL_ARMS]), '']
-    parts += ['## Planned: probability of a correct answer (GEE, standardized, percent, 95 percent interval)', '',
+    if p.get('estimable', True):
+        parts += planned_md(p)
+    else:
+        parts += ['## Planned and secondary comparisons of accuracy: the primary GEE is not estimable', '',
+                  'The primary GEE (PLAN.md, section 4) cannot be used: %s. The lead developer\'s decision: %s. Therefore %s. '
+                  'figures/comparisons.svg is not written, because it plots the comparisons of the primary GEE and there are none; '
+                  'figures/accuracy.svg shows the observed share of correct answers per arm and model, with no interval (descriptive).'
+                  % ('; '.join(p['problems']), p['decision'], p['claim']), '']
+    parts += rest_md(res)
+    return '\n'.join(parts) + '\n'
+
+
+def planned_md(p):
+    parts = ['## Planned: probability of a correct answer (GEE, standardized, percent, 95 percent interval)', '',
               table(['Arm', 'Correct'], [[NAMES[a], interval(v, fmt='%.1f')] for a, v in p['marginals'].items()]), '',
               'Model: %s observations, %s tasks, rounds %s, sessions %s%s. Standardization: %s.' % (
                   p['fit']['observations'], p['fit']['clusters'], p['fit']['rounds'], p['fit']['sessions'] or 'not in the model',
@@ -388,6 +463,32 @@ def tables_md(res):
                          verdict(c['equivalence']) + ' (no multiplicity control)' if 'equivalence' in c else '-'])
     parts += ['## Secondary comparisons of accuracy (one Holm family of six tests)', '',
               table(['', 'Comparison', 'Difference [95% CI]', 'p', 'p (Holm)', '+/-10'], rows), '']
+    return parts
+
+
+def per_model_md(block):
+    parts = ['## Exploratory, added after the primary stop: accuracy of each model alone', '',
+             'Model: %s. Tier: %s. "Whole 95%% interval inside +/-%d" is the interval of that comparison alone; it is no equivalence claim.'
+             % (block['model'], block['tier'], block['margin']), '']
+    for model, entry in block['models'].items():
+        parts += ['### %s' % model_label(model), '']
+        if not entry['estimable']:
+            parts += ['Not estimable: %s.' % '; '.join(entry['problems']), '']
+            continue
+        parts += [table(['Arm', 'Correct (GEE, standardized, percent, 95% interval)'],
+                        [[NAMES[a], interval(v, fmt='%.1f')] for a, v in entry['marginals'].items()]), '',
+                  table(['', 'Comparison', 'Difference [95% CI]', 'p (unadjusted)', 'Whole 95%% interval inside +/-%d' % block['margin']],
+                        [[c['id'], c['label'], interval(c), '%.4f' % c['p'], 'yes' if c['intervalInsideMargin'] else 'no']
+                         for c in entry['comparisons']]), '',
+                  'Fit: %s observations, %s tasks, rounds %s, sessions %s%s.' % (
+                      entry['fit']['observations'], entry['fit']['clusters'], entry['fit']['rounds'], entry['fit']['sessions'] or 'not in the model',
+                      ' (left out: the design with them is not of full rank)' if entry['fit']['sessionTermsLeftOutForRank'] else ''), '']
+    return parts
+
+
+def rest_md(res):
+    s, x = res['sensitivity'], res['exploratory']
+    parts = []
     for outcome in MEASURES:
         for subset in ('allRuns', 'correctOnly'):
             block = res['measures'][outcome][subset]
@@ -427,18 +528,22 @@ def tables_md(res):
     for cid, iv in b['intervals'].items():
         rows.append(['cluster bootstrap of pooled proportions (seed %d, %d replicates)' % (b['seed'], b['replicates']), cid,
                      '[%+.1f, %+.1f]' % (100 * iv['low'], 100 * iv['high']),
-                     ('whole interval inside' if b['equivalent'][cid] else 'not inside') if cid in b['equivalent'] else '-'])
+                     ('whole interval inside' if b['intervalInsideMargin'][cid] else 'not inside') if cid in b['intervalInsideMargin'] else '-'])
     m = s['bayesianMixedModel']
     if 'comparisons' in m:
         for c in m['comparisons']:
             rows.append(['Bayesian mixed model (posterior mean, 95% posterior interval)', c['id'], interval(c), '-'])
     parts += ['## Sensitivity of the comparisons (percentage points)', '', table(['Analysis', '', 'Difference [95% CI]', '+/-10'], rows), '',
               'Bootstrap: %s.' % b['estimator'], '']
+    if 'separatedCells' in b:
+        parts += ['Bootstrap and separation: %s.' % b['separatedCells'], '']
     if 'facts' in m:
         parts += ['Bayesian mixed model (decision S4): %s, seed %d, %d posterior draws; posterior mean random-effect standard deviations, '
                   'task %.2f and block %.2f (logit scale). %s.' % (m['facts']['method'], m['facts']['seed'], m['facts']['posteriorDraws'],
                                                                    m['facts']['randomEffectSdPosteriorMean']['task'],
                                                                    m['facts']['randomEffectSdPosteriorMean']['block'], m['facts']['intervals']), '']
+        if 'separatedCells' in m:
+            parts += ['Bayesian mixed model and separation: %s.' % m['separatedCells'], '']
     else:
         parts += ['Bayesian mixed model not estimable: %s' % m.get('reason'), '']
     sp = res['spend']
@@ -449,8 +554,9 @@ def tables_md(res):
     parts += ['## Exploratory: Direct Access against each arm (one block, last in the schedule)', '']
     da = x['directAccess']
     if 'directAccessMinus' in da:
-        parts += [table(['Direct Access minus', 'Difference [95% CI]', 'p', '+/-10'],
-                        [[NAMES[c['arm']], interval(c), '%.4f' % c['p'], verdict(c['equivalence'])] for c in da['directAccessMinus']]), '',
+        parts += [table(['Direct Access minus', 'Difference [95% CI]', 'p', 'Whole 95% interval inside +/-10'],
+                        [[NAMES[c['arm']], interval(c), '%.4f' % c['p'], 'yes' if c['intervalInsideMargin'] else 'no']
+                         for c in da['directAccessMinus']]), '',
                   'Note: %s.' % da['note'], '']
     else:
         parts += ['Not estimable: %s' % da['reason'], '']
@@ -470,6 +576,8 @@ def tables_md(res):
               table(['Arm', 'Runs using calculate', 'Calls', 'Errors', 'Correct with calculate', 'Correct without'],
                     [[NAMES[a], '%d/%d' % (v['runsUsingCalculate'], v['runs']), v['calculateCalls'], v['calculateErrors'],
                       frac(v['correctWithCalculate']), frac(v['correctWithoutCalculate'])] for a, v in x['calculationTool'].items()]), '']
+    if 'perModel' in res:
+        parts += per_model_md(res['perModel'])
     sched = res['schedule']
     parts += ['## The schedule (descriptive)', '',
               'Letters: %s. Rounds in the order they ran: %s.' % (', '.join('%s %s' % kv for kv in sorted(sched['letters'].items())),
@@ -478,11 +586,32 @@ def tables_md(res):
                     [[b['id'], NAMES[b['arm']], b['row'] if b['row'] is not None else 'reference', b['starts'], ', '.join(b['sessions']),
                       ', '.join('%d (%s)' % (v['attempt'], v['trigger']) for v in b['voidAttempts']) or 'none']
                      for b in sched['blocks']]), '']
-    return '\n'.join(parts) + '\n'
+    return parts
+
+
+def observed_accuracy(res):
+    """accuracy.svg when the primary is not estimable (decision N2): the observed share of correct answers in the core set per arm and
+    model, the four full arms then Direct Access, with no interval."""
+    models, cells = res['plan']['models'], res['descriptive']['cells']
+    short = {m: model_label(m).split(' ')[0] for m in models}
+    if len(set(short.values())) < len(models):
+        short = {m: model_label(m) for m in models}
+    items = []
+    for a in ARMS + [data2.REFERENCE_ARM]:
+        for m in models:
+            scored = cells[a][m]['runs'] - cells[a][m]['missing']
+            if scored:
+                items.append(('%s, %s' % (NAMES[a], short[m]), 100 * cells[a][m]['correct'] / scored, None, None, 'descriptive'))
+    return svg.interval_plot('Correct answers by arm and model, core set (descriptive)', 'percent correct, observed share (no interval)',
+                             items, 0, 100, range(0, 101, 20), note='Direct Access: one reference block, last in the schedule. '
+                             'Observed shares only: the primary GEE is not estimable.')
 
 
 def figures(res):
     p, x, measures_ = res['primary'], res['exploratory'], res['measures']
+    if not p.get('estimable', True):
+        out = {'accuracy.svg': observed_accuracy(res)}
+        return dict(out, **measure_figures(measures_))
     items = [(NAMES[a], 100 * v['estimate'], 100 * v['low'], 100 * v['high'], 'confirmatory') for a, v in p['marginals'].items()]
     da = x['directAccess'].get('marginals', {}).get('alpha')
     if da:
@@ -496,6 +625,12 @@ def figures(res):
     out['comparisons.svg'] = svg.interval_plot('Planned (P1, P2) and secondary comparisons', 'percentage points (95% interval)', items,
                                                lo, hi, range(int(lo), int(hi) + 1, 10), margins=((10, '0.10'),),
                                                note='Shaded: the equivalence margin +/-10. Solid: planned; dotted: secondary (S1 to S5).')
+    out.update(measure_figures(measures_))
+    return out
+
+
+def measure_figures(measures_):
+    out = {}
     for outcome, title in (('cost', 'Cost per run'), ('seconds', 'Time per run')):
         geo = measures_[outcome]['allRuns'].get('geometricMeans')
         if not geo:
@@ -518,7 +653,9 @@ def analyse(args):
     core = [r for r in records if r['set'] == 'core']
     square = [r for r in core if r['arm'] in ARMS]
     conditions = stats2.planned_conditions(square)  # every planned run of the square's core set: fixed by the schedule
-    fit, prim = primary([r for r in square if r['correct'] is not None], models, conditions)
+    accept = args.accept_primary_not_estimable
+    fit, prim = primary([r for r in square if r['correct'] is not None], models, conditions, accept)
+    separated = prim['separatedCells'] if fit is None else ()
     res = {
         'about': 'Abstraction ladder study 2 analysis under the draft plan study/analysis2/PLAN.md. Generated; do not edit.',
         'inputs': {'bundle': facts, 'corpus': corpus_facts},
@@ -531,11 +668,15 @@ def analyse(args):
         'primary': prim,
         'measures': measures(square, models, conditions),
         'honestGap': honest_gap(square, models),
-        'sensitivity': sensitivity(square, models, args.replicates, conditions),
+        'sensitivity': sensitivity(square, models, args.replicates, conditions, separated),
         'spend': spend(records, blocks),
         'exploratory': exploratory(records, models),
         'schedule': schedule_facts(manifest, blocks),
     }
+    if accept is not None:
+        res['primaryNotEstimableOption'] = {'decision': accept, 'needed': fit is None}
+    if fit is None:
+        res['perModel'] = per_model([r for r in square if r['correct'] is not None], models, conditions)
     return r6(res)
 
 
@@ -545,10 +686,17 @@ def main(argv=None):
         parser.add_argument(name, required=True)
     parser.add_argument('--run-id', default='study-2')
     parser.add_argument('--replicates', type=int, default=stats2.BOOTSTRAP_REPLICATES)
+    parser.add_argument('--accept-primary-not-estimable', metavar='DECISION', default=None,
+                        help="the lead developer's decision, quoted with its date and source: an unusable primary GEE is recorded as not "
+                             'estimable and every other output is written')
     args = parser.parse_args(argv)
     out = Path(args.out)
     if out.resolve().is_relative_to(REPO.resolve()):
         parser.error('--out must be outside the repository: the outputs are generated')
+    if out.exists():
+        parser.error('--out must not exist yet: a file of an earlier run would stand beside the new outputs')
+    if args.accept_primary_not_estimable is not None and not args.accept_primary_not_estimable.strip():
+        parser.error("--accept-primary-not-estimable needs the lead developer's decision as its text")
     try:
         res = analyse(args)
     except data2.VerificationError as error:
