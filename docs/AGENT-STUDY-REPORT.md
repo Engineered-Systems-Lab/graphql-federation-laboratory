@@ -74,6 +74,8 @@ Can an AI agent answer an enterprise's questions over its legacy systems without
 
 Later context (2026-11-06): a short non-normative overview of the design of this study and of study 2, without results, is in [the study overview](STUDY-OVERVIEW.md).
 
+Later context (2026-11-07): the results of study 2 are in [its own report](STUDY-2-REPORT.md); this report is unchanged.
+
 ## Honesty note
 
 The analysis plan was written after a descriptive look at study-1 and gamma-prime-1 (the Coordinator's tables of 2026-10-21). What was fixed before the run carries the confirmatory claims: the scenarios, the models and correctness as the primary outcome. The six named comparisons and the equivalence tests are confirmatory. Everything chosen because of the descriptive look is exploratory and labelled so below. Before the plan, the lead developer stated that nothing was ruled yet, that the pattern was only a suspicion, and that the analysis was to be planned first to see what holds.

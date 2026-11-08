@@ -1,8 +1,8 @@
 # The two agent studies: design overview
 
-Status: a non-normative overview of the design of Abstraction ladder study 1 and study 2, written on 2026-11-06, after study 2's freeze and before its scored run. It says what each study asks, how it is built and what study 2 changes, and nothing else: it holds no results, no accuracy, cost or timing figures, no outcome of any run, no task text and no finding about a single task. It governs nothing. These documents govern, and where this page differs from them, they win:
+Status: a non-normative overview of the design of Abstraction ladder study 1 and study 2, written on 2026-11-06, after study 2's freeze and before its scored run. Study 2's scored run was done on 2026-11-06 and 2026-11-07, and its results are in [the study 2 report](STUDY-2-REPORT.md) (later context, 2026-11-07). It says what each study asks, how it is built and what study 2 changes, and nothing else: it holds no results, no accuracy, cost or timing figures, no outcome of any run, no task text and no finding about a single task. It governs nothing. These documents govern, and where this page differs from them, they win:
 
-- **Study 2:** the [design](STUDY-2-DESIGN.md), the frozen [analysis plan](../study/analysis2/PLAN.md) and the [freeze record](../study/evidence/study-2-freeze/freeze-record-20261106.json).
+- **Study 2:** the [report](STUDY-2-REPORT.md), the [design](STUDY-2-DESIGN.md), the frozen [analysis plan](../study/analysis2/PLAN.md) and the [freeze record](../study/evidence/study-2-freeze/freeze-record-20261106.json).
 - **Study 1:** the [report](AGENT-STUDY-REPORT.md), whose design and methods sections state the analysis plan the lead developer agreed on 2026-10-21, and [the study 1 analysis](../study/analysis/README.md) that implements it.
 
 ## At a glance
