@@ -32,6 +32,7 @@ The template ships the rows of its own documents. A project that starts from it 
 | `docs/SERVICE-SCRIPTS.md` | record | record-only | - | - | - | - | - | - |
 | `docs/STUDY-2-DESIGN.md` | record | record-only | - | - | - | - | yes | - |
 | `docs/STUDY-2-REPORT.md` | record | record-only | - | - | - | - | yes | - |
+| `docs/STUDY-FINDINGS.md` | record | record-only | - | - | - | - | yes | - |
 | `docs/STUDY-OVERVIEW.md` | record | record-only | - | - | - | - | yes | - |
 | `docs/agent-study/*.svg` | record | record-only | - | - | - | - | - | - |
 | `docs/timings/*.jsonl` | record | record-only | - | - | - | - | - | - |
