@@ -103,7 +103,7 @@ The design requires the report to say that "equivalence not established" does no
 
 ### Sensitivity analyses
 
-| Analysis | | Difference, percentage points [95% CI] | ±10 column of `tables.md` |
+| Analysis | | Difference, percentage points [95% CI] | ±10 check (bootstrap)¹ |
 | --- | --- | --- | --- |
 | 8.1 vendor errors as wrong | - | not estimable, for the problems of the primary | - |
 | 8.2 bias-reduced covariance | - | not estimable, for the problems of the primary | - |
@@ -120,6 +120,8 @@ The design requires the report to say that "equivalence not established" does no
 | | S2 | +2.1 [-3.6, +8.6] | - |
 | | S3 | -0.1 [-5.7, +5.4] | - |
 | | S4 | -2.0 [-8.5, +4.5] | - |
+
+¹ The bootstrap's own ±10 check, not an equivalence verdict: the plan lets the primary GEE decide (section 8, rule 3), and it is not estimable.
 
 **The cluster bootstrap** resamples whole tasks and pools the cell proportions with equal model weights, with no refit and no round or session adjustment: in its own label, "an unadjusted cross-check, not a bootstrap of the fitted GEE". The plan shows its whole-interval verdict beside the GEE's and lets the GEE decide (section 8, rule 3); with no GEE result there is no equivalence verdict, and the "whole interval inside" entries are the bootstrap's column only. Its output adds: "every resample of whole tasks repeats the observed ceiling or floor of a cell that is all right or all wrong in the data (Guided Direct Access / GPT-6.1 Sol, GraphQL Adapters / GPT-6.1 Sol, Apollo Federation / GPT-6.1 Sol, Cosmo Federation / GPT-6.1 Sol): such a cell adds no width to an interval, and the intervals hold no uncertainty from outcomes absent from the data."
 
