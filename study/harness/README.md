@@ -223,6 +223,17 @@ Settled for the study, by the lead developer:
 
 The provenance tests use a fake Docker (`fakes.py`) and never start, stop or inspect a container.
 
-`python -B study/harness/study_gate.py` runs the offline tests of the study: this folder, the corpus derivation check and the MCP offline tests. It needs no stack and no key. The MCP suite needs the `mcp` package, which the governance interpreter does not have, so it runs under the interpreter named by the machine-local variable `STUDY_MCP_PYTHON` and is reported as NOT RUN when there is none (`--require-mcp` makes that a failure). The convention for the other study areas: put `test_*.py` files directly in the area's folder and list the folder in `SUITES` of `study_gate.py`. The live MCP stack tests (`study/mcp/test_mcp_stack.py`) are not part of the gate.
+`python -B study/harness/study_gate.py` runs the offline tests of the study as nine suites, each a unittest discovery in its own process: harness (this folder), corpus, corpus2, mcp (the MCP offline tests), analysis, analysis2, launch, preflight and blind. It needs no stack and no key. The MCP suite needs the `mcp` package, which the governance interpreter does not have, so it runs under the interpreter named by the machine-local variable `STUDY_MCP_PYTHON` and is reported as NOT RUN when there is none (`--require-mcp` makes that a failure); the two analysis suites need statsmodels and scipy and run under it the same way. The live MCP stack tests (`study/mcp/test_mcp_stack.py`) are not part of the gate.
+
+How the gate runs its suites (Job `study_gate_parallel`, 2026-11-09):
+
+- **Two lanes.** The suites that start a server or bind a port, harness, mcp and blind (`SERVER_LANE`), run one after another in a lane of their own. The six others share nothing and run side by side, at most N at a time, at the same time as that lane. Both lanes take the suites in the order of `SUITES`.
+- **`--jobs N`**, default 4, sets N. `--jobs 1` runs all nine one after another, in the order of `SUITES`, as the gate did before.
+- **Output.** A line is printed when a suite starts (`== analysis2: test_*.py in study/analysis2`) and when it ends, with its result and time (`analysis2: OK in 480 s`, or `FAILED (exit 1)`). Each suite's whole output, stdout and stderr, is kept apart and printed as one block just before its end line, never mixed with another suite's. Each suite writes that output in UTF-8 (`PYTHONIOENCODING=utf-8` in its environment, because a suite that writes to a pipe would otherwise use the Windows code page), and the gate prints it through its own text stream, so the console shows it in its own encoding and a character it cannot show is escaped.
+- **An interrupt** (Ctrl+C) stops the gate: no lane starts another suite, every suite still running is ended, on Windows with the processes it started, and waited for, and the interrupt is raised again.
+- **What stays.** Each suite's command, interpreter, environment (the two API keys and `STUDY_MCP_STACK` removed; `PYTHONIOENCODING=utf-8` is the one addition), folder and NOT RUN rule; the summary line `study gate: failed=... not_run=...`, `--require-mcp` and the exit codes, with any N. The checkpoint profiles run the gate with no option, so at the default.
+- **The convention for a new suite:** put `test_*.py` files directly in the area's folder and list the folder in `SUITES` of `study_gate.py`. A suite that starts a server or binds a port, even one the system assigns, is also listed in `SERVER_LANE`.
+
+The gate's own tests (`test_study_gate.py`) run it on fake suites in a temporary folder; they never start a real suite.
 
 The area accepts Python, JSON, JSON Lines, TOML, Markdown and text files.
