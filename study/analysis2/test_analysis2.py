@@ -920,7 +920,7 @@ class HarnessBundleTests(Workspace):
                                     'ready': {s: {'argv': ['ready', s, a]} for s in ('assets', 'missions', 'personnel')}}
                                 for a in data2.ALL_ARMS},
                   'models': ['model-a', 'model-b'], 'seed': 11, 'task_set': 'scored', 'warmup_passes': 1,
-                  'budgets': {v: {'tokens': 100_000_000, 'dollar_ceiling': 1000.0, 'ceiling_basis': 'test ceiling'} for v in ('va', 'vb')},
+                  'budgets': {v: {'dollar_ceiling': 1000.0, 'ceiling_basis': 'test ceiling'} for v in ('va', 'vb')},
                   'limits': {'max_tool_calls': 5, 'retry_backoff_seconds': 0},
                   'schedule': {'design': 'williams-4-half', 'arms': arms, 'reference': 'alpha'},
                   'dataset_fingerprint': {'argv': ['fingerprint']}, 'harness_tools': ['calculate', 'ask_requester'],

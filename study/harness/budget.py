@@ -1,14 +1,25 @@
-"""Token budget of one vendor in one pilot or study run.
+"""Budget of one vendor in one pilot or study run.
 
-The budget is in TOKENS (input not cached, cached read, cache write and output counted apart, never twice). Dollars are derived from a dated
-price table and are shown beside the tokens. Before each API request the harness RESERVES room for that request's possible cost (the current
-input plus its maximum output); a request that does not fit is a clean BUDGET STOP. Every reservation, settlement and retry is appended to a
-ledger file at once, so a stopped or crashed run keeps its cost and a resume starts from what was really spent. A reservation that was never
-settled (the process died during a request) is charged at the amount reserved, because the vendor may have billed it.
+The tokens are counted in four classes (input not cached, cached read, cache write and output), never twice, and dollars are derived from
+a dated price table. Before each API request the harness RESERVES room for that request's possible cost (the current input plus its
+maximum output); a request that does not fit is a clean BUDGET STOP. What it must fit in depends on the shape of the run:
+
+- under a schedule (study 2 and later) the only overall stop is the DOLLAR CEILING, and the budget has no token limit (`limit_tokens` is
+  None; decision T1 (a) of the Job study_budget_dollars_only). The tokens are still counted, written to the ledger and reported;
+- without a schedule (the study-1 shape) the budget is in TOKENS, a positive whole number, and that token limit is its only stop.
+
+Every reservation, settlement and retry is appended to a ledger file at once, so a stopped or crashed run keeps its cost and a resume starts
+from what was really spent. A reservation that was never settled (the process died during a request) is charged at the amount reserved,
+because the vendor may have billed it: in tokens against a token limit, and at the output price against a dollar ceiling, as
+`ledger_dollars` counts it.
+
+The dollar ceiling is a finite positive number. A request's worst case prices its input at the highest input-side price of the entry (a
+cache write costs more than plain input, and the Claude client asks for prompt caching) and its maximum output at the output price.
 
 Study 2's dollar ceiling is for all of study 2 (decision F1 of the Job study2_build_followups): the dollars that earlier study runs spent
 (`carried_dollars`, read from their ledgers by `ledger_dollars`) count against the ceiling before the first request of this run.
 """
+import math
 from pathlib import Path
 
 from study_common import append_jsonl, read_jsonl, utc_now
@@ -76,6 +87,25 @@ def ledger_totals(path):
     return spent, sum(int(entry['tokens']) for entry in reserved.values())
 
 
+def valid_ceiling(value):
+    """True for a dollar ceiling that can stop a run: a finite positive number (not a bool, NaN or infinity, which JSON gives for 1e309,
+    and not a whole number too large for a float, which JSON gives for a long run of digits)."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return False
+    try:
+        number = float(value)
+    except OverflowError:
+        return False
+    return math.isfinite(number) and number > 0
+
+
+def worst_dollars(input_tokens, max_output_tokens, price):
+    """The most one request can cost: its input at the highest input-side price (input, cached read or cache write) and its maximum output
+    at the output price."""
+    highest_input = max(price['input'], price['cached_read'], price['cache_write'])
+    return (int(input_tokens) * highest_input + int(max_output_tokens) * price['output']) / 1_000_000
+
+
 def ledger_dollars(path, price):
     """(dollars, tokens) of one ledger under one price entry, counted high: the settled usage at its prices, and every reservation that
     was never settled at the output price, because the vendor may have billed it."""
@@ -85,7 +115,12 @@ def ledger_dollars(path, price):
 
 class Budget:
     def __init__(self, vendor, model, limit_tokens, price, price_date, ledger_path, dollar_ceiling=None, carried_dollars=None):
-        if not isinstance(limit_tokens, int) or limit_tokens <= 0:
+        """`limit_tokens` None: no token limit, and then the dollar ceiling, which must be given, is the only stop (a scheduled run)."""
+        if limit_tokens is None:
+            if not valid_ceiling(dollar_ceiling):
+                raise ValueError('A budget of %s without a token limit needs a finite positive dollar ceiling: the ceiling is its only stop'
+                                 % vendor)
+        elif not isinstance(limit_tokens, int) or limit_tokens <= 0:
             raise ValueError('The token budget of %s must be a positive whole number of tokens' % vendor)
         self.vendor, self.model, self.limit = vendor, model, limit_tokens
         self.price, self.price_date, self.dollar_ceiling = price, price_date, dollar_ceiling
@@ -130,35 +165,48 @@ class Budget:
 
     @property
     def remaining_tokens(self):
+        """None when the budget has no token limit."""
+        if self.limit is None:
+            return None
         return self.limit - self.used_tokens - (self._open['tokens'] if self._open else 0)
 
     def estimated_dollars(self):
         return dollars(self.spent, self.price)
+
+    def unsettled_dollars(self):
+        """This run's reservations that were never settled, at the output price, as `ledger_dollars` counts them for the carry."""
+        return self.unsettled * self.price['output'] / 1_000_000
 
     def snapshot(self):
         out = {'vendor': self.vendor, 'model': self.model, 'limitTokens': self.limit, 'spent': self.spent.as_dict(),
                'spentTokens': self.spent.total, 'unsettledTokens': self.unsettled, 'remainingTokens': self.remaining_tokens,
                'retries': self.retries, 'retryTokens': self.retry_tokens, 'estimatedDollars': round(self.estimated_dollars(), 4),
                'priceDate': self.price_date}
+        if self.limit is None:  # no token limit: the spent and unsettled tokens are reported, no limit and no room
+            del out['limitTokens'], out['remainingTokens']
         if self.carried_dollars is not None:
             out.update({'carriedDollars': round(self.carried_dollars, 4), 'dollarCeiling': self.dollar_ceiling})
         return out
 
     # ------------------------------------------------------------------ reserve and settle
     def reserve(self, run_id, input_tokens, max_output_tokens, label='request'):
-        """Reserve room for one request: the current input plus the maximum output, all priced as output would be at worst."""
+        """Reserve room for one request: the current input plus the maximum output. Against a dollar ceiling the request is priced at its
+        worst (`worst_dollars`) on top of the carried dollars, the settled spend and this run's unsettled reservations."""
         if self._open is not None:
             raise RuntimeError('A reservation is already open: settle or release it first')
         tokens = int(input_tokens) + int(max_output_tokens)
-        if tokens > self.remaining_tokens:
+        if self.limit is not None and tokens > self.remaining_tokens:
             raise BudgetStop('Budget stop: the request needs %d tokens and %d remain of %d (%s)'
                              % (tokens, self.remaining_tokens, self.limit, self.vendor), self.snapshot())
         if self.dollar_ceiling is not None:
-            worst = (int(input_tokens) * self.price['input'] + int(max_output_tokens) * self.price['output']) / 1_000_000
+            worst = worst_dollars(input_tokens, max_output_tokens, self.price)
             carried = self.carried_dollars or 0.0
-            if carried + self.estimated_dollars() + worst > self.dollar_ceiling:
-                raise BudgetStop('Budget stop: the request could cost %.4f dollars on top of %.4f spent%s, ceiling %.2f (%s)'
-                                 % (worst, self.estimated_dollars(), ' and %.4f carried from earlier study runs' % carried if carried else '',
+            unsettled = self.unsettled_dollars()
+            if carried + self.estimated_dollars() + unsettled + worst > self.dollar_ceiling:
+                raise BudgetStop('Budget stop: the request could cost %.4f dollars on top of %.4f spent%s%s, ceiling %.2f (%s)'
+                                 % (worst, self.estimated_dollars(),
+                                    ', %.4f in unsettled reservations' % unsettled if unsettled else '',
+                                    ' and %.4f carried from earlier study runs' % carried if carried else '',
                                     self.dollar_ceiling, self.vendor), self.snapshot())
         self._counter += 1
         self._open = {'seq': self._counter, 'tokens': tokens}

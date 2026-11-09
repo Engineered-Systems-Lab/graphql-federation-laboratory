@@ -773,7 +773,7 @@ class GeneratorTests(unittest.TestCase):
         plan = {'schedule': {'design': 'williams-4-half', 'arms': ['beta', 'gamma', 'delta', 'epsilon'], 'reference': 'alpha'},
                 'task_set': 'scored', 'models': ['claude-sonnet-5-5', 'gpt-6.1-sol'], 'seed': 20261027, 'warmup_passes': 3,
                 'limits': {'max_tool_calls': 80},
-                'budgets': {'anthropic': {'tokens': 1, 'dollar_ceiling': 85.0, 'ceiling_basis': 'decision D'}},
+                'budgets': {'anthropic': {'dollar_ceiling': 85.0, 'ceiling_basis': 'decision D'}},
                 'harness_tools': ['calculate', 'ask_requester'], 'health_every_runs': 10, 'earlier_study_runs': ['dev-1']}
         plan.update(over)
         (self.dir / 'plan.json').write_text(json.dumps(plan), encoding='utf-8')

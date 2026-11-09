@@ -60,9 +60,17 @@ UP = {'backends': {'missions': {'up': True}}}
 DOWN = {'backends': {'missions': {'up': False, 'detail': 'connection refused'}}}
 
 
-def budgets(va=10_000_000, vb=10_000_000, ceiling=85.0, basis='decision D (2026-10-27)'):
-    return {'va': {'tokens': va, 'dollar_ceiling': ceiling, 'ceiling_basis': basis},
-            'vb': {'tokens': vb, 'dollar_ceiling': ceiling, 'ceiling_basis': basis}}
+# A scheduled budget has no token limit: the dollar ceiling is its only stop (decisions T1 (a) and T2 (a) of the Job
+# study_budget_dollars_only). STOP_CEILING is a vendor b ceiling that forces a budget stop: a fake request reserves 0.00167 dollars at
+# worst without the harness tools (0.0053 with them; input at the cache-write price) and spends 0.00007, so three fit, then the stop (with
+# the tools, the first does not fit).
+STOP_CEILING = 0.0018
+RAISED = {'dollar_ceiling': 85.0, 'ceiling_basis': "the lead developer's raise for the test (2026-11-09)"}
+
+
+def budgets(ceiling=85.0, basis='decision D (2026-10-27)', vb_ceiling=None):
+    return {'va': {'dollar_ceiling': ceiling, 'ceiling_basis': basis},
+            'vb': {'dollar_ceiling': ceiling if vb_ceiling is None else vb_ceiling, 'ceiling_basis': basis}}
 
 
 class Health:
@@ -309,7 +317,7 @@ class ScheduleRunnerTests(unittest.TestCase):
         self.assertEqual([s['start'] for s in starts], [1, 2])
 
     def test_a_budget_stop_resumes_at_its_block_without_repeating_finished_runs(self):
-        config = self.config(budgets=budgets(vb=400))
+        config = self.config(budgets=budgets(vb_ceiling=STOP_CEILING))
         del config['harness_tools']
         first = self.study(config)
         self.assertEqual(first.run(), 'budget_stop')
@@ -317,7 +325,7 @@ class ScheduleRunnerTests(unittest.TestCase):
                        if json.loads(p.read_text())['outcome'] == 'budget_stop')
         finished = {p.parent.name: p.read_text() for p in (first.dir / 'runs').glob('*/result.json') if p.parent.name != stopped['runKey']}
         FakeStack.log = []
-        config['budgets']['vb']['tokens'] = 10_000_000
+        config['budgets']['vb'].update(RAISED)
         second = self.study(config)
         self.assertEqual(second.run(resume=True), 'complete')
         restarted = [e[1] for e in FakeStack.log if e[0] == 'start']
@@ -488,7 +496,8 @@ class ScheduleRunnerTests(unittest.TestCase):
 
     def test_a_version_2_scorer_gets_the_requester_log_and_may_return_abstained(self):
         (self.corpus / 'scoring.py').write_text(V2_SCORING, encoding='utf-8')
-        config = self.config(scenario_order=['alpha'], trials=1)
+        # the study-1 shape (no schedule) keeps its token budget (decision T1 (a))
+        config = self.config(scenario_order=['alpha'], trials=1, budgets={v: {'tokens': 10_000_000, **b} for v, b in budgets().items()})
         del config['schedule'], config['dataset_fingerprint']
         def ask_then_abstain(system, transcript, tools):
             if transcript[-1]['role'] == 'user':  # the start of a run: ask first
@@ -971,26 +980,34 @@ class ScheduleRunnerTests(unittest.TestCase):
 
     def test_a_changed_earlier_ledger_refuses_the_resume(self):
         folder = self.earlier_run()
-        config = self.config(earlier_study_runs=['old'], budgets=budgets(vb=400))
+        config = self.config(earlier_study_runs=['old'], budgets=budgets(vb_ceiling=STOP_CEILING))
         self.assertEqual(self.study(config).run(), 'budget_stop')
         with open(folder / 'budget-va.jsonl', 'a') as handle:
             handle.write(json.dumps({'event': 'reserve', 'seq': 9, 'tokens': 5}) + '\n')
-        config['budgets']['vb']['tokens'] = 10_000_000
+        config['budgets']['vb'].update(RAISED)
         with self.assertRaisesRegex(BudgetCarryRefused, 'old \\(va\\)'):
             self.study(config).run(resume=True)
 
     def test_every_vendor_budget_needs_its_ceiling_and_basis(self):
         for change, message in ((lambda b: b['va'].pop('ceiling_basis'), 'ceiling_basis'), (lambda b: b['vb'].update(ceiling_basis=' '), 'ceiling_basis'),
-                                (lambda b: b['va'].pop('dollar_ceiling'), 'dollar_ceiling'), (lambda b: b['va'].update(dollar_ceiling=0), 'dollar_ceiling')):
+                                (lambda b: b['va'].pop('dollar_ceiling'), 'dollar_ceiling'), (lambda b: b['va'].update(dollar_ceiling=0), 'dollar_ceiling'),
+                                (lambda b: b['vb'].update(tokens=12_000_000), "budgets.vb.tokens is set, but a scheduled run's only overall stop is "
+                                                                              'the dollar ceiling'),
+                                (lambda b: b['va'].update(tokens=0), 'budgets.va.tokens is set'),
+                                # a ceiling that can never stop the run: NaN, infinity, and 1e309, which JSON reads as infinity
+                                (lambda b: b['va'].update(dollar_ceiling=float('nan')), 'budgets.va.dollar_ceiling must be a finite positive'),
+                                (lambda b: b['vb'].update(dollar_ceiling=float('inf')), 'budgets.vb.dollar_ceiling must be a finite positive'),
+                                (lambda b: b['vb'].update(dollar_ceiling=json.loads('1e309')), 'budgets.vb.dollar_ceiling must be a finite'),
+                                (lambda b: b['va'].update(dollar_ceiling=json.loads('1' + '0' * 400)), 'budgets.va.dollar_ceiling must be a finite')):
             config = self.config()
             change(config['budgets'])
             with self.assertRaisesRegex(ValueError, message):
                 self.study(config)
 
     def test_a_resume_with_another_ceiling_records_the_old_and_new_values(self):
-        config = self.config(budgets=budgets(vb=400))
+        config = self.config(budgets=budgets(vb_ceiling=STOP_CEILING))
         self.assertEqual(self.study(config).run(), 'budget_stop')
-        config['budgets']['vb']['tokens'] = 10_000_000
+        config['budgets']['vb'].update(RAISED)
         config['budgets']['va']['dollar_ceiling'] = 95.0
         with self.assertRaises(ResumeRefused) as refused:
             self.study(config).run(resume=True)
@@ -1003,8 +1020,65 @@ class ScheduleRunnerTests(unittest.TestCase):
         self.assertEqual(len(resumes), 1)
         self.assertEqual(resumes[0]['ceilingChanges'], [{'vendor': 'va', 'old': {'dollar_ceiling': 85.0, 'ceiling_basis': 'decision D (2026-10-27)'},
                                                          'new': {'dollar_ceiling': 95.0,
-                                                                 'ceiling_basis': "the lead developer's raise of 2026-11-05"}}])
+                                                                 'ceiling_basis': "the lead developer's raise of 2026-11-05"}},
+                                                        {'vendor': 'vb', 'old': {'dollar_ceiling': STOP_CEILING,
+                                                                                 'ceiling_basis': 'decision D (2026-10-27)'},
+                                                         'new': RAISED}])
         self.assertEqual(resumes[0]['ceilings']['va']['dollar_ceiling'], 95.0)
+
+
+    # ------------------------------------------------------------------ no token limit under a schedule (decisions T1 (a), T2 (a))
+    def test_a_scheduled_run_does_not_stop_on_tokens_while_the_dollars_fit(self):
+        study = self.study()
+        self.assertEqual(study.run(), 'complete')
+        bundle = json.loads((study.dir / 'bundle.json').read_text())
+        for vendor in ('va', 'vb'):
+            snapshot = bundle['budgets'][vendor]
+            reserved = [e['tokens'] for e in read_jsonl(study.dir / ('budget-%s.jsonl' % vendor)) if e['event'] == 'reserve']
+            self.assertGreater(len(reserved), 1)
+            self.assertTrue(all(tokens > 400 for tokens in reserved), 'each request alone passes the 400-token budget that used to stop it')
+            self.assertGreater(sum(reserved), 10 * 400)
+            self.assertEqual(snapshot['spentTokens'], study.budgets[vendor].spent.total)
+            self.assertEqual(snapshot['unsettledTokens'], 0)
+            self.assertNotIn('limitTokens', snapshot)
+            self.assertNotIn('remainingTokens', snapshot)
+            self.assertIn('dollarCeiling', snapshot)
+        ledger = read_jsonl(study.dir / 'budget-vb.jsonl')  # every request is still in the ledger, and the snapshot sums its settlements
+        self.assertEqual(sum(sum(e['usage'].values()) for e in ledger if e['event'] == 'settle'), bundle['budgets']['vb']['spentTokens'])
+
+    def test_a_scheduled_run_still_stops_on_the_worst_case_dollars(self):
+        study = self.study(self.config(budgets=budgets(vb_ceiling=STOP_CEILING)))
+        self.assertEqual(study.run(), 'budget_stop')
+        stopped = next(json.loads(p.read_text()) for p in (study.dir / 'runs').glob('*/result.json')
+                       if json.loads(p.read_text())['outcome'] == 'budget_stop')
+        self.assertEqual(stopped['model'], 'model-b')
+        self.assertIn('dollars on top of', json.dumps(stopped))
+        self.assertIn('ceiling 0.00 (vb)', json.dumps(stopped))
+
+    def test_a_tokens_key_refuses_the_start_before_any_request(self):
+        config = self.config()
+        config['budgets']['va']['tokens'] = 40_000_000
+        factory = self.clients()
+        with self.assertRaisesRegex(ValueError, "budgets.va.tokens is set, but a scheduled run's only overall stop is the dollar ceiling"):
+            self.study(config, factory=factory).run()
+        self.assertFalse((self.root / 's2').exists())
+        self.assertEqual(factory.made, {}, 'no vendor client was made, so no request was sent')
+
+    def test_a_resume_of_a_run_whose_manifest_holds_tokens_is_refused(self):
+        study = self.study(self.config(budgets=budgets(vb_ceiling=STOP_CEILING)))
+        self.assertEqual(study.run(), 'budget_stop')
+        path = study.dir / 'manifest.json'
+        manifest = json.loads(path.read_text(encoding='utf-8'))
+        manifest['tokenBudgets']['vb']['tokens'] = 12_000_000  # the shape of a run started before decision T2 (a), as study2-scored-1
+        path.write_text(json.dumps(manifest), encoding='utf-8')
+        before = {p.relative_to(study.dir).as_posix(): p.read_bytes() for p in study.dir.rglob('*') if p.is_file()}
+        with self.assertRaises(ResumeRefused) as refused:
+            self.study(self.config(budgets=budgets(vb_ceiling=STOP_CEILING))).run(resume=True)
+        assert_resume_refused(self, refused.exception, "The stored manifest holds a token budget for vb, but a scheduled run's only overall "
+                                                       'stop is the dollar ceiling: a scheduled budget has no token limit (decision T2 (a) of '
+                                                       'the Job study_budget_dollars_only). Start a new study run instead.')
+        after = {p.relative_to(study.dir).as_posix(): p.read_bytes() for p in study.dir.rglob('*') if p.is_file()}
+        self.assertEqual(after, before, 'nothing is written')
 
 
 if __name__ == '__main__':

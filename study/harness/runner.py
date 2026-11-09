@@ -33,7 +33,11 @@ the vendor ledgers, because it was billed, and is reported apart in bundle.json.
 The budget across study runs (decision F1): under a schedule every vendor budget has a `dollar_ceiling` and its `ceiling_basis` (decision D,
 or the lead developer's dated raise), and `earlier_study_runs` lists the earlier study-2 runs whose ledgers count against the ceiling. Their
 ids, ledger hashes and dollars are recorded in the manifest; a listed run that is missing refuses the start, and a resume with another
-ceiling or basis records both in resumes.jsonl.
+ceiling or basis records both in resumes.jsonl. Under a schedule the dollar ceiling is the run's only overall stop: a vendor budget has no
+token limit, and a `tokens` key in a scheduled budget refuses the start, before any request, as does a resume of a run whose manifest holds
+one (decisions T1 (a) and T2 (a) of the Job study_budget_dollars_only). The tokens are still counted in the ledgers and reported. Without a
+schedule (the study-1 shape) the budget's `tokens` is required and is its only stop. The per-run limits, `max_task_tokens` among them, are
+the same in both shapes.
 
 Records go to LAB_RESULTS_DIR/<study run id>/ : manifest.json (immutable), samples.jsonl, one budget ledger per vendor, runs/<key>/
 (transcript.jsonl, result.json and, with the harness tools, results.jsonl), provenance/ (one observation per scenario, one per block, and the
@@ -59,7 +63,7 @@ import provenance
 import schedule
 import scoring_contract
 from agent import SYSTEM_PROMPT, TERMINAL, AgentRun, Limits
-from budget import Budget, Usage, dollars, ledger_dollars
+from budget import Budget, Usage, dollars, ledger_dollars, valid_ceiling
 from study_common import (Redactor, append_jsonl, child_environment, read_jsonl, results_dir, sha256_bytes, sha256_file, sha256_json, utc_now,
                           write_json_atomic)
 from vendors import MissingCredentialError, build_client
@@ -305,16 +309,25 @@ def parse_health(text, backends):
     return out
 
 
+TOKENS_REFUSED = ("%s, but a scheduled run's only overall stop is the dollar ceiling: a scheduled budget has no token limit (decision T2 "
+                  "(a) of the Job study_budget_dollars_only)")
+
+
 def validate_budgets(config, vendors):
     """Under a schedule every vendor's budget names its dollar ceiling and the basis of that ceiling (decision D, or the lead developer's
-    dated raise), and `earlier_study_runs` is a list of distinct run ids."""
+    dated raise) and holds no `tokens`, since the ceiling is the only overall stop (decision T2 (a) of the Job study_budget_dollars_only),
+    and `earlier_study_runs` is a list of distinct run ids."""
     for vendor in vendors:
         setting = (config.get('budgets') or {}).get(vendor)
         if not isinstance(setting, dict):
             raise ValueError('budgets.%s is missing' % vendor)
+        if 'tokens' in setting:
+            raise ValueError(TOKENS_REFUSED % ('budgets.%s.tokens is set' % vendor)
+                             + '. Remove the key; the per-run limits, max_task_tokens among them, stay as they are.')
         ceiling = setting.get('dollar_ceiling')
-        if isinstance(ceiling, bool) or not isinstance(ceiling, (int, float)) or ceiling <= 0:
-            raise ValueError('budgets.%s.dollar_ceiling must be a positive number: the ceiling of decision D is for all of study 2' % vendor)
+        if not valid_ceiling(ceiling):  # NaN or infinity (JSON reads 1e309 as infinity) would never stop the run
+            raise ValueError('budgets.%s.dollar_ceiling must be a finite positive number: the ceiling of decision D is for all of study 2, '
+                             'and it is a scheduled run\'s only overall stop' % vendor)
         basis = setting.get('ceiling_basis')
         if not (isinstance(basis, str) and basis.strip()):
             raise ValueError('budgets.%s.ceiling_basis must say what the ceiling rests on (decision D, or the lead developer\'s dated raise)'
@@ -975,7 +988,9 @@ class Study:
         if vendor not in self.budgets:
             setting = self.config['budgets'][vendor]
             carried = (self.carry or {}).get('totals', {}).get(vendor, 0.0) if self.schedule is not None else None
-            self.budgets[vendor] = Budget(vendor, model, setting['tokens'], self.prices['models'][model], self.prices['dated'],
+            # under a schedule no token limit: the dollar ceiling is the only overall stop (decision T1 (a))
+            limit = None if self.schedule is not None else setting['tokens']
+            self.budgets[vendor] = Budget(vendor, model, limit, self.prices['models'][model], self.prices['dated'],
                                           self.dir / ('budget-%s.jsonl' % vendor), dollar_ceiling=setting.get('dollar_ceiling'),
                                           carried_dollars=carried)
         return self.budgets[vendor]
@@ -1206,6 +1221,11 @@ class Study:
             if not resume:
                 raise ResumeRefused('Study run %s already exists: use --resume to continue it, or choose a new run id' % self.study_run_id)
             stored = json.loads(manifest_path.read_text(encoding='utf-8'))
+            if self.schedule is not None:
+                held = sorted(v for v, b in (stored.get('tokenBudgets') or {}).items() if isinstance(b, dict) and 'tokens' in b)
+                if held:  # a run started before decision T2 (a): no such run is open, and it is not continued without a token limit
+                    raise ResumeRefused(TOKENS_REFUSED % ('The stored manifest holds a token budget for %s' % ', '.join(held))
+                                        + '. Start a new study run instead.')
             if stored['planHash'] != sha256_json(self.plan_identity()):
                 raise ResumeRefused('The plan, models, limits, prompt, guides or corpus differ from the stored manifest: a resume repeats the '
                                     'same study. Start a new study run instead.')

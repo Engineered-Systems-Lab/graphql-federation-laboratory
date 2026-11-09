@@ -219,6 +219,10 @@ class RunnerTests(unittest.TestCase):
         before = {k: (first.dir / 'runs' / k / 'result.json').read_text() for k in completed}
         bundle = json.loads((first.dir / 'bundle.json').read_text())
         self.assertEqual(bundle['status'], 'budget_stop')
+        # the study-1 shape keeps its token budget as its only stop (decision T1 (a) of the Job study_budget_dollars_only)
+        self.assertEqual(bundle['budgets']['vb']['limitTokens'], 400)
+        self.assertIn('remainingTokens', bundle['budgets']['vb'])
+        self.assertNotIn('dollarCeiling', bundle['budgets']['vb'])
         # resume with a larger budget
         config['budgets']['vb']['tokens'] = 1_000_000
         second = self.study(config)

@@ -17,7 +17,8 @@ health line that says "all clear" when nothing happened. `--verbose` prints the 
   and the notes the ledgers hold, the vendor errors and requeued runs, the resumes and the health checks recorded;
 - the spend per vendor: this run's dollars, priced from its ledgers with the manifest's price entries (budget.py `dollars`), plus the
   dollars carried from earlier study-2 runs (the manifest's budgetCarry), against the vendor's dollar_ceiling (the last one a resume
-  recorded, else the manifest's), with the room left, and the tokens against the token budget. A reservation that has no settlement is
+  recorded, else the manifest's), with the room left, and the tokens spent, with no limit beside them, since a scheduled run's only
+  overall stop is the dollar ceiling (a `tokens` figure in an older run's manifest is not shown). A reservation that has no settlement is
   counted at the output price, as budget.py `ledger_dollars` counts it for the carry;
 - an estimate of the rest per vendor: every scheduled run not finished yet costs the mean cost of this run's finished runs of the same arm
   and model, or of the same model while that arm has none; with no finished run of the model it is "too early". The cost of a run is
@@ -615,8 +616,8 @@ def report(state, now, reason, balances=None, spent_at_start=None, zone=None):
         line = '  %s: this run %s + carried %s = %s' % (vendor, money(this_run), money(carried), money(this_run + carried))
         if ceiling is not None:
             line += ' of ceiling %s, room %s' % (money(float(ceiling)), money(float(ceiling) - this_run - carried))
-        if ledger and budget.get('tokens'):
-            line += '; tokens %s of %s' % (format(ledger.tokens, ','), format(int(budget['tokens']), ','))
+        if ledger:  # the tokens spent, with no limit beside them: the ceiling is the only overall stop (an old manifest's tokens is ignored)
+            line += '; tokens %s' % format(ledger.tokens, ',')
         lines.append(line)
         if ledger and ledger.open:
             lines.append('    open reservations: %d (%s tokens), counted at the output price: %s'

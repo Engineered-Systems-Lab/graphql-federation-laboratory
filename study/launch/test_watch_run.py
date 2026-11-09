@@ -63,16 +63,18 @@ class RunFolder:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(value, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
 
-    def manifest(self, schedule=True, carried=None, ceilings=None, last_runs=None):
+    def manifest(self, schedule=True, carried=None, ceilings=None, last_runs=None, tokens=5_000_000):
         """`last_runs` gives the last block (the reference, alpha) that many runs instead of four, as study 2's reference block has four
-        times the runs of the others."""
+        times the runs of the others. `tokens` None writes budgets with no token figure (a run since the Job study_budget_dollars_only);
+        a number writes the older shape, as study2-scored-1's manifest holds it."""
         blocks = [{'id': bid, 'arm': arm, 'half': half, 'runSuffix': suffix, 'sequence': n + 1, 'row': 1 if half else None,
                    'runs': [{'model': model, 'task': task} for task, model in TASKS]} for n, (bid, arm, half, suffix) in enumerate(BLOCKS)]
         if last_runs:
             blocks[-1]['runs'] = [{'model': (GPT, CLAUDE)[n % 2], 'task': 'T%d' % (n + 1)} for n in range(last_runs)]
         ceilings = ceilings or {'anthropic': 20.0, 'openai': 10.0}
         body = {'studyRunId': self.run_id, 'models': {m: {'vendor': p['vendor'], 'priceEntry': dict(p)} for m, p in PRICES.items()},
-                'tokenBudgets': {v: {'dollar_ceiling': c, 'ceiling_basis': 'fixture', 'tokens': 5_000_000} for v, c in ceilings.items()}}
+                'tokenBudgets': {v: {'dollar_ceiling': c, 'ceiling_basis': 'fixture', **({} if tokens is None else {'tokens': tokens})}
+                                 for v, c in ceilings.items()}}
         if schedule:
             body.update({'schedule': {'blocks': blocks, 'reference': 'alpha'}, 'vendorErrorRequeues': 1,
                          'budgetCarry': {'runs': [], 'totals': carried if carried is not None else {'anthropic': 1.5, 'openai': 0.5},
@@ -175,6 +177,24 @@ class WatchRunTests(unittest.TestCase):
         self.assertIn('blocks ended 0 of 4; runs finished 0 of 16\n', text)
         self.assertIn('now: no block has started yet', text)
         self.assertIn('anthropic: 8 run(s) left, about 0.00 for 0 of them; too early for 8', text)
+
+    def test_the_vendor_line_shows_the_tokens_spent_with_no_limit_with_or_without_a_tokens_figure(self):
+        # a manifest of a run since the Job study_budget_dollars_only has no tokens figure; study2-scored-1's holds one, and is still read
+        for tokens in (None, 5_000_000):
+            with self.subTest(tokens=tokens):
+                f = RunFolder(Path(self.tmp) / ('tokens-%s' % tokens))
+                f.manifest(tokens=tokens)
+                f.whole_block('r1-beta')
+                f.request(key('r2-beta', 'T3', GPT), GPT, 0, settle=False)  # an open reservation counts in the tokens, as before
+                code, text = once(f.dir)
+                self.assertEqual(code, 0)
+                state = watch_run.RunState.read(f.dir)
+                for vendor in ('anthropic', 'openai'):
+                    line = next(l for l in text.splitlines() if l.startswith('  %s: this run ' % vendor))
+                    self.assertTrue(line.endswith('; tokens %s' % format(state.ledgers[vendor].tokens, ',')), line)
+                    self.assertNotIn(' of 5,000,000', line)
+                self.assertIn('; tokens 40,000', text)  # openai: 10000 + 10000 settled and the open reservation of 20000
+                self.assertNotIn('5,000,000', text)
 
     def test_partway(self):
         f = self.run_folder
