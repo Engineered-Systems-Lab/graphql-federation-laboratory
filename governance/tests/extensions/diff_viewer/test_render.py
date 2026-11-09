@@ -250,7 +250,7 @@ class ChangeButtonsTest(Fixture):
     def test_a_file_with_two_views_has_the_buttons_after_the_checkbox_and_the_first_starts_disabled(self):
         text = self.build()
         modified, added = section_of(text, 'a.txt'), section_of(text, 'new.txt')
-        self.assertIn('Collapse unchanged fragments</label><span class="nav"><button type="button" data-nav="prev" title="Previous change" aria-label="Previous change" disabled>', modified)
+        self.assertIn('Collapse unchanged fragments</label><span class="nav"><span class="count" data-count>1 change</span><button type="button" data-nav="prev" title="Previous change" aria-label="Previous change" disabled>', modified)
         self.assertIn('<button type="button" data-nav="next" title="Next change" aria-label="Next change">', modified)
         self.assertNotIn('data-nav', added)  # one change in one table: nothing to jump to
         self.assertEqual(modified.count('<tr data-c>'), 2)  # the one change, in each view
@@ -261,7 +261,7 @@ class CollapseToggleTest(Fixture):
     def test_the_checkbox_is_named_like_the_ide_checked_by_default_and_on_the_heading_row_without_a_script(self):
         text = self.build()
         modified, added = section_of(text, 'a.txt'), section_of(text, 'new.txt')
-        self.assertIn('<label class="toggle"><input type="checkbox" class="collapse" checked> Collapse unchanged fragments</label><span class="nav">', modified)
+        self.assertIn('<label class="toggle"><input type="checkbox" class="collapse" checked> Collapse unchanged fragments</label><span class="nav"><span class="count" data-count>', modified)
         self.assertRegex(modified, r'^id="f\d+"><div class="bar"><a class="back" href="#">&larr; All files</a><h3>.*</h3><label class="toggle">')  # one row: back link, heading, checkbox
         self.assertNotIn('Collapse unchanged', added)  # one table only: nothing to switch
         self.assertIn('section:has(.collapse:checked) .fullview,section:has(.collapse:not(:checked)) .hunkview{display:none}', text)
@@ -395,6 +395,123 @@ class SealedTest(Fixture):
         self.assertEqual(list(self.review.iterdir()), [])
 
 
+class DiskLinkTest(unittest.TestCase):
+    """The heading path of a file section and the Mission value link the mission checkout's working copy; the tree and the list stay as they are."""
+    BIG = ''.join('line %d of the moved file\n' % n for n in range(1, 41))
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name).resolve() / 'mission demo'
+        self.root.mkdir()
+        git(self.root, 'init', '-q', '-b', 'main')
+        for folder in ('dir with space/sub', 'old dir', 'src'):
+            (self.root / folder).mkdir(parents=True)
+        write(self.root, 'dir with space/sub/mod.txt', 'one\ntwo\n')
+        write(self.root, 'dir with space/gone.txt', 'bye\n')
+        write(self.root, 'old dir/lost.txt', 'lost\n')
+        write(self.root, 'src/moved.txt', self.BIG)
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-q', '-m', 'base')
+        self.parent = git(self.root, 'rev-parse', 'HEAD')
+        write(self.root, 'dir with space/sub/mod.txt', 'one\nTWO\n')
+        write(self.root, 'dir with space/new.txt', 'new\n')
+        git(self.root, 'rm', '-q', 'dir with space/gone.txt', 'old dir/lost.txt')
+        (self.root / 'moved').mkdir()
+        git(self.root, 'mv', 'src/moved.txt', 'moved/moved.txt')
+        git(self.root, 'add', '-A')
+        git(self.root, 'commit', '-q', '-m', 'candidate')  # the checkout stays at the candidate
+        self.tree = git(self.root, 'rev-parse', 'HEAD^{tree}')
+        record = {'id': 'd' * 32, 'branch': 'refs/heads/tx/mission-demo', 'parent': self.parent, 'tree': self.tree, 'manifest': []}
+        self.text = render.build(self.root, render.PREVIEW, record, 'demo_job', [])
+        self.note = render.html.escape(render.DISK_NOTE, quote=True)
+
+    def heading(self, name):
+        """The h3 of the section whose heading names the file."""
+        found = [part.split('</h3>', 1)[0] for part in self.text.split('<h3>')[1:] if name in part.split('</h3>', 1)[0]]
+        self.assertEqual(len(found), 1, name)
+        return found[0]
+
+    def links(self, name):
+        """[(link text, target)] of the heading's disk links."""
+        found = re.findall(r'<a class="disk" href="([^"]*)" title="[^"]*">([^<]*)</a>', self.heading(name))
+        return [(text, href) for href, text in found]
+
+    def test_every_heading_segment_links_its_folder_and_the_last_one_the_file(self):
+        base = self.root.as_uri()
+        self.assertEqual(self.links('mod.txt'), [
+            ('dir with space', base + '/dir%20with%20space'),
+            ('sub', base + '/dir%20with%20space/sub'),
+            ('mod.txt', base + '/dir%20with%20space/sub/mod.txt')])
+        self.assertIn('</a>/<a', self.heading('mod.txt'))  # the segments are separated as before
+        self.assertEqual([text for text, _ in self.links('new.txt')], ['dir with space', 'new.txt'])  # an added file
+
+    def test_paths_with_spaces_are_encoded_and_the_target_equals_as_uri(self):
+        for _, href in self.links('mod.txt'):
+            self.assertNotIn(' ', href)
+        self.assertEqual(self.links('new.txt')[-1][1], (self.root / 'dir with space' / 'new.txt').as_uri())
+
+    def test_a_deleted_file_is_plain_text_and_a_folder_that_is_gone_is_too(self):
+        kept = self.heading('gone.txt')  # the folder survives, the file does not
+        self.assertEqual([text for text, _ in self.links('gone.txt')], ['dir with space'])
+        self.assertTrue(kept.endswith('/gone.txt'))
+        self.assertEqual(self.links('lost.txt'), [])  # neither the folder nor the file exists in the checkout
+        self.assertIn('old dir/lost.txt', self.heading('lost.txt'))
+
+    def test_a_renamed_file_links_its_new_path_and_names_the_old_one_as_text(self):
+        heading = self.heading(chr(0x2192))  # only the renamed entry holds the arrow; its two sides are sections of their own
+        self.assertEqual([text for text, _ in self.links(chr(0x2192))], ['moved', 'moved.txt'])
+        self.assertEqual(self.links(chr(0x2192))[-1][1], (self.root / 'moved' / 'moved.txt').as_uri())
+        self.assertIn('src/moved.txt → ', heading)
+        self.assertEqual(heading.count('src/moved.txt'), 1)
+
+    def test_a_segment_that_leads_outside_the_checkout_is_plain_text(self):
+        outside = self.root.parent / 'elsewhere'
+        outside.mkdir()
+        write(outside, 'mod.txt', 'x')
+        link = self.root / 'dir with space' / 'sub'
+        git(self.root, 'rm', '-q', '-r', '--cached', '--', 'dir with space/sub')  # the index keeps no say over the disk; only the page's view of the disk matters
+        for child in (self.root / 'dir with space' / 'sub').iterdir():
+            child.unlink()
+        link.rmdir()
+        try:
+            os.symlink(outside, link, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            self.skipTest('symbolic links need a system setting here')
+        self.addCleanup(lambda: link.is_symlink() and os.rmdir(link))  # a directory link is removed with rmdir, never recursively
+        self.assertFalse(render.inside(self.root, link))
+        self.assertFalse(render.inside(self.root, link / 'mod.txt'))
+        self.assertTrue(render.inside(self.root, self.root / 'dir with space'))
+        heading = render.path_links(self.root, 'dir with space/sub/mod.txt')
+        self.assertEqual(re.findall(r'>([^<]*)</a>', heading), ['dir with space'])
+        self.assertTrue(heading.endswith('/sub/mod.txt'))
+
+    def test_the_mission_value_links_the_worktree_folder(self):
+        match = re.search(r'<span class="k">Mission</span><span class="v"><a class="disk" href="([^"]*)" title="[^"]*">mission-demo</a></span>', self.text)
+        self.assertIsNotNone(match)
+        self.assertEqual(match.group(1), self.root.as_uri())
+
+    def test_every_disk_link_has_the_note_as_its_title_and_the_page_has_no_note(self):
+        anchors = re.findall(r'<a class="disk"[^>]*>', self.text)
+        self.assertGreater(len(anchors), 5)
+        for anchor in anchors:
+            self.assertIn(' title="%s"' % self.note, anchor)
+        self.assertEqual(self.text.count(self.note), len(anchors))  # the sentence occurs nowhere else
+        self.assertNotIn('working copy', re.sub(r'<[^>]*>', '', self.text))
+
+    def test_the_tree_and_the_file_list_carry_no_disk_links_and_are_unchanged(self):
+        nav = self.text.split('<nav>', 1)[1].split('</nav>', 1)[0]
+        listing = self.text.split('<table class="files">', 1)[1].split('</table>', 1)[0]
+        for part in (nav, listing):
+            self.assertNotIn('file://', part)
+            self.assertNotIn('class="disk"', part)
+        items = render.changes(self.root, self.parent, self.tree)
+        self.assertEqual(nav, '<div class="treebar"><button type="button" data-fold="open">Expand all</button>'
+                              '<button type="button" data-fold="close">Collapse all</button></div>' + render.tree(items, len(items)))
+        self.assertEqual(listing.count('<a href="#f'), len(items))
+        self.assertNotIn('file://', self.text.replace(self.root.as_uri(), ''))
+
+
 class RenameTest(unittest.TestCase):
     """A moved file is one renamed entry computed by the page itself; the checkpoint tool's own records are not involved."""
     BIG = ''.join('line %d of the moved file\n' % n for n in range(1, 41))
@@ -424,7 +541,8 @@ class RenameTest(unittest.TestCase):
 
     def build(self):
         record = {'id': 'r' * 32, 'branch': 'refs/heads/tx/demo', 'parent': self.parent, 'tree': self.tree, 'manifest': []}
-        return render.build(self.root, render.PREVIEW, record, 'demo_job', [])
+        text = render.build(self.root, render.PREVIEW, record, 'demo_job', [])
+        return re.sub(r'<a class="disk"[^>]*>(.*?)</a>', lambda match: match.group(1), text)  # the disk links have their own tests; here the headings read as plain paths
 
     def test_a_pure_move_is_one_entry_with_no_change_lines_and_says_so(self):
         text = self.build()
@@ -615,21 +733,26 @@ class IntralineTest(unittest.TestCase):
         self.assertEqual(rows[0][3], 'unrelated()')
         self.assertEqual(rows[1][0:4], (1, old[0], 2, new[1]))
         self.assertEqual(CellText(render.cell(2, rows[1][3], 'new change', rows[1][6])).segments, [', extra'])
-        before, after = self.pair('    aaa', '    bbb')
-        self.assertEqual(before.segments, ['    aaa'])
-        self.assertEqual(after.segments, ['    bbb'])
+        matcher = render.difflib.SequenceMatcher(None, ['    aaa'], ['    bbb'], autojunk=False)
+        rows = render.full_rows(matcher, ['    aaa'], ['    bbb'])  # compared and not similar: a removed line and an added line, not one edit
+        self.assertEqual([row[:5] for row in rows], [(1, '    aaa', None, None, 'removed'), (None, None, 1, '    bbb', 'added')])
 
     def test_long_repetitive_lines_and_comparison_budget_fall_back(self):
         old = ['x' * 1100]
         new = ['x' * 1099 + 'y']
+        with mock.patch.object(render, 'intraline', wraps=render.intraline) as spy:
+            rows = render.full_rows(render.difflib.SequenceMatcher(None, old, new), old, new)
+        self.assertEqual(spy.call_args.args[2], False)  # too long for the exact character score, so scored from its single word
+        self.assertEqual([row[4] for row in rows], ['removed', 'added'])
+        old, new = ['!' * 3000], ['!' * 2999 + '?']  # every punctuation mark is a token: 9,000,000 tokens to compare
         with mock.patch.object(render, 'intraline', side_effect=AssertionError('must not compare')):
             rows = render.full_rows(render.difflib.SequenceMatcher(None, old, new), old, new)
-        self.assertEqual(rows[0][5:], (None, None))
+        self.assertEqual([row[4:] for row in rows], [('change', None, None)])  # beyond the limit nothing is known: the whole-text fallback
         with mock.patch.object(render, 'MAX_INTRALINE_LENGTH', 5), mock.patch.object(render, 'intraline', side_effect=AssertionError('must not compare')):
             self.assertEqual(self.pair('long old', 'long new')[0].segments, ['long old'])
         old, new = ['key = 1', 'key = 2'], ['key = 3', 'key = 4']
         matcher = render.difflib.SequenceMatcher(None, old, new, autojunk=False)
-        with mock.patch.object(render, 'MAX_INTRALINE_WORK', 98):
+        with mock.patch.object(render, 'MAX_INTRALINE_WORK', 74):  # one pair of these lines costs 25 word tokens and 49 characters
             rows = render.full_rows(matcher, old, new)
         self.assertTrue(all(row[5:] == (None, None) for row in rows))  # incomplete block comparison cannot prove a match
 
@@ -637,7 +760,7 @@ class IntralineTest(unittest.TestCase):
         old = ['key = 1'] + ['same %d' % n for n in range(12)] + ['key = 2']
         new = ['key = 3'] + old[1:-1] + ['key = 4']
         matcher = render.difflib.SequenceMatcher(None, old, new, autojunk=False)
-        with mock.patch.object(render, 'MAX_INTRALINE_WORK', 98):
+        with mock.patch.object(render, 'MAX_INTRALINE_WORK', 74):
             rows = render.full_rows(matcher, old, new)
         collapsed = [row for _, group in render.side_rows(matcher, old, new, rows) for row in group]
         self.assertEqual([row for row in rows if row[4] != 'same'], [row for row in collapsed if row[4] != 'same'])
@@ -764,9 +887,10 @@ class IntralineTest(unittest.TestCase):
     def test_pair_count_and_block_length_caps_fall_back_without_comparing(self):
         for old, new in ((['old %d' % i for i in range(41)], ['new %d' % i for i in range(41)]),
                          (['old'], ['new %d' % i for i in range(81)])):
-            with mock.patch.object(render, 'intraline', side_effect=AssertionError('must not compare')):
+            with mock.patch.object(render, 'intraline', wraps=render.intraline) as spy:
                 rows = render.full_rows(render.difflib.SequenceMatcher(None, old, new), old, new)
             self.assertTrue(all(row[5:] == (None, None) for row in rows))
+            self.assertLessEqual(spy.call_count, min(len(old), len(new)))  # no search for pairs: only the lines taken in order are judged
 
     def test_whole_line_add_remove_and_empty_lines_keep_exact_text(self):
         for css in ('new added', 'old removed'):
@@ -780,6 +904,144 @@ class IntralineTest(unittest.TestCase):
         self.assertIn('td.old.removed .segment,td.new.added .segment{background:transparent}', render.STYLE)
         for token in ('--segment-add:', '--segment-del:', '--segment-mod:', '--changed:'):
             self.assertEqual(render.STYLE.count(token), 2)
+
+
+class LongLineTest(unittest.TestCase):
+    """Long near-identical lines, one expensive pair in a block, unrelated lines, and the bounds that stay."""
+    SENTENCE = 'The worker reads the core first, then the file of the step it is on, and records what it learns in the Job. '
+
+    def long_pair(self, changed='JOB'):
+        old = (self.SENTENCE * 20)[:1500]
+        return old, old.replace('Job', changed, 1)
+
+    def pair(self, old, new):
+        matcher = render.difflib.SequenceMatcher(None, [old], [new], autojunk=False)
+        row = render.full_rows(matcher, [old], [new])[0]
+        return (CellText(render.cell(row[0], row[1], 'old ' + row[4], row[5])),
+                CellText(render.cell(row[2], row[3], 'new ' + row[4], row[6])))
+
+    def test_two_long_lines_that_differ_in_one_word_get_a_word_segment(self):
+        old, new = self.long_pair()
+        self.assertGreater(len(old), 1400)
+        before, after = self.pair(old, new)
+        self.assertEqual(before.segments, ['Job'])
+        self.assertEqual(after.segments, ['JOB'])
+        self.assertEqual(''.join(before.content), old)
+        self.assertEqual(''.join(after.content), new)
+
+    def test_a_pair_too_long_for_the_character_score_is_scored_from_its_words_and_costs_its_word_tokens(self):
+        old, new = self.long_pair()
+        self.assertGreater(len(old) * len(new), render.MAX_CHARACTER_PRODUCT)
+        with mock.patch.object(render, 'intraline', wraps=render.intraline) as spy:
+            render.full_rows(render.difflib.SequenceMatcher(None, [old], [new]), [old], [new])
+        self.assertEqual(spy.call_args.args[2], False)
+        compared, match, remaining = render.compare(old, new, (len(render.words(old)), len(render.words(new))), render.MAX_INTRALINE_WORK)
+        self.assertTrue(compared)
+        self.assertEqual(render.MAX_INTRALINE_WORK - remaining, len(render.words(old)) * len(render.words(new)))
+
+    def test_one_over_budget_pair_leaves_the_other_pairs_of_the_block_segmented(self):
+        old, new = self.long_pair()
+        olds, news = [old, 'alpha = one(value)', 'beta = two(value)'], [new, 'alpha = one(extra)', 'beta = two(extra)']
+        with mock.patch.object(render, 'MAX_INTRALINE_PRODUCT', 100_000):  # only the pair of the two long lines is beyond the limit
+            rows = render.full_rows(render.difflib.SequenceMatcher(None, olds, news, autojunk=False), olds, news)
+        self.assertEqual([row[4] for row in rows], ['change'] * 3)
+        self.assertEqual(rows[0][5:], (None, None))  # the long pair keeps the whole-text fallback: nothing is known about it
+        self.assertEqual(CellText(render.cell(rows[1][0], rows[1][1], 'old change', rows[1][5])).segments, ['value'])
+        self.assertEqual(CellText(render.cell(rows[2][2], rows[2][3], 'new change', rows[2][6])).segments, ['extra'])
+
+    def test_unrelated_lines_in_a_replace_block_are_a_removal_and_an_addition(self):
+        old = ['## Inputs and commands', 'alpha = one(value)']
+        new = ['The notes are an index and seven files by purpose.', 'alpha = one(extra)']
+        rows = render.full_rows(render.difflib.SequenceMatcher(None, old, new, autojunk=False), old, new)
+        self.assertEqual([(row[0], row[2], row[4]) for row in rows], [(1, None, 'removed'), (None, 1, 'added'), (2, 2, 'change')])
+        self.assertNotEqual(rows[2][5:], (None, None))
+
+    def test_a_block_beyond_the_pairing_limits_judges_its_lines_in_order_only(self):
+        old = ['## Heading number %d of the old notes' % n for n in range(120)]
+        new = ['An index sentence that says nothing alike, number %d' % n for n in range(100)]
+        rows = render.full_rows(render.difflib.SequenceMatcher(None, old, new, autojunk=False), old, new)
+        self.assertEqual({row[4] for row in rows}, {'removed', 'added'})
+        self.assertEqual([row[0] for row in rows if row[0] is not None], list(range(1, 121)))
+        self.assertEqual([row[2] for row in rows if row[2] is not None], list(range(1, 101)))
+
+    def test_one_oversized_line_does_not_disqualify_the_comparable_lines_of_its_block(self):
+        huge = 'x ' * (render.MAX_INTRALINE_LENGTH // 2 + 10)
+        olds, news = [huge, 'alpha = one(value)', 'beta = two(value)'], [huge + 'y', 'alpha = one(extra)', 'beta = two(extra)']
+        rows = render.full_rows(render.difflib.SequenceMatcher(None, olds, news, autojunk=False), olds, news)
+        self.assertEqual(rows[0][5:], (None, None))
+        self.assertEqual(CellText(render.cell(rows[1][0], rows[1][1], 'old change', rows[1][5])).segments, ['value'])
+        self.assertEqual(CellText(render.cell(rows[2][2], rows[2][3], 'new change', rows[2][6])).segments, ['extra'])
+
+    def test_a_pair_over_the_token_limit_does_not_disqualify_the_pairs_that_fit(self):
+        big = '!' * 4000  # 4,000 tokens, within the length limit
+        edit_old = ' '.join('w%d' % n for n in range(600)) + ' end'  # about 1,200 tokens
+        edit_new = edit_old.replace('w300', 'CHANGED')
+        olds, news = [big, edit_old], [big + '?', edit_new]
+        self.assertLessEqual(len(big), render.MAX_INTRALINE_LENGTH)
+        self.assertGreater(len(render.words(big)) * len(render.words(edit_new)), render.MAX_INTRALINE_PRODUCT)
+        rows = render.full_rows(render.difflib.SequenceMatcher(None, olds, news, autojunk=False), olds, news)
+        self.assertEqual(CellText(render.cell(rows[1][0], rows[1][1], 'old change', rows[1][5])).segments, ['w300'])
+        self.assertEqual(CellText(render.cell(rows[1][2], rows[1][3], 'new change', rows[1][6])).segments, ['CHANGED'])
+
+    def test_similar_lines_without_a_letter_or_digit_are_one_change_not_a_removal_and_an_addition(self):
+        old, new = '-' * 10, '-' * 9 + '!'
+        self.assertIs(render.intraline(old, new), render.UNANCHORED)
+        self.assertIsNone(render.intraline('aaa', 'bbb'))
+        rows = render.full_rows(render.difflib.SequenceMatcher(None, [old], [new], autojunk=False), [old], [new])
+        self.assertEqual([row[4] for row in rows], ['change'])
+        self.assertEqual(rows[0][5:], (None, None))
+
+    def test_a_pathological_file_is_still_bounded_by_the_budget(self):
+        line = ' '.join('w%d' % n for n in range(400))
+        olds = [line + ' a%d' % n for n in range(30)]
+        news = [line + ' b%d' % n for n in range(30)]
+        with mock.patch.object(render, 'intraline', wraps=render.intraline) as spy:
+            rows = render.full_rows(render.difflib.SequenceMatcher(None, olds, news, autojunk=False), olds, news)
+        self.assertLess(spy.call_count, 30 * 30)  # the budget stops the comparisons long before every pair is compared
+        self.assertEqual(len([row for row in rows if row[0] is not None]), 30)
+
+
+class ChangeCountTest(Fixture):
+    def test_the_total_is_written_beside_the_buttons_and_matches_the_marked_rows(self):
+        text = self.build()
+        modified = section_of(text, 'a.txt')
+        self.assertIn('<span class="count" data-count>1 change</span>', modified)
+        self.assertEqual(modified.count('<tr data-c>'), 2)  # the one change, once in each view
+        old = ['keep %d' % n for n in range(40)]
+        new = list(old)
+        for n in (2, 12, 22, 32):
+            new[n] = 'changed %d' % n
+        matcher = render.difflib.SequenceMatcher(None, old, new, autojunk=False)
+        everything = render.full_rows(matcher, old, new)
+        marked = render.side_table(everything, self.parent, self.tree).count('<tr data-c>')
+        collapsed = [row for hidden, rows in render.side_rows(matcher, old, new, everything) for row in ([(hidden, 'gap')] if hidden else []) + rows]
+        self.assertEqual(render.side_table(collapsed, self.parent, self.tree).count('<tr data-c>'), marked)
+        self.assertEqual(marked, 4)
+        self.assertIn('data-count>4 changes</span>', render.nav(marked))
+
+    def test_a_file_with_several_changes_shows_its_total_in_the_page(self):
+        old = ''.join('line %d\n' % n for n in range(8))
+        new = old.replace('line 1\n', 'one\n').replace('line 5\n', 'five\n')
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        repo = Path(folder.name)
+        git(repo, 'init', '-q', '-b', 'main')
+        write(repo, 'f.txt', old)
+        git(repo, 'add', '-A')
+        git(repo, 'commit', '-q', '-m', 'a')
+        parent = git(repo, 'rev-parse', 'HEAD')
+        write(repo, 'f.txt', new)
+        git(repo, 'commit', '-q', '-am', 'b')
+        record = {'id': 'p' * 32, 'branch': 'refs/heads/tx/demo', 'parent': parent, 'tree': git(repo, 'rev-parse', 'HEAD^{tree}'), 'manifest': ['f.txt']}
+        section = section_of(render.build(repo, render.PREVIEW, record, 'demo_job', []), 'f.txt')
+        self.assertIn('<span class="count" data-count>2 changes</span>', section)
+        self.assertEqual(section.count('<tr data-c>'), 2)
+
+    def test_the_script_keeps_the_count_current_and_shows_the_total_before_any_navigation(self):
+        self.assertIn('data-count', render.SCRIPT)
+        self.assertIn("'Change '+(k+1)+' of '+n", render.SCRIPT)
+        self.assertIn('s._t!=null||c.scrollTop>0', render.SCRIPT)  # before a jump or a scroll: the total alone
+        self.assertIn('.nav .count{', render.STYLE)
 
 
 class IntralinePageTest(Fixture):

@@ -656,6 +656,29 @@ class LocalJobsTest(JobsFixture):
         self.assertEqual(json.loads(result.stdout), j.KINDS)
         self.assertTrue(all(isinstance(text, str) and text for text in j.KINDS.values()))
 
+    def test_every_kind_says_what_the_job_delivers_and_none_names_what_it_touches(self):
+        self.assertEqual(set(j.KINDS), {'fix', 'feature', 'enhancement', 'cleanup', 'design', 'decision', 'docs',
+                                        'record', 'release', 'upgrade'})
+        self.assertEqual(j.KINDS['fix'], 'corrects a defect or a silent failure')
+        self.assertIn('not necessarily a design document', j.KINDS['design'])
+        self.assertIn('lead developer decision', j.KINDS['decision'])
+        self.assertIn('correcting a document is a fix', j.KINDS['docs'])
+        self.assertTrue(all(' ' in text and text == text.strip() for text in j.KINDS.values()))
+
+    def test_enhancement_release_and_upgrade_are_work_kinds(self):
+        result = subprocess.run([sys.executable, '-B', str(rp.ROOT / 'governance/tools/local_jobs.py'), 'kinds'],
+                                capture_output=True, text=True, check=True)
+        kinds = json.loads(result.stdout)
+        self.assertEqual(kinds['enhancement'], 'improves an existing capability')
+        self.assertEqual(kinds['feature'], 'adds a new capability')
+        names = {kind: kind + '_job' for kind in ('enhancement', 'release', 'upgrade')}
+        for kind, name in names.items():
+            self.assertTrue(kinds[kind])
+            j.put(self.primary, dict(record(), handle=name, description='Kind check.', kind=kind), None)
+        j.put(self.primary, self.coordinator(queue=list(names.values())), None)
+        rows = {row['handle']: row for row in j.queued(self.primary)['queue']}
+        self.assertEqual({kind: rows[name]['work_kind'] for kind, name in names.items()}, {kind: kind for kind in names})
+
     def schedule(self):
         j.put(self.primary, dict(record(), handle='old_name', description='Keep me.', kind='fix'), None)
         for name in ('first_job', 'last_job'):
@@ -1278,6 +1301,8 @@ class BriefTest(unittest.TestCase):
         self.document = self.root / j.COORDINATION_DOCUMENT
         self.document.parent.mkdir()
         shutil.copyfile(self.REAL, self.document)  # a copy of the real document, so a drift in its block fails here
+        self.map = self.root / j.READING_DOCUMENT
+        shutil.copyfile(rp.ROOT / j.READING_DOCUMENT, self.map)  # and of the reading map, whose lists the brief prints
 
     def text(self):
         return self.document.read_bytes().decode('utf-8')
@@ -1416,9 +1441,37 @@ class BriefTest(unittest.TestCase):
         self.assertEqual(j.git(self.root, 'status', '--porcelain'), status)
         self.assertFalse((self.root / j.RELATIVE / '.writer.lock').exists())
 
-    def test_the_reading_list_names_files_that_exist(self):
-        for item in j.BRIEF_READING:
-            self.assertTrue((self.REAL.parents[1] / item).is_file(), item)
+    def test_the_brief_prints_the_lists_of_the_reading_map_and_keeps_none_of_its_own(self):
+        shown = j.brief(self.root, 'sample_job')
+        for heading in (j.READING_CORE, j.READING_SECTIONS):
+            for item in j.reading_list(self.root, heading):
+                self.assertIn('\n  ' + item + '\n', shown)
+        self.map.write_bytes(self.map.read_bytes().replace(b'- [Constraints](CONSTRAINTS.md)\n', b'- [Plan](../docs/PLAN.md)\n'))
+        changed = j.brief(self.root, 'sample_job')
+        self.assertIn('\n  docs/PLAN.md\n', changed)
+        self.assertNotIn('\n  governance/CONSTRAINTS.md\n', changed)
+
+    def test_the_real_reading_lists_name_files_that_exist(self):
+        for heading in (j.READING_CORE, j.READING_SECTIONS):
+            for item in j.reading_list(rp.ROOT, heading):
+                self.assertTrue((rp.ROOT / item.partition('#')[0]).is_file(), item)
+
+    def test_a_missing_empty_or_repeated_list_prints_no_brief(self):
+        text = self.map.read_bytes().decode('utf-8')
+        start = text.index('## The core')
+        end = text.index('## Core sections')
+        cases = {'no core': text.replace('## The core', '## Something else'),
+                 'repeated core': text + '\n## The core\n\n- [Plan](../docs/PLAN.md)\n',
+                 'empty core': text[:start] + '## The core\n\nNo list here.\n\n' + text[end:],
+                 'outside the repository': text.replace('](../AGENTS.md)', '](../../outside.md)')}
+        for name, broken in cases.items():
+            with self.subTest(case=name):
+                self.map.write_bytes(broken.encode('utf-8'))
+                with self.assertRaises(ValueError):
+                    j.brief(self.root, 'sample_job')
+                result = self.cli('sample_job')
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(result.stdout, b'')
 
 
 if __name__ == '__main__':

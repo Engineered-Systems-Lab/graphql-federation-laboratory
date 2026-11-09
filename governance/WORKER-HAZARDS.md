@@ -115,7 +115,7 @@ Each entry names who it concerns (worker, Coordinator or both), what happens, wh
 
 - **Concerns:** both.
 - **What happens:** the audit of a carry lives in the worktree's checkpoint store (`landing.json`, in the `governance/` folder of its Git directory) and goes when the worktree is removed, `early-approval.json` with it; the removal also deletes the mission's review folder, the rendered previews and decision files included. A go carry moves the manifest files through Git's checkout, so their line endings follow the checkout rules.
-- **Do:** paste the landing notice and the tool's carry notice into the Job record before you remove the worktree, and check the line endings of the moved manifest files after a go carry. See [the carry](CHECKPOINT-TOOL.md#the-carry) and [the go carry](CHECKPOINT-TOOL.md#the-go-carry).
+- **Do:** paste the landing notice and the tool's carry notice into the Job record before you remove the worktree, and check the line endings of the moved manifest files after a go carry. See [the carry](CHECKPOINT-TOOL-CARRY.md#the-carry) and [the go carry](CHECKPOINT-TOOL-CARRY.md#the-go-carry).
 - **Taught by:** the limits stated in the tool notes; no failure has taught this yet.
 
 ## H16. Symlink probes belong in a temporary folder
@@ -143,8 +143,8 @@ Each entry names who it concerns (worker, Coordinator or both), what happens, wh
 ## H19. A script's mode lives in the index, not in the working tree
 
 - **Concerns:** both.
-- **What happens:** `core.filemode` is `false` on Windows, so a checkout shows no permission bits and a newly added script is staged as `100644`. Comitas pins its committed `.sh` files at `100755` in the index, and a conformance test fails when one is not.
-- **Do:** the checkpoint tool's `prepare` and `preview` stage the manifest's `*.sh` files as executable themselves, so a script that goes through the governed workflow needs nothing. Outside it (the adoption helper does this once, before the first commit), set the bit with `git update-index --chmod=+x <path>` (never by editing `core.filemode`), and check a mode with `git ls-files -s <path>` before you state it. Run a script as `bash script.sh` when in doubt.
+- **What happens:** `core.filemode` is `false` on Windows, so a checkout shows no permission bits and a newly added script is staged as `100644`. Comitas pins every committed path that the policy's `executable_paths` globs match (`*.sh` by default, extended by a project) at `100755` in the index, and a conformance test fails when one is not.
+- **Do:** the checkpoint tool's `prepare` and `preview` stage the manifest's files that match `executable_paths` as executable themselves, so a script that goes through the governed workflow needs nothing. Outside it (the adoption helper does this once, before the first commit), set the bit with `git update-index --chmod=+x <path>` (never by editing `core.filemode`), and check a mode with `git ls-files -s <path>` before you state it. Run a script as `bash script.sh` when in doubt.
 - **Taught by:** a measurement with `git ls-files -s '*.sh'` that corrected a first claim that every script had one mode.
 
 ## H20. A message into a session interrupts its turn
