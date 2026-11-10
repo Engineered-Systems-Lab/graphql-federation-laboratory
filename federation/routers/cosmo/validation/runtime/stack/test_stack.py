@@ -41,23 +41,55 @@ TIMINGS = {}
 # What is Cosmo's own, declared to the shared suite (config.yaml: `traffic_shaping.all.request_timeout: 5s`, no retry, and
 # `subgraph_error_propagation.mode: pass-through`). A dead adapter gives an errors entry that the router writes itself, "Failed to fetch
 # from Subgraph 'assets' at Path 'mission.assets'.", with NO extensions: no code, and the subgraph named only in the message. The router
-# sends the references of one list to a subgraph in one request, so a failed fetch is one entry, not one per reference. The answer
-# comes after the 5 s the router waits for a subgraph request: 4.5 s to 15 s (the router's own default of 60 s is not in force).
+# sends the references of one list to a subgraph in one request, so a failed fetch is one entry, not one per reference. With the adapter
+# unresponsive (paused) the answer comes after the 5 s the router waits for a subgraph request: 4.5 s to 15 s (the router's own default
+# of 60 s is not in force). With the adapter stopped the fetch fails when the adapter's name no longer resolves, about 2.5 s in the
+# diagnosis of 2026-11-09, before the timeout, so the one stopped case is held to the upper end only.
 # The settings the Apollo gate declares are three; Cosmo needed two more (subgraph_in_message and entries_per).
 COSMO = shared_suite.RouterSettings(adapter_down_code=None, subgraph_key=None, adapter_down_seconds=(4.5, 15),
                                     subgraph_in_message=r"Subgraph '([^']+)'", entries_per='subgraph_fetch')
 
 
+def wait_until_healthy(stack, service, seconds=120):
+    """Wait until Docker reports the service's container healthy (or running, for a service with no health check); fail naming the
+    service and its last status when the deadline passes."""
+    container = stack.compose_ok(['ps', '-q', service]).strip()
+    deadline, status = time.monotonic() + seconds, None
+    while time.monotonic() < deadline:
+        status = support.docker(['inspect', '--format', '{{.State.Status}} {{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}',
+                                 container], check=False).strip()
+        if status in ('running healthy', 'running none'):
+            return
+        time.sleep(1)
+    raise RuntimeError('%s did not become healthy within %d s after the unpause; last state and health: %s' % (service, seconds, status))
+
+
 class CosmoControls(shared_suite.Controls):
-    """The controls of the shared suite over this run's compose project (a stopped service keeps its container; it is started again)."""
+    """The controls of the shared suite over this run's compose project (a stopped service keeps its container; it is started again;
+    a paused one is unpaused, and the restore waits until its health check passes again, because Docker marks a paused container
+    unhealthy)"""
+
+    def __init__(self):
+        self.paused = set()
 
     def stop(self, service):
         STATE['stack'].compose_ok(['stop', '--timeout', '30', service])
 
+    def pause(self, service):
+        STATE['stack'].compose_ok(['pause', service])
+        self.paused.add(service)
+
     def restore(self, service):
         stack = STATE['stack']
-        stack.compose_ok(['start', service])
-        stack.compose_ok(['up', '-d', '--wait', '--wait-timeout', '120', service])
+        if service in self.paused:
+            # Docker marks a paused container unhealthy at once, and after the unpause it stays so until its next probe passes (up to
+            # one interval later); `up --wait` run then fails at once, so the restore waits for the health check to recover instead.
+            stack.compose_ok(['unpause', service])
+            self.paused.discard(service)
+            wait_until_healthy(stack, service)
+        else:
+            stack.compose_ok(['start', service])
+            stack.compose_ok(['up', '-d', '--wait', '--wait-timeout', '120', service])
         if service.endswith('-adapter'):
             support.wait_for_graphql(stack.adapter_url(service[:-len('-adapter')]))
 

@@ -124,6 +124,17 @@ When an adapter itself is down (not its backend service) the Cosmo router, with 
 - **Adapters stopped and started again.** Unlike the Apollo router, the Cosmo router found a restarted adapter again by itself: after the Assets adapter was stopped and started again, the router (not restarted) answered with no errors 16.4 s after the adapter answered GraphQL again in the gate (about 11 s in a hand run before it), with the retry switched off; Part 4 of the gate asserts recovery within 90 s. The Apollo router needed a restart for this ([the Apollo README](../apollo/README.md#a-null-resolution)). The shared suite still restarts the router before its last check, which runs two seconds after the last restore.
 - **Validation errors are HTTP 200 under Cosmo** (a query that omits a required argument gave an errors entry with no `extensions.code`; Apollo gives HTTP 400 `GRAPHQL_VALIDATION_FAILED`); the suite accepts 200 or 400 for that case by design. Cosmo has an `apollo_compatibility_flags` group (for example `use_graphql_validation_failed_status`) that changes such behaviors toward Apollo's; none is used here.
 
+### Unresponsive and dead adapters in the gate (2026-11-09)
+
+The gate failed now and then on the lower end of the window, on changes that did not touch it: test_04 at 4.01 s and test_06 and test_06b at 2.59 to 2.73 s (2026-11-05), and test_06 and test_06b again at 2.60 and 2.71 s (2026-11-09). The cases above stopped the adapter. In the diagnosis of 2026-11-09 (one disposable project, five rounds each, NordVPN off), the name of a stopped adapter failed to resolve after about 2.5 s, and the Cosmo router answered in 2.52 to 2.60 s every time, before its 5 s timeout. A paused adapter kept its address and accepted the connection but never answered, and the router answered in 5.04 to 5.05 s every time. Since then the shared suite makes an adapter "down" in two ways, and each case proves what it can:
+
+| Kind | How | Cases | Bounds held |
+| --- | --- | --- | --- |
+| Unresponsive | `docker compose pause`, restored with `unpause` and a wait until the health check passes again (Docker marks a paused container unhealthy) | test_04 (the Assets adapter, one answer and the whole list), test_06 and test_06b (Personnel), test_07 (both) | both: at least 4.5 s proves the router waited for its 5 s timeout, under 15 s that its own default of 60 s is not in force |
+| Dead | `docker compose stop`, restored with `start` | test_05 (the mapping adapter, `resolution` selected) | the upper end only: the crash path, with the answer's shape and the entry naming `mapping` |
+
+The tables above were measured with the adapters stopped and stay as written. Part 4 still stops and starts the Assets adapter, because it asks whether the router finds a restarted adapter again.
+
 ## Findings and open items
 
 - **A router-generated error carries no `extensions` at all under Cosmo.** For a dead adapter the client cannot filter on a code; it can read the subgraph's name only from the message. No setting in this folder gives it a code.

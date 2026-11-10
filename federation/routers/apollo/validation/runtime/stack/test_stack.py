@@ -40,25 +40,56 @@ FACTS = {}
 TIMINGS = {}
 
 # What is Apollo's own, declared to the shared suite (router.yaml: `traffic_shaping.all.timeout: 5s` and `include_subgraph_errors`).
-# A dead adapter gives an errors entry with the code GATEWAY_TIMEOUT whose `extensions.service` names the subgraph, after the 5 s the
-# router waits for a subgraph request; the answer must come in 4.5 s to 15 s (the 30 s default of the router is not in force).
-# In a whole list of 300 missions asked in three pages, a page that comes after the first failures can meet a connection that is refused
-# at once instead of waiting: the entry then has the code SUBREQUEST_HTTP_ERROR (and the same `service`). It is declared for lists only;
-# a single answer stays strict.
+# An unresponsive (paused) adapter gives an errors entry with the code GATEWAY_TIMEOUT whose `extensions.service` names the subgraph,
+# after the 5 s the router waits for a subgraph request; the answer must come in 4.5 s to 15 s (the 30 s default of the router is not
+# in force). In a whole list of 300 missions asked in three pages, a page that comes after the first failures can meet a connection that
+# is refused at once instead of waiting, and a stopped adapter's fetch can fail at its connect (once in five answers in the diagnosis of
+# 2026-11-09, at 3.1 s): the entry then has the code SUBREQUEST_HTTP_ERROR (and the same `service`). It is declared for lists and for the
+# one stopped case; a single answer with the adapter paused stays strict.
 APOLLO = shared_suite.RouterSettings(adapter_down_code='GATEWAY_TIMEOUT', subgraph_key='service', adapter_down_seconds=(4.5, 15),
                                      adapter_down_other_codes=('SUBREQUEST_HTTP_ERROR',))
 
 
+def wait_until_healthy(stack, service, seconds=120):
+    """Wait until Docker reports the service's container healthy (or running, for a service with no health check); fail naming the
+    service and its last status when the deadline passes."""
+    container = stack.compose_ok(['ps', '-q', service]).strip()
+    deadline, status = time.monotonic() + seconds, None
+    while time.monotonic() < deadline:
+        status = support.docker(['inspect', '--format', '{{.State.Status}} {{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}',
+                                 container], check=False).strip()
+        if status in ('running healthy', 'running none'):
+            return
+        time.sleep(1)
+    raise RuntimeError('%s did not become healthy within %d s after the unpause; last state and health: %s' % (service, seconds, status))
+
+
 class ApolloControls(shared_suite.Controls):
-    """The controls of the shared suite over this run's compose project (a stopped service keeps its container; it is started again)."""
+    """The controls of the shared suite over this run's compose project (a stopped service keeps its container; it is started again;
+    a paused one is unpaused, and the restore waits until its health check passes again, because Docker marks a paused container
+    unhealthy)"""
+
+    def __init__(self):
+        self.paused = set()
 
     def stop(self, service):
         STATE['stack'].compose_ok(['stop', '--timeout', '30', service])
 
+    def pause(self, service):
+        STATE['stack'].compose_ok(['pause', service])
+        self.paused.add(service)
+
     def restore(self, service):
         stack = STATE['stack']
-        stack.compose_ok(['start', service])
-        stack.compose_ok(['up', '-d', '--wait', '--wait-timeout', '120', service])
+        if service in self.paused:
+            # Docker marks a paused container unhealthy at once, and after the unpause it stays so until its next probe passes (up to
+            # one interval later); `up --wait` run then fails at once, so the restore waits for the health check to recover instead.
+            stack.compose_ok(['unpause', service])
+            self.paused.discard(service)
+            wait_until_healthy(stack, service)
+        else:
+            stack.compose_ok(['start', service])
+            stack.compose_ok(['up', '-d', '--wait', '--wait-timeout', '120', service])
         if service.endswith('-adapter'):
             support.wait_for_graphql(stack.adapter_url(service[:-len('-adapter')]))
 

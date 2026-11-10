@@ -14,7 +14,7 @@ unittest.TestCase, and the test ids stay those of that module.
 What a router may differ in is DECLARED, never absorbed into a weaker assertion: `RouterSettings` holds the few facts that are a
 router's own (the code and the subgraph name of the errors entry a dead adapter produces, and the time window in which that answer
 must arrive, which proves that the subgraph timeout of the router is in force). Everything else is asserted identically for every
-router. What the suite needs from the stack (stop and restore one service, restart the router) it takes from `Controls`.
+router. What the suite needs from the stack (stop, pause and restore one service, restart the router) it takes from `Controls`.
 """
 from dataclasses import dataclass
 from decimal import Decimal, ROUND_HALF_UP
@@ -130,7 +130,8 @@ class RouterSettings:
     subgraph_key: the `extensions` key that names the subgraph of such an entry, or None when the router names none there (the entries
         are then matched by their code and their number only, and the missing naming is reported as a platform detail), unless the
         message names it (`subgraph_in_message`).
-    adapter_down_seconds: (least, most) seconds that the answer takes when an adapter is down: the subgraph timeout in force.
+    adapter_down_seconds: (least, most) seconds that the answer takes when an adapter is down: the subgraph timeout in force. An
+        unresponsive (paused) adapter is held to both ends; a dead (stopped) one to the upper end only (see `ControlledCases`).
     subgraph_in_message: a regular expression with one group that finds the subgraph in the `message` of such an entry, for a router
         that names it only there; None when the router does not (added for the Cosmo router, which names it only in the message).
     entries_per: how many entries a failed fetch gives: 'reference' (default, Apollo) is one entry per reference whose owning
@@ -138,7 +139,9 @@ class RouterSettings:
         references of one list to a subgraph in one request. The cases of the suite have one list per subgraph.
     adapter_down_other_codes: the other `extensions.code` values the router may give, in a list asked page by page, to a fetch of a dead
         adapter that fails at once instead of waiting for the timeout (a refused connection after the first requests, not a timeout).
-        A single answer of the suite is strict and takes only `adapter_down_code`; a whole list over several pages takes these too.
+        A single answer of the suite is strict and takes only `adapter_down_code`; a whole list over several pages takes these too,
+        and so does the answer for a stopped adapter, whose fetch can fail before the timeout (a failed connect: the Apollo router
+        gave SUBREQUEST_HTTP_ERROR in one of five answers in the diagnosis of 2026-11-09).
         Added with the paging of the large data, where the Apollo router showed it; empty for a router that gives one code.
     """
     adapter_down_code: str
@@ -153,11 +156,19 @@ class Controls:
     """What the suite asks of the stack it runs against. A router's test module implements it over its own compose project."""
 
     def stop(self, service):
-        """Stop one compose service: a backend such as 'assets-service' or an adapter such as 'assets-adapter'."""
+        """Stop one compose service: a backend such as 'assets-service' or an adapter such as 'assets-adapter'. A stopped container
+        leaves the compose network, so a fetch to it fails when its name no longer resolves, which can be before a router's timeout."""
+        raise NotImplementedError
+
+    def pause(self, service):
+        """Pause one compose service (`docker compose pause`): its container keeps its address and accepts a connection but never
+        answers, so a router always waits for its subgraph timeout."""
         raise NotImplementedError
 
     def restore(self, service):
-        """Start the service again and return once it is healthy (an adapter: once it answers GraphQL)."""
+        """Return the service to health after `stop` or `pause` (start it, or unpause it) and return once it is healthy (an adapter:
+        once it answers GraphQL). After a pause the restore waits until the container's health check passes again, because Docker
+        marks a paused container unhealthy and keeps it so until its next probe after the unpause."""
         raise NotImplementedError
 
     def restart_router(self):
@@ -253,7 +264,8 @@ class Router:
         return {(self.code_of(e), self.subgraph_of(e)) for e in entries}
 
     def expected_failures_in_pages(self, subgraph):
-        """The pairs a list asked page by page may yield for a dead adapter: the strict one and the declared other codes."""
+        """The pairs a list asked page by page, or an answer for a stopped adapter, may yield for a dead adapter: the strict one and
+        the declared other codes."""
         return {self.expected_failure(subgraph)} | {(code, subgraph if self.names_subgraph else None) for code in self.settings.adapter_down_other_codes}
 
     def expected_failure(self, subgraph):
@@ -695,12 +707,27 @@ class AcceptanceQuestions(SuiteBase):
         self.facts['default introspection of Query'] = sorted(names)
 
 class ControlledCases(SuiteBase):
-    """The outages and the dead adapters. They stop and restore services of the stack, so they run in the order of their names."""
+    """The outages and the dead adapters. They stop, pause and restore services of the stack, so they run in the order of their names.
+
+    An adapter is "down" in one of two ways, and each proves what it can:
+    - UNRESPONSIVE (`Controls.pause`): the container keeps its address and accepts the connection but never answers, so the router
+      always waits for its subgraph timeout. The timed cases (test_04, test_06, test_06b, test_07) use it and hold the answer to both
+      ends of `adapter_down_seconds`: the lower end proves that the router waited for its timeout, the upper end that the router's own
+      default is not in force.
+    - DEAD (`Controls.stop`): the container has crashed and left the network. A fetch to it can fail before the timeout, when its name
+      no longer resolves (about 2.5 s in the diagnosis of 2026-11-09), so the lower end proves nothing there. The one stopped case
+      (test_05, the mapping adapter) keeps the crash path and checks the answer's shape, the errors entry and the upper end only.
+    """
 
     def adapter_down_answer_time(self, seconds):
+        """An answer with an adapter unresponsive: it waited for the subgraph timeout, and the router's default is not in force."""
         least, most = self.router.settings.adapter_down_seconds
         self.assertGreaterEqual(seconds, least)
         self.assertLess(seconds, most, 'the default subgraph timeout of the router is not in force')
+
+    def adapter_dead_answer_time(self, seconds):
+        """An answer with an adapter stopped: only the upper end, since a fetch to a stopped container can fail before the timeout."""
+        self.assertLess(seconds, self.router.settings.adapter_down_seconds[1], 'the default subgraph timeout of the router is not in force')
 
     def adapter_down_pages_time(self, pages):
         """The same proof for a list asked page by page: every page answers inside the declared window's upper end, and at least one of
@@ -779,7 +806,8 @@ class ControlledCases(SuiteBase):
 
     def test_04_when_an_adapter_itself_is_down_the_router_answers_as_the_recorded_setting_says(self):
         controls, router = self.router.controls, self.router
-        controls.stop('assets-adapter')
+        # Unresponsive (paused), so that every fetch waits for the subgraph timeout and the window is proved.
+        controls.pause('assets-adapter')
         try:
             query = '{ mission(missionId: "ST-00000LD4O") { missionId title assets(release: "@RELEASE@") { localRef assetId mappingOutcome resolution asset { assetId } } } }'
             status, body, seconds = self.ask(query)
@@ -843,18 +871,29 @@ class ControlledCases(SuiteBase):
 
     def test_05_when_the_mapping_adapter_is_down_a_query_without_its_fields_is_still_answered(self):
         controls, router = self.router.controls, self.router
+        # The one dead (stopped) adapter of the suite: the crash path. Its fetch can fail before the timeout, so the answer is held to
+        # the upper end of the window only, and the entry may carry a code the router declares for a fetch that fails at once.
         controls.stop('mapping-adapter')
         try:
             status, body, seconds = self.ask('{ mission(missionId: "ST-00000LD4O") { missionId title assets(release: "@RELEASE@") { localRef release } } }')
             self.assertEqual(status, 200)
             self.assertNotIn('errors', body, 'the mapping was not called, so its being down is not seen')
+            refs = EXPECTED['missions']['ST-00000LD4O']['assetRefs']
+            mission = body['data']['mission']
+            self.assertEqual((mission['missionId'], bool(mission['title'])), ('ST-00000LD4O', True), 'the mission is kept')
+            self.assertEqual([(a['localRef'], a['release']) for a in mission['assets']], [(r, RELEASE) for r in refs], 'the reference keys are kept')
             self.facts['mapping adapter down, key fields only'] = {'http': status, 'seconds': round(seconds, 2)}
             # Selecting only `resolution` still needs the mapping subgraph: the router fetches the @requires input (assetId and
             # mappingOutcome) from it first, although the client did not ask for them.
             status, body, seconds = self.ask('{ mission(missionId: "ST-00000LD4O") { assets(release: "@RELEASE@") { localRef resolution } } }')
             self.assertEqual(status, 200)
-            self.assertEqual(router.failed_fetches(body['errors']), {router.expected_failure('mapping')})
-            self.facts['mapping adapter down, resolution selected'] = {'http': status, 'seconds': round(seconds, 2), 'service named in the errors': 'mapping'}
+            self.adapter_dead_answer_time(seconds)
+            self.assertEqual([(a['localRef'], a['resolution']) for a in body['data']['mission']['assets']], [(r, None) for r in refs],
+                             'the references are kept, each with a null resolution: the router could not ask for its @requires input')
+            self.assertTrue(body.get('errors'), 'a fetch of the stopped mapping adapter gives an errors entry')
+            self.assertLessEqual(router.failed_fetches(body['errors']), router.expected_failures_in_pages('mapping'))
+            self.facts['mapping adapter down, resolution selected'] = {'http': status, 'seconds': round(seconds, 2), 'service named in the errors': 'mapping',
+                                                                       'codes': sorted(router.codes_of(body['errors']), key=str)}
         finally:
             controls.restore('mapping-adapter')
         time.sleep(2)
@@ -885,13 +924,17 @@ class ControlledCases(SuiteBase):
         self.assertEqual(self.router.subgraphs(entries), self.router.expected_subgraphs(failed), 'one entry per failed fetch, naming its subgraph')
         self.assertEqual(self.router.codes_of(entries), {self.router.settings.adapter_down_code} if failed else set())
 
-    def run_with_stopped(self, names, check, query=None, variables=None, paged=False):
-        """Stop the adapters, ask, check the answer, start them again. A paged query is asked page by page: each page waits for the
-        subgraph timeout once, so each page must answer within the declared window, and the check sees the pages joined."""
+    def run_with_unresponsive(self, names, check, query=None, variables=None, paged=False):
+        """Pause the adapters (unresponsive: every fetch waits for the subgraph timeout), ask, check the answer, restore them. A paged
+        query is asked page by page: each page waits for the subgraph timeout once, so each page must answer within the declared window,
+        and the check sees the pages joined. Each adapter is registered for its restore as soon as its pause succeeds, and every
+        registered adapter is restored even when another restore fails, so a failed pause or restore never leaves one frozen for later tests."""
         controls = self.router.controls
-        for name in names:
-            controls.stop(name + '-adapter')
+        paused = []
         try:
+            for name in names:
+                controls.pause(name + '-adapter')
+                paused.append(name + '-adapter')
             if paged:
                 missions, entries, seconds = self.router.joined_pages(query, variables)
                 self.adapter_down_pages_time(seconds)
@@ -903,12 +946,18 @@ class ControlledCases(SuiteBase):
             check(body)
             return seconds
         finally:
-            for name in names:
-                controls.restore(name + '-adapter')
+            failures = []
+            for service in paused:
+                try:
+                    controls.restore(service)
+                except Exception as error:  # noqa: BLE001 - every paused adapter is restored; the failures are raised together below
+                    failures.append('%s: %s' % (service, error))
             time.sleep(2)
+            if failures:
+                raise RuntimeError('restoring the paused adapters failed: ' + '; '.join(failures))
 
     def test_06_when_the_personnel_adapter_is_down_the_mission_keeps_everything_but_the_crew_resolution(self):
-        seconds = self.run_with_stopped(['personnel'], lambda body: self.check_kept(body, False, True))
+        seconds = self.run_with_unresponsive(['personnel'], lambda body: self.check_kept(body, False, True))
         self.facts['personnel adapter down'] = {'http': 200, 'seconds': round(seconds, 2), 'kept': 'mission fields, assets, crew personnelId and mappingOutcome'}
 
     def test_06b_question_6_with_the_personnel_adapter_down_nothing_is_guessed_and_the_missions_are_unconfirmed(self):
@@ -937,16 +986,16 @@ class ControlledCases(SuiteBase):
                                                                 'unconfirmed': answer['unconfirmed'], 'percentage of the confirmed': answer['percentage'],
                                                                 'cancelled missions not counted': answer['cancelledNotCounted'], 'references not resolved': answer['notResolvedReferences'], 'errors entries': len(body['errors'])}
 
-        seconds = self.run_with_stopped(['personnel'], check, QUESTION_6, {'r': EXPECTED['crew']['release']}, paged=True)
+        seconds = self.run_with_unresponsive(['personnel'], check, QUESTION_6, {'r': EXPECTED['crew']['release']}, paged=True)
         self.facts['question 6, Personnel adapter down: seconds of each page'] = seconds
 
     def test_07_when_both_owning_adapters_are_down_the_mission_still_answers_with_its_own_fields_and_the_mapping(self):
-        seconds = self.run_with_stopped(['assets', 'personnel'], lambda body: self.check_kept(body, True, True))
+        seconds = self.run_with_unresponsive(['assets', 'personnel'], lambda body: self.check_kept(body, True, True))
         self.facts['assets and personnel adapters down'] = {'http': 200, 'seconds': round(seconds, 2)}
 
     def test_08_every_case_is_unchanged_once_the_adapters_are_back(self):
-        # Adapters that were stopped and started again can get new addresses, and a router may keep the old ones until it is
-        # restarted. That is the stack's behavior, not the graph's, so the router is restarted first (a router that needs none does nothing).
+        # Adapters that were stopped and started again (the mapping adapter of test_05; a paused one keeps its address) can get new
+        # addresses, and a router may keep the old ones until it is restarted. That is the stack's behavior, not the graph's, so the router is restarted first (a router that needs none does nothing).
         self.router.controls.restart_router()
         status, body, _ = self.ask(self.CREW_AND_ASSETS)
         self.assertEqual(status, 200)

@@ -154,6 +154,17 @@ When an adapter itself is down (not its backend service) the router, with its de
 
 So, with `Resolution!`, Apollo did not return partial data for the fields of a dead subgraph: it nulled the nearest nullable ancestor, because the schema said those fields were non-null, and the router has no setting that changes that. Per the lead developer's rule (B if Apollo supports it cleanly, otherwise A), the setting is A: `traffic_shaping.all.timeout: 5s` in `router.yaml`, which turns the slow all-or-nothing 504 into a fast answer of HTTP 200 with per-fetch entries. 5 s is about four times the slowest normal answer measured (a query of all 31 missions with assets, parents and crew took 0.8 to 1.3 s). The measurement above is the one that led to the next decision: the lead developer decided on 2026-10-17 to make `resolution` nullable, see [a null resolution](#a-null-resolution), which is what keeps the rest of the mission. Cosmo has its own settings and is built ([its README](../cosmo/README.md#a-dead-adapter)); Hive is a later Job.
 
+### Unresponsive and dead adapters in the gate (2026-11-09)
+
+The cases of this README stopped the adapter. A stopped adapter leaves the compose network, and a fetch to it can fail before the router's timeout. In the diagnosis of 2026-11-09 (one disposable project, five rounds each, NordVPN off), its name failed to resolve after about 2.5 s. The Apollo router answered with `GATEWAY_TIMEOUT` at 5.02 to 5.05 s four times, and once at 3.09 s with `SUBREQUEST_HTTP_ERROR` "tcp connect error". The Cosmo router failed at 2.5 s every time, which made its gate fail now and then ([the Cosmo README](../cosmo/README.md#unresponsive-and-dead-adapters-in-the-gate-2026-11-09)). A paused adapter kept its address and accepted the connection but never answered, and the Apollo router answered with `GATEWAY_TIMEOUT` at 5.02 to 5.05 s every time. Since then the shared suite makes an adapter "down" in two ways, and each case proves what it can:
+
+| Kind | How | Cases | Bounds held |
+| --- | --- | --- | --- |
+| Unresponsive | `docker compose pause`, restored with `unpause` and a wait until the health check passes again (Docker marks a paused container unhealthy) | test_04 (the Assets adapter, one answer and the whole list), test_06 and test_06b (Personnel), test_07 (both) | both: at least 4.5 s proves the router waited for its 5 s timeout, under 15 s that its own default of 30 s is not in force; a single answer takes only `GATEWAY_TIMEOUT` |
+| Dead | `docker compose stop`, restored with `start` | test_05 (the mapping adapter, `resolution` selected) | the upper end only: the crash path, with the entry naming `mapping` and the code `GATEWAY_TIMEOUT` or the declared `SUBREQUEST_HTTP_ERROR` |
+
+A paused adapter keeps its address, so only the stopped mapping adapter can still need the router restart before test_08. The tables of this README were measured with the adapters stopped and stay as written.
+
 ### A null resolution
 
 `resolution` is nullable on `AssetReference` (Assets subgraph) and on `PersonnelReference` (Personnel subgraph); `asset` and `personnel` already were. The rule:
