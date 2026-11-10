@@ -1,10 +1,10 @@
 # Federation whole-stack compose
 
-The definition that runs the whole federation layer on one machine: a router (Apollo or Cosmo), the four adapters (missions, mapping, assets and personnel) and the backends behind them. This folder holds the compose file, its start script and the stub of the Missions service. The routers, their configuration and their composition are in [the Apollo router folder](../routers/apollo/README.md) and [the Cosmo router folder](../routers/cosmo/README.md).
+The definition that runs the whole federation layer on one machine: a router (Apollo or Cosmo), the four adapters (missions, mapping, assets and personnel) and the backends behind them. This folder holds the compose file, its start script, the stub of the Missions service and the overlay that uses the real Missions service instead (`missions-real.compose.yaml`). The routers, their configuration and their composition are in [the Apollo router folder](../routers/apollo/README.md) and [the Cosmo router folder](../routers/cosmo/README.md).
 
 ## What runs
 
-This folder is the **stub-backend mode**: it runs without Oracle.
+By default this folder runs the **stub-backend mode**, without Oracle. `MISSIONS_BACKEND=real` runs the **real-service mode** instead, with the operator's Missions service on Oracle in place of `missions-stub` ([The Missions backend: stub or real](#the-missions-backend-stub-or-real)). Everything else is the same in both modes.
 
 | Service | What it is | Data it serves |
 | --- | --- | --- |
@@ -16,7 +16,7 @@ This folder is the **stub-backend mode**: it runs without Oracle.
 
 The acceptance suite asks mapping release **1.3**. The Missions service is replaced by `missions-stub/server.py`, a tiny stub that serves the **released Missions dataset 1.2** (`uss-enterprise/missions/datasets/releases/1.2`) with the contract's read operations, filters, paging and error bodies. The stub is not the Missions service; it makes no claim about the service's Oracle-backed behavior.
 
-The **real-service mode** is not in this folder: the real Missions service on Oracle (about 9 GB, minutes to start) is started as its own component, and the Missions adapter is given its address through `MISSIONS_SERVICE_URL`. It is optional and has not been run in this repository.
+In the **real-service mode** the real Missions service on Oracle (about 9 GB, minutes to start) is started by the operator as its own component, and `start.sh` only connects the stack to it. It is optional; `start.sh` has not yet run it live (the study launch kit runs the same wiring for the study arms, with its own copy of the overlay).
 
 Everything is published on 127.0.0.1 only:
 
@@ -55,6 +55,63 @@ FEDERATION_ROUTER=cosmo bash federation/stack/start.sh start
 
 `start.sh start` builds the images, starts the backends and the four adapters, composes the graph from the adapters' own SDL and then starts the router, waiting until each service is healthy. For Apollo it composes the supergraph with Rover into `federation/routers/apollo/supergraph.graphql`; for Cosmo, the execution config with `wgc` into `federation/routers/cosmo/execution-config.json`. Both are build products that are checked in: when a schema changed, `git diff` shows the change of the composition, and otherwise the file is unchanged. `APOLLO_ELV2_LICENSE=accept` is **your** acceptance of the Elastic License 2.0 of Rover's composition plugin; the script refuses an Apollo start without it. `--dry-run` checks the ports and prints the commands it would run, and runs nothing.
 
+## The Missions backend: stub or real
+
+`MISSIONS_BACKEND` picks the Missions backend, beside `FEDERATION_ROUTER`, which picks the router:
+
+| `MISSIONS_BACKEND` | Missions backend | Compose files of every call |
+| --- | --- | --- |
+| `stub` (default) | `missions-stub`, serving the released dataset 1.2 | `compose.yaml` |
+| `real` | the operator's Missions service on Oracle, container `starfleet-missions-service` | `compose.yaml` and `missions-real.compose.yaml` |
+
+With `stub`, or with the variable unset, `start.sh` does exactly what it did before the variable existed.
+
+With `real`, the overlay points the Missions adapter at `http://starfleet-missions-service:8083` and attaches it to the service's own bridge network, `starfleet-missions_default`, never to Oracle's internal network, so the adapter cannot reach Oracle. It also resets the adapter's dependency on `missions-stub`, so nothing starts the stub. The backends start without `missions-stub`; the four adapters, the composition and the router are as in the stub mode, on the same loopback ports.
+
+**`start.sh` never starts, stops, creates, provisions, resets or removes Oracle or the Missions service.** Before anything starts, a real start checks the ports and the license acceptance, as in the stub mode, then refuses with one line when any of these fails:
+
+- the container `starfleet-missions-service` is running;
+- the network `starfleet-missions_default` exists;
+- Docker Compose is 2.24.4 or later (the overlay's `!reset` tag needs it);
+- `GET http://127.0.0.1:8083/missions?pageSize=1` answers 200 (through `curl`).
+
+`--dry-run` makes the same read-only checks and then prints the commands, so a refused dry run says what is missing.
+
+**The operator's steps first.** From the repository root, in Git Bash, as the [Missions README](../../uss-enterprise/missions/README.md#explicit-operator-workflow) describes them:
+
+1. Oracle, container `starfleet-missions-data-20261009`, running with the release you want loaded. It is provisioned once with `missions_operator.py provision` and loaded with `reset.sh --dataset <release>` (both the Missions README's steps, which need the lead developer's go). A container that was only stopped keeps its data and starts again with `docker start starfleet-missions-data-20261009`; it takes minutes to open its database.
+2. The Missions service, with its login in the environment ([Packaging and deployment](../../uss-enterprise/missions/README.md#packaging-and-deployment)):
+
+   ```sh
+   export MISSIONS_JDBC_URL='jdbc:oracle:thin:@//starfleet-missions-data-20261009:1521/XEPDB1'
+   export MISSIONS_DB_USER='<service login>'
+   export MISSIONS_DB_PASSWORD='<its password>'
+   docker compose -f uss-enterprise/missions/compose.yaml up --detach --build
+   ```
+
+3. Check that it answers; this prints `200`:
+
+   ```sh
+   curl -s -o /dev/null -w '%{http_code}\n' 'http://127.0.0.1:8083/missions?pageSize=1'
+   ```
+
+Then start the stack in the real mode. A stack already running on the same ports, in either mode, is stopped first (`bash federation/stack/start.sh stop`), or the start refuses on the taken port:
+
+```sh
+MISSIONS_BACKEND=real APOLLO_ELV2_LICENSE=accept bash federation/stack/start.sh start
+MISSIONS_BACKEND=real FEDERATION_ROUTER=cosmo bash federation/stack/start.sh start
+```
+
+Changing the mode on the same compose project makes the start create the Missions adapter again with the other configuration; in the real mode the `missions-stub` container of an earlier stub start stays as it is, stopped.
+
+One query that reads the real service through the Apollo router; it names no mission, so it answers whatever release the operator loaded:
+
+```sh
+curl -s http://127.0.0.1:8170/ -H 'Content-Type: application/json' -d '{"query":"{ missionsPage(limit: 3) { totalCount items { missionId status } } }"}'
+```
+
+It answers with `data.missionsPage`, the `totalCount` of the loaded release (300 for release 1.2) and the first three missions in the contract's order, with no `errors` entry. The verification query below names a mission of releases 1.1 and 1.2, so it gives the same answer in the real mode only when Oracle holds one of them and the data is unchanged.
+
 ## Verification
 
 One query that crosses three services: a mission from the Missions stub, its asset references resolved through mapping release 1.3, and the parent chain of an asset from the Assets service on PostgreSQL. Through the Apollo router:
@@ -84,9 +141,11 @@ bash federation/stack/start.sh status
 bash federation/stack/start.sh stop
 FEDERATION_ROUTER=cosmo bash federation/stack/start.sh status
 FEDERATION_ROUTER=cosmo bash federation/stack/start.sh stop
+MISSIONS_BACKEND=real bash federation/stack/start.sh status
+MISSIONS_BACKEND=real bash federation/stack/start.sh stop
 ```
 
-`status` lists the containers (`docker compose ps`). `stop` stops them and keeps them. Run the Cosmo forms for a Cosmo stack, so that the `cosmo` profile is included. The script never removes a container, an image or a volume.
+`status` lists the containers (`docker compose ps`). `stop` stops them and keeps them. Run the Cosmo forms for a Cosmo stack, so that the `cosmo` profile is included, and give `MISSIONS_BACKEND=real` to a real-mode stack, so that the overlay is included; both can be combined. A real-mode `stop` stops the federation stack only: Oracle and the Missions service keep running, and the operator stops them (`docker compose -f uss-enterprise/missions/compose.yaml down` for the service). The script never removes a container, an image or a volume.
 
 **The data.** The Assets database keeps its data in memory: a `tmpfs` of 128m at the data directory of the PostgreSQL image (`/var/lib/postgresql/data`), counted within the database container's limit of 512 MB. So the data lives only while the database container runs: after `stop`, the next `start` initializes the database again and loads the Assets dataset release 1.1, and a second and every later start of the same project succeeds with new random credentials. Database credentials are random for the run unless `STACK_ASSETS_DB_ADMIN_PASSWORD` and `STACK_ASSETS_DB_SERVICE_PASSWORD` are set; the scripts create no credentials file. To reset the data, stop and start again.
 
@@ -105,6 +164,7 @@ All settings are environment variables of `start.sh` (`bash federation/stack/sta
 | Variable | Default | What it does |
 | --- | --- | --- |
 | `FEDERATION_ROUTER` | `apollo` | `apollo` or `cosmo`; one router at a time |
+| `MISSIONS_BACKEND` | `stub` | `stub` or `real`; give `status` and `stop` the same value as the start |
 | `APOLLO_ELV2_LICENSE` | unset | `accept` is needed for an Apollo start |
 | `COMPOSE_PROJECT_NAME` | `starfleet-federation-stack` | the compose project; give the same name to `status`, `stop` and the removal |
 | `ROUTER_HOST_PORT`, `COSMO_ROUTER_HOST_PORT` | 8170, 8171 | the router's port |
@@ -112,7 +172,7 @@ All settings are environment variables of `start.sh` (`bash federation/stack/sta
 | `SUPERGRAPH_FILE`, `EXECUTION_CONFIG_FILE` | the committed files | where the composition is written and read from |
 | `STACK_ASSETS_DB_ADMIN_PASSWORD`, `STACK_ASSETS_DB_SERVICE_PASSWORD` | random for the run | the Assets database credentials |
 | `STACK_PERSONNEL_DATASET_VERSION` | `personnel-v2-large-004` | another registered Personnel v2 snapshot |
-| `MISSIONS_SERVICE_URL` | the stub | the real-service mode |
+| `MISSIONS_SERVICE_URL` | the stub | the Missions adapter's backend in the stub mode; the real mode sets it in the overlay |
 | `PYTHON` | `python` | the interpreter of the composition scripts |
 
 Because the Apollo router stays in the compose file, compose asks for `SUPERGRAPH_FILE` whenever it reads the file, even for a Cosmo run; the script sets it whatever the router.
@@ -121,7 +181,8 @@ The images the compose file does not build are pinned by digest, resolved on 202
 
 ## Limitations
 
-- The Missions service is a stub serving the released dataset; the real-service mode (Missions on Oracle) has not been run in this repository.
+- In the default mode the Missions service is a stub serving the released dataset. The real-service mode (`MISSIONS_BACKEND=real`) is tested by dry runs and refusals with a fake Docker only; it has not yet been started live through `start.sh`, and the whole-stack gates run the stub mode only.
+- The real mode uses the Missions service's default names (`starfleet-missions-service`, `starfleet-missions_default`, `127.0.0.1:8083`); a service moved with `MISSIONS_CONTAINER_NAME` or `MISSIONS_HOST_PORT` is not supported.
 - The container limits are **provisional**, as in the adapters: the limits wait for the benchmark environment record.
 - One router runs at a time; the two share the four adapters and the backends.
 - The Assets data does not survive a stop of its database container, by design (see the data, above).

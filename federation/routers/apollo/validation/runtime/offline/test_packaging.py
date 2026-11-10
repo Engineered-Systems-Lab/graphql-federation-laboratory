@@ -12,6 +12,7 @@ import re
 import socket
 import subprocess
 import sys
+import tempfile
 import threading
 import unittest
 from http.server import ThreadingHTTPServer
@@ -227,7 +228,8 @@ class StartScript(unittest.TestCase):
         cls.bash = support.bash()
 
     def start(self, *args, env=None):
-        merged = {k: v for k, v in os.environ.items() if not k.startswith(('APOLLO_', 'ROUTER_', 'PERSONNEL_ADAPTER', 'MISSIONS_ADAPTER', 'ASSETS_ADAPTER', 'MAPPING_ADAPTER'))}
+        merged = {k: v for k, v in os.environ.items() if not k.startswith(('APOLLO_', 'ROUTER_', 'PERSONNEL_ADAPTER', 'MISSIONS_ADAPTER', 'ASSETS_ADAPTER', 'MAPPING_ADAPTER',
+                                                                           'MISSIONS_BACKEND', 'FAKE_'))}
         merged.update(env or {})
         return support.run([self.bash, str(support.START)] + list(args), merged, 120)
 
@@ -242,7 +244,10 @@ class StartScript(unittest.TestCase):
         self.assertIn(f'127.0.0.1:{port} is already in use', result.stderr)
 
     def test_it_refuses_without_the_license_acceptance(self):
-        result = self.start('--dry-run', 'start', env={'ROUTER_HOST_PORT': str(support.free_port())})
+        # Every port free, so that a stack already running on the default ports does not refuse first.
+        ports = {name: str(support.free_port()) for name in ('ROUTER_HOST_PORT', 'PERSONNEL_ADAPTER_HOST_PORT', 'MISSIONS_ADAPTER_HOST_PORT',
+                                                           'ASSETS_ADAPTER_HOST_PORT', 'MAPPING_ADAPTER_HOST_PORT')}
+        result = self.start('--dry-run', 'start', env=ports)
         self.assertEqual(result.returncode, 1)
         self.assertIn('Elastic License 2.0', result.stderr)
 
@@ -269,6 +274,191 @@ class StartScript(unittest.TestCase):
     def test_a_dry_run_of_stop_and_status_needs_no_port_and_no_license(self):
         self.assertEqual(self.start('--dry-run', 'stop').returncode, 0)
         self.assertEqual(self.start('--dry-run', 'status').returncode, 0)
+
+
+# The fakes of the real Missions mode: a docker that answers the three read-only checks and a curl that answers the probe, each
+# from FAKE_* variables, logging every call. Anything else that reaches the fake docker fails loudly.
+FAKE_DOCKER = r'''#!/usr/bin/env bash
+echo "docker $*" >> "$FAKE_LOG"
+case "$1 $2 $3" in
+  "inspect --type container") if [ "$FAKE_RUNNING" = missing ]; then echo "Error: No such container" >&2; exit 1; fi; echo "$FAKE_RUNNING" ;;
+  "inspect --type network") if [ "$FAKE_NETWORK" != yes ]; then echo "Error: No such network" >&2; exit 1; fi; echo starfleet-missions_default ;;
+  "compose version --short") echo "$FAKE_COMPOSE_VERSION" ;;
+  *) echo "fake docker: unexpected call: $*" >&2; exit 99 ;;
+esac
+'''
+FAKE_CURL = r'''#!/usr/bin/env bash
+echo "curl $*" >> "$FAKE_LOG"
+printf '%s' "$FAKE_HTTP"
+'''
+STUB_BACKENDS = ('assets-db', 'assets-bootstrap', 'assets-service', 'personnel-service', 'missions-stub', 'missions-adapter', 'personnel-adapter',
+                 'assets-adapter', 'mapping-adapter')
+
+
+class StartScriptMissionsBackend(unittest.TestCase):
+    """MISSIONS_BACKEND=stub|real: the real mode checks the operator's Missions service, refuses otherwise and adds the overlay to every
+    compose call without missions-stub; the stub mode (the default) prints exactly what it printed before the switch existed."""
+
+    start = StartScript.start
+
+    @classmethod
+    def setUpClass(cls):
+        cls.bash = support.bash()
+        cls.fakes = tempfile.TemporaryDirectory()
+        folder = Path(cls.fakes.name)
+        for name, body in (('docker', FAKE_DOCKER), ('curl', FAKE_CURL)):
+            with open(folder / name, 'w', encoding='utf-8', newline='\n') as handle:
+                handle.write(body)
+            os.chmod(folder / name, 0o755)
+        cls.fake_dir = folder
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.fakes.cleanup()
+
+    def ports(self, router='apollo'):
+        first = 'ROUTER_HOST_PORT' if router == 'apollo' else 'COSMO_ROUTER_HOST_PORT'
+        return {name: str(support.free_port()) for name in (first, 'PERSONNEL_ADAPTER_HOST_PORT', 'MISSIONS_ADAPTER_HOST_PORT',
+                                                           'ASSETS_ADAPTER_HOST_PORT', 'MAPPING_ADAPTER_HOST_PORT')}
+
+    def real(self, command='start', router='apollo', **fake):
+        log = self.fake_dir / ('calls-%s.log' % support.free_port())
+        values = dict(FAKE_RUNNING='true', FAKE_NETWORK='yes', FAKE_COMPOSE_VERSION='5.5.1', FAKE_HTTP='200')
+        values.update(fake)
+        env = {k: v for k, v in os.environ.items() if not k.startswith(('APOLLO_', 'ROUTER_', 'COSMO_', 'FEDERATION_', 'PERSONNEL_ADAPTER', 'MISSIONS_',
+                                                                        'ASSETS_ADAPTER', 'MAPPING_ADAPTER', 'FAKE_'))}
+        env.update({**self.ports(router), 'MISSIONS_BACKEND': 'real', 'FEDERATION_ROUTER': router, 'APOLLO_ELV2_LICENSE': 'accept',
+                    'FAKE_LOG': str(log), 'FAKE_DIR': str(self.fake_dir), **values})
+        # Git Bash's launcher puts its own folders (curl among them) before the inherited PATH, so the fakes go first from inside bash.
+        prefix = 'PATH="$(cygpath -u "$FAKE_DIR" 2>/dev/null || printf %s "$FAKE_DIR"):$PATH"; exec bash "$@"'
+        result = support.run([self.bash, '-c', prefix, 'bash', str(support.START), '--dry-run', command], env, 120)
+        calls = log.read_text(encoding='utf-8').splitlines() if log.exists() else []
+        return result, calls
+
+    def would_run(self, result):
+        return [line for line in result.stdout.splitlines() if line.startswith('would run:')]
+
+    def test_a_real_dry_run_adds_the_overlay_to_every_compose_call_and_starts_the_backends_without_the_stub(self):
+        for router, last in (('apollo', ' router'), ('cosmo', ' cosmo-router')):
+            with self.subTest(router=router):
+                result, calls = self.real(router=router)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                lines = self.would_run(result)
+                self.assertEqual(len(lines), 3)
+                for index in (0, 2):
+                    self.assertRegex(lines[index], r'^would run: docker compose -f \S*/federation/stack/compose\.yaml -f \S*/federation/stack/missions-real\.compose\.yaml ')
+                self.assertTrue(lines[0].endswith('up -d --build --wait --wait-timeout 600 ' + ' '.join(n for n in STUB_BACKENDS if n != 'missions-stub')), lines[0])
+                self.assertNotIn(' missions-stub ', result.stdout)
+                self.assertTrue(lines[2].endswith(last), lines[2])
+                # The checks only read: the container, the network, the Compose version and the probe, in that order, and nothing else.
+                self.assertEqual(calls, ['docker inspect --type container --format {{.State.Running}} starfleet-missions-service',
+                                         'docker inspect --type network --format {{.Name}} starfleet-missions_default',
+                                         'docker compose version --short',
+                                         'curl -s -o /dev/null -w %{http_code} --max-time 10 http://127.0.0.1:8083/missions?pageSize=1'])
+
+    def test_each_real_mode_refusal_is_one_line_before_anything_runs(self):
+        cases = (
+            (dict(FAKE_RUNNING='false'), 'container starfleet-missions-service is not running'),
+            (dict(FAKE_RUNNING='missing'), 'container starfleet-missions-service is not running'),
+            (dict(FAKE_NETWORK='no'), 'network starfleet-missions_default of the real Missions service does not exist'),
+            (dict(FAKE_COMPOSE_VERSION='2.24.3'), "needs Docker Compose 2.24.4 or later (the !reset tag); found '2.24.3'"),
+            (dict(FAKE_HTTP='000'), 'does not answer http://127.0.0.1:8083/missions?pageSize=1 (status 000)'),
+        )
+        # Each start of a dry run checks five free ports first, which costs seconds on Windows, so the cases stay few.
+        for fake, message in cases:
+            with self.subTest(fake=fake):
+                result, _ = self.real(**fake)
+                self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+                self.assertEqual(len(result.stderr.strip().splitlines()), 1, result.stderr)
+                self.assertIn('refusing to start with MISSIONS_BACKEND=real: ', result.stderr)
+                self.assertIn(message, result.stderr)
+                self.assertEqual(self.would_run(result), [])
+
+    def test_the_compose_versions_that_read_the_overlay_are_accepted(self):
+        for version in ('2.24.4', 'v2.100.0-desktop.1'):
+            with self.subTest(version=version):
+                result, _ = self.real(FAKE_COMPOSE_VERSION=version)
+                self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_the_port_and_license_refusals_come_before_the_missions_checks(self):
+        with socket.socket() as listener:
+            listener.bind(('127.0.0.1', 0))
+            listener.listen(1)
+            port = listener.getsockname()[1]
+            result, calls = self.real(ROUTER_HOST_PORT=str(port))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn(f'127.0.0.1:{port} is already in use', result.stderr)
+        self.assertEqual(calls, [])
+
+    def test_real_stop_and_status_add_the_overlay_and_check_nothing(self):
+        for command in ('stop', 'status'):
+            with self.subTest(command=command):
+                result, calls = self.real(command, FAKE_RUNNING='missing', FAKE_NETWORK='no')
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn('/federation/stack/missions-real.compose.yaml', result.stdout)
+                self.assertEqual(calls, [])
+
+    def test_the_stub_mode_prints_exactly_what_it_printed_before_the_switch(self):
+        ports = self.ports()
+        unset = self.start('--dry-run', 'start', env=dict(ports, APOLLO_ELV2_LICENSE='accept'))
+        stub = self.start('--dry-run', 'start', env=dict(ports, APOLLO_ELV2_LICENSE='accept', MISSIONS_BACKEND='stub'))
+        self.assertEqual(unset.returncode, 0, unset.stderr)
+        self.assertEqual((stub.returncode, stub.stdout, stub.stderr), (unset.returncode, unset.stdout, unset.stderr))
+        lines = self.would_run(stub)
+        self.assertEqual(len(lines), 3)
+        self.assertRegex(lines[0], r'^would run: docker compose -f \S*/federation/stack/compose\.yaml up -d --build --wait --wait-timeout 600 '
+                         + re.escape(' '.join(STUB_BACKENDS)) + '$')
+        self.assertRegex(lines[2], r'^would run: docker compose -f \S*/federation/stack/compose\.yaml up -d --wait --wait-timeout 120 router$')
+        self.assertNotIn('missions-real.compose', stub.stdout)
+        for command in ('stop', 'status'):
+            self.assertEqual(self.start('--dry-run', command, env={'MISSIONS_BACKEND': 'stub'}).stdout, self.start('--dry-run', command).stdout)
+            self.assertNotIn('missions-real.compose', self.start('--dry-run', command).stdout)
+
+    def test_the_backends_of_the_script_are_those_these_tests_pin(self):
+        self.assertEqual(tuple(re.search(r'^BACKENDS="([^"]+)"', text(support.START), re.M).group(1).split()), STUB_BACKENDS)
+
+    def test_another_missions_backend_is_refused(self):
+        result = self.start('--dry-run', 'status', env={'MISSIONS_BACKEND': 'simulated'})
+        self.assertEqual(result.returncode, 2)
+        self.assertIn('MISSIONS_BACKEND must be stub or real', result.stderr)
+
+    def test_the_usage_names_the_switch(self):
+        result = self.start('--help')
+        self.assertEqual(result.returncode, 0)
+        self.assertIn('MISSIONS_BACKEND=stub|real', result.stdout)
+
+
+class RealMissionsOverlay(unittest.TestCase):
+    """The stack's own overlay points the Missions adapter at the operator's service on that service's bridge, and only there."""
+
+    OVERLAY = support.STACK_DIR / 'missions-real.compose.yaml'
+
+    def test_the_merged_configuration_points_the_adapter_at_the_real_service_and_resets_its_dependency(self):
+        result = support.run(['docker', 'compose', '-f', str(support.COMPOSE_FILE), '-f', str(self.OVERLAY), 'config', '--format', 'json'], stack_env(), 120)
+        self.assertEqual(result.returncode, 0, result.stderr[-1500:])
+        config = json.loads(result.stdout)
+        adapter = config['services']['missions-adapter']
+        self.assertEqual(adapter['environment']['MISSIONS_SERVICE_URL'], 'http://starfleet-missions-service:8083')
+        self.assertNotIn('depends_on', adapter)
+        self.assertEqual(sorted(adapter['networks']), ['default', 'missions-service'])
+        self.assertEqual(config['networks']['missions-service']['name'], 'starfleet-missions_default')
+        self.assertTrue(config['networks']['missions-service']['external'])
+        self.assertNotIn('starfleet-missions-data-20261009', json.dumps(config), "the adapter never joins Oracle's network")
+        published = {name: [p['published'] for p in s.get('ports', [])] for name, s in config['services'].items() if s.get('ports')}
+        self.assertEqual(published['missions-adapter'], ['8183'])
+
+    def test_the_names_are_those_of_the_missions_compose_file(self):
+        missions = text(support.ROOT / 'uss-enterprise/missions/compose.yaml')
+        self.assertIn('name: starfleet-missions\n', missions)
+        self.assertIn('${MISSIONS_CONTAINER_NAME:-starfleet-missions-service}', missions)
+        self.assertIn('"127.0.0.1:${MISSIONS_HOST_PORT:-8083}:8083"', missions)
+        script = text(support.START)
+        self.assertIn('MISSIONS_CONTAINER="starfleet-missions-service"', script)
+        self.assertIn('MISSIONS_NETWORK="starfleet-missions_default"', script)
+        self.assertIn('MISSIONS_PROBE_URL="http://127.0.0.1:8083/missions?pageSize=1"', script)
+        overlay = text(self.OVERLAY)
+        self.assertNotIn('\r', overlay)
+        self.assertIn('name: starfleet-missions_default', overlay)
 
 
 class MissionsStub(unittest.TestCase):

@@ -15,7 +15,7 @@ The Apollo router of the federation layer, the composition of the four subgraphs
 ## The two modes
 
 - **Stub-backend mode (run and tested here).** The four adapters, the real Assets service with its PostgreSQL 17, the real Personnel v2 service and a stub of the Missions service that serves the released Missions dataset 1.2 (300 missions). No Oracle. The stub is not the Missions service.
-- **Real-service mode (not run here).** The real Missions service on Oracle (about 9 GB, minutes to start), started as its own component, with the Missions adapter pointed at it through `MISSIONS_SERVICE_URL`. The acceptance tests are written against the released datasets and so should hold there, but that was **not tested**. Nothing in this folder starts the real Missions service.
+- **Real-service mode (not run here).** The real Missions service on Oracle (about 9 GB, minutes to start), started as its own component by the operator; `MISSIONS_BACKEND=real bash federation/stack/start.sh start` connects the stack to it ([the Missions backend: stub or real](../../stack/README.md#the-missions-backend-stub-or-real)). The acceptance tests are written against the released datasets and so should hold there, but that was **not tested**. Nothing in this folder starts the real Missions service.
 
 ## Run
 
