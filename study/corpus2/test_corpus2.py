@@ -881,9 +881,46 @@ class TheReferenceSolutions(unittest.TestCase):
             run_reference.main(['--arm', 'alpha', '--fake', '--tasks', 'A01', '--output', str(HERE / 'report.json')])
 
 
+def record_bytes(record):
+    """The bytes of a task record as the narrowed leak check compares them: compact JSON, the record's own key order kept."""
+    return json.dumps(record, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
+
+
+def corpus2_records():
+    """{task id: the byte forms a copy of the task's corpus 2 record may take}: the record as pool.json, ambiguity.json or dev.json
+    holds it, and, for the pool and the ambiguity set, the record without its schema, as tasks.json holds it."""
+    out = {}
+    for task in POOL + AMBIGUITY + DEV:
+        forms = {record_bytes(task)}
+        if task in POOL or task in AMBIGUITY:
+            forms.add(record_bytes({k: v for k, v in task.items() if k != 'schema'}))
+        out[task['id']] = forms
+    return out
+
+
+def without_identical_records(data, allowed, mismatched):
+    """`data` with the question of every record that is byte-identical to a form of its corpus 2 record replaced by an empty string. A
+    record that names a corpus 2 task id and holds a question but is not byte-identical keeps its question and is listed in `mismatched`."""
+    if isinstance(data, list):
+        return [without_identical_records(item, allowed, mismatched) for item in data]
+    if not isinstance(data, dict):
+        return data
+    if isinstance(data.get('id'), str) and 'question' in data and data['id'] in allowed:
+        if record_bytes(data) in allowed[data['id']]:
+            return dict(data, question='')
+        mismatched.append(data['id'])
+    return {k: without_identical_records(v, allowed, mismatched) for k, v in data.items()}
+
+
+CORPUS3 = 'study/corpus3/'
+
+
 class NoLeak(unittest.TestCase):
-    def test_no_question_appears_in_a_tracked_file_outside_this_folder(self):
-        files = subprocess.run(['git', 'ls-files', '-z'], cwd=str(REPO), capture_output=True, check=True).stdout.decode('utf-8').split('\0')
+    """No corpus 2 question in a tracked file outside this folder, with one narrow exception (decision C1 of the Job study3_corpus3):
+    a JSON file under study/corpus3/ may hold a corpus 2 question only inside a record that is byte-identical to that task's corpus 2
+    record (record_bytes). Every other file there, and any text of a JSON file there outside such records, is checked as before."""
+
+    def fragments(self):
         fragments = set()
         for task in POOL + AMBIGUITY + DEV:
             fragments.add(task['question'])
@@ -892,6 +929,25 @@ class NoLeak(unittest.TestCase):
                 fragment = ' '.join(words[start:start + 10])
                 if len(fragment) >= 50:
                     fragments.add(fragment)
+        return fragments
+
+    def leaks_in(self, name, text, fragments, allowed):
+        """The leaks of one file outside this folder; for a JSON file under study/corpus3/, after the exception above."""
+        mismatched = []
+        if name.startswith(CORPUS3) and name.endswith('.json'):
+            try:
+                data = json.loads(text)
+            except ValueError:
+                data = None
+            if data is not None:
+                text = json.dumps(without_identical_records(data, allowed, mismatched), ensure_ascii=False)
+        text = ' '.join(text.split())
+        return (['%s: %s' % (name, f[:60]) for f in fragments if f in text]
+                + ['%s: %s is not byte-identical to its corpus 2 record' % (name, t) for t in mismatched])
+
+    def test_no_question_appears_in_a_tracked_file_outside_this_folder(self):
+        files = subprocess.run(['git', 'ls-files', '-z'], cwd=str(REPO), capture_output=True, check=True).stdout.decode('utf-8').split('\0')
+        fragments, allowed = self.fragments(), corpus2_records()
         inside = HERE.relative_to(REPO).as_posix() + '/'
         leaks = []
         for name in files:
@@ -904,9 +960,27 @@ class NoLeak(unittest.TestCase):
                 text = path.read_text(encoding='utf-8')
             except (UnicodeDecodeError, OSError):
                 continue
-            text = ' '.join(text.split())
-            leaks += ['%s: %s' % (name, f[:60]) for f in fragments if f in text]
+            leaks += self.leaks_in(name, text, fragments, allowed)
         self.assertFalse(leaks, leaks[:10])
+
+    def test_the_corpus3_exception_is_narrow(self):
+        fragments, allowed = self.fragments(), corpus2_records()
+        task = POOL[0]
+        bare = {k: v for k, v in task.items() if k != 'schema'}
+        # byte-identical records pass, in either form, anywhere in a corpus 3 JSON file
+        for data in ({'tasks': [bare]}, {'tasks': [task]}, {'x': {'y': [bare]}}, {'tasks': [DEV[0]]}, {'tasks': [AMBIGUITY[0]]}):
+            self.assertEqual(self.leaks_in(CORPUS3 + 'tasks.json', json.dumps(data, indent=2, ensure_ascii=False), fragments, allowed), [])
+        # a changed field, an added field, another key order, another id, or a question outside its record fail
+        changed = dict(bare, size='large' if bare['size'] != 'large' else 'small')
+        added = dict(bare, direction='forward')
+        reordered = dict(reversed(list(bare.items())))
+        for data in ({'tasks': [changed]}, {'tasks': [added]}, {'tasks': [reordered]}, {'about': task['question'], 'tasks': []},
+                     {'tasks': [dict(bare, id='Z99')]}):
+            self.assertTrue(self.leaks_in(CORPUS3 + 'tasks.json', json.dumps(data, ensure_ascii=False), fragments, allowed), data)
+        # and the exception holds only for JSON files under study/corpus3/
+        text = json.dumps({'tasks': [bare]}, ensure_ascii=False)
+        for name in (CORPUS3 + 'notes.md', CORPUS3 + 'derive.py', 'study/corpus4/tasks.json', 'study/tasks.json'):
+            self.assertTrue(self.leaks_in(name, text, fragments, allowed), name)
 
 
 class TheSecondDerivation(unittest.TestCase):

@@ -2,10 +2,11 @@
 
     python -B study/harness/study_gate.py [--require-mcp] [--jobs N]
 
-It runs nine suites, each as its own unittest discovery in its own process, with its own folder as the working directory:
+It runs ten suites, each as its own unittest discovery in its own process, with its own folder as the working directory:
   harness    study/harness    test_*.py          (fake vendor clients; the live MCP-session test is skipped when no interpreter has `mcp`)
   corpus     study/corpus     test_corpus.py     (the freeze reproduces from the released files; no question leaks)
   corpus2    study/corpus2    test_corpus2.py    (corpus 2's derivation, keys and package checks)
+  corpus3    study/corpus3    test_corpus3.py    (corpus 3's derivation, its carried tasks, keys, directions and solutions)
   mcp        study/mcp        test_mcp_offline.py (the offline tests of the MCP servers; they need the pinned `mcp` package)
   analysis   study/analysis   test_*.py          (study 1's analysis on a synthetic fixture and the committed evidence; statsmodels, scipy)
   analysis2  study/analysis2  test_*.py          (study 2's analysis; statsmodels and scipy)
@@ -14,8 +15,8 @@ It runs nine suites, each as its own unittest discovery in its own process, with
   blind      study/blind      test_*.py          (the blind workers' packages and their leak checks; the request relay on the fakes)
 
 HOW THE SUITES RUN. The suites that start a server or bind a port (SERVER_LANE: harness, mcp and blind) run one after another in a lane
-of their own, in the order of SUITES. The six others share nothing and run side by side, at most N at a time (`--jobs N`, default 4),
-in the order of SUITES, at the same time as the server lane. `--jobs 1` runs all nine one after another, in the order of SUITES, with no
+of their own, in the order of SUITES. The seven others share nothing and run side by side, at most N at a time (`--jobs N`, default 4),
+in the order of SUITES, at the same time as the server lane. `--jobs 1` runs all ten one after another, in the order of SUITES, with no
 lane. A line is printed when a suite starts (`== <name>: ...`) and when it ends (`<name>: OK in 48 s`, or FAILED with its exit code);
 each suite's whole output (stdout and stderr) is kept apart and printed as one block just before its end line, never interleaved with
 another suite's. Each suite writes its output in UTF-8 (PYTHONIOENCODING=utf-8 in its environment), and the gate prints it through its
@@ -46,6 +47,7 @@ SUITES = [
     ('harness', 'harness', 'test_*.py', 'prefer'),
     ('corpus', 'corpus', 'test_corpus.py', 'no'),
     ('corpus2', 'corpus2', 'test_corpus2.py', 'no'),
+    ('corpus3', 'corpus3', 'test_corpus3.py', 'no'),
     ('mcp', 'mcp', 'test_mcp_offline.py', 'require'),
     ('analysis', 'analysis', 'test_*.py', 'stats'),
     ('analysis2', 'analysis2', 'test_*.py', 'stats'),
