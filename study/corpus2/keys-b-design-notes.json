@@ -1,0 +1,677 @@
+{
+  "about": "The classification of the 49 design notes that study 2's keys B package handed to the second derivation (keys B), and, for each answer-bearing note, the evidence of whether B used it (Job study2_keys_b_design_notes, decisions N1 to N5). An answer-bearing note shows that B had access to answer guidance for that task; whether B relied on it is the separate finding. Matching answers are evidence of neither. This file records; it changes no key, decision, analysis or report.",
+  "package": {
+    "path": "C:/esl/_blind-packages/6c18afa638ce/keys-b",
+    "labCommit": "6c18afa638ce583dcd79125177ba9a210f5a3686",
+    "packageSha256": "2e25f8f03ce2d5876edd0e10e94d1de2b4ad1c86f5533358555a79553b1ab679",
+    "manifestSha256": "a8c0adf8988adfe6080ed53de8dc08972d5752aa0808c381a545f0404103e138",
+    "verified": "study/blind/blind.py verify reported no problems on 2026-11-17; every note below is read from the package's pool.json, dev.json and ambiguity.json, not from the lab's current files."
+  },
+  "rubric": {
+    "fixed": "Written in the Job record before the first classification; every note was classified before any of B's files was read for evidence.",
+    "classes": {
+      "background": "why the task exists, what it probes or how it was built, with neither a route to the answer nor any part of its value",
+      "method": "how to get the answer (service, release, field, filter, join, order or the reading of a rule or word) without its value",
+      "answer-bearing": "the answer or part of it, a decisive count or value, or the accepted status of the key; the strongest kind present wins"
+    },
+    "keysCompared": "keys-a.json at the package's lab commit 6c18afa, read with git show, never the lab's current files",
+    "findings": {
+      "used": "derive_b.py hard-codes the disclosed value or a rule taken from the note where the question and data do not give it, or a basis, an assumption, a test or a record cites the note",
+      "derived from data": "the code computes the value from the released data (or the package's own task fields) by the question's rule, and no record cites the note; reliance is not excluded, only not shown",
+      "undetermined": "neither shows, for example a value hard-coded where the question and data would give it"
+    }
+  },
+  "records": {
+    "derivation": "study/corpus2/derive_b.py, study/corpus2/test_derive_b.py and study/corpus2/keys-b.json (lab bf1fce7, bound by B_RECORD in compare_keys.py; identical to the copies decoded from the Codex task)",
+    "transcript": {
+      "examined": true,
+      "sha256": "ee7448beb6de39b3bbcb29fbb6ab35e30f82e96f9fcd2a917df0fbffcf922448",
+      "held": "The lead developer exported it into the worker's session on 2026-11-17; it stays outside the lab and every repository.",
+      "scope": "The keys B derivation, export lines 1 to 1225; the later wording rounds of the same thread were not read.",
+      "limit": "The export holds the commands B ran and its narrative, not the commands' outputs, so what B read is shown by the commands only."
+    }
+  },
+  "access": "The package gave B every note below. The transcript shows in addition that B issued commands that print every task in full and then every task's design note (export lines 104-112 and 120-131), before derive_b.py was written. The export does not hold those commands' output, so that the notes were displayed is inferred from the commands, not observed; the transcript account is the worker's, and only the package access can be checked without the export.",
+  "reviewChanges": "The first preview (914d7d78, tree e9b9104) was reviewed by a GPT reviewer whose review the lead developer relayed; checked against the rubric above, three of its points held and changed this file before the commit: C12 was reclassified from answer-bearing (decisive count) to method, because its number is the size of the input and neither appears in nor fixes the key; fixesKey of C03, D01, D02, D05, D06, D10 and D11 was changed from whole to part, because each needs the schema or the stoppedService field besides the note; and the access statement was narrowed to the commands the transcript shows.",
+  "counts": {
+    "bySet": {
+      "pool": {
+        "notes": 39,
+        "class": {
+          "answer-bearing": 18,
+          "background": 5,
+          "method": 16
+        },
+        "finding": {
+          "derived from data": 6,
+          "undetermined": 9,
+          "used": 3
+        }
+      },
+      "dev": {
+        "notes": 4,
+        "class": {
+          "background": 4
+        },
+        "finding": {}
+      },
+      "ambiguity": {
+        "notes": 6,
+        "class": {
+          "answer-bearing": 5,
+          "method": 1
+        },
+        "finding": {
+          "derived from data": 4,
+          "undetermined": 1
+        }
+      }
+    },
+    "all": {
+      "notes": 49,
+      "class": {
+        "answer-bearing": 23,
+        "background": 9,
+        "method": 17
+      },
+      "finding": {
+        "derived from data": 10,
+        "undetermined": 10,
+        "used": 3
+      }
+    },
+    "scored": {
+      "notes": 30,
+      "class": {
+        "answer-bearing": 15,
+        "background": 4,
+        "method": 11
+      },
+      "finding": {
+        "derived from data": 7,
+        "undetermined": 7,
+        "used": 1
+      },
+      "answerBearing": [
+        "C03",
+        "G05",
+        "D03",
+        "D14",
+        "D04",
+        "D05",
+        "D06",
+        "D10",
+        "D11",
+        "D12",
+        "F01",
+        "F03",
+        "F04",
+        "F05",
+        "F06"
+      ]
+    }
+  },
+  "answerBearing": [
+    "C02",
+    "C03",
+    "G01",
+    "G05",
+    "D01",
+    "D02",
+    "D03",
+    "D14",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "D09",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "F01",
+    "F03",
+    "F04",
+    "F05",
+    "F06"
+  ],
+  "decidedDifferencesOnAnswerBearing": [
+    "C02",
+    "D04",
+    "D07",
+    "D09"
+  ],
+  "notes": [
+    {
+      "taskId": "A01",
+      "set": "pool",
+      "scored": false,
+      "class": "background",
+      "note": "Lookup in one system.",
+      "reason": "States only that the task is a lookup in one system, which the systems field already names; no service, field, rule or value."
+    },
+    {
+      "taskId": "A02",
+      "set": "pool",
+      "scored": true,
+      "class": "background",
+      "note": "Lookup in one system.",
+      "reason": "States only that the task is a lookup in one system, which the systems field already names; no service, field, rule or value."
+    },
+    {
+      "taskId": "A03",
+      "set": "pool",
+      "scored": true,
+      "class": "background",
+      "note": "Lookup in one system.",
+      "reason": "States only that the task is a lookup in one system, which the systems field already names; no service, field, rule or value."
+    },
+    {
+      "taskId": "A04",
+      "set": "pool",
+      "scored": true,
+      "class": "background",
+      "note": "Lookup in one system.",
+      "reason": "States only that the task is a lookup in one system, which the systems field already names; no service, field, rule or value."
+    },
+    {
+      "taskId": "A05",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "Direct children only: the question excludes the assets aboard the children.",
+      "reason": "Restates the reading of \"aboard\" (direct children only) that the question itself states; no value."
+    },
+    {
+      "taskId": "A06",
+      "set": "pool",
+      "scored": false,
+      "class": "method",
+      "note": "A phaser is an asset of the kind PHASER.",
+      "reason": "Names the filter (asset kind PHASER) that selects the answer; no identifier or status."
+    },
+    {
+      "taskId": "A07",
+      "set": "pool",
+      "scored": true,
+      "class": "background",
+      "note": "Lookup in one system.",
+      "reason": "States only that the task is a lookup in one system, which the systems field already names; no service, field, rule or value."
+    },
+    {
+      "taskId": "A08",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "The supervisor is the one the person's own record names. Two lookups in the Personnel system.",
+      "reason": "Names the route (the supervisor named in the person's own record, two lookups); no identifier, name or rank."
+    },
+    {
+      "taskId": "A09",
+      "set": "pool",
+      "scored": false,
+      "class": "method",
+      "note": "One filtered list call.",
+      "reason": "Names the route (one filtered list call); no identifier or name."
+    },
+    {
+      "taskId": "B10",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "The mapping is read in reverse: the crew reference that release 1.3 maps to PRS-0001, then the missions it commanded.",
+      "reason": "Names the route (read release 1.3 in reverse, then the commanded missions); no crew reference or mission."
+    },
+    {
+      "taskId": "B12",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "The asset mapping is read in reverse: the Missions references that release 1.3 maps to AST-0025.",
+      "reason": "Names the route (read the asset mapping of release 1.3 in reverse); no reference or mission."
+    },
+    {
+      "taskId": "C01",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "Release 1.1 holds only ten crew entries.",
+      "reason": "Gives the size of release 1.1's crew section (ten entries), a fact of the release that hints that unmapped references occur but fixes no field of the key."
+    },
+    {
+      "taskId": "C02",
+      "set": "pool",
+      "scored": false,
+      "class": "answer-bearing",
+      "note": "Mapping release 1.0 has no crew section, so no crew reference can be mapped in it. The release exists, so an answer that names nobody is accepted with either status; naming a person fails.",
+      "discloses": "status",
+      "fixesKey": "whole",
+      "alsoOutsideNote": "no",
+      "reason": "States that release 1.0 has no crew section and that an answer naming nobody is accepted with either status while naming a person fails, which is the accepted status and the empty field of the key.",
+      "finding": "used",
+      "evidence": "derive_b.py:264 hard-codes CANNOT_BE_DETERMINED with a null identifier; derive_b.py:280-281 adds the ANSWERED variant with the reason \"the task explicitly allows either status when nobody is named\", and the C02 assumption (derive_b.py:465; keys-b.json assumptions) says \"the task explicitly accepts either status\": neither the question nor the schema says that either status is accepted, only the note does.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. The closing summary (export line 1212) calls the empty ANSWERED lookup \"an explicitly permitted variant\"."
+    },
+    {
+      "taskId": "C03",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "Mapping release 1.4 does not exist (the releases are 1.0 to 1.3).",
+      "discloses": "status",
+      "fixesKey": "part",
+      "alsoOutsideNote": "yes: the schema's CANNOT_BE_DETERMINED rule names a release that does not exist; the released mapping data has no 1.4",
+      "reason": "States that release 1.4 does not exist, which with the schema's stated rule fixes the key (CANNOT_BE_DETERMINED, no assets).",
+      "finding": "undetermined",
+      "evidence": "derive_b.py:267-268 hard-codes CANNOT_BE_DETERMINED with no assets; its basis and the C03 assumption (derive_b.py:466) cite the package's releases 1.0-1.3, which the released data does give (federation/mapping-releases/ holds 1.0 to 1.3), and the code does not compute the status from the data (derive_b.py:82 hard-codes the four releases). No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. The closing summary (export line 1213) restates the assumption, citing the package."
+    },
+    {
+      "taskId": "C09",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "Only the classification SECRET, not TOP_SECRET.",
+      "reason": "Names the filter reading (SECRET only, not TOP_SECRET); no mission."
+    },
+    {
+      "taskId": "C12",
+      "set": "pool",
+      "scored": false,
+      "class": "method",
+      "note": "One mission with 50 references, so the mapping work is of medium size.",
+      "reason": "Gives the mission's number of asset references (50), the size of the input like the 300 of G06 to G10: it constrains the sum of the three counts asked for but is not in the key and fixes no field of it."
+    },
+    {
+      "taskId": "G01",
+      "set": "pool",
+      "scored": false,
+      "class": "answer-bearing",
+      "note": "158 missions: more than one page at every page size the systems allow.",
+      "discloses": "part of the answer (the size of the list)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "no",
+      "reason": "Gives the number of completed missions (158), which is the length of the answer list; the identifiers are not given.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:300 and 306-307 filter all 300 missions by status COMPLETED. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "G05",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "32 records: two pages at the default page size of 20, one page at the largest page size. Its size is a judgment, flagged for review.",
+      "discloses": "part of the answer (the size of the list)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "no",
+      "reason": "Gives the number of asset records (32), which is the length of the answer list; identifiers and statuses are not given.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:310 lists every Assets 1.1 record with its status. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "G06",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "No filter selects them: all 300 are read.",
+      "reason": "Says no filter selects the answer and all 300 missions are read; 300 is the size of the input, not of the answer."
+    },
+    {
+      "taskId": "G07",
+      "set": "pool",
+      "scored": false,
+      "class": "method",
+      "note": "No filter selects them: all 300 are read.",
+      "reason": "Says no filter selects the answer and all 300 missions are read; 300 is the size of the input, not of the answer."
+    },
+    {
+      "taskId": "G08",
+      "set": "pool",
+      "scored": false,
+      "class": "method",
+      "note": "No filter selects them: all 1,000 are read.",
+      "reason": "Says no filter selects the answer and all 1,000 members are read; 1,000 is the size of the input, not of the answer."
+    },
+    {
+      "taskId": "G09",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "No filter selects them: all 1,000 are read.",
+      "reason": "Says no filter selects the answer and all 1,000 members are read; 1,000 is the size of the input, not of the answer."
+    },
+    {
+      "taskId": "G10",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "No filter selects them: all 300 are read.",
+      "reason": "Says no filter selects the answer and all 300 missions are read; 300 is the size of the input, not of the answer."
+    },
+    {
+      "taskId": "E08",
+      "set": "pool",
+      "scored": false,
+      "class": "method",
+      "note": "Only the classification SECRET, not TOP_SECRET.",
+      "reason": "Names the filter reading (SECRET only, not TOP_SECRET); no count or department."
+    },
+    {
+      "taskId": "E16",
+      "set": "pool",
+      "scored": true,
+      "class": "method",
+      "note": "A crew reference the release cannot identify has no duty status and does not count.",
+      "reason": "Gives a counting rule (an unidentified crew reference has no duty status and does not count); no count or mission."
+    },
+    {
+      "taskId": "D01",
+      "set": "pool",
+      "scored": false,
+      "class": "answer-bearing",
+      "note": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "discloses": "answer (outage values)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false say the service is needed, not that nothing can be established",
+      "reason": "States that with the stopped service down every field of the answer is null or empty, which is the value of every answer field of the key (with unavailableServices from the stoppedService field and complete false).",
+      "finding": "undetermined",
+      "evidence": "derive_b.py:356 hard-codes this task in the list (D01, D02, D05, D06, D10, D11) whose answer fields are all set null or empty (derive_b.py:357-360), the same group the notes mark; the basis (derive_b.py:361) and the outage assumption (derive_b.py:463) give the reason from the stopped service, which the question and the stoppedService field do give, and test_derive_b.py:361 asserts the group. The list is not computed and no record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. A further command prints the design notes of the D01 and D02 tasks with those of categories E, G and H (export lines 133-137). No narrative line cites this note."
+    },
+    {
+      "taskId": "D02",
+      "set": "pool",
+      "scored": false,
+      "class": "answer-bearing",
+      "note": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "discloses": "answer (outage values)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false say the service is needed, not that nothing can be established",
+      "reason": "States that with the stopped service down every field of the answer is null or empty, which is the value of every answer field of the key (with unavailableServices from the stoppedService field and complete false).",
+      "finding": "undetermined",
+      "evidence": "derive_b.py:356 hard-codes this task in the list (D01, D02, D05, D06, D10, D11) whose answer fields are all set null or empty (derive_b.py:357-360), the same group the notes mark; the basis (derive_b.py:361) and the outage assumption (derive_b.py:463) give the reason from the stopped service, which the question and the stoppedService field do give, and test_derive_b.py:361 asserts the group. The list is not computed and no record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. A further command prints the design notes of the D01 and D02 tasks with those of categories E, G and H (export lines 133-137). No narrative line cites this note."
+    },
+    {
+      "taskId": "D03",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "Over-reporting check: the Personnel system answers it in full; the Missions service is not needed. (A crew-reference lookup is avoided here: the federated graph reaches the crew mapping only through a mission.)",
+      "discloses": "part of the answer (outage fields)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "yes: tags.fullyAnswerableWithoutStoppedService true",
+      "reason": "States that the stopped service is not needed, which fixes the outage fields of the key (unavailableServices empty, complete true); the answer values themselves are not given.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:353-354 computes unavailableServices and complete from whether the task's stoppedService is among its systems; test_derive_b.py:367-369 asserts them. The basis says the service is not needed, as the note does, but the value is computed. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "D14",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "Over-reporting check: the Personnel system answers it in full.",
+      "discloses": "part of the answer (outage fields)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "yes: tags.fullyAnswerableWithoutStoppedService true",
+      "reason": "States that the stopped service is not needed, which fixes the outage fields of the key (unavailableServices empty, complete true); the answer values themselves are not given.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:353-354 computes unavailableServices and complete from whether the task's stoppedService is among its systems; test_derive_b.py:367-369 asserts them. The basis says the service is not needed, as the note does, but the value is computed. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "D04",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "The mission part is available; the statuses of the assets are not. Identifiers reached through the release are allowed; as in study 1, listing fewer of them is accepted, inventing one or a status fails.",
+      "discloses": "part of the answer (which fields are null) and status (fewer identifiers accepted)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false",
+      "reason": "States that the mission fields are available and the asset statuses are not, and that listing fewer identifiers is accepted, which fixes the null fields and an accepted latitude of the key but not its values.",
+      "finding": "used",
+      "evidence": "The comment at derive_b.py:400-401 says \"the schema and explicit notes allow partial identifier lists\", and the D04/D09/V04 assumption (derive_b.py:464; keys-b.json assumptions) says the partial subsets are variants \"explicitly reinforced by the D04 and D09 notes\"; derive_b.py:402-409 enumerates those subsets as variants. The asset statuses are set null at derive_b.py:377.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. Export lines 582 and 645 hold the same comment and assumption as B wrote them, and the closing summary (export line 1219) names D04 and D09 among the least certain conventions."
+    },
+    {
+      "taskId": "D05",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "discloses": "answer (outage values)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false say the service is needed, not that nothing can be established",
+      "reason": "States that with the stopped service down every field of the answer is null or empty, which is the value of every answer field of the key (with unavailableServices from the stoppedService field and complete false).",
+      "finding": "undetermined",
+      "evidence": "derive_b.py:356 hard-codes this task in the list (D01, D02, D05, D06, D10, D11) whose answer fields are all set null or empty (derive_b.py:357-360), the same group the notes mark; the basis (derive_b.py:361) and the outage assumption (derive_b.py:463) give the reason from the stopped service, which the question and the stoppedService field do give, and test_derive_b.py:361 asserts the group. The list is not computed and no record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "D06",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "No asset status can be confirmed, so no mission can be listed.",
+      "discloses": "answer (empty list)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false",
+      "reason": "States that no mission can be listed, which is the empty missionIds of the key (with unavailableServices from the stoppedService field and complete false).",
+      "finding": "undetermined",
+      "evidence": "derive_b.py:356 hard-codes this task in the list (D01, D02, D05, D06, D10, D11) whose answer fields are all set null or empty (derive_b.py:357-360), the same group the notes mark; the basis (derive_b.py:361) and the outage assumption (derive_b.py:463) give the reason from the stopped service, which the question and the stoppedService field do give, and test_derive_b.py:361 asserts the group. The list is not computed and no record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "D07",
+      "set": "pool",
+      "scored": false,
+      "class": "answer-bearing",
+      "note": "The statuses are available; the asset names are not.",
+      "discloses": "part of the answer (which fields are null)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false",
+      "reason": "States that the statuses are available and the asset names are not, which fixes assetNames as null in the key but not the missions or statuses.",
+      "finding": "undetermined",
+      "evidence": "derive_b.py:380 hard-codes assetNames as an empty list for every DIPLOMATIC mission, with the basis that no asset names can be established; test_derive_b.py:374 asserts it. The question and the stoppedService field give the outage; the value is not computed and no record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "D08",
+      "set": "pool",
+      "scored": false,
+      "class": "answer-bearing",
+      "note": "Over-reporting check: the Assets service is not needed.",
+      "discloses": "part of the answer (outage fields)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "yes: tags.fullyAnswerableWithoutStoppedService true",
+      "reason": "States that the stopped service is not needed, which fixes the outage fields of the key (unavailableServices empty, complete true); the answer values themselves are not given.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:353-354 computes unavailableServices and complete from whether the task's stoppedService is among its systems; test_derive_b.py:367-369 asserts them. The basis says the service is not needed, as the note does, but the value is computed. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "D09",
+      "set": "pool",
+      "scored": false,
+      "class": "answer-bearing",
+      "note": "Identifiers reached through the release are allowed; as in study 1, listing fewer of them is accepted. A name or a rank is an invention.",
+      "discloses": "part of the answer (which fields are null) and status (fewer identifiers accepted)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false",
+      "reason": "States that identifiers reached through the release are allowed, fewer accepted, and that a name or rank is an invention, which fixes name and rank as null and an accepted latitude of the key but not the identifiers.",
+      "finding": "used",
+      "evidence": "The comment at derive_b.py:400-401 and the D04/D09/V04 assumption (derive_b.py:464; keys-b.json assumptions) cite the D04 and D09 notes for the partial identifier variants, which derive_b.py:402-409 enumerates; name and rank are set null at derive_b.py:388.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. Export lines 582 and 645 hold the same comment and assumption as B wrote them, and the closing summary (export line 1219) names D04 and D09 among the least certain conventions."
+    },
+    {
+      "taskId": "D10",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "discloses": "answer (outage values)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false say the service is needed, not that nothing can be established",
+      "reason": "States that with the stopped service down every field of the answer is null or empty, which is the value of every answer field of the key (with unavailableServices from the stoppedService field and complete false).",
+      "finding": "undetermined",
+      "evidence": "derive_b.py:356 hard-codes this task in the list (D01, D02, D05, D06, D10, D11) whose answer fields are all set null or empty (derive_b.py:357-360), the same group the notes mark; the basis (derive_b.py:361) and the outage assumption (derive_b.py:463) give the reason from the stopped service, which the question and the stoppedService field do give, and test_derive_b.py:361 asserts the group. The list is not computed and no record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "D11",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "With the stopped service down nothing of the answer can be established: every field is null or empty.",
+      "discloses": "answer (outage values)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false say the service is needed, not that nothing can be established",
+      "reason": "States that with the stopped service down every field of the answer is null or empty, which is the value of every answer field of the key (with unavailableServices from the stoppedService field and complete false).",
+      "finding": "undetermined",
+      "evidence": "derive_b.py:356 hard-codes this task in the list (D01, D02, D05, D06, D10, D11) whose answer fields are all set null or empty (derive_b.py:357-360), the same group the notes mark; the basis (derive_b.py:361) and the outage assumption (derive_b.py:463) give the reason from the stopped service, which the question and the stoppedService field do give, and test_derive_b.py:361 asserts the group. The list is not computed and no record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "D12",
+      "set": "pool",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "The identifiers come from the Missions service and the release; the ranks are not available.",
+      "discloses": "part of the answer (which fields are null)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: stoppedService and fullyAnswerableWithoutStoppedService false",
+      "reason": "States that the identifiers come from the Missions service and the release and the ranks are not available, which fixes rank as null in the key but not the identifiers.",
+      "finding": "undetermined",
+      "evidence": "derive_b.py:391 hard-codes rank as null for every ACTIVE mission, with the basis that Personnel ranks are unavailable; test_derive_b.py:373 asserts it. The question and the stoppedService field give the outage; the value is not computed and no record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "D13",
+      "set": "pool",
+      "scored": false,
+      "class": "answer-bearing",
+      "note": "Over-reporting check: the Personnel service is not needed.",
+      "discloses": "part of the answer (outage fields)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "yes: tags.fullyAnswerableWithoutStoppedService true",
+      "reason": "States that the stopped service is not needed, which fixes the outage fields of the key (unavailableServices empty, complete true); the answer values themselves are not given.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:353-354 computes unavailableServices and complete from whether the task's stoppedService is among its systems; test_derive_b.py:367-369 asserts them. The basis says the service is not needed, as the note does, but the value is computed. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "V05",
+      "set": "dev",
+      "scored": false,
+      "class": "background",
+      "note": "Calculation-tool development task: large cross-system aggregation.",
+      "reason": "Says what the task is for (calculation-tool development) and its size; no route or value."
+    },
+    {
+      "taskId": "V06",
+      "set": "dev",
+      "scored": false,
+      "class": "background",
+      "note": "Calculation-tool development task: large cross-system aggregation.",
+      "reason": "Says what the task is for (calculation-tool development) and its size; no route or value."
+    },
+    {
+      "taskId": "V07",
+      "set": "dev",
+      "scored": false,
+      "class": "background",
+      "note": "Calculation-tool development task: medium aggregation.",
+      "reason": "Says what the task is for (calculation-tool development) and its size; no route or value."
+    },
+    {
+      "taskId": "V08",
+      "set": "dev",
+      "scored": false,
+      "class": "background",
+      "note": "Calculation-tool development task: medium aggregation.",
+      "reason": "Says what the task is for (calculation-tool development) and its size; no route or value."
+    },
+    {
+      "taskId": "F01",
+      "set": "ambiguity",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "\"Took part\" can mean the staff, the staff and the participants, or the assigned crew alone.",
+      "discloses": "status (the accepted readings)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "yes: acceptedInterpretations names the same three readings",
+      "reason": "Names the three readings of \"took part\", which are the accepted interpretations of the key; no count.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:412-416 and 450-453 take every reading, and its definition, from the package's acceptedInterpretations field, not from the note. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "F02",
+      "set": "ambiguity",
+      "scored": true,
+      "class": "method",
+      "note": "The record holds an estimated and an actual cost that differ.",
+      "reason": "Says the record holds an estimated and an actual cost that differ, which points to the two fields without stating either value or that both readings are accepted (borderline with answer-bearing, flagged for review)."
+    },
+    {
+      "taskId": "F03",
+      "set": "ambiguity",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "The ship is AST-0029; \"on board\" can mean the direct children or every asset below it.",
+      "discloses": "decisive value (the ship's identifier) and status (the accepted readings)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "part: acceptedInterpretations names the readings; the identifier is not given outside the note but follows from the asset data",
+      "reason": "Gives the ship's asset identifier, the decisive value the answer is read from, and names the two accepted readings of \"on board\"; no member of the list.",
+      "finding": "undetermined",
+      "evidence": "The readings come from acceptedInterpretations (derive_b.py:412-416), but the ship's identifier is hard-coded at derive_b.py:432 (and 434, 457); the F03/F04 assumption (derive_b.py:468) says the USS Enterprise is identified as AST-0029 \"from its Assets record\", which the released Assets 1.1 data does give (AST-0029 is named USS Enterprise NCC-1701-D), but the code does not compute it. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. The closing summary (export line 1215) restates the assumption."
+    },
+    {
+      "taskId": "F04",
+      "set": "ambiguity",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "A shuttle is an asset of the kind SHUTTLE; \"available\" has three accepted readings.",
+      "discloses": "status (three accepted readings)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "yes: acceptedInterpretations names the same three readings",
+      "reason": "Names the filter (kind SHUTTLE) and says that \"available\" has three accepted readings, which is the accepted-status part of the key; no identifier.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:412-416 and 450-453 take every reading, and its definition, from the package's acceptedInterpretations field, not from the note. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "F05",
+      "set": "ambiguity",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "\"Officers\" can be the commissioned ranks (ensign and above) or lieutenant and above; \"crew\" may or may not include the commanding officer.",
+      "discloses": "status (the accepted readings)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "yes: acceptedInterpretations names the same four readings",
+      "reason": "Names the readings of \"officers\" and \"crew\", which are the accepted interpretations of the key; no identifier.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:412-416 and 450-453 take every reading, and its definition, from the package's acceptedInterpretations field, not from the note. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    },
+    {
+      "taskId": "F06",
+      "set": "ambiguity",
+      "scored": true,
+      "class": "answer-bearing",
+      "note": "\"Most recent\" is the highest stardate; \"mission of\" can mean commanded or served in any role, of any status or completed.",
+      "discloses": "status (the accepted readings)",
+      "fixesKey": "part",
+      "alsoOutsideNote": "yes for the readings: acceptedInterpretations; no for the stardate rule",
+      "reason": "Gives the ordering rule (highest stardate) and names the readings of \"mission of\", which are the accepted interpretations of the key; no mission.",
+      "finding": "derived from data",
+      "evidence": "derive_b.py:412-416 and 450-453 take every reading, and its definition, from the package's acceptedInterpretations field, not from the note, and derive_b.py:440-448 computes the highest stardate from the data. No record cites the note.",
+      "transcript": "Examined: the export holds B's commands and narrative, not their outputs; B issued commands that print every task's design note (export lines 104-112 and 120-131) before derive_b.py was written, and their output is not in the export. No narrative line cites this note."
+    }
+  ]
+}
