@@ -1,0 +1,1751 @@
+{
+  "about": "The second independent derivation of the keys for corpus 3's 31 new tasks.",
+  "assumptions": [
+    {
+      "taskIds": [
+        "B16",
+        "B17",
+        "B18",
+        "B19",
+        "B20",
+        "B21",
+        "B22",
+        "B23",
+        "B24",
+        "B25",
+        "B26",
+        "B27",
+        "B28",
+        "B29",
+        "B30",
+        "B31",
+        "C13",
+        "C14",
+        "C15",
+        "C16",
+        "E17",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E22",
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27"
+      ],
+      "text": "Lists representing sets are sorted by identifier or group value. List permutations and optional unscored explanation text are representation choices, not semantic variants."
+    },
+    {
+      "taskIds": [
+        "B17"
+      ],
+      "text": "Assigned-crew membership is tested solely in assignedCrewIds; the commander and participants do not supply membership. No qualifying mission also has this person as commander, so excluding such missions would not alter the result."
+    },
+    {
+      "taskIds": [
+        "C13",
+        "C14",
+        "C15",
+        "C16"
+      ],
+      "text": "An existing release with no qualifying mapped references yields ANSWERED and an empty mission list, since the question defines membership by that release. Missing mappings are not inferred from other releases."
+    }
+  ],
+  "derivation": "B",
+  "gaps": [],
+  "inputs": {
+    "MANIFEST.json": "2dd51cba338f512e3510a7110d3adf7bdc5b63d01181348af0c5fddc29c5823d",
+    "README.md": "c045d9aaffef87c21ce7ab073671f1d1cefb191f4bd8d9f184ece58da9878362",
+    "federation/mapping-releases/1.0/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+    "federation/mapping-releases/1.0/manifest.json": "07e2299af09f72700b555712737c9e8beb08c5a979aad616684dcef108372bb6",
+    "federation/mapping-releases/1.1/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+    "federation/mapping-releases/1.1/crew.json": "a40a0f38ac586a18eac8766bedddd81e6aeec75bb889a37a76a0f412bdde2cb0",
+    "federation/mapping-releases/1.1/manifest.json": "b253299ef7d729f66d438b98aa98e32731af556382b28fec369ce260d71bb1ed",
+    "federation/mapping-releases/1.2/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+    "federation/mapping-releases/1.2/crew.json": "0a7ba75eb79a15535fe077a8d01a1717552c3cb52a882034615489561151cfe3",
+    "federation/mapping-releases/1.2/manifest.json": "6f73cdeb1a09591742bb08177943c82dc63edec4e3ac7a38ad3b475b2333f79c",
+    "federation/mapping-releases/1.2/participants.json": "0ff7e5ed4ac2fcac08c0554b038c04e0eafee11bd3bc62735fc7046b8bcd750e",
+    "federation/mapping-releases/1.3/assets.json": "694ab6c8153655f6506437405cab7f07bc83d22ce3fb73d088cefc032235117c",
+    "federation/mapping-releases/1.3/crew.json": "0a7ba75eb79a15535fe077a8d01a1717552c3cb52a882034615489561151cfe3",
+    "federation/mapping-releases/1.3/manifest.json": "5c2b99f17211abd4add46cddc400b15961608172dd8f62eb56c3683a7639c39d",
+    "federation/mapping-releases/1.3/participants.json": "3802ffdbfa16bd3e1d9bb19c14cfdb636058062b951ae64c4b16e96ec3428e5c",
+    "study/corpus2/derive_b.py": "1e3e568e9e98590b68c7a76c2f7bc4f945dbc6d8550c9491b997756d3f3bd7c4",
+    "study/corpus2/test_derive_b.py": "108ba52c6f677b7b08038998733cdcb19210d44b4d29bc4d2b78584dfc96c1a8",
+    "study/corpus3/schemas.json": "10d199df3009a13a414eb872c497d1346680ad18de4e5b071d44ec92125d6d12",
+    "study/corpus3/tasks.json": "827eb860388fd8d6dcc838b105f2bc4624d49b1fc64ec6c0abc23e857404db8c",
+    "uss-enterprise/assets/datasets/releases/1.1/assets.json": "733fdd51cd4e972b22b9d1b6074ce4b94286ab9680ed53e61babfae9c05ca738",
+    "uss-enterprise/assets/datasets/releases/1.1/curation.json": "ce58d26edcc3760f4dd00f981055cdb07b60518445bc2e89b73b8d478f96d557",
+    "uss-enterprise/assets/datasets/releases/1.1/generate.py": "ef92331ca41818fd97d9f8a1201011e66b6f8993451c9fff5659d2a6641428ad",
+    "uss-enterprise/assets/datasets/releases/1.1/manifest.json": "b59ec52d13e8f71e76f7a4da65f371875172e59e766a5a0c89bed03e3f3d68b7",
+    "uss-enterprise/assets/datasets/releases/1.1/provenance.json": "2a928e899dbcbac0d471efa3351e6c679ed62fa679f3ed95518deb965e4c60ed",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-1.xml": "cf472facb9e8d12e7128990ac43a327b31d076480b50c068400651dbd5a84b9e",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-10.xml": "e464cb2d4001a0d735d56f53d692a449db4c421a0ce82a01778ceccd367ad72c",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-11.xml": "0288ee0bab31182c11fbc9523a676899db38d25fe733949b23debfc7a5fcdad4",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-12.xml": "aeb64796613a4c4a2ddb9b9fd848529c772e5e8bda2986e110884f2b0978d1a4",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-13.xml": "25ed8aa07779a662dc71b046b7ea52b5ba779bfcbbcbb0863c83d299b3e26fd5",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-14.xml": "64eab651c582eb35befceea170a7fae9d0a78fae1295ef42d819339816568a27",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-15.xml": "4c5f93e863fe3ef235973af0435c06dac52e5b2749f2eca9ade48e1d7bc04167",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-16.xml": "30a09695c60a5b9e75ffd149a7f1272737ff9a188f28ebc2b54bc3ff124bdbbd",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-17.xml": "63ff5982c9f1ac1153e035676ee4e81c5c562808d51e6d8631123c7ff2609e5d",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-18.xml": "265ee3c8b99f3d8804695e6d61cd7f22dd26979506471adfe4db87220dfab16b",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-19.xml": "ce2e53825964ca46bab8af3414929fe3e0ca1979fcf7b23e3dd09f99e8ccbd7e",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-2.xml": "f3adeaa2ed2d85cd9500d1f53ec27f0983ac04804d43705ee6c7cee7259dc55b",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-20.xml": "5cc75aaa60f9cc19340c8cdea6ccf83293af67e0d69538abbb7b16aa0705e0be",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-3.xml": "943203e72efda500727c6d4d8ae5e0b4b12627acf8044fd7216ba47df6393c2e",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-4.xml": "e70a701c8835282d805e0041c3894537081014c53d844fdd8cf5bbc37875a16c",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-5.xml": "1ba8b40f044735bed8412d55c47e56cd45c8b733b11bbed28f6d066aa8531be1",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-6.xml": "d0eb25a8659d127425bfa92934df2c30cc78aaa4b07159aeb1be3bfab1480561",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-7.xml": "383fea8fbc946192c1f58015b67f494cc454ecc07af9372ae89163940f5c9dd3",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-8.xml": "cb26107524f4739b639c06f1e6d72d08c472876880ef17ca896d5ed7cfb739fd",
+    "uss-enterprise/missions/datasets/releases/1.2/changes-9.xml": "5d3bf355f0403d07de12228841179ba7873cc4eff59619732049ad14feabc23b",
+    "uss-enterprise/missions/datasets/releases/1.2/civilians.json": "5cf2d13000e05ba2dd8742fd0cdcafa0f2930e59d4568ea3448415ce5115196b",
+    "uss-enterprise/missions/datasets/releases/1.2/generate.py": "bcc000b52dd98d23d2e61c5ac400b6f6492144ee5f9dac930748c1c536bbf4b8",
+    "uss-enterprise/missions/datasets/releases/1.2/load.sql": "c5b67ff633698ddfe216da32100eee07e735be08a2d1415e9b9669f0b6aad74c",
+    "uss-enterprise/missions/datasets/releases/1.2/manifest.json": "ed6a5d764cbd5aab410365cfd0b89bf93712a8d97758852fb6251576477c3664",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-1.xml": "fe16ff54c30689836eff9378a471fb71cedf0505269ec65dc812e04ecc9b01ee",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-2.xml": "3173d43619d7e3c34bc02a6c5d679a989f27f62b12d9f35dc3d3476ecc6c8750",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-3.xml": "da27dd2a076b14007b5ba6ab29a00eb451a8edf4e3c02b44dc0233b033a8b2f8",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-4.xml": "d22090a201acedb7c2b3bdd97916efda2873ceb2346272575a4625c00651e84c",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-5.xml": "8e4245f92abb70ef3fb7e3a04f04635d158083f570c9b8bc9c5512a28a503a61",
+    "uss-enterprise/missions/datasets/releases/1.2/missions-6.xml": "90ada39452706a52ff64513c7b30f89dc9a0da45e9ed05c79c67f6cb8774a19f",
+    "uss-enterprise/missions/datasets/releases/1.2/participants.json": "67980fce78ece4b48bb251fc3efa6718bb29845a06821f017140a971085e4cb6",
+    "uss-enterprise/missions/datasets/releases/1.2/provenance.json": "fcffc623982b9eb0765c239c0ae15967cd3a24171a6c8fdd407c3d296b8925e9",
+    "uss-enterprise/missions/datasets/releases/1.2/recipe.json": "1cbe8390ea1eedb40e289e44f46bb6eb51f45208be4ec947ae001f45147c5b6d",
+    "uss-enterprise/missions/datasets/releases/1.2/release.json": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f",
+    "uss-enterprise/missions/datasets/releases/1.2/schema.sql": "484a9d216dd11f1e547a530b608b0e38ccb26dc8e1fc993a2c7a5454fc43fc21",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/manifest.json": "d44e96b8853290b8423be5fe53dc8270f4e1155a52287ebe30e486c2eae7ef47",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-000.xml": "0d5b60e81d0757eae3b208ee8b6fa04823004bd515d4091cc4f863c4c4ec931e",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-001.xml": "38439a7dcc414e913fbdf1bbcc82c337434cdd116980d6dd190f3bae09250e5d",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-002.xml": "6b98815625ecce7c46e9cdabe7f30caf080fed1364bb09b922456979548a9a7f",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-003.xml": "19a5da376a9fa0ee06126da4d3f253d7f9a8c6353cd31727d991fda3af5a087f",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-004.xml": "f5d1a3d150a78f65675384670c11e0acb4ef78bccb625956f38dec46ef8acb2d",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-005.xml": "b547a2bd06c6f7e18007ef387d756374580f0f7cf1f3586dba8553ce2e59da00",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-006.xml": "bb0035e30909040c2889c1f3140b63d08d40eb68306777af0d3068842d92880c",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-007.xml": "70af8313dafaf6ed98ec17969801922f573014e4170df4b1805a3063abc882ae",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-008.xml": "1a07850589a86f519aa76993e9202b3240dca5a6de722e4871db973a82405aac",
+    "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/page-009.xml": "3fc12bd1afb15d9e3efe3b0bff7ccc3dcf87d73b48fd295b9f58b3e43e1818ff"
+  },
+  "keys": {
+    "B16": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missions": [
+          {
+            "missionId": "ST-00000LD8E",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LD8K",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LD8Z",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LD90",
+            "role": "COMMANDING_OFFICER"
+          },
+          {
+            "missionId": "ST-00000LD9E",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LD9F",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LD9U",
+            "role": "COMMANDING_OFFICER"
+          },
+          {
+            "missionId": "ST-00000LDA1",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LDAW",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LDAZ",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LDBE",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LDBS",
+            "role": "COMMANDING_OFFICER"
+          },
+          {
+            "missionId": "ST-00000LDC1",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LDCE",
+            "role": "ASSIGNED_CREW"
+          },
+          {
+            "missionId": "ST-00000LDCZ",
+            "role": "ASSIGNED_CREW"
+          }
+        ]
+      },
+      "basis": "PRS-2727; Personnel positionTitle, mapping 1.3 crew entries, and Missions commander/assigned crew union; commander role takes precedence.",
+      "set": "core",
+      "taskId": "B16",
+      "variants": []
+    },
+    "B17": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missions": [
+          {
+            "missionId": "ST-00000LD4Y",
+            "type": "TRANSPORT"
+          },
+          {
+            "missionId": "ST-00000LD5E",
+            "type": "TACTICAL"
+          },
+          {
+            "missionId": "ST-00000LD5G",
+            "type": "TRANSPORT"
+          },
+          {
+            "missionId": "ST-00000LD5K",
+            "type": "RESCUE"
+          },
+          {
+            "missionId": "ST-00000LD5L",
+            "type": "MAINTENANCE"
+          },
+          {
+            "missionId": "ST-00000LD62",
+            "type": "DIPLOMATIC"
+          },
+          {
+            "missionId": "ST-00000LD69",
+            "type": "MAINTENANCE"
+          },
+          {
+            "missionId": "ST-00000LD6G",
+            "type": "RESCUE"
+          },
+          {
+            "missionId": "ST-00000LD6H",
+            "type": "MAINTENANCE"
+          },
+          {
+            "missionId": "ST-00000LD6R",
+            "type": "RESCUE"
+          },
+          {
+            "missionId": "ST-00000LD70",
+            "type": "RESCUE"
+          }
+        ]
+      },
+      "basis": "PRS-1100; reverse mapping 1.3 into assignedCrewIds only, then mission type.",
+      "set": "core",
+      "taskId": "B17",
+      "variants": []
+    },
+    "B18": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4U",
+          "ST-00000LD58",
+          "ST-00000LD5K",
+          "ST-00000LD5M",
+          "ST-00000LD5Y",
+          "ST-00000LD65",
+          "ST-00000LD6S",
+          "ST-00000LD6Z",
+          "ST-00000LD8E",
+          "ST-00000LD8W",
+          "ST-00000LD93",
+          "ST-00000LD9C",
+          "ST-00000LD9K",
+          "ST-00000LDB2",
+          "ST-00000LDB9",
+          "ST-00000LDCC",
+          "ST-00000LDCH",
+          "ST-00000LDCM",
+          "ST-00000LDCW",
+          "ST-00000LDCY"
+        ]
+      },
+      "basis": "PRS-1053; reverse mapping 1.3 into commandingOfficerId only.",
+      "set": "core",
+      "taskId": "B18",
+      "variants": []
+    },
+    "B19": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missions": [
+          {
+            "missionId": "ST-00000LD4S",
+            "status": "FAILED"
+          },
+          {
+            "missionId": "ST-00000LD4T",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD4X",
+            "status": "AUTHORIZED"
+          },
+          {
+            "missionId": "ST-00000LD4Z",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD55",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD58",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD59",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD5A",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD5B",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD5D",
+            "status": "CANCELLED"
+          },
+          {
+            "missionId": "ST-00000LD5E",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD5J",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD5N",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD5Q",
+            "status": "FAILED"
+          },
+          {
+            "missionId": "ST-00000LD5R",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD5V",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD5W",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD5X",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD60",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD66",
+            "status": "AUTHORIZED"
+          },
+          {
+            "missionId": "ST-00000LD67",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD6A",
+            "status": "AUTHORIZED"
+          },
+          {
+            "missionId": "ST-00000LD6B",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD6C",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD6E",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD6G",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD6I",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD6Q",
+            "status": "CANCELLED"
+          },
+          {
+            "missionId": "ST-00000LD6S",
+            "status": "POSTPONED"
+          },
+          {
+            "missionId": "ST-00000LD6V",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD6W",
+            "status": "PLANNED"
+          },
+          {
+            "missionId": "ST-00000LD6X",
+            "status": "AUTHORIZED"
+          },
+          {
+            "missionId": "ST-00000LD6Z",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD8M",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LD8O",
+            "status": "ACTIVE"
+          },
+          {
+            "missionId": "ST-00000LDAA",
+            "status": "AUTHORIZED"
+          },
+          {
+            "missionId": "ST-00000LDAJ",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LDBL",
+            "status": "COMPLETED"
+          },
+          {
+            "missionId": "ST-00000LDC2",
+            "status": "COMPLETED"
+          }
+        ]
+      },
+      "basis": "PRS-1058; reverse mapping 1.3 into commander or assigned crew, then mission status.",
+      "set": "core",
+      "taskId": "B19",
+      "variants": []
+    },
+    "B20": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "members": [
+          {
+            "missionIds": [
+              "ST-00000LD9R"
+            ],
+            "personnelId": "PRS-2070"
+          },
+          {
+            "missionIds": [
+              "ST-00000LDC8"
+            ],
+            "personnelId": "PRS-2090"
+          },
+          {
+            "missionIds": [
+              "ST-00000LDAH"
+            ],
+            "personnelId": "PRS-2330"
+          },
+          {
+            "missionIds": [
+              "ST-00000LDC2"
+            ],
+            "personnelId": "PRS-2350"
+          },
+          {
+            "missionIds": [
+              "ST-00000LD8D"
+            ],
+            "personnelId": "PRS-2650"
+          },
+          {
+            "missionIds": [
+              "ST-00000LDA3"
+            ],
+            "personnelId": "PRS-2690"
+          }
+        ]
+      },
+      "basis": "All 1000 Personnel records filtered by ON_LEAVE; reverse mapping 1.3 into commander/assigned crew, retaining nonempty mission sets.",
+      "set": "core",
+      "taskId": "B20",
+      "variants": []
+    },
+    "B21": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD5J",
+          "ST-00000LD5V",
+          "ST-00000LD67",
+          "ST-00000LD6D",
+          "ST-00000LD7V",
+          "ST-00000LD8C",
+          "ST-00000LD8E",
+          "ST-00000LD8J",
+          "ST-00000LD8K",
+          "ST-00000LD8M",
+          "ST-00000LD8Z",
+          "ST-00000LD90",
+          "ST-00000LD92",
+          "ST-00000LD93",
+          "ST-00000LD99",
+          "ST-00000LD9E",
+          "ST-00000LD9K",
+          "ST-00000LD9R",
+          "ST-00000LD9X",
+          "ST-00000LD9Y",
+          "ST-00000LD9Z",
+          "ST-00000LDA0",
+          "ST-00000LDA5",
+          "ST-00000LDAK",
+          "ST-00000LDAN",
+          "ST-00000LDB9",
+          "ST-00000LDBG",
+          "ST-00000LDBL",
+          "ST-00000LDC1",
+          "ST-00000LDCE",
+          "ST-00000LDCN"
+        ]
+      },
+      "basis": "Personnel Section Supervisor IDs PRS-2002, PRS-2019, PRS-2167, PRS-2383, PRS-2522, PRS-2608, PRS-2728; mapping 1.3 commander/assigned crew intersection.",
+      "set": "core",
+      "taskId": "B21",
+      "variants": []
+    },
+    "B22": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4P",
+          "ST-00000LD4R",
+          "ST-00000LD4S",
+          "ST-00000LD4T",
+          "ST-00000LD4X",
+          "ST-00000LD4Y",
+          "ST-00000LD4Z",
+          "ST-00000LD51",
+          "ST-00000LD54",
+          "ST-00000LD55",
+          "ST-00000LD56",
+          "ST-00000LD59",
+          "ST-00000LD5A",
+          "ST-00000LD5B",
+          "ST-00000LD5C",
+          "ST-00000LD5D",
+          "ST-00000LD5E",
+          "ST-00000LD5F",
+          "ST-00000LD5H",
+          "ST-00000LD5J",
+          "ST-00000LD5Q",
+          "ST-00000LD5S",
+          "ST-00000LD5T",
+          "ST-00000LD5U",
+          "ST-00000LD5W",
+          "ST-00000LD5X",
+          "ST-00000LD5Z",
+          "ST-00000LD61",
+          "ST-00000LD62",
+          "ST-00000LD64",
+          "ST-00000LD66",
+          "ST-00000LD67",
+          "ST-00000LD6A",
+          "ST-00000LD6B",
+          "ST-00000LD6D",
+          "ST-00000LD6E",
+          "ST-00000LD6J",
+          "ST-00000LD6K",
+          "ST-00000LD6L",
+          "ST-00000LD6O",
+          "ST-00000LD6P",
+          "ST-00000LD6Q",
+          "ST-00000LD6R",
+          "ST-00000LD6T",
+          "ST-00000LD6V",
+          "ST-00000LD6X",
+          "ST-00000LD70",
+          "ST-00000LD72",
+          "ST-00000LD8J",
+          "ST-00000LD8K",
+          "ST-00000LD8N",
+          "ST-00000LD8P",
+          "ST-00000LD8R",
+          "ST-00000LD8T",
+          "ST-00000LD92",
+          "ST-00000LD99",
+          "ST-00000LD9B",
+          "ST-00000LD9D",
+          "ST-00000LD9F",
+          "ST-00000LD9G",
+          "ST-00000LD9I",
+          "ST-00000LD9J",
+          "ST-00000LD9N",
+          "ST-00000LD9O",
+          "ST-00000LDA1",
+          "ST-00000LDA3",
+          "ST-00000LDA4",
+          "ST-00000LDA5",
+          "ST-00000LDA6",
+          "ST-00000LDA8",
+          "ST-00000LDA9",
+          "ST-00000LDAD",
+          "ST-00000LDAE",
+          "ST-00000LDAF",
+          "ST-00000LDAH",
+          "ST-00000LDAI",
+          "ST-00000LDAK",
+          "ST-00000LDAP",
+          "ST-00000LDAX",
+          "ST-00000LDAZ",
+          "ST-00000LDB1",
+          "ST-00000LDB3",
+          "ST-00000LDB4",
+          "ST-00000LDB5",
+          "ST-00000LDB6",
+          "ST-00000LDB7",
+          "ST-00000LDB8",
+          "ST-00000LDBB",
+          "ST-00000LDBC",
+          "ST-00000LDBI",
+          "ST-00000LDBK",
+          "ST-00000LDBP",
+          "ST-00000LDBT",
+          "ST-00000LDBZ",
+          "ST-00000LDC0",
+          "ST-00000LDC1",
+          "ST-00000LDC3",
+          "ST-00000LDC9",
+          "ST-00000LDCA",
+          "ST-00000LDCD",
+          "ST-00000LDCF",
+          "ST-00000LDCK",
+          "ST-00000LDCQ",
+          "ST-00000LDCR",
+          "ST-00000LDCS",
+          "ST-00000LDCV",
+          "ST-00000LDCX",
+          "ST-00000LDCZ"
+        ]
+      },
+      "basis": "Personnel COMMAND department; mapping 1.3 commandingOfficerId targets only.",
+      "set": "core",
+      "taskId": "B22",
+      "variants": []
+    },
+    "B23": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD6N",
+          "ST-00000LD6T",
+          "ST-00000LD6Z",
+          "ST-00000LD8D",
+          "ST-00000LD8E",
+          "ST-00000LD8U",
+          "ST-00000LD93",
+          "ST-00000LD9K",
+          "ST-00000LD9L",
+          "ST-00000LDA2",
+          "ST-00000LDAN",
+          "ST-00000LDAW",
+          "ST-00000LDB9",
+          "ST-00000LDCC",
+          "ST-00000LDCD",
+          "ST-00000LDCM",
+          "ST-00000LDCY"
+        ]
+      },
+      "basis": "Direct supervisorPersonnelId=PRS-1053 in Personnel, excluding the supervisor; mapping 1.3 commander/assigned crew intersection.",
+      "set": "core",
+      "taskId": "B23",
+      "variants": []
+    },
+    "B24": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4P",
+          "ST-00000LD4R",
+          "ST-00000LD4X",
+          "ST-00000LD51",
+          "ST-00000LD56",
+          "ST-00000LD5B",
+          "ST-00000LD5E",
+          "ST-00000LD5F",
+          "ST-00000LD5T",
+          "ST-00000LD6A",
+          "ST-00000LD6B",
+          "ST-00000LD6C",
+          "ST-00000LD6D",
+          "ST-00000LD6E",
+          "ST-00000LD6X",
+          "ST-00000LD8J",
+          "ST-00000LD8P",
+          "ST-00000LD8T",
+          "ST-00000LD8V",
+          "ST-00000LD99",
+          "ST-00000LD9X",
+          "ST-00000LDA4",
+          "ST-00000LDA5",
+          "ST-00000LDAD",
+          "ST-00000LDAH",
+          "ST-00000LDAV",
+          "ST-00000LDBG",
+          "ST-00000LDBU",
+          "ST-00000LDBW",
+          "ST-00000LDC8",
+          "ST-00000LDCR",
+          "ST-00000LDCS",
+          "ST-00000LDCV"
+        ]
+      },
+      "basis": "Assets name resolves to AST-0007; reverse mapping 1.3 into assignedAssetIds. Only held Assets targets count; no matching reference gives an answered empty set.",
+      "set": "core",
+      "taskId": "B24",
+      "variants": []
+    },
+    "B25": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4Q",
+          "ST-00000LD4S",
+          "ST-00000LD4T",
+          "ST-00000LD4W",
+          "ST-00000LD4Z",
+          "ST-00000LD58",
+          "ST-00000LD5A",
+          "ST-00000LD5I",
+          "ST-00000LD5J",
+          "ST-00000LD5K",
+          "ST-00000LD5Q",
+          "ST-00000LD5T",
+          "ST-00000LD5V",
+          "ST-00000LD5X",
+          "ST-00000LD5Y",
+          "ST-00000LD67",
+          "ST-00000LD6D",
+          "ST-00000LD6J",
+          "ST-00000LD6N",
+          "ST-00000LD6R",
+          "ST-00000LD6T",
+          "ST-00000LD6V",
+          "ST-00000LD72",
+          "ST-00000LD8D",
+          "ST-00000LD8E",
+          "ST-00000LD8H",
+          "ST-00000LD8K",
+          "ST-00000LD8N",
+          "ST-00000LD8S",
+          "ST-00000LD8W",
+          "ST-00000LD90",
+          "ST-00000LD92",
+          "ST-00000LD93",
+          "ST-00000LD96",
+          "ST-00000LD9A",
+          "ST-00000LD9C",
+          "ST-00000LD9D",
+          "ST-00000LD9G",
+          "ST-00000LD9I",
+          "ST-00000LD9K",
+          "ST-00000LD9P",
+          "ST-00000LD9U",
+          "ST-00000LD9V",
+          "ST-00000LDA2",
+          "ST-00000LDA7",
+          "ST-00000LDAF",
+          "ST-00000LDAN",
+          "ST-00000LDAO",
+          "ST-00000LDAW",
+          "ST-00000LDAY",
+          "ST-00000LDAZ",
+          "ST-00000LDB0",
+          "ST-00000LDB2",
+          "ST-00000LDB3",
+          "ST-00000LDB4",
+          "ST-00000LDB6",
+          "ST-00000LDB8",
+          "ST-00000LDB9",
+          "ST-00000LDBC",
+          "ST-00000LDBG",
+          "ST-00000LDBH",
+          "ST-00000LDBM",
+          "ST-00000LDBQ",
+          "ST-00000LDBR",
+          "ST-00000LDBV",
+          "ST-00000LDBY",
+          "ST-00000LDC0",
+          "ST-00000LDC1",
+          "ST-00000LDC4",
+          "ST-00000LDC9",
+          "ST-00000LDCB",
+          "ST-00000LDCC",
+          "ST-00000LDCD",
+          "ST-00000LDCF",
+          "ST-00000LDCH",
+          "ST-00000LDCK",
+          "ST-00000LDCL",
+          "ST-00000LDCM",
+          "ST-00000LDCN",
+          "ST-00000LDCW",
+          "ST-00000LDCY",
+          "ST-00000LDCZ"
+        ]
+      },
+      "basis": "Assets kind SHUTTLE; reverse mapping 1.3 into assignedAssetIds. Only held Assets targets count; no matching reference gives an answered empty set.",
+      "set": "core",
+      "taskId": "B25",
+      "variants": []
+    },
+    "B26": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4P",
+          "ST-00000LD4Q",
+          "ST-00000LD4R",
+          "ST-00000LD4S",
+          "ST-00000LD4T",
+          "ST-00000LD4U",
+          "ST-00000LD4X",
+          "ST-00000LD4Y",
+          "ST-00000LD4Z",
+          "ST-00000LD51",
+          "ST-00000LD54",
+          "ST-00000LD56",
+          "ST-00000LD58",
+          "ST-00000LD59",
+          "ST-00000LD5A",
+          "ST-00000LD5B",
+          "ST-00000LD5E",
+          "ST-00000LD5F",
+          "ST-00000LD5H",
+          "ST-00000LD5J",
+          "ST-00000LD5K",
+          "ST-00000LD5M",
+          "ST-00000LD5Q",
+          "ST-00000LD5T",
+          "ST-00000LD5X",
+          "ST-00000LD5Y",
+          "ST-00000LD65",
+          "ST-00000LD6A",
+          "ST-00000LD6B",
+          "ST-00000LD6C",
+          "ST-00000LD6D",
+          "ST-00000LD6E",
+          "ST-00000LD6G",
+          "ST-00000LD6J",
+          "ST-00000LD6N",
+          "ST-00000LD6R",
+          "ST-00000LD6S",
+          "ST-00000LD6V",
+          "ST-00000LD6X",
+          "ST-00000LD6Z",
+          "ST-00000LD72",
+          "ST-00000LD8D",
+          "ST-00000LD8H",
+          "ST-00000LD8J",
+          "ST-00000LD8K",
+          "ST-00000LD8N",
+          "ST-00000LD8P",
+          "ST-00000LD8S",
+          "ST-00000LD8T",
+          "ST-00000LD8V",
+          "ST-00000LD8W",
+          "ST-00000LD90",
+          "ST-00000LD92",
+          "ST-00000LD93",
+          "ST-00000LD96",
+          "ST-00000LD99",
+          "ST-00000LD9A",
+          "ST-00000LD9C",
+          "ST-00000LD9D",
+          "ST-00000LD9G",
+          "ST-00000LD9I",
+          "ST-00000LD9K",
+          "ST-00000LD9P",
+          "ST-00000LD9U",
+          "ST-00000LD9V",
+          "ST-00000LD9X",
+          "ST-00000LDA2",
+          "ST-00000LDA4",
+          "ST-00000LDA5",
+          "ST-00000LDAD",
+          "ST-00000LDAF",
+          "ST-00000LDAH",
+          "ST-00000LDAN",
+          "ST-00000LDAO",
+          "ST-00000LDAV",
+          "ST-00000LDAW",
+          "ST-00000LDAY",
+          "ST-00000LDAZ",
+          "ST-00000LDB0",
+          "ST-00000LDB2",
+          "ST-00000LDB3",
+          "ST-00000LDB4",
+          "ST-00000LDB6",
+          "ST-00000LDB8",
+          "ST-00000LDB9",
+          "ST-00000LDBC",
+          "ST-00000LDBG",
+          "ST-00000LDBH",
+          "ST-00000LDBM",
+          "ST-00000LDBR",
+          "ST-00000LDBU",
+          "ST-00000LDBV",
+          "ST-00000LDBW",
+          "ST-00000LDBY",
+          "ST-00000LDC0",
+          "ST-00000LDC1",
+          "ST-00000LDC4",
+          "ST-00000LDC8",
+          "ST-00000LDC9",
+          "ST-00000LDCB",
+          "ST-00000LDCC",
+          "ST-00000LDCF",
+          "ST-00000LDCH",
+          "ST-00000LDCK",
+          "ST-00000LDCL",
+          "ST-00000LDCM",
+          "ST-00000LDCN",
+          "ST-00000LDCR",
+          "ST-00000LDCS",
+          "ST-00000LDCV",
+          "ST-00000LDCW",
+          "ST-00000LDCY",
+          "ST-00000LDCZ"
+        ]
+      },
+      "basis": "Assets direct parentAssetId AST-0029; reverse mapping 1.3 into assignedAssetIds. Only held Assets targets count; no matching reference gives an answered empty set.",
+      "set": "core",
+      "taskId": "B26",
+      "variants": []
+    },
+    "B27": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD52",
+          "ST-00000LD53",
+          "ST-00000LD5C",
+          "ST-00000LD5I",
+          "ST-00000LD5L",
+          "ST-00000LD5O",
+          "ST-00000LD69",
+          "ST-00000LD6H",
+          "ST-00000LD74",
+          "ST-00000LD75",
+          "ST-00000LD76",
+          "ST-00000LD79",
+          "ST-00000LD7A",
+          "ST-00000LD7B",
+          "ST-00000LD7C",
+          "ST-00000LD7D",
+          "ST-00000LD7F",
+          "ST-00000LD7G",
+          "ST-00000LD7H",
+          "ST-00000LD7I",
+          "ST-00000LD7K",
+          "ST-00000LD7L",
+          "ST-00000LD7M",
+          "ST-00000LD7N",
+          "ST-00000LD7O",
+          "ST-00000LD7Q",
+          "ST-00000LD7S",
+          "ST-00000LD7T",
+          "ST-00000LD7U",
+          "ST-00000LD7V",
+          "ST-00000LD7W",
+          "ST-00000LD7X",
+          "ST-00000LD7Y",
+          "ST-00000LD7Z",
+          "ST-00000LD80",
+          "ST-00000LD81",
+          "ST-00000LD82",
+          "ST-00000LD83",
+          "ST-00000LD84",
+          "ST-00000LD85",
+          "ST-00000LD86",
+          "ST-00000LD88",
+          "ST-00000LD89",
+          "ST-00000LD8A",
+          "ST-00000LD8B",
+          "ST-00000LD8C",
+          "ST-00000LDBG"
+        ]
+      },
+      "basis": "Assets current status MISSING; reverse mapping 1.3 into assignedAssetIds. Only held Assets targets count; no matching reference gives an answered empty set.",
+      "set": "core",
+      "taskId": "B27",
+      "variants": []
+    },
+    "B28": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LDBG"
+        ]
+      },
+      "basis": "Both AST-0005 and AST-0007 in the mapping 1.3 targets of mission assignedAssetIds.",
+      "set": "core",
+      "taskId": "B28",
+      "variants": []
+    },
+    "B29": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4O",
+          "ST-00000LD4T",
+          "ST-00000LD4W",
+          "ST-00000LD4Z",
+          "ST-00000LD50",
+          "ST-00000LD51",
+          "ST-00000LD52",
+          "ST-00000LD55",
+          "ST-00000LD57",
+          "ST-00000LD5A",
+          "ST-00000LD5C",
+          "ST-00000LD5E",
+          "ST-00000LD5H",
+          "ST-00000LD5I",
+          "ST-00000LD5N",
+          "ST-00000LD5P",
+          "ST-00000LD5R",
+          "ST-00000LD5V",
+          "ST-00000LD63",
+          "ST-00000LD68",
+          "ST-00000LD6F",
+          "ST-00000LD6M",
+          "ST-00000LD6Q",
+          "ST-00000LD6U",
+          "ST-00000LD6Y",
+          "ST-00000LD71",
+          "ST-00000LD73",
+          "ST-00000LD8I",
+          "ST-00000LD8L",
+          "ST-00000LD8Q",
+          "ST-00000LD8X",
+          "ST-00000LD8Y",
+          "ST-00000LD91",
+          "ST-00000LD95",
+          "ST-00000LD97",
+          "ST-00000LD98",
+          "ST-00000LD9B",
+          "ST-00000LD9E",
+          "ST-00000LD9J",
+          "ST-00000LD9L",
+          "ST-00000LD9N",
+          "ST-00000LD9R",
+          "ST-00000LD9S",
+          "ST-00000LD9T",
+          "ST-00000LD9Y",
+          "ST-00000LDA0",
+          "ST-00000LDA1",
+          "ST-00000LDA6",
+          "ST-00000LDA8",
+          "ST-00000LDA9",
+          "ST-00000LDAB",
+          "ST-00000LDAE",
+          "ST-00000LDAG",
+          "ST-00000LDAI",
+          "ST-00000LDAK",
+          "ST-00000LDAL",
+          "ST-00000LDAM",
+          "ST-00000LDAQ",
+          "ST-00000LDAR",
+          "ST-00000LDAT",
+          "ST-00000LDAU",
+          "ST-00000LDAX",
+          "ST-00000LDB5",
+          "ST-00000LDBA",
+          "ST-00000LDBB",
+          "ST-00000LDBD",
+          "ST-00000LDBE",
+          "ST-00000LDBG",
+          "ST-00000LDBJ",
+          "ST-00000LDBK",
+          "ST-00000LDBN",
+          "ST-00000LDBO",
+          "ST-00000LDBP",
+          "ST-00000LDBS",
+          "ST-00000LDBT",
+          "ST-00000LDBX",
+          "ST-00000LDBZ",
+          "ST-00000LDC3",
+          "ST-00000LDC5",
+          "ST-00000LDC6",
+          "ST-00000LDC7",
+          "ST-00000LDCE",
+          "ST-00000LDCI",
+          "ST-00000LDCJ",
+          "ST-00000LDCO",
+          "ST-00000LDCQ",
+          "ST-00000LDCT",
+          "ST-00000LDCX"
+        ]
+      },
+      "basis": "Assets direct parentAssetId AST-0023; reverse mapping 1.3 into assignedAssetIds. Only held Assets targets count; no matching reference gives an answered empty set.",
+      "set": "core",
+      "taskId": "B29",
+      "variants": []
+    },
+    "B30": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assets": [
+          {
+            "assetId": "AST-0004",
+            "kind": "SCIENTIFIC_INSTRUMENT"
+          },
+          {
+            "assetId": "AST-0024",
+            "kind": "SHUTTLE"
+          },
+          {
+            "assetId": "AST-0029",
+            "kind": "STARSHIP"
+          }
+        ],
+        "commandingOfficerDepartment": "COMMAND"
+      },
+      "basis": "ST-00000LD4T; mapping 1.3 commander to Personnel department and assigned assets to Assets kind.",
+      "set": "core",
+      "taskId": "B30",
+      "variants": []
+    },
+    "B31": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missions": [
+          {
+            "assetIds": [
+              "AST-0004",
+              "AST-0024",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD4T"
+          },
+          {
+            "assetIds": [
+              "AST-0004",
+              "AST-0024",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD4Z"
+          },
+          {
+            "assetIds": [
+              "AST-0004",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD55"
+          },
+          {
+            "assetIds": [
+              "AST-0005",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD59"
+          },
+          {
+            "assetIds": [
+              "AST-0004",
+              "AST-0024",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD5A"
+          },
+          {
+            "assetIds": [
+              "AST-0004",
+              "AST-0005",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD5H"
+          },
+          {
+            "assetIds": [
+              "AST-0005",
+              "AST-0025",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "MEDICAL",
+            "missionId": "ST-00000LD5K"
+          },
+          {
+            "assetIds": [
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD5S"
+          },
+          {
+            "assetIds": [
+              "AST-0024",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD5X"
+          },
+          {
+            "assetIds": [
+              "AST-0025",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD67"
+          },
+          {
+            "assetIds": [
+              "AST-0005",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "MEDICAL",
+            "missionId": "ST-00000LD6G"
+          },
+          {
+            "assetIds": [
+              "AST-0005",
+              "AST-0025",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "OPERATIONS",
+            "missionId": "ST-00000LD6N"
+          },
+          {
+            "assetIds": [
+              "AST-0024",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD6R"
+          },
+          {
+            "assetIds": [
+              "AST-0025",
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD6T"
+          },
+          {
+            "assetIds": [
+              "AST-0029"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LD70"
+          },
+          {
+            "assetIds": [
+              "AST-0025"
+            ],
+            "commandingOfficerDepartment": "MEDICAL",
+            "missionId": "ST-00000LD8E"
+          },
+          {
+            "assetIds": [
+              "AST-0025"
+            ],
+            "commandingOfficerDepartment": null,
+            "missionId": "ST-00000LDA7"
+          },
+          {
+            "assetIds": [
+              "AST-0025"
+            ],
+            "commandingOfficerDepartment": null,
+            "missionId": "ST-00000LDBQ"
+          },
+          {
+            "assetIds": [
+              "AST-0025"
+            ],
+            "commandingOfficerDepartment": "COMMAND",
+            "missionId": "ST-00000LDCD"
+          }
+        ]
+      },
+      "basis": "All RESCUE missions; mapping 1.3 commander joined to Personnel (absent department is null), assigned assets joined to held Assets records.",
+      "set": "core",
+      "taskId": "B31",
+      "variants": []
+    },
+    "C13": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4O",
+          "ST-00000LD4P"
+        ]
+      },
+      "basis": "PRS-0714; title resolved in Personnel; only mapping 1.1 crew entries qualify commander/assigned references. An empty match is an answered empty set.",
+      "set": "core",
+      "taskId": "C13",
+      "variants": []
+    },
+    "C14": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": []
+      },
+      "basis": "PRS-1101; title resolved in Personnel; only mapping 1.1 crew entries qualify commander/assigned references. An empty match is an answered empty set.",
+      "set": "core",
+      "taskId": "C14",
+      "variants": []
+    },
+    "C15": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": []
+      },
+      "basis": "Assets kind ROVER; reverse mapping 1.3 into assignedAssetIds. Only held Assets targets count; no matching reference gives an answered empty set.",
+      "set": "core",
+      "taskId": "C15",
+      "variants": []
+    },
+    "C16": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionIds": [
+          "ST-00000LD4Q",
+          "ST-00000LD4S",
+          "ST-00000LD4T",
+          "ST-00000LD4Z",
+          "ST-00000LD58",
+          "ST-00000LD5A",
+          "ST-00000LD5J",
+          "ST-00000LD5Q",
+          "ST-00000LD5T",
+          "ST-00000LD5X",
+          "ST-00000LD6D",
+          "ST-00000LD6J",
+          "ST-00000LD6R",
+          "ST-00000LD6V",
+          "ST-00000LD72",
+          "ST-00000LD8H",
+          "ST-00000LD8K",
+          "ST-00000LD8N",
+          "ST-00000LD8S",
+          "ST-00000LD90",
+          "ST-00000LD92",
+          "ST-00000LD96",
+          "ST-00000LD9A",
+          "ST-00000LD9D",
+          "ST-00000LD9G",
+          "ST-00000LD9I",
+          "ST-00000LD9K",
+          "ST-00000LD9P",
+          "ST-00000LD9U",
+          "ST-00000LD9V",
+          "ST-00000LDAF",
+          "ST-00000LDAY",
+          "ST-00000LDAZ",
+          "ST-00000LDB0",
+          "ST-00000LDB2",
+          "ST-00000LDB3",
+          "ST-00000LDB4",
+          "ST-00000LDB6",
+          "ST-00000LDB8",
+          "ST-00000LDBC",
+          "ST-00000LDBG",
+          "ST-00000LDBH",
+          "ST-00000LDBM",
+          "ST-00000LDBV",
+          "ST-00000LDC0",
+          "ST-00000LDC1",
+          "ST-00000LDC4",
+          "ST-00000LDC9",
+          "ST-00000LDCB",
+          "ST-00000LDCF",
+          "ST-00000LDCK",
+          "ST-00000LDCL",
+          "ST-00000LDCM",
+          "ST-00000LDCN",
+          "ST-00000LDCY",
+          "ST-00000LDCZ"
+        ]
+      },
+      "basis": "Assets identifier AST-0024; reverse mapping 1.0 into assignedAssetIds. Only held Assets targets count; no matching reference gives an answered empty set.",
+      "set": "core",
+      "taskId": "C16",
+      "variants": []
+    },
+    "E17": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "shuttles": [
+          {
+            "assetId": "AST-0023",
+            "missionCount": 0
+          },
+          {
+            "assetId": "AST-0024",
+            "missionCount": 56
+          },
+          {
+            "assetId": "AST-0025",
+            "missionCount": 27
+          },
+          {
+            "assetId": "AST-0026",
+            "missionCount": 0
+          },
+          {
+            "assetId": "AST-0027",
+            "missionCount": 0
+          }
+        ]
+      },
+      "basis": "Every Assets SHUTTLE, including unused ones; distinct mission count after mapping 1.3 assigned assets.",
+      "set": "core",
+      "taskId": "E17",
+      "variants": []
+    },
+    "E18": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "kinds": [
+          {
+            "kind": "COMMUNICATOR",
+            "missionCount": 33
+          },
+          {
+            "kind": "SCIENTIFIC_INSTRUMENT",
+            "missionCount": 131
+          },
+          {
+            "kind": "SHUTTLE",
+            "missionCount": 82
+          },
+          {
+            "kind": "STARSHIP",
+            "missionCount": 201
+          },
+          {
+            "kind": "TRICORDER",
+            "missionCount": 36
+          }
+        ]
+      },
+      "basis": "Mapping 1.3 assigned assets joined to held Assets records; one contribution per mission per distinct kind, omitting zero groups.",
+      "set": "core",
+      "taskId": "E18",
+      "variants": []
+    },
+    "E19": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "statuses": [
+          {
+            "missionCount": 263,
+            "status": "ACTIVE"
+          },
+          {
+            "missionCount": 27,
+            "status": "DESTROYED"
+          },
+          {
+            "missionCount": 47,
+            "status": "MISSING"
+          }
+        ]
+      },
+      "basis": "Mapping 1.3 assigned assets joined to held Assets records; one contribution per mission per distinct status, omitting zero groups.",
+      "set": "core",
+      "taskId": "E19",
+      "variants": []
+    },
+    "E20": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "missionCount": 88,
+        "totalEstimatedCost": 3629374.76
+      },
+      "basis": "Mapping 1.3 assigned assets targeting AST-0004; each mission once; exact Decimal sum of non-null estimatedCostCredits.",
+      "set": "core",
+      "taskId": "E20",
+      "variants": []
+    },
+    "E21": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "members": [
+          {
+            "missionCount": 52,
+            "personnelId": "PRS-0001"
+          },
+          {
+            "missionCount": 50,
+            "personnelId": "PRS-1048"
+          },
+          {
+            "missionCount": 1,
+            "personnelId": "PRS-2001"
+          },
+          {
+            "missionCount": 1,
+            "personnelId": "PRS-2004"
+          },
+          {
+            "missionCount": 1,
+            "personnelId": "PRS-2005"
+          },
+          {
+            "missionCount": 1,
+            "personnelId": "PRS-2006"
+          },
+          {
+            "missionCount": 2,
+            "personnelId": "PRS-2013"
+          }
+        ]
+      },
+      "basis": "Personnel COMMAND members joined through mapping 1.3 to commandingOfficerId; omit zero mission counts.",
+      "set": "core",
+      "taskId": "E21",
+      "variants": []
+    },
+    "E22": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "statuses": [
+          {
+            "count": 1,
+            "status": "CANCELLED"
+          },
+          {
+            "count": 8,
+            "status": "COMPLETED"
+          },
+          {
+            "count": 1,
+            "status": "FAILED"
+          },
+          {
+            "count": 1,
+            "status": "PLANNED"
+          }
+        ]
+      },
+      "basis": "PRS-2018 via mapping 1.3 in commander/assigned crew union, one count per mission, grouped by mission status.",
+      "set": "core",
+      "taskId": "E22",
+      "variants": []
+    },
+    "E23": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "departments": [
+          {
+            "count": 215,
+            "department": "CIVILIAN"
+          },
+          {
+            "count": 3,
+            "department": "COMMAND"
+          },
+          {
+            "count": 85,
+            "department": "ENGINEERING"
+          },
+          {
+            "count": 7,
+            "department": "FLIGHT_OPERATIONS"
+          },
+          {
+            "count": 10,
+            "department": "MEDICAL"
+          },
+          {
+            "count": 19,
+            "department": "OPERATIONS"
+          },
+          {
+            "count": 16,
+            "department": "SCIENCE"
+          },
+          {
+            "count": 25,
+            "department": "SECURITY"
+          }
+        ],
+        "memberCount": 380
+      },
+      "basis": "All ten Personnel pages (1000 unique IDs) minus mapping 1.3 commander/assigned crew targets across all 300 missions; civilian records grouped as CIVILIAN.",
+      "set": "core",
+      "taskId": "E23",
+      "variants": []
+    },
+    "E24": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "members": [
+          {
+            "missionCount": 1,
+            "personnelId": "PRS-2002"
+          },
+          {
+            "missionCount": 8,
+            "personnelId": "PRS-2019"
+          },
+          {
+            "missionCount": 2,
+            "personnelId": "PRS-2167"
+          },
+          {
+            "missionCount": 3,
+            "personnelId": "PRS-2383"
+          },
+          {
+            "missionCount": 3,
+            "personnelId": "PRS-2522"
+          },
+          {
+            "missionCount": 5,
+            "personnelId": "PRS-2608"
+          },
+          {
+            "missionCount": 10,
+            "personnelId": "PRS-2728"
+          }
+        ]
+      },
+      "basis": "Every Personnel Section Supervisor; count distinct missions whose mapping 1.3 commander/assigned union includes that ID, including zeros.",
+      "set": "core",
+      "taskId": "E24",
+      "variants": []
+    },
+    "E25": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "departments": [
+          {
+            "department": "CIVILIAN",
+            "missionCount": 5
+          },
+          {
+            "department": "COMMAND",
+            "missionCount": 127
+          },
+          {
+            "department": "ENGINEERING",
+            "missionCount": 139
+          },
+          {
+            "department": "FLIGHT_OPERATIONS",
+            "missionCount": 75
+          },
+          {
+            "department": "MEDICAL",
+            "missionCount": 88
+          },
+          {
+            "department": "OPERATIONS",
+            "missionCount": 183
+          },
+          {
+            "department": "SCIENCE",
+            "missionCount": 99
+          },
+          {
+            "department": "SECURITY",
+            "missionCount": 99
+          }
+        ]
+      },
+      "basis": "Mapping 1.3 commander/assigned crew joined to Personnel; one mission contribution per department, civilian records grouped as CIVILIAN.",
+      "set": "core",
+      "taskId": "E25",
+      "variants": []
+    },
+    "E26": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assetIds": [
+          "AST-0004",
+          "AST-0025",
+          "AST-0029"
+        ],
+        "distinctPeople": 107
+      },
+      "basis": "EXPLORATION missions; union of mapping 1.3 commander/assigned crew targets held in Personnel and separate union of assigned asset targets held in Assets. People deduplicated across all selected missions before counting.",
+      "set": "core",
+      "taskId": "E26",
+      "variants": []
+    },
+    "E27": {
+      "answer": {
+        "answerStatus": "ANSWERED",
+        "assetIds": [
+          "AST-0004",
+          "AST-0007",
+          "AST-0024",
+          "AST-0029"
+        ],
+        "ranks": [
+          {
+            "count": 1,
+            "rank": "CAPTAIN"
+          },
+          {
+            "count": 1,
+            "rank": "COMMANDER"
+          },
+          {
+            "count": 1,
+            "rank": "ENSIGN"
+          },
+          {
+            "count": 2,
+            "rank": "LIEUTENANT"
+          },
+          {
+            "count": 3,
+            "rank": "LIEUTENANT_COMMANDER"
+          }
+        ]
+      },
+      "basis": "FIRST_CONTACT missions; union of mapping 1.3 commander/assigned crew targets held in Personnel and separate union of assigned asset targets held in Assets. People deduplicated across all selected missions before counting.",
+      "set": "core",
+      "taskId": "E27",
+      "variants": []
+    }
+  },
+  "labCommit": "4e90e5c90cc2c5ee6a221e14358261204b049011",
+  "packageSha256": "2feff55de79844aa67df69cb9685d6d70cdedc11737376b4fc530aa1a17a577a"
+}

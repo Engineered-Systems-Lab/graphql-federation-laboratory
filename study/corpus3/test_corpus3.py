@@ -8,9 +8,13 @@
 - The reference solutions of every arm, through the runner, on the fakes, outages included; a report hashes every file they run.
 - The harness reads the folder: its corpus check accepts the manifest and its loader reads the scored and the development sets.
 - No new question appears in a tracked file outside this folder, and corpus 2's leak check accepts this folder's files.
+- The second derivation (keys-b3.json): B's three files are the recorded bytes, every input B hashed is the file of the keys-b3 package
+  rebuilt from Git at the package's lab commit, B's answer is correct under keys A on every new task, and its differences from keys A are
+  exactly the cases the lead developer decided (compare_keys3.py).
 """
 import copy
 import hashlib
+import importlib.util
 import io
 import json
 import subprocess
@@ -422,6 +426,136 @@ class NoLeak(unittest.TestCase):
         self.assertEqual(done.returncode, 0, done.stderr)
         leaks = json.loads(done.stdout.strip().splitlines()[-1])
         self.assertEqual(leaks, [], leaks[:10])
+
+
+class TheSecondDerivation(unittest.TestCase):
+    """keys-b3.json, the blind second derivation of the new keys, against keys-a.json (entries 5 and 6 of the Job study3_corpus_keys_b,
+    decisions J4 and J7). derive_b3.py and test_derive_b3.py check the package's MANIFEST.json and run only in a copy of the package."""
+
+    @classmethod
+    def setUpClass(cls):
+        import compare_keys3
+        cls.c = compare_keys3
+        cls.keys_b = load('keys-b3.json')
+        cls.package = compare_keys3.package_files()
+
+    def test_b_is_the_recorded_bytes(self):
+        for name, digest in self.c.B_RECORD['sha256'].items():
+            self.assertEqual(self.c.lf_sha256(HERE / name), digest, name)
+        self.assertEqual(sorted(self.c.B_RECORD['sha256']), ['derive_b3.py', 'keys-b3.json', 'test_derive_b3.py'])
+
+    def test_b_was_derived_from_the_package_at_the_lab_commit(self):
+        keys_b = self.keys_b
+        self.assertEqual(keys_b['derivation'], 'B')
+        self.assertEqual(keys_b['labCommit'], self.c.B_RECORD['labCommit'])
+        self.assertEqual(keys_b['packageSha256'], self.c.B_RECORD['packageSha256'])
+        self.assertEqual(keys_b['gaps'], [])
+        self.assertEqual(set(keys_b['keys']), set(NEW_IDS))
+        # the package rebuilt from Git at the lab commit is the one B received, and B hashed exactly its files, each as it is there
+        self.assertEqual(self.c.package_problems(self.package), [])
+        self.assertEqual(self.c.input_problems(keys_b, self.package), [])
+        self.assertEqual(len(keys_b['inputs']), 70)
+        # and the lab's current files are still the ones B received
+        self.assertEqual(self.c.current_problems(keys_b, then=self.package), [])
+
+    def test_a_changed_input_is_found(self):
+        files = dict(self.package)
+        files['study/corpus3/tasks.json'] = files['study/corpus3/tasks.json'] + b' '
+        self.assertEqual(self.c.input_problems(self.keys_b, files), ['study/corpus3/tasks.json'])
+        files = dict(self.package)
+        files['extra.json'] = b'{}'
+        del files['study/corpus3/schemas.json']
+        self.assertEqual(self.c.input_problems(self.keys_b, files), ['study/corpus3/schemas.json', 'extra.json'])
+        files = dict(self.package)
+        files[self.c.blind.MANIFEST] = files[self.c.blind.MANIFEST].replace(b'"keys-b3"', b'"keys-bX"', 1)
+        self.assertEqual(len(self.c.package_problems(files)), 2)
+        current = dict(self.package)
+        current['study/corpus3/tasks.json'] = b'{}'
+        current[self.c.blind.README] = b'other'
+        self.assertEqual(self.c.current_problems(self.keys_b, current, self.package), ['study/corpus3/tasks.json'])
+
+    def test_the_package_is_rebuilt_by_the_builder_of_the_lab_commit(self):
+        commit = self.c.B_RECORD['labCommit']
+        self.assertEqual(self.c.blind.__name__, 'compare_keys3_blind_' + commit)
+        self.assertEqual(self.c.git_blob(commit, self.c.BUILDER), subprocess.run(
+            ['git', '-C', str(REPO), 'cat-file', 'blob', '%s:%s' % (commit, self.c.BUILDER)], check=True, capture_output=True).stdout)
+        # a change of the working tree's builder, such as a fourth package name, does not reach the reconstruction
+        spec = importlib.util.spec_from_file_location('test_corpus3_working_blind', REPO / self.c.BUILDER)
+        working = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(working)
+        working.PACKAGES = working.PACKAGES + ('another',)
+        self.assertIsNot(working, self.c.blind)
+        self.assertEqual(self.c.blind.plan.__code__.co_filename, '%s:%s' % (commit, self.c.BUILDER))
+        self.assertEqual(self.c.blind.PACKAGES, ('guide', 'keys-b', 'keys-b3'))
+        self.assertEqual(self.c.package_problems(self.c.package_files()), [])
+
+    def test_the_current_files_are_packaged_with_the_lab_commits_definitions(self):
+        class Changed:
+            """The working tree with a changed builder folder: another package definition and another builder."""
+            def __init__(self, inner):
+                self.inner = inner
+
+            def read(self, path):
+                if path.startswith('study/blind/'):
+                    return b'{"version": 1, "packages": {"another": {}}}'
+                return self.inner.read(path)
+
+            def files_under(self, folder):
+                return self.inner.files_under(folder)
+        source = self.c.CurrentSource(Changed(self.c.blind.WorkingSource(REPO)))
+        self.assertEqual(self.c.current_problems(self.keys_b, self.c.package_files(source), self.package), [])
+
+    def test_the_comparison_scores_with_this_folders_scorer(self):
+        self.assertEqual(Path(self.c.compare2.scoring.__file__).resolve(), (HERE / 'scoring.py').resolve())
+        self.assertEqual(Path(self.c.compare2.__file__).resolve(), (CORPUS2 / 'compare_keys.py').resolve())
+
+    def test_b_is_correct_under_a_on_every_new_task(self):
+        for task in self.c.new_tasks():
+            with self.subTest(task=task['id']):
+                answer = dict(self.keys_b['keys'][task['id']]['answer'])
+                ctx = {'taskId': task['id'], 'set': 'core', 'category': task['category'], 'askRequester': []}
+                self.assertEqual(self.c.scoring3.score(answer, task['schema'], KEYS[task['id']], ctx)['outcome'], 'correct')
+
+    def test_the_differences_are_exactly_the_decided_ones(self):
+        self.assertEqual(self.c.undecided(self.c.compare()), [])
+        self.assertEqual(sorted(self.c.DECIDED), [])
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(self.c.main([]), 0)
+
+    def test_an_undecided_difference_fails_the_comparison(self):
+        keys_b = copy.deepcopy(self.keys_b['keys'])
+        keys_b['B16']['answer']['missions'].pop()
+        found = self.c.compare(keys_b=keys_b)
+        self.assertEqual(sorted(found), ['B16'])
+        self.assertEqual([kind for kind, _ in found['B16']['differences']], ['b-not-correct-under-a', 'answer-differs'])
+        mismatches = self.c.undecided(found)
+        self.assertEqual([m[0] for m in mismatches], ['B16'])
+        self.assertIn('not decided', mismatches[0][1])
+        # a declared variant of B that A's checks refuse is a difference too
+        keys_b = copy.deepcopy(self.keys_b['keys'])
+        keys_b['C14']['variants'] = [{'answer': {'answerStatus': 'ANSWERED', 'missionIds': ['ST-00000LD4Q']}, 'reason': 'test'}]
+        self.assertEqual([kind for kind, _ in self.c.compare(keys_b=keys_b)['C14']['differences']],
+                         ['variants-differ', 'b-variant-not-correct-under-a'])
+        # and a decided case that is no longer found fails as well
+        decided = {'B16': {'decision': 'test', 'differences': [], 'sha256': {}}}
+        self.assertEqual(self.c.undecided(self.c.compare(), decided), [('B16', 'decided, but no difference is found any more')])
+
+    def test_a_decision_holds_only_for_the_inputs_it_was_made_on(self):
+        keys_b = copy.deepcopy(self.keys_b['keys'])
+        keys_b['B16']['answer']['missions'].pop()
+        found = self.c.compare(keys_b=keys_b)
+        decided = {'B16': dict(found['B16'], decision='test')}
+        self.assertEqual(self.c.undecided(found, decided), [])
+        tasks = copy.deepcopy(self.c.new_tasks())
+        tasks[0]['question'] += ' Changed.'
+        self.assertEqual(self.c.undecided(self.c.compare(keys_b=keys_b, tasks=tasks), decided),
+                         [('B16', 'decided on other inputs: task changed since the decision')])
+
+    def test_the_keys_must_cover_the_new_tasks(self):
+        keys_b = copy.deepcopy(self.keys_b['keys'])
+        del keys_b['E27']
+        with self.assertRaises(ValueError):
+            self.c.compare(keys_b=keys_b)
 
 
 if __name__ == '__main__':
