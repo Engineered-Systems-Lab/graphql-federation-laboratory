@@ -320,6 +320,7 @@ From the outputs only, with no recommendation.
 - **Two models,** at medium effort, one configuration each, and a synthetic enterprise domain.
 - **Cost is the harness's estimate at the dated prices,** not invoices.
 - **The transcripts were not read for this report;** it states only what the outputs record.
+- **Added 2026-11-17, after this report was written: the key answers of the second derivation (keys B) passed the scoring checks of the first (keys A) on all 54 scored tasks, and B's package contained no answer-bearing design note for 39 of those tasks.** B was written blind to A's code and keys, but not to its author's design notes. For the other 15, B had access to answer guidance; matching answers alone cannot show whether B relied on it. Eleven of the 39 tasks had notes suggesting a method. The audit checked reliance only for answer-bearing notes. B's code or records show it used a note on 3 tasks (C02, D04, D09; D04 is scored). The classification is [keys-b-design-notes.json](../study/corpus2/keys-b-design-notes.json), described in [corpus 2](../study/corpus2/README.md#files).
 
 ## Reproducing the analysis
 
