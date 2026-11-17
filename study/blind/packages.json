@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "about": "The input packages of study 2's blind workers, built by blind.py from one lab commit. Each package is an explicit allow-list: a lab file enters only when it is named here (a folder entry takes every file Git holds under it), at its lab path. `derived` files are written by the builder from named lab files and recorded in the manifest with their sources. `considered` lists what was read and left out, with the reason.",
+  "about": "The input packages of the blind workers of studies 2 and 3, built by blind.py from one lab commit. Each package is an explicit allow-list: a lab file enters only when it is named here (a folder entry takes every file Git holds under it), at its lab path. `rewrite` entries change an included JSON file in order (`drop` a key, `select` the entries named by a list of a lab file) and are recorded in the manifest with the hash of the original. `derived` files are written by the builder from named lab files and recorded in the manifest with their sources. `considered` lists what was read and left out, with the reason.",
   "packages": {
     "guide": {
       "about": "The inputs of the author of the Guided Direct Access guide (decision J): the service contracts, the mapping release files, the tool texts and the service designs and READMEs that specify behaviour (decision I2).",
@@ -66,6 +66,38 @@
         "study/corpus2/keys-a.json",
         "study/corpus2/reference/"
       ]
+    },
+    "keys-b3": {
+      "about": "The inputs of the blind derivation of the keys of corpus 3's new tasks (the corpus 3 README: the second derivation of the new keys; decisions B1 to B5 of the Job study3_blind_inputs): the new tasks and their schemas only, the released data they name, and the keys B worker's own study 2 derivation to reuse.",
+      "readme": "study/blind/readme-keys-b3.txt",
+      "include": [
+        {"path": "study/corpus3/tasks.json", "why": "the new tasks' records, rewritten to the new tasks only, without the directions map and without the design notes"},
+        {"path": "study/corpus3/schemas.json", "why": "the new tasks' answer schemas, rewritten to the new tasks only"},
+        {"path": "study/corpus2/derive_b.py", "why": "the keys B worker's own derivation of the corpus 2 keys, blind to keys A and never edited, given to reuse (B4)"},
+        {"path": "study/corpus2/test_derive_b.py", "why": "the tests of that derivation, given with it (B4)"},
+        {"dir": "federation/mapping-releases/", "why": "the mapping releases 1.0 to 1.3, as in study 2's package (the new tasks name 1.0, 1.1 and 1.3)"},
+        {"dir": "uss-enterprise/assets/datasets/releases/1.1/", "why": "the Assets dataset 1.1"},
+        {"dir": "uss-enterprise/missions/datasets/releases/1.2/", "why": "the Missions release 1.2"},
+        {"dir": "uss-enterprise/personnel-v2/datasets/personnel-v2-large-004/", "why": "the Personnel v2 snapshot personnel-v2-large-004"}
+      ],
+      "rewrite": [
+        {"path": "study/corpus3/tasks.json", "select": {"path": "study/corpus3/corpus-manifest.json", "list": "newTaskIds"}, "from": "tasks", "why": "the package holds the new tasks only, not the carried, ambiguity or development tasks (B1)"},
+        {"path": "study/corpus3/tasks.json", "drop": "directions", "why": "the directions map is derivation A's reading of each task's direction, anchor and required systems (B2)"},
+        {"path": "study/corpus3/tasks.json", "drop": "designNote", "from": "tasks", "why": "the design notes are the author's notes on how a task was built, and some state an answer, an accepted reading or a count"},
+        {"path": "study/corpus3/schemas.json", "select": {"path": "study/corpus3/corpus-manifest.json", "list": "newTaskIds"}, "from": "schemas", "why": "the schemas of the new tasks only (B1)"}
+      ],
+      "excluded": [
+        "study/corpus2/derive_a.py",
+        "study/corpus2/dev.json",
+        "study/corpus2/expected.json",
+        "study/corpus2/keys-a.json",
+        "study/corpus2/reference/",
+        "study/corpus3/derive_a3.py",
+        "study/corpus3/dev.json",
+        "study/corpus3/expected.json",
+        "study/corpus3/keys-a.json",
+        "study/corpus3/reference/"
+      ]
     }
   },
   "considered": [
@@ -88,6 +120,22 @@
     {"package": "guide", "path": "uss-enterprise/*/datasets/", "why": "dataset content (decision I2)"},
     {"package": "keys-b", "path": "study/corpus2/README.md", "why": "not in the handoff list of the corpus 2 README; it describes the first derivation"},
     {"package": "keys-b", "path": "study/corpus2/scoring.py", "why": "not in the handoff list of the corpus 2 README"},
-    {"package": "keys-b", "path": "study/corpus2/tasks.json", "why": "not in the handoff list; it holds no task before the draw"}
+    {"package": "keys-b", "path": "study/corpus2/tasks.json", "why": "not in the handoff list; it holds no task before the draw"},
+    {"package": "keys-b3", "path": "study/corpus3/README.md", "why": "it describes the first derivation and the carried tasks"},
+    {"package": "keys-b3", "path": "study/corpus3/corpus-manifest.json", "why": "the selection reads its newTaskIds (recorded in the manifest with its hash); it describes the whole corpus and derivation A's files"},
+    {"package": "keys-b3", "path": "study/corpus3/scoring.py", "why": "the scorer, not an input of a derivation"},
+    {"package": "keys-b3", "path": "study/corpus3/test_corpus3.py", "why": "the corpus tests, which read derivation A's files"},
+    {"package": "keys-b3", "path": "study/corpus2/keys-b.json", "why": "the keys B worker's corpus 2 keys, of tasks that are not new (B4 gives the derivation, not its keys)"},
+    {"package": "keys-b3", "path": "study/corpus2/compare_keys.py", "why": "the comparison of study 2's two derivations, which reads keys A"},
+    {"package": "keys-b3", "path": "study/corpus2/pool.json", "why": "corpus 2's tasks, which are not new"},
+    {"package": "keys-b3", "path": "study/corpus2/ambiguity.json", "why": "the ambiguity tasks, which are not new"},
+    {"package": "keys-b3", "path": "study/corpus2/schemas.json", "why": "corpus 2's schemas, of tasks that are not new"},
+    {"package": "keys-b3", "path": "study/corpus2/tasks.json", "why": "corpus 2's drawn tasks, which are not new"},
+    {"package": "keys-b3", "path": "study/corpus2/README.md", "why": "it describes corpus 2 and its first derivation"},
+    {"package": "keys-b3", "path": "study/corpus2/corpus-manifest.json", "why": "corpus 2's manifest, which names derivation A's files"},
+    {"package": "keys-b3", "path": "study/corpus2/draw.py", "why": "corpus 2's draw, not an input of a derivation"},
+    {"package": "keys-b3", "path": "study/corpus2/scoring.py", "why": "the scorer, not an input of a derivation"},
+    {"package": "keys-b3", "path": "study/corpus2/test_corpus2.py", "why": "the corpus tests, which read derivation A's files"},
+    {"package": "keys-b3", "path": "study/corpus2/wording-review/", "why": "study 2's wording review of corpus 2's tasks, which are not new"}
   ]
 }

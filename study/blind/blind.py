@@ -1,8 +1,8 @@
-"""Build and check the input packages of study 2's blind workers: the guide author's and the keys B worker's.
+"""Build and check the input packages of the blind workers: study 2's guide author's and keys B worker's, and study 3's keys B worker's.
 
-    python -B study/blind/blind.py build guide|keys-b --commit <full lab commit> --output <new folder outside any Git work tree>
+    python -B study/blind/blind.py build guide|keys-b|keys-b3 --commit <full lab commit> --output <new folder outside any Git work tree>
     python -B study/blind/blind.py verify <package folder>
-    python -B study/blind/blind.py list guide|keys-b [--commit <full lab commit>]
+    python -B study/blind/blind.py list guide|keys-b|keys-b3 [--commit <full lab commit>]
 
 `build` reads everything from the named commit, never from the working tree: the package definitions (packages.json), the README
 templates and every file of the allow-list. It refuses unless this script's own bytes are the commit's study/blind/blind.py, so the output
@@ -11,8 +11,14 @@ no history. It holds the allowed files, each at its lab path, the package README
 `MANIFEST.json` with the commit, every file's SHA-256 and size, how each file was made, the builder's version and hash, and the package's
 own hash (`packageSha256`, the SHA-256 of the manifest's canonical JSON without that field).
 
-`verify` checks a built package against its manifest (every file, nothing more, no `.git`) and runs the leak checks of decision I5 against
-the lab checkout this script belongs to. `list` prints the files a package would hold, from the commit or, without --commit, from the
+A definition may rewrite a JSON file of its allow-list, in the order its `rewrite` list gives: `drop` removes one key from every object
+of a list (or, without `from`, from the file's top-level object), and `select` keeps only the entries of a list of objects (by their
+`id`) or of a map (by key) whose id is in a named list of a lab file. Each rewrite refuses a file that does not round-trip through JSON
+unchanged, so it changes what it names and nothing else, and the manifest records it with the hash of the original (and of the list's
+file).
+
+`verify` checks a built package against its manifest (every file, nothing more, no `.git`) and runs the leak checks (decision I5 of study
+2, and those of the Job study3_blind_inputs for keys-b3) against the lab checkout this script belongs to. `list` prints the files a package would hold, from the commit or, without --commit, from the
 working tree. This script never creates a repository, a remote or a push: the lead developer makes the private repository from the folder.
 
 Standard library only; Git is called read-only.
@@ -34,8 +40,11 @@ SELF = 'study/blind/blind.py'
 DEFINITIONS = 'study/blind/packages.json'
 MANIFEST = 'MANIFEST.json'
 README = 'README.md'
-PACKAGES = ('guide', 'keys-b')
+PACKAGES = ('guide', 'keys-b', 'keys-b3')
 CORPUS2 = 'study/corpus2/'
+CORPUS3 = 'study/corpus3/'
+CORPUS3_MANIFEST = 'study/corpus3/corpus-manifest.json'
+NEW_TASK_IDS = 'newTaskIds'
 FULL_SHA = re.compile(r'[0-9a-f]{40}')
 TOOL_ARGS_SKIPPED = ('ctx',)
 
@@ -227,19 +236,67 @@ def render_tools(source, sources, commit_label):
     return ('\n'.join(out).rstrip('\n') + '\n').encode('utf-8')
 
 
+def json_bytes(value):
+    return (json.dumps(value, indent=2, ensure_ascii=False) + '\n').encode('utf-8')
+
+
 def drop_key(data, key, where, path):
-    """JSON `data` with `key` removed from every object of the list `where`. Refuses when the file does not round-trip unchanged, so the
-    rewrite changes that key and nothing else."""
+    """JSON `data` with `key` removed from every object of the list `where`, or, when `where` is None, from the top-level object (which
+    must hold it). Refuses when the file does not round-trip unchanged, so the rewrite changes that key and nothing else."""
     value = json.loads(data.decode('utf-8'))
-    if (json.dumps(value, indent=2, ensure_ascii=False) + '\n').encode('utf-8') != data:
+    if json_bytes(value) != data:
         raise Refused('%s does not round-trip through JSON with indent 2; the rewrite would change more than %r' % (path, key))
+    if where is None:
+        if not isinstance(value, dict) or key not in value:
+            raise Refused('%s has no top-level key %r' % (path, key))
+        del value[key]
+        return json_bytes(value), 1
     items = value.get(where)
     if not isinstance(items, list) or not all(isinstance(item, dict) for item in items):
         raise Refused('%s has no list of objects %r' % (path, where))
     removed = sum(1 for item in items if key in item)
     for item in items:
         item.pop(key, None)
-    return (json.dumps(value, indent=2, ensure_ascii=False) + '\n').encode('utf-8'), removed
+    return json_bytes(value), removed
+
+
+def id_list(data, key, path):
+    """The list `key` of the JSON object in `data`: unique non-empty strings, at least one."""
+    value = json.loads(data.decode('utf-8'))
+    ids = value.get(key) if isinstance(value, dict) else None
+    if not isinstance(ids, list) or not ids or not all(isinstance(i, str) and i for i in ids) or len(set(ids)) != len(ids):
+        raise Refused('%s has no list %r of unique ids' % (path, key))
+    return ids
+
+
+def select_ids(data, ids, where, path):
+    """JSON `data` with only the entries of `where` whose id is in `ids`: the objects of a list by their `id`, or the keys of a map, each
+    kept as the same JSON value and in the file's order. Refuses when the file does not round-trip unchanged, when `where` holds an id
+    twice and when an id of `ids` is not there, so the rewrite keeps exactly the named entries and changes nothing else. Returns the
+    bytes, the kept ids in the file's order and the number of entries removed."""
+    value = json.loads(data.decode('utf-8'))
+    if json_bytes(value) != data:
+        raise Refused('%s does not round-trip through JSON with indent 2; the selection would change more than %r' % (path, where))
+    items = value.get(where) if isinstance(value, dict) else None
+    wanted = set(ids)
+    if isinstance(items, list):
+        if not all(isinstance(item, dict) and isinstance(item.get('id'), str) for item in items):
+            raise Refused('%s: %r is not a list of objects with an id' % (path, where))
+        present = [item['id'] for item in items]
+        value[where] = [item for item in items if item['id'] in wanted]
+        kept = [item['id'] for item in value[where]]
+    elif isinstance(items, dict):
+        present = list(items)
+        value[where] = {key: item for key, item in items.items() if key in wanted}
+        kept = list(value[where])
+    else:
+        raise Refused('%s has no list or map %r' % (path, where))
+    if len(set(present)) != len(present):
+        raise Refused('%s: %r holds an id twice' % (path, where))
+    missing = sorted(wanted - set(kept))
+    if missing:
+        raise Refused('%s: %r does not hold %s' % (path, where, ', '.join(missing)))
+    return json_bytes(value), kept, len(present) - len(kept)
 
 
 # ------------------------------------------------------------------------------------------------------------------ the package
@@ -282,10 +339,26 @@ def plan(source, name):
         path = rewrite['path']
         if path not in files:
             raise Refused('%s: the rewrite of %s names a file the package does not include' % (name, path))
-        original = files[path]['bytes']
-        data, removed = drop_key(original, rewrite['drop'], rewrite['from'], path)
-        files[path] = {'bytes': data, 'source': 'rewritten', 'labSha256': sha256(original),
-                       'rewrite': {'drop': rewrite['drop'], 'from': rewrite['from'], 'removed': removed, 'why': rewrite['why']}}
+        if ('drop' in rewrite) == ('select' in rewrite):
+            raise Refused('%s: a rewrite of %s names exactly one of drop and select' % (name, path))
+        current = files[path]['bytes']
+        if 'drop' in rewrite:
+            data, removed = drop_key(current, rewrite['drop'], rewrite.get('from'), path)
+            record = {'drop': rewrite['drop']}
+            if 'from' in rewrite:
+                record['from'] = rewrite['from']
+            record.update({'removed': removed, 'why': rewrite['why']})
+        else:
+            listed = rewrite['select']
+            list_bytes = source.read(listed['path'])
+            data, kept, removed = select_ids(current, id_list(list_bytes, listed['list'], listed['path']), rewrite['from'], path)
+            record = {'select': {'path': listed['path'], 'list': listed['list'], 'labSha256': sha256(list_bytes)},
+                      'from': rewrite['from'], 'kept': kept, 'removed': removed, 'why': rewrite['why']}
+        if files[path]['source'] == 'rewritten':
+            steps = files[path]['rewrite']
+            files[path].update({'bytes': data, 'rewrite': (steps if isinstance(steps, list) else [steps]) + [record]})
+        else:
+            files[path] = {'bytes': data, 'source': 'rewritten', 'labSha256': sha256(current), 'rewrite': record}
     for derived in definition.get('derived', []):
         if derived['kind'] != 'tool-texts':
             raise Refused('%s: unknown derived kind %r' % (name, derived['kind']))
@@ -398,6 +471,51 @@ def questions(root=ROOT):
     return out
 
 
+def new_task_ids(root=ROOT):
+    """The ids of corpus 3's new tasks (`newTaskIds` of its corpus manifest), in the manifest's order."""
+    return id_list((Path(root) / CORPUS3_MANIFEST).read_bytes(), NEW_TASK_IDS, CORPUS3_MANIFEST)
+
+
+def other_questions(root=ROOT):
+    """The question texts that keys-b3 must not hold: every task of corpus 2 (pool, ambiguity, development set, drawn tasks) and of
+    corpus 3 (its tasks file and development set) that is not one of corpus 3's new tasks."""
+    new, out = set(new_task_ids(root)), []
+    for name in ('study/corpus2/pool.json', 'study/corpus2/ambiguity.json', 'study/corpus2/dev.json', 'study/corpus2/tasks.json',
+                 'study/corpus3/tasks.json', 'study/corpus3/dev.json'):
+        data = json.loads((Path(root) / name).read_text(encoding='utf-8'))
+        out += [task['question'] for task in data.get('tasks', []) if task.get('question') and task.get('id') not in new]
+    return out
+
+
+def new_questions(root=ROOT):
+    """{id: question} of corpus 3's new tasks, from its tasks file."""
+    new = set(new_task_ids(root))
+    tasks = json.loads((Path(root) / CORPUS3 / 'tasks.json').read_text(encoding='utf-8'))['tasks']
+    return {task['id']: task['question'] for task in tasks if task['id'] in new}
+
+
+def shared_fragments(root=ROOT):
+    """The (new task id, other task id) pairs where a 10-word fragment of the other task's question lies inside the new question: the
+    new question shares that wording, and the deriver reads it in the new question itself. test_blind.py pins these pairs."""
+    own = {task_id: normalized(question) for task_id, question in new_questions(root).items()}
+    pairs = set()
+    for name in ('study/corpus2/pool.json', 'study/corpus2/ambiguity.json', 'study/corpus2/dev.json', 'study/corpus2/tasks.json',
+                 'study/corpus3/tasks.json', 'study/corpus3/dev.json'):
+        for task in json.loads((Path(root) / name).read_text(encoding='utf-8')).get('tasks', []):
+            if task.get('question') and task.get('id') not in own:
+                pairs |= {(new_id, task['id']) for fragment in fragments(task['question']) for new_id, text in own.items() if fragment in text}
+    return sorted(pairs)
+
+
+def without_new_questions(text, root=ROOT):
+    """`text` (normalized) with every new task's question cut out, as plain text and as a JSON string, so that a fragment the new question
+    shares with another question is not taken for a leak, while the same fragment anywhere else still is."""
+    for question in new_questions(root).values():
+        for form in (normalized(question), normalized(json.dumps(question, ensure_ascii=False)[1:-1])):
+            text = text.replace(form, ' \0 ')
+    return text
+
+
 def task_ids(root=ROOT):
     """The task ids of corpus 2."""
     ids = set()
@@ -411,11 +529,37 @@ def normalized(text):
     return re.sub(r'\s+', ' ', text).strip()
 
 
+def walk_strings(value):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            yield key
+            yield from walk_strings(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from walk_strings(item)
+    elif isinstance(value, str):
+        yield value
+
+
+def scan_text(path, data):
+    """The text a leak scan reads in one package file, normalized: the raw text, with the escapes \\n, \\r and \\t read as whitespace
+    (a question wrapped inside a JSON or Python string literal), and, for a JSON file, its decoded keys and string values joined by
+    spaces (a question split across neighbouring strings). The parts are kept apart by a NUL so that no fragment spans two of them."""
+    raw = data.decode('utf-8', 'replace')
+    parts = [normalized(re.sub(r'\\[nrt]', ' ', raw))]
+    if path.endswith('.json'):
+        try:
+            parts.append(normalized(' '.join(walk_strings(json.loads(raw)))))
+        except ValueError:
+            pass
+    return ' \0 '.join(parts)
+
+
 def fragments(question):
-    """The question, and its 10-word windows of at least 50 characters taken every 5 words (as test_corpus2.py does)."""
+    """The question, and its 10-word windows of at least 50 characters, one starting at every word."""
     out = {normalized(question)}
     words = question.split()
-    for start in range(0, max(1, len(words) - 9), 5):
+    for start in range(0, max(1, len(words) - 9)):
         fragment = ' '.join(words[start:start + 10])
         if len(fragment) >= 50:
             out.add(fragment)
@@ -436,13 +580,18 @@ def leaks(name, folder, root=ROOT):
     """The leak findings of decision I5 for one built package (an empty list when there is none).
 
     guide:  (a) no file under an excluded path, nor any lab file under study/; (b) no corpus 2 or study 1 question, exact or
-            whitespace-normalized, nor a 10-word fragment of one; (c) no corpus 2 task id as a word.
+            whitespace-normalized, nor a 10-word fragment of one; (c) no corpus 2 task id as a word; (b) and (c) read the manifest too.
     keys-b: (d) no `expected` key in a corpus 2 JSON file (the released data's own curation files may hold that word); no file under an
             excluded path; no file whose bytes are those of an excluded file.
+    keys-b3 (the Job study3_blind_inputs): (a) no file under an excluded path (either derivation A of corpus 2 or 3 and the development
+            sets), no file whose bytes are those of an excluded file; (b) exactly the ids of corpus 3's newTaskIds in the tasks and in
+            the schemas, and no other corpus 2 or 3 question (exact, whitespace-normalized or a 10-word fragment) in any file, the
+            manifest included, outside the new questions themselves (shared_fragments); (c) no `expected`, `directions` or `designNote` key in a corpus 2 or 3 JSON file.
     """
     folder, root = Path(folder), Path(root)
     definition = load_definitions(WorkingSource(root))['packages'][name]
     paths = [p for p in package_files(folder) if p != MANIFEST]
+    scanned = paths + [MANIFEST] if (folder / MANIFEST).is_file() else paths  # the manifest copies the definitions' texts
     found = []
     for path in paths:
         for prefix in definition['excluded']:
@@ -450,7 +599,7 @@ def leaks(name, folder, root=ROOT):
                 found.append('(a) %s is under the excluded path %s' % (path, prefix))
     if name == 'guide':
         found += ['(a) %s is a lab file under study/' % p for p in paths if p.startswith('study/')]
-        texts = {p: normalized((folder / p).read_bytes().decode('utf-8', 'replace')) for p in paths}
+        texts = {p: scan_text(p, (folder / p).read_bytes()) for p in scanned}
         for question in questions(root):
             for fragment in fragments(question):
                 for path, text in texts.items():
@@ -470,9 +619,39 @@ def leaks(name, folder, root=ROOT):
             data = (folder / path).read_bytes()
             if sha256(data) in forbidden:
                 found.append('(d) %s has the bytes of %s' % (path, forbidden[sha256(data)]))
-            if path.startswith(CORPUS2) and path.endswith('.json') and 'expected' in set(walk_keys(json.loads(data.decode('utf-8')))):
+            if name == 'keys-b' and path.startswith(CORPUS2) and path.endswith('.json') and \
+                    'expected' in set(walk_keys(json.loads(data.decode('utf-8')))):
                 found.append('(d) %s holds an expected entry' % path)
+        if name == 'keys-b3':
+            found = [f.replace('(d) ', '(a) ', 1) for f in found]
+            found += leaks_of_keys_b3(folder, paths, scanned, root)
     return sorted(set(found))
+
+
+def leaks_of_keys_b3(folder, paths, scanned, root=ROOT):
+    """Findings (b) and (c) of keys-b3; (a) is the excluded paths and bytes that leaks() checks for both keys packages."""
+    found, new = [], new_task_ids(root)
+    tasks, schemas = CORPUS3 + 'tasks.json', CORPUS3 + 'schemas.json'
+    for path, read in ((tasks, lambda v: [t.get('id') for t in v.get('tasks', [])]), (schemas, lambda v: list(v.get('schemas', {})))):
+        if path not in paths:
+            found.append('(b) %s is missing' % path)
+            continue
+        ids = read(json.loads((folder / path).read_text(encoding='utf-8')))
+        if sorted(ids) != sorted(new) or len(set(ids)) != len(ids):
+            found.append('(b) %s holds the ids %s, not the %d new task ids' % (path, ', '.join(map(str, ids)), len(new)))
+    texts = {p: without_new_questions(scan_text(p, (folder / p).read_bytes()), root) for p in scanned}
+    for question in other_questions(root):
+        for fragment in fragments(question):
+            for path, text in texts.items():
+                if fragment in text:
+                    found.append('(b) %s holds question text of a task that is not new: %r' % (path, fragment[:80]))
+    for path in paths:
+        if (path.startswith(CORPUS2) or path.startswith(CORPUS3)) and path.endswith('.json'):
+            keys = set(walk_keys(json.loads((folder / path).read_bytes().decode('utf-8'))))
+            for key in ('expected', 'directions', 'designNote'):
+                if key in keys:
+                    found.append('(c) %s holds %s %s entry' % (path, 'an' if key == 'expected' else 'a', key))
+    return found
 
 
 def verify(folder, root=ROOT):

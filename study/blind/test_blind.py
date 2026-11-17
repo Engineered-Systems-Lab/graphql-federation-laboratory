@@ -7,10 +7,19 @@
   the same source gives the same manifest hash and the same bytes.
 - Each check catches a planted leak; the manifest check catches a changed, added or missing file and a .git entry; the builder refuses
   an output inside a Git work tree, a folder that is not empty and a commit whose blind.py is not this one.
+- Study 3's keys B package (keys-b3, the Job study3_blind_inputs): (a) nothing of either derivation A of corpus 2 or 3 (derive_a.py,
+  derive_a3.py, keys-a.json, expected.json, reference/), by path or by bytes; (b) exactly the 31 ids of newTaskIds in the tasks and the
+  schemas, each record (without its designNote) and schema the lab's own JSON value, and no carried, ambiguity or development question
+  (exact, whitespace-normalized or a 10-word fragment starting at any word) in any file or the manifest, outside the new questions
+  themselves, whose shared wording is pinned; (c) no expected, directions or designNote entry; (d) a rebuild gives the same package hash
+  (with the other packages).
+- The rewrites: select keeps exactly the named entries of a list or a map, in the file's order, and refuses a missing or doubled id and a
+  file that does not round-trip; drop still writes what it wrote for study 2's package; study 2's two definitions are unchanged.
 
 The packages are built from the working tree (the files Git tracks or would track), so the checks judge the definitions and the lab files
 as they stand. The build from a commit is checked against HEAD.
 """
+import hashlib
 import json
 import re
 import shutil
@@ -50,7 +59,7 @@ class Packages(unittest.TestCase):
 
     # ------------------------------------------------------------------------------------------- the leak checks on the packages
 
-    def test_neither_package_leaks(self):
+    def test_no_package_leaks(self):
         for name in blind.PACKAGES:
             with self.subTest(package=name):
                 self.assertEqual(blind.check_manifest(self.base / name), [])
@@ -214,6 +223,221 @@ class Packages(unittest.TestCase):
         for heading in ('What each tool does', 'The sandbox'):
             body = blind.markdown_section(readme, heading).split('\n', 1)[1]
             self.assertIn(body.strip(), tools)
+
+    # ------------------------------------------------------------------------------------------- study 3's keys B package (keys-b3)
+
+    FIRST_DERIVATIONS = ('study/corpus2/derive_a.py', 'study/corpus2/keys-a.json', 'study/corpus2/expected.json',
+                         'study/corpus3/derive_a3.py', 'study/corpus3/keys-a.json', 'study/corpus3/expected.json')
+    REFERENCES = ('study/corpus2/reference/', 'study/corpus3/reference/')
+
+    def b3(self, path):
+        return json.loads((self.base / 'keys-b3' / path).read_text(encoding='utf-8'))
+
+    def test_b3_a_holds_nothing_of_either_first_derivation_by_path_or_by_bytes(self):
+        excluded = blind.load_definitions(blind.WorkingSource())['packages']['keys-b3']['excluded']
+        for path in self.FIRST_DERIVATIONS + self.REFERENCES + ('study/corpus2/dev.json', 'study/corpus3/dev.json'):
+            self.assertIn(path, excluded)
+        forbidden = {blind.sha256((ROOT / p).read_bytes()): p for p in self.FIRST_DERIVATIONS}
+        for folder in self.REFERENCES:
+            files = blind.WorkingSource().files_under(folder)
+            self.assertTrue(files, folder)
+            forbidden.update({blind.sha256((ROOT / p).read_bytes()): p for p in files})
+        for path in self.files('keys-b3'):
+            self.assertNotIn(path, self.FIRST_DERIVATIONS, path)
+            self.assertFalse(any(path.startswith(folder) for folder in self.REFERENCES), path)
+            self.assertNotIn(blind.sha256((self.base / 'keys-b3' / path).read_bytes()), forbidden, path)
+
+    def test_b3_b_holds_exactly_the_new_tasks_as_the_lab_holds_them(self):
+        new = json.loads((ROOT / 'study/corpus3/corpus-manifest.json').read_text(encoding='utf-8'))['newTaskIds']
+        self.assertEqual(len(new), 31)
+        self.assertEqual(blind.new_task_ids(), new)
+        lab_tasks = json.loads((ROOT / 'study/corpus3/tasks.json').read_text(encoding='utf-8'))
+        lab_schemas = json.loads((ROOT / 'study/corpus3/schemas.json').read_text(encoding='utf-8'))
+        tasks, schemas = self.b3('study/corpus3/tasks.json'), self.b3('study/corpus3/schemas.json')
+        self.assertEqual(sorted(t['id'] for t in tasks['tasks']), sorted(new))
+        self.assertEqual(sorted(schemas['schemas']), sorted(new))
+        lab_new = [t for t in lab_tasks['tasks'] if t['id'] in new]
+        self.assertTrue(any('designNote' in t for t in lab_new))
+        self.assertEqual(tasks['tasks'], [{k: v for k, v in t.items() if k != 'designNote'} for t in lab_new])
+        self.assertEqual(schemas['schemas'], {k: v for k, v in lab_schemas['schemas'].items() if k in new})
+        self.assertEqual(list(tasks), [k for k in lab_tasks if k != 'directions'])
+        self.assertEqual({k: v for k, v in tasks.items() if k != 'tasks'}, {k: v for k, v in lab_tasks.items() if k not in ('tasks', 'directions')})
+        self.assertEqual({k: v for k, v in schemas.items() if k != 'schemas'}, {k: v for k, v in lab_schemas.items() if k != 'schemas'})
+        for path in ('study/corpus3/tasks.json', 'study/corpus3/schemas.json'):
+            self.assertEqual((self.base / 'keys-b3' / path).read_bytes(), blind.json_bytes(self.b3(path)), path)
+
+    def test_b3_b_no_question_of_a_task_that_is_not_new_is_in_it(self):
+        others = blind.other_questions()
+        self.assertGreater(len(others), 150)
+        new = set(blind.new_task_ids())
+        for name in ('study/corpus3/tasks.json', 'study/corpus3/dev.json', 'study/corpus2/pool.json', 'study/corpus2/ambiguity.json'):
+            for task in json.loads((ROOT / name).read_text(encoding='utf-8'))['tasks']:
+                if task['id'] not in new:
+                    self.assertIn(task['question'], others, (name, task['id']))
+        texts = {p: blind.normalized((self.base / 'keys-b3' / p).read_bytes().decode('utf-8', 'replace')) for p in self.files('keys-b3')}
+        for question in others:
+            for path, body in texts.items():
+                self.assertNotIn(blind.normalized(question), body, path)
+
+    def test_b3_c_holds_no_expected_no_directions_and_no_design_note_entry(self):
+        for path in self.files('keys-b3'):
+            if path.startswith('study/') and path.endswith('.json'):
+                keys = set(blind.walk_keys(self.b3(path)))
+                for key in ('expected', 'directions', 'designNote'):
+                    self.assertNotIn(key, keys, path)
+
+    def test_b3_b_the_wording_new_questions_share_with_other_questions_is_pinned(self):
+        # a 10-word fragment of these other tasks' questions lies inside these new questions; the scan cuts the new questions out
+        self.assertEqual(blind.shared_fragments(), [('B26', 'V06'), ('E23', 'E13'), ('E25', 'E13')])
+
+    def test_the_scan_text_unwraps_escaped_line_breaks_and_decodes_json_strings(self):
+        question = 'one two three four five six seven eight nine ten eleven twelve'
+        wrapped = question.replace('five ', 'five\n')
+        for path, data in (('m.json', blind.json_bytes({'why': wrapped})), ('m.json', blind.json_bytes({'lines': wrapped.split('\n')})),
+                           ('x.py', ('text = %r\n' % wrapped).encode('utf-8'))):
+            with self.subTest(path=path, data=data[:30]):
+                self.assertIn(question, blind.scan_text(path, data))
+
+    def test_fragments_start_at_every_word(self):
+        words = ['word%02d' % i for i in range(14)]
+        found = blind.fragments(' '.join(words))
+        for start in range(5):
+            self.assertIn(' '.join(words[start:start + 10]), found)
+        self.assertEqual(len(found), 6)
+
+    def test_b3_holds_study_2s_keys_b_files_byte_for_byte_and_nothing_else_of_corpus_2(self):
+        files = self.files('keys-b3')
+        for path in ('study/corpus2/derive_b.py', 'study/corpus2/test_derive_b.py'):
+            self.assertEqual((self.base / 'keys-b3' / path).read_bytes(), (ROOT / path).read_bytes(), path)
+        self.assertEqual([p for p in files if p.startswith('study/')],
+                         ['study/corpus2/derive_b.py', 'study/corpus2/test_derive_b.py', 'study/corpus3/schemas.json', 'study/corpus3/tasks.json'])
+
+    def test_b3_the_manifest_records_each_rewrite_with_the_hashes_of_its_sources(self):
+        entries = {e['path']: e for e in self.manifests['keys-b3']['files']}
+        listed = blind.sha256((ROOT / 'study/corpus3/corpus-manifest.json').read_bytes())
+        new = blind.new_task_ids()
+        tasks, schemas = entries['study/corpus3/tasks.json'], entries['study/corpus3/schemas.json']
+        self.assertEqual(tasks['labSha256'], blind.sha256((ROOT / 'study/corpus3/tasks.json').read_bytes()))
+        self.assertEqual(schemas['labSha256'], blind.sha256((ROOT / 'study/corpus3/schemas.json').read_bytes()))
+        select, drop, note = tasks['rewrite']
+        self.assertEqual(select['select'], {'path': 'study/corpus3/corpus-manifest.json', 'list': 'newTaskIds', 'labSha256': listed})
+        self.assertEqual((select['from'], sorted(select['kept']), select['removed']), ('tasks', sorted(new), 113 - 31))
+        self.assertEqual((drop['drop'], drop['removed']), ('directions', 1))
+        self.assertNotIn('from', drop)
+        self.assertEqual((note['drop'], note['from']), ('designNote', 'tasks'))
+        self.assertEqual(note['removed'], sum('designNote' in t for t in json.loads(
+            (ROOT / 'study/corpus3/tasks.json').read_text(encoding='utf-8'))['tasks'] if t['id'] in new))
+        self.assertEqual(schemas['rewrite']['select']['labSha256'], listed)
+        self.assertEqual((schemas['rewrite']['from'], sorted(schemas['rewrite']['kept']), schemas['rewrite']['removed']),
+                         ('schemas', sorted(new), 113 - 31))
+        self.assertEqual({p: e['source'] for p, e in entries.items() if e['source'] != 'lab'},
+                         {'README.md': 'readme', 'study/corpus3/tasks.json': 'rewritten', 'study/corpus3/schemas.json': 'rewritten'})
+
+    def test_b3_the_readme_names_what_is_here_and_what_was_left_out(self):
+        text = (self.base / 'keys-b3' / blind.README).read_text(encoding='utf-8')
+        for word in ('study/corpus3/tasks.json', 'study/corpus3/schemas.json', 'study/corpus2/derive_b.py', 'study/corpus2/test_derive_b.py',
+                     'federation/mapping-releases/', 'personnel-v2-large-004', 'directions', 'keys-a.json', 'expected.json', 'derive_a3.py',
+                     'reference/', 'designNote', 'The new tasks are all you get.'):
+            self.assertIn(word, text)
+        self.assertNotIn('{commit}', text)
+
+    def test_b3_the_checks_catch_planted_leaks(self):
+        lab_tasks = json.loads((ROOT / 'study/corpus3/tasks.json').read_text(encoding='utf-8'))
+        new = set(blind.new_task_ids())
+        carried = next(t for t in lab_tasks['tasks'] if t['id'] not in new)
+        folder = self.copy('keys-b3')
+        tasks = json.loads((folder / 'study/corpus3/tasks.json').read_text(encoding='utf-8'))
+        tasks['tasks'].append(carried)
+        tasks['directions'] = {}
+        tasks['tasks'][0]['expected'] = 1
+        tasks['tasks'][1]['designNote'] = 'x'
+        (folder / 'study/corpus3/tasks.json').write_bytes(blind.json_bytes(tasks))
+        with open(folder / blind.README, 'a', encoding='utf-8', newline='\n') as handle:
+            handle.write('\n' + '  \n'.join(carried['question'].split(' ')) + '\n')
+        shutil.copy(ROOT / 'study/corpus3/keys-a.json', folder / 'study/corpus3/renamed.json')
+        (folder / 'study/corpus3/reference').mkdir()
+        (folder / 'study/corpus3/reference/x.py').write_text('x', encoding='utf-8')
+        found = blind.leaks('keys-b3', folder)
+        for mark in ('(a) study/corpus3/renamed.json has the bytes of study/corpus3/keys-a.json',
+                     '(a) study/corpus3/reference/x.py is under the excluded path study/corpus3/reference/',
+                     '(b) study/corpus3/tasks.json holds the ids', '(b) README.md holds question text',
+                     '(b) study/corpus3/tasks.json holds question text', '(c) study/corpus3/tasks.json holds an expected entry',
+                     '(c) study/corpus3/tasks.json holds a directions entry', '(c) study/corpus3/tasks.json holds a designNote entry'):
+            self.assertTrue(any(f.startswith(mark) for f in found), (mark, found))
+        # a question planted in the manifest's copied texts, and a 10-word window that starts off the five-word grid
+        dev = json.loads((ROOT / 'study/corpus3/dev.json').read_text(encoding='utf-8'))['tasks'][0]['question']
+        words = next(t['question'] for t in lab_tasks['tasks'] if t['id'] not in new and len(t['question'].split()) > 14).split()
+        window = next(' '.join(words[i:i + 10]) for i in range(1, len(words) - 9) if i % 5 and len(' '.join(words[i:i + 10])) >= 50)
+        wrapped = ' '.join(words[:5]) + '\n' + ' '.join(words[5:])
+        for planted, where in ((dev, blind.MANIFEST), (wrapped, blind.MANIFEST), (window, blind.README)):
+            with self.subTest(where=where, wrapped='\n' in planted):
+                folder = self.copy('keys-b3')
+                if where == blind.MANIFEST:
+                    manifest = json.loads((folder / blind.MANIFEST).read_text(encoding='utf-8'))
+                    manifest['files'][0]['note'] = planted
+                    (folder / blind.MANIFEST).write_bytes(blind.json_bytes(manifest))
+                else:
+                    with open(folder / where, 'a', encoding='utf-8', newline='\n') as handle:
+                        handle.write('\n' + planted + '\n')
+                found = blind.leaks('keys-b3', folder)
+                self.assertTrue(any(f.startswith('(b) %s holds question text' % where) for f in found), found)
+        guide = self.copy('guide')
+        manifest = json.loads((guide / blind.MANIFEST).read_text(encoding='utf-8'))
+        manifest['files'][0]['note'] = dev
+        (guide / blind.MANIFEST).write_bytes(blind.json_bytes(manifest))
+        self.assertTrue(any(f.startswith('(b) MANIFEST.json holds question text') for f in blind.leaks('guide', guide)))
+        schemas_gone = self.copy('keys-b3')
+        (schemas_gone / 'study/corpus3/schemas.json').unlink()
+        self.assertIn('(b) study/corpus3/schemas.json is missing', blind.leaks('keys-b3', schemas_gone))
+
+
+class Rewrites(unittest.TestCase):
+    STUDY2_COMMIT = '6c18afa638ce583dcd79125177ba9a210f5a3686'
+    STUDY2_DEV_SHA256 = 'd1a7879367f697a064551db01524185dd2c0bf535371fc2dd0010274fd5bbb7e'
+
+    def test_drop_still_writes_what_it_wrote_for_study_2s_package(self):
+        # study 2's keys-b package, built from STUDY2_COMMIT, holds study/corpus2/dev.json with this SHA-256 and 15400 bytes
+        original = blind.GitSource(self.STUDY2_COMMIT).read('study/corpus2/dev.json')
+        data, removed = blind.drop_key(original, 'expected', 'tasks', 'study/corpus2/dev.json')
+        self.assertEqual((hashlib.sha256(data).hexdigest(), len(data), removed), (self.STUDY2_DEV_SHA256, 15400, 8))
+        manifest = blind.manifest_of('keys-b', blind.WorkingSource(), blind.plan(blind.WorkingSource(), 'keys-b'))
+        entry = next(e for e in manifest['files'] if e['path'] == 'study/corpus2/dev.json')
+        self.assertEqual(sorted(entry['rewrite']), ['drop', 'from', 'removed', 'why'])
+
+    def test_study_2s_two_definitions_are_unchanged(self):
+        before = json.loads(blind.GitSource(self.STUDY2_COMMIT).read(blind.DEFINITIONS).decode('utf-8'))
+        now = blind.load_definitions(blind.WorkingSource())
+        for name in ('guide', 'keys-b'):
+            self.assertEqual(now['packages'][name], before['packages'][name], name)
+        self.assertEqual([c for c in now['considered'] if c['package'] != 'keys-b3'], before['considered'])
+
+    def test_drop_without_from_removes_one_top_level_key(self):
+        data = blind.json_bytes({'about': 'a', 'directions': {'x': 1}, 'tasks': []})
+        self.assertEqual(blind.drop_key(data, 'directions', None, 'f.json'), (blind.json_bytes({'about': 'a', 'tasks': []}), 1))
+        with self.assertRaises(blind.Refused):
+            blind.drop_key(data, 'missing', None, 'f.json')
+
+    def test_select_keeps_exactly_the_named_entries_of_a_list_or_a_map_in_the_files_order(self):
+        listed = blind.json_bytes({'tasks': [{'id': 'A', 'q': 1}, {'id': 'B', 'q': [2]}, {'id': 'C', 'q': {'r': 3}}], 'x': 'y'})
+        data, kept, removed = blind.select_ids(listed, ['C', 'A'], 'tasks', 'f.json')
+        self.assertEqual(json.loads(data), {'tasks': [{'id': 'A', 'q': 1}, {'id': 'C', 'q': {'r': 3}}], 'x': 'y'})
+        self.assertEqual((kept, removed), (['A', 'C'], 1))
+        mapped = blind.json_bytes({'schemas': {'A': {'t': 1}, 'B': {}, 'C': []}})
+        data, kept, removed = blind.select_ids(mapped, ['B', 'C'], 'schemas', 'f.json')
+        self.assertEqual(json.loads(data), {'schemas': {'B': {}, 'C': []}})
+        self.assertEqual((kept, removed), (['B', 'C'], 1))
+
+    def test_select_refuses_a_missing_or_doubled_id_and_a_file_that_does_not_round_trip(self):
+        listed = blind.json_bytes({'tasks': [{'id': 'A'}, {'id': 'B'}]})
+        for args in ((listed, ['A', 'Z'], 'tasks'), (blind.json_bytes({'tasks': [{'id': 'A'}, {'id': 'A'}]}), ['A'], 'tasks'),
+                     (json.dumps({'tasks': [{'id': 'A'}]}).encode('utf-8'), ['A'], 'tasks'), (listed, ['A'], 'other'),
+                     (blind.json_bytes({'tasks': [{'name': 'A'}]}), ['A'], 'tasks')):
+            with self.assertRaises(blind.Refused):
+                blind.select_ids(args[0], args[1], args[2], 'f.json')
+        for bad in ({'ids': []}, {'ids': ['A', 'A']}, {'ids': 'A'}, {'other': ['A']}, {'ids': ['A', '']}):
+            with self.assertRaises(blind.Refused):
+                blind.id_list(json.dumps(bad).encode('utf-8'), 'ids', 'm.json')
+        self.assertEqual(blind.id_list(json.dumps({'ids': ['B', 'A']}).encode('utf-8'), 'ids', 'm.json'), ['B', 'A'])
 
 
 class Builder(unittest.TestCase):
