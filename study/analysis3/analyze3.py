@@ -1,0 +1,234 @@
+"""The study-3 analysis: every table and figure of the draft plan (PLAN.md), from a verified copy of a study-3 bundle.
+
+    python -B study/analysis3/analyze3.py --bundle <copy of the run folder> --sums <SHA256SUMS file> --bundle-checksum <sha256>
+        --corpus-dir <the corpus the bundle ran> --out <new folder outside the repository> [--run-id study-3] [--replicates 10000]
+        [--study2-scores study/evidence/study-2/scores.csv]
+
+The copy is verified first; any difference stops the run with STOP and exit code 2 before a number is computed, and nothing is written. An
+unusable fit does not stop the run: each family switches to its prespecified fallback (stats3.confirmatory), and a family that cannot be
+estimated either way is reported as not estimable. The run writes results.json, tables.md and figures/effort.svg into --out, which must be
+outside the repository and must not exist yet. The same inputs give the same bytes. The tiers stay apart in every output: confirmatory,
+sensitivity, descriptive and exploratory.
+"""
+import argparse
+import csv
+import json
+import math
+import statistics
+import sys
+from pathlib import Path
+
+import data3
+import stats3
+import analyze2  # study 2's descriptive and exploratory tables, read-only (on the path through data3)
+import stats2
+import svg  # study 1's figures, read-only
+
+HERE = Path(__file__).resolve().parent
+REPO = HERE.parent.parent
+ARMS = data3.SQUARE_ARMS
+NAMES = data3.ARM_NAMES
+MARKED = 'MARKED PLACE: filled at the freeze'
+OUTCOME_NAMES = {'toolCalls': '1 + tool calls per run', 'cost': 'cost per run (USD)'}
+GROUP_NAMES = {'forward': 'forward', 'reverse': 'reverse', 'one': 'one system', 'several': 'several systems'}
+r6 = analyze2.r6
+table = analyze2.table
+
+
+def group_accuracy(rows):
+    """A14: accuracy per arm in each CSL group, descriptive."""
+    out = {}
+    for field, levels in (('cslGroup', ('forward', 'reverse')), ('joinGroup', ('one', 'several'))):
+        for level in levels:
+            use = [r for r in rows if r.get(field) == level and r['correct'] is not None]
+            out[level] = {'tasks': len({r['task'] for r in use}),
+                          'byArm': {a: [sum(r['correct'] for r in use if r['arm'] == a), sum(1 for r in use if r['arm'] == a)] for a in ARMS}}
+    return out
+
+
+def sensitivity(planned, models, stratum_of, replicates):
+    rows = [r for r in planned if r['correct'] is not None]
+    conditions = stats2.planned_conditions(planned)
+    rounds = stats3.planned_rounds(conditions)
+    out = {'floorVendorErrorsAsWrong': {c: stats3.accuracy_floor(planned, c, models, stratum_of, replicates, vendor_errors_wrong=True, rounds=rounds)
+                                        for _, c, _ in stats3.COMPARISONS},
+           'biasReducedCovariance': {}, 'bootstrapOfTheRatios': {}, 'correctRunsOnly': {}}
+    correct = [r for r in rows if r['correct'] == 1]
+    for outcome in stats3.EFFORT_FAMILIES:
+        for key, use, cov in (('biasReducedCovariance', rows, 'bias_reduced'), ('correctRunsOnly', correct, 'robust')):
+            try:
+                _, summaries = stats3.effort_gee(use, outcome, models, conditions, cov_type=cov)
+                out[key][outcome] = {'estimable': True, 'comparisons': {cid: dict(s, ratio=math.exp(s['estimate']), ratioLow=math.exp(s['low']), ratioHigh=math.exp(s['high']))
+                                                                        for cid, s in summaries.items()}}
+            except stats3.FIT_ERRORS as error:
+                out[key][outcome] = {'estimable': False, 'reason': '%s: %s' % (type(error).__name__, error)}
+        boot = stats3.effort_fallback(rows, outcome, models, stratum_of, replicates, rounds=rounds)
+        if boot['estimable']:
+            boot['comparisons'] = {cid: dict(s, ratio=math.exp(s['estimate']), ratioLow=math.exp(s['low']), ratioHigh=math.exp(s['high']))
+                                   for cid, s in boot['comparisons'].items()}
+        out['bootstrapOfTheRatios'][outcome] = boot
+    return out
+
+
+def per_stratum(rows, models):
+    """P1's tool-call ratio per task group, descriptive: the mean of the per-task contrasts of each anchor, csl kind, category and size."""
+    contrasts = stats3.per_task_contrasts(rows, models)
+    facts = {r['task']: r for r in rows}
+    out = {}
+    for field in ('anchor', 'csl', 'category', 'size'):
+        groups = {}
+        for task, value in contrasts.items():
+            groups.setdefault(str(facts[task].get(field)), []).append(value)
+        out[field] = {k: {'tasks': len(v), 'p1Ratio': math.exp(statistics.fmean(v))} for k, v in sorted(groups.items())}
+    return out
+
+
+def study2_comparison(path, rows, models):
+    """The tasks of study 2 that study 3 ran again: P1's tool-call ratio on those tasks in each study, exploratory."""
+    if not path:
+        return {'compared': False, 'reason': 'no --study2-scores given'}
+    with open(path, encoding='utf-8', newline='') as handle:
+        old = [{'task': r['taskId'], 'arm': r['scenario'], 'model': r['model'], 'row': r['row'], 'toolCalls': int(r['toolCalls'])}
+               for r in csv.DictReader(handle) if r['scenario'] in ARMS and r['category'] != 'F']
+    before = stats3.per_task_contrasts(old, sorted({r['model'] for r in old}))
+    after = stats3.per_task_contrasts(rows, models)
+    shared = sorted(set(before) & set(after))
+    if not shared:
+        return {'compared': False, 'reason': 'no task is in both studies'}
+    return {'compared': True, 'tier': analyze2.EXPLORATORY, 'tasks': len(shared), 'study2P1Ratio': math.exp(statistics.fmean(before[t] for t in shared)),
+            'study3P1Ratio': math.exp(statistics.fmean(after[t] for t in shared))}
+
+
+def attempt(analysis, *args):
+    """A descriptive or exploratory analysis that cannot be computed, for example with no usable run, is reported as not estimable, and
+    every other output is still written. The confirmatory results do not pass through here: they have their own rules."""
+    try:
+        return analysis(*args)
+    except stats3.FIT_ERRORS + (IndexError, KeyError, statistics.StatisticsError) as error:
+        return {'estimable': False, 'reason': '%s: %s' % (type(error).__name__, error)}
+
+
+def analyse(args):
+    facts, corpus_facts, manifest, strata, records, blocks, zero = data3.load(args.bundle, args.sums, args.run_id, args.bundle_checksum, args.corpus_dir)
+    models = sorted(manifest['models'])
+    core = [r for r in records if r['set'] == 'core']
+    square = [r for r in core if r['arm'] in ARMS]
+    stratum_of = {t: e['direction'] for t, e in strata.items() if e['set'] == 'core'}
+    rows = [r for r in square if r['correct'] is not None]
+    conditions = stats2.planned_conditions(square)
+    recorded = [dict(r, cost=r['costAsRecorded']) for r in records]
+    return r6({
+        'about': 'Abstraction ladder study 3 analysis under the draft plan study/analysis3/PLAN.md. Generated; do not edit.',
+        'inputs': {'bundle': facts, 'corpus': corpus_facts},
+        'plan': {'models': models, 'arms': {a: NAMES[a] for a in data3.ALL_ARMS}, 'seed': stats3.SEED, 'replicates': args.replicates,
+                 'floorMarginPoints': 100 * stats3.FLOOR_MARGIN},
+        'counting': dict(data3.data2.counting(records, blocks), zeroCost=zero),
+        'confirmatory': stats3.confirmatory(square, models, stratum_of, args.replicates),
+        'cslGroupAccuracy': {'tier': 'descriptive', 'groups': group_accuracy(square)},
+        'sensitivity': sensitivity(square, models, stratum_of, args.replicates),
+        'descriptive': {'cells': analyze2.cell_counts(core, data3.ALL_ARMS, models), 'outcomes': analyze2.outcome_table(core, data3.ALL_ARMS),
+                        'measures': attempt(analyze2.measures, square, models, conditions), 'perStratum': per_stratum(rows, models),
+                        'spend': analyze2.spend(recorded, blocks), 'schedule': analyze2.schedule_facts(manifest, blocks),
+                        'legacyLoad': {'status': MARKED, 'measure': 'requests to Missions, Personnel and Assets per run and arm, descriptive, ratios with intervals'}},
+        'exploratory': {'tables': attempt(analyze2.exploratory, records, models), 'honestGap': attempt(analyze2.honest_gap, square, models),
+                        'study2Tasks': study2_comparison(args.study2_scores, rows, models)},
+    })
+
+
+# ------------------------------------------------------------------------------------------------------------------ outputs
+def verdict(entry):
+    if entry['claimed']:
+        return 'claimed'
+    if entry['rejected']:
+        return 'significant, not claimed: the accuracy floor is not cleared'
+    return 'not significant'
+
+
+def tables_md(res):
+    c = res['confirmatory']
+    parts = ['# Abstraction ladder study 3: analysis tables', '', 'Generated by study/analysis3/analyze3.py from a verified copy of %s. Do not edit by hand.' % res['inputs']['bundle']['run'], '']
+    rows = []
+    for comparator, f in c['floors'].items():
+        rows.append([NAMES[comparator], '%+.1f' % (100 * f['estimate']) if f['estimable'] else 'not estimable',
+                     '%+.1f' % (100 * f['lower']) if f['estimable'] else '-', 'cleared' if f['cleared'] else 'not cleared'])
+    parts += ['## Confirmatory: the accuracy floor (federation minus the arm, points; one-sided 0.025; margin -10)', '',
+              table(['Against', 'Difference', 'Lower bound', 'Floor'], rows), '']
+    for outcome, family in c['effort'].items():
+        parts += ['## Confirmatory: %s (federation over the arm; Holm over P1 and P2; method: %s)' % (OUTCOME_NAMES[outcome], family['method']), '']
+        if family['method'] == 'notEstimable':
+            parts += ['Not estimable: %s.' % '; '.join(family['problems']), '']
+            continue
+        if family['problems']:
+            parts += ['The GEE could not be used: %s.' % '; '.join(family['problems']), '']
+        parts += [table(['', 'Comparison', 'Ratio [95% CI]', 'p', 'p (Holm)', 'Result'],
+                        [[e['id'], e['label'], '%.3f [%.3f, %.3f]' % (e['ratio'], e['low'], e['high']), '%.4f' % e['p'], '%.4f' % e['pHolm'], verdict(e)]
+                         for e in family['comparisons']]), '']
+    csl = c['csl']
+    parts += ['## Confirmatory: the CSL family (P1 tool calls; one-sided 0.05; Holm over the two; method: %s)' % csl['method'], '']
+    if csl['method'] == 'notEstimable':
+        parts += ['Not estimable: %s.' % '; '.join(csl['problems']), '']
+    else:
+        parts += [table(['Test', 'Tasks', 'Difference of log ratios', 'One-sided 95% bound', 'p', 'p (Holm)', 'Result'],
+                        [[t['label'], ', '.join('%s %d' % (GROUP_NAMES[k], v) for k, v in t['tasks'].items()), '%+.3f' % t['estimate'], '%+.3f' % t['bound'],
+                          '%.4f' % t['p'], '%.4f' % t['pHolm'], verdict(t)] for t in csl['tests']]), '']
+    groups = res['cslGroupAccuracy']['groups']
+    parts += ['## Descriptive: accuracy in each CSL group', '',
+              table(['Group', 'Tasks'] + [NAMES[a] for a in ARMS], [[GROUP_NAMES[k], v['tasks']] + ['%d/%d' % tuple(v['byArm'][a]) for a in ARMS] for k, v in groups.items()]), '']
+    s = res['sensitivity']
+    rows = [['Floor, vendor errors as wrong, against %s' % NAMES[k], 'lower bound %+.1f points' % (100 * v['lower']) if v['estimable'] else 'not estimable'] for k, v in s['floorVendorErrorsAsWrong'].items()]
+    for key, name in (('biasReducedCovariance', 'bias-reduced covariance'), ('correctRunsOnly', 'correct runs only'), ('bootstrapOfTheRatios', 'bootstrap of the ratios')):
+        for outcome, entry in s[key].items():
+            text = ('; '.join('%s %.3f [%.3f, %.3f]' % (cid, v['ratio'], v['ratioLow'], v['ratioHigh']) for cid, v in entry['comparisons'].items())
+                    if entry.get('estimable') else 'not estimable: %s' % entry.get('reason'))
+            rows.append(['%s, %s' % (name, OUTCOME_NAMES[outcome]), text])
+    parts += ['## Sensitivity', '', table(['Analysis', 'Result'], rows), '']
+    measures = res['descriptive']['measures']
+    block = measures['seconds']['allRuns'] if 'seconds' in measures else measures
+    parts += ['## Descriptive: time per run (ratios of geometric means)', '']
+    parts += [table(['', 'Comparison', 'Ratio [95% CI]'], [[r['id'], r['label'], '%.2f [%.2f, %.2f]' % (r['ratio'], r['low'], r['high'])] for r in block['ratios'] if r['id'] in ('P1', 'P2')]), '']\
+        if block.get('estimable') else ['Not estimable: %s' % block.get('reason'), '']
+    parts += ['## Descriptive: legacy load', '', res['descriptive']['legacyLoad']['status'], '']
+    return '\n'.join(parts) + '\n'
+
+
+def figure(res):
+    items = []
+    for outcome, family in res['confirmatory']['effort'].items():
+        items += [('%s %s' % (e['id'], OUTCOME_NAMES[outcome]), e['ratio'], e['low'], e['high'], 'confirmatory') for e in family['comparisons']]
+    if not items:
+        return None
+    top = max(2.0, math.ceil(2 * max(i[3] for i in items)) / 2)
+    ticks = [round(0.5 * k, 1) for k in range(int(2 * top) + 1)]
+    return svg.interval_plot('Federation over each comparison arm', 'ratio of geometric means (95% interval); below 1 is less effort', items, 0, top, ticks)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    for name in ('--bundle', '--sums', '--bundle-checksum', '--corpus-dir', '--out'):
+        parser.add_argument(name, required=True)
+    parser.add_argument('--run-id', default='study-3')
+    parser.add_argument('--replicates', type=int, default=stats3.REPLICATES)
+    parser.add_argument('--study2-scores', default=None)
+    args = parser.parse_args(argv)
+    out = Path(args.out)
+    if out.resolve().is_relative_to(REPO.resolve()):
+        parser.error('--out must be outside the repository: the outputs are generated')
+    if out.exists():
+        parser.error('--out must not exist yet: a file of an earlier run would stand beside the new outputs')
+    try:
+        res = analyse(args)
+    except data3.VerificationError as error:
+        print('STOP: %s' % error, file=sys.stderr)
+        return 2
+    picture = figure(res)
+    (out / 'figures').mkdir(parents=True)
+    (out / 'results.json').write_text(json.dumps(res, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
+    (out / 'tables.md').write_text(tables_md(res), encoding='utf-8', newline='\n')
+    if picture:
+        (out / 'figures' / 'effort.svg').write_text(picture, encoding='utf-8', newline='\n')
+    print('analysis written to %s' % out)
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())
