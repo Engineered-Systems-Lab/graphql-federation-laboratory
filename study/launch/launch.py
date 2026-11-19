@@ -54,6 +54,15 @@ reads, and would read differently after that other scenario ran. The removal is 
 COMPOSE_PROJECT_NAME can never point it at another project): it never removes a volume, an image or the Missions service's external network, and never touches the
 Missions project. The stack keeps no data in a container: the Assets database lives in memory (tmpfs) and is made again at every start.
 
+The legacy-load record (Job study3_legacy_load, decisions L1 to L6 and D1 to D7): every compose call, in both modes, also names
+request-log.compose.yaml, which turns on the JDK's request log in the Missions, Personnel and Assets adapters; in the simulated mode `up`
+recreates those three adapters with it once start.sh has started the stack, and start.sh stays unchanged. The file's SHA-256 (LF bytes) is
+pinned here, and `up`, `down` and `service` refuse when it differs. `up` ends by opening a session folder under legacy-load/ in the state
+folder with the offset between this machine's clock and Docker's (start.json); `down` first saves, from each of the three adapters' logs
+(`docker logs --timestamps`), the time, system and answer status of every request and answer, never a URL or a body (requests.jsonl), the
+offset again (end.json) and the SHA-256 of each file (sha256.json), and only then stops or removes the stack. Recording never stops a start
+or a teardown: what could not be read is written as such, and the reader (study/analysis3/legacy3.py) reports that block as not countable.
+
 The state folder is machine-local and outside the repository: the composed supergraph and the Cosmo execution config go there, so the
 committed files are never rewritten. The Assets database passwords are made at random for each `up` unless STACK_ASSETS_DB_ADMIN_PASSWORD
 and STACK_ASSETS_DB_SERVICE_PASSWORD are set; they are passed in the environment of the child commands only, and never printed or
@@ -65,6 +74,8 @@ needs it: Rover's composition plugin is under the Elastic License 2.0 and the op
 start.sh. Nothing else is removed: no rm, no volume, no image, no prune.
 """
 import argparse
+import calendar
+import hashlib
 import json
 import os
 import re
@@ -84,6 +95,10 @@ STACK_COMPOSE = ROOT / 'federation' / 'stack' / 'compose.yaml'
 START_SH = ROOT / 'federation' / 'stack' / 'start.sh'
 LEGACY_PORTS = ROOT / 'study' / 'mcp' / 'legacy-ports.json'
 REAL_OVERLAY = HERE / 'missions-real.compose.yaml'
+REQUEST_LOG_OVERLAY = HERE / 'request-log.compose.yaml'
+# The SHA-256 of request-log.compose.yaml with LF line ends (decision D3): a test pins it to the file, and up, down and service refuse when
+# the file differs, so the run's hash of this script covers the overlay.
+REQUEST_LOG_OVERLAY_SHA256 = '4d8912d035627b3853018f02cd8541c4f8bab77aff9039d3fa546c27b03ca646'
 SUPERGRAPH_SOURCE = ROOT / 'federation' / 'routers' / 'apollo' / 'supergraph.graphql'
 EXECUTION_CONFIG_SOURCE = ROOT / 'federation' / 'routers' / 'cosmo' / 'execution-config.json'
 COMPOSE_SUPERGRAPH = ROOT / 'federation' / 'routers' / 'apollo' / 'compose_supergraph.py'
@@ -163,6 +178,17 @@ PINNED_IMAGES = tuple(BUILT_IMAGES) + (MISSIONS_IMAGE,)
 PIN_FILE = 'images.json'
 IMAGE_ID = re.compile(r'^sha256:[0-9a-f]{64}$')
 
+# The legacy-load record: the three adapters that call a legacy system, by compose service, with the system each one calls; the folder of
+# the session folders in the state folder; the lines of the JDK's request log; and the clock samples taken at each end of a session.
+LOGGED_ADAPTERS = {'missions-adapter': 'missions', 'personnel-adapter': 'personnel', 'assets-adapter': 'assets'}
+LEGACY_LOAD_DIR = 'legacy-load'
+LEGACY_SCHEMA = 1
+CLOCK_CONTAINER_SERVICE = 'personnel-adapter'  # every scenario runs it; its clock is the Docker clock that `docker logs` stamps with
+CLOCK_SAMPLES = 3
+REQUEST_LINE = re.compile(r'jdk\.httpclient\.HttpClient\s*:\s*REQUEST: ')
+RESPONSE_LINE = re.compile(r'jdk\.httpclient\.HttpClient\s*:\s*RESPONSE: \([A-Z]+ [^)]*\) (\d{3})\b')
+DOCKER_TIME = re.compile(r'^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d+))?Z$')
+
 MIN_COMPOSE = (2, 24, 4)  # the first Compose with the !reset tag that missions-real.compose.yaml uses
 ASSETS_PASSWORDS = ('STACK_ASSETS_DB_ADMIN_PASSWORD', 'STACK_ASSETS_DB_SERVICE_PASSWORD')
 
@@ -198,6 +224,14 @@ class Plan:
     def pin_images(self, path):
         self.steps.append(('pin-images', [str(path)], {}))
 
+    def legacy_start(self, state_dir, scenario, mode):
+        """Open the scenario's legacy-load session folder with the clock offset (the last step of an up)."""
+        self.steps.append(('legacy-start', [str(state_dir / LEGACY_LOAD_DIR), scenario, mode], {}))
+
+    def legacy_save(self, state_dir, scenario, mode):
+        """Save the adapters' request log and the clock offset into the open session (the first step of a down)."""
+        self.steps.append(('legacy-save', [str(state_dir / LEGACY_LOAD_DIR), scenario, mode], {}))
+
 
 def base_env(state_dir, scenario, mode):
     env = dict(adapter_backend_env(mode))
@@ -208,14 +242,16 @@ def base_env(state_dir, scenario, mode):
 
 
 def compose_files(mode, legacy=False):
+    """The compose command and files of one call: the stack file, the legacy ports for alpha and beta, the real-mode overlay and, in both
+    modes, the request-log overlay (decision L1)."""
     files = ['-f', STACK_COMPOSE]
     if legacy:
         files += ['-f', LEGACY_PORTS]
     if mode == 'real':
         # The project is named, never left to the environment: an inherited COMPOSE_PROJECT_NAME outranks the file's `name:`, and a
         # removal with --remove-orphans under the Missions project's name would remove the operator's service.
-        return ['docker', 'compose', '--project-name', STACK_PROJECT] + files + ['-f', REAL_OVERLAY]
-    return ['docker', 'compose'] + files
+        return ['docker', 'compose', '--project-name', STACK_PROJECT] + files + ['-f', REAL_OVERLAY, '-f', REQUEST_LOG_OVERLAY]
+    return ['docker', 'compose'] + files + ['-f', REQUEST_LOG_OVERLAY]
 
 
 def profile(scenario):
@@ -267,11 +303,15 @@ def plan_up(scenario, mode, state_dir, environ):
     plan = Plan()
     env = dict(base_env(state_dir, scenario, mode), **assets_passwords(environ))
     legacy = scenario in LEGACY_SCENARIOS
+    plan.checks.append(('request-log-overlay', None))
     if mode == 'simulated':
         plan.checks.append(('bash', None))
         plan.run(['{bash}', START_SH, 'start'], env)
+        # start.sh composes with its own files, so the three adapters are made again with the request-log overlay (decision D1).
+        plan.run(compose_files(mode) + ['up', '-d', '--no-build', '--no-deps', '--force-recreate', '--wait'] + list(LOGGED_ADAPTERS), env)
         if legacy:
             plan.run(compose_files(mode, legacy=True) + ['up', '-d', '--no-deps', '--wait'] + list(LEGACY_SERVICES[mode]), env)
+        plan.legacy_start(state_dir, scenario, mode)
         return plan
     plan.checks += [('compose-version', None), ('images-present', str(state_dir)), ('missions-container', None), ('missions-network', None),
                     ('missions-answers', None), ('ports-free', router_ports(environ, scenario))]
@@ -289,12 +329,16 @@ def plan_up(scenario, mode, state_dir, environ):
         plan.run(compose_files(mode) + ['up', '-d', '--no-build', '--wait', '--wait-timeout', '120', 'router'], env)
     if legacy:
         plan.run(compose_files(mode, legacy=True) + ['up', '-d', '--no-build', '--no-deps', '--wait'] + list(LEGACY_SERVICES[mode]), env)
+    plan.legacy_start(state_dir, scenario, mode)
     return plan
 
 
 def plan_down(scenario, mode, state_dir, environ):
     plan = Plan()
     env = dict(base_env(state_dir, scenario, mode), **assets_passwords(environ, placeholder='unused'))
+    plan.checks.append(('request-log-overlay', None))
+    # The request log lives in the containers, so it is saved before the stack is stopped or removed (decision L3).
+    plan.legacy_save(state_dir, scenario, mode)
     if mode == 'simulated':
         plan.checks.append(('bash', None))
         plan.run(['{bash}', START_SH, 'stop'], env)
@@ -308,6 +352,7 @@ def plan_service(action, service, scenario, mode, state_dir, environ):
     plan = Plan()
     if service not in OUTAGE_SERVICES:
         raise Refused('service must be one of %s, not %r' % (', '.join(OUTAGE_SERVICES), service))
+    plan.checks.append(('request-log-overlay', None))
     if service == 'missions' and mode == 'real':
         # The outage of the real service stops and starts the container the operator made, by name: never compose up, never a new one.
         plan.checks.append(('missions-container-exists', None))
@@ -383,6 +428,15 @@ class Machine:
     def sleep(self, seconds):
         time.sleep(seconds)
 
+    def now(self):
+        """This machine's clock, in seconds since the epoch (UTC)."""
+        return time.time()
+
+    def logs(self, argv):
+        """(exit code, stdout and stderr as one text) of a read-only command: `docker logs` writes the container's two streams apart."""
+        done = subprocess.run(argv, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding='utf-8', errors='replace')
+        return done.returncode, done.stdout or ''
+
     def oracle_sql(self):
         """(sql, schema, pdb) of the real Missions database, through the preflight's guarded SQLPlus session (SELECT only)."""
         sys.path.insert(0, str(ROOT / 'study' / 'preflight'))
@@ -445,8 +499,164 @@ def check(name, arg, machine, environ, context):
     elif name == 'elv2':
         if environ.get('APOLLO_ELV2_LICENSE') != 'accept':
             raise Refused("Rover's composition plugin is under the Elastic License 2.0; set APOLLO_ELV2_LICENSE=accept to accept it")
+    elif name == 'request-log-overlay':
+        digest = overlay_sha256()
+        if digest != REQUEST_LOG_OVERLAY_SHA256:
+            raise Refused('%s is not the pinned request-log overlay (SHA-256 %s with LF line ends, found %s): the run binds the overlay '
+                          'through this script, so a changed overlay needs a reviewed change of the pin' % (REQUEST_LOG_OVERLAY.name,
+                                                                                                          REQUEST_LOG_OVERLAY_SHA256, digest))
     else:
         raise AssertionError(name)
+
+
+def overlay_sha256(path=None):
+    """The SHA-256 of the request-log overlay with LF line ends (a checkout may write CRLF), or None when it cannot be read."""
+    try:
+        data = Path(path or REQUEST_LOG_OVERLAY).read_bytes()
+    except OSError:
+        return None
+    return hashlib.sha256(data.replace(b'\r\n', b'\n')).hexdigest()
+
+
+# ------------------------------------------------------------------------------------------------------------- the legacy-load record
+def utc_iso(seconds):
+    """A time in seconds since the epoch as UTC ISO 8601 with microseconds, the form the record and the reader use."""
+    whole = int(seconds // 1)
+    return time.strftime('%Y-%m-%dT%H:%M:%S', time.gmtime(whole)) + '.%06dZ' % int(round((seconds - whole) * 1e6) % 1000000)
+
+
+def docker_seconds(text):
+    """Seconds since the epoch of a Docker timestamp (RFC 3339 in UTC, nanoseconds kept to the microsecond), or None."""
+    match = DOCKER_TIME.match(text.strip())
+    if not match:
+        return None
+    whole = calendar.timegm(time.strptime(match.group(1), '%Y-%m-%dT%H:%M:%S'))
+    fraction = (match.group(2) or '0')[:6].ljust(6, '0')
+    return whole + int(fraction) / 1e6
+
+
+def clock_reading(machine, container):
+    """The offset between this machine's clock and Docker's, read CLOCK_SAMPLES times with `docker exec <container> date`: each sample's
+    bound is the larger distance of Docker's time from the two host times around the call (the true offset can be anywhere in between), and
+    the reading keeps the smallest bound. {"samples", "offsetBound" (seconds, or None), "error"}."""
+    samples, error = [], None
+    if not container:
+        return {'samples': [], 'offsetBound': None, 'error': 'no %s container to read the Docker clock from' % CLOCK_CONTAINER_SERVICE}
+    for _ in range(CLOCK_SAMPLES):
+        before = machine.now()
+        code, out = machine.read(['docker', 'exec', container, 'date', '-u', '+%s.%N'])
+        after = machine.now()
+        try:
+            docker = float(out.strip()) if code == 0 else None
+        except ValueError:
+            docker = None
+        if docker is None:
+            error = 'docker exec date answered %s: %s' % (code, out.strip()[:120])
+            continue
+        samples.append({'hostBefore': round(before, 6), 'docker': round(docker, 6), 'hostAfter': round(after, 6),
+                        'bound': round(max(abs(docker - before), abs(docker - after)), 6)})
+    bound = min((s['bound'] for s in samples), default=None)
+    return {'samples': samples, 'offsetBound': bound, 'error': None if samples else error}
+
+
+def request_rows(text, system):
+    """The rows the record keeps from one adapter's `docker logs --timestamps`: for every REQUEST line its time and system, for every
+    RESPONSE line its time, system and HTTP status. Nothing else of a line is kept: no URL, no method, no body."""
+    rows = []
+    for line in text.splitlines():
+        stamp, _, rest = line.partition(' ')
+        seconds = docker_seconds(stamp)
+        if seconds is None:
+            continue
+        if REQUEST_LINE.search(rest):
+            rows.append({'t': utc_iso(seconds), 'system': system, 'kind': 'request', 'status': None})
+        else:
+            response = RESPONSE_LINE.search(rest)
+            if response:
+                rows.append({'t': utc_iso(seconds), 'system': system, 'kind': 'response', 'status': int(response.group(1))})
+    return rows
+
+
+def write_text_atomic(path, text):
+    path = Path(path)
+    temporary = path.with_name(path.name + '.tmp')
+    with open(temporary, 'w', encoding='utf-8', newline='\n') as handle:
+        handle.write(text)
+    os.replace(temporary, path)
+
+
+def sha256_path(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def open_sessions(folder, scenario):
+    """The session folders of a scenario that have a start and no end, newest last (their names begin with the start time)."""
+    folder = Path(folder)
+    if not folder.is_dir():
+        return []
+    return sorted(p for p in folder.iterdir() if p.is_dir() and p.name.endswith('-' + scenario)
+                  and (p / 'start.json').is_file() and not (p / 'end.json').exists())
+
+
+def new_session_folder(folder, scenario, seconds):
+    stamp = time.strftime('%Y%m%dT%H%M%S', time.gmtime(int(seconds))) + '%06dZ' % int((seconds % 1) * 1e6)
+    path = Path(folder) / ('%s-%s' % (stamp, scenario))
+    number = 1
+    while path.exists():
+        number += 1
+        path = Path(folder) / ('%s.%d-%s' % (stamp, number, scenario))
+    path.mkdir(parents=True)
+    return path
+
+
+def legacy_start(folder, scenario, mode, machine, out=print):
+    """Open a session folder with start.json: the scenario, the mode, this machine's time and the clock offset. Never raises: a failure is
+    printed and leaves no start, which makes that block not countable."""
+    try:
+        now = machine.now()
+        path = new_session_folder(folder, scenario, now)
+        reading = clock_reading(machine, stack_container(machine, CLOCK_CONTAINER_SERVICE))
+        start = {'schema': LEGACY_SCHEMA, 'scenario': scenario, 'missions': mode, 'at': utc_iso(now), 'clock': reading}
+        write_text_atomic(path / 'start.json', json.dumps(start, indent=2, sort_keys=True) + '\n')
+        out('legacy load: opened %s (clock offset bound %s s)' % (path, reading['offsetBound']))
+    except Exception as error:  # the record never stops a start
+        out('legacy load: NOT recorded at the start of %s: %s: %s' % (scenario, type(error).__name__, error))
+
+
+def legacy_save(folder, scenario, mode, machine, out=print):
+    """Save the request log of the three adapters into the newest open session of the scenario (a new folder with no start when there is
+    none), then end.json with the clock offset and sha256.json with the SHA-256 of each file. Never raises: what could not be read is
+    written as such, and a failure is printed; the teardown goes on either way."""
+    try:
+        now = machine.now()
+        sessions = open_sessions(folder, scenario)
+        path = sessions[-1] if sessions else new_session_folder(folder, scenario, now)
+        rows, adapters = [], {}
+        for service, system in LOGGED_ADAPTERS.items():
+            container = stack_container(machine, service)
+            if container is None:
+                adapters[system] = {'saved': False, 'error': 'no single container of %s' % service}
+                continue
+            code, text = machine.logs(['docker', 'logs', '--timestamps', container])
+            if code != 0:
+                adapters[system] = {'saved': False, 'error': 'docker logs exited %d' % code}
+                continue
+            own = request_rows(text, system)
+            rows += own
+            adapters[system] = {'saved': True, 'error': None, 'requests': sum(1 for r in own if r['kind'] == 'request'),
+                                'responses': sum(1 for r in own if r['kind'] == 'response')}
+        rows.sort(key=lambda r: r['t'])  # stable: the order of the lines is kept for equal times
+        write_text_atomic(path / 'requests.jsonl', ''.join(json.dumps(r, sort_keys=True) + '\n' for r in rows))
+        reading = clock_reading(machine, stack_container(machine, CLOCK_CONTAINER_SERVICE))
+        end = {'schema': LEGACY_SCHEMA, 'scenario': scenario, 'missions': mode, 'at': utc_iso(now), 'clock': reading, 'adapters': adapters,
+               'opened': bool(sessions)}
+        write_text_atomic(path / 'end.json', json.dumps(end, indent=2, sort_keys=True) + '\n')
+        names = [name for name in ('start.json', 'requests.jsonl', 'end.json') if (path / name).is_file()]
+        write_text_atomic(path / 'sha256.json', json.dumps({name: sha256_path(path / name) for name in names}, indent=2, sort_keys=True) + '\n')
+        out('legacy load: saved %d requests to %s (clock offset bound %s s)' % (sum(1 for r in rows if r['kind'] == 'request'), path,
+                                                                              reading['offsetBound']))
+    except Exception as error:  # the record never stops a teardown
+        out('legacy load: NOT saved at the teardown of %s: %s: %s' % (scenario, type(error).__name__, error))
 
 
 def seed_state(state_dir):
@@ -485,14 +695,23 @@ def write_pins(path, machine):
 def execute(plan, machine, environ, dry_run=False, out=print):
     context = {}
     for name, arg in plan.checks:
-        if dry_run and name not in ('bash', 'elv2'):
+        if dry_run and name not in ('bash', 'elv2', 'request-log-overlay'):
             out('would check: %s' % name)
             continue
         check(name, arg, machine, environ, context)
     for kind, argv, extra in plan.steps:
         argv = [context.get('bash', 'bash') if part == '{bash}' else part for part in argv]
         if dry_run:
-            out(('would write: %s' if kind == 'pin-images' else 'would run: %s') % show(argv))
+            if kind in ('legacy-start', 'legacy-save'):
+                out('would %s the legacy-load session of %s in %s' % ('open' if kind == 'legacy-start' else 'save', argv[1], argv[0]))
+            else:
+                out(('would write: %s' if kind == 'pin-images' else 'would run: %s') % show(argv))
+            continue
+        if kind == 'legacy-start':
+            legacy_start(argv[0], argv[1], argv[2], machine, out)
+            continue
+        if kind == 'legacy-save':
+            legacy_save(argv[0], argv[1], argv[2], machine, out)
             continue
         if kind == 'pin-images':
             pins = write_pins(argv[0], machine)

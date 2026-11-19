@@ -38,15 +38,36 @@ class FakeMachine:
     """Answers the read-only probes from a table and records every command instead of running it. `images` maps an image name to the id
     `docker image inspect` gives (a name that is absent does not exist); `log` holds the reads and calls in their order."""
 
-    def __init__(self, compose='2.29.1', container='true', network=True, missions_status=200, taken=(), fail=None, images=None):
+    def __init__(self, compose='2.29.1', container='true', network=True, missions_status=200, taken=(), fail=None, images=None,
+                 adapter_logs=None, docker_skew=0.0, stack_containers=True, clock=1795000000.0):
         self.compose, self.container, self.network = compose, container, network
         self.missions_status, self.taken, self.fail = missions_status, set(taken), fail
         self.images = dict(IMAGE_IDS if images is None else images)
         self.reads, self.calls, self.sleeps, self.log = [], [], 0, []
+        # The legacy-load record: each adapter's `docker logs --timestamps` text by compose service (None: docker logs fails), the
+        # Docker clock's skew from this machine's, whether the stack's containers exist, and a clock that moves 0.1 s per reading.
+        self.adapter_logs = dict(adapter_logs or {})
+        self.docker_skew, self.stack_containers, self.clock = docker_skew, stack_containers, clock
+
+    def now(self):
+        self.clock += 0.1
+        return self.clock
+
+    def logs(self, argv):
+        self.reads.append(argv)
+        self.log.append(('logs', argv))
+        assert argv[:3] == ['docker', 'logs', '--timestamps'], argv
+        text = self.adapter_logs.get(argv[3].replace('container-of-', ''), '')
+        return (1, 'no such container') if text is None else (0, text)
 
     def read(self, argv):
         self.reads.append(argv)
         self.log.append(('read', argv))
+        if argv[:3] == ['docker', 'ps', '--all']:
+            service = argv[-1].rsplit('=', 1)[1]
+            return (0, 'container-of-%s' % service) if self.stack_containers else (0, '')
+        if argv[:2] == ['docker', 'exec'] and argv[3:] == ['date', '-u', '+%s.%N']:
+            return 0, '%.6f' % (self.clock + 0.05 + self.docker_skew)
         if argv[:3] == ['docker', 'image', 'inspect']:
             assert argv[3:5] == ['--format', '{{.Id}}'], argv
             return (0, self.images[argv[-1]]) if argv[-1] in self.images else (1, '')
@@ -141,13 +162,21 @@ class SimulatedModeTests(StateDir):
                 self.assertEqual(first, ['bash', str(launch.START_SH), 'start'])
                 self.assertEqual(env['FEDERATION_ROUTER'], 'cosmo' if scenario == 'epsilon' else 'apollo')
                 self.assertEqual(env['SUPERGRAPH_FILE'], str(Path(self.state).resolve() / 'supergraph.graphql'))
+                # Decision D1: start.sh stays unchanged, and the three adapters are made again with the request-log overlay after it.
+                recreate = machine.calls[1][0]
+                self.assertEqual(recreate[:2], ['docker', 'compose'])
+                self.assertEqual(recreate[recreate.index('-f') + 1:recreate.index('up')],
+                                 [str(launch.STACK_COMPOSE), '-f', str(launch.REQUEST_LOG_OVERLAY)])
+                self.assertEqual(recreate[recreate.index('up'):], ['up', '-d', '--no-build', '--no-deps', '--force-recreate', '--wait',
+                                                                   'missions-adapter', 'personnel-adapter', 'assets-adapter'])
                 if scenario in ('alpha', 'beta'):
-                    self.assertEqual(len(machine.calls), 2)
-                    argv = machine.calls[1][0]
+                    self.assertEqual(len(machine.calls), 3)
+                    argv = machine.calls[2][0]
                     self.assertIn(str(launch.LEGACY_PORTS), argv)
+                    self.assertIn(str(launch.REQUEST_LOG_OVERLAY), argv)
                     self.assertEqual(argv[-3:], ['personnel-service', 'missions-stub', 'assets-service'])
                 else:
-                    self.assertEqual(len(machine.calls), 1)
+                    self.assertEqual(len(machine.calls), 2)
 
     def test_down_runs_start_sh_stop(self):
         code, machine, _, _ = run(['down', 'epsilon', '--missions', 'simulated', '--state-dir', self.state])
@@ -296,7 +325,9 @@ class RealModeTests(StateDir):
             code, machine, _, _ = run(['service', 'start', service, 'gamma', '--missions', 'real', '--state-dir', self.state])
             self.assertIn('--no-build', machine.calls[0][0])
         code, machine, _, _ = run(['up', 'alpha', '--missions', 'simulated', '--state-dir', self.state])
-        self.assertNotIn('--no-build', machine.calls[1][0], 'the simulated mode is unchanged: start.sh still builds')
+        self.assertEqual(machine.calls[0][0][1:], [str(launch.START_SH), 'start'], 'the simulated mode still starts through start.sh, which builds')
+        self.assertIn('--no-build', machine.calls[1][0], 'the adapters are made again from the images start.sh has just built')
+        self.assertNotIn('--no-build', machine.calls[2][0], 'the legacy ports start as before')
 
     def test_up_refuses_when_a_built_image_is_missing_and_names_the_build_command(self):
         for ref in launch.BUILT_IMAGES:
@@ -741,6 +772,46 @@ class GeneratorTests(unittest.TestCase):
                     for path in block['launch_files'].values():
                         self.assertTrue(Path(path).is_file(), path)
 
+    def test_the_router_arms_warm_up_fills_the_personnel_cache_and_the_others_are_unchanged(self):
+        """Decisions L4, D2 and D8: with study 3's corpus, delta and epsilon resolve one Personnel reference in their warm-up; with any
+        other corpus they keep study 2's { __typename }; gamma, alpha and beta keep theirs either way."""
+        cases = [(mode, corpus) for mode in launch.MODES for corpus in (None, str(ROOT / 'study' / 'corpus3'))]
+        for mode, corpus in cases:
+            extra = ('--corpus-dir', corpus) if corpus else ()
+            code, config, err = self.generate(mode, *extra, output='%s-%s-warmup.json' % (mode, bool(corpus)))
+            self.assertEqual(code, 0, err)
+            warmups = {name: scenario['warmup_calls'] for name, scenario in config['scenarios'].items()}
+            query = make_config.ROUTER_WARMUP_QUERY if corpus else '{ __typename }'
+            for arm in ('delta', 'epsilon'):
+                self.assertEqual(warmups[arm], [{'tool': 'graphql_query', 'arguments': {'query': query}}], (mode, corpus))
+            self.assertEqual(warmups['gamma'], [{'tool': 'graphql_query', 'arguments': {'query': '{ __typename }', 'service': 'personnel'}}])
+            self.assertEqual(warmups['alpha'], make_config.MAPPING_WARMUP)
+            self.assertEqual(warmups['beta'], make_config.MAPPING_WARMUP)
+
+    def test_the_warm_up_query_rests_on_the_datasets_and_the_supergraph(self):
+        """The mission, its commanding officer's mapping, the person and the snapshot's size that the warm-up's check before scoring
+        counts on (11 Personnel requests), read from the committed datasets; and the query's fields in both routers' supergraphs."""
+        query = make_config.ROUTER_WARMUP_QUERY
+        mission, release = re.search(r'missionId: "([^"]+)"', query).group(1), re.search(r'release: "([^"]+)"', query).group(1)
+        missions = ROOT / 'uss-enterprise' / 'missions' / 'datasets' / 'releases' / '1.2'
+        found = [m for path in sorted(missions.glob('missions-*.xml')) for m in re.findall(
+            r'<missionId>%s</missionId>.*?<commandingOfficerId>([^<]+)</commandingOfficerId>' % re.escape(mission),
+            path.read_text(encoding='utf-8'))]
+        self.assertEqual(found, ['C-85'])
+        crew = json.loads((ROOT / 'federation' / 'mapping-releases' / release / 'crew.json').read_text(encoding='utf-8'))
+        person = crew['entries']['C-85']
+        self.assertEqual(person, 'PRS-0002')
+        snapshot = ROOT / 'uss-enterprise' / 'personnel-v2' / 'datasets' / 'personnel-v2-large-004'
+        manifest = json.loads((snapshot / 'manifest.json').read_text(encoding='utf-8'))
+        self.assertEqual((manifest['count'], manifest['pageSize']), (1000, 100))
+        self.assertTrue(any('<personnelId>%s</personnelId>' % person in p.read_text(encoding='utf-8') for p in snapshot.glob('page-*.xml')))
+        stack = launch.STACK_COMPOSE.read_text(encoding='utf-8')
+        self.assertIn('personnel-v2-large-004', stack, 'the stack serves that snapshot')
+        supergraph = (ROOT / 'federation' / 'routers' / 'apollo' / 'supergraph.graphql').read_text(encoding='utf-8')
+        self.assertRegex(supergraph, r'\bmission\(missionId: ID!\): Mission\b')
+        self.assertRegex(supergraph, r'\bcommandingOfficer\(release: String!\): PersonnelReference\b')
+        self.assertRegex(supergraph, r'resolution: Resolution @join__field\(graph: PERSONNEL')
+
     def test_the_stack_commands_carry_the_mode_and_the_state_folder(self):
         code, config, _ = self.generate('real')
         stack = config['scenarios']['beta']['stack']
@@ -778,6 +849,21 @@ class GeneratorTests(unittest.TestCase):
         plan.update(over)
         (self.dir / 'plan.json').write_text(json.dumps(plan), encoding='utf-8')
         return plan
+
+    def test_a_study_3_schedule_names_study_3s_plan_beside_its_warm_up(self):
+        """Decisions D8 and D9: a schedule config with study 3's corpus names study 3's analysis plan and the Personnel warm-up together;
+        with corpus 2 it keeps study 2's plan and { __typename }."""
+        self.schedule_plan()
+        for corpus, plan, query in ((ROOT / 'study' / 'corpus3', 'analysis3', make_config.ROUTER_WARMUP_QUERY),
+                                    (ROOT / 'study' / 'corpus2', 'analysis2', '{ __typename }')):
+            with self.subTest(corpus=corpus.name):
+                code, config, err = self.generate('real', '--corpus-dir', str(corpus), output='%s.json' % corpus.name)
+                self.assertEqual(code, 0, err)
+                self.assertEqual(config['corpus_dir'], str(corpus))
+                self.assertEqual(config['analysis_plan'], str(ROOT / 'study' / plan / 'PLAN.md'))
+                self.assertTrue(Path(config['analysis_plan']).is_file())
+                for arm in ('delta', 'epsilon'):
+                    self.assertEqual(config['scenarios'][arm]['warmup_calls'][0]['arguments'], {'query': query})
 
     def test_a_schedule_plan_writes_the_fingerprint_health_and_corpus(self):
         plan = self.schedule_plan()
@@ -914,6 +1000,204 @@ class GeneratorTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn('--replace', err)
         self.assertEqual(self.generate('real', '--replace')[0], 0)
+
+
+def adapter_log(*lines):
+    """An adapter's `docker logs --timestamps` text in the shape the JDK request log writes it through Spring Boot's console format."""
+    out = []
+    for stamp, message in lines:
+        out.append('%s %s  INFO 1 --- [federation-adapter] [ient-1-Worker-0] jdk.httpclient.HttpClient                : %s'
+                   % (stamp, stamp[:23] + 'Z', message))
+    return '\n'.join(out) + '\n'
+
+
+SAMPLE_LOGS = {
+    'personnel-adapter': adapter_log(
+        ('2026-11-19T15:17:20.700000001Z', 'REQUEST: http://personnel-service:8082/soap/personnel-v2 POST'),
+        ('2026-11-19T15:17:20.710000002Z', 'RESPONSE: (POST http://personnel-service:8082/soap/personnel-v2) 200 HTTP_1_1 Local port:  51000'),
+        ('2026-11-19T15:17:21.000000003Z', 'REQUEST: http://personnel-service:8082/soap/personnel-v2 POST')) +
+        '2026-11-19T15:17:21.100000000Z 2026-11-19T15:17:21.100Z  INFO 1 --- [federation-adapter] [main] o.s.Started : REQUEST: is not from the client\n',
+    'missions-adapter': adapter_log(
+        ('2026-11-19T15:17:22.000000000Z', 'REQUEST: http://missions-stub:8083/missions/ST-00000LD4O GET'),
+        ('2026-11-19T15:17:22.040000000Z', 'RESPONSE: (GET http://missions-stub:8083/missions/ST-00000LD4O) 503 HTTP_1_1 Local port:  51001')),
+    'assets-adapter': '',
+}
+
+
+class LegacyLoadRecordTests(StateDir):
+    """The legacy-load record (Job study3_legacy_load): the request-log overlay on every compose call of both modes, its pin, the session
+    folder that up opens and down saves before the stack goes, a missing or partial log, and the clock offset."""
+
+    def session(self):
+        folders = sorted((Path(self.state) / launch.LEGACY_LOAD_DIR).iterdir())
+        self.assertEqual(len(folders), 1, folders)
+        return folders[0]
+
+    def test_the_overlay_is_pinned_and_turns_on_the_request_log_of_the_three_backend_adapters_only(self):
+        self.assertEqual(launch.overlay_sha256(), launch.REQUEST_LOG_OVERLAY_SHA256, 'the pin in launch.py must equal the overlay file')
+        text = launch.REQUEST_LOG_OVERLAY.read_text(encoding='utf-8')
+        services = re.findall(r'^  ([a-z-]+):$', text, re.MULTILINE)
+        self.assertEqual(services, list(launch.LOGGED_ADAPTERS))
+        self.assertEqual(text.count('JAVA_TOOL_OPTIONS: -Djdk.httpclient.HttpClient.log=requests'), 3)
+        self.assertNotIn('mapping-adapter:', text)
+        stack = launch.STACK_COMPOSE.read_text(encoding='utf-8')
+        for service in launch.LOGGED_ADAPTERS:
+            self.assertRegex(stack, r'(?m)^  ' + re.escape(service) + ':$')
+        self.assertNotIn('JAVA_TOOL_OPTIONS', stack, 'the stack file itself is unchanged')
+
+    def test_every_compose_call_of_both_modes_names_the_overlay(self):
+        commands = [['up', scenario, '--missions', mode] for scenario in launch.SCENARIOS for mode in launch.MODES]
+        commands += [['down', scenario, '--missions', mode] for scenario in launch.SCENARIOS for mode in launch.MODES]
+        commands += [['service', action, service, scenario, '--missions', mode] for action in ('stop', 'start')
+                     for service in ('assets', 'personnel') for scenario in ('alpha', 'delta') for mode in launch.MODES]
+        commands += [['service', action, 'missions', 'gamma', '--missions', 'simulated'] for action in ('stop', 'start')]
+        seen = 0
+        for argv in commands:
+            with self.subTest(argv=argv):
+                code, machine, _, err = run(argv + ['--state-dir', self.state])
+                self.assertEqual(code, 0, err)
+                for call, _ in machine.calls:
+                    if call[:2] == ['docker', 'compose']:
+                        seen += 1
+                        files = [call[i + 1] for i, part in enumerate(call) if part == '-f']
+                        self.assertEqual(files[-1], str(launch.REQUEST_LOG_OVERLAY), call)
+                        if '--missions' in argv and argv[argv.index('--missions') + 1] == 'real':
+                            self.assertEqual(files[-2], str(launch.REAL_OVERLAY), call)
+        self.assertGreater(seen, 40)
+
+    def test_up_down_and_service_refuse_a_changed_overlay_before_anything_runs(self):
+        original = launch.REQUEST_LOG_OVERLAY_SHA256
+        launch.REQUEST_LOG_OVERLAY_SHA256 = '0' * 64
+        try:
+            for argv in (['up', 'delta', '--missions', 'real'], ['up', 'gamma', '--missions', 'simulated'], ['down', 'delta', '--missions', 'real'],
+                         ['service', 'stop', 'personnel', 'delta', '--missions', 'real'], ['up', 'delta', '--missions', 'real', '--dry-run']):
+                with self.subTest(argv=argv):
+                    code, machine, _, err = run(argv + ['--state-dir', self.state])
+                    self.assertEqual(code, 1)
+                    self.assertIn('is not the pinned request-log overlay', err)
+                    self.assertEqual(machine.calls, [])
+                    self.assertFalse((Path(self.state) / launch.LEGACY_LOAD_DIR).exists())
+        finally:
+            launch.REQUEST_LOG_OVERLAY_SHA256 = original
+        with tempfile.TemporaryDirectory() as folder:
+            crlf = Path(folder) / 'overlay.yaml'
+            crlf.write_bytes(launch.REQUEST_LOG_OVERLAY.read_bytes().replace(b'\n', b'\r\n'))
+            self.assertEqual(launch.overlay_sha256(crlf), launch.REQUEST_LOG_OVERLAY_SHA256, 'a CRLF checkout of the same file passes')
+            self.assertIsNone(launch.overlay_sha256(Path(folder) / 'missing.yaml'))
+
+    def test_up_opens_a_session_and_down_saves_time_system_and_status_before_the_stack_goes(self):
+        for mode in launch.MODES:
+            with self.subTest(mode=mode):
+                self.tearDown()
+                self.setUp()
+                machine = FakeMachine(adapter_logs=SAMPLE_LOGS)
+                code, machine, lines, err = run(['up', 'delta', '--missions', mode, '--state-dir', self.state], machine=machine)
+                self.assertEqual(code, 0, err)
+                folder = self.session()
+                self.assertTrue(folder.name.endswith('-delta'))
+                start = json.loads((folder / 'start.json').read_text(encoding='utf-8'))
+                self.assertEqual((start['schema'], start['scenario'], start['missions']), (1, 'delta', mode))
+                self.assertEqual(len(start['clock']['samples']), launch.CLOCK_SAMPLES)
+                self.assertLessEqual(start['clock']['offsetBound'], 0.2)
+                self.assertTrue(any(line.startswith('legacy load: opened') for line in lines))
+                code, machine, lines, err = run(['down', 'delta', '--missions', mode, '--state-dir', self.state],
+                                                machine=FakeMachine(adapter_logs=SAMPLE_LOGS))
+                self.assertEqual(code, 0, err)
+                self.assertEqual(self.session(), folder, 'down saves into the session up opened')
+                kinds = [kind for kind, argv in machine.log if kind == 'logs' or (kind == 'call')]
+                self.assertEqual(kinds[:3], ['logs', 'logs', 'logs'], 'the log is saved before the stack is stopped or removed')
+                rows = [json.loads(line) for line in (folder / 'requests.jsonl').read_text(encoding='utf-8').splitlines()]
+                self.assertEqual(rows, [
+                    {'t': '2026-11-19T15:17:20.700000Z', 'system': 'personnel', 'kind': 'request', 'status': None},
+                    {'t': '2026-11-19T15:17:20.710000Z', 'system': 'personnel', 'kind': 'response', 'status': 200},
+                    {'t': '2026-11-19T15:17:21.000000Z', 'system': 'personnel', 'kind': 'request', 'status': None},
+                    {'t': '2026-11-19T15:17:22.000000Z', 'system': 'missions', 'kind': 'request', 'status': None},
+                    {'t': '2026-11-19T15:17:22.040000Z', 'system': 'missions', 'kind': 'response', 'status': 503}])
+                saved = (folder / 'requests.jsonl').read_text(encoding='utf-8')
+                for leak in ('http', 'soap', 'ST-00000LD4O', 'POST', 'GET'):
+                    self.assertNotIn(leak, saved, 'no URL, method or body is kept')
+                end = json.loads((folder / 'end.json').read_text(encoding='utf-8'))
+                self.assertTrue(end['opened'])
+                self.assertEqual({s: a['saved'] for s, a in end['adapters'].items()}, {'missions': True, 'personnel': True, 'assets': True})
+                self.assertEqual(end['adapters']['personnel']['requests'], 2)
+                sums = json.loads((folder / 'sha256.json').read_text(encoding='utf-8'))
+                self.assertEqual(sorted(sums), ['end.json', 'requests.jsonl', 'start.json'])
+                for name, digest in sums.items():
+                    self.assertEqual(launch.sha256_path(folder / name), digest)
+
+    def test_a_missing_or_partial_log_is_written_as_such_and_never_stops_the_teardown(self):
+        logs = dict(SAMPLE_LOGS, **{'assets-adapter': None})
+        code, machine, _, err = run(['up', 'epsilon', '--missions', 'real', '--state-dir', self.state], machine=FakeMachine(adapter_logs=logs))
+        code, machine, lines, err = run(['down', 'epsilon', '--missions', 'real', '--state-dir', self.state], machine=FakeMachine(adapter_logs=logs))
+        self.assertEqual(code, 0, err)
+        self.assertEqual(machine.calls[-1][0], REMOVAL)
+        end = json.loads((self.session() / 'end.json').read_text(encoding='utf-8'))
+        self.assertEqual(end['adapters']['assets'], {'saved': False, 'error': 'docker logs exited 1'})
+        self.assertTrue(end['adapters']['personnel']['saved'])
+        # No container at all (a start that failed early) and no open session (an interrupted up): still a teardown, and a folder that
+        # says what is missing.
+        self.tearDown()
+        self.setUp()
+        code, machine, lines, err = run(['down', 'gamma', '--missions', 'real', '--state-dir', self.state],
+                                        machine=FakeMachine(stack_containers=False))
+        self.assertEqual(code, 0, err)
+        self.assertEqual(machine.calls[-1][0], REMOVAL)
+        folder = self.session()
+        self.assertFalse((folder / 'start.json').exists())
+        end = json.loads((folder / 'end.json').read_text(encoding='utf-8'))
+        self.assertFalse(end['opened'])
+        self.assertTrue(all(not a['saved'] for a in end['adapters'].values()))
+        self.assertIsNone(end['clock']['offsetBound'])
+        self.assertEqual(sorted(json.loads((folder / 'sha256.json').read_text(encoding='utf-8'))), ['end.json', 'requests.jsonl'])
+
+    def test_a_failure_of_the_record_is_printed_and_the_command_still_succeeds(self):
+        class Broken(FakeMachine):
+            def now(self):
+                raise OSError('clock unreadable')
+        code, machine, lines, err = run(['up', 'delta', '--missions', 'real', '--state-dir', self.state], machine=Broken())
+        self.assertEqual(code, 0, err)
+        self.assertTrue(any(line.startswith('legacy load: NOT recorded') for line in lines), lines)
+        code, machine, lines, err = run(['down', 'delta', '--missions', 'real', '--state-dir', self.state], machine=Broken())
+        self.assertEqual(code, 0, err)
+        self.assertTrue(any(line.startswith('legacy load: NOT saved') for line in lines), lines)
+        self.assertEqual(machine.calls[-1][0], REMOVAL)
+
+    def test_the_clock_offset_bound_and_its_limit(self):
+        code, machine, _, _ = run(['up', 'delta', '--missions', 'real', '--state-dir', self.state], machine=FakeMachine(docker_skew=2.5))
+        start = json.loads((self.session() / 'start.json').read_text(encoding='utf-8'))
+        self.assertGreater(start['clock']['offsetBound'], 1.0)
+
+        class Exact:
+            """Host times around each `docker exec date` and Docker's answers: 10.1 inside [10.0, 10.4], 20.5 after [20.0, 20.2]."""
+
+            def __init__(self):
+                self.times = iter([10.0, 10.4, 20.0, 20.2, 30.0, 30.9])
+                self.answers = iter(['10.1', '20.5', 'garbage'])
+
+            def now(self):
+                return next(self.times)
+
+            def read(self, argv):
+                return 0, next(self.answers)
+        reading = launch.clock_reading(Exact(), 'c')
+        self.assertEqual([s['bound'] for s in reading['samples']], [0.3, 0.5])
+        self.assertEqual(reading['offsetBound'], 0.3, 'the smallest bound of the samples; a sample Docker did not answer is left out')
+        self.assertIsNone(launch.clock_reading(Exact(), None)['offsetBound'])
+
+    def test_the_rows_keep_only_lines_of_the_jdk_client(self):
+        rows = launch.request_rows(SAMPLE_LOGS['personnel-adapter'] + 'not a timestamp REQUEST: x\n', 'personnel')
+        self.assertEqual([r['kind'] for r in rows], ['request', 'response', 'request'])
+        self.assertAlmostEqual(launch.docker_seconds('2026-11-19T15:17:20.123456789Z') % 1, 0.123456, places=5)
+        self.assertIsNone(launch.docker_seconds('yesterday'))
+        self.assertEqual(launch.utc_iso(launch.docker_seconds('2026-11-19T15:17:20Z')), '2026-11-19T15:17:20.000000Z')
+
+    def test_a_dry_run_says_what_it_would_record_and_writes_nothing(self):
+        for command in ('up', 'down'):
+            code, machine, lines, err = run([command, 'delta', '--missions', 'real', '--state-dir', self.state, '--dry-run'])
+            self.assertEqual(code, 0, err)
+            self.assertTrue(any(line.startswith('would %s the legacy-load session of delta' % ('open' if command == 'up' else 'save'))
+                                for line in lines), lines)
+        self.assertFalse((Path(self.state) / launch.LEGACY_LOAD_DIR).exists())
 
 
 if __name__ == '__main__':

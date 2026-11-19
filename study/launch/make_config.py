@@ -46,7 +46,8 @@ SCHEDULE_PLAN_KEYS = ('schedule',) + COMMON_PLAN_KEYS  # study 2
 OPTIONAL_PLAN_KEYS = ('about', 'harness_tools')
 OPTIONAL_SCHEDULE_KEYS = OPTIONAL_PLAN_KEYS + ('health_every_runs', 'earlier_study_runs')
 CORPUS = {True: ROOT / 'study' / 'corpus2', False: ROOT / 'study' / 'corpus'}  # with a schedule, without
-ANALYSIS_PLAN = ROOT / 'study' / 'analysis2' / 'PLAN.md'  # study 2 only: its hash goes in the plan identity
+ANALYSIS_PLAN = ROOT / 'study' / 'analysis2' / 'PLAN.md'  # a schedule's plan: its hash goes in the plan identity
+STUDY3_ANALYSIS_PLAN = ROOT / 'study' / 'analysis3' / 'PLAN.md'  # the plan of a schedule whose corpus is study 3's (decision D9)
 
 # Image names as federation/stack/compose.yaml and uss-enterprise/missions/compose.yaml give them by default (a test pins them).
 IMAGES = {
@@ -75,6 +76,16 @@ UPSTREAMS = {
                  'http://127.0.0.1:8184/graphql': 'assets-adapter', 'http://127.0.0.1:8190/graphql': 'mapping-adapter'},
 }
 MAPPING_WARMUP = [{'tool': 'read_mapping_release', 'arguments': {'release': '1.3'}}]
+# The router arms' warm-up (delta, epsilon; Job study3_legacy_load, decisions L4 and D2): it resolves one Personnel reference, so the
+# Personnel adapter reads its snapshot before the first scored run. Through the supergraph the snapshot is read only by the Personnel
+# adapter's _entities, which the router calls only for a mission's crew or commanding-officer reference, so the query names one mission:
+# ST-00000LD4O of Missions release 1.2, whose commanding officer C-85 maps to PRS-0002 in mapping release 1.3 (personnel-v2-large-004,
+# 1,000 people: one probe and 10 pages). Each pass makes one Missions request; the first makes 11 Personnel requests, a later one a probe.
+# It is built from the datasets and the schema, never from a corpus. Gamma's warm-up is unchanged: its MCP server blocks _entities, and
+# its Personnel root field never reads the snapshot. Study 2's router warm-up was { __typename }, which reaches no legacy system; a config
+# whose corpus is not study 3's keeps it (decision D8), so a study 1 or study 2 config written again warms up as it did.
+ROUTER_WARMUP_QUERY = '{ mission(missionId: "ST-00000LD4O") { commandingOfficer(release: "1.3") { resolution } } }'
+STUDY3_CORPUS = ROOT / 'study' / 'corpus3'  # the config's corpus that selects ROUTER_WARMUP_QUERY
 
 
 class Refused(Exception):
@@ -210,7 +221,19 @@ def provenance_block(scenario, mode, pins=None):
     return block
 
 
-def scenario_config(scenario, mode, launch_python, mcp_python, state_dir, guide_file, start_env, pins=None):
+def is_study3(corpus):
+    """True when the config's corpus is study 3's, study/corpus3: it selects study 3's router warm-up (D8) and analysis plan (D9)."""
+    return corpus is not None and Path(corpus).resolve() == STUDY3_CORPUS.resolve()
+
+
+def router_warmup(corpus):
+    """The router arms' warm-up: the Personnel snapshot query for study 3's corpus, study 2's { __typename } for any other (D8)."""
+    if is_study3(corpus):
+        return graphql_warmup(query=ROUTER_WARMUP_QUERY)
+    return graphql_warmup()
+
+
+def scenario_config(scenario, mode, launch_python, mcp_python, state_dir, guide_file, start_env, pins=None, corpus=None):
     port = SERVERS[scenario]['port']
     kind = SERVERS[scenario]['kind']
     if kind == 'raw':
@@ -218,7 +241,7 @@ def scenario_config(scenario, mode, launch_python, mcp_python, state_dir, guide_
     elif kind == 'adapters':
         warmup = graphql_warmup(service='personnel')
     else:
-        warmup = graphql_warmup()
+        warmup = router_warmup(corpus)
     out = {'mcp_url': 'http://127.0.0.1:%d/mcp' % port, 'ready_timeout_seconds': 900, 'warmup_calls': warmup}
     if scenario == 'beta':
         out['guide_file'] = str(guide_file)
@@ -291,9 +314,9 @@ def build(plan, mode, launch_python, mcp_python, state_dir, guide_file, accept_e
         raise Refused('the corpus folder %s has no scoring.py' % corpus)
     config['corpus_dir'] = str(corpus)
     if with_schedule:  # a resume then refuses a changed analysis plan (study 1 names none, so its plan hash is unchanged)
-        config['analysis_plan'] = str(ANALYSIS_PLAN)
+        config['analysis_plan'] = str(STUDY3_ANALYSIS_PLAN if is_study3(corpus) else ANALYSIS_PLAN)
     config['dataset_fingerprint'] = launch_command(launch_python, state_dir, mode, 'fingerprint')
-    config['scenarios'] = {name: scenario_config(name, mode, launch_python, mcp_python, state_dir, guide_file, start_env, pins)
+    config['scenarios'] = {name: scenario_config(name, mode, launch_python, mcp_python, state_dir, guide_file, start_env, pins, corpus)
                            for name in scenarios_of(plan)}
     for name, scenario in config['scenarios'].items():
         provenance.validate(name, scenario.get('provenance'))

@@ -1,0 +1,22 @@
+# The request-log overlay of the study launch kit: an overlay of federation/stack/compose.yaml, which it never changes (Job
+# study3_legacy_load, decisions L1 and D1 to D3).
+# launch.py adds it to every compose call of a study run, in both Missions modes, and in the simulated mode recreates the three adapters
+# with it once start.sh has started the stack. launch.py pins this file's SHA-256 (its bytes with LF line ends) and refuses up, down and
+# service when the file differs, so the run's hash of launch.py covers it.
+#
+# - The JDK's own HTTP client log, at the level `requests`, writes one REQUEST line for every request the adapter sends to its legacy
+#   service and one RESPONSE line, with the HTTP status, for every answer. A refused connection writes neither. Confirmed on these three
+#   images on 2026-11-19 against a counting backend: the REQUEST lines equalled the requests the backend received for ordinary answers,
+#   503 and 500 answers, a read timeout and a refused connection.
+# - The mapping adapter calls no legacy system and is not changed. No image, port, network or other setting changes.
+# - launch.py down saves, from these lines only, each request's time, system and answer status, never a URL or a body.
+services:
+  missions-adapter:
+    environment:
+      JAVA_TOOL_OPTIONS: -Djdk.httpclient.HttpClient.log=requests
+  personnel-adapter:
+    environment:
+      JAVA_TOOL_OPTIONS: -Djdk.httpclient.HttpClient.log=requests
+  assets-adapter:
+    environment:
+      JAVA_TOOL_OPTIONS: -Djdk.httpclient.HttpClient.log=requests

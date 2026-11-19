@@ -79,7 +79,39 @@ Vendor errors counted as wrong for the floor; the bias-reduced covariance for th
 
 Time per run on P1 and P2; the other arm pairs; Direct Access; the ambiguity set, apart; results per category, size, anchor and CSL kind, including the link-integrity group and the forward aggregates; correct runs only; the honest-gap rate on category D; spend; and the tasks of study 2 against study 2's results. None of these supports a confirmatory claim. A descriptive or exploratory analysis that cannot be computed is reported as not estimable, and every other output is still written.
 
-**Legacy load.** The measure is the requests to Missions, Personnel and Assets per run and arm, descriptive, as ratios with intervals. **MARKED PLACE: the legacy-load reader**, written by the instrumentation Job against the format it produces. The analysis runs without it.
+**Legacy load.** The measure is the requests to Missions, Personnel and Assets per run and arm, descriptive, as ratios with intervals. The reader is [legacy3.py](legacy3.py) (Job `study3_legacy_load`, decisions L1 to L6 and D1 to D7). The analysis runs without it.
+
+1. **What is recorded.** The raw arms' requests are in their transcripts. For the GraphQL arms, the study launch kit turns on the JDK's request log in the Missions, Personnel and Assets adapters with a compose overlay; no image changes. Before each stack is removed it saves the time, system and answer status of every request and answer, never a URL or a body. It also saves the offset between the host's and Docker's clocks, at each stack start and before each removal ([the launch kit](../launch/README.md#the-legacy-load-record)).
+2. **What counts as one request.** A request that reached the service, whatever the answer.
+   - **Raw arms:** an `http_request` or `soap_request` (with the harness tools on, read from the run's `results.jsonl` under the result id the transcript names) that returned an HTTP status, that timed out, or whose error shows that a connection was made and the request was sent (a reset, a remote disconnect, a bad status line). The last kind is counted and also reported apart.
+   - **Not counted:** an address the allow-list refused, a refused connection, a name that did not resolve, and an error the reader cannot classify, which is reported as unclassified.
+   - **GraphQL arms:** every request line of the three adapters.
+   - **The system** is named by the port (8082 Personnel, 8083 Missions, 8084 Assets), or by the adapter.
+3. **Which runs count.** The runs of section 3: the scored runs of the core set, their last attempts, with the void-block rule. A vendor error is missing.
+4. **Placing a GraphQL request.** A run's window is its first transcript event to its `finishedAt`. A request belongs to the run whose window holds it, in the stack start that covers the run. Within a stack start:
+   - the requests before its first scored run are the **block initialization load**;
+   - the other requests outside every window are **unattributed**;
+   - every request within the measured clock offset of a window's start or end is counted as **near a boundary**.
+5. **A block that is not countable.** A block of a GraphQL arm is not countable when any of these holds:
+   - its log was not saved whole, does not match its file sums, or holds a row the reader cannot read;
+   - a clock offset is missing, or above 1 second at either end;
+   - for Apollo and Cosmo, the log does not show the Personnel snapshot read completed before the first scored run: 11 consecutive Personnel requests each answered 200 (one probe and 10 pages of the 1,000 people of `personnel-v2-large-004`).
+
+   Its runs are left out of the per-question figures and counted as left out.
+6. **The figures.** For each system, and the three together, and each arm: the mean requests per scored run, each arm the equal-weight mean of its model x round cells as in section 4. The ratios of the means are:
+   - federation (0.5 Apollo + 0.5 Cosmo) over GraphQL Adapters;
+   - federation over Guided Direct Access;
+   - each arm over Direct Access.
+
+   The cells are those of the planned runs, so a cell whose every run is a vendor error is an empty cell. The 95 percent percentile intervals use section 4's resampling: whole core tasks with replacement, stratified by direction, 10,000 replicates, seed 20261118.
+   - **Not estimable:** a figure with an empty cell or a zero denominator in the full sample, or with more than 1 percent of its replicates unusable.
+   - **Reported beside them:** the block initialization load per arm and system, a total that includes it, the unattributed requests, the requests near a boundary per block, the blocks that are not countable with their reasons, and the raw arms' requests by kind.
+   - **What the figures describe.** The per-question figures describe the prepared system. The total with initialization keeps the cost of starting the adapters visible.
+7. **A setup difference from study 2.** In study 3's config, the warm-up of Apollo and Cosmo resolves one Personnel reference, so the Personnel adapter reads its whole snapshot before the first scored run: `{ mission(missionId: "ST-00000LD4O") { commandingOfficer(release: "1.3") { resolution } } }`.
+   - **Why a Missions request too:** through the graph, the snapshot is read only through a mission's crew or commanding-officer reference. So each warm-up pass also asks Missions for one mission.
+   - **In study 2,** the warm-up was `{ __typename }`, which reaches no legacy system, so the first Personnel-using run of a block read the snapshot.
+   - **GraphQL Adapters is unchanged:** its server blocks `_entities`, and its Personnel root field never reads the snapshot.
+   - **The outage behaviour is unchanged:** the adapter probes the service at every batch even with the snapshot held. A stopped Personnel service still answers UNAVAILABLE, as the instrumentation Job confirmed on the adapter image against a counting backend. The data a run can read is unchanged.
 
 ## 11. Power
 
@@ -164,4 +196,5 @@ The 100 percent join-width effect is an estimate from study 2: the P1 tool-call 
 - **MARKED PLACE: the final power figures** (section 11).
 - **MARKED PLACE: the price table** read for the scored run. Cost is computed from each run's tokens and its model's price entry in the manifest.
 - **MARKED PLACE: the limits of the scored run** (tool calls, tokens, time and retries).
-- **MARKED PLACE: the legacy-load reader** (section 10).
+
+The legacy-load reader of section 10 was filled before the freeze by the instrumentation Job, because the load can only be recorded during the scored run.
