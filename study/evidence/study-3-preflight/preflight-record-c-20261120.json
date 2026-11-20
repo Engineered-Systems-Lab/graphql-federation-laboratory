@@ -1,0 +1,932 @@
+{
+ "schema": 1,
+ "about": "The record of phase C of the Job study3_preflight (study 3's level 2 preflight, 2026-11-20 UTC): the paid run of the 8 development tasks on study 3's schedule with both models, started by the lead developer, its first attempt stopped for an invalid key, the rerun's step 9 measurements, the legacy-load sessions with the check before scoring, and study/analysis3/legacy3.py on the rerun. Counts are by task id, arm, model, outcome and check only; no submission, question, key or transcript text was read. The machine-local results folder is C:/esl/_study3/preflight/.",
+ "job": "study3_preflight",
+ "mainCommit": "195be55d2e27a6d9d8a5ae378fc72cf62eaaab06",
+ "previousRecord": "preflight-record-ab-20261120.json",
+ "decisionsOfTheLeadDeveloper": [
+  "Phase C started from the lead developer's own PowerShell terminal with launcher.py run (2026-11-20).",
+  "The first attempt study3-preflight-dev-1 stopped by the lead developer for an invalid Anthropic key, and its Cosmo stack taken down (2026-11-20).",
+  "The rerun's ceiling raised to 11 dollars, split by the earlier ratio as 7.04 / 3.96 (2026-11-20)."
+ ],
+ "config": {
+  "plan": "C:/esl/_study3/preflight/config/plan-phase-c2.json",
+  "planSha256": "7bc5d593fd902a011aee6cbe3a9cbebb7a791ba38d1d6ee49d6c4b666b7acb04",
+  "config": "C:/esl/_study3/preflight/config/study-config-phase-c2.json",
+  "configSha256": "b6407a58ff326f701148c3af5431c90c484ebfdb7b9b0274d7100588b0613c3b",
+  "differsFromPhaseC": "only in the two dollar ceilings and their basis"
+ },
+ "firstAttempt": {
+  "runId": "study3-preflight-dev-1",
+  "firstBlockStart": "2026-11-20T14:39:14.869+00:00",
+  "lastBlockEnd": "2026-11-20T15:03:01.289+00:00",
+  "commit": "195be55d2e27a6d9d8a5ae378fc72cf62eaaab06",
+  "treeDirty": false,
+  "corpusFreeze": "5ad64d321ab090da4fa116469810f28124b394e8a96aaefd8c6098f2386f4fb4",
+  "analysisPlan": "93eaeebb7c599fe6aedcb5f26de7f8a69c37ce9fecf8e50eb27240d00f7cb6ba",
+  "blocks": {
+   "started": 8,
+   "ended": 7,
+   "order": [
+    "r1-epsilon",
+    "r1-gamma",
+    "r1-delta",
+    "r1-beta",
+    "r3-beta",
+    "r3-delta",
+    "r3-gamma",
+    "r3-epsilon"
+   ],
+   "attempts": [
+    1
+   ]
+  },
+  "datasetFingerprintEveryBlock": [
+   "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+  ],
+  "oracleSessionEveryBlock": [
+   "oracle-instance:2026-11-20T05:48:52"
+  ],
+  "provenanceChecks": {
+   "match": 8
+  },
+  "provenanceFingerprintsPerArm": {
+   "beta": 1,
+   "delta": 1,
+   "epsilon": 1,
+   "gamma": 1
+  },
+  "healthPoints": {
+   "end up": 7,
+   "restore up": 11,
+   "start up": 8
+  },
+  "samplesByPhase": {
+   "cold": 16,
+   "warm-up": 16,
+   "measurement": 45
+  },
+  "scoreTableSha256": "4125f5d7c0fa5cd31e51983ffc14ed82560a24dcf473182ba1cbef99626b608d",
+  "manifestSha256": "e5dbeca4c79820d1093c061e5e2a4aa1c4e7749155e76575e9cfd549b06c9a98",
+  "config": "C:/esl/_study3/preflight/config/study-config-phase-c.json, the config of the dry run (ceilings 6.40 / 3.60)",
+  "stoppedBy": "the lead developer, in block r3-epsilon, because the Anthropic key was invalid (their message in the worker session, 2026-11-20)",
+  "runFolders": 32,
+  "recordedOutcomes": 31,
+  "scored": 15,
+  "scoredNote": "The score table has 31 rows; 15 runs were scored, all correct, and the other 16 record 14 vendor_error and 2 error outcomes with an empty score.",
+  "outcomesByModel": {
+   "claude-sonnet-5-5": {
+    "vendor_error": 14,
+    "error": 2
+   },
+   "gpt-6.1-sol": {
+    "correct": 15
+   }
+  },
+  "spend": {
+   "anthropic": {
+    "dollars": 0.0,
+    "note": "30 reserves and 30 releases in its ledger, no tokens settled"
+   },
+   "openai": {
+    "dollars": 1.0582,
+    "tokens": 1713988,
+    "note": "estimatedDollars in the budgetAfter of the run's last OpenAI run"
+   }
+  },
+  "afterTheStop": "The Cosmo stack the stop left up was taken down with launch.py down epsilon on the lead developer's word; its legacy-load session was saved whole. No bundle was written.",
+  "legacyLoadSessions": [
+   {
+    "session": "20261120T143910651411Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.083,
+     "end": 0.081
+    },
+    "requests": {
+     "missions": 20,
+     "personnel": 24,
+     "assets": 2
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 24,
+    "sha256JsonSha256": "208daa4e8ff5325fba54a550a9dedcc720c53450df93dec5f058fd5d3a4d4e6f"
+   },
+   {
+    "session": "20261120T144219086052Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.08,
+     "end": 0.086
+    },
+    "requests": {
+     "missions": 7,
+     "personnel": 10,
+     "assets": 2
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 10,
+    "sha256JsonSha256": "fcb6ebe88959e89c472ca7bbb383d23b41c5868d3beb5fc6fec1ff69175701cd"
+   },
+   {
+    "session": "20261120T144607483798Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.082,
+     "end": 0.084
+    },
+    "requests": {
+     "missions": 12,
+     "personnel": 20,
+     "assets": 2
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 20,
+    "sha256JsonSha256": "38f1968a9343fc08616c2c76b671b2fb1b146a76eb038e235615f05245769f84"
+   },
+   {
+    "session": "20261120T144916897755Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.079,
+     "end": 0.088
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "8c80ae73e7a15fd503e8209451f3a65ee02421acd1269f852c967733f484ae69"
+   },
+   {
+    "session": "20261120T145445160210Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.09,
+     "end": 0.08
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "b2e83b2be22b006f5bb911f3dfd8bdf568f476c6f331b31544a17290eea96509"
+   },
+   {
+    "session": "20261120T145834272280Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.087,
+     "end": 0.079
+    },
+    "requests": {
+     "missions": 5,
+     "personnel": 15,
+     "assets": 1
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 15,
+    "sha256JsonSha256": "bd13a79e5605ca9175f2c33abae230bb0f3965647732da5f5a2ed745d8c8a09b"
+   },
+   {
+    "session": "20261120T150127335758Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.078,
+     "end": 0.083
+    },
+    "requests": {
+     "missions": 2,
+     "personnel": 10,
+     "assets": 1
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 10,
+    "sha256JsonSha256": "b847e4ea221e2dc5a8235f319603d03ea3191dbe4467ac7de21948dc53dad726"
+   },
+   {
+    "session": "20261120T150439273699Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.086,
+     "end": 0.11
+    },
+    "requests": {
+     "missions": 6,
+     "personnel": 15,
+     "assets": 0
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 15,
+    "sha256JsonSha256": "a2249c9e64cc98814f1bca2ca91f6192f6b688e1503975556bc76012f05e43e6"
+   }
+  ]
+ },
+ "rerun": {
+  "runId": "study3-preflight-dev-2",
+  "firstBlockStart": "2026-11-20T17:18:58.822+00:00",
+  "lastBlockEnd": "2026-11-20T18:35:15.757+00:00",
+  "commit": "195be55d2e27a6d9d8a5ae378fc72cf62eaaab06",
+  "treeDirty": false,
+  "corpusFreeze": "5ad64d321ab090da4fa116469810f28124b394e8a96aaefd8c6098f2386f4fb4",
+  "analysisPlan": "93eaeebb7c599fe6aedcb5f26de7f8a69c37ce9fecf8e50eb27240d00f7cb6ba",
+  "blocks": {
+   "started": 17,
+   "ended": 17,
+   "order": [
+    "r1-epsilon",
+    "r1-gamma",
+    "r1-delta",
+    "r1-beta",
+    "r3-beta",
+    "r3-delta",
+    "r3-gamma",
+    "r3-epsilon",
+    "r2-gamma",
+    "r2-beta",
+    "r2-epsilon",
+    "r2-delta",
+    "r4-delta",
+    "r4-epsilon",
+    "r4-beta",
+    "r4-gamma",
+    "ref-alpha"
+   ],
+   "attempts": [
+    1
+   ]
+  },
+  "datasetFingerprintEveryBlock": [
+   "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+  ],
+  "oracleSessionEveryBlock": [
+   "oracle-instance:2026-11-20T05:48:52"
+  ],
+  "provenanceChecks": {
+   "match": 17
+  },
+  "provenanceFingerprintsPerArm": {
+   "alpha": 1,
+   "beta": 1,
+   "delta": 1,
+   "epsilon": 1,
+   "gamma": 1
+  },
+  "healthPoints": {
+   "end up": 17,
+   "periodic up": 1,
+   "restore up": 10,
+   "start up": 17
+  },
+  "samplesByPhase": {
+   "cold": 34,
+   "warm-up": 34,
+   "measurement": 80
+  },
+  "scoreTableSha256": "fc813d00bdae97f7b0e5a09a4a0d752a5e9f7629f1160704a1bda027add3fdf1",
+  "manifestSha256": "0eda32ed47f682a695ff2631b67bd7cb3edb54899206f575eed0faa2fbd5f685",
+  "bundle": {
+   "status": "complete",
+   "checksum": "634a437f4fd50cffd3ff8aec916f4f353439d5f9d68ca94b0a349569674bbf45",
+   "writtenAt": "2026-11-20T18:36:20.576+00:00",
+   "filesInRun": 272,
+   "bundleJsonSha256": "f055453d5f0613d74f7180becdeb56dc57d69588df63daa18b121b418c8b03f5"
+  },
+  "config": "C:/esl/_study3/preflight/config/study-config-phase-c2.json",
+  "startedBy": "the lead developer, from their own PowerShell terminal, with launcher.py run (the keys from Credential Manager), after renewing the Anthropic key",
+  "exit": "complete (the runner printed \"Study run study3-preflight-dev-2: complete\")",
+  "vpn": "The lead developer switched their VPN off after starting the run (time not given). No run had a vendor error and the ledgers record no retry, so the change left no mark in the records.",
+  "ceilings": {
+   "anthropic": 7.04,
+   "openai": 3.96,
+   "basis": "the lead developer's raise of 2026-11-20 after dev-1 stopped: 11 dollars for the rerun, split by the ratio 6.40 / 3.60; dev-1's spend not counted against it"
+  },
+  "spend": {
+   "anthropic": {
+    "dollars": 3.3815,
+    "tokens": 5626657
+   },
+   "openai": {
+    "dollars": 2.0622,
+    "tokens": 3365680
+   },
+   "total": 5.4437,
+   "source": "the runner's final budget lines as the lead developer pasted them; the same figures recomputed from every run's usage at the prices dated 2026-10-20"
+  },
+  "ledgerEvents": {
+   "anthropic": {
+    "reserve": 447,
+    "settle": 447
+   },
+   "openai": {
+    "reserve": 403,
+    "settle": 403
+   }
+  },
+  "ledgerRetries": {
+   "anthropic": 0,
+   "openai": 0
+  },
+  "legacyLoadSessions": [
+   {
+    "session": "20261120T171854354484Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.08,
+     "end": 0.081
+    },
+    "requests": {
+     "missions": 17,
+     "personnel": 23,
+     "assets": 1
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 23,
+    "sha256JsonSha256": "ab6f656aaa45a937bf5c3640265aaa8e0e08cf92917c37379bcc34531aafdf2d"
+   },
+   {
+    "session": "20261120T172240013886Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.082,
+     "end": 0.08
+    },
+    "requests": {
+     "missions": 11,
+     "personnel": 11,
+     "assets": 1
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 11,
+    "sha256JsonSha256": "f73e0ed1524edb566bf3a99414e70915d418408111c7094701438739d7ae2a10"
+   },
+   {
+    "session": "20261120T172737489093Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.079,
+     "end": 0.08
+    },
+    "requests": {
+     "missions": 13,
+     "personnel": 21,
+     "assets": 1
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 21,
+    "sha256JsonSha256": "24850f5f78d5cc7259b19fd39b4afc6631ca4707058c9525d5a0fc4e69620e00"
+   },
+   {
+    "session": "20261120T173125638927Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.081,
+     "end": 0.08
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "e942d508b8e90102a751380a89deb6ab0389e19707ae4967ff1c20db943de8ff"
+   },
+   {
+    "session": "20261120T173825412916Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.08,
+     "end": 0.078
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "33aa6bd966aade74442dca24cf1bde17f3b537cb4b8c6cf9c3bf91048671bd2e"
+   },
+   {
+    "session": "20261120T174406651465Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.081,
+     "end": 0.076
+    },
+    "requests": {
+     "missions": 14,
+     "personnel": 21,
+     "assets": 1
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 21,
+    "sha256JsonSha256": "a4ea0269c64a051abd8f9ba2af114fc7402cbef2d087ff5b41cbedda3367068b"
+   },
+   {
+    "session": "20261120T174753574583Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.08,
+     "end": 0.083
+    },
+    "requests": {
+     "missions": 11,
+     "personnel": 24,
+     "assets": 1
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 24,
+    "sha256JsonSha256": "44be5f2fbf07b9535c696deb4d4a2bf6b5a9590d8bdec2fb10f7b335bf3a77f2"
+   },
+   {
+    "session": "20261120T175319282648Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.081,
+     "end": 0.077
+    },
+    "requests": {
+     "missions": 13,
+     "personnel": 21,
+     "assets": 1
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 21,
+    "sha256JsonSha256": "97254556145f6593ea0613615ebc176fc13399508e82d8ddbb0a9100f97bac98"
+   },
+   {
+    "session": "20261120T175643299957Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.079,
+     "end": 0.084
+    },
+    "requests": {
+     "missions": 9,
+     "personnel": 2,
+     "assets": 2
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 2,
+    "sha256JsonSha256": "e8227441a474602ca511eda3d819c083dd460f2554aca82d67f66c01aba6d4e0"
+   },
+   {
+    "session": "20261120T175953437171Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.105,
+     "end": 0.082
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "64256dad16ca34238cbd00fda4047cc394f7f0a4ee5a8fb5849fb2a9c8416167"
+   },
+   {
+    "session": "20261120T180249316186Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.084,
+     "end": 0.079
+    },
+    "requests": {
+     "missions": 12,
+     "personnel": 15,
+     "assets": 24
+    },
+    "answeredNot200": {
+     "assets 404": 3
+    },
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 15,
+    "sha256JsonSha256": "126434277af6c1fec88dc91ac938b69a721a30d6ae5113a81b865eaa657be379"
+   },
+   {
+    "session": "20261120T180541955145Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.081,
+     "end": 0.084
+    },
+    "requests": {
+     "missions": 12,
+     "personnel": 16,
+     "assets": 24
+    },
+    "answeredNot200": {
+     "assets 404": 3
+    },
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 16,
+    "sha256JsonSha256": "874f0f5d024743a162d52ce70c849450dc19094c09d593840d0af15ac0158b70"
+   },
+   {
+    "session": "20261120T180856272851Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.083,
+     "end": 0.092
+    },
+    "requests": {
+     "missions": 12,
+     "personnel": 15,
+     "assets": 28
+    },
+    "answeredNot200": {
+     "assets 404": 3
+    },
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 15,
+    "sha256JsonSha256": "316c73657db267ca34a2434fd8b656ea537b77f80d37451d9f1ff6b913141501"
+   },
+   {
+    "session": "20261120T181157365860Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.083,
+     "end": 0.079
+    },
+    "requests": {
+     "missions": 14,
+     "personnel": 17,
+     "assets": 26
+    },
+    "answeredNot200": {
+     "assets 404": 3
+    },
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 17,
+    "sha256JsonSha256": "4c06cee11e4963cc0ab9e75a97e4fd6e421b9fe3078bd4f2f152b1d95339427e"
+   },
+   {
+    "session": "20261120T181459710501Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.08,
+     "end": 0.082
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "9dfc483ded008eaeb9f73688254897adf246f549717a2d86de37726ee38095ff"
+   },
+   {
+    "session": "20261120T181731211533Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.086,
+     "end": 0.087
+    },
+    "requests": {
+     "missions": 10,
+     "personnel": 3,
+     "assets": 3
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 3,
+    "sha256JsonSha256": "f52471da52dca54302175791315d916e3877035996fde97094cd678535b44731"
+   },
+   {
+    "session": "20261120T182038345456Z-alpha",
+    "scenario": "alpha",
+    "offsetBoundSeconds": {
+     "start": 0.085,
+     "end": 0.08
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": {},
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "8699be898d5fd8e32555478f0c171a092a260121cc8d3939ec0ba9cf69c13018"
+   }
+  ]
+ },
+ "step9": {
+  "title": "Paid smoke test: study 3's 8 development tasks on study 3's block schedule, both models, compared with study 2's step 9",
+  "basis": "study3-preflight-dev-2, 80 runs in 17 blocks: the four full arms 16 runs each and the Direct Access reference block 16; the development tasks V01 to V08 are the ones study 2's step 9 ran, so the comparison is per arm on the same tasks",
+  "summary": {
+   "runs": 80,
+   "outcomes": {
+    "correct": 70,
+    "wrong_answer": 8,
+    "did_not_finish": 2
+   },
+   "outcomesByModel": {
+    "claude-sonnet-5-5": {
+     "correct": 35,
+     "wrong_answer": 4,
+     "did_not_finish": 1
+    },
+    "gpt-6.1-sol": {
+     "correct": 35,
+     "wrong_answer": 4,
+     "did_not_finish": 1
+    }
+   },
+   "reasonsNotCorrect": {
+    "None": 8,
+    "tool_calls": 2
+   },
+   "vendorErrors": 0,
+   "attempts": [
+    1
+   ],
+   "requeued": 0,
+   "harnessTools": {
+    "calculate": 299,
+    "askRequester": 9,
+    "calculateErrors": 23
+   },
+   "costFromRunUsage": {
+    "claude-sonnet-5-5": 3.3815,
+    "gpt-6.1-sol": 2.0622
+   },
+   "limits": {
+    "maxToolCalls": 80,
+    "maxSeconds": 220.4,
+    "maxTokens": 936034
+   },
+   "perTaskCorrect": {
+    "V01": "10 of 10",
+    "V02": "8 of 10",
+    "V03": "8 of 10",
+    "V04": "9 of 10",
+    "V05": "8 of 10",
+    "V06": "9 of 10",
+    "V07": "10 of 10",
+    "V08": "8 of 10"
+   }
+  },
+  "perArm": {
+   "alpha": {
+    "name": "Direct Access",
+    "runs": 16,
+    "correct": 7,
+    "meanCostPerRun": 0.099,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "runs": 8,
+      "correct": 4,
+      "meanCostPerRun": 0.118,
+      "meanSeconds": 44.4,
+      "meanToolCalls": 38.9,
+      "meanTokens": 235059,
+      "maxToolCalls": 80,
+      "maxSeconds": 92.5,
+      "maxTokens": 737028
+     },
+     "gpt-6.1-sol": {
+      "runs": 8,
+      "correct": 3,
+      "meanCostPerRun": 0.08,
+      "meanSeconds": 62.2,
+      "meanToolCalls": 41.2,
+      "meanTokens": 141116,
+      "maxToolCalls": 80,
+      "maxSeconds": 197.6,
+      "maxTokens": 583280
+     }
+    },
+    "notCorrect": [
+     "V02 claude-sonnet-5-5 wrong_answer",
+     "V02 gpt-6.1-sol wrong_answer",
+     "V03 claude-sonnet-5-5 wrong_answer",
+     "V03 gpt-6.1-sol wrong_answer",
+     "V04 gpt-6.1-sol wrong_answer",
+     "V05 claude-sonnet-5-5 did_not_finish",
+     "V05 gpt-6.1-sol did_not_finish",
+     "V06 claude-sonnet-5-5 wrong_answer",
+     "V08 gpt-6.1-sol wrong_answer"
+    ]
+   },
+   "beta": {
+    "name": "Guided Direct Access",
+    "runs": 16,
+    "correct": 16,
+    "meanCostPerRun": 0.097,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "runs": 8,
+      "correct": 8,
+      "meanCostPerRun": 0.109,
+      "meanSeconds": 31.8,
+      "meanToolCalls": 9.9,
+      "meanTokens": 166017,
+      "maxToolCalls": 41,
+      "maxSeconds": 130.9,
+      "maxTokens": 936034
+     },
+     "gpt-6.1-sol": {
+      "runs": 8,
+      "correct": 8,
+      "meanCostPerRun": 0.085,
+      "meanSeconds": 49.8,
+      "meanToolCalls": 13.2,
+      "meanTokens": 120870,
+      "maxToolCalls": 52,
+      "maxSeconds": 220.4,
+      "maxTokens": 632773
+     }
+    },
+    "notCorrect": []
+   },
+   "gamma": {
+    "name": "GraphQL Adapters",
+    "runs": 16,
+    "correct": 16,
+    "meanCostPerRun": 0.072,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "runs": 8,
+      "correct": 8,
+      "meanCostPerRun": 0.094,
+      "meanSeconds": 33.9,
+      "meanToolCalls": 16.6,
+      "meanTokens": 125564,
+      "maxToolCalls": 48,
+      "maxSeconds": 134.7,
+      "maxTokens": 527549
+     },
+     "gpt-6.1-sol": {
+      "runs": 8,
+      "correct": 8,
+      "meanCostPerRun": 0.05,
+      "meanSeconds": 34.6,
+      "meanToolCalls": 19.8,
+      "meanTokens": 81054,
+      "maxToolCalls": 66,
+      "maxSeconds": 114.1,
+      "maxTokens": 303114
+     }
+    },
+    "notCorrect": []
+   },
+   "delta": {
+    "name": "Apollo Federation",
+    "runs": 16,
+    "correct": 16,
+    "meanCostPerRun": 0.037,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "runs": 8,
+      "correct": 8,
+      "meanCostPerRun": 0.052,
+      "meanSeconds": 21.8,
+      "meanToolCalls": 11.6,
+      "meanTokens": 89928,
+      "maxToolCalls": 25,
+      "maxSeconds": 41.4,
+      "maxTokens": 251996
+     },
+     "gpt-6.1-sol": {
+      "runs": 8,
+      "correct": 8,
+      "meanCostPerRun": 0.021,
+      "meanSeconds": 22.5,
+      "meanToolCalls": 8.4,
+      "meanTokens": 38141,
+      "maxToolCalls": 20,
+      "maxSeconds": 53.3,
+      "maxTokens": 115352
+     }
+    },
+    "notCorrect": []
+   },
+   "epsilon": {
+    "name": "Cosmo Federation",
+    "runs": 16,
+    "correct": 15,
+    "meanCostPerRun": 0.036,
+    "byModel": {
+     "claude-sonnet-5-5": {
+      "runs": 8,
+      "correct": 7,
+      "meanCostPerRun": 0.049,
+      "meanSeconds": 19.6,
+      "meanToolCalls": 10.1,
+      "meanTokens": 86765,
+      "maxToolCalls": 19,
+      "maxSeconds": 38.7,
+      "maxTokens": 204914
+     },
+     "gpt-6.1-sol": {
+      "runs": 8,
+      "correct": 8,
+      "meanCostPerRun": 0.022,
+      "meanSeconds": 22.5,
+      "meanToolCalls": 8.4,
+      "meanTokens": 39529,
+      "maxToolCalls": 17,
+      "maxSeconds": 50.2,
+      "maxTokens": 106263
+     }
+    },
+    "notCorrect": [
+     "V08 claude-sonnet-5-5 wrong_answer"
+    ]
+   }
+  },
+  "study2Step9": {
+   "alpha": {
+    "correct": "9 of 16",
+    "meanCostPerRun": 0.204
+   },
+   "beta": {
+    "correct": "14 of 16",
+    "meanCostPerRun": 0.145
+   },
+   "gamma": {
+    "correct": "15 of 16",
+    "meanCostPerRun": 0.103
+   },
+   "delta": {
+    "correct": "13 of 16",
+    "meanCostPerRun": 0.1
+   },
+   "epsilon": {
+    "correct": "13 of 16",
+    "meanCostPerRun": 0.109
+   }
+  },
+  "limits": {
+   "set": {
+    "maxToolCalls": 80,
+    "maxWallSeconds": 900,
+    "maxTaskTokens": 1000000
+   },
+   "reached": "Two runs reached the 80 tool calls and ended did_not_finish (reason tool_calls): V05 in Direct Access with each model. The longest run took 220.4 s, a quarter of the 900 s, and the largest used 936,034 tokens, 94 percent of the 1,000,000."
+  },
+  "checkBeforeScoring": {
+   "clockOffsetBoundSecondsMax": 0.105,
+   "everySessionSavedWhole": true,
+   "personnelConsecutive200BeforeTheFirstRun": {
+    "r1-epsilon": 13,
+    "r1-delta": 13,
+    "r3-delta": 13,
+    "r3-epsilon": 13,
+    "r2-epsilon": 13,
+    "r2-delta": 13,
+    "r4-delta": 13,
+    "r4-epsilon": 13
+   },
+   "personnelRunNeeded": 11,
+   "personnelLongestRun200WholeSession": {
+    "values": [
+     15,
+     16,
+     17,
+     21,
+     23
+    ],
+    "note": "The sessions' longestRunOfPersonnel200 counts the whole session, requests made after the runs began included; the warm-up check is the count before the first run."
+   },
+   "answeredNot200": "Assets answered 404 three times in each of the four delta and epsilon blocks of rounds 2 and 4; every other answer in the 17 sessions was 200"
+  },
+  "legacy3": {
+   "command": "study/analysis3/legacy3.py on a verified copy of study3-preflight-dev-2 (272 files) with its 17 sessions, as on the dry run",
+   "exit": 2,
+   "stop": "STOP: tasks.json and the schedule hold different tasks (113 in tasks.json, 8 in the schedule)",
+   "reading": "As on the dry run: legacy3 reads only a bundle of the scored core set and gives no figures for a development bundle. legacy3 is unchanged."
+  },
+  "reading": "Every full arm answered at least 15 of its 16 runs correctly, Direct Access 7 of 16. No vendor error, retry, requeue or void block. The paid run cost 5.44 dollars in all, about 0.068 dollars per run."
+ },
+ "stateLeft": "No stack up and no study process running. The Missions service and Oracle stopped again with docker stop at 2026-11-20T19:36Z (Oracle with a 600-second timeout), both exited."
+}

@@ -1,0 +1,27 @@
+{
+ "about": "Checksums of the evidence of phase C of the Job study3_preflight: SHA-256 of the exact bytes of each committed file as Git stores it (LF; the run folders' files were already LF and are byte copies), and for the rerun study3-preflight-dev-2, kept outside the repository in C:/esl/_study3/preflight/lab-results/, the runner's bundle checksum, the SHA-256 of bundle.json and of the per-file sums file of the copy legacy3 read.",
+ "evidenceFiles": {
+  "09-study3-preflight-dev-1/scores.csv": "4125f5d7c0fa5cd31e51983ffc14ed82560a24dcf473182ba1cbef99626b608d",
+  "09-study3-preflight-dev-1/manifest.json": "e5dbeca4c79820d1093c061e5e2a4aa1c4e7749155e76575e9cfd549b06c9a98",
+  "09-study3-preflight-dev-2/scores.csv": "fc813d00bdae97f7b0e5a09a4a0d752a5e9f7629f1160704a1bda027add3fdf1",
+  "09-study3-preflight-dev-2/manifest.json": "0eda32ed47f682a695ff2631b67bd7cb3edb54899206f575eed0faa2fbd5f685",
+  "preflight-record-c-20261120.json": "4c63a7af615bdb7253e270124a77ddf4c6824fbff65ced80ce1f03136e3b194f"
+ },
+ "rerun": {
+  "study3-preflight-dev-2": {
+   "status": "complete",
+   "checksum": "634a437f4fd50cffd3ff8aec916f4f353439d5f9d68ca94b0a349569674bbf45",
+   "writtenAt": "2026-11-20T18:36:20.576+00:00",
+   "filesInRun": 272,
+   "bundleJsonSha256": "f055453d5f0613d74f7180becdeb56dc57d69588df63daa18b121b418c8b03f5",
+   "sumsFile": {
+    "name": "SHA256SUMS-study3-preflight-dev-2.txt",
+    "sha256": "7632077e394eb82b555b326a7b25cca1d39142eb5e86e77b9122de4116563128",
+    "lines": 272
+   }
+  }
+ },
+ "firstAttempt": {
+  "study3-preflight-dev-1": "no bundle: the run was stopped before its end"
+ }
+}
