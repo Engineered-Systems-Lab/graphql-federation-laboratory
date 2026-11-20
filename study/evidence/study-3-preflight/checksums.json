@@ -1,0 +1,64 @@
+{
+ "about": "Checksums of the evidence of phases A and B of the Job study3_preflight: SHA-256 of the exact bytes of each committed file as Git stores it (LF), and for the dry run study3-preflight-dry-1, kept outside the repository in C:/esl/_study3/preflight/lab-results/, the runner's bundle checksum over the bundle's file list (study/harness/runner.py, write_bundle), the SHA-256 of bundle.json and of the per-file sums file.",
+ "evidenceFiles": {
+  "07-answerability-alpha-all-real.json": "71c5f8483421ef87ebc107558933306547d9a16510e2794f4f711bba89c912c5",
+  "07-answerability-alpha-outage-assets-real.json": "64444338272c53b13b24d01ef32c48991d138c014501b3c6cafe3ec18ff05048",
+  "07-answerability-alpha-outage-missions-real.json": "28cde479c0776035d9e572e333ace80b33eecbcd3bc4eabef8c8c45b35278926",
+  "07-answerability-alpha-outage-personnel-real.json": "4e575b96eb417539d335a07cb65c8e2e38df680a757ecbc7a48f97319feeabe2",
+  "07-answerability-beta-all-real.json": "31ebdaa74fa0f5804fd7ac3f85bacb97cdcc11804de9a8e87253770260098094",
+  "07-answerability-beta-outage-assets-real.json": "61195a008df69c0a664eb6e77d4d16039b4de4ec736fb1a53013650e7a14a3c5",
+  "07-answerability-beta-outage-missions-real.json": "5b07e7445d04bd438c54160ad9492e3826bd9a5391d33e96971fefd4f977f093",
+  "07-answerability-beta-outage-personnel-real.json": "20ce89cde3a8299a26ca7e8723cbb77ce13dcd1b6d90c9dc86923db12e741e3d",
+  "07-answerability-delta-all-real.json": "2e339a8d8d98506b437811040ee335fe800418c4de16baf705d36aeeb721dbe2",
+  "07-answerability-delta-outage-assets-real.json": "902f0c0234952cce3c308b04ef317feef167891ac669416c512d114695aafa84",
+  "07-answerability-delta-outage-missions-real.json": "98bdcf92116fe416bcc6ff856277296997a9af60f45084e82d9e11b14a5fc4aa",
+  "07-answerability-delta-outage-personnel-real.json": "9b0d925e5902248ff6eee0b38d43bc1dfca1f957be21c0666018f4e022e437a5",
+  "07-answerability-epsilon-all-real.json": "e0e510789915c002047c5d33f6712a8bce95574f87964fcbfbc19275d72047ef",
+  "07-answerability-epsilon-outage-assets-real.json": "97d954be192686f007f2da7501b7e24be41e0a8dffc7caa5da210610d25ad190",
+  "07-answerability-epsilon-outage-missions-real.json": "81d936acdee38d7a72337831ef9a1b8ff65d885f278f5cbcf557570a91e3e655",
+  "07-answerability-epsilon-outage-personnel-real.json": "7497d705eb4b6ae7e5ec02b8d198dce71cf62a89c85c9d2bb456cafe65806252",
+  "07-answerability-gamma-all-real.json": "094cbbff678988d9a703c5d170ed4d39e70516b278691169ec5e0d977fda142b",
+  "07-answerability-gamma-outage-assets-real.json": "e9853a96b2cb70675a1130e55bbd42d94b936deef055dc9de30d533be9094433",
+  "07-answerability-gamma-outage-missions-real.json": "5bb5f33057b5792443ff848f66927479931e3fc6f5886c4f61d74eafc90898b0",
+  "07-answerability-gamma-outage-personnel-real.json": "5d4ed2156bc3478864f64e68b2fc8934f3d1d668b9114dd454e6c8ac51edd5b0",
+  "preflight-record-ab-20261120.json": "2cde88d5566c04155d839911decb3884515ea619ad9a9ede3d3834d29614199a"
+ },
+ "machineLocalReports": {
+  "about": "SHA-256 of the 20 reports as run_reference.py wrote them, with CRLF line ends, in C:/esl/_study3/preflight/results/; the committed reports are those bytes with the CR of every line end removed.",
+  "sha256": {
+   "07-answerability-alpha-all-real.json": "75004e06deeae59df6edc8262b9449b0347ab2a897cd4950357611dcae720dbd",
+   "07-answerability-alpha-outage-assets-real.json": "dcad93076930ad14af5fefca96d8a16bb30489116c0251fb15fb03b082583a02",
+   "07-answerability-alpha-outage-missions-real.json": "008b8d5980ba2abfd1927d8447a946b9e0c65dda79dd9f26fcb5b5c4ad24daf3",
+   "07-answerability-alpha-outage-personnel-real.json": "bbf8cb623767c25b937cd1b5c1356924da862877d6813af25c6a0242b40860f7",
+   "07-answerability-beta-all-real.json": "288b1c798ff6b54c514e9aa3bc1636a5c9e5eccb6a4660d27c83f83b3af3c757",
+   "07-answerability-beta-outage-assets-real.json": "34dc7211a889aaa7fdc25208a9773a2d078f0f99144509b4f740fcabf31de1d9",
+   "07-answerability-beta-outage-missions-real.json": "5ffa92db314d1ac684853592438cb609ae87371565f532831aa7ac428a7ee690",
+   "07-answerability-beta-outage-personnel-real.json": "b177f04fa60dba168fa049ffa915ac9ed3fd8c788d93aa29e568f62865f1b697",
+   "07-answerability-delta-all-real.json": "5eb3fff90019fe4825f8c02f04a98f02e9f4c65d21db9b5b06134e13aaea9782",
+   "07-answerability-delta-outage-assets-real.json": "de45886355ecb66c4dda9d52701047b2d905c7ccb03f6abd8fdb34dd94907067",
+   "07-answerability-delta-outage-missions-real.json": "833082fc3122a26c675b9f3d5d3997371eb01e638f75e10cd49f840d11beb084",
+   "07-answerability-delta-outage-personnel-real.json": "93455346e7dae86c446f8276c998b18f46c2fd870cc6cb0c375d7ca2418ecf7a",
+   "07-answerability-epsilon-all-real.json": "ea62f490747a8330ebb6e325963a26cde38b169ef4ef5795ea9ce241bbba1da3",
+   "07-answerability-epsilon-outage-assets-real.json": "869dcc82ebe326b9da32835d8d472ddaec9c0847fa373f2dd9f0e8e1111160e4",
+   "07-answerability-epsilon-outage-missions-real.json": "f257c24ce5f683b0c9876772a45d98358736ba21ea56d685704b441c9d276dd2",
+   "07-answerability-epsilon-outage-personnel-real.json": "ab79757a49e946fa298ac29c57ac6222972e73c6dec0b2e22484efd9c25cee75",
+   "07-answerability-gamma-all-real.json": "4030f809dc8084962ea94425f750c89d1d740a6c4dbb4679d735db318adecdcd",
+   "07-answerability-gamma-outage-assets-real.json": "3709c5f67531398967705b34f199061d7c830ae12b9ad5310df5aa618916b79d",
+   "07-answerability-gamma-outage-missions-real.json": "23ed5c1b3306ae630a3a922f5128774134708908c97df1231b2107f97da929d0",
+   "07-answerability-gamma-outage-personnel-real.json": "87c303a814becf2813c8bebdeb616a038392311002ceeb269152770220bfc473"
+  }
+ },
+ "dryRun": {
+  "study3-preflight-dry-1": {
+   "bundleChecksum": "ee16fdc79bf5df88e89c41259649c7bcdc85e9307c5a6cbc7ddf16cd5600cd7e",
+   "bundleJsonSha256": "79a196a80af8efce32dc415bf8226d36b4c659bc86a437e758c714a5685921c0",
+   "bundleWrittenAt": "2026-11-20T12:57:34.905+00:00",
+   "status": "complete",
+   "filesInRun": 192,
+   "sumsFile": {
+    "name": "SHA256SUMS-study3-preflight-dry-1.txt",
+    "sha256": "a7b56a80567e829fac5d9ae31eb6a6dfe5e64b00b5082e755317a87525a22fbe"
+   }
+  }
+ }
+}

@@ -1,0 +1,815 @@
+{
+ "schema": 1,
+ "about": "The record of phases A and B of the Job study3_preflight (study 3's level 2 preflight, 2026-11-20 UTC): the answerability of corpus 3 on the real Oracle-backed stack in all five arms with the three outages, and the free dry run of phase C's config on the real stack with the legacy-load request log, then study/analysis3/legacy3.py on its output. Counts are by set, outcome and check only; no submission, question, key or transcript text was read. The machine-local results folder is C:/esl/_study3/preflight/.",
+ "job": "study3_preflight",
+ "mainCommit": "4d44f05b381b7b7cf6309632b95ffd4b19852174",
+ "decisionsOfTheLeadDeveloper": [
+  "Oracle and the Missions service restarted with docker start on their existing containers, as for the kit check (2026-11-20).",
+  "Phases B and C run study 3's schedule as it is: 64 runs in the four full arms plus the 16 runs of the Direct Access reference block, 80 in all (2026-11-20).",
+  "The 10 dollars of the scope split as 6.40 for Anthropic and 3.60 for OpenAI (2026-11-20).",
+  "The plan values: seed 20261120, the limits of study 2 (80 tool calls, 900 s, 1,000,000 tokens, 2 nudges, 3 retries 5 s apart), 3 warm-up passes, the harness tools calculate and ask_requester, a health check every 10 runs, no earlier study runs (2026-11-20)."
+ ],
+ "oracle": {
+  "oracleStartedAt": "2026-11-20T05:48:41Z",
+  "oracleHealthyAt": "2026-11-20T05:49:02Z",
+  "missionsServiceStartedAt": "2026-11-20T05:49:08Z",
+  "missionsServiceAnswered200At": "2026-11-20T05:49:13Z",
+  "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+  "equalToStudy2": true,
+  "session": "oracle-instance:2026-11-20T05:48:52"
+ },
+ "build": {
+  "pinSetWrittenAt": "2026-11-20T05:49:28Z",
+  "images": {
+   "starfleet-federation-stack-assets-service:1.0.0": "sha256:c793963ce8c3343ab84c46ad2a217aed94fbd812448f08f9c81b2741ce787c1f",
+   "starfleet-federation-stack-personnel-service:2.0.0": "sha256:163a5f8b885c90cfe16697fab73add7a930530701d9cf3c0f3595b274a6d43ec",
+   "starfleet-federation-stack-missions-adapter:1.1.0": "sha256:bc1fdda08f66534103e5976ce21c955648cd516c4e08073694aee761a90231c8",
+   "starfleet-federation-stack-personnel-adapter:1.0.0": "sha256:e35c403e3020bdb1dbd85bb74b7cf84c3a5948a58069c62df748f651db589936",
+   "starfleet-federation-stack-assets-adapter:1.1.1": "sha256:4fd306e13f13648d558cc75f0f1c8039e991e8d10cdd906a52d65b4fde643d14",
+   "starfleet-federation-stack-mapping-adapter:1.0.0": "sha256:f37e61fa7a8a93e818427df42f03367041fa1c96962468e7b2f2a45265826b14",
+   "starfleet-missions-service:1.0.0": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3"
+  },
+  "note": "The pin set was written after a successful build (exit 0); make_config.py needs it in real mode, so the config was written after the build."
+ },
+ "phaseA": {
+  "window": "2026-11-20T05:51Z to 06:16Z",
+  "command": "study/corpus3/reference/run_reference.py --arm <arm> --backend real --set all, then --outage missions, assets and personnel, each followed by the service restart, launch.py ready and --check-services",
+  "reports": [
+   "07-answerability-alpha-all-real.json",
+   "07-answerability-alpha-outage-assets-real.json",
+   "07-answerability-alpha-outage-missions-real.json",
+   "07-answerability-alpha-outage-personnel-real.json",
+   "07-answerability-beta-all-real.json",
+   "07-answerability-beta-outage-assets-real.json",
+   "07-answerability-beta-outage-missions-real.json",
+   "07-answerability-beta-outage-personnel-real.json",
+   "07-answerability-delta-all-real.json",
+   "07-answerability-delta-outage-assets-real.json",
+   "07-answerability-delta-outage-missions-real.json",
+   "07-answerability-delta-outage-personnel-real.json",
+   "07-answerability-epsilon-all-real.json",
+   "07-answerability-epsilon-outage-assets-real.json",
+   "07-answerability-epsilon-outage-missions-real.json",
+   "07-answerability-epsilon-outage-personnel-real.json",
+   "07-answerability-gamma-all-real.json",
+   "07-answerability-gamma-outage-assets-real.json",
+   "07-answerability-gamma-outage-missions-real.json",
+   "07-answerability-gamma-outage-personnel-real.json"
+  ],
+  "reportsLineEnds": "The reports are stored with LF line ends, as the repository stores every file; run_reference.py wrote them with CRLF line ends in C:/esl/_study3/preflight/results/. Each committed report equals its machine-local file with the CR of every line end removed, and nothing else differs. checksums.json gives the SHA-256 of both.",
+  "arms": {
+   "alpha": {
+    "name": "Direct Access",
+    "reports": {
+     "all": {
+      "outage": null,
+      "bySetAndOutcome": {
+       "ambiguity correct": 6,
+       "core correct": 93,
+       "core skipped": 14,
+       "dev correct": 7,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-missions": {
+      "outage": "missions",
+      "bySetAndOutcome": {
+       "core correct": 4,
+       "core skipped": 10,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-assets": {
+      "outage": "assets",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev correct": 1
+      },
+      "overLimits": 0
+     },
+     "outage-personnel": {
+      "outage": "personnel",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     }
+    },
+    "correctOverAllReports": {
+     "core": "107 of 107",
+     "ambiguity": "6 of 6",
+     "dev": "8 of 8"
+    }
+   },
+   "beta": {
+    "name": "Guided Direct Access",
+    "reports": {
+     "all": {
+      "outage": null,
+      "bySetAndOutcome": {
+       "ambiguity correct": 6,
+       "core correct": 93,
+       "core skipped": 14,
+       "dev correct": 7,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-missions": {
+      "outage": "missions",
+      "bySetAndOutcome": {
+       "core correct": 4,
+       "core skipped": 10,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-assets": {
+      "outage": "assets",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev correct": 1
+      },
+      "overLimits": 0
+     },
+     "outage-personnel": {
+      "outage": "personnel",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     }
+    },
+    "correctOverAllReports": {
+     "core": "107 of 107",
+     "ambiguity": "6 of 6",
+     "dev": "8 of 8"
+    }
+   },
+   "gamma": {
+    "name": "GraphQL Adapters",
+    "reports": {
+     "all": {
+      "outage": null,
+      "bySetAndOutcome": {
+       "ambiguity correct": 6,
+       "core correct": 93,
+       "core skipped": 14,
+       "dev correct": 7,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-missions": {
+      "outage": "missions",
+      "bySetAndOutcome": {
+       "core correct": 4,
+       "core skipped": 10,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-assets": {
+      "outage": "assets",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev correct": 1
+      },
+      "overLimits": 0
+     },
+     "outage-personnel": {
+      "outage": "personnel",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     }
+    },
+    "correctOverAllReports": {
+     "core": "107 of 107",
+     "ambiguity": "6 of 6",
+     "dev": "8 of 8"
+    }
+   },
+   "delta": {
+    "name": "Apollo Federation",
+    "reports": {
+     "all": {
+      "outage": null,
+      "bySetAndOutcome": {
+       "ambiguity correct": 6,
+       "core correct": 93,
+       "core skipped": 14,
+       "dev correct": 7,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-missions": {
+      "outage": "missions",
+      "bySetAndOutcome": {
+       "core correct": 4,
+       "core skipped": 10,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-assets": {
+      "outage": "assets",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev correct": 1
+      },
+      "overLimits": 0
+     },
+     "outage-personnel": {
+      "outage": "personnel",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     }
+    },
+    "correctOverAllReports": {
+     "core": "107 of 107",
+     "ambiguity": "6 of 6",
+     "dev": "8 of 8"
+    }
+   },
+   "epsilon": {
+    "name": "Cosmo Federation",
+    "reports": {
+     "all": {
+      "outage": null,
+      "bySetAndOutcome": {
+       "ambiguity correct": 6,
+       "core correct": 93,
+       "core skipped": 14,
+       "dev correct": 7,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-missions": {
+      "outage": "missions",
+      "bySetAndOutcome": {
+       "core correct": 4,
+       "core skipped": 10,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     },
+     "outage-assets": {
+      "outage": "assets",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev correct": 1
+      },
+      "overLimits": 0
+     },
+     "outage-personnel": {
+      "outage": "personnel",
+      "bySetAndOutcome": {
+       "core correct": 5,
+       "core skipped": 9,
+       "dev skipped": 1
+      },
+      "overLimits": 0
+     }
+    },
+    "correctOverAllReports": {
+     "core": "107 of 107",
+     "ambiguity": "6 of 6",
+     "dev": "8 of 8"
+    }
+   }
+  },
+  "result": "Every task correct in all five arms: core 107 of 107, ambiguity 6 of 6, development 8 of 8, outages included; nothing over the limits; every check-services after a restore passed; no refusal.",
+  "againstStudy2Preflight": "The 90 task ids carried from corpus 2 (76 core, 6 ambiguity, 8 development) were correct in study 2's preflight reports and here; the 31 new core tasks are correct here in every arm.",
+  "stubContainers": "The 11 exited containers of the stack project left from earlier runs were removed by alpha's first launch.py up, as real mode does.",
+  "legacyLoadSessions": [
+   {
+    "session": "20261120T055220128388Z-alpha",
+    "scenario": "alpha",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.108
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "55921102dedffbe002f3f6057cb3968eaa71eaceccc04d65011f7a09a2282a7c"
+   },
+   {
+    "session": "20261120T055728990644Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.12
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "90cd0bfb8c4c5f064f58ded1d14356f33f53b82933e6e14b1389f6160152654e"
+   },
+   {
+    "session": "20261120T060224830008Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.107
+    },
+    "requests": {
+     "missions": 348,
+     "personnel": 332,
+     "assets": 91
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 332,
+    "sha256JsonSha256": "7dabaf8d86fe3c9af55c211bd0dc0b24db75cbdf862292b144b83753c7d7f00d"
+   },
+   {
+    "session": "20261120T060622366659Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.108,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 11238,
+     "personnel": 332,
+     "assets": 91
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 332,
+    "sha256JsonSha256": "51821827ce76eb5f249deced824af43b73386e6d06c7b1f04681ed10082b7e45"
+   },
+   {
+    "session": "20261120T061150557752Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.11
+    },
+    "requests": {
+     "missions": 11238,
+     "personnel": 332,
+     "assets": 91
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 332,
+    "sha256JsonSha256": "4d149a9f6185308a144fde0b885256f5596391c568f70408d4a9c2f993b21bc8"
+   }
+  ]
+ },
+ "phaseB": {
+  "config": {
+   "plan": "C:/esl/_study3/preflight/config/plan-phase-c.json",
+   "config": "C:/esl/_study3/preflight/config/study-config-phase-c.json",
+   "planSha256": "49adabb2f32f6a584047df869ef46b2292659125448b90d2b89299a6cc24ea3d",
+   "configSha256": "46a308e897cc2c126142980d02e37eed0c431e6c14fb869323b1e223b72d1e98",
+   "budgets": {
+    "anthropic": {
+     "dollarCeiling": 6.4
+    },
+    "openai": {
+     "dollarCeiling": 3.6
+    }
+   },
+   "differsFromPhaseA": "only in the budgets, earlier_study_runs and the slash form of the MCP Python path"
+  },
+  "dryRun": {
+   "runId": "study3-preflight-dry-1",
+   "startedAt": "2026-11-20T12:23:15Z",
+   "endedAt": "2026-11-20T12:57:35Z",
+   "exit": 0,
+   "status": "complete",
+   "client": "the fake vendor client (runner.py --dry-run): no key, no API call, no cost",
+   "commit": "4d44f05b381b7b7cf6309632b95ffd4b19852174",
+   "treeDirty": false,
+   "corpusFreeze": "5ad64d321ab090da4fa116469810f28124b394e8a96aaefd8c6098f2386f4fb4",
+   "analysisPlan": "93eaeebb7c599fe6aedcb5f26de7f8a69c37ce9fecf8e50eb27240d00f7cb6ba",
+   "blocks": {
+    "started": 17,
+    "ended": 17,
+    "order": [
+     "r1-epsilon",
+     "r1-gamma",
+     "r1-delta",
+     "r1-beta",
+     "r3-beta",
+     "r3-delta",
+     "r3-gamma",
+     "r3-epsilon",
+     "r2-gamma",
+     "r2-beta",
+     "r2-epsilon",
+     "r2-delta",
+     "r4-delta",
+     "r4-epsilon",
+     "r4-beta",
+     "r4-gamma",
+     "ref-alpha"
+    ],
+    "attempts": [
+     1
+    ]
+   },
+   "runs": 80,
+   "outcomes": {
+    "format_error": 80
+   },
+   "outcomeNote": "Every run ended format_error, as the fake client submits an empty answer.",
+   "datasetFingerprintEveryBlock": [
+    "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+   ],
+   "oracleSessionEveryBlock": [
+    "oracle-instance:2026-11-20T05:48:52"
+   ],
+   "provenanceChecks": {
+    "match": 17
+   },
+   "provenanceFingerprintsPerArm": {
+    "alpha": [
+     "36d6cf76c54ccc24e9a149f805886f7f5bc593508e6623adf948d83ad433baef"
+    ],
+    "beta": [
+     "2eb4ac42fada1f90fd495d636f6080c36ffdadb8c70167fd09e2c8b0ad364805"
+    ],
+    "delta": [
+     "9f368c6172909af5604d88753e134161038b6ed9f03dcd993527891be8d20435"
+    ],
+    "epsilon": [
+     "0a3be55a68c95f069a0f5f9c2d13c5dfd6ffd8b36283f19795935997a4f0a61e"
+    ],
+    "gamma": [
+     "5210fdf5db50d574ac411a8291b0f1d29278f46a2e7938d06185db9f91735408"
+    ]
+   },
+   "healthPoints": {
+    "up": 45
+   },
+   "samplesByPhase": {
+    "cold": 34,
+    "warm-up": 34,
+    "measurement": 80
+   },
+   "bundleChecksum": "ee16fdc79bf5df88e89c41259649c7bcdc85e9307c5a6cbc7ddf16cd5600cd7e",
+   "bundleJsonSha256": "79a196a80af8efce32dc415bf8226d36b4c659bc86a437e758c714a5685921c0",
+   "filesInRun": 192,
+   "sumsFile": {
+    "name": "SHA256SUMS-study3-preflight-dry-1.txt",
+    "sha256": "a7b56a80567e829fac5d9ae31eb6a6dfe5e64b00b5082e755317a87525a22fbe"
+   }
+  },
+  "legacyLoadSessions": [
+   {
+    "session": "20261120T122357609686Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 3,
+     "personnel": 13,
+     "assets": 1
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 13,
+    "sha256JsonSha256": "6846270d41adac683e80846dbbfd051977907ed56a2c9f95754a22ddb572e08f"
+   },
+   {
+    "session": "20261120T122559879046Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.108
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 1
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "ebb4f9d2524b24ecef68c6d35654e6a9ed553ee7a4c3126bfd86f0c43ca743a6"
+   },
+   {
+    "session": "20261120T122759451269Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.108,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 3,
+     "personnel": 13,
+     "assets": 1
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 13,
+    "sha256JsonSha256": "498c03c0c6438f22b87ece6d19d8f1d87bcc9cc8904d82458aceee5a272d7cc6"
+   },
+   {
+    "session": "20261120T123012376041Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.107,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "0c7b8d199853f01737457e074f214812ca8033592ef832bc700c7822019deb16"
+   },
+   {
+    "session": "20261120T123221470114Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.108
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "f03cc4fe6ceb664f44fcf2c591b4cb857b849041c9ff1c3daa16170aed167678"
+   },
+   {
+    "session": "20261120T123427396883Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.11
+    },
+    "requests": {
+     "missions": 3,
+     "personnel": 13,
+     "assets": 1
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 13,
+    "sha256JsonSha256": "0096d0801a65766b8a1eef224c4fcb72f28ecd9347bc61028cfc5b31b13a53f3"
+   },
+   {
+    "session": "20261120T123632307411Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.108,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 1
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "7ed1946e18aed72b6221edf0b41e91a468d040dab8fee9ff8e815e5b70f35357"
+   },
+   {
+    "session": "20261120T123834126005Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.108,
+     "end": 0.11
+    },
+    "requests": {
+     "missions": 3,
+     "personnel": 13,
+     "assets": 1
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 13,
+    "sha256JsonSha256": "f3a82fdba057fee67ad4cbb3acde180ac323aa04014a79f8b5a850c801737878"
+   },
+   {
+    "session": "20261120T124034183984Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.108,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "7a56afe68e0fd2e2e6577619a0b17b7c756ff5e6ce72aac0d3744dab1e90e4e0"
+   },
+   {
+    "session": "20261120T124235436469Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.108,
+     "end": 0.11
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "76f4a9429a4d5a9c18fcb097b1dbb188b085b92f5c3a58325912a129b7d523bd"
+   },
+   {
+    "session": "20261120T124426812005Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 3,
+     "personnel": 13,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 13,
+    "sha256JsonSha256": "a36c08b890e33cb4734622f67bfc05e8952894eec5057150ce0f4bc17681713d"
+   },
+   {
+    "session": "20261120T124617757976Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.108,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 3,
+     "personnel": 13,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 13,
+    "sha256JsonSha256": "af9167dd98820c71ccb2b057a2c2d1c9420ed678c733d785aab98a5691e50a87"
+   },
+   {
+    "session": "20261120T124808641931Z-delta",
+    "scenario": "delta",
+    "offsetBoundSeconds": {
+     "start": 0.109,
+     "end": 0.107
+    },
+    "requests": {
+     "missions": 3,
+     "personnel": 13,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 13,
+    "sha256JsonSha256": "b3b870a1811cefcf2b372e59b209c077f6138988ce98442654e62074a5a899fe"
+   },
+   {
+    "session": "20261120T125001885864Z-epsilon",
+    "scenario": "epsilon",
+    "offsetBoundSeconds": {
+     "start": 0.107,
+     "end": 0.11
+    },
+    "requests": {
+     "missions": 3,
+     "personnel": 13,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 13,
+    "sha256JsonSha256": "4928d6d17a79bd4439d3066d537aa5708e5f61ef5ee4ac90e09762ba13331e8b"
+   },
+   {
+    "session": "20261120T125205136205Z-beta",
+    "scenario": "beta",
+    "offsetBoundSeconds": {
+     "start": 0.109,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "a1c960f5997638a3ddb358a05fa7631a4657cca8049080bccfbb75daceeb9d76"
+   },
+   {
+    "session": "20261120T125354324612Z-gamma",
+    "scenario": "gamma",
+    "offsetBoundSeconds": {
+     "start": 0.11,
+     "end": 0.108
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "7e4e896ad3b8949cd79618362aa5d9ff7b05c53bb67ddae54c1b6c34934a4632"
+   },
+   {
+    "session": "20261120T125556251757Z-alpha",
+    "scenario": "alpha",
+    "offsetBoundSeconds": {
+     "start": 0.112,
+     "end": 0.109
+    },
+    "requests": {
+     "missions": 0,
+     "personnel": 0,
+     "assets": 0
+    },
+    "answeredNot200": 0,
+    "savedWhole": true,
+    "longestRunOfPersonnel200": 0,
+    "sha256JsonSha256": "1c8bae132b82e043a6c0d08af8246d478233ea890f3ba4d0555b8c71b2e0ec6b"
+   }
+  ],
+  "checkBeforeScoring": "In every delta and epsilon block the Personnel adapter answered 13 consecutive requests with 200 (the reader needs 11: one probe and 10 pages). The fake runs make no tool calls; the harness's own checks still reach the adapters.",
+  "requestTiming": {
+   "method": "Each saved request's time against the block's start, its runs' windows (finishedAt less elapsedSeconds, to finishedAt, from each run's result.json) and its health points; by time only, no run text read.",
+   "beforeTheFirstRun": {
+    "missions": 24,
+    "personnel": 104,
+    "total": 128,
+    "where": "the eight delta and epsilon blocks, 3 Missions and 13 Personnel each: block initialization load"
+   },
+   "insideARunWindow": 0,
+   "afterARun": {
+    "assets": 6,
+    "where": "one in each gamma, delta and epsilon block of rounds 1 and 3, in the restore after the block's V04 run (the Assets outage), 42 to 106 ms before the restore health point, whose entry-point check for Assets answered up; by time the entry-point ready check of the restore, not load of any run",
+    "notSeen": "The beta and alpha restores and the ref-alpha block reach Assets directly, not through an adapter, so the log holds none of their requests."
+   }
+  },
+  "legacy3": {
+   "command": "study/analysis3/legacy3.py --bundle <copy>/study3-preflight-dry-1 --sums <copy>/SHA256SUMS-study3-preflight-dry-1.txt --bundle-checksum <above> --corpus-dir study/corpus3 --legacy-dir <copy of the 17 sessions> --out <new folder> --run-id study3-preflight-dry-1",
+   "exit": 2,
+   "passed": [
+    "the copy against its sums file",
+    "the bundle checksum and status",
+    "the scorer contract, version 2",
+    "the corpus hash and the analysis plan hash",
+    "the schedule's design, arms and reference"
+   ],
+   "stop": "STOP: tasks.json and the schedule hold different tasks (113 in tasks.json, 8 in the schedule)",
+   "reading": "legacy3 reads only a bundle of the scored core set; it gives no figures for a development bundle. legacy3 is unchanged."
+  }
+ },
+ "stateLeft": "No stack up. Oracle and the Missions service running for phase C. Nothing paid."
+}
