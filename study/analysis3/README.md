@@ -39,7 +39,7 @@ The legacy-load reader takes the same copy and a copy of the launch kit's `legac
 "$STUDY_MCP_PYTHON" -B study/analysis3/legacy3.py --bundle '<copy>/study-3' --sums '<archive>/SHA256SUMS-study-3.txt' --bundle-checksum '<sha256 of the bundle>' --corpus-dir study/corpus3 --legacy-dir '<copy of the state folder>/legacy-load' --out '<folder outside the repository>'
 ```
 
-A block it cannot count is reported with its reasons, and every other output is still written. The analysis runs without the reader, and `analyze3.py`'s own results still name the legacy load as a marked place.
+A block it cannot count is reported with its reasons, and every other output is still written. The analysis runs without the reader, and `analyze3.py`'s own results point to `legacy3.py` for the legacy load, with the command line above.
 
 The power and validation calculations write to a file outside the repository:
 

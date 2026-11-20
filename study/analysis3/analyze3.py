@@ -28,7 +28,10 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 ARMS = data3.SQUARE_ARMS
 NAMES = data3.ARM_NAMES
-MARKED = 'MARKED PLACE: filled at the freeze'
+LEGACY_LOAD = ("Reported by legacy3.py, a separate command with its own inputs, not by this analysis (README): "
+               "`\"$STUDY_MCP_PYTHON\" -B study/analysis3/legacy3.py --bundle '<copy>/study-3' --sums '<archive>/SHA256SUMS-study-3.txt' "
+               "--bundle-checksum '<sha256 of the bundle>' --corpus-dir study/corpus3 --legacy-dir '<copy of the state folder>/legacy-load' "
+               "--out '<folder outside the repository>'`")
 OUTCOME_NAMES = {'toolCalls': '1 + tool calls per run', 'cost': 'cost per run (USD)'}
 GROUP_NAMES = {'forward': 'forward', 'reverse': 'reverse', 'one': 'one system', 'several': 'several systems'}
 r6 = analyze2.r6
@@ -129,7 +132,7 @@ def analyse(args):
         'descriptive': {'cells': analyze2.cell_counts(core, data3.ALL_ARMS, models), 'outcomes': analyze2.outcome_table(core, data3.ALL_ARMS),
                         'measures': attempt(analyze2.measures, square, models, conditions), 'perStratum': per_stratum(rows, models),
                         'spend': analyze2.spend(recorded, blocks), 'schedule': analyze2.schedule_facts(manifest, blocks),
-                        'legacyLoad': {'status': MARKED, 'measure': 'requests to Missions, Personnel and Assets per run and arm, descriptive, ratios with intervals'}},
+                        'legacyLoad': {'status': LEGACY_LOAD,'measure': 'requests to Missions, Personnel and Assets per run and arm, descriptive, ratios with intervals'}},
         'exploratory': {'tables': attempt(analyze2.exploratory, records, models), 'honestGap': attempt(analyze2.honest_gap, square, models),
                         'study2Tasks': study2_comparison(args.study2_scores, rows, models)},
     })

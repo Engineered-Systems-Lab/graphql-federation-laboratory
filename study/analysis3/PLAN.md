@@ -156,7 +156,8 @@ The 100 percent join-width effect is an estimate from study 2: the P1 tool-call 
 
 - **Size:** 2,000 simulated studies per scenario, 10,000 bootstrap replicates, master seed 20261120. The simulation error of a rate of 0.05 is 0.0049.
 - **The limits (decision A11):** a false-positive rate above 0.06 for a 0.05 test or family, above 0.035 for the floor at a true -10 points, or a coverage below 0.93.
-- **The code validated (SHA-256 with LF line ends):** `data3.py` 3e51c48662c46b2f4edd40004b04ff5def3ab3ab140f01a2195e013a77109dcc, `simulate3.py` 800f62544d7e62abdc12d093dd5a6363162133d7dcce3ec6daf92c97729adfd4, `stats3.py` 138c559e1d4f9a2b3b3ec7608d6e103a4bc55320ffb2e7925be7c556be235d6c, `validate3.py` e5e2b2ec1df1826dbe7a14a78b54d432ca2d31118a5c2c68f0054b1b1c0f52fb.
+- **The code validated (SHA-256 with LF line ends):** `data3.py` 3e51c48662c46b2f4edd40004b04ff5def3ab3ab140f01a2195e013a77109dcc, `simulate3.py` 800f62544d7e62abdc12d093dd5a6363162133d7dcce3ec6daf92c97729adfd4, `stats3.py` 074395fdb3a2650ecc2d03aade0e21d1e0fc73cd7b6fd15673eec3a2cb7f3827, `validate3.py` e5e2b2ec1df1826dbe7a14a78b54d432ca2d31118a5c2c68f0054b1b1c0f52fb.
+- **Rerun after the cutoff fix:** the 1 percent limit on unusable replicates (sections 4 and 6) was then made to count whole replicates, so that exactly 1 percent passes, as the plan says. The validation was run again on that code with the same seed and size, and every figure in this section, and the implemented analysis's figures in section 11, came out the same. The `stats3.py` hash above is that of the rerun.
 
 **The exception.** With the CSL fallback forced, in the scenario with study 2's effort effects and no CSL effect (`effort-100`), the forward-against-reverse test alone, before Holm, wrongly rejected at a rate of **0.0620**, above the limit of 0.06. The Holm family rate in that scenario is **0.0590**. The lead developer approved this exception and required no further tuning on this evidence.
 
@@ -184,7 +185,7 @@ The 100 percent join-width effect is an estimate from study 2: the P1 tool-call 
 **Limits of this evidence.**
 
 1. No simulated study had an unusable GEE, so the mix of methods that natural fit failures would cause was not measured. The selected and the forced runs show each method alone.
-2. Earlier validation runs led to changes in the method and are development history. The figures here come from one run on the final code, on a seed no earlier run used.
+2. Earlier validation runs led to changes in the method and are development history. The figures here come from one run on a seed no earlier run used. After the cutoff fix the final code was run again on that same seed, not a fresh one, and gave the same figures, so the rerun shows that the fix changed nothing here and is not a second independent draw.
 3. About 30 false-positive rates are checked, each with the simulation error above, so a rate near a limit can cross it by chance.
 
 ## 13. Outputs

@@ -348,6 +348,36 @@ class FallbackTests(unittest.TestCase):
         self.assertEqual(result['effort']['toolCalls']['comparisons'], [])
         self.assertEqual(result['csl']['method'], 'gee')
 
+    @staticmethod
+    def unusable(count, replicates):
+        """CellTable.arm_means with the first `count` of the `replicates` bootstrap replicates emptied in every arm."""
+        real = stats3.CellTable.arm_means
+
+        def emptied(table, weights):
+            arms = real(table, weights)
+            if weights.shape[0] == replicates:
+                for values in arms.values():
+                    values[:count] = np.nan
+            return arms
+
+        return mock.patch.object(stats3.CellTable, 'arm_means', emptied)
+
+    def test_exactly_one_percent_unusable_replicates_passes_the_effort_fallback_and_one_more_does_not(self):
+        rows = [r for r in self.records if r['correct'] is not None]
+        for replicates in (10000, 2000):
+            for count, estimable in ((replicates // 100, True), (replicates // 100 + 1, False)):
+                with self.unusable(count, replicates):
+                    family = stats3.effort_fallback(rows, 'cost', MODELS, self.strata, replicates)
+                self.assertEqual((family['usable'], family['estimable']), (replicates - count, estimable), (replicates, count))
+
+    def test_exactly_one_percent_unusable_replicates_passes_the_floor_and_one_more_does_not(self):
+        rows = [r for r in self.records if r['correct'] is not None]
+        for replicates in (10000, 2000):
+            for count, estimable in ((replicates // 100, True), (replicates // 100 + 1, False)):
+                with self.unusable(count, replicates):
+                    floor = stats3.accuracy_floor(rows, 'gamma', MODELS, self.strata, replicates)
+                self.assertEqual((floor['usable'], floor['estimable']), (replicates - count, estimable), (replicates, count))
+
     def test_the_effort_fallback_widens_its_deviations_by_the_small_sample_factor(self):
         self.assertAlmostEqual(stats3.small_sample_factor(107, 3), math.sqrt(107 / 104) * float(stats3.sps.t.ppf(0.975, 104) / stats3.sps.norm.ppf(0.975)))
         rows = [r for r in self.records if r['correct'] is not None]
@@ -375,11 +405,16 @@ class OutputTests(Workspace):
         for name in ('results.json', 'tables.md', 'figures/effort.svg'):
             self.assertEqual((self.root / 'one' / name).read_bytes(), (self.root / 'two' / name).read_bytes(), name)
 
-    def test_the_tiers_and_marked_places_are_in_the_results(self):
+    def test_the_tiers_and_the_legacy_load_pointer_are_in_the_results(self):
         facts = self.bundle(effects=simulate3.effects_at(100))
         self.assertEqual(run_cli(args_for(facts, self.root / 'out'))[0], 0)
         res = json.loads((self.root / 'out' / 'results.json').read_text(encoding='utf-8'))
-        self.assertIn('MARKED PLACE', res['descriptive']['legacyLoad']['status'])
+        command = next(line for line in (HERE / 'README.md').read_text(encoding='utf-8').splitlines() if 'analysis3/legacy3.py --bundle' in line)
+        legacy = res['descriptive']['legacyLoad']
+        self.assertEqual(set(legacy), {'status', 'measure'})
+        self.assertIn('Reported by legacy3.py', legacy['status'])
+        self.assertIn('`%s`' % command, legacy['status'])
+        self.assertIn('## Descriptive: legacy load\n\n%s\n' % legacy['status'], (self.root / 'out' / 'tables.md').read_text(encoding='utf-8'))
         self.assertEqual(set(res['confirmatory']), {'floors', 'effort', 'csl'})
         self.assertEqual(set(res['cslGroupAccuracy']['groups']), {'forward', 'reverse', 'one', 'several'})
         self.assertEqual(res['exploratory']['study2Tasks']['compared'], False)

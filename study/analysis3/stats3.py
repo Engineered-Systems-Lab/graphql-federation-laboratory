@@ -129,7 +129,7 @@ def effort_fallback(rows, outcome, models, stratum_of, replicates=REPLICATES, se
     out['usable'] = int(usable_mask.sum())
     if not all(np.isfinite(full[a][0]) for a in ARMS):
         return dict(out, estimable=False, reason='a cell of the full sample is empty')
-    if 1.0 - usable_mask.mean() > UNUSABLE_LIMIT:
+    if replicates - out['usable'] > round(UNUSABLE_LIMIT * replicates, 9):
         return dict(out, estimable=False, reason='more than 1 percent of the replicates have an empty cell')
     if len(tasks) <= len(strata):
         return dict(out, estimable=False, reason='there are no more tasks than strata')
@@ -222,7 +222,7 @@ def accuracy_floor(rows, comparator, models, stratum_of, replicates=REPLICATES, 
     stars = contrast_of(table.arm_means(stratified_weights(rng, strata, replicates)), comparator)
     valid = stars[np.isfinite(stars)]
     out = {'comparator': comparator, 'attempted': replicates, 'usable': int(valid.size), 'margin': -FLOOR_MARGIN}
-    if not all(np.isfinite(full[a][0]) for a in ARMS) or 1.0 - valid.size / replicates > UNUSABLE_LIMIT:
+    if not all(np.isfinite(full[a][0]) for a in ARMS) or replicates - valid.size > round(UNUSABLE_LIMIT * replicates, 9):
         return dict(out, estimable=False, cleared=False, reason='an empty cell in the full sample or in more than 1 percent of the replicates')
     estimate = float(contrast_of(full, comparator)[0])
     lower = bca_lower(valid, estimate, stratified_acceleration(table, comparator, strata))
