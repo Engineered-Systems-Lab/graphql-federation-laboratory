@@ -28,12 +28,22 @@ Assets identifier and still need only Missions and the mapping. For a new task t
 their anchor system; for B11 Personnel, though the officers' identifiers come from the mapping alone). The directions
 map records both, so the join width is read from `requiredSystems`, never from the anchor.
 
-Usage (from anywhere inside a checkout): python -B study/corpus3/derive_a3.py [--write]
+Usage (from anywhere inside a checkout): python -B study/corpus3/derive_a3.py [--write [--frozen <YYYY-MM-DD>]]
+
+The manifest's status is 'draft, not frozen' or 'frozen-<YYYY-MM-DD>', as in corpus 2. --write writes the draft status; the freeze
+writes the frozen one with --write --frozen <date>, and only the manifest changes: the other derived files keep the status 'draft, not
+frozen' and their bytes, and the manifest's status governs. The freeze writes corpus-manifest.json alone and refuses, writing nothing, a
+manifest that is already frozen and any derived file that differs from the derivation under the draft status. A --write without
+--frozen refuses to replace a frozen manifest. Without --write the check accepts either well-formed status and compares every file with
+the derivation under the status the committed manifest holds; any other status fails. Every file is written whole to a temporary file
+in its folder and swapped in only then, so a failed or interrupted write leaves the committed file as it was.
 """
 import hashlib
 import importlib.util
 import json
+import os
 import sys
+import tempfile
 from collections import Counter, defaultdict
 from decimal import Decimal
 from pathlib import Path
@@ -55,6 +65,9 @@ def _load_corpus2_derivation():
 
 
 D2 = _load_corpus2_derivation()
+# The manifest status rule is corpus 2's (FROZEN, status_ok, frozen_status), with the same draft status.
+assert D2.STAMP == STAMP
+FROZEN, status_ok, frozen_status = D2.FROZEN, D2.status_ok, D2.frozen_status
 import scoring  # noqa: E402  (corpus 2's scorer; this folder's scoring.py is a byte-identical copy, which the tests check)
 
 STR, INT, TOKEN, NAME, ID_LIST, MONEY = D2.STR, D2.INT, D2.TOKEN, D2.NAME, D2.ID_LIST, D2.MONEY
@@ -500,8 +513,21 @@ def self_check(entries):
         assert outcome == 'correct', (entry['id'], failed)
 
 
-def derive():
-    """{file name: text} of every file this folder derives, the manifest included."""
+def manifest_about(status):
+    """The manifest's `about`: the draft text, or the frozen text naming the date."""
+    carried = ('`carried` binds every task carried from corpus 2 to the SHA-256 (canonical JSON) of its corpus 2 record, schema and key; '
+               '`corpus2Manifest` is corpus 2\'s frozen manifest.')
+    if status == STAMP:
+        return 'Checksums of corpus 3 as derived. NOT frozen. ' + carried
+    return ('Checksums of corpus 3 as derived. Frozen on %s. The other derived files keep the status "%s"; this manifest\'s status '
+            'governs. %s' % (FROZEN.fullmatch(status).group(1), STAMP, carried))
+
+
+def derive(status=STAMP):
+    """{file name: text} of every file this folder derives, the manifest included, with the given manifest status; only the manifest
+    holds it, every other file keeps the draft status."""
+    if not status_ok(status):
+        raise ValueError('the manifest status %r is neither %r nor frozen-<YYYY-MM-DD>' % (status, STAMP))
     two, manifest2 = corpus2_files()
     ANCHORS.clear()
     new = build_new(D2.World()).groups['core']
@@ -545,9 +571,7 @@ def derive():
     hashes = {name: hashlib.sha256(text.encode('utf-8')).hexdigest() for name, text in texts.items()}
     carried = {t['id']: {'record': digest(t), 'schema': digest(t['schema']), 'key': digest(keys2[t['id']])} for t in pool + ambiguity + dev}
     counts = Counter(t.get('set', 'core') for t in records)
-    manifest = {'about': 'Checksums of corpus 3 as derived. NOT frozen. `carried` binds every task carried from corpus 2 to the SHA-256 '
-                         '(canonical JSON) of its corpus 2 record, schema and key; `corpus2Manifest` is corpus 2\'s frozen manifest.',
-                'status': STAMP, 'coreTasks': counts['core'], 'newTasks': len(new), 'ambiguityTasks': counts['ambiguity'], 'devTasks': len(dev),
+    manifest = {'about': manifest_about(status), 'status': status, 'coreTasks': counts['core'], 'newTasks': len(new), 'ambiguityTasks': counts['ambiguity'], 'devTasks': len(dev),
                 'files': hashes, 'corpus2Manifest': manifest2, 'carried': carried, 'newTaskIds': [t['id'] for t, _, _ in new],
                 'derivedFrom': D2.sources()}
     texts['corpus-manifest.json'] = render(manifest)
@@ -555,6 +579,7 @@ def derive():
 
 
 def committed_status(folder=HERE):
+    """The status the committed manifest holds, or None when it is missing or unreadable."""
     try:
         return json.loads((Path(folder) / 'corpus-manifest.json').read_text(encoding='utf-8')).get('status')
     except (OSError, ValueError, AttributeError):
@@ -566,26 +591,83 @@ def stale_files(texts, folder=HERE):
             if not (Path(folder) / name).exists() or (Path(folder) / name).read_bytes().replace(b'\r\n', b'\n').decode('utf-8') != text]
 
 
+def replace_file(path, data):
+    """Write `data` to `path` through a temporary file in the same folder, swapped in by os.replace once it is whole, so a failed or
+    interrupted write leaves the file that was there unchanged and no temporary file behind."""
+    path = Path(path)
+    handle, temporary = tempfile.mkstemp(prefix='.%s.' % path.name, suffix='.tmp', dir=str(path.parent))
+    try:
+        with os.fdopen(handle, 'wb') as out:
+            out.write(data)
+            out.flush()
+            os.fsync(out.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+        raise
+
+
+USAGE = 'usage: derive_a3.py [--write [--frozen <YYYY-MM-DD>]]'
+
+
 def main(argv, folder=HERE):
     folder = Path(folder)
-    if list(argv) not in ([], ['--write']):
-        print('usage: derive_a3.py [--write]', file=sys.stderr)
+    args = list(argv)
+    date = None
+    if '--frozen' in args:
+        at = args.index('--frozen')
+        if at + 1 >= len(args):
+            print(USAGE, file=sys.stderr)
+            return 2
+        date = args[at + 1]
+        del args[at:at + 2]
+    write = args == ['--write']
+    if args not in ([], ['--write']):
+        print(USAGE, file=sys.stderr)
         return 2
-    texts = derive()
-    if argv == ['--write']:
+    if date is not None and not write:
+        print('FAIL: --frozen is given with --write, at the freeze', file=sys.stderr)
+        return 2
+    if write:
         held = committed_status(folder)
+        if date is not None:
+            try:
+                status = frozen_status(date)
+            except ValueError as error:
+                print('FAIL: %s' % error, file=sys.stderr)
+                return 2
+            if held != STAMP and status_ok(held):
+                print('FAIL: the committed manifest is already %s; a freeze does not replace its date' % held, file=sys.stderr)
+                return 1
+            # the freeze changes only the manifest: every derived file must already be the derivation's, under the draft status
+            stale = stale_files(derive(STAMP), folder)
+            if stale:
+                print('FAIL: the freeze writes the manifest only, and these differ from the derivation: %s' % ', '.join(stale), file=sys.stderr)
+                return 1
+            name = 'corpus-manifest.json'
+            replace_file(folder / name, derive(status)[name].encode('utf-8'))
+            print('wrote', name, 'with the manifest status', status)
+            return 0
         if held not in (None, STAMP):
-            print('FAIL: the committed manifest is %r; --write replaces only a draft manifest' % held, file=sys.stderr)
+            print('FAIL: the committed manifest is %r; a --write without --frozen replaces only a draft manifest' % held, file=sys.stderr)
             return 1
+        texts = derive(STAMP)
         for name, text in texts.items():
-            (folder / name).write_bytes(text.encode('utf-8'))
+            replace_file(folder / name, text.encode('utf-8'))
         print('wrote', ', '.join(texts), 'with the manifest status', STAMP)
         return 0
-    stale = stale_files(texts, folder)
+    status = committed_status(folder)
+    if not status_ok(status):
+        print('FAIL: the manifest status %r is neither %r nor frozen-<YYYY-MM-DD>' % (status, STAMP), file=sys.stderr)
+        return 1
+    stale = stale_files(derive(status), folder)
     if stale:
         print('FAIL: differs from the derivation:', ', '.join(stale), file=sys.stderr)
         return 1
-    print('ok: corpus 3 matches corpus 2 and the released files (manifest status: %s)' % committed_status(folder))
+    print('ok: corpus 3 matches corpus 2 and the released files (manifest status: %s)' % status)
     return 0
 
 

@@ -1,6 +1,8 @@
 """The tests of corpus 3. Offline: no stack, no MCP server, no API key.
 
-- The derivation reproduces every derived file from corpus 2's frozen files and the released files.
+- The derivation reproduces every derived file from corpus 2's frozen files and the released files, under the status the committed
+  manifest holds (the draft status or a well-formed frozen one, also checked on a temporary frozen copy); the freeze
+  (derive_a3.py --write --frozen <date>) writes the manifest alone and refuses what it must.
 - The carried tasks equal corpus 2's by hash: every record, schema and key of the 76 pool tasks, the 6 ambiguity tasks and the 8
   development tasks, dev.json and scoring.py byte for byte, bound to corpus 2's frozen manifest.
 - Every new task has a key that fits its schema and scores correct, chosen wrong answers are refused, and it has a solver and its
@@ -17,8 +19,11 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
+import shutil
 import subprocess
 import sys
+import tempfile
 import unittest
 from collections import Counter
 from contextlib import redirect_stderr, redirect_stdout
@@ -61,19 +66,83 @@ def lf(path):
     return Path(path).read_bytes().replace(b'\r\n', b'\n')
 
 
-class TheDerivation(unittest.TestCase):
+CORPUS_FILES = derive_a3.WRITTEN + ('corpus-manifest.json',)
+_DRAFT = {}
+
+
+def draft_manifest():
+    """The draft manifest's bytes, derived from corpus 2 and the released files, whatever the committed manifest holds."""
+    if 'bytes' not in _DRAFT:
+        _DRAFT['bytes'] = derive_a3.derive(derive_a3.STAMP)['corpus-manifest.json'].encode('utf-8')
+    return _DRAFT['bytes']
+
+
+def draft_copy(folder):
+    """Copy the derived files into `folder`, with a draft manifest in place of the committed one."""
+    for name in derive_a3.WRITTEN:
+        shutil.copy(HERE / name, Path(folder) / name)
+    (Path(folder) / 'corpus-manifest.json').write_bytes(draft_manifest())
+
+
+def run_check(*argv, folder=HERE):
+    """derive_a3.py's command line on `folder`: its exit code and everything it printed."""
+    out, err = io.StringIO(), io.StringIO()
+    with redirect_stdout(out), redirect_stderr(err):
+        code = derive_a3.main(list(argv), folder=folder)
+    return code, out.getvalue() + err.getvalue()
+
+
+def harness_runner():
+    """The harness's runner.py, loaded under its own name."""
+    harness = str(REPO / 'study' / 'harness')
+    if harness not in sys.path:
+        sys.path.append(harness)  # appended, so no harness module shadows a corpus module
+    spec = importlib.util.spec_from_file_location('harness_runner', REPO / 'study' / 'harness' / 'runner.py')
+    runner = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(runner)
+    return runner
+
+
+class CommittedCorpusChecks:
+    """The checks of the committed corpus files, under the status the committed manifest holds: the draft status, or a well-formed
+    frozen-<YYYY-MM-DD> once the freeze is committed. TheDerivation runs them on this folder and TheFrozenManifest on a temporary copy
+    frozen by derive_a3.py --write --frozen <date>."""
+
+    def corpus(self):
+        return HERE
+
+    def manifest(self):
+        return load('corpus-manifest.json', self.corpus())
+
     def test_every_derived_file_reproduces(self):
-        self.assertEqual(derive_a3.stale_files(derive_a3.derive()), [])
+        folder = self.corpus()
+        status = derive_a3.committed_status(folder)
+        self.assertTrue(derive_a3.status_ok(status), status)
+        self.assertEqual(derive_a3.stale_files(derive_a3.derive(status), folder), [])
 
     def test_the_manifest_lists_every_file_the_harness_reads(self):
+        folder, manifest = self.corpus(), self.manifest()
         for name in derive_a3.WRITTEN:
-            self.assertEqual(MANIFEST['files'][name], hashlib.sha256(lf(HERE / name)).hexdigest(), name)
-        self.assertEqual(MANIFEST['status'], derive_a3.STAMP)
+            self.assertEqual(manifest['files'][name], hashlib.sha256(lf(folder / name)).hexdigest(), name)
+        self.assertTrue(derive_a3.status_ok(manifest['status']), manifest['status'])
+
+    def test_the_check_passes_on_the_committed_files_under_their_status(self):
+        folder = self.corpus()
+        code, text = run_check(folder=folder)
+        self.assertEqual(code, 0, text)
+        self.assertIn('manifest status: %s)' % derive_a3.committed_status(folder), text)
 
     def test_corpus2_is_its_frozen_manifest(self):
         self.assertEqual(derive_a3.sha256_lf(CORPUS2 / 'corpus-manifest.json'), derive_a3.FREEZE2)
-        self.assertEqual(MANIFEST['corpus2Manifest'], derive_a3.FREEZE2)
+        self.assertEqual(self.manifest()['corpus2Manifest'], derive_a3.FREEZE2)
 
+    def test_the_harness_accepts_the_manifest(self):
+        runner = harness_runner()
+        runner.check_corpus(self.corpus(), 'scored')
+        runner.check_corpus(self.corpus(), 'dev')
+
+
+class TheDerivation(CommittedCorpusChecks, unittest.TestCase):
     def test_the_counts(self):
         sets = Counter(t['set'] for t in TASKS['tasks'])
         self.assertEqual((sets['core'], sets['ambiguity'], len(NEW_IDS)), (107, 6, 31))
@@ -84,8 +153,181 @@ class TheDerivation(unittest.TestCase):
         self.assertEqual(set(ids), set(EXPECTED))
         self.assertEqual(set(KEYS), set(ids) | {t['id'] for t in DEV2})
 
+
+class TheFrozenManifest(CommittedCorpusChecks, unittest.TestCase):
+    """A manifest frozen by derive_a3.py --write --frozen <date> in a temporary copy of the corpus passes the checks of the committed
+    files."""
+
+    @classmethod
+    def setUpClass(cls):
+        tmp = tempfile.TemporaryDirectory()
+        cls.addClassCleanup(tmp.cleanup)
+        cls.folder = Path(tmp.name)
+        draft_copy(cls.folder)
+        code, text = run_check('--write', '--frozen', '2026-11-21', folder=cls.folder)
+        if code != 0:
+            raise AssertionError('the freeze of the copy failed: %s' % text)
+
+    def corpus(self):
+        return self.folder
+
+    def test_the_copy_holds_a_frozen_manifest_and_only_the_manifest_changed(self):
+        self.assertEqual(derive_a3.committed_status(self.folder), 'frozen-2026-11-21')
+        self.assertNotEqual((self.folder / 'corpus-manifest.json').read_bytes(), draft_manifest())
+        for name in derive_a3.WRITTEN:
+            self.assertEqual((self.folder / name).read_bytes(), (HERE / name).read_bytes(), name)
+
+
+class TheManifestStatus(unittest.TestCase):
+    """The draft status or frozen-<YYYY-MM-DD>, written only by an explicit option and only in the manifest. Each test starts from its own
+    draft copy of the corpus, whatever status the committed manifest holds."""
+
+    def setUp(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.folder = Path(tmp.name)
+        draft_copy(self.folder)
+
+    def main(self, *argv):
+        return run_check(*argv, folder=self.folder)
+
+    def bytes_of(self, name):
+        return (self.folder / name).read_bytes()
+
+    def all_bytes(self):
+        return {name: self.bytes_of(name) for name in CORPUS_FILES}
+
+    def edit_manifest(self, change):
+        path = self.folder / 'corpus-manifest.json'
+        manifest = json.loads(path.read_text(encoding='utf-8'))
+        change(manifest)
+        path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+
+    def test_the_statuses_the_check_accepts_and_refuses(self):
+        for status in (derive_a3.STAMP, 'frozen-2026-11-21', 'frozen-2028-02-29'):
+            self.assertTrue(derive_a3.status_ok(status), status)
+        for status in ('frozen', 'frozen-2026-11', 'frozen-2026-02-30', 'frozen-2026-11-21 ', 'Frozen-2026-11-21', 'frozen-26-11-21',
+                       'frozen-2026-11-21-x', 'draft', '', None, 7, 'frozen-2026-1-21'):
+            self.assertFalse(derive_a3.status_ok(status), status)
+        with self.assertRaises(ValueError):
+            derive_a3.derive('frozen-2026-13-01')
+
+    def test_the_draft_check_passes_on_a_draft_copy(self):
+        code, text = self.main()
+        self.assertEqual(code, 0, text)
+        self.assertIn('manifest status: draft, not frozen', text)
+
+    def test_the_freeze_writes_the_frozen_status_in_the_manifest_only(self):
+        before = self.all_bytes()
+        code, text = self.main('--write', '--frozen', '2026-11-21')
+        self.assertEqual(code, 0, text)
+        for name in derive_a3.WRITTEN:
+            self.assertEqual(self.bytes_of(name), before[name], name)
+        manifest = json.loads(self.bytes_of('corpus-manifest.json'))
+        draft = json.loads(before['corpus-manifest.json'])
+        self.assertEqual(manifest['status'], 'frozen-2026-11-21')
+        self.assertIn('Frozen on 2026-11-21', manifest['about'])
+        self.assertEqual({k: v for k, v in manifest.items() if k not in ('status', 'about')},
+                         {k: v for k, v in draft.items() if k not in ('status', 'about')})
+        self.assertEqual(json.loads(self.bytes_of('keys-a.json'))['status'], derive_a3.STAMP)
+        code, text = self.main()
+        self.assertEqual(code, 0, text)
+        self.assertIn('manifest status: frozen-2026-11-21', text)
+
+    def test_a_write_without_the_option_does_not_unfreeze_and_a_bad_option_refuses(self):
+        self.assertEqual(self.main('--write', '--frozen', '2026-11-21')[0], 0)
+        before = self.all_bytes()
+        code, text = self.main('--write')
+        self.assertEqual(code, 1)
+        self.assertIn('replaces only a draft manifest', text)
+        for argv, words in ((('--write', '--frozen', '2026-02-30'), 'needs a date'), (('--write', '--frozen', 'tomorrow'), 'needs a date'),
+                            (('--write', '--frozen', '2026-11-21T00:00'), 'needs a date'), (('--frozen', '2026-11-21'), 'with --write'),
+                            (('--write', '--frozen'), 'usage'), (('--freeze',), 'usage')):
+            code, text = self.main(*argv)
+            self.assertEqual(code, 2, argv)
+            self.assertIn(words, text, argv)
+        self.assertEqual(self.all_bytes(), before, 'a refused write changes nothing')
+
+    def test_a_malformed_date_refuses_on_a_draft_and_writes_nothing(self):
+        before = self.all_bytes()
+        for date in ('2026-02-30', '2026-11-1', '21-11-2026', ''):
+            code, text = self.main('--write', '--frozen', date)
+            self.assertEqual(code, 2, date)
+            self.assertIn('needs a date', text, date)
+        self.assertEqual(self.all_bytes(), before)
+
+    def test_a_second_freeze_refuses_and_changes_nothing(self):
+        self.assertEqual(self.main('--write', '--frozen', '2026-11-21')[0], 0)
+        before = self.all_bytes()
+        for date in ('2026-11-22', '2026-11-21'):
+            code, text = self.main('--write', '--frozen', date)
+            self.assertEqual(code, 1, date)
+            self.assertIn('already frozen-2026-11-21', text)
+        self.assertEqual(self.all_bytes(), before)
+
+    def test_a_freeze_over_a_drifted_file_refuses_and_changes_nothing(self):
+        for name in derive_a3.WRITTEN:
+            with self.subTest(name=name):
+                draft_copy(self.folder)
+                (self.folder / name).write_bytes(self.bytes_of(name) + b' ')
+                before = self.all_bytes()
+                code, text = self.main('--write', '--frozen', '2026-11-21')
+                self.assertEqual(code, 1)
+                self.assertIn('the freeze writes the manifest only', text)
+                self.assertIn(name, text)
+                self.assertEqual(self.all_bytes(), before)
+
+    def test_a_malformed_status_fails_the_check(self):
+        for status in ('frozen', 'frozen-2026-02-30', 'frozen 2026-11-21', None):
+            with self.subTest(status=status):
+                self.edit_manifest(lambda m: m.update(status=status))
+                code, text = self.main()
+                self.assertEqual(code, 1)
+                self.assertIn('is neither', text)
+
+    def test_a_hand_edit_of_a_draft_or_a_frozen_manifest_fails_the_check(self):
+        edits = (lambda m: m['files'].update({'tasks.json': '0' * 64}), lambda m: m['files'].pop('expected.json'),
+                 lambda m: m.update(about=m['about'] + ' '), lambda m: m.update(newTasks=30))
+        for frozen in (False, True):
+            for number, edit in enumerate(edits):
+                with self.subTest(frozen=frozen, edit=number):
+                    (self.folder / 'corpus-manifest.json').write_bytes(draft_manifest())
+                    if frozen:
+                        self.assertEqual(self.main('--write', '--frozen', '2026-11-21')[0], 0)
+                    self.assertEqual(self.main()[0], 0)
+                    self.edit_manifest(edit)
+                    code, text = self.main()
+                    self.assertEqual(code, 1)
+                    self.assertIn('differs from the derivation: corpus-manifest.json', text)
+
+    def test_a_failed_freeze_leaves_the_draft_manifest_whole(self):
+        """A write that fails part way (24 bytes written, then an error) or a swap that fails leaves the draft manifest byte for byte
+        and no temporary file behind."""
+        from unittest import mock
+        real_fdopen = os.fdopen
+
+        def failing_fdopen(*args, **kwargs):
+            out = real_fdopen(*args, **kwargs)
+            real_write = out.write
+
+            def write(data):
+                real_write(data[:24])
+                raise OSError('injected write failure after 24 bytes')
+            out.write = write
+            return out
+        before = self.all_bytes()
+        for patch in (mock.patch.object(derive_a3.os, 'fdopen', failing_fdopen),
+                      mock.patch.object(derive_a3.os, 'replace', side_effect=OSError('injected replace failure'))):
+            with self.subTest(patch=patch.attribute), patch:
+                with self.assertRaises(OSError):
+                    self.main('--write', '--frozen', '2026-11-21')
+            self.assertEqual(self.all_bytes(), before)
+            self.assertEqual(sorted(p.name for p in self.folder.iterdir()), sorted(CORPUS_FILES))
+        code, text = self.main()
+        self.assertEqual(code, 0, text)
+        self.assertIn('manifest status: draft, not frozen', text)
+
     def test_a_write_does_not_replace_a_frozen_manifest(self):
-        import tempfile
         with tempfile.TemporaryDirectory() as folder:
             (Path(folder) / 'corpus-manifest.json').write_text(json.dumps({'status': 'frozen-2026-12-01'}), encoding='utf-8')
             with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
@@ -356,11 +598,7 @@ class TheReferenceSolutions(unittest.TestCase):
 
 class TheHarnessReadsIt(unittest.TestCase):
     def test_corpus_check_and_loader(self):
-        import importlib.util
-        sys.path.append(str(REPO / 'study' / 'harness'))  # appended, so no harness module shadows a corpus module
-        spec = importlib.util.spec_from_file_location('harness_runner', REPO / 'study' / 'harness' / 'runner.py')
-        runner = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(runner)
+        runner = harness_runner()
         runner.check_corpus(HERE, 'scored')
         runner.check_corpus(HERE, 'dev')
         scored = runner.load_tasks(HERE, 'scored')
