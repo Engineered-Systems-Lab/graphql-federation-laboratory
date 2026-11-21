@@ -70,6 +70,9 @@ from vendors import MissingCredentialError, build_client
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_CORPUS = HERE.parent / 'corpus'
+# The dated price table a new run reads (decision W1 of the Job study3_openai_cache_write): prices.json, dated 2026-10-20, stays as it was
+# for the runs that name it, and each manifest keeps the date and entries it was priced with.
+PRICES_FILE = 'prices-20261121.json'
 
 
 # ---------------------------------------------------------------------------------------------------------------- corpus
@@ -513,6 +516,29 @@ def code_files(corpus_dir, root=None):
         key = '<corpus>/scoring.py'
     out[key] = sha256_file(scorer) if scorer.is_file() else None
     return out
+
+
+PRICE_RATES = ('input', 'cached_read', 'cache_write', 'output')
+
+
+def price_changes(stored, models, prices):
+    """What a resume finds changed in the rates of the run's models against the `priceEntry` the stored manifest holds for each (decision
+    W5 of the Job study3_openai_cache_write): each rate whose stored and loaded values differ, and each model with no stored entry or rate.
+    Empty when they are the same. The plan identity holds only the table's date, so this catches a rate changed under the same date; the
+    entries' source text is not compared."""
+    changes = []
+    for model in models:
+        entry = ((stored.get('models') or {}).get(model) or {}).get('priceEntry')
+        if not isinstance(entry, dict):
+            changes.append('model %s: the stored manifest holds no price entry' % model)
+            continue
+        loaded = prices['models'][model]
+        for rate in PRICE_RATES:
+            if rate not in entry:
+                changes.append('model %s rate %s: the stored price entry has none, loaded %r' % (model, rate, loaded[rate]))
+            elif entry[rate] != loaded[rate]:
+                changes.append('model %s rate %s: stored %r, loaded %r' % (model, rate, entry[rate], loaded[rate]))
+    return changes
 
 
 def code_changes(stored, current):
@@ -1233,6 +1259,10 @@ class Study:
             if code:
                 raise ResumeRefused('The code the run executes differs from the stored manifest: a resume runs the same code as the runs it continues. '
                                     'Start a new study run instead. Changes:\n- ' + '\n- '.join(code))
+            rates = price_changes(stored, self.config['models'], self.prices)
+            if rates:
+                raise ResumeRefused('The price rates differ from the stored manifest: a resume budgets and prices at the rates of the runs it '
+                                    'continues. Start a new study run instead. Changes:\n- ' + '\n- '.join(rates))
             stored_intended = (stored.get('provenance') or {}).get('intended')
             if stored_intended is None:
                 raise ResumeRefused('The stored manifest records no provenance, so a resume cannot verify the backends. Start a new study run '
@@ -1387,7 +1417,7 @@ def main(argv=None):
     except ValueError as error:
         parser.error(str(error))
     models_config = json.loads((HERE / 'models.json').read_text(encoding='utf-8'))
-    prices = json.loads((HERE / 'prices.json').read_text(encoding='utf-8'))
+    prices = json.loads((HERE / PRICES_FILE).read_text(encoding='utf-8'))
     factory = None
     if args.dry_run:
         from fakes import FakeVendorClient, submit

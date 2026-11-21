@@ -8,6 +8,8 @@ import unittest
 from types import SimpleNamespace as NS
 from unittest import mock
 
+from budget import dollars, worst_dollars
+from runner import PRICES_FILE
 from vendors import (AnthropicClient, MissingCredentialError, OpenAIClient, VendorFatalError, VendorTransientError, build_client, classify_error)
 
 TOOLS = [{'name': 'lookup', 'description': 'd', 'input_schema': {'type': 'object', 'properties': {}}}]
@@ -136,6 +138,44 @@ class OpenAITests(unittest.TestCase):
                       usage=NS(input_tokens=1, input_tokens_details=None, output_tokens=1), status='completed', incomplete_details=None, id='r')
         turn = build_client('gpt-6.1-sol', CONFIG, sdk=FakeOpenAI(response)).create('S', [{'role': 'user', 'text': 'q'}], TOOLS)
         self.assertEqual(turn.tool_calls[0]['arguments'], {'__unparsed_arguments__': '{oops'})
+
+
+class OpenAICacheWriteTests(unittest.TestCase):
+    """Cache writes (Job study3_openai_cache_write): `input_tokens` holds the cached reads and the writes; the writes are
+    `input_tokens_details.cache_write_tokens` and are priced at the table's 30-minute write price."""
+    PRICE = json.loads(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), PRICES_FILE), encoding='utf-8').read())['models']['gpt-6.1-sol']
+
+    def turn(self, usage):
+        response = NS(output=[], usage=usage, status='completed', incomplete_details=None, id='r')
+        return build_client('gpt-6.1-sol', CONFIG, sdk=FakeOpenAI(response)).create('S', [{'role': 'user', 'text': 'q'}], TOOLS)
+
+    def test_written_tokens_are_their_own_class_and_priced_as_writes(self):
+        # the shape the guide shows: 12,000 input tokens, of which 4,000 read from the cache and 7,000 written to it
+        usage = self.turn(NS(input_tokens=12_000, input_tokens_details=NS(cached_tokens=4_000, cache_write_tokens=7_000), output_tokens=500)).usage
+        self.assertEqual(usage.as_dict(), {'input': 1_000, 'cached_read': 4_000, 'cache_write': 7_000, 'output': 500})
+        self.assertEqual(usage.total, 12_500, 'the token count is the same as before: the writes move out of input, nothing is added')
+        # 1,000 at 2.00 + 4,000 at 0.10 + 7,000 at 2.50 + 500 at 10.00, per million
+        self.assertAlmostEqual(dollars(usage, self.PRICE), (1_000 * 2.0 + 4_000 * 0.1 + 7_000 * 2.5 + 500 * 10.0) / 1_000_000)
+        self.assertAlmostEqual(dollars(usage, self.PRICE), 0.0249)
+
+    def test_without_the_field_nothing_is_written_and_the_figures_are_as_before(self):
+        for details in (NS(cached_tokens=40), NS(cached_tokens=40, cache_write_tokens=None), NS(cached_tokens=40, cache_write_tokens=0)):
+            usage = self.turn(NS(input_tokens=100, input_tokens_details=details, output_tokens=9)).usage
+            self.assertEqual(usage.as_dict(), {'input': 60, 'cached_read': 40, 'cache_write': 0, 'output': 9})
+            self.assertAlmostEqual(dollars(usage, self.PRICE), (60 * 2.0 + 40 * 0.1 + 9 * 10.0) / 1_000_000)
+        usage = self.turn(NS(input_tokens=7, input_tokens_details=None, output_tokens=1)).usage
+        self.assertEqual(usage.as_dict(), {'input': 7, 'cached_read': 0, 'cache_write': 0, 'output': 1})
+
+    def test_a_negative_remainder_stops_with_the_counts(self):
+        with self.assertRaises(ValueError) as caught:
+            self.turn(NS(input_tokens=100, input_tokens_details=NS(cached_tokens=60, cache_write_tokens=50), output_tokens=1))
+        self.assertNotIsInstance(caught.exception, (VendorFatalError, VendorTransientError))
+        self.assertIn('input_tokens 100, cached_tokens 60, cache_write_tokens 50', str(caught.exception))
+
+    def test_the_worst_case_of_a_request_keeps_its_meaning(self):
+        # the highest input-side price of the entry is still the input's worst case: now the write price, 2.50, above 2.00
+        self.assertEqual(max(self.PRICE['input'], self.PRICE['cached_read'], self.PRICE['cache_write']), 2.5)
+        self.assertAlmostEqual(worst_dollars(10_000, 16_000, self.PRICE), (10_000 * 2.5 + 16_000 * 10.0) / 1_000_000)
 
 
 class ErrorTests(unittest.TestCase):

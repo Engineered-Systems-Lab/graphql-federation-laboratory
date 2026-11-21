@@ -140,8 +140,8 @@ class RunnerTests(unittest.TestCase):
         factory.made = made
         return factory
 
-    def study(self, config=None, run_id='r1', factory=None, **kw):
-        return Study(config or self.config(), MODELS, PRICES, run_id, root=self.root, corpus_dir=self.corpus,
+    def study(self, config=None, run_id='r1', factory=None, prices=None, **kw):
+        return Study(config or self.config(), MODELS, prices or PRICES, run_id, root=self.root, corpus_dir=self.corpus,
                      client_factory=factory or self.clients(), session_factory=self.session_factory, stack_factory=FakeStack,
                      redactor=Redactor(['sk-ant-SECRETSECRETSECRET']), sleep=lambda s: None, docker=kw.pop('docker', fake_docker()), **kw)
 
@@ -234,6 +234,49 @@ class RunnerTests(unittest.TestCase):
         self.assertTrue((rerun / 'attempts' / '001' / 'result.json').exists())  # the earlier attempt is archived, not lost
         self.assertEqual(len(read_jsonl(second.dir / 'resumes.jsonl')), 1)
         self.assertEqual(len(list((second.dir / 'runs').glob('*/result.json'))), 32)
+
+    def test_a_resume_refuses_a_rate_changed_under_the_same_date_and_names_it(self):
+        # decision W5 of the Job study3_openai_cache_write: the plan identity holds only the table's date
+        config = self.config(budgets={'va': {'tokens': 1_000_000}, 'vb': {'tokens': 400}})
+        self.assertEqual(self.study(config).run(), 'budget_stop')
+        config['budgets']['vb']['tokens'] = 1_000_000
+        changed = json.loads(json.dumps(PRICES))
+        changed['models']['model-b']['cache_write'] = 3.75
+        changed['models']['model-a']['source'] = 'another source text, which is not compared'
+        self.assertEqual(changed['dated'], PRICES['dated'])
+        factory = self.clients()
+        with self.assertRaises(ResumeRefused) as refused:
+            self.study(config, prices=changed, factory=factory).run(resume=True)
+        assert_resume_refused(self, refused.exception, 'The price rates differ from the stored manifest: a resume budgets and prices at the '
+                                                       'rates of the runs it continues. Start a new study run instead. Changes:\n- ')
+        self.assertTrue(str(refused.exception).endswith('Changes:\n- model model-b rate cache_write: stored 2.5, loaded 3.75'))
+        self.assertEqual(factory.made, {}, 'refused before any vendor client is made')
+        self.assertFalse((self.root / 'r1' / 'resumes.jsonl').exists(), 'refused before anything is written')
+        for rate in ('input', 'cached_read', 'output'):
+            other = json.loads(json.dumps(PRICES))
+            other['models']['model-a'][rate] = 99.0
+            with self.assertRaisesRegex(ResumeRefused, 'model model-a rate %s: stored ' % rate):
+                self.study(config, prices=other).run(resume=True)
+
+    def test_a_resume_with_unchanged_rates_continues(self):
+        config = self.config(budgets={'va': {'tokens': 1_000_000}, 'vb': {'tokens': 400}})
+        self.assertEqual(self.study(config).run(), 'budget_stop')
+        config['budgets']['vb']['tokens'] = 1_000_000
+        same = json.loads(json.dumps(PRICES))
+        same['models']['model-a']['source'] = 'only the source text differs'
+        self.assertEqual(self.study(config, prices=same).run(resume=True), 'complete')
+        self.assertEqual(len(read_jsonl(self.root / 'r1' / 'resumes.jsonl')), 1)
+
+    def test_a_stored_manifest_without_a_price_entry_is_refused(self):
+        stored = {'models': {'model-a': {'priceEntry': PRICES['models']['model-a']}, 'model-b': {}}}
+        self.assertEqual(runner.price_changes(stored, ['model-a', 'model-b'], PRICES),
+                         ['model model-b: the stored manifest holds no price entry'])
+        partial = {'models': {'model-a': {'priceEntry': {'input': 2.0, 'cached_read': 0.2, 'output': 10.0}}}}
+        self.assertEqual(runner.price_changes(partial, ['model-a'], PRICES),
+                         ['model model-a rate cache_write: the stored price entry has none, loaded 2.5'])
+        self.assertEqual(runner.price_changes({'models': {'model-a': {'priceEntry': {'input': 2, 'cached_read': 0.2, 'cache_write': 2.5,
+                                                                                     'output': 10}}}}, ['model-a'], PRICES), [],
+                         'a whole number and the same float are the same rate')
 
     def test_the_budget_ledger_survives_the_resume(self):
         config = self.config(budgets={'va': {'tokens': 1_000_000}, 'vb': {'tokens': 400}})
@@ -470,6 +513,43 @@ class RunnerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'one model per vendor'):
             Study(self.config(models=['a', 'b']), models, PRICES, 'r', root=self.root, corpus_dir=self.corpus, session_factory=self.session_factory,
                   stack_factory=FakeStack)
+
+
+class PriceTableTests(unittest.TestCase):
+    """Decision W1 of the Job study3_openai_cache_write: a new run reads the dated table prices-20261121.json, and prices.json stays as it
+    was for the runs that name it."""
+    HERE = Path(runner.__file__).resolve().parent
+
+    def test_main_hands_the_study_the_table_of_2026_11_21(self):
+        seen = {}
+
+        class Capturing:
+            def __init__(self, config, models_config, prices, run_id, **kwargs):
+                seen['prices'] = prices
+
+            def client_for(self, model):
+                return None
+
+            def run(self, resume=False):
+                raise ResumeRefused('captured')
+        with mock.patch.object(runner, 'Study', Capturing), mock.patch.object(runner, 'load_config', lambda path: {'models': ['model-a']}), \
+                redirect_stdout(io.StringIO()):
+            runner.main(['--config', 'unused.json', '--run-id', 'r9', '--resume'])
+        self.assertEqual(runner.PRICES_FILE, 'prices-20261121.json')
+        self.assertEqual(seen['prices'], json.loads((self.HERE / 'prices-20261121.json').read_text(encoding='utf-8')))
+        self.assertEqual(seen['prices']['dated'], '2026-11-21')
+        gpt = seen['prices']['models']['gpt-6.1-sol']
+        self.assertEqual((gpt['input'], gpt['cached_read'], gpt['cache_write'], gpt['output']), (2.0, 0.1, 2.5, 10.0))
+
+    def test_only_the_gpt_cache_write_price_changed_and_the_old_table_stays(self):
+        old = json.loads((self.HERE / 'prices.json').read_text(encoding='utf-8'))
+        new = json.loads((self.HERE / runner.PRICES_FILE).read_text(encoding='utf-8'))
+        self.assertEqual(old['dated'], '2026-10-20')
+        self.assertEqual(old['models']['gpt-6.1-sol']['cache_write'], 0.0)
+        self.assertEqual(new['models']['claude-sonnet-5-5'], old['models']['claude-sonnet-5-5'])
+        price_fields = lambda entry: {k: v for k, v in entry.items() if k != 'source'}
+        self.assertEqual(price_fields(new['models']['gpt-6.1-sol']), {**price_fields(old['models']['gpt-6.1-sol']), 'cache_write': 2.5})
+        self.assertEqual(set(new['models']), set(old['models']))
 
 
 if __name__ == '__main__':

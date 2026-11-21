@@ -142,6 +142,23 @@ class OpenAIClient:
                 out.append({'type': 'function_call_output', 'call_id': item['call_id'], 'output': content})
         return out
 
+    @staticmethod
+    def _usage(u):
+        """The four token classes of one response. `input_tokens` holds the cached reads and the cache writes too, so the uncached input
+        is what is left after both (OpenAI's prompt-caching guide: input tokens are billed at the uncached-input, cached-input or
+        cache-write rate). The writes are `input_tokens_details.cache_write_tokens`, 0 when the field is absent; the harness sets no cache
+        lifetime, so they take the default 30-minute one. A negative remainder means the fields are not what this reading of them says,
+        so it stops the process instead of being counted as 0."""
+        details = getattr(u, 'input_tokens_details', None)
+        cached = (getattr(details, 'cached_tokens', 0) if details is not None else 0) or 0
+        written = (getattr(details, 'cache_write_tokens', 0) if details is not None else 0) or 0
+        total = getattr(u, 'input_tokens', 0) or 0
+        uncached = total - cached - written
+        if uncached < 0:
+            raise ValueError('OpenAI usage with more cached and written tokens than input tokens: input_tokens %d, cached_tokens %d, '
+                             'cache_write_tokens %d' % (total, cached, written))
+        return Usage(input=uncached, cached_read=cached, cache_write=written, output=getattr(u, 'output_tokens', 0) or 0)
+
     def create(self, system, transcript, tools):
         tool_list = [{'type': 'function', 'name': t['name'], 'description': t['description'], 'parameters': t['input_schema'], 'strict': False}
                      for t in tools]
@@ -161,10 +178,7 @@ class OpenAIClient:
                 except json.JSONDecodeError:
                     arguments = {'__unparsed_arguments__': item.get('arguments')}
                 calls.append({'id': item['call_id'], 'name': item['name'], 'arguments': arguments})
-        u = response.usage
-        details = getattr(u, 'input_tokens_details', None)
-        cached = (getattr(details, 'cached_tokens', 0) if details is not None else 0) or 0
-        usage = Usage(input=(getattr(u, 'input_tokens', 0) or 0) - cached, cached_read=cached, output=getattr(u, 'output_tokens', 0) or 0)
+        usage = self._usage(response.usage)
         incomplete = getattr(response, 'incomplete_details', None)
         stop = getattr(incomplete, 'reason', None) if incomplete is not None else getattr(response, 'status', None)
         return Turn(text, calls, usage, stop, items, getattr(response, 'id', None))
