@@ -5,6 +5,12 @@ study/analysis2/data2.py (load_strata, load_bundle, counting). What is new here:
 study/analysis3/PLAN.md; the directions map of corpus 3 is read and checked; each record carries its forward-against-reverse group and
 its join-width group; and a run with a zero cost takes the smallest positive cost of the bundle's scored runs (PLAN.md, section 3).
 
+Cost. Each run's cost, its archived attempts' cost and each void attempt's cost are priced again here, each request on its own (decision L1
+of the Job study3_openai_long_context): a request whose input total is above the threshold of its model's long-context rates pays them in
+full. The requests come from each record's `requestUsage`, which must sum to its usage (decision N1); a record without it is priced from
+its summed usage, which is exact for a price entry without long-context rates, and such a record under an entry with them stops the
+analysis. The pricing is the harness's own (study/harness/budget.py `usage_dollars`). Study 2's reader keeps its meaning for study 2.
+
 Blindness. From tasks.json the analysis reads a task's id, category, set, size, systems, stopped service and the category-D tag, and the
 directions map's direction, csl, anchor and requiredSystems: never a question, a schema, a key, a design note or a reference solution. A
 task id is a cluster label and nothing else.
@@ -17,6 +23,9 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / 'analysis2'))
 
 import data2  # noqa: E402  (study 2's reader, read-only; it puts study/analysis on the path)
+
+sys.path.append(str(HERE.parent / 'harness'))  # appended: the analysis folders keep their place first
+from budget import Usage, usage_dollars  # noqa: E402  (the harness's own pricing, each request on its own)
 
 data = data2.data
 VerificationError = data2.VerificationError
@@ -118,11 +127,45 @@ def apply_zero_cost_rule(records):
     return {'runsWithZeroCost': len(zero), 'replacedBy': smallest if zero else None}
 
 
+def record_cost(path, prices):
+    """The cost of one run record (result.json), each request on its own; reads only its model, usage and requestUsage."""
+    record = json.loads(Path(path).read_text(encoding='utf-8'))
+    price = prices.get(record.get('model'))
+    if price is None:
+        raise VerificationError('%s: the manifest prices no model %r' % (path, record.get('model')))
+    usage = Usage(**{kind: int(record['usage'][kind]) for kind in data2.USAGE_KINDS})
+    try:
+        return usage_dollars(usage, record.get('requestUsage'), price)
+    except ValueError as error:
+        raise VerificationError('%s: %s' % (path, error))
+
+
+def price_per_request(folder, manifest, records, blocks):
+    """Price each run, its archived attempts and each void attempt again, each request on its own (decision L1 of the Job
+    study3_openai_long_context). Study 2's reader priced them from summed usage; for a bundle whose price entries have no long-context
+    rates the figures are the same."""
+    folder = Path(folder)
+    prices = {model: entry['priceEntry'] for model, entry in manifest['models'].items()}
+    for record in records:
+        run = folder / 'runs' / record['runKey']
+        record['cost'] = record_cost(run / 'result.json', prices)
+        record['archivedAttemptsCost'] = sum(record_cost(old, prices) for old in sorted((run / 'attempts').glob('*/result.json')))
+    for block in blocks:
+        for void in block['voidAttempts']:
+            where = folder / data2.VOID_FOLDER / block['id'] / str(void['attempt'])
+            void['cost'] = sum(record_cost(path, prices) for key in sorted(p.name for p in where.iterdir())
+                               for path in [where / key / 'result.json'] + sorted((where / key / 'attempts').glob('*/result.json'))
+                               if path.exists()) if where.exists() else 0.0
+        block['voidCost'] = sum(v['cost'] for v in block['voidAttempts'])
+    return records, blocks
+
+
 def load(folder, sums_file, run_id, bundle_checksum, corpus_dir):
     """Everything the analysis reads, verified: (facts, corpus facts, manifest, strata, records, blocks, zero-cost facts)."""
     facts, manifest = verify_bundle(folder, sums_file, run_id, bundle_checksum)
     strata, corpus_facts = load_strata(corpus_dir, manifest)
     records, blocks = data2.load_bundle(folder, manifest, strata)
+    price_per_request(folder, manifest, records, blocks)
     annotate(records, strata)
     zero = apply_zero_cost_rule(records)
     return facts, corpus_facts, manifest, strata, records, blocks, zero

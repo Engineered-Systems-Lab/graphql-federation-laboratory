@@ -924,5 +924,30 @@ class CompactReportTests(unittest.TestCase):
             self.assertIn(section, printed.getvalue())
 
 
+class LongContextLedgerTests(unittest.TestCase):
+    """Decisions L1 and N2 of the Job study3_openai_long_context: the watcher prices each settled request and each open reservation on
+    its own, at the long-context rates of the manifest's entry when the request is above their threshold."""
+
+    def test_a_long_request_and_a_long_reservation_are_priced_long(self):
+        table = json.loads((Path(watch_run.__file__).resolve().parent.parent / 'harness' / 'prices-20261121.json').read_text(encoding='utf-8'))
+        gpt = table['models']['gpt-6.1-sol']
+        events = [{'event': 'reserve', 'seq': 1, 'run': 'k', 'tokens': 290_000, 'inputTokens': 280_000},
+                  {'event': 'settle', 'seq': 1, 'usage': {'input': 200_000, 'cached_read': 80_000, 'cache_write': 0, 'output': 1_000},
+                   'ts': '2026-11-21T10:00:00Z'},
+                  {'event': 'reserve', 'seq': 2, 'run': 'k', 'tokens': 12_000, 'inputTokens': 2_000},
+                  {'event': 'settle', 'seq': 2, 'usage': {'input': 2_000, 'cached_read': 0, 'cache_write': 0, 'output': 1_000},
+                   'ts': '2026-11-21T10:01:00Z'},
+                  {'event': 'reserve', 'seq': 3, 'run': 'k', 'tokens': 290_000, 'inputTokens': 280_000}]
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'budget-openai.jsonl'
+            path.write_text(''.join(json.dumps(e) + '\n' for e in events), encoding='utf-8')
+            ledger = watch_run.Ledger(path, lambda run: gpt)
+            counted = ledger_dollars(path, gpt)[0]
+        settled = (200_000 * 4.0 + 80_000 * 0.2 + 1_000 * 15.0) / 1e6 + (2_000 * 2.0 + 1_000 * 10.0) / 1e6
+        self.assertAlmostEqual(ledger.dollars, settled)
+        self.assertAlmostEqual(ledger.open_dollars, 290_000 * 15.0 / 1e6)
+        self.assertAlmostEqual(ledger.counted_dollars, counted)
+
+
 if __name__ == '__main__':
     unittest.main()

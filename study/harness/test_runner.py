@@ -542,14 +542,46 @@ class PriceTableTests(unittest.TestCase):
         self.assertEqual((gpt['input'], gpt['cached_read'], gpt['cache_write'], gpt['output']), (2.0, 0.1, 2.5, 10.0))
 
     def test_only_the_gpt_cache_write_price_changed_and_the_old_table_stays(self):
+        """The gpt-6.1-sol entry also gained its long-context rates in place (decision L2 of the Job study3_openai_long_context); Claude's
+        rates are unchanged and only its source text grew."""
         old = json.loads((self.HERE / 'prices.json').read_text(encoding='utf-8'))
         new = json.loads((self.HERE / runner.PRICES_FILE).read_text(encoding='utf-8'))
         self.assertEqual(old['dated'], '2026-10-20')
         self.assertEqual(old['models']['gpt-6.1-sol']['cache_write'], 0.0)
-        self.assertEqual(new['models']['claude-sonnet-5-5'], old['models']['claude-sonnet-5-5'])
-        price_fields = lambda entry: {k: v for k, v in entry.items() if k != 'source'}
+        price_fields = lambda entry: {k: v for k, v in entry.items() if k not in ('source', 'long_context')}
+        self.assertEqual(price_fields(new['models']['claude-sonnet-5-5']), price_fields(old['models']['claude-sonnet-5-5']))
+        self.assertNotIn('long_context', new['models']['claude-sonnet-5-5'])
         self.assertEqual(price_fields(new['models']['gpt-6.1-sol']), {**price_fields(old['models']['gpt-6.1-sol']), 'cache_write': 2.5})
+        self.assertNotIn('long_context', old['models']['gpt-6.1-sol'])
         self.assertEqual(set(new['models']), set(old['models']))
+
+    def test_a_resume_compares_the_long_rates_and_the_threshold(self):
+        """Decision N3 of the Job study3_openai_long_context."""
+        new = json.loads((self.HERE / runner.PRICES_FILE).read_text(encoding='utf-8'))
+        gpt = new['models']['gpt-6.1-sol']
+        stored = lambda entry: {'models': {'gpt-6.1-sol': {'priceEntry': entry}}}
+        self.assertEqual(runner.price_changes(stored(gpt), ['gpt-6.1-sol'], new), [])
+        moved = {**gpt, 'long_context': {**gpt['long_context'], 'above_input_tokens': 278528, 'output': 16.0}}
+        self.assertEqual(runner.price_changes(stored(moved), ['gpt-6.1-sol'], new),
+                         ['model gpt-6.1-sol long-context above_input_tokens: stored 278528, loaded 272000',
+                          'model gpt-6.1-sol long-context output: stored 16.0, loaded 15.0'])
+        untiered = {k: v for k, v in gpt.items() if k != 'long_context'}
+        self.assertEqual(runner.price_changes(stored(untiered), ['gpt-6.1-sol'], new),
+                         ['model gpt-6.1-sol long-context rates: stored none, loaded some'])
+
+    def test_the_void_spend_prices_each_request_on_its_own(self):
+        new = json.loads((self.HERE / runner.PRICES_FILE).read_text(encoding='utf-8'))
+        requests = [{'input': 300_000, 'cached_read': 0, 'cache_write': 0, 'output': 1_000},
+                    {'input': 2_000, 'cached_read': 0, 'cache_write': 0, 'output': 1_000}]
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp) / 'run'
+            folder.mkdir()
+            (folder / 'result.json').write_text(json.dumps({'model': 'gpt-6.1-sol', 'usage': {'input': 302_000, 'cached_read': 0, 'cache_write': 0,
+                                                                                            'output': 2_000}, 'requestUsage': requests}), encoding='utf-8')
+            study = mock.Mock(models_config={'models': {'gpt-6.1-sol': {'vendor': 'openai'}}}, prices=new)
+            spend = runner.Study.void_spend(study, [folder])
+        self.assertEqual(spend['openai']['dollars'], round((300_000 * 4.0 + 1_000 * 15.0 + 2_000 * 2.0 + 1_000 * 10.0) / 1e6, 6))
+        self.assertEqual((spend['openai']['tokens'], spend['openai']['runs']), (304_000, 1))
 
 
 if __name__ == '__main__':

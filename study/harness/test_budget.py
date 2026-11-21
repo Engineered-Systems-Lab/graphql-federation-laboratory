@@ -4,7 +4,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from budget import Budget, BudgetStop, Usage, dollars, estimate_tokens, ledger_dollars, ledger_totals, worst_dollars
+from budget import (Budget, BudgetStop, Usage, dollars, estimate_tokens, input_total, ledger_dollars, ledger_totals, long_rates,
+                    rates_for, request_dollars, reservation_dollars, usage_dollars, worst_dollars)
 from study_common import read_jsonl
 
 PRICE = {'input': 2.0, 'cached_read': 0.2, 'cache_write': 2.5, 'output': 10.0}
@@ -160,6 +161,118 @@ class BudgetTests(unittest.TestCase):
         self.assertEqual((snap['carriedDollars'], snap['dollarCeiling']), (0.999, 1.0))
         self.assertNotIn('carriedDollars', self.make().snapshot(), 'without a carry the snapshot keeps its study-1 shape')
         Budget('v', 'm', 10_000_000, PRICE, 'd', self.ledger, dollar_ceiling=1.0, carried_dollars=0.5).reserve('r', 100, 100)
+
+
+TABLE = json.loads((Path(__file__).resolve().parent / 'prices-20261121.json').read_text(encoding='utf-8'))
+GPT = TABLE['models']['gpt-6.1-sol']
+CLAUDE = TABLE['models']['claude-sonnet-5-5']
+
+
+class LongContextTests(unittest.TestCase):
+    """Decisions L1 to L3 and N2 of the Job study3_openai_long_context: a gpt-6.1-sol request whose input total is above 272,000 tokens is
+    priced in full at the long-context rates, each request on its own; Claude's entry has no tier."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.ledger = Path(self.tmp.name) / 'budget.jsonl'
+
+    def test_the_table_holds_the_long_rates_and_the_threshold_of_gpt_and_none_for_claude(self):
+        self.assertEqual({k: v for k, v in long_rates(GPT).items() if k != 'source'},
+                         {'above_input_tokens': 272000, 'input': 4.0, 'cached_read': 0.2, 'cache_write': 5.0, 'output': 15.0})
+        self.assertIsNone(long_rates(CLAUDE))
+        self.assertIn('platform.claude.com/docs/en/about-claude/pricing', CLAUDE['source'])
+
+    def test_a_request_just_under_the_threshold_is_standard_and_one_just_over_is_long_in_full(self):
+        # the input total counts every input class: 200,000 + 70,000 + 2,000 = 272,000 is not above the threshold
+        under = Usage(input=200_000, cached_read=70_000, cache_write=2_000, output=1_000)
+        over = Usage(input=200_001, cached_read=70_000, cache_write=2_000, output=1_000)
+        self.assertEqual(input_total(under), 272_000)
+        self.assertAlmostEqual(request_dollars(under, GPT), (200_000 * 2.0 + 70_000 * 0.1 + 2_000 * 2.5 + 1_000 * 10.0) / 1e6)
+        self.assertAlmostEqual(request_dollars(over, GPT), (200_001 * 4.0 + 70_000 * 0.2 + 2_000 * 5.0 + 1_000 * 15.0) / 1e6,
+                               msg='the whole request, output included, at the long rates')
+        self.assertIs(rates_for(272_000, GPT), GPT)
+        self.assertIs(rates_for(272_001, GPT), GPT['long_context'])
+
+    def test_the_worst_case_of_a_request_above_the_threshold_uses_the_long_rates(self):
+        self.assertAlmostEqual(worst_dollars(272_000, 1_000, GPT), (272_000 * 2.5 + 1_000 * 10.0) / 1e6)
+        self.assertAlmostEqual(worst_dollars(272_001, 1_000, GPT), (272_001 * 5.0 + 1_000 * 15.0) / 1e6)
+        ceiling = 1.5  # above the standard worst case of a 300,000-token request (0.79) and below its long one (1.56)
+        budget = Budget('openai', 'gpt-6.1-sol', None, GPT, TABLE['dated'], self.ledger, dollar_ceiling=ceiling)
+        budget.release(budget.reserve('r', 250_000, 10_000))
+        with self.assertRaisesRegex(BudgetStop, 'could cost 1.5600 dollars'):
+            budget.reserve('r', 300_000, 4_000)
+
+    def test_a_ledger_mixing_both_kinds_of_request_is_priced_per_request(self):
+        short = [Usage(input=100_000, cached_read=50_000, cache_write=1_000, output=2_000), Usage(input=10_000, output=500)]
+        long = [Usage(input=150_000, cached_read=150_000, cache_write=0, output=3_000)]
+        budget = Budget('openai', 'gpt-6.1-sol', None, GPT, TABLE['dated'], self.ledger, dollar_ceiling=100.0)
+        for usage in short[:1] + long + short[1:]:
+            budget.settle(budget.reserve('r', input_total(usage), 4_000), usage)
+        expected = sum(request_dollars(u, GPT) for u in short + long)
+        flat = sum(dollars(u, GPT) for u in short + long)
+        self.assertGreater(expected, flat + 0.3, 'the long request costs more than at the standard rates')
+        self.assertAlmostEqual(budget.estimated_dollars(), expected, places=12)
+        self.assertAlmostEqual(ledger_dollars(self.ledger, GPT)[0], expected, places=12)
+        again = Budget('openai', 'gpt-6.1-sol', None, GPT, TABLE['dated'], self.ledger, dollar_ceiling=100.0)
+        self.assertAlmostEqual(again.estimated_dollars(), expected, places=12, msg='a resume reads the ledger per request')
+        self.assertEqual(again.snapshot()['estimatedDollars'], round(expected, 4))
+
+    def test_without_a_long_request_a_ledger_is_priced_exactly_as_before(self):
+        budget = Budget('openai', 'gpt-6.1-sol', None, GPT, TABLE['dated'], self.ledger, dollar_ceiling=100.0)
+        usages = [Usage(input=1234 * i, cached_read=777 * i, cache_write=55 * i, output=99 * i) for i in range(1, 30)]
+        for usage in usages:
+            budget.settle(budget.reserve('r', 10, 10), usage)
+        summed = Usage()
+        for usage in usages:
+            summed.add(usage)
+        self.assertEqual(budget.estimated_dollars(), dollars(summed, GPT), 'bit for bit the summed usage at the standard rates')
+        self.assertEqual(ledger_dollars(self.ledger, GPT)[0], dollars(summed, GPT))
+
+    def test_claude_is_priced_the_same_at_any_size(self):
+        for size in (1_000, 272_000, 272_001, 900_000):
+            usage = Usage(input=size // 2, cached_read=size // 4, cache_write=size - size // 2 - size // 4, output=5_000)
+            self.assertEqual(request_dollars(usage, CLAUDE), dollars(usage, CLAUDE))
+            self.assertEqual(worst_dollars(size, 5_000, CLAUDE), (size * 2.5 + 5_000 * 10.0) / 1e6)
+
+    def test_a_reservation_never_settled_takes_the_output_price_its_input_estimate_selects(self):
+        budget = Budget('openai', 'gpt-6.1-sol', None, GPT, TABLE['dated'], self.ledger, dollar_ceiling=100.0)
+        budget.reserve('r', 272_000, 8_000)  # never settled: 280,000 tokens at 10.00
+        budget._open = None
+        budget.reserve('r', 272_001, 8_000)  # never settled: 280,001 tokens at 15.00
+        with open(self.ledger, 'a', encoding='utf-8', newline='\n') as handle:  # an older reserve event with no input estimate
+            handle.write(json.dumps({'event': 'reserve', 'seq': 9, 'run': 'r', 'label': 'request', 'tokens': 300_000}) + '\n')
+        expected = (280_000 * 10.0 + 280_001 * 15.0 + 300_000 * 15.0) / 1e6
+        self.assertAlmostEqual(ledger_dollars(self.ledger, GPT)[0], expected)
+        self.assertAlmostEqual(Budget('openai', 'gpt-6.1-sol', None, GPT, TABLE['dated'], self.ledger, dollar_ceiling=100.0).unsettled_dollars(),
+                               expected)
+        self.assertEqual(reservation_dollars(300_000, None, GPT), 300_000 * 15.0 / 1e6)
+        self.assertEqual(reservation_dollars(300_000, 100_000, GPT), 300_000 * 10.0 / 1e6)
+
+    def test_a_run_record_is_priced_from_its_requests_and_refused_without_them_under_a_tier(self):
+        requests = [{'input': 280_000, 'cached_read': 0, 'cache_write': 0, 'output': 100}, {'input': 1_000, 'cached_read': 0, 'cache_write': 0,
+                                                                                            'output': 100}]
+        usage = Usage(input=281_000, output=200)
+        self.assertAlmostEqual(usage_dollars(usage, requests, GPT), sum(request_dollars(Usage.from_dict(r), GPT) for r in requests))
+        with self.assertRaisesRegex(ValueError, 'sums to'):
+            usage_dollars(Usage(input=1), requests, GPT)
+        with self.assertRaisesRegex(ValueError, 'without requestUsage'):
+            usage_dollars(usage, None, GPT)
+        self.assertEqual(usage_dollars(usage, None, CLAUDE), dollars(usage, CLAUDE), 'no tier: the summed usage is exact')
+
+    def test_a_malformed_request_list_is_refused_with_a_value_error(self):
+        whole = {'input': 1, 'cached_read': 0, 'cache_write': 0, 'output': 1}
+        for request_usage, message in ((7, 'not a list'), ('x', 'not a list'), ({'input': 1}, 'not a list'), ([3], 'not an object'),
+                                       ([None], 'not an object'), ([{**whole, 'input': None}], 'input, a non-negative'),
+                                       ([{**whole, 'output': 1.5}], 'output, a non-negative'), ([{**whole, 'output': True}], 'output'),
+                                       ([{**whole, 'cached_read': -1}], 'cached_read'), ([{'input': 1, 'output': 1}], 'cached_read')):
+            with self.subTest(request_usage=request_usage), self.assertRaisesRegex(ValueError, message):
+                usage_dollars(Usage(input=1, output=1), request_usage, GPT)
+
+    def test_a_malformed_tier_is_refused(self):
+        for tier in ({'input': 4.0}, {**GPT['long_context'], 'above_input_tokens': 0}, {**GPT['long_context'], 'output': float('nan')}):
+            with self.assertRaises(ValueError):
+                Budget('openai', 'gpt-6.1-sol', None, {**GPT, 'long_context': tier}, 'd', self.ledger, dollar_ceiling=1.0)
 
 
 if __name__ == '__main__':

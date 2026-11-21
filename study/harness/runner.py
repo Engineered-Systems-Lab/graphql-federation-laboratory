@@ -63,7 +63,7 @@ import provenance
 import schedule
 import scoring_contract
 from agent import SYSTEM_PROMPT, TERMINAL, AgentRun, Limits
-from budget import Budget, Usage, dollars, ledger_dollars, valid_ceiling
+from budget import Budget, LONG_CONTEXT, RATES, Usage, ledger_dollars, usage_dollars, valid_ceiling
 from study_common import (Redactor, append_jsonl, child_environment, read_jsonl, results_dir, sha256_bytes, sha256_file, sha256_json, utc_now,
                           write_json_atomic)
 from vendors import MissingCredentialError, build_client
@@ -518,14 +518,16 @@ def code_files(corpus_dir, root=None):
     return out
 
 
-PRICE_RATES = ('input', 'cached_read', 'cache_write', 'output')
+PRICE_RATES = RATES
+LONG_FIELDS = ('above_input_tokens',) + RATES
 
 
 def price_changes(stored, models, prices):
     """What a resume finds changed in the rates of the run's models against the `priceEntry` the stored manifest holds for each (decision
     W5 of the Job study3_openai_cache_write): each rate whose stored and loaded values differ, and each model with no stored entry or rate.
-    Empty when they are the same. The plan identity holds only the table's date, so this catches a rate changed under the same date; the
-    entries' source text is not compared."""
+    The long-context rates and their threshold are compared the same way, and a tier on one side only is a change (decision N3 of the Job
+    study3_openai_long_context). Empty when they are the same. The plan identity holds only the table's date, so this catches a rate
+    changed under the same date; the entries' source text is not compared."""
     changes = []
     for model in models:
         entry = ((stored.get('models') or {}).get(model) or {}).get('priceEntry')
@@ -538,6 +540,18 @@ def price_changes(stored, models, prices):
                 changes.append('model %s rate %s: the stored price entry has none, loaded %r' % (model, rate, loaded[rate]))
             elif entry[rate] != loaded[rate]:
                 changes.append('model %s rate %s: stored %r, loaded %r' % (model, rate, entry[rate], loaded[rate]))
+        before, after = entry.get(LONG_CONTEXT), loaded.get(LONG_CONTEXT)
+        if before is None and after is None:
+            continue
+        if not isinstance(before, dict) or not isinstance(after, dict):
+            changes.append('model %s long-context rates: stored %s, loaded %s' % (model, 'none' if before is None else 'malformed',
+                                                                                 'none' if after is None else 'some'))
+            continue
+        for field in LONG_FIELDS:
+            if field not in before:
+                changes.append('model %s long-context %s: the stored price entry has none, loaded %r' % (model, field, after.get(field)))
+            elif before[field] != after.get(field):
+                changes.append('model %s long-context %s: stored %r, loaded %r' % (model, field, before[field], after.get(field)))
     return changes
 
 
@@ -890,7 +904,7 @@ class Study:
 
     def void_spend(self, folders):
         """{vendor: {'dollars', 'tokens', 'runs'}} of the run records in `folders` (their current results and archived attempts), at the
-        prices of this run."""
+        prices of this run, each request on its own (`usage_dollars`)."""
         out = {}
         for folder in folders:
             for path in [folder / 'result.json'] + sorted((folder / 'attempts').glob('*/result.json')):
@@ -900,7 +914,8 @@ class Study:
                 vendor = self.models_config['models'][record['model']]['vendor']
                 usage = Usage.from_dict(record.get('usage') or {})
                 entry = out.setdefault(vendor, {'dollars': 0.0, 'tokens': 0, 'runs': 0})
-                entry['dollars'] = round(entry['dollars'] + dollars(usage, self.prices['models'][record['model']]), 6)
+                cost = usage_dollars(usage, record.get('requestUsage'), self.prices['models'][record['model']])
+                entry['dollars'] = round(entry['dollars'] + cost, 6)
                 entry['tokens'] += usage.total
                 entry['runs'] += 1
         return out
@@ -972,7 +987,8 @@ class Study:
             runs.append({'runId': run_id, 'ledgers': ledgers})
         return {'runs': runs, 'totals': totals,
                 'rule': 'the dollars of these ledgers count against each vendor\'s dollar_ceiling from the first request of this run; '
-                        'a reservation never settled is counted at the output price'}
+                        'each settled request is priced on its own, and a reservation never settled is counted at the output price '
+                        'its input estimate selects'}
 
     def check_carry(self, stored):
         """On resume: the earlier runs' ledgers must still hash as the manifest recorded them."""

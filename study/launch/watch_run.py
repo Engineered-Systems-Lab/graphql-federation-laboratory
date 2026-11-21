@@ -15,11 +15,12 @@ health line that says "all clear" when nothing happened. `--verbose` prints the 
   time since the first block start, in blocks and per ended block on average, and the time left with the expected end (`time_left`);
 - the health of the run: the void attempts (block, attempt, trigger, point and the first problem), the budget stops, the retried requests
   and the notes the ledgers hold, the vendor errors and requeued runs, the resumes and the health checks recorded;
-- the spend per vendor: this run's dollars, priced from its ledgers with the manifest's price entries (budget.py `dollars`), plus the
+- the spend per vendor: this run's dollars, priced from its ledgers with the manifest's price entries, each request on its own
+  (budget.py `request_dollars`: the long-context rates of an entry that has them for a request above their threshold), plus the
   dollars carried from earlier study-2 runs (the manifest's budgetCarry), against the vendor's dollar_ceiling (the last one a resume
   recorded, else the manifest's), with the room left, and the tokens spent, with no limit beside them, since a scheduled run's only
   overall stop is the dollar ceiling (a `tokens` figure in an older run's manifest is not shown). A reservation that has no settlement is
-  counted at the output price, as budget.py `ledger_dollars` counts it for the carry;
+  counted at the output price its recorded input estimate selects, as budget.py `ledger_dollars` counts it for the carry;
 - an estimate of the rest per vendor: every scheduled run not finished yet costs the mean cost of this run's finished runs of the same arm
   and model, or of the same model while that arm has none; with no finished run of the model it is "too early". The cost of a run is
   what its run key cost in the ledger since its block's current attempt began, retries included and a void attempt's spend left
@@ -62,7 +63,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / 'harness'))
 from agent import TERMINAL  # noqa: E402  (the outcomes that finish a run; only membership is ever tested)
-from budget import Usage, dollars  # noqa: E402  (the harness's own pricing)
+from budget import Usage, request_dollars, reservation_dollars  # noqa: E402  (the harness's own pricing)
 
 DEFAULT_INTERVAL = 15.0
 REPORT_EVENTS = ('end', 'void', 'stopped')
@@ -168,7 +169,7 @@ class Ledger:
                 opened = reserved.pop(seq, None) or {}
                 usage = Usage.from_dict(entry.get('usage') or {})
                 price = price_of_run(opened.get('run'))
-                cost = dollars(usage, price)
+                cost = request_dollars(usage, price)
                 self.spent.add(usage)
                 self.dollars += cost
                 self.settled += 1
@@ -182,11 +183,13 @@ class Ledger:
                 reserved.pop(seq, None)
         self.open = list(reserved.values())
         self.open_tokens = sum(int(entry.get('tokens') or 0) for entry in self.open)
-        self.open_dollars = sum(int(entry.get('tokens') or 0) * price_of_run(entry.get('run'))['output'] / 1_000_000 for entry in self.open)
+        self.open_dollars = sum(reservation_dollars(int(entry.get('tokens') or 0), entry.get('inputTokens'), price_of_run(entry.get('run')))
+                                for entry in self.open)
 
     @property
     def counted_dollars(self):
-        """The settled usage at its prices and every open reservation at the output price (budget.py `ledger_dollars`)."""
+        """Each settled request at its prices and every open reservation at the output price its input estimate selects (budget.py
+        `ledger_dollars`)."""
         return self.dollars + self.open_dollars
 
     @property

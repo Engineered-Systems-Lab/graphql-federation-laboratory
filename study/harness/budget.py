@@ -16,6 +16,13 @@ because the vendor may have billed it: in tokens against a token limit, and at t
 The dollar ceiling is a finite positive number. A request's worst case prices its input at the highest input-side price of the entry (a
 cache write costs more than plain input, and the Claude client asks for prompt caching) and its maximum output at the output price.
 
+Each request is priced on its own (decision L1 of the Job study3_openai_long_context). A price entry may hold `long_context`: the rates of
+a request whose input total (input + cached read + cache write) is above its `above_input_tokens`, which then apply to the whole request;
+every other request, and every request of an entry without them, is priced at the entry's own rates. A request's worst case takes the long
+rates when its input estimate is above the threshold, and a reservation never settled takes the long output price when its recorded input
+estimate is above it (decision N2; a reservation with no recorded estimate counts its whole reservation as input). Sums are kept per rate
+set (`Spend`, `UnsettledSpend`), so a ledger with no long request is priced exactly as it was before the tier existed.
+
 Study 2's dollar ceiling is for all of study 2 (decision F1 of the Job study2_build_followups): the dollars that earlier study runs spent
 (`carried_dollars`, read from their ledgers by `ledger_dollars`) count against the ceiling before the first request of this run.
 """
@@ -67,9 +74,131 @@ def estimate_tokens(value):
 
 
 def dollars(usage, price):
-    """Dollar estimate of a usage under one price entry (USD per million tokens)."""
+    """Dollar estimate of a usage under one rate set (USD per million tokens), with no tier: one request at these rates, or a sum of
+    requests that were all priced at them. One request is priced by `request_dollars`, a sum of requests by `Spend`."""
     return (usage.input * price['input'] + usage.cached_read * price['cached_read'] + usage.cache_write * price['cache_write']
             + usage.output * price['output']) / 1_000_000
+
+
+LONG_CONTEXT = 'long_context'
+RATES = ('input', 'cached_read', 'cache_write', 'output')
+
+
+def long_rates(price):
+    """The long-context rates of a price entry, or None when it has none. A malformed tier raises ValueError, so an entry that names one
+    is never read as if it had none."""
+    tier = price.get(LONG_CONTEXT)
+    if tier is None:
+        return None
+    threshold = tier.get('above_input_tokens') if isinstance(tier, dict) else None
+    if isinstance(threshold, bool) or not isinstance(threshold, int) or threshold <= 0:
+        raise ValueError('The long-context rates of a price entry need above_input_tokens, a positive whole number of tokens')
+    for rate in RATES:
+        value = tier.get(rate)
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
+            raise ValueError('The long-context rates of a price entry need a finite non-negative %s rate' % rate)
+    return tier
+
+
+def input_total(usage):
+    """The input total of one request: every input token, cached, written to the cache or neither (OpenAI's input_tokens)."""
+    return usage.input + usage.cached_read + usage.cache_write
+
+
+def rates_for(input_tokens, price):
+    """The rate set of one request whose input total (or input estimate) is `input_tokens`: the entry's long-context rates when it has
+    them and the input is above their threshold, else the entry's own rates."""
+    tier = long_rates(price)
+    if tier is not None and int(input_tokens) > tier['above_input_tokens']:
+        return tier
+    return price
+
+
+def request_dollars(usage, price):
+    """The price of one request, in full at the rate set its input total selects."""
+    return dollars(usage, rates_for(input_total(usage), price))
+
+
+class Spend:
+    """Settled requests summed per rate set under one price entry: those priced at the entry's own rates and those priced at its
+    long-context rates, each request added whole. Its dollars are the sum of `request_dollars` of its requests."""
+
+    def __init__(self, price):
+        self.price = price
+        self.standard, self.long = Usage(), Usage()
+
+    def add(self, usage):
+        (self.standard if rates_for(input_total(usage), self.price) is self.price else self.long).add(usage)
+
+    @property
+    def total(self):
+        return self.standard.total + self.long.total
+
+    def dollars(self):
+        out = dollars(self.standard, self.price)
+        if self.long.total:
+            out += dollars(self.long, long_rates(self.price))
+        return out
+
+
+def reservation_dollars(tokens, input_tokens, price):
+    """One reservation never settled, counted high: all its tokens at the output price of the rate set its recorded input estimate
+    selects, or, with no recorded estimate (None), with the whole reservation counted as input for that choice."""
+    estimate = tokens if input_tokens is None else input_tokens
+    return int(tokens) * rates_for(estimate, price)['output'] / 1_000_000
+
+
+class UnsettledSpend:
+    """Reservations never settled, summed per output price: each at the output price of the rate set its recorded input estimate
+    selects, or, with no recorded estimate (None), the whole reservation counted as input for that choice."""
+
+    def __init__(self, price):
+        self.price = price
+        self.standard, self.long = 0, 0
+
+    def add(self, tokens, input_tokens):
+        estimate = tokens if input_tokens is None else input_tokens
+        if rates_for(estimate, self.price) is self.price:
+            self.standard += int(tokens)
+        else:
+            self.long += int(tokens)
+
+    @property
+    def tokens(self):
+        return self.standard + self.long
+
+    def dollars(self):
+        out = self.standard * self.price['output'] / 1_000_000
+        if self.long:
+            out += self.long * long_rates(self.price)['output'] / 1_000_000
+        return out
+
+
+def usage_dollars(usage, request_usage, price):
+    """The price of one run record (decision N1 of the Job study3_openai_long_context): each request on its own when the record lists
+    them (`requestUsage`), which must sum to its usage; without the list, its summed usage at the entry's own rates, which is exact only
+    for an entry without long-context rates, so such an entry refuses. Raises ValueError."""
+    if request_usage is None:
+        if long_rates(price) is not None:
+            raise ValueError('A run record without requestUsage cannot be priced per request under a price entry with long-context rates')
+        return dollars(usage, price)
+    if not isinstance(request_usage, list):
+        raise ValueError('The requestUsage of a run record is a %s, not a list of request usages' % type(request_usage).__name__)
+    spend, summed = Spend(price), Usage()
+    for number, item in enumerate(request_usage, 1):
+        if not isinstance(item, dict):
+            raise ValueError('Request %d of the requestUsage of a run record is a %s, not an object' % (number, type(item).__name__))
+        for name in TOKEN_CLASSES:
+            value = item.get(name)
+            if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+                raise ValueError('Request %d of the requestUsage of a run record needs %s, a non-negative whole number, not %r'
+                                 % (number, name, value))
+        one = Usage.from_dict(item)
+        spend.add(one)
+        summed.add(one)
+    if summed.as_dict() != usage.as_dict():
+        raise ValueError('The requestUsage of a run record sums to %s, not to its usage %s' % (summed.as_dict(), usage.as_dict()))
+    return spend.dollars()
 
 
 def ledger_totals(path):
@@ -100,17 +229,28 @@ def valid_ceiling(value):
 
 
 def worst_dollars(input_tokens, max_output_tokens, price):
-    """The most one request can cost: its input at the highest input-side price (input, cached read or cache write) and its maximum output
-    at the output price."""
-    highest_input = max(price['input'], price['cached_read'], price['cache_write'])
-    return (int(input_tokens) * highest_input + int(max_output_tokens) * price['output']) / 1_000_000
+    """The most one request can cost, at the rate set its input estimate selects: its input at the highest input-side price (input,
+    cached read or cache write) and its maximum output at the output price."""
+    rates = rates_for(input_tokens, price)
+    highest_input = max(rates['input'], rates['cached_read'], rates['cache_write'])
+    return (int(input_tokens) * highest_input + int(max_output_tokens) * rates['output']) / 1_000_000
 
 
 def ledger_dollars(path, price):
-    """(dollars, tokens) of one ledger under one price entry, counted high: the settled usage at its prices, and every reservation that
-    was never settled at the output price, because the vendor may have billed it."""
-    spent, unsettled = ledger_totals(path)
-    return dollars(spent, price) + unsettled * price['output'] / 1_000_000, spent.total + unsettled
+    """(dollars, tokens) of one ledger under one price entry, counted high: each settled request at its prices, and every reservation that
+    was never settled at the output price its input estimate selects, because the vendor may have billed it."""
+    spend, unsettled, reserved = Spend(price), UnsettledSpend(price), {}
+    for entry in read_jsonl(path):
+        if entry.get('event') == 'reserve':
+            reserved[entry['seq']] = entry
+        elif entry.get('event') == 'settle':
+            reserved.pop(entry['seq'], None)
+            spend.add(Usage.from_dict(entry['usage']))
+        elif entry.get('event') == 'release':
+            reserved.pop(entry['seq'], None)
+    for entry in reserved.values():
+        unsettled.add(entry['tokens'], entry.get('inputTokens'))
+    return spend.dollars() + unsettled.dollars(), spend.total + unsettled.tokens
 
 
 class Budget:
@@ -125,9 +265,12 @@ class Budget:
         self.vendor, self.model, self.limit = vendor, model, limit_tokens
         self.price, self.price_date, self.dollar_ceiling = price, price_date, dollar_ceiling
         self.carried_dollars = carried_dollars  # None: nothing carried (the study-1 shape of the snapshot is kept)
+        long_rates(price)  # a malformed long-context tier refuses here, before any request
         self.ledger = Path(ledger_path)
         self.spent = Usage()
+        self.spend = Spend(price)  # the same requests, per rate set: the dollars
         self.unsettled = 0
+        self.unsettled_spend = UnsettledSpend(price)
         self.retries = 0
         self.retry_tokens = 0
         self._open = None
@@ -144,6 +287,7 @@ class Budget:
             elif entry['event'] == 'settle':
                 reserved.pop(entry['seq'], None)
                 self.spent.add(Usage.from_dict(entry['usage']))
+                self.spend.add(Usage.from_dict(entry['usage']))
                 if entry.get('retry'):
                     self.retries += 1
                     self.retry_tokens += Usage.from_dict(entry['usage']).total
@@ -152,6 +296,7 @@ class Budget:
         for entry in reserved.values():
             # never settled: the vendor may have billed the whole reservation
             self.unsettled += entry['tokens']
+            self.unsettled_spend.add(entry['tokens'], entry.get('inputTokens'))
             append_jsonl(self.ledger, {'event': 'unsettled', 'seq': entry['seq'], 'tokens': entry['tokens'], 'ts': utc_now()})
 
     def _write(self, entry):
@@ -171,11 +316,13 @@ class Budget:
         return self.limit - self.used_tokens - (self._open['tokens'] if self._open else 0)
 
     def estimated_dollars(self):
-        return dollars(self.spent, self.price)
+        """The settled requests, each at its prices."""
+        return self.spend.dollars()
 
     def unsettled_dollars(self):
-        """This run's reservations that were never settled, at the output price, as `ledger_dollars` counts them for the carry."""
-        return self.unsettled * self.price['output'] / 1_000_000
+        """This run's reservations that were never settled, at the output price their input estimate selects, as `ledger_dollars` counts
+        them for the carry."""
+        return self.unsettled_spend.dollars()
 
     def snapshot(self):
         out = {'vendor': self.vendor, 'model': self.model, 'limitTokens': self.limit, 'spent': self.spent.as_dict(),
@@ -218,6 +365,7 @@ class Budget:
         """`timing`, when given, is the request's own start, end and seconds; it is stored in the ledger entry and used for nothing else."""
         self._expect(seq)
         self.spent.add(usage)
+        self.spend.add(usage)
         if retry:
             self.retries += 1
             self.retry_tokens += usage.total

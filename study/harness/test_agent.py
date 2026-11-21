@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from agent import SYSTEM_PROMPT, AgentRun, Limits
-from budget import Budget
+from budget import Budget, Usage
 from fakes import FakeVendorClient, submit, turn
 from mcp_client import FakeToolSession
 from study_common import Redactor, read_jsonl
@@ -62,6 +62,17 @@ class AgentTests(unittest.TestCase):
         self.assertEqual(system, SYSTEM_PROMPT)
         self.assertEqual(names, ['lookup', 'submit_answer'])
         self.assertEqual(client.calls[1][1][-1]['role'], 'tool')
+
+    def test_each_settled_request_is_listed_and_the_list_sums_to_the_usage(self):
+        """Decision N1 of the Job study3_openai_long_context: the run record lists each settled request's usage."""
+        result, _ = self.run_task([turn('looking', [('t1', 'lookup', {'q': 1})], usage=(300_000, 0, 0, 7)),
+                                   submit({'value': 'blue', 'explanation': 'e'}, usage=(12, 3, 2, 5))])
+        self.assertEqual(result['requestUsage'], [{'input': 300_000, 'cached_read': 0, 'cache_write': 0, 'output': 7},
+                                                  {'input': 12, 'cached_read': 3, 'cache_write': 2, 'output': 5}])
+        summed = Usage()
+        for item in result['requestUsage']:
+            summed.add(Usage.from_dict(item))
+        self.assertEqual(summed.as_dict(), result['usage'])
 
     def test_a_wrong_answer_and_a_format_error_are_told_apart(self):
         wrong, _ = self.run_task([submit({'value': 'red'})])

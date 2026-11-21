@@ -44,6 +44,11 @@ def load_contrasts(evidence=EVIDENCE):
     if digest != SCORES_SHA256:
         raise ValueError('study 2\'s scores.csv hashes to %s, not the file the calculation used' % digest)
     prices = {m: e['priceEntry'] for m, e in json.loads((Path(evidence) / 'manifest.json').read_text(encoding='utf-8'))['models'].items()}
+    # A score row holds a run's summed tokens, so it is priced per request only under an entry without long-context rates, where the two
+    # are the same (decision N1 of the Job study3_openai_long_context); study 2's entries have none.
+    tiered = sorted(m for m, e in prices.items() if e.get('long_context') is not None)
+    if tiered:
+        raise ValueError('the price entries of %s have long-context rates, and score rows cannot be priced per request' % ', '.join(tiered))
     with open(path, encoding='utf-8', newline='') as handle:
         rows = [r for r in csv.DictReader(handle) if r['scenario'] in ('beta', 'gamma', 'delta', 'epsilon') and r['category'] != 'F']
     if len(rows) != 384:

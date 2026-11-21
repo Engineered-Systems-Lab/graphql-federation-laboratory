@@ -1,5 +1,5 @@
 {
-  "about": "Dated price table of the study harness. Dollars are derived from token counts with this table and never stored as raw data. Prices are USD per million tokens. Re-read both vendors' pricing pages at pilot time and change `dated` and the figures in a new file. This table follows prices.json (dated 2026-10-20), which stays as it was for the runs that name it: only the cache-write price of gpt-6.1-sol changed.",
+  "about": "Dated price table of the study harness. Dollars are derived from token counts with this table and never stored as raw data. Prices are USD per million tokens. Re-read both vendors' pricing pages at pilot time and change `dated` and the figures in a new file. This table follows prices.json (dated 2026-10-20), which stays as it was for the runs that name it: only the cache-write price of gpt-6.1-sol changed. Each request is priced on its own (decision L1 of the Job study3_openai_long_context): an entry's `long_context` holds the rates of a request whose input total (input + cached_read + cache_write) is above `above_input_tokens`, and they then apply to the whole request; every other request, and every request of an entry without them, is priced at the entry's own rates. The long-context rates were added to this table in place on 2026-11-21, before any run had named it (decision L2).",
   "dated": "2026-11-21",
   "models": {
     "claude-sonnet-5-5": {
@@ -8,7 +8,7 @@
       "cached_read": 0.1,
       "cache_write": 2.5,
       "output": 10.0,
-      "source": "read from the Anthropic pricing page on 2026-10-20: input 2, five-minute cache write 2.50, cache hit 0.10 (0.05 times the input price for this model), output 10"
+      "source": "read from the Anthropic pricing page on 2026-10-20: input 2, five-minute cache write 2.50, cache hit 0.10 (0.05 times the input price for this model), output 10. No long-context rates: the Anthropic pricing page platform.claude.com/docs/en/about-claude/pricing, Long context pricing (read 2026-11-21), says Claude 4.6 and later models except Claude Haiku 5.5 include the full 1M token context window at standard pricing"
     },
     "gpt-6.1-sol": {
       "vendor": "openai",
@@ -16,7 +16,15 @@
       "cached_read": 0.1,
       "cache_write": 2.5,
       "output": 10.0,
-      "source": "OpenAI pricing page developers.openai.com/api/docs/pricing read 2026-11-21, Standard tab, short context (up to 272K input tokens): input 2.00, cached input 0.10, 30m write 2.50, 12h write 5.00, output 10.00. The cache write is the 30-minute price: the prompt-caching guide developers.openai.com/api/docs/guides/prompt-caching (read 2026-11-21) says the default lifetime is 30 minutes and the harness sets no lifetime; the Responses API reports the writes in usage.input_tokens_details.cache_write_tokens"
+      "source": "OpenAI pricing page developers.openai.com/api/docs/pricing read 2026-11-21, Standard tab, short context (up to 272K input tokens): input 2.00, cached input 0.10, 30m write 2.50, 12h write 5.00, output 10.00. The cache write is the 30-minute price: the prompt-caching guide developers.openai.com/api/docs/guides/prompt-caching (read 2026-11-21) says the default lifetime is 30 minutes and the harness sets no lifetime; the Responses API reports the writes in usage.input_tokens_details.cache_write_tokens",
+      "long_context": {
+        "above_input_tokens": 272000,
+        "input": 4.0,
+        "cached_read": 0.2,
+        "cache_write": 5.0,
+        "output": 15.0,
+        "source": "read 2026-11-21: the model page developers.openai.com/api/docs/models/gpt-6.1-sol says API prompts with more than 272K input tokens are priced at 2x input and cache rates and 1.5x output for the full request; the pricing page developers.openai.com/api/docs/pricing, Standard tab, Long context (>272K input tokens): input 4.00, cached input 0.20, 30m write 5.00, 12h write 10.00, output 15.00. Neither page says whether 272K is 272,000 or 278,528 tokens; the threshold is 272,000 (decision L3), so a request between the two is priced long"
+      }
     }
   }
 }

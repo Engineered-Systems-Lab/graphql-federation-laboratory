@@ -11,9 +11,9 @@ The scripts that turn a scored bundle of Abstraction ladder study 3 into its tab
 | File | Holds |
 | --- | --- |
 | `analyze3.py` | The command line: verifies the copy, runs every analysis of the plan and writes `results.json`, `tables.md` and `figures/effort.svg`. |
-| `data3.py` | Verification of a copy against this folder's plan, corpus 3's directions map, the groups of each task and the zero-cost rule. The counting rules are study 2's. |
+| `data3.py` | Verification of a copy against this folder's plan, corpus 3's directions map, the groups of each task and the zero-cost rule. The counting rules are study 2's. Each run's cost, its archived attempts' and each void attempt's are priced each request on its own, from the record's `requestUsage` with the harness's `usage_dollars`: a request above the threshold of its model's long-context rates pays them in full ([long requests](../harness/README.md#token-budget)). A record without `requestUsage` is priced from its summed usage, which is exact for an entry without long-context rates (study 2 and the preflight); under an entry with them it stops the analysis. |
 | `stats3.py` | The accuracy floor, the effort families, the CSL family, their fallbacks and the selection procedure (`confirmatory`). |
-| `power3.py` | The t-test stand-in for power, from study 2's committed scores. |
+| `power3.py` | The t-test stand-in for power, from study 2's committed scores. A score row holds a run's summed tokens, so it refuses a price entry with long-context rates; study 2's have none. |
 | `validate3.py` | The error rates, coverage and power of the implemented selection procedure on simulated studies. |
 | `simulate3.py` | Seeded simulated studies and bundles at corpus 3's shape, with known effects. |
 | `legacy3.py` | The legacy-load reader of plan section 10: the requests to Missions, Personnel and Assets per run and arm, descriptive only. It reads the bundle the analysis reads and the legacy-load folder the launch kit writes. |

@@ -612,5 +612,73 @@ class ValidationTests(unittest.TestCase):
                          {('null/selected', 'cost.any'), ('effort-75/forced', 'toolCalls.P1.covered'), ('boundary-100', 'floor.gamma.cleared')})
 
 
+class LongContextCostTests(Workspace):
+    """Decisions L1 and N1 of the Job study3_openai_long_context: each run's cost is the sum of its requests' prices, a request above the
+    threshold of its model's long-context rates priced at them in full."""
+
+    def tiered(self, facts, long_key=None, drop_list=False):
+        """The bundle with gpt-6.1-sol's long-context rates in its manifest and requestUsage in every record; the record of `long_key`
+        holds one request of 280,000 input tokens."""
+        folder = Path(facts['bundle'])
+        tier = {'above_input_tokens': 272000, 'input': 4.0, 'cached_read': 0.2, 'cache_write': 5.0, 'output': 15.0}
+        edit_json(folder / 'manifest.json', lambda m: m['models']['gpt-6.1-sol']['priceEntry'].update(long_context=tier))
+
+        def listed(record):
+            usage = record['usage']
+            if record['runKey'] == long_key:
+                usage.update(input=usage['input'] + 280_000)
+                record['usageTokens'] = sum(usage.values())
+                record['requestUsage'] = [{'input': 280_000, 'cached_read': 0, 'cache_write': 0, 'output': 0},
+                                          {**usage, 'input': usage['input'] - 280_000}]
+            elif not drop_list:
+                record['requestUsage'] = [dict(usage)]
+        for path in folder.glob('runs*/**/result.json'):
+            edit_json(path, listed)
+        return reseal(facts)
+
+    def test_a_runs_cost_is_the_sum_of_its_requests_prices(self):
+        plain = self.bundle(name='plain', vendor_error_rate=0.0)
+        *_, before, _, _ = data3.load(plain['bundle'], plain['sums'], plain['runId'], plain['checksum'], plain['corpus'])
+        key = next(r['runKey'] for r in before if r['model'] == 'gpt-6.1-sol' and r['cost'] > 0)
+        facts = self.tiered(self.bundle(name='tiered', vendor_error_rate=0.0), long_key=key)
+        *_, records, _, _ = data3.load(facts['bundle'], facts['sums'], facts['runId'], facts['checksum'], facts['corpus'])
+        result = json.loads((Path(facts['bundle']) / 'runs' / key / 'result.json').read_text(encoding='utf-8'))
+        price = simulate3.PRICES['gpt-6.1-sol']
+        rest = result['requestUsage'][1]
+        expected = 280_000 * 4.0 / 1e6 + sum(rest[k] * price[k] for k in ('input', 'cached_read', 'cache_write', 'output')) / 1e6
+        long_run = next(r for r in records if r['runKey'] == key)
+        self.assertAlmostEqual(long_run['cost'], expected, places=12)
+        self.assertGreater(long_run['cost'], 280_000 * 2.0 / 1e6 + next(r for r in before if r['runKey'] == key)['cost'] + 0.5)
+        others = {r['runKey']: r['cost'] for r in records if r['runKey'] != key}
+        self.assertEqual(others, {r['runKey']: r['cost'] for r in before if r['runKey'] != key},
+                         'every run with no long request is priced exactly as before')
+
+    def test_a_record_without_its_requests_under_a_tier_stops_the_analysis(self):
+        facts = self.tiered(self.bundle(vendor_error_rate=0.0), drop_list=True)
+        with self.assertRaisesRegex(data3.VerificationError, 'without requestUsage'):
+            data3.load(facts['bundle'], facts['sums'], facts['runId'], facts['checksum'], facts['corpus'])
+
+    def test_a_malformed_request_list_stops_the_analysis_naming_its_record(self):
+        usage = {'input': 10, 'cached_read': 0, 'cache_write': 0, 'output': 5}
+        prices = {'gpt-6.1-sol': simulate3.PRICES['gpt-6.1-sol']}
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'result.json'
+            for request_usage in (12, 'usage', [7], [{**usage, 'output': None}]):
+                path.write_text(json.dumps({'model': 'gpt-6.1-sol', 'usage': usage, 'requestUsage': request_usage}), encoding='utf-8')
+                with self.subTest(request_usage=request_usage), self.assertRaisesRegex(data3.VerificationError, 'result.json: .*requestUsage'):
+                    data3.record_cost(path, prices)
+
+    def test_power3_refuses_a_tiered_entry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            evidence = Path(tmp)
+            (evidence / 'scores.csv').write_bytes((power3.EVIDENCE / 'scores.csv').read_bytes())
+            manifest = json.loads((power3.EVIDENCE / 'manifest.json').read_text(encoding='utf-8'))
+            manifest['models']['gpt-6.1-sol']['priceEntry']['long_context'] = {'above_input_tokens': 272000, 'input': 4.0, 'cached_read': 0.2,
+                                                                               'cache_write': 5.0, 'output': 15.0}
+            (evidence / 'manifest.json').write_text(json.dumps(manifest), encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'long-context rates'):
+                power3.load_contrasts(evidence)
+
+
 if __name__ == '__main__':
     unittest.main()

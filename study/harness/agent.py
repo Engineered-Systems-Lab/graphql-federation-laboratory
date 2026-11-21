@@ -56,8 +56,9 @@ class AgentRun:
     def emit(self, kind, **fields):
         self.sink(self.redactor.deep({'ts': utc_now(), 'kind': kind, **fields}))
 
-    def _request(self, system, transcript, tools, usage):
-        """One recorded, costed request with the retries that are allowed; returns a Turn."""
+    def _request(self, system, transcript, tools, usage, requests):
+        """One recorded, costed request with the retries that are allowed; returns a Turn. Each settled request's usage, a retry's included,
+        is appended to `requests`, so the run can be priced per request (decision N1 of the Job study3_openai_long_context)."""
         attempt = 0
         while True:
             seq = self.budget.reserve(self.run_id, request_tokens(system, transcript, tools), self.client.max_output_tokens, label='request')
@@ -68,6 +69,7 @@ class AgentRun:
                 timing = self._timing(began, began_at)
                 # the vendor may have billed part of it: the reservation stays charged as unknown cost, recorded as a retry
                 self.budget.settle(seq, Usage(), retry=True, note='transient: ' + self.redactor.text(str(error))[:200], timing=timing)
+                requests.append(Usage().as_dict())
                 attempt += 1
                 self.emit('retry', attempt=attempt, error=str(error)[:300], requestSeconds=timing['requestSeconds'])
                 if attempt > self.limits.max_retries:
@@ -80,6 +82,7 @@ class AgentRun:
             turn.timing = self._timing(began, began_at)
             self.budget.settle(seq, turn.usage, note=('after %d retries' % attempt) if attempt else None, timing=turn.timing)
             usage.add(turn.usage)
+            requests.append(turn.usage.as_dict())
             return turn
 
     def _timing(self, began, began_at):
@@ -89,7 +92,7 @@ class AgentRun:
     def run(self, task):
         """`task`: {'id', 'question', 'schema', 'expected'}. Returns the result record."""
         started = self.clock()
-        usage, tool_calls, turns, nudges = Usage(), 0, 0, 0
+        usage, tool_calls, turns, nudges, requests = Usage(), 0, 0, 0, []
         tools = self.session.tools() + [submit_tool(task['schema'])]
         system = task.get('system', SYSTEM_PROMPT)
         transcript = [{'role': 'user', 'text': task['question']}]
@@ -99,7 +102,8 @@ class AgentRun:
 
         def finish(outcome, reason=None, score=None):
             result.update({'outcome': outcome, 'reason': reason, 'elapsedSeconds': round(self.clock() - started, 3), 'turns': turns,
-                           'toolCalls': tool_calls, 'usage': usage.as_dict(), 'usageTokens': usage.total, 'score': score})
+                           'toolCalls': tool_calls, 'usage': usage.as_dict(), 'usageTokens': usage.total, 'requestUsage': list(requests),
+                           'score': score})
             self.emit('end', outcome=outcome, reason=reason)
             return result
 
@@ -109,7 +113,7 @@ class AgentRun:
                     return finish('did_not_finish', 'wall_clock')
                 if usage.total >= self.limits.max_task_tokens:
                     return finish('did_not_finish', 'tokens')
-                turn = self._request(system, transcript, tools, usage)
+                turn = self._request(system, transcript, tools, usage, requests)
                 turns += 1
                 transcript.append({'role': 'assistant', 'text': turn.text, 'tool_calls': turn.tool_calls, 'raw': turn.raw})
                 self.emit('message', role='assistant', text=turn.text, toolCalls=turn.tool_calls, usage=turn.usage.as_dict(),
