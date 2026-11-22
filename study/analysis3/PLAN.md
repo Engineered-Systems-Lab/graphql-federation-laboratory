@@ -1,6 +1,6 @@
-# Study 3 analysis plan (draft)
+# Study 3 analysis plan
 
-Status: **draft, not frozen.** No scored run of study 3 has been made. This plan says, rule by rule and in the order of the outputs, what [analyze3.py](analyze3.py) computes from a study-3 bundle. Places marked **MARKED PLACE** are filled at the freeze. The freeze also pins this file's hash, which every manifest then names as `identity.analysisPlan`.
+Status: **frozen on 2026-11-22** (the Job `study3_freeze`), before the first scored run of study 3. Its SHA-256 is in the [freeze record](../evidence/study-3-freeze/freeze-record-20261122.json) and goes in every manifest as `identity.analysisPlan`, which section 1 checks; a file cannot hold its own hash, so it is not written here. This plan says, rule by rule and in the order of the outputs, what [analyze3.py](analyze3.py) computes from a study-3 bundle. The draft's marked places were filled at the freeze (section 14), and the changes made then are listed at the end.
 
 Effort is the primary outcome and accuracy is a floor. Study 2 made accuracy primary; every full arm was at or near 100 percent, its primary model could not be fitted, and effort, which did separate the arms, had been labelled exploratory in advance.
 
@@ -115,7 +115,7 @@ Time per run on P1 and P2; the other arm pairs; Direct Access; the ambiguity set
 
 ## 11. Power
 
-**MARKED PLACE: the final power figures.** The freeze uses the power of the implemented analysis. The draft figures below come from section 12's validation (2,000 simulated studies per cell; a rate near 0.5 has a simulation error of about 0.011). "Stand-in" is [power3.py](power3.py): t-tests over resampled questions from study 2's data, 4,000 simulations per cell.
+**The final power figures** (decision Z1 of the Job `study3_freeze`, 2026-11-20, the lead developer: "Yes, freeze them"): the power of the implemented analysis, frozen as the draft gave it. The figures below come from section 12's validation (2,000 simulated studies per cell; a rate near 0.5 has a simulation error of about 0.011). "Stand-in" is [power3.py](power3.py): t-tests over resampled questions from study 2's data, 4,000 simulations per cell.
 
 **Effort, claimed, at 107 tasks (implemented analysis / stand-in):**
 
@@ -156,8 +156,9 @@ The 100 percent join-width effect is an estimate from study 2: the P1 tool-call 
 
 - **Size:** 2,000 simulated studies per scenario, 10,000 bootstrap replicates, master seed 20261120. The simulation error of a rate of 0.05 is 0.0049.
 - **The limits (decision A11):** a false-positive rate above 0.06 for a 0.05 test or family, above 0.035 for the floor at a true -10 points, or a coverage below 0.93.
-- **The code validated (SHA-256 with LF line ends):** `data3.py` 3e51c48662c46b2f4edd40004b04ff5def3ab3ab140f01a2195e013a77109dcc, `simulate3.py` 800f62544d7e62abdc12d093dd5a6363162133d7dcce3ec6daf92c97729adfd4, `stats3.py` 074395fdb3a2650ecc2d03aade0e21d1e0fc73cd7b6fd15673eec3a2cb7f3827, `validate3.py` e5e2b2ec1df1826dbe7a14a78b54d432ca2d31118a5c2c68f0054b1b1c0f52fb.
+- **The code validated (SHA-256 with LF line ends), as it was at the validation's snapshot, lab commit `4d44f05b381b7b7cf6309632b95ffd4b19852174`:** `data3.py` 3e51c48662c46b2f4edd40004b04ff5def3ab3ab140f01a2195e013a77109dcc, `simulate3.py` 800f62544d7e62abdc12d093dd5a6363162133d7dcce3ec6daf92c97729adfd4, `stats3.py` 074395fdb3a2650ecc2d03aade0e21d1e0fc73cd7b6fd15673eec3a2cb7f3827, `validate3.py` e5e2b2ec1df1826dbe7a14a78b54d432ca2d31118a5c2c68f0054b1b1c0f52fb.
 - **Rerun after the cutoff fix:** the 1 percent limit on unusable replicates (sections 4 and 6) was then made to count whole replicates, so that exactly 1 percent passes, as the plan says. The validation was run again on that code with the same seed and size, and every figure in this section, and the implemented analysis's figures in section 11, came out the same. The `stats3.py` hash above is that of the rerun.
+- **What the validation did not exercise: the loader's cost.** The simulated studies hand each run's cost, already generated, straight to the selection procedure (`simulate3.study_records` to `stats3.confirmatory`). They do not go through `data3.py`'s loader, which turns a bundle into those records, and they use only its constants and join-group rule. Since the snapshot, `data3.py` alone has changed (the Job `study3_openai_long_context`, lab commit `c5c4d9656daec97268462d3ba04752482ce40912`): it rebuilds each run's cost from the record's per-request usage, `requestUsage`, and prices a request above the threshold of its model's long-context rates at those rates in full (section 14). The statistical procedure and the files the validation ran are unchanged, so the figures in this section and in section 11 stand. The simulation was not run again on the current loader. The loader's per-request pricing is checked by the tests `LongContextCostTests` in [test_analysis3.py](test_analysis3.py): a run's cost is the sum of its requests' prices, with a long request at the long-context rates and every other run priced as before; a record without `requestUsage` under a tiered price entry stops the analysis; a malformed request list stops it, naming the record; and `power3.py` refuses a tiered entry.
 
 **The exception.** With the CSL fallback forced, in the scenario with study 2's effort effects and no CSL effect (`effort-100`), the forward-against-reverse test alone, before Holm, wrongly rejected at a rate of **0.0620**, above the limit of 0.06. The Holm family rate in that scenario is **0.0590**. The lead developer approved this exception and required no further tuning on this evidence.
 
@@ -194,8 +195,25 @@ The 100 percent join-width effect is an estimate from study 2: the P1 tool-call 
 
 ## 14. Filled at the freeze
 
-- **MARKED PLACE: the final power figures** (section 11).
-- **MARKED PLACE: the price table** read for the scored run. Cost is computed from each run's tokens and its model's price entry in the manifest.
-- **MARKED PLACE: the limits of the scored run** (tool calls, tokens, time and retries).
+- **The final power figures** (section 11): the implemented analysis's figures as the draft gave them (decision Z1). No paid estimate of the spread was made: the preflight's paid run had 8 development tasks with one trial.
+- **The price table** (decision Z2 of the Job `study3_freeze`, 2026-11-20, the lead developer: "Yes, check both pages"). Cost is computed from each run's tokens and its model's price entry in the manifest, which the harness takes from [prices-20261121.json](../harness/prices-20261121.json), dated 2026-11-21; [prices.json](../harness/prices.json), dated 2026-10-20, stays as it was for the runs that name it. Both pricing pages were read again on 2026-11-21 (UTC). In dollars per million tokens:
+
+  | Model | Input | Cached read | Cache write | Output | Page |
+  | --- | --- | --- | --- | --- | --- |
+  | claude-sonnet-5-5 | 2.00 | 0.10 | 2.50 (five minutes) | 10.00 | Anthropic, `platform.claude.com/docs/en/about-claude/pricing` |
+  | gpt-6.1-sol | 2.00 | 0.10 | 2.50 (30 minutes) | 10.00 | OpenAI, `developers.openai.com/api/docs/pricing`, standard tier, short context |
+  | gpt-6.1-sol, a request above 272,000 input tokens | 4.00 | 0.20 | 5.00 (30 minutes) | 15.00 | OpenAI, the same page, long context |
+
+  The Anthropic page also lists a one-hour cache write at 4.00; the harness writes the five-minute cache, and Claude Sonnet 5.5 has no long-context rates. The OpenAI page lists cache writes at 2.50 for 30 minutes and 5.00 for 12 hours. OpenAI's prompt-caching guide (`developers.openai.com/api/docs/guides/prompt-caching`, read 2026-11-21) says that the default cache lifetime is 30 minutes, which the harness does not change, and that the Responses API reports written tokens in `usage.input_tokens_details.cache_write_tokens`. The harness counts them as cache writes, so **cost includes OpenAI cache writes at 2.50** (the Job `study3_openai_cache_write`). **Each request is priced on its own:** a gpt-6.1-sol request whose input (its input, cached-read and cache-write tokens together) is above 272,000 tokens is priced at the long-context rates for the full request, and every other request at the short-context rates (the Job `study3_openai_long_context`). The page's cache-write prices were first taken as no price change (the lead developer, 2026-11-21 UTC: "Not a change, go on"), while the harness did not yet count OpenAI cache writes; the lead developer then routed that count to a code Job before the freeze ("(a), code Job first"), and the long-context rule followed it. The read, with every page's address, is in the freeze record.
+- **The limits of the scored run** (decision Z3 of the Job `study3_freeze`, 2026-11-20, the lead developer: "Yes, keep study 2's limits"). Every run of every arm and both models has study 2's limits: **80 tool calls, 1,000,000 tokens and 900 seconds per run, and 3 retries of a request**, 5 seconds apart, with at most 2 nudges. The limits are equal in every arm and part of what the study measures, and keeping study 2's keeps the two studies comparable. A run stopped at the tool-call, token or time limit is `did_not_finish`, and counts for effort with its calls and cost (section 3). A request that still fails after its 3 retries ends the run as a vendor error, which the harness queues again once (section 3). **The measurements behind them:** in the preflight's paid run of the 8 development tasks (`study3-preflight-dev-2`, 80 runs), two Direct Access runs of V05 reached the 80 tool calls, the largest run used 936,034 tokens and the longest took 220.4 seconds; no run had a vendor error or a retry.
 
 The legacy-load reader of section 10 was filled before the freeze by the instrumentation Job, because the load can only be recorded during the scored run.
+
+## The changes at the freeze
+
+The Job `study3_freeze` (2026-11-20 to 2026-11-22) changed the draft in these places only, and no other rule:
+
+- the title and the status line;
+- section 11: its marked place, closed with the figures as they stood (decision Z1);
+- section 12: the validated code's hashes named as those of the validation's snapshot (`4d44f05`), and a note that the simulation did not exercise the loader's cost, which changed after it, with the tests that check it; no figure or rule changed;
+- section 14: the price table (decision Z2), naming the dated price table the harness reads since the two code Jobs that landed before the freeze, and the limits (decision Z3) filled, and the power figures' place closed.

@@ -1,0 +1,2250 @@
+{
+  "schema": 1,
+  "about": "The record of the Job study3_freeze (transaction A, the content): every hash frozen before the scored run of study 3, the lead developer's decisions, the price table read again, the dataset fingerprint and image ids, and the free dry run of the full scored plan on the fake vendor client with legacy3.py on its bundle. Two dry runs were made: study3-freeze-dry-1 on 0d8b5ee, and study3-freeze-dry-2 on c5c4d96, after two code Jobs changed files the run executes (OpenAI cache writes, and OpenAI's long-context rates); the second binds the frozen code and the first is kept, superseded for code. The run folders, their request logs and the worker's scripts stay outside the repository in C:/esl/_study3/freeze/, cited by checksum. The frozen rows of the classification table and the frozen manifest follow in transaction B of the same Job, because a frozen path cannot enter a checkpoint. Task ids only: no question, key, schema text or transcript was read.",
+  "job": "study3_freeze",
+  "generatedAt": "2026-11-22T02:30:00Z",
+  "base": {
+    "commit": "c5c4d9656daec97268462d3ba04752482ce40912",
+    "note": "main when transaction A was prepared again. Since the first preparation on 5198bde two code Jobs landed: study3_openai_cache_write (93e0663) and study3_openai_long_context (c5c4d96). The mission worktree was removed and created again on c5c4d96, the dry run was run again on that commit, and the frozen bytes were written after it"
+  },
+  "decisions": {
+    "Z1": "(a): section 11's power figures of the implemented analysis frozen as they stand (\"Yes, freeze them\", 2026-11-20)",
+    "Z2": "(a): both pricing pages read at the freeze; unchanged figures recorded as read again; any change stops the freeze (\"Yes, check both pages\", 2026-11-20)",
+    "Z3": "(a): study 2's limits, 80 tool calls, 1,000,000 tokens, 900 s and 3 retries (\"Yes, keep study 2's limits\", 2026-11-20)",
+    "Z4": "(a): the full scored plan dry-run on the fake vendor client before any hash, with phase B's checks and legacy3.py on its bundle (\"Yes, the full plan\", 2026-11-20)",
+    "Z5": "(a): study 3's decisions 1 with 1a, 2 to 6 and 8 with its revision recorded as D068 to D074, each citing the frozen plan; decision 7 (strand 2 only) covered by the postponement (\"Yes, record them as D068 onward\", 2026-11-20)",
+    "openAICacheWrite": "asked whether the OpenAI page's cache-write prices, where prices.json has 0.0, are a price change that stops the freeze: \"Not a change, go on\" (2026-11-21 UTC). Then, on the finding that the harness did not count OpenAI cache writes: \"(a), code Job first\" (2026-11-21 UTC), which became the Job study3_openai_cache_write",
+    "rerun": "\"Yes, re-run it\" (W3, Coordinator session, 2026-11-21 UTC): the full scored plan's dry run again on the new code. The Job study3_openai_long_context (its follow-up W6) landed before the rerun, so one rerun covers both changes",
+    "removeWorktree": "\"Yes, discard and remove\" (2026-11-22 UTC): worktree.py remove refused the old worktree with transaction A's uncommitted edits (\"Checkout/index must be clean\"); they were copied byte for byte to C:/esl/_study3/freeze/txA-draft-on-5198bde/ and discarded, and the worktree was created again on c5c4d96",
+    "rerunGoes": "\"Go\" for Oracle, the Missions service and one build, then \"Go\" for study3-freeze-dry-2 (2026-11-22 UTC), each asked alone",
+    "freezeDate": "\"2026-11-22 (Recommended)\" (2026-11-22 UTC): the frozen files carry the UTC date on which their bytes were written, after the second dry run; the price read keeps its own date, 2026-11-21",
+    "imageIds": "the lead developer: \"I believe every time we build an image the ids change, even though the content is identical. what matters is that we don't rebuild the images within the study\"; study/launch/README.md records that every build writes new ids and that the rule is one build per study run (2026-11-21 UTC)",
+    "codeJobFirst": "\"Yes, code Job first\" (2026-11-21 UTC): derive_a3.py had no freeze path; the Job study3_corpus3_frozen (5198bde) gave it --write --frozen before these edits",
+    "transactions": "\"Two in one mission\" (2026-11-21 UTC): A the content, B the frozen rows, their golden pins and the frozen manifest",
+    "rationale": "\"Coordinator supplies it\" (2026-11-21 UTC): the rationale of D068 to D074 from the study's private decision record",
+    "source": "the Job record study3_freeze; Z1 to Z5 and W3 in the Coordinator session, the others in the worker's session"
+  },
+  "frozen": {
+    "analysisPlan": {
+      "path": "study/analysis3/PLAN.md",
+      "sha256": "85c06abbc7e668aeeb2da337c8bf3cb9166d3113e299593e782e5536f02d5a8f",
+      "status": "frozen on 2026-11-22; goes in every manifest as identity.analysisPlan"
+    },
+    "corpusManifest": {
+      "path": "study/corpus3/corpus-manifest.json",
+      "sha256": "808ddbf7f125916e3add9beeee10ebfda23047e0221674022fb880c064660d4b",
+      "status": "frozen-2026-11-22",
+      "writtenBy": "python -B study/corpus3/derive_a3.py --write --frozen 2026-11-22",
+      "files": {
+        "tasks.json": "3879f7e7231c0170c7ef26643121cec2599636103cbd8b7249891158c4f518cd",
+        "schemas.json": "a499bc491d2b29e8b16c54f78e8e24f3c67969ed9426cdb67a0d77b431b2ed98",
+        "expected.json": "600d490f73a79d411304a8da70782037bce1f9804397281550cf9138169fbcbf",
+        "keys-a.json": "4cf660c8ad0cb8f6edff46056bd6c2214d6396361997e3acc1ce9efa3a6777a4",
+        "dev.json": "288eccc302e8a8e00e9dd7838864c0e3bb739825fbbc4796981550ee5ef3c78d"
+      },
+      "corpus2Manifest": "c57081e3fbcaaf298fc3591b486930fa4fb5dd88a0772f3c29798e26a1a354bb",
+      "note": "goes in every manifest as identity.corpusFreeze; the runner checks the files it lists at every start"
+    },
+    "scorer": {
+      "path": "study/corpus3/scoring.py",
+      "sha256": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+      "note": "corpus 2's scorer byte for byte",
+      "scoringContract": {
+        "ambiguityFlags": [
+          "clarified",
+          "interpretationAccepted"
+        ],
+        "correctOutcomes": [
+          "correct"
+        ],
+        "harnessOutcomes": [
+          "did_not_finish",
+          "vendor_error"
+        ],
+        "notScored": [
+          "budget_stop"
+        ],
+        "outcomes": [
+          "correct",
+          "wrong_answer",
+          "format_error",
+          "definition_not_accepted",
+          "abstained"
+        ],
+        "scorerSha256": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+        "version": 2
+      }
+    },
+    "guide": {
+      "path": "study/guide2/GUIDE.md",
+      "sha256": "e9a4c12620fea0b924683666f20f44a60a4d8888088b583038e1e47cd0b3fade",
+      "bytes": 10990,
+      "arm": "beta (Guided Direct Access)",
+      "note": "study 2's frozen guide, unchanged (D072); already frozen since 2026-11-06"
+    },
+    "systemPrompt": {
+      "text": "You answer questions about the legacy systems of the USS Enterprise using only the tools you have. Work out the answer with the tools, then call submit_answer with it. If something cannot be determined with your tools, or a service does not answer, say so in the answer instead of guessing. Finish every task by calling submit_answer exactly once.",
+      "sha256": "dc626090974f6e8cbbfebf8939e3d6faea6135c782158f308b2fa72de75b9dbc",
+      "note": "SHA-256 of the UTF-8 text; equal to study 2's"
+    },
+    "harnessTools": {
+      "version": 5,
+      "names": [
+        "calculate",
+        "ask_requester"
+      ],
+      "sha256": "7efb981e3c7f0a36ca18a4cac89360c733217e25b4a9e7887bb3c39044fd35f8",
+      "note": "sha256_json (study/harness/study_common.py) of identity.harnessTools; equal to study 2's"
+    },
+    "limits": {
+      "values": {
+        "max_nudges": 2,
+        "max_retries": 3,
+        "max_task_tokens": 1000000,
+        "max_tool_calls": 80,
+        "max_wall_seconds": 900,
+        "retry_backoff_seconds": 5
+      },
+      "sha256": "4e08fb642964606adca58734b367edab2951785bef23f2972881e4e9c4bf6054",
+      "note": "sha256_json of identity.limits; equal to study 2's"
+    },
+    "models": {
+      "values": {
+        "claude-sonnet-5-5": {
+          "max_output_tokens": 16000,
+          "request": {
+            "output_config": {
+              "effort": "medium"
+            },
+            "thinking": {
+              "type": "adaptive"
+            }
+          },
+          "vendor": "anthropic"
+        },
+        "gpt-6.1-sol": {
+          "max_output_tokens": 16000,
+          "request": {
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "reasoning": {
+              "effort": "medium"
+            },
+            "store": false
+          },
+          "vendor": "openai"
+        }
+      },
+      "sha256": "018df02ff793df3477da9c9bde6dcbbefedca8af183d92153c14428376451944"
+    },
+    "prices": {
+      "path": "study/harness/prices-20261121.json",
+      "sha256": "55181c0f5957cc6684a9071777af6cc2b20fad44661b0f2e46124de73025a2a2",
+      "dated": "2026-11-21",
+      "note": "the dated price table the runner reads since the Job study3_openai_cache_write; each model's entry goes in the manifest as its priceEntry",
+      "models": {
+        "claude-sonnet-5-5": {
+          "vendor": "anthropic",
+          "input": 2.0,
+          "cached_read": 0.1,
+          "cache_write": 2.5,
+          "output": 10.0,
+          "source": "read from the Anthropic pricing page on 2026-10-20: input 2, five-minute cache write 2.50, cache hit 0.10 (0.05 times the input price for this model), output 10. No long-context rates: the Anthropic pricing page platform.claude.com/docs/en/about-claude/pricing, Long context pricing (read 2026-11-21), says Claude 4.6 and later models except Claude Haiku 5.5 include the full 1M token context window at standard pricing"
+        },
+        "gpt-6.1-sol": {
+          "vendor": "openai",
+          "input": 2.0,
+          "cached_read": 0.1,
+          "cache_write": 2.5,
+          "output": 10.0,
+          "source": "OpenAI pricing page developers.openai.com/api/docs/pricing read 2026-11-21, Standard tab, short context (up to 272K input tokens): input 2.00, cached input 0.10, 30m write 2.50, 12h write 5.00, output 10.00. The cache write is the 30-minute price: the prompt-caching guide developers.openai.com/api/docs/guides/prompt-caching (read 2026-11-21) says the default lifetime is 30 minutes and the harness sets no lifetime; the Responses API reports the writes in usage.input_tokens_details.cache_write_tokens",
+          "long_context": {
+            "above_input_tokens": 272000,
+            "input": 4.0,
+            "cached_read": 0.2,
+            "cache_write": 5.0,
+            "output": 15.0,
+            "source": "read 2026-11-21: the model page developers.openai.com/api/docs/models/gpt-6.1-sol says API prompts with more than 272K input tokens are priced at 2x input and cache rates and 1.5x output for the full request; the pricing page developers.openai.com/api/docs/pricing, Standard tab, Long context (>272K input tokens): input 4.00, cached input 0.20, 30m write 5.00, 12h write 10.00, output 15.00. Neither page says whether 272K is 272,000 or 278,528 tokens; the threshold is 272,000 (decision L3), so a request between the two is priced long"
+          }
+        }
+      },
+      "openAICacheWrites": "cost includes OpenAI cache writes at 2.50 dollars per million tokens: the OpenAI client reads usage.input_tokens_details.cache_write_tokens into the cache-write class (the Job study3_openai_cache_write, 93e0663); the 30-minute price, the default lifetime, which the harness does not change",
+      "longContext": "each request is priced on its own: a gpt-6.1-sol request whose input (input + cached_read + cache_write) is above 272,000 tokens is priced at the long-context rates for the full request (input 4.00, cached read 0.20, cache write 5.00, output 15.00), every other request at the entry's own rates; claude-sonnet-5-5 has no long-context rates (the Job study3_openai_long_context, c5c4d96)",
+      "previous": {
+        "path": "study/harness/prices.json",
+        "sha256": "137eaf7a4034647c3e1cf27fde46cddb14b2dc3dcb7051eead7e3b25d26c82a6",
+        "dated": "2026-10-20",
+        "note": "kept as it was for the runs that name it, the first dry run among them"
+      },
+      "firstRecordStatement": {
+        "text": "the harness does not count OpenAI cache writes ... A GPT run's recorded cost may understate what OpenAI bills by 0.50 dollars per million written tokens",
+        "status": "superseded: the price read's equalToPricesJson note and the first record's statement that the harness does not count OpenAI cache writes describe the harness before the Job study3_openai_cache_write (93e0663). On c5c4d96 the OpenAI client reads usage.input_tokens_details.cache_write_tokens into the cache-write class, and the runner reads prices-20261121.json, where gpt-6.1-sol's cache write is 2.50"
+      }
+    },
+    "harness": {
+      "commit": "c5c4d9656daec97268462d3ba04752482ce40912",
+      "note": "the last commit that changed a file the run executes; the second dry run ran these bytes at this commit with a clean tree. The scored run binds the frozen plan and corpus manifest on the later main, so its plan hash will differ from the dry run's",
+      "codeFiles": {
+        "study/corpus3/scoring.py": "b872f8e2c3bed3fe3cc1c99712dbb2b5b5c5292e1af165bb556391930464084d",
+        "study/harness/agent.py": "594a2316390e55df5b59c273b8547d127bb94dd53023056c24b52bf2f92f48b4",
+        "study/harness/budget.py": "e99ec6c8bc38e0174e1ce6e2420dacdaa7cf9b943dddf1ef921ee633b66ea99c",
+        "study/harness/credentials.py": "dc72e7af7c974abb477e78e926eef6255ae7a3c8c21ec47ee168e8f661737984",
+        "study/harness/fakes.py": "2ef68abaa9b95e7ff6414a0b5be6c689ad47d876a70a08c703ba5b0c3f83ebe2",
+        "study/harness/harness_tools.py": "9d2de6610e722d178ac00a34aad51b00c034ebab735c2830e5b08311a7a2c1a1",
+        "study/harness/launcher.py": "fecf0ba97e482f9644416d77cff367ddbbd5fcdaa270927a078a3043f08e4535",
+        "study/harness/mcp_client.py": "288e266cb5ff8e407e67e54e5bf9ffefe55e60eb7d36cf6fb6c028a237fa2996",
+        "study/harness/provenance.py": "ab5db27c80ac117a774197b99f8186c383e4b59b3b1e5ce43362111ebe8d7bd1",
+        "study/harness/runner.py": "7533e68b45c9adbf1a426bc2e3055b04ebee68c79a873bf9f3d5ee09b63de099",
+        "study/harness/schedule.py": "a762d9767cc40dce906fb4913e775c7edf92064613d62210468938a2100bee27",
+        "study/harness/scoring_contract.py": "27653bdb87ce62d604b3cae0e82acaf74d4c7b02e7d4cb7871d2e7c89b7f103b",
+        "study/harness/study_common.py": "59cc9eab652a361ef9447149bff837346f87d1edf254670b8039aa40a259e9a3",
+        "study/harness/study_gate.py": "8b940448f7ac7ad12ee45ce268fb08041cb335ab6fdd771bf30fe72a929ac3fd",
+        "study/harness/vendors.py": "d1b8571a319fd0ff932a8bf2870d3295f43eddbcd94955cbb56275ae549d3da7",
+        "study/launch/launch.py": "43f09e47da01f7ff987febe0bc783242b39885ca7e6de04da8d3cf6c3367f8a2",
+        "study/mcp/adapters_server.py": "c9687a984dd48d091b7c7178e70172ddd3dae979597a2f4789aebff04d0b4fdc",
+        "study/mcp/graph_server.py": "48830a4227a6fc4abd824d263d3fd458aec65db524aaae790f40741af99fc52b",
+        "study/mcp/mcp_core.py": "09c448de6dc80b14d854ee35f86ca5c139d00f6e509a2c31666c6ceca7103718",
+        "study/mcp/raw_server.py": "d802ce52c884544f4161e9c5f536a4c3205579be7690809a3d762885919ca147",
+        "study/preflight/preflight.py": "0b3a1d4a83b512d6665ab3321e3968b07b8407c4b9f21eb4ce664ae69ce60b6d"
+      },
+      "changedSinceFirstDryRun": [
+        "study/harness/agent.py",
+        "study/harness/budget.py",
+        "study/harness/runner.py",
+        "study/harness/vendors.py"
+      ]
+    }
+  },
+  "notFrozen": {
+    "scripts": "the analysis scripts of study/analysis3 are not frozen; the plan is",
+    "derivedCorpusFiles": "tasks.json, schemas.json, expected.json, keys-a.json and dev.json keep their own stamp; the manifest's status governs"
+  },
+  "priceRead": {
+    "asRead": {
+      "about": "Price read of the Job study3_freeze, entry 2 (Z2), read only in the built-in browser, no sign-in, nothing accepted. USD per million tokens.",
+      "readOn": "2026-11-21 (UTC; 2026-11-20 local time), shortly before 01:36Z",
+      "anthropic": {
+        "page": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "model": "Claude Sonnet 5.5",
+        "input": 2.0,
+        "output": 10.0,
+        "cacheWrite5m": 2.5,
+        "cacheWrite1h": 4.0,
+        "cachedRead": 0.1,
+        "equalToPricesJson": true
+      },
+      "openai": {
+        "page": "https://platform.openai.com/docs/pricing (redirected to https://developers.openai.com/api/docs/pricing)",
+        "model": "gpt-6.1-sol",
+        "tier": "Standard (the first, visible tab)",
+        "input": 2.0,
+        "output": 10.0,
+        "cachedInput": 0.1,
+        "cacheWrite30m": 2.5,
+        "cacheWrite12h": 5.0,
+        "equalToPricesJson": "input, cached read and output equal; the page lists cache-write prices (30m 2.50, 12h 5.00) where prices.json has cache_write 0.0 with the note that the Responses API reports no cache-write tokens"
+      }
+    },
+    "superseded": {
+      "field": "openai.equalToPricesJson",
+      "text": "with the note that the Responses API reports no cache-write tokens",
+      "status": "superseded: the price read's equalToPricesJson note and the first record's statement that the harness does not count OpenAI cache writes describe the harness before the Job study3_openai_cache_write (93e0663). On c5c4d96 the OpenAI client reads usage.input_tokens_details.cache_write_tokens into the cache-write class, and the runner reads prices-20261121.json, where gpt-6.1-sol's cache write is 2.50; and OpenAI's prompt-caching guide (developers.openai.com/api/docs/guides/prompt-caching, read 2026-11-21) says the Responses API reports written tokens in that field"
+    },
+    "longContext": "a gpt-6.1-sol request above 272,000 input tokens is priced at the long-context rates for the full request: the model page and the pricing page's Long context rows, read 2026-11-21 by the Job study3_openai_long_context and recorded in prices-20261121.json's source (input 4.00, cached input 0.20, 30m write 5.00, 12h write 10.00, output 15.00); its threshold is 272,000 (that Job's decision L3)"
+  },
+  "oracle": {
+    "oracleStartedAt": "2026-11-22T00:53:19Z",
+    "oracleHealthyAt": "2026-11-22T00:53:45Z",
+    "missionsServiceStartedAt": "2026-11-22T00:53:51Z",
+    "fingerprintReadAt": "2026-11-22T00:53:55Z",
+    "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+    "equalToStudy2": true,
+    "session": "oracle-instance:2026-11-22T00:53:30",
+    "reading": {
+      "clock": {
+        "baseline": "2368-12-23T10:47:00.000Z",
+        "counter": "0",
+        "datasetVersion": "1.2",
+        "releaseSha256": "2c330ac244d79d5ad1683f20ad17e4327b5262c5e981c6bcd53fd8e88ea7f66f"
+      },
+      "counts": {
+        "MISSIONS": 300,
+        "MISSION_ASSIGNED_ASSETS": 596,
+        "MISSION_ASSIGNED_CREW": 2121,
+        "MISSION_CHANGES": 973,
+        "MISSION_CLOCK": 1,
+        "MISSION_PARTICIPANTS": 356
+      },
+      "maxCurrentChangeId": "9906355",
+      "maxLastUpdated": "2368-12-23T10:47:00.000Z"
+    },
+    "stopped": "2026-11-22T01:58:25Z to 01:59:00Z, the Missions service then Oracle (docker stop, Oracle with a 600 s timeout), both Exited (143)",
+    "firstStart": {
+      "oracleStartedAt": "2026-11-21T01:36:42Z",
+      "session": "oracle-instance:2026-11-21T01:36:52",
+      "datasetFingerprint": "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1",
+      "stopped": "2026-11-21T02:53Z"
+    }
+  },
+  "images": {
+    "pinSetWrittenAt": "2026-11-22T00:54:08Z",
+    "build": "launch.py build --missions real, exit 0, every step cached",
+    "images": {
+      "starfleet-federation-stack-assets-service:1.0.0": "sha256:63244acd28c57aa6c01575279d0663fab5a92616aba450ee5d15a4e30caabdd5",
+      "starfleet-federation-stack-personnel-service:2.0.0": "sha256:93f0a99eb671163d445ef49473e55a324bb51276493401fb7b171179b793f66e",
+      "starfleet-federation-stack-missions-adapter:1.1.0": "sha256:475cc3aa64be0b88bd46c251a825825e11c8b601c5e8cd432271e8249c05945a",
+      "starfleet-federation-stack-personnel-adapter:1.0.0": "sha256:2ef5920bbc6e4fda4d940caa6acc2b85fd9053028c29c150eaa425e03abbc725",
+      "starfleet-federation-stack-assets-adapter:1.1.1": "sha256:6b14584c7d339f948aa930134fa49923cdea4183a20004531ba0e24f27545de2",
+      "starfleet-federation-stack-mapping-adapter:1.0.0": "sha256:f116e2329b9d78e261d6b1c980407b90c82a0a756c02988601449284de9fdb63",
+      "starfleet-missions-service:1.0.0": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3"
+    },
+    "firstFreezeBuild": {
+      "starfleet-federation-stack-assets-service:1.0.0": "sha256:cb6da16bbac273011d402b115f57e543e98896699de1dba321fe1d28aa87eee4",
+      "starfleet-federation-stack-personnel-service:2.0.0": "sha256:89552ab8ad595b5b2992e964139a1d4816445dad3c057f2398a5ea2b7f773e84",
+      "starfleet-federation-stack-missions-adapter:1.1.0": "sha256:57bc3857c1b638445ec79b37a0bdeb3c81bf448774e5d1b582f6f82c6ab5f09a",
+      "starfleet-federation-stack-personnel-adapter:1.0.0": "sha256:8f7d2996971a1f08e3bb281848f6423183ddf0eaf89647ca34148c0a73a0b522",
+      "starfleet-federation-stack-assets-adapter:1.1.1": "sha256:ee7874bcc64f53a1262c3721037cbb85ce9bc8bb28760c28cfe45ff3ab92efb8",
+      "starfleet-federation-stack-mapping-adapter:1.0.0": "sha256:c6f705d0b2ce06b7469961f938d60986cc8f7257f2a65ea1196bd37f95b58af8",
+      "starfleet-missions-service:1.0.0": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3"
+    },
+    "preflight": {
+      "starfleet-federation-stack-assets-service:1.0.0": "sha256:c793963ce8c3343ab84c46ad2a217aed94fbd812448f08f9c81b2741ce787c1f",
+      "starfleet-federation-stack-personnel-service:2.0.0": "sha256:163a5f8b885c90cfe16697fab73add7a930530701d9cf3c0f3595b274a6d43ec",
+      "starfleet-federation-stack-missions-adapter:1.1.0": "sha256:bc1fdda08f66534103e5976ce21c955648cd516c4e08073694aee761a90231c8",
+      "starfleet-federation-stack-personnel-adapter:1.0.0": "sha256:e35c403e3020bdb1dbd85bb74b7cf84c3a5948a58069c62df748f651db589936",
+      "starfleet-federation-stack-assets-adapter:1.1.1": "sha256:4fd306e13f13648d558cc75f0f1c8039e991e8d10cdd906a52d65b4fde643d14",
+      "starfleet-federation-stack-mapping-adapter:1.0.0": "sha256:f37e61fa7a8a93e818427df42f03367041fa1c96962468e7b2f2a45265826b14",
+      "starfleet-missions-service:1.0.0": "sha256:01baf41d251e3ec6c5ab16e188ba7c39de342bae3bf9b508dd10506b1e800cf3"
+    },
+    "sameAsFirstFreezeBuild": [
+      "starfleet-missions-service:1.0.0"
+    ],
+    "sameAsPreflight": [
+      "starfleet-missions-service:1.0.0"
+    ],
+    "note": "every build writes new image ids in the containerd image store even when every layer is cached (study/launch/README.md); the rule is one build per study run, with the pin set in every scenario. The scored run's Job builds once and records its own pin set"
+  },
+  "dryRun": {
+    "run": "study3-freeze-dry-2",
+    "when": "2026-11-22 00:55:42 to 01:58:03 UTC",
+    "go": "\"Go\", the lead developer in the worker's session, on the printed plan",
+    "command": "runner.py --dry-run (the fake vendor client: no key, no vendor call, no spend), LAB_RESULTS_DIR C:/esl/_study3/freeze/lab-results",
+    "plan": {
+      "file": "config/plan-dry.json",
+      "sha256": "48c9f31572eb2b306e848e949f804df94f14db29bcf80414cce39f6f8b47c49b",
+      "config": "config/study-config-dry-2.json",
+      "configSha256": "f15c3a2253cbd1de5f78b5a0fea4ed38b26607a261f068bc309128e76585b8b0",
+      "what": "the first dry run's plan file, unchanged: williams-4-half over beta, gamma, delta and epsilon with the alpha reference block last; task_set scored (113 tasks: 107 core, 6 ambiguity; 14 in category D); both models; one trial; seed 20261120; 3 warm-ups; the calculate and ask_requester tools; health every 10 runs; no earlier runs; the Z3 limits; dollar ceilings 6.40 and 3.60, nominal, no tokens key; the request log on. The config differs from the first run's only in the pin set's folder and image ids"
+    },
+    "manifest": {
+      "commit": "c5c4d9656daec97268462d3ba04752482ce40912",
+      "treeDirty": false,
+      "planHash": "331d16b511a68773366185f70720bab54ca94ebb4ffe56bcd45e9644d2be6450",
+      "analysisPlan": "93eaeebb7c599fe6aedcb5f26de7f8a69c37ce9fecf8e50eb27240d00f7cb6ba",
+      "corpusFreeze": "5ad64d321ab090da4fa116469810f28124b394e8a96aaefd8c6098f2386f4fb4",
+      "pricesDated": "2026-11-21",
+      "codeFiles": 21,
+      "sha256": "0ac3201a30da65f15dd4bd8e88fa9c707b17238f033b341c4899911a8a60ca8b",
+      "note": "analysisPlan and corpusFreeze are the draft plan's and the draft manifest's hashes on c5c4d96, the same as on 0d8b5ee; the frozen ones are above"
+    },
+    "checks": {
+      "identity": {
+        "analysisPlanIsPlanMd": true,
+        "corpusFreezeIsManifest": true
+      },
+      "blocks": {
+        "events": {
+          "start": 17,
+          "end": 17
+        },
+        "order": [
+          "r1-epsilon",
+          "r1-gamma",
+          "r1-delta",
+          "r1-beta",
+          "r3-beta",
+          "r3-delta",
+          "r3-gamma",
+          "r3-epsilon",
+          "r2-gamma",
+          "r2-beta",
+          "r2-epsilon",
+          "r2-delta",
+          "r4-delta",
+          "r4-epsilon",
+          "r4-beta",
+          "r4-gamma",
+          "ref-alpha"
+        ],
+        "attempts": [
+          1
+        ],
+        "fingerprints": [
+          "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+        ],
+        "sessions": [
+          "oracle-instance:2026-11-22T00:53:30"
+        ],
+        "provenancePerArm": {
+          "alpha": [
+            "072ab83b370d61dfde64670009e7901f4ebf9d5f2089e9777c441cef3b3cb38f"
+          ],
+          "beta": [
+            "489decd8fe83669dc52b7673b1a1e9b3a079f6a0c8f02e183e359d2eb120c089"
+          ],
+          "delta": [
+            "d94e6d8fb824740474e5a3cd4fcb95b2b2dbd40e790bc4f7f2afa9995180296d"
+          ],
+          "epsilon": [
+            "c86f5fe76b5162e7f88e0f526179c5032908d864d3cc988330c606dc6332a233"
+          ],
+          "gamma": [
+            "3a4877819705bd212ebe6a0b554c388d022f1f71971c78a4a5778363a64a126c"
+          ]
+        }
+      },
+      "provenanceChecks": {
+        "results": {
+          "match": 17
+        },
+        "withProblems": 0,
+        "count": 17
+      },
+      "health": {
+        "points": {
+          "start": 17,
+          "periodic": 91,
+          "restore": 140,
+          "end": 17
+        },
+        "results": {
+          "up": 265
+        },
+        "withProblems": 0
+      },
+      "scores": {
+        "runs": 1130,
+        "distinctRunKeys": 1130,
+        "outcomes": {
+          "format_error": 1130
+        },
+        "perArm": {
+          "alpha": 226,
+          "beta": 226,
+          "delta": 226,
+          "epsilon": 226,
+          "gamma": 226
+        },
+        "perModel": {
+          "claude-sonnet-5-5": 565,
+          "gpt-6.1-sol": 565
+        },
+        "attempts": [
+          1
+        ],
+        "requeued": 0,
+        "vendorErrors": 0,
+        "tasksPerArm": {
+          "alpha": 113,
+          "beta": 113,
+          "delta": 113,
+          "epsilon": 113,
+          "gamma": 113
+        },
+        "categoryDRunsPerArm": {
+          "alpha": 28,
+          "beta": 28,
+          "delta": 28,
+          "epsilon": 28,
+          "gamma": 28
+        },
+        "setCounts": {
+          "core": 1070,
+          "ambiguity": 60
+        },
+        "everyTaskBothModelsEveryArm": true
+      },
+      "samples": {
+        "byPhase": {
+          "cold": 34,
+          "warm-up": 34,
+          "measurement": 1130
+        },
+        "byKind": {
+          "cold_start": 17,
+          "cold_first_request": 17,
+          "warmup_call": 34,
+          "agent_run": 1130
+        }
+      },
+      "corpusCheck": "the runner's corpus check passed (the run was not refused)",
+      "againstFirstDryRun": "equal to study3-freeze-dry-1's in every count, outcome, health point, block and sample; different only in the commit, the price table's date, the plan hash, the provenance fingerprints (new image ids), the Oracle session, the times and the bundle's hashes"
+    },
+    "requestLog": {
+      "sessions": 17,
+      "maxClockOffsetBound": {
+        "start": 0.111196,
+        "end": 0.114621
+      },
+      "limit": 1.0,
+      "everyLogSavedWhole": true,
+      "everyAnswer200": true,
+      "checkBeforeScoring": {
+        "personnel200sBeforeFirstRun": [
+          13
+        ],
+        "longestPersonnel200RunInSession": [
+          15,
+          16
+        ],
+        "needed": 11,
+        "note": "personnel200sBeforeFirstRun: the consecutive Personnel 200s before the first scored run of each of the 8 router-arm blocks (delta, epsilon), by the request log's timestamps against the run's start (finishedAt less elapsedSeconds): 13 in every block, which is every Personnel response before the first run. longestPersonnel200RunInSession: the longest such run over the whole session, later requests included. In 7 blocks the last of the 13 falls about 0.02 s before the first run, inside the clock bound; the fake client's runs make no request, so none of the 13 can belong to a run. The first dry run had 13 in every block too",
+        "counter": "recount_p200_2.py (machine-local, in the sums below), output recount-p200-2.json",
+        "perBlock": [
+          {
+            "block": "r1-epsilon",
+            "session": "20261122T005627853724Z-epsilon",
+            "personnel200sBeforeFirstRun": 13,
+            "personnelResponsesBeforeFirstRun": 13,
+            "personnelResponsesInSession": 15,
+            "longestPersonnel200RunInSession": 15,
+            "secondsFromLastPersonnelResponseToFirstRun": 0.02
+          },
+          {
+            "block": "r1-delta",
+            "session": "20261122T010251338941Z-delta",
+            "personnel200sBeforeFirstRun": 13,
+            "personnelResponsesBeforeFirstRun": 13,
+            "personnelResponsesInSession": 15,
+            "longestPersonnel200RunInSession": 15,
+            "secondsFromLastPersonnelResponseToFirstRun": 0.021
+          },
+          {
+            "block": "r3-delta",
+            "session": "20261122T011235052134Z-delta",
+            "personnel200sBeforeFirstRun": 13,
+            "personnelResponsesBeforeFirstRun": 13,
+            "personnelResponsesInSession": 15,
+            "longestPersonnel200RunInSession": 15,
+            "secondsFromLastPersonnelResponseToFirstRun": 0.023
+          },
+          {
+            "block": "r3-epsilon",
+            "session": "20261122T011903746228Z-epsilon",
+            "personnel200sBeforeFirstRun": 13,
+            "personnelResponsesBeforeFirstRun": 13,
+            "personnelResponsesInSession": 15,
+            "longestPersonnel200RunInSession": 15,
+            "secondsFromLastPersonnelResponseToFirstRun": 0.02
+          },
+          {
+            "block": "r2-epsilon",
+            "session": "20261122T012918186951Z-epsilon",
+            "personnel200sBeforeFirstRun": 13,
+            "personnelResponsesBeforeFirstRun": 13,
+            "personnelResponsesInSession": 16,
+            "longestPersonnel200RunInSession": 16,
+            "secondsFromLastPersonnelResponseToFirstRun": 0.02
+          },
+          {
+            "block": "r2-delta",
+            "session": "20261122T013241445379Z-delta",
+            "personnel200sBeforeFirstRun": 13,
+            "personnelResponsesBeforeFirstRun": 13,
+            "personnelResponsesInSession": 16,
+            "longestPersonnel200RunInSession": 16,
+            "secondsFromLastPersonnelResponseToFirstRun": 4.047
+          },
+          {
+            "block": "r4-delta",
+            "session": "20261122T013608347616Z-delta",
+            "personnel200sBeforeFirstRun": 13,
+            "personnelResponsesBeforeFirstRun": 13,
+            "personnelResponsesInSession": 16,
+            "longestPersonnel200RunInSession": 16,
+            "secondsFromLastPersonnelResponseToFirstRun": 0.018
+          },
+          {
+            "block": "r4-epsilon",
+            "session": "20261122T013927605434Z-epsilon",
+            "personnel200sBeforeFirstRun": 13,
+            "personnelResponsesBeforeFirstRun": 13,
+            "personnelResponsesInSession": 16,
+            "longestPersonnel200RunInSession": 16,
+            "secondsFromLastPersonnelResponseToFirstRun": 0.02
+          }
+        ]
+      },
+      "perSession": [
+        {
+          "session": "20261122T005627853724Z-epsilon",
+          "scenario": "epsilon",
+          "clockOffsetBound": {
+            "start": 0.109463,
+            "end": 0.109992
+          },
+          "adapters": {
+            "assets": {
+              "requests": 3,
+              "responses": 3,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 5,
+              "responses": 5,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 15,
+              "responses": 15,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 3,
+            "missions 200": 5,
+            "personnel 200": 15
+          },
+          "longestPersonnel200Run": 15
+        },
+        {
+          "session": "20261122T005941112823Z-gamma",
+          "scenario": "gamma",
+          "clockOffsetBound": {
+            "start": 0.109857,
+            "end": 0.110336
+          },
+          "adapters": {
+            "assets": {
+              "requests": 3,
+              "responses": 3,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 3,
+            "missions 200": 2,
+            "personnel 200": 2
+          },
+          "longestPersonnel200Run": 2
+        },
+        {
+          "session": "20261122T010251338941Z-delta",
+          "scenario": "delta",
+          "clockOffsetBound": {
+            "start": 0.109307,
+            "end": 0.110171
+          },
+          "adapters": {
+            "assets": {
+              "requests": 3,
+              "responses": 3,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 5,
+              "responses": 5,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 15,
+              "responses": 15,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 3,
+            "missions 200": 5,
+            "personnel 200": 15
+          },
+          "longestPersonnel200Run": 15
+        },
+        {
+          "session": "20261122T010612133577Z-beta",
+          "scenario": "beta",
+          "clockOffsetBound": {
+            "start": 0.108751,
+            "end": 0.107629
+          },
+          "adapters": {
+            "assets": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {},
+          "longestPersonnel200Run": 0
+        },
+        {
+          "session": "20261122T010927425643Z-beta",
+          "scenario": "beta",
+          "clockOffsetBound": {
+            "start": 0.110025,
+            "end": 0.109096
+          },
+          "adapters": {
+            "assets": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {},
+          "longestPersonnel200Run": 0
+        },
+        {
+          "session": "20261122T011235052134Z-delta",
+          "scenario": "delta",
+          "clockOffsetBound": {
+            "start": 0.108062,
+            "end": 0.108271
+          },
+          "adapters": {
+            "assets": {
+              "requests": 3,
+              "responses": 3,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 5,
+              "responses": 5,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 15,
+              "responses": 15,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 3,
+            "missions 200": 5,
+            "personnel 200": 15
+          },
+          "longestPersonnel200Run": 15
+        },
+        {
+          "session": "20261122T011544295025Z-gamma",
+          "scenario": "gamma",
+          "clockOffsetBound": {
+            "start": 0.108564,
+            "end": 0.109019
+          },
+          "adapters": {
+            "assets": {
+              "requests": 3,
+              "responses": 3,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 3,
+            "missions 200": 2,
+            "personnel 200": 2
+          },
+          "longestPersonnel200Run": 2
+        },
+        {
+          "session": "20261122T011903746228Z-epsilon",
+          "scenario": "epsilon",
+          "clockOffsetBound": {
+            "start": 0.108467,
+            "end": 0.108837
+          },
+          "adapters": {
+            "assets": {
+              "requests": 3,
+              "responses": 3,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 5,
+              "responses": 5,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 15,
+              "responses": 15,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 3,
+            "missions 200": 5,
+            "personnel 200": 15
+          },
+          "longestPersonnel200Run": 15
+        },
+        {
+          "session": "20261122T012220893629Z-gamma",
+          "scenario": "gamma",
+          "clockOffsetBound": {
+            "start": 0.107269,
+            "end": 0.109664
+          },
+          "adapters": {
+            "assets": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 3,
+              "responses": 3,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 2,
+            "missions 200": 2,
+            "personnel 200": 3
+          },
+          "longestPersonnel200Run": 3
+        },
+        {
+          "session": "20261122T012553176201Z-beta",
+          "scenario": "beta",
+          "clockOffsetBound": {
+            "start": 0.111196,
+            "end": 0.108747
+          },
+          "adapters": {
+            "assets": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {},
+          "longestPersonnel200Run": 0
+        },
+        {
+          "session": "20261122T012918186951Z-epsilon",
+          "scenario": "epsilon",
+          "clockOffsetBound": {
+            "start": 0.108325,
+            "end": 0.109733
+          },
+          "adapters": {
+            "assets": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 5,
+              "responses": 5,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 16,
+              "responses": 16,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 2,
+            "missions 200": 5,
+            "personnel 200": 16
+          },
+          "longestPersonnel200Run": 16
+        },
+        {
+          "session": "20261122T013241445379Z-delta",
+          "scenario": "delta",
+          "clockOffsetBound": {
+            "start": 0.107599,
+            "end": 0.108834
+          },
+          "adapters": {
+            "assets": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 5,
+              "responses": 5,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 16,
+              "responses": 16,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 2,
+            "missions 200": 5,
+            "personnel 200": 16
+          },
+          "longestPersonnel200Run": 16
+        },
+        {
+          "session": "20261122T013608347616Z-delta",
+          "scenario": "delta",
+          "clockOffsetBound": {
+            "start": 0.10837,
+            "end": 0.108533
+          },
+          "adapters": {
+            "assets": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 5,
+              "responses": 5,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 16,
+              "responses": 16,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 2,
+            "missions 200": 5,
+            "personnel 200": 16
+          },
+          "longestPersonnel200Run": 16
+        },
+        {
+          "session": "20261122T013927605434Z-epsilon",
+          "scenario": "epsilon",
+          "clockOffsetBound": {
+            "start": 0.109548,
+            "end": 0.108999
+          },
+          "adapters": {
+            "assets": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 5,
+              "responses": 5,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 16,
+              "responses": 16,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 2,
+            "missions 200": 5,
+            "personnel 200": 16
+          },
+          "longestPersonnel200Run": 16
+        },
+        {
+          "session": "20261122T014302760209Z-beta",
+          "scenario": "beta",
+          "clockOffsetBound": {
+            "start": 0.109472,
+            "end": 0.107692
+          },
+          "adapters": {
+            "assets": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {},
+          "longestPersonnel200Run": 0
+        },
+        {
+          "session": "20261122T014628030420Z-gamma",
+          "scenario": "gamma",
+          "clockOffsetBound": {
+            "start": 0.110174,
+            "end": 0.108336
+          },
+          "adapters": {
+            "assets": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 2,
+              "responses": 2,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 3,
+              "responses": 3,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {
+            "assets 200": 2,
+            "missions 200": 2,
+            "personnel 200": 3
+          },
+          "longestPersonnel200Run": 3
+        },
+        {
+          "session": "20261122T015007862725Z-alpha",
+          "scenario": "alpha",
+          "clockOffsetBound": {
+            "start": 0.110368,
+            "end": 0.114621
+          },
+          "adapters": {
+            "assets": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "missions": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            },
+            "personnel": {
+              "requests": 0,
+              "responses": 0,
+              "saved": true,
+              "error": null
+            }
+          },
+          "responses": {},
+          "longestPersonnel200Run": 0
+        }
+      ]
+    },
+    "missionsRestarts": "the Missions service was restarted by the Direct Access block's category D Missions outages; every restore up",
+    "bundle": {
+      "status": "complete",
+      "checksum": "5b4426f772c0179b9eb9f0fa8326eb5d230c6cfacf259f1da0f5568a3f73a612",
+      "writtenAt": "2026-11-22T01:58:03.079+00:00",
+      "files": 2291,
+      "voidAttempts": {
+        "attempts": [],
+        "spend": {}
+      },
+      "bundleJsonSha256": "ed018205969ceeaf72ef51063db37368c17f22ebc973501e2545b749b285089b"
+    },
+    "sha256sumsFile": {
+      "name": "SHA256SUMS-study3-freeze-dry-2.txt",
+      "sha256": "f08dd9e8048a57320e1ed06fb2be76925e48e94a78a699aec08f49370960f754",
+      "lines": 2292
+    },
+    "stateLeft": "no stack; Oracle and the Missions service stopped again; main clean"
+  },
+  "firstDryRun": {
+    "run": "study3-freeze-dry-1",
+    "when": "2026-11-21 01:49:28 to 02:50:28 UTC",
+    "status": "superseded for code: it ran the files the run executes as they were at 0d8b5ee (harness commit 27fcdc0), before the two code Jobs; every check passed and it is kept as the first run of the scored plan",
+    "manifest": {
+      "commit": "0d8b5ee35dd2b10e37fcf9d57e8dc2a476224023",
+      "treeDirty": false,
+      "planHash": "2860cb3b30f4682c5b03e1d023c68dc70a269dccf689acb4082f37e228e8c5f2",
+      "pricesDated": "2026-10-20",
+      "codeFiles": 21,
+      "sha256": "40f8718a35f73f6a58373f93f9914ae67da5c0bf048509bd92ada4a94877a0f0"
+    },
+    "plan": {
+      "file": "config/plan-dry.json",
+      "sha256": "48c9f31572eb2b306e848e949f804df94f14db29bcf80414cce39f6f8b47c49b",
+      "config": "config/study-config-dry.json",
+      "configSha256": "21fce8a7af79c62649e4f9fd7e3e6da0fe6b2d4674f8fd83d3a53fe51065a376"
+    },
+    "checks": {
+      "blocks": {
+        "events": {
+          "start": 17,
+          "end": 17
+        },
+        "order": [
+          "r1-epsilon",
+          "r1-gamma",
+          "r1-delta",
+          "r1-beta",
+          "r3-beta",
+          "r3-delta",
+          "r3-gamma",
+          "r3-epsilon",
+          "r2-gamma",
+          "r2-beta",
+          "r2-epsilon",
+          "r2-delta",
+          "r4-delta",
+          "r4-epsilon",
+          "r4-beta",
+          "r4-gamma",
+          "ref-alpha"
+        ],
+        "attempts": [
+          1
+        ],
+        "fingerprints": [
+          "missions-db:8aae139eea3d5ad9ff764bc15502c804ccae4f94b9504b687a163a6d0bf76dd1"
+        ],
+        "sessions": [
+          "oracle-instance:2026-11-21T01:36:52"
+        ],
+        "provenancePerArm": {
+          "alpha": [
+            "05df0701809c72d7225b46bee6d7773ed05f1e26ce461d42b12c536ebc52cea0"
+          ],
+          "beta": [
+            "5efc8d664cdc640da1472b815866bfad79a4bda35d2bc7e8b0c05d7959aa2ad9"
+          ],
+          "delta": [
+            "76c13abf3aeb530a70ce3bd49e2c256d9a58856d9b87816904e39e280f159017"
+          ],
+          "epsilon": [
+            "a5e8cc761e4337cee5d6ebd3d20d42f7115446584018cbe23a9bcbad4dd142c1"
+          ],
+          "gamma": [
+            "d4066c454b0085c352a46b2ff2716a431dbc887bd42c111624eb2da81c9c38d8"
+          ]
+        }
+      },
+      "health": {
+        "points": {
+          "start": 17,
+          "periodic": 91,
+          "restore": 140,
+          "end": 17
+        },
+        "results": {
+          "up": 265
+        },
+        "withProblems": 0
+      },
+      "scores": {
+        "runs": 1130,
+        "distinctRunKeys": 1130,
+        "outcomes": {
+          "format_error": 1130
+        },
+        "perArm": {
+          "alpha": 226,
+          "beta": 226,
+          "delta": 226,
+          "epsilon": 226,
+          "gamma": 226
+        },
+        "perModel": {
+          "claude-sonnet-5-5": 565,
+          "gpt-6.1-sol": 565
+        },
+        "attempts": [
+          1
+        ],
+        "requeued": 0,
+        "vendorErrors": 0,
+        "tasksPerArm": {
+          "alpha": 113,
+          "beta": 113,
+          "delta": 113,
+          "epsilon": 113,
+          "gamma": 113
+        },
+        "categoryDRunsPerArm": {
+          "alpha": 28,
+          "beta": 28,
+          "delta": 28,
+          "epsilon": 28,
+          "gamma": 28
+        },
+        "setCounts": {
+          "core": 1070,
+          "ambiguity": 60
+        },
+        "everyTaskBothModelsEveryArm": true
+      },
+      "samples": {
+        "byPhase": {
+          "cold": 34,
+          "warm-up": 34,
+          "measurement": 1130
+        },
+        "byKind": {
+          "cold_start": 17,
+          "cold_first_request": 17,
+          "warmup_call": 34,
+          "agent_run": 1130
+        }
+      }
+    },
+    "checkBeforeScoring": {
+      "personnel200sBeforeFirstRun": [
+        13
+      ],
+      "longestPersonnel200RunInSession": [
+        15,
+        16
+      ]
+    },
+    "bundle": {
+      "status": "complete",
+      "checksum": "695607a62c4d348bda7388a0a36ac1ebb3ddd36daad7c9dec29e985109033c86",
+      "writtenAt": "2026-11-21T02:50:28.498+00:00",
+      "files": 2291,
+      "voidAttempts": {
+        "attempts": [],
+        "spend": {}
+      },
+      "bundleJsonSha256": "150c3c6099899f33d76e3ebb0a87efb2345cc6102d222167934138e47c84dedc"
+    },
+    "sha256sumsFile": {
+      "name": "SHA256SUMS-study3-freeze-dry-1.txt",
+      "sha256": "d847bfc8795a3ca7a6d8857d72e3856abb103bd2190f09e00fbec389cd61de88"
+    },
+    "legacy3": {
+      "result": "exit 0, 17 sessions read, every block countable",
+      "files": {
+        "legacy-load.json": "b6fd27929c201893d70df6f5b67778a45e2b5bea38bbb30920e03639a94e1957",
+        "legacy-load.md": "f38e6c813e1720f73adcca818a9cb53e13a59c63569511d19aaea95b99ae7296"
+      }
+    }
+  },
+  "legacy3": {
+    "command": "\"$STUDY_MCP_PYTHON\" -B study/analysis3/legacy3.py --run-id study3-freeze-dry-2 --bundle <copy> --sums <sums> --bundle-checksum <checksum> --corpus-dir study/corpus3 --legacy-dir <copy of legacy-load> --out <folder>",
+    "input": "a copy of the bundle checked file by file against its sums, and a copy of the legacy-load folder identical to the original",
+    "result": "exit 0; 17 sessions read, every block countable, none not countable; tier descriptive",
+    "firstCall": "on the first dry run, a first call without --run-id stopped with exit 2, \"the sums file lists no file of study-3\": the option defaults to study-3; a usage slip, not a failure",
+    "files": {
+      "legacy-load.json": "36b28d934d6b800acc0de85379aecdcc31e225861201dabde45bbd832b2ea180",
+      "legacy-load.md": "f38e6c813e1720f73adcca818a9cb53e13a59c63569511d19aaea95b99ae7296"
+    },
+    "note": "every run of the fake client makes no request, so the per-question figures are zero and the ratios not estimable; against the first dry run's output only the session names, clock offsets and near-boundary counts differ",
+    "output": {
+      "about": "The legacy-load reader of study 3 (PLAN.md section 10): requests to Missions, Personnel and Assets per run and arm. Descriptive only; it supports no confirmatory claim.",
+      "blockInitialization": {
+        "alpha": {
+          "blocks": 1,
+          "perSession": null,
+          "requests": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "sessions": 0
+        },
+        "beta": {
+          "blocks": 4,
+          "perSession": null,
+          "requests": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "sessions": 0
+        },
+        "delta": {
+          "blocks": 4,
+          "perSession": {
+            "assets": 0.0,
+            "missions": 3.0,
+            "personnel": 13.0
+          },
+          "requests": {
+            "assets": 0,
+            "missions": 12,
+            "personnel": 52
+          },
+          "sessions": 4
+        },
+        "epsilon": {
+          "blocks": 4,
+          "perSession": {
+            "assets": 0.0,
+            "missions": 3.0,
+            "personnel": 13.0
+          },
+          "requests": {
+            "assets": 0,
+            "missions": 12,
+            "personnel": 52
+          },
+          "sessions": 4
+        },
+        "gamma": {
+          "blocks": 4,
+          "perSession": {
+            "assets": 0.0,
+            "missions": 0.0,
+            "personnel": 0.0
+          },
+          "requests": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "sessions": 4
+        }
+      },
+      "blocks": {
+        "r1-beta": {
+          "arm": "beta",
+          "countable": true,
+          "sessions": []
+        },
+        "r1-delta": {
+          "arm": "delta",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 3,
+                "personnel": 13
+              },
+              "name": "20261122T010251338941Z-delta",
+              "nearBoundary": 6,
+              "offset": 0.110171,
+              "snapshotRead": true,
+              "unattributed": {
+                "assets": 3,
+                "missions": 2,
+                "personnel": 2
+              }
+            }
+          ]
+        },
+        "r1-epsilon": {
+          "arm": "epsilon",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 3,
+                "personnel": 13
+              },
+              "name": "20261122T005627853724Z-epsilon",
+              "nearBoundary": 7,
+              "offset": 0.109992,
+              "snapshotRead": true,
+              "unattributed": {
+                "assets": 3,
+                "missions": 2,
+                "personnel": 2
+              }
+            }
+          ]
+        },
+        "r1-gamma": {
+          "arm": "gamma",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 0,
+                "personnel": 0
+              },
+              "name": "20261122T005941112823Z-gamma",
+              "nearBoundary": 5,
+              "offset": 0.110336,
+              "snapshotRead": null,
+              "unattributed": {
+                "assets": 3,
+                "missions": 2,
+                "personnel": 2
+              }
+            }
+          ]
+        },
+        "r2-beta": {
+          "arm": "beta",
+          "countable": true,
+          "sessions": []
+        },
+        "r2-delta": {
+          "arm": "delta",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 3,
+                "personnel": 13
+              },
+              "name": "20261122T013241445379Z-delta",
+              "nearBoundary": 4,
+              "offset": 0.108834,
+              "snapshotRead": true,
+              "unattributed": {
+                "assets": 2,
+                "missions": 2,
+                "personnel": 3
+              }
+            }
+          ]
+        },
+        "r2-epsilon": {
+          "arm": "epsilon",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 3,
+                "personnel": 13
+              },
+              "name": "20261122T012918186951Z-epsilon",
+              "nearBoundary": 6,
+              "offset": 0.109733,
+              "snapshotRead": true,
+              "unattributed": {
+                "assets": 2,
+                "missions": 2,
+                "personnel": 3
+              }
+            }
+          ]
+        },
+        "r2-gamma": {
+          "arm": "gamma",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 0,
+                "personnel": 0
+              },
+              "name": "20261122T012220893629Z-gamma",
+              "nearBoundary": 3,
+              "offset": 0.109664,
+              "snapshotRead": null,
+              "unattributed": {
+                "assets": 2,
+                "missions": 2,
+                "personnel": 3
+              }
+            }
+          ]
+        },
+        "r3-beta": {
+          "arm": "beta",
+          "countable": true,
+          "sessions": []
+        },
+        "r3-delta": {
+          "arm": "delta",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 3,
+                "personnel": 13
+              },
+              "name": "20261122T011235052134Z-delta",
+              "nearBoundary": 7,
+              "offset": 0.108271,
+              "snapshotRead": true,
+              "unattributed": {
+                "assets": 3,
+                "missions": 2,
+                "personnel": 2
+              }
+            }
+          ]
+        },
+        "r3-epsilon": {
+          "arm": "epsilon",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 3,
+                "personnel": 13
+              },
+              "name": "20261122T011903746228Z-epsilon",
+              "nearBoundary": 7,
+              "offset": 0.108837,
+              "snapshotRead": true,
+              "unattributed": {
+                "assets": 3,
+                "missions": 2,
+                "personnel": 2
+              }
+            }
+          ]
+        },
+        "r3-gamma": {
+          "arm": "gamma",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 0,
+                "personnel": 0
+              },
+              "name": "20261122T011544295025Z-gamma",
+              "nearBoundary": 4,
+              "offset": 0.109019,
+              "snapshotRead": null,
+              "unattributed": {
+                "assets": 3,
+                "missions": 2,
+                "personnel": 2
+              }
+            }
+          ]
+        },
+        "r4-beta": {
+          "arm": "beta",
+          "countable": true,
+          "sessions": []
+        },
+        "r4-delta": {
+          "arm": "delta",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 3,
+                "personnel": 13
+              },
+              "name": "20261122T013608347616Z-delta",
+              "nearBoundary": 8,
+              "offset": 0.108533,
+              "snapshotRead": true,
+              "unattributed": {
+                "assets": 2,
+                "missions": 2,
+                "personnel": 3
+              }
+            }
+          ]
+        },
+        "r4-epsilon": {
+          "arm": "epsilon",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 3,
+                "personnel": 13
+              },
+              "name": "20261122T013927605434Z-epsilon",
+              "nearBoundary": 5,
+              "offset": 0.109548,
+              "snapshotRead": true,
+              "unattributed": {
+                "assets": 2,
+                "missions": 2,
+                "personnel": 3
+              }
+            }
+          ]
+        },
+        "r4-gamma": {
+          "arm": "gamma",
+          "countable": true,
+          "sessions": [
+            {
+              "initialization": {
+                "assets": 0,
+                "missions": 0,
+                "personnel": 0
+              },
+              "name": "20261122T014628030420Z-gamma",
+              "nearBoundary": 4,
+              "offset": 0.110174,
+              "snapshotRead": null,
+              "unattributed": {
+                "assets": 2,
+                "missions": 2,
+                "personnel": 3
+              }
+            }
+          ]
+        },
+        "ref-alpha": {
+          "arm": "alpha",
+          "countable": true,
+          "sessions": []
+        }
+      },
+      "nearBoundary": {
+        "r1-delta": 6,
+        "r1-epsilon": 7,
+        "r1-gamma": 5,
+        "r2-delta": 4,
+        "r2-epsilon": 6,
+        "r2-gamma": 3,
+        "r3-delta": 7,
+        "r3-epsilon": 7,
+        "r3-gamma": 4,
+        "r4-delta": 8,
+        "r4-epsilon": 5,
+        "r4-gamma": 4
+      },
+      "notCountable": {},
+      "perQuestion": {
+        "all": {
+          "arms": {
+            "alpha": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "beta": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "delta": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "epsilon": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "gamma": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            }
+          },
+          "attempted": 10000,
+          "ratios": {
+            "beta/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "delta/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "epsilon/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "federation/beta": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "federation/gamma": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "gamma/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            }
+          }
+        },
+        "assets": {
+          "arms": {
+            "alpha": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "beta": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "delta": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "epsilon": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "gamma": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            }
+          },
+          "attempted": 10000,
+          "ratios": {
+            "beta/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "delta/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "epsilon/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "federation/beta": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "federation/gamma": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "gamma/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            }
+          }
+        },
+        "missions": {
+          "arms": {
+            "alpha": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "beta": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "delta": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "epsilon": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "gamma": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            }
+          },
+          "attempted": 10000,
+          "ratios": {
+            "beta/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "delta/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "epsilon/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "federation/beta": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "federation/gamma": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "gamma/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            }
+          }
+        },
+        "personnel": {
+          "arms": {
+            "alpha": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "beta": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "delta": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "epsilon": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            },
+            "gamma": {
+              "estimable": true,
+              "estimate": 0.0,
+              "high": 0.0,
+              "low": 0.0,
+              "runs": 214,
+              "runsLeftOut": 0,
+              "usable": 10000
+            }
+          },
+          "attempted": 10000,
+          "ratios": {
+            "beta/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "delta/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "epsilon/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "federation/beta": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "federation/gamma": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            },
+            "gamma/alpha": {
+              "estimable": false,
+              "reason": "a cell of the full sample is empty or a denominator is zero"
+            }
+          }
+        }
+      },
+      "rawArms": {
+        "alpha": {
+          "connected": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "noConnection": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "refused": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "status": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "timeout": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unclassified": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unplaced": 0
+        },
+        "beta": {
+          "connected": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "noConnection": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "refused": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "status": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "timeout": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unclassified": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unplaced": 0
+        }
+      },
+      "schema": 1,
+      "sessionsRead": 17,
+      "tier": "descriptive",
+      "totalWithInitialization": {
+        "alpha": {
+          "note": "every request of the countable blocks: the runs, the block initialization and the unattributed ones",
+          "perRun": {
+            "assets": 0.0,
+            "missions": 0.0,
+            "personnel": 0.0
+          },
+          "requests": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "runs": 226
+        },
+        "beta": {
+          "note": "every request of the countable blocks: the runs, the block initialization and the unattributed ones",
+          "perRun": {
+            "assets": 0.0,
+            "missions": 0.0,
+            "personnel": 0.0
+          },
+          "requests": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "runs": 226
+        },
+        "delta": {
+          "note": "every request of the countable blocks: the runs, the block initialization and the unattributed ones",
+          "perRun": {
+            "assets": 0.044248,
+            "missions": 0.088496,
+            "personnel": 0.274336
+          },
+          "requests": {
+            "assets": 10,
+            "missions": 20,
+            "personnel": 62
+          },
+          "runs": 226
+        },
+        "epsilon": {
+          "note": "every request of the countable blocks: the runs, the block initialization and the unattributed ones",
+          "perRun": {
+            "assets": 0.044248,
+            "missions": 0.088496,
+            "personnel": 0.274336
+          },
+          "requests": {
+            "assets": 10,
+            "missions": 20,
+            "personnel": 62
+          },
+          "runs": 226
+        },
+        "gamma": {
+          "note": "every request of the countable blocks: the runs, the block initialization and the unattributed ones",
+          "perRun": {
+            "assets": 0.044248,
+            "missions": 0.035398,
+            "personnel": 0.044248
+          },
+          "requests": {
+            "assets": 10,
+            "missions": 8,
+            "personnel": 10
+          },
+          "runs": 226
+        }
+      },
+      "unattributed": {
+        "alpha": {
+          "assets": 0,
+          "missions": 0,
+          "personnel": 0
+        },
+        "beta": {
+          "assets": 0,
+          "missions": 0,
+          "personnel": 0
+        },
+        "delta": {
+          "assets": 10,
+          "missions": 8,
+          "personnel": 10
+        },
+        "epsilon": {
+          "assets": 10,
+          "missions": 8,
+          "personnel": 10
+        },
+        "gamma": {
+          "assets": 10,
+          "missions": 8,
+          "personnel": 10
+        }
+      }
+    }
+  },
+  "machineLocal": {
+    "folder": "C:/esl/_study3/freeze",
+    "sums": "SHA256SUMS-freeze-2.txt",
+    "sumsSha256": "859deb25a9a451a302bc306ffacc884f0b2da08fe0ea101fe065a78dbce8dd55",
+    "files": {
+      "config/plan-dry.json": "48c9f31572eb2b306e848e949f804df94f14db29bcf80414cce39f6f8b47c49b",
+      "config/study-config-dry-2.json": "f15c3a2253cbd1de5f78b5a0fea4ed38b26607a261f068bc309128e76585b8b0",
+      "launch-state-2/images.json": "b2986813a4f234ae590272a40c6baf910560f8c3d324b7b0ac352480d382768c",
+      "logs2/dry-run-start.txt": "7281da8087539c6701ed5447497a06fb939e38d6d2f4c66d71d8e1c415490978",
+      "logs2/oracle-start.txt": "123a0814d10963159d6d0c4cbd7d928e2f1a0b29e0502aff17855b4c4cdd905e",
+      "logs2/service-start.txt": "36274f98d655195c9efbf01eecf0906535c36f5994981776c2ddd68ba3065959",
+      "logs2/stop.txt": "8508aef4f4e5388549df61b139af98e0c94160b2d87d4a556b9e69a62e170310",
+      "logs2/fingerprint.json": "24d847a230b8fe7b8cd7edbf462da660bd26e571e0d52f8f8d0dc591ace5cd85",
+      "logs2/build.log": "63b925060b199149b037f229673ffa4b9b4067b3586852eca5f8ff6576523bc3",
+      "logs2/dry-run.log": "f190bdbf3206a267dcf8752351445a06ba4d0ae05e7d053e9d6b626ff752fe22",
+      "logs2/legacy3-dry.log": "a457d3fe6bfb33c31f062536e5fc8ef48d88bbfa29191c424ac1b950e3204540",
+      "logs2/make-config.log": "9fe375f2f422180ef341240583c303179737139f9c21388ee785e2f25c220587",
+      "check_dry2.py": "8a98ec0f0a7c56c181ddb61318b6a37d13f9117befcc1336ae4e2550045652fb",
+      "check-dry-2.json": "b543fa00926514826c84c5b1bd2d994db3e1601234db5f63735f9b06a2f68693",
+      "recount_p200_2.py": "5be351ed9ce4da105658a79c45087c6f418869a6480a24aefcbc1f81a665c65a",
+      "recount-p200-2.json": "9fa6fd11ae1bdac64ac5fb90403066bf0db72832e815e5a0d2f51ffe539d585e",
+      "legacy3-dry-2/SHA256SUMS-study3-freeze-dry-2.txt": "f08dd9e8048a57320e1ed06fb2be76925e48e94a78a699aec08f49370960f754",
+      "legacy3-dry-2/out/legacy-load.json": "36b28d934d6b800acc0de85379aecdcc31e225861201dabde45bbd832b2ea180",
+      "legacy3-dry-2/out/legacy-load.md": "f38e6c813e1720f73adcca818a9cb53e13a59c63569511d19aaea95b99ae7296",
+      "lab-results/study3-freeze-dry-2/bundle.json": "ed018205969ceeaf72ef51063db37368c17f22ebc973501e2545b749b285089b",
+      "lab-results/study3-freeze-dry-2/manifest.json": "0ac3201a30da65f15dd4bd8e88fa9c707b17238f033b341c4899911a8a60ca8b"
+    },
+    "firstSums": {
+      "name": "SHA256SUMS-freeze.txt",
+      "sha256": "ff1026b6db144042dd590faba8dda05e4587be12a395edcf4dcfcb525ba59bd3",
+      "files": {
+        "price-read-20261121.json": "fec9d0577154379261c174d3e4dc0ea2529bce789873b06b1ebcd7fa2845d5a5",
+        "config/plan-dry.json": "48c9f31572eb2b306e848e949f804df94f14db29bcf80414cce39f6f8b47c49b",
+        "config/study-config-dry.json": "21fce8a7af79c62649e4f9fd7e3e6da0fe6b2d4674f8fd83d3a53fe51065a376",
+        "launch-state/images.json": "705404125af7affbe3672eab3f7d6087aa0f10a5bd8c3c0e81ea49feef3f4eec",
+        "logs/dry-run-start.txt": "8bc63a75385cd1c91d4826ee958df48408b5ce21318ea2a4bf33052e938f7ac7",
+        "logs/oracle-start.txt": "e19086a7625b04ae59e6e3f5357f1487cec7f44991ac9776fa5287b86dbbb6bc",
+        "logs/service-start.txt": "b642d500bf7e40b80b49b22c54bd4c4d1e324cfc8a1dc2c1ac8ad834a5364950",
+        "logs/stop.txt": "e55f9c5322543740056204060ab35db3af333ff3cf94f382fe023bbac97f77bf",
+        "logs/fingerprint.json": "62d4b76b0c868c8b6ac5a933271bc3b44d94f92286643d42918abfcc32aee0e5",
+        "logs/build.log": "d741c7ad1e774408adc1752af4d1874a9234f9ec97d05dc661c4114d4dc86783",
+        "logs/dry-run.log": "1ab4473cb8c82c0e7e816528a83ab26f25ea56464f9a1fda263ed54cc4fbf9b5",
+        "logs/legacy3-dry.log": "c6b44e870618b5035e0b64423ea7745d881ca5d289b005b4a714cb4ed9fd911f",
+        "logs/make-config.log": "fe9e40119f837a3b5c7e926c58a4d1e69e221f6d66cf579994db2e157c26eec1",
+        "check_dry.py": "7a5ea74cea5270a807b13e049c242c4168563d84da7f26dbb01f71e4646d98ca",
+        "check-dry.json": "cee19d8c9346f1969cb61fe38398c265b600a108fb66c9465b59879af1e68ca4",
+        "legacy3-dry/SHA256SUMS-study3-freeze-dry-1.txt": "d847bfc8795a3ca7a6d8857d72e3856abb103bd2190f09e00fbec389cd61de88",
+        "legacy3-dry/out/legacy-load.json": "b6fd27929c201893d70df6f5b67778a45e2b5bea38bbb30920e03639a94e1957",
+        "legacy3-dry/out/legacy-load.md": "f38e6c813e1720f73adcca818a9cb53e13a59c63569511d19aaea95b99ae7296",
+        "lab-results/study3-freeze-dry-1/bundle.json": "150c3c6099899f33d76e3ebb0a87efb2345cc6102d222167934138e47c84dedc",
+        "lab-results/study3-freeze-dry-1/manifest.json": "40f8718a35f73f6a58373f93f9914ae67da5c0bf048509bd92ada4a94877a0f0",
+        "recount_p200.py": "5d7783252ba5415b5630a11d0fcdf90c73bff23305fe4e9af4960c0652b2843e",
+        "recount-p200.json": "59f7f8813deaa843385a2ddeb0ccc074cb8875bba09cd5ecfdb5f1d40082f945"
+      }
+    },
+    "builder": {
+      "build_record2.py": "292df767e67afa1f433ff72163abd84a683633a8183dbc6354e2313a4c08f624"
+    },
+    "transactionADraftOn5198bde": "txA-draft-on-5198bde/ (the first preparation's files, kept byte for byte)"
+  },
+  "outOfScope": "the scored run, its seed, its budget and any top-up; no code, task, key, schema, expected answer, wording, image, stack or Oracle data changed here"
+}

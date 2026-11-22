@@ -1,8 +1,8 @@
 # Study 3 analysis
 
-The scripts that turn a scored bundle of Abstraction ladder study 3 into its tables and figure, the seeded power and validation calculations, and the [draft analysis plan](PLAN.md) that says exactly what they compute. Study 2's analysis in [study/analysis2](../analysis2/README.md) and study 1's in [study/analysis](../analysis/README.md) are unchanged; this folder imports their functions read-only where they apply as they are.
+The scripts that turn a scored bundle of Abstraction ladder study 3 into its tables and figure, the seeded power and validation calculations, and the [frozen analysis plan](PLAN.md) that says exactly what they compute. Study 2's analysis in [study/analysis2](../analysis2/README.md) and study 1's in [study/analysis](../analysis/README.md) are unchanged; this folder imports their functions read-only where they apply as they are.
 
-**The plan is a draft and nothing here has seen a scored study-3 run.** The scripts are tested on simulated data, on one fake bundle that the harness writes on its fakes, and, for the power check, on study 2's committed scores. The freeze fills the plan's marked places and pins its hash.
+**The plan is frozen as of 2026-11-22** (the Job `study3_freeze`), and nothing here has seen a scored study-3 run. The freeze filled the plan's marked places (the power figures, the price table and the limits) and changed no rule; the plan's SHA-256 is in the [freeze record](../evidence/study-3-freeze/freeze-record-20261122.json), and its frozen row in the artifact classification table follows in the Job's second transaction. The scripts are not frozen; the plan is. They are tested on simulated data, on one fake bundle that the harness writes on its fakes, and, for the power check, on study 2's committed scores. `legacy3.py` read its first bundles of the scored plan at the freeze, from the free dry runs on the fake vendor client, `study3-freeze-dry-1` and, on the code the scored run executes, `study3-freeze-dry-2`, and counted every block of both.
 
 **Blindness.** The analysis keys on a task's set, category, size and systems, the category-D tag and corpus 3's `directions` map (`direction`, `csl`, `anchor`, `requiredSystems`). It never reads a question, a schema, a key, a design note or a reference solution; a task id is a cluster label and nothing else.
 
@@ -19,7 +19,7 @@ The scripts that turn a scored bundle of Abstraction ladder study 3 into its tab
 | `legacy3.py` | The legacy-load reader of plan section 10: the requests to Missions, Personnel and Assets per run and arm, descriptive only. It reads the bundle the analysis reads and the legacy-load folder the launch kit writes. |
 | `test_analysis3.py` | The tests, offline. |
 | `test_legacy3.py` | The reader's tests, offline, on simulated transcripts and session folders. |
-| `PLAN.md` | The draft analysis plan. |
+| `PLAN.md` | The frozen analysis plan. |
 
 The statistics packages are study 1's pins ([study/analysis/requirements.txt](../analysis/requirements.txt)); no other package is used.
 

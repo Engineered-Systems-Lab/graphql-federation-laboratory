@@ -2,7 +2,7 @@
 
 The task corpus of study 3, strand 1: whether GraphQL federation reduces agent effort (tool calls, cost) on cross-system lookups, with accuracy only as a floor. It is study 2's checked pool and ambiguity set, carried byte for byte, plus 31 new tasks: 27 in the reverse group and 4 forward tasks that read all three systems. It is laid out like [corpus 2](../corpus2/README.md), so that `runner.py --corpus-dir study/corpus3` reads it. Corpus 2 and its frozen files are unchanged. The Job `study3_corpus3` built it under decisions C1 to C8.
 
-**Not frozen.** The manifest's status is `draft, not frozen`. The second derivation of the new keys (keys B) and its comparison with keys A are below (the Job `study3_corpus_keys_b`); the comparison found no difference, so it asks for no wording review. Answerability on the Oracle-backed stack in all five arms and the freeze are later Jobs.
+**Frozen on 2026-11-22** (the Job `study3_freeze`), before study 3's scored run. The manifest's status is `frozen-2026-11-22`, written by `derive_a3.py --write --frozen 2026-11-22`; it governs, and the other derived files keep their stamp `draft, not frozen`. No task, key, schema, expected answer or wording changed at the freeze. The manifest's SHA-256 and those of the files it lists are in the [freeze record](../evidence/study-3-freeze/freeze-record-20261122.json); their frozen rows in the artifact classification table and the frozen manifest follow in the Job's second transaction. The second derivation of the new keys (keys B) and its comparison with keys A are below (the Job `study3_corpus_keys_b`); the comparison found no difference, so it asks for no wording review. Answerability on the Oracle-backed stack passed in all five arms in study 3's preflight (the Job `study3_preflight`).
 
 **Blindness.** No task text leaves this folder and corpus 2's: no commit message, Job note, report or message quotes a task. `test_corpus3.py` checks that no tracked file outside this folder holds a new question, and corpus 2's leak check (`test_corpus2.py`, narrowed by decision C1) allows a corpus 2 question here only inside a JSON record byte-identical to its corpus 2 record. The new questions therefore use their own words for the definitions they share with corpus 2.
 
@@ -15,7 +15,7 @@ The task corpus of study 3, strand 1: whether GraphQL federation reduces agent e
 | `keys-a.json` | The keys of the scored set and of the development set: corpus 2's keys byte for byte, and the keys of the new tasks. |
 | `dev.json` | Corpus 2's development set, byte for byte. |
 | `corpus-manifest.json` | The SHA-256 of the five files above (the runner's corpus check reads `files`), the SHA-256 of corpus 2's frozen manifest, the corpus 2 hashes every carried task is bound to (`carried`: record, schema and key, canonical JSON), the ids of the new tasks and the released inputs. |
-| `derive_a3.py` | The first derivation: it reads the carried tasks from corpus 2's files, authors the new tasks with corpus 2's own helpers (its `World`, its schema and check helpers and `Corpus.add`), derives their keys from the released files and applies the direction rule. `--write` writes, without it compares. It refuses when corpus 2's manifest is not the frozen `c57081e3…` or a file it reads differs from it, and a `--write` never replaces a manifest that is not a draft. |
+| `derive_a3.py` | The first derivation: it reads the carried tasks from corpus 2's files, authors the new tasks with corpus 2's own helpers (its `World`, its schema and check helpers and `Corpus.add`), derives their keys from the released files and applies the direction rule. `--write` writes, without it compares, against the status the committed manifest holds (draft or frozen). `--write --frozen <YYYY-MM-DD>` writes the manifest alone with the status `frozen-<date>` and refuses a second freeze, a malformed date and a derived file that differs from the derivation. It refuses when corpus 2's manifest is not the frozen `c57081e3…` or a file it reads differs from it, and a `--write` without `--frozen` never replaces a manifest that is not a draft. |
 | `keys-b3.json`, `derive_b3.py`, `test_derive_b3.py` | The second derivation of the new tasks' keys, blind to the first derivation's code, keys and design notes (below), with its own tests, as its author wrote them. |
 | `compare_keys3.py` | The comparison of the two derivations of the new keys and the cases the lead developer decided (below). |
 | `scoring.py` | Corpus 2's scorer, a byte-identical copy (the runner loads the scorer of the corpus folder); the tests check it. |
@@ -64,7 +64,8 @@ From the repository root:
 
 ```sh
 python -B study/corpus3/derive_a3.py            # compare with corpus 2 and the released files
-python -B study/corpus3/derive_a3.py --write    # rewrite the derived files (review the diff)
+python -B study/corpus3/derive_a3.py --write    # rewrite the derived files of a draft (review the diff)
+python -B study/corpus3/derive_a3.py --write --frozen <YYYY-MM-DD>    # freeze the manifest (done on 2026-11-22)
 python -B study/corpus3/compare_keys3.py        # compare keys-a.json with keys-b3.json; exit 0 when every difference is decided
 python -B study/corpus3/reference/run_reference.py --arm gamma --fake --set all
 python -B -m unittest discover -s study/corpus3 -p "test_corpus3.py"

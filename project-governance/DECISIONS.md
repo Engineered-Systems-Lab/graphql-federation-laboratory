@@ -62,6 +62,13 @@ D001 to D049 were carried from the lab's register at lab commit `0f9b1dbd416bc90
 | D065 | 2026-10-21 | Accepted | [Study 2 decision K: a margin of 10 percentage points, the only one](#d065---study-2-decision-k-a-margin-of-10-percentage-points-the-only-one-2026-10-21-accepted) |
 | D066 | 2026-10-21 | Accepted | [Study 2 decision L: the real Missions service against the simulator](#d066---study-2-decision-l-the-real-missions-service-against-the-simulator-2026-10-21-accepted) |
 | D067 | 2026-10-21 | Accepted | [Study 2 decision M: the Direct Access block runs last](#d067---study-2-decision-m-the-direct-access-block-runs-last-2026-10-21-accepted) |
+| D068 | 2026-11-10 | Accepted | [Study 3 decision 1: what counts as a cross-system lookup](#d068---study-3-decision-1-what-counts-as-a-cross-system-lookup-2026-11-10-refined-2026-11-11-accepted) |
+| D069 | 2026-11-10 | Accepted | [Study 3 decision 2: tool calls and cost as two confirmatory families](#d069---study-3-decision-2-tool-calls-and-cost-as-two-confirmatory-families-2026-11-10-accepted) |
+| D070 | 2026-11-10 | Accepted | [Study 3 decision 3: accuracy as a floor](#d070---study-3-decision-3-accuracy-as-a-floor-2026-11-10-accepted) |
+| D071 | 2026-11-10 | Accepted | [Study 3 decision 4: the whole pool, one run per question, arm and model](#d071---study-3-decision-4-the-whole-pool-one-run-per-question-arm-and-model-2026-11-10-accepted) |
+| D072 | 2026-11-10 | Accepted | [Study 3 decision 5: study 2's guide, unchanged](#d072---study-3-decision-5-study-2s-guide-unchanged-2026-11-10-accepted) |
+| D073 | 2026-11-10 | Accepted | [Study 3 decision 6: legacy load, descriptive](#d073---study-3-decision-6-legacy-load-descriptive-2026-11-10-accepted) |
+| D074 | 2026-11-10 | Accepted | [Study 3 decision 8: strand 1 only, strand 2 postponed](#d074---study-3-decision-8-strand-1-only-strand-2-postponed-2026-11-10-revised-2026-11-17-accepted) |
 
 ## D014 freeze status (2026-09-30)
 
@@ -469,3 +476,31 @@ Since then: The backend preflight of 2026-10-30 to 2026-11-01 applied this rule;
 ## D067 - Study 2 decision M: the Direct Access block runs last (2026-10-21, Accepted)
 
 Decision M of the lead developer for Abstraction ladder study 2, answered on 2026-10-21 and recorded in the [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer) (its [detail](../docs/STUDY-2-DESIGN.md#randomized-held-constant-and-the-direct-access-block)); recorded as a project decision on 2026-11-06, at the freeze (the Job `study2_freeze`). The Direct Access reference block, all 54 tasks with both models, runs last in the schedule, after round 4. See [the explanatory rationale](RATIONALE.md#study-2-design-d054-d067).
+
+## D068 - Study 3 decision 1: what counts as a cross-system lookup (2026-11-10, refined 2026-11-11, Accepted)
+
+Decision 1 of the lead developer for Abstraction ladder study 3, answered on 2026-11-10 as "Far side only" and refined on 2026-11-11 as decision 1a, "A, yes"; recorded in the study's decision record, which stays private in the provenance repository with study 3's working notes; recorded as a project decision on 2026-11-22, at the freeze (the Job `study3_freeze`). A cross-system lookup (CSL) is a reverse lookup, a link-integrity question or an aggregate over joined data; forward joins stay their own category, as the comparison. Decision 1a: an aggregate is a CSL only when it starts from the far side (per person or per asset); aggregates that start from missions are forward, and are also reported as their own descriptive group. The [frozen analysis plan](../study/analysis3/PLAN.md#2-what-is-read-about-a-task) reads this from corpus 3's `directions` map and tests it in [its CSL family](../study/analysis3/PLAN.md#7-the-csl-family-confirmatory). See [the explanatory rationale](RATIONALE.md#study-3-design-d068-d074).
+
+## D069 - Study 3 decision 2: tool calls and cost as two confirmatory families (2026-11-10, Accepted)
+
+Decision 2 of the lead developer for Abstraction ladder study 3, answered on 2026-11-10 as "Yes, two families"; recorded in the study's decision record, which stays private in the provenance repository with study 3's working notes; recorded as a project decision on 2026-11-22, at the freeze (the Job `study3_freeze`). Tool calls on P1 and P2 are the primary family (Holm over 2); cost on P1 and P2 is a second confirmatory family (Holm over 2); time is descriptive, with intervals and no claim. The [frozen analysis plan](../study/analysis3/PLAN.md#5-the-effort-families-confirmatory) applies it, with time in [its descriptive results](../study/analysis3/PLAN.md#10-descriptive-and-exploratory-results-labelled-so). See [the explanatory rationale](RATIONALE.md#study-3-design-d068-d074).
+
+## D070 - Study 3 decision 3: accuracy as a floor (2026-11-10, Accepted)
+
+Decision 3 of the lead developer for Abstraction ladder study 3, answered on 2026-11-10 as "Yes, as recommended"; recorded in the study's decision record, which stays private in the provenance repository with study 3's working notes; recorded as a project decision on 2026-11-22, at the freeze (the Job `study3_freeze`). Accuracy is a non-inferiority floor at 10 percentage points, one-sided, by a cluster bootstrap over questions, as a gate on each arm's effort results. The [frozen analysis plan](../study/analysis3/PLAN.md#4-the-accuracy-floor-confirmatory-gate) applies it. See [the explanatory rationale](RATIONALE.md#study-3-design-d068-d074).
+
+## D071 - Study 3 decision 4: the whole pool, one run per question, arm and model (2026-11-10, Accepted)
+
+Decision 4 of the lead developer for Abstraction ladder study 3, answered on 2026-11-10 as "Yes, whole pool"; recorded in the study's decision record, which stays private in the provenance repository with study 3's working notes; recorded as a project decision on 2026-11-22, at the freeze (the Job `study3_freeze`). There is no draw: every checked pool question plus the new CSL questions, one run per question, arm and model; forward against reverse is tested one-sided. Checked first: any pool question set aside at study 2's answerability check stays out. The [frozen analysis plan](../study/analysis3/PLAN.md#11-power) gives the power at this size, and its [CSL family](../study/analysis3/PLAN.md#7-the-csl-family-confirmatory) the one-sided test. See [the explanatory rationale](RATIONALE.md#study-3-design-d068-d074).
+
+## D072 - Study 3 decision 5: study 2's guide, unchanged (2026-11-10, Accepted)
+
+Decision 5 of the lead developer for Abstraction ladder study 3, answered on 2026-11-10 as "Keep it as is"; recorded in the study's decision record, which stays private in the provenance repository with study 3's working notes; recorded as a project decision on 2026-11-22, at the freeze (the Job `study3_freeze`). Study 3 uses study 2's frozen guide, `study/guide2/GUIDE.md`, unchanged; its SHA-256 is in the [freeze record](../study/evidence/study-3-freeze/freeze-record-20261122.json), and the [frozen analysis plan](../study/analysis3/PLAN.md) analyses the arms that read it. See [the explanatory rationale](RATIONALE.md#study-3-design-d068-d074).
+
+## D073 - Study 3 decision 6: legacy load, descriptive (2026-11-10, Accepted)
+
+Decision 6 of the lead developer for Abstraction ladder study 3, answered on 2026-11-10 as "Yes, descriptive"; recorded in the study's decision record, which stays private in the provenance repository with study 3's working notes; recorded as a project decision on 2026-11-22, at the freeze (the Job `study3_freeze`). The load on the legacy systems is descriptive only, with intervals and no claim; whether instrumentation was needed was a read-only check. The [frozen analysis plan](../study/analysis3/PLAN.md#10-descriptive-and-exploratory-results-labelled-so) applies it with its reader, `study/analysis3/legacy3.py`. See [the explanatory rationale](RATIONALE.md#study-3-design-d068-d074).
+
+## D074 - Study 3 decision 8: strand 1 only, strand 2 postponed (2026-11-10, revised 2026-11-17, Accepted)
+
+Decision 8 of the lead developer for Abstraction ladder study 3, answered on 2026-11-10 as "I think I will go sequential" and revised on 2026-11-17 as "Record it: postpone strand 2 until study 3 is complete"; recorded in the study's decision record, which stays private in the provenance repository with study 3's working notes; recorded as a project decision on 2026-11-22, at the freeze (the Job `study3_freeze`). The first decision: strand 1 through its run and report, then strand 2. The revision: study 3 ends with strand 1 (its frozen plan, run, analysis and report). Strand 2 is postponed until study 3 is complete and is no longer part of it; it stays an unscheduled plan in the private provenance repository, a later study of its own if it is ever taken up. There is no combined report: study 3's report covers strand 1 only and names strand 2 as postponed. The lead developer's reason: an end to the study 1, 2 and 3 work rather than more questions now. The [frozen analysis plan](../study/analysis3/PLAN.md) is strand 1's. See [the explanatory rationale](RATIONALE.md#study-3-design-d068-d074).

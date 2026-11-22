@@ -68,6 +68,13 @@ The rows and sections for D001 to D049 were carried from the lab's rationale (th
 | D065 | explicit | One predeclared margin with no fallback leaves no room to choose a margin after the results; the justification and the power are in the frozen plan; see Study 2 design. |
 | D066 | explicit | The scored run uses the real service, so a difference from the simulator must be understood before the freeze; see Study 2 design. |
 | D067 | explicit | Placing the reference block last keeps it from preceding any arm of the balanced square; see Study 2 design. |
+| D068 | explicit | Only the far side's questions need what only the systems' meeting point knows, so forward joins stay the comparison; see Study 3 design. |
+| D069 | explicit | Study 2's accuracy hit its ceiling while effort separated the arms; two families of two keep the primary's power; see Study 3 design. |
+| D070 | explicit | An effort result counts only if federation clears the accuracy floor against that arm, at study 2's justified margin; see Study 3 design. |
+| D071 | explicit | The power calculation: more questions help more than repeats, and the whole pool reaches the size the tests need; see Study 3 design. |
+| D072 | explicit | Neither side gets help for cross-system lookups, so both are tested as a business has them today; see Study 3 design. |
+| D073 | explicit | The direction of the router's legacy load was not predicted, and a third family would take power; see Study 3 design. |
+| D074 | explicit | The lead developer's reason: an end to the study 1, 2 and 3 work rather than more questions now; see Study 3 design. |
 | D041 page totals revision | explicit | The lead developer chose option (a) of G1 to G4 in their own words (page fields with totals, the old lists deprecated, Personnel untouched, the reference code unchanged, the motive stated); the development failures that motivated it are source-stated; see Federation graph page totals. |
 
 ## Fair comparisons: D002, D003, D005, D006
@@ -645,3 +652,40 @@ No revisit condition supplies execution authority.
 **Evidence.** The [study 2 design](../docs/STUDY-2-DESIGN.md#decisions-of-the-lead-developer), written on 2026-10-27, which records the answers of 2026-10-21; the [frozen analysis plan](../study/analysis2/PLAN.md); the [freeze record](../study/evidence/study-2-freeze/freeze-record-20261106.json). These decisions were recorded on 2026-11-06, at the freeze, after the work that applied them, as the Job `study2_freeze` was scoped to do. This explanation grants no approval and implements nothing.
 
 **Revisit when.** A later study is designed (these decisions are study 2's), or the scored run cannot be made as they say and the lead developer must decide again.
+
+## Study 3 design: D068-D074
+
+**Rationale status.** Explicit.
+
+**Decision / what we do.** Run Abstraction ladder study 3 (strand 1) as the lead developer's decisions of 2026-11-10 to 2026-11-17 say: a cross-system lookup is a far-side question, with forward joins as the comparison and only far-side aggregates counted as CSL (D068); tool calls as the primary family and cost as a second confirmatory family, time descriptive (D069); accuracy as a non-inferiority floor at 10 points that gates the effort results (D070); the whole checked pool and the new questions, one run per question, arm and model (D071); study 2's guide unchanged (D072); the legacy load descriptive (D073); and strand 1 alone, strand 2 postponed (D074).
+
+**Why.** The reasons are labeled by who gave them. The Coordinator supplied them from the study's private decision record on 2026-11-21, on the lead developer's word "Coordinator supplies it"; a reason the record states is source-stated, and a tradeoff that is the Coordinator's restatement of the record, with no new reason, is marked as a summary.
+- Supplied by the lead developer: every decision, in the words D068 to D074 quote; and the reason for the revision of D074, "an end to the study 1, 2 and 3 work rather than more questions now".
+- Source-stated (D068): CSL means questions whose answer exists only where the systems meet: reverse lookups, link integrity and aggregates over joined data. Only the mapping knows the global ids, so these are the graph's own capabilities.
+- Source-stated (D069): study 2's primary, accuracy, hit its ceiling (GPT-6.1 Sol 48 of 48 in each full arm), the planned model could not be fitted, and effort separated the arms but was exploratory in advance; only a new run under a plan frozen first can make it confirmatory. 1 + tool calls is the most stable measure and the least vendor-dependent. Time is descriptive: it had the weakest effect (study 2's 0.90 on P1) and is the most tied to vendor speed.
+- Source-stated (D070): an effort result against an arm counts only if federation clears the floor against that arm; it is a gate, not a claim. The margin is study 2's justified one (decision Z3 of the Job `study2_freeze`), and the cluster bootstrap over questions worked in study 2 with all-correct cells (P1 [-2.1, +6.2]).
+- Source-stated (D071): the power calculation: tool calls on P2 need 76 to 90 questions for a power of 0.84 or more if the effect shrinks by a quarter; forward against reverse needs about 30 and 30; more questions help more than repeats (two runs add about 5 to 8 points).
+- Source-stated (D072): study 2's frozen guide was written blind to study 2's corpus and may say nothing about reverse lookups; the graph is not extended for CSL either, so neither side gets help, and both are tested as a business has them today. Whether the guide copes is part of what is measured.
+- Source-stated (D073): the router's per-reference fetches (no caching, no batching) may raise the requests to the legacy systems, so the load is reported descriptively, as ratios with intervals beside tool calls.
+
+**Alternatives.**
+- D068: forward joins as CSL, rejected: they stay their own category (study 2's cross-system join) and are the comparison for forward against reverse, designed into the corpus. Decision 1a's alternative: every aggregate over joined data as CSL; only far-side aggregates are CSL, and mission-side ones are forward and reported as their own group.
+- D069 (from the power calculation): one family of six (Holm over six) or a fixed order; one family costs the primary up to 19 points of power.
+- D070: accuracy as the primary, as in study 2, which hit its ceiling. No other margin is recorded.
+- D071: a draw with quotas, as in study 2, rejected: the pool keeps study 2's coverage at about 1.4 times its quotas, and study 2's 48 drawn tasks are a subset of it.
+- D072: none recorded.
+- D073: a third confirmatory family, rejected: the direction was not predicted, and it would take power.
+- D074: strand 2 after strand 1 within study 3, with a combined report (the first decision), replaced by the revision. Decision 7, strand 2's direction, applies to strand 2 only and is covered by the postponement, so it is not recorded here.
+
+**Tradeoffs or costs.** Each is a summary.
+- D068: a narrower CSL needs new questions; 2 of study 2's 48 drawn tasks start from the far side.
+- D069: no confirmatory claim on time, and cost depends on the price table read at the freeze.
+- D070: no claim that accuracy is superior.
+- D071: more runs and more cost (about 850 in the four full arms against study 2's 384, as estimated then); only "the advantage disappears on reverse" is testable at a feasible size.
+- D072: CSL results may reflect the guide's silence as well as the graph.
+- D073: no claim about the legacy load.
+- D074: study 3 answers what federation saves each consumer per question, not what it saves the organization when a system changes.
+
+**Evidence.** The [frozen analysis plan](../study/analysis3/PLAN.md); [corpus 3](../study/corpus3/README.md), frozen with it; the [freeze record](../study/evidence/study-3-freeze/freeze-record-20261122.json). The study's decision record, with its questions, recommendations and power calculation, stays private in the provenance repository. These decisions were recorded on 2026-11-21, at the freeze, after the work that applied them, as the Job `study3_freeze` was scoped to do (its decision Z5). This explanation grants no approval and implements nothing.
+
+**Revisit when.** A later study is designed (these decisions are study 3's), strand 2 is taken up as a study of its own, or the scored run cannot be made as they say and the lead developer must decide again.

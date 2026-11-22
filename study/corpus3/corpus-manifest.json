@@ -1,6 +1,6 @@
 {
-  "about": "Checksums of corpus 3 as derived. NOT frozen. `carried` binds every task carried from corpus 2 to the SHA-256 (canonical JSON) of its corpus 2 record, schema and key; `corpus2Manifest` is corpus 2's frozen manifest.",
-  "status": "draft, not frozen",
+  "about": "Checksums of corpus 3 as derived. Frozen on 2026-11-22. The other derived files keep the status \"draft, not frozen\"; this manifest's status governs. `carried` binds every task carried from corpus 2 to the SHA-256 (canonical JSON) of its corpus 2 record, schema and key; `corpus2Manifest` is corpus 2's frozen manifest.",
+  "status": "frozen-2026-11-22",
   "coreTasks": 107,
   "newTasks": 31,
   "ambiguityTasks": 6,
