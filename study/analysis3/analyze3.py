@@ -1,4 +1,4 @@
-"""The study-3 analysis: every table and figure of the draft plan (PLAN.md), from a verified copy of a study-3 bundle.
+"""The study-3 analysis: every table and figure of the plan (PLAN.md), from a verified copy of a study-3 bundle.
 
     python -B study/analysis3/analyze3.py --bundle <copy of the run folder> --sums <SHA256SUMS file> --bundle-checksum <sha256>
         --corpus-dir <the corpus the bundle ran> --out <new folder outside the repository> [--run-id study-3] [--replicates 10000]
@@ -74,7 +74,9 @@ def sensitivity(planned, models, stratum_of, replicates):
 
 
 def per_stratum(rows, models):
-    """P1's tool-call ratio per task group, descriptive: the mean of the per-task contrasts of each anchor, csl kind, category and size."""
+    """P1's tool-call ratio per task group, descriptive: the mean of the per-task contrasts of each anchor, csl kind, category and size,
+    and of the forward aggregates, a group of their own (PLAN.md, section 10; D068, decision 1a): the core tasks of category E with direction
+    forward. A group with no task that has a contrast is reported as not estimable."""
     contrasts = stats3.per_task_contrasts(rows, models)
     facts = {r['task']: r for r in rows}
     out = {}
@@ -83,6 +85,9 @@ def per_stratum(rows, models):
         for task, value in contrasts.items():
             groups.setdefault(str(facts[task].get(field)), []).append(value)
         out[field] = {k: {'tasks': len(v), 'p1Ratio': math.exp(statistics.fmean(v))} for k, v in sorted(groups.items())}
+    forward = [value for task, value in sorted(contrasts.items()) if facts[task]['forwardAggregate']]
+    out['forwardAggregates'] = ({'tasks': len(forward), 'p1Ratio': math.exp(statistics.fmean(forward))} if forward else
+                                {'tasks': 0, 'estimable': False, 'reason': 'no forward aggregate has a complete set of runs'})
     return out
 
 
@@ -121,7 +126,7 @@ def analyse(args):
     conditions = stats2.planned_conditions(square)
     recorded = [dict(r, cost=r['costAsRecorded']) for r in records]
     return r6({
-        'about': 'Abstraction ladder study 3 analysis under the draft plan study/analysis3/PLAN.md. Generated; do not edit.',
+        'about': 'Abstraction ladder study 3 analysis under the plan study/analysis3/PLAN.md. Generated; do not edit.',
         'inputs': {'bundle': facts, 'corpus': corpus_facts},
         'plan': {'models': models, 'arms': {a: NAMES[a] for a in data3.ALL_ARMS}, 'seed': stats3.SEED, 'replicates': args.replicates,
                  'floorMarginPoints': 100 * stats3.FLOOR_MARGIN},

@@ -94,6 +94,16 @@ class ShapeTests(unittest.TestCase):
         join = collections.Counter(data3.join_group(t['category'], directions[t['id']]['requiredSystems']) for t in core)
         self.assertEqual((join['one'], join['several'], join[None]), (39, 52, 16), 'join width reads requiredSystems, without D and the mapping-only tasks')
 
+    def test_the_forward_aggregates_are_ten_core_tasks_on_corpus_3(self):
+        raw = json.loads((HERE.parent / 'corpus3' / 'tasks.json').read_text(encoding='utf-8'))
+        real = [t['id'] for t in raw['tasks']
+                if data3.forward_aggregate(t.get('set') or 'core', t['category'], raw['directions'][t['id']]['direction'])]
+        self.assertEqual(len(real), 10)
+        self.assertEqual({raw['directions'][t]['csl'] for t in real}, {None}, 'a forward aggregate is no CSL kind')
+        tasks, directions = simulate3.tasks_of_shape()
+        simulated = [t['id'] for t in tasks if data3.forward_aggregate(t['set'], t['category'], directions[t['id']]['direction'])]
+        self.assertEqual(len(simulated), 10)
+
     def test_the_schedule_takes_the_core_tasks_unchanged(self):
         tasks, _ = simulate3.tasks_of_shape()
         plan = simulate3.build_plan(313, tasks)
@@ -168,6 +178,7 @@ class CountingTests(Workspace):
         core = {r['task']: r for r in records if r['set'] == 'core'}
         self.assertEqual(collections.Counter(r['cslGroup'] for r in core.values())['forward'], 24)
         self.assertEqual(collections.Counter(r['joinGroup'] for r in core.values())['one'], 39)
+        self.assertEqual(collections.Counter(r['forwardAggregate'] for r in core.values())[True], 10)
 
 
 class StatisticsTests(unittest.TestCase):
@@ -418,6 +429,33 @@ class OutputTests(Workspace):
         self.assertEqual(set(res['confirmatory']), {'floors', 'effort', 'csl'})
         self.assertEqual(set(res['cslGroupAccuracy']['groups']), {'forward', 'reverse', 'one', 'several'})
         self.assertEqual(res['exploratory']['study2Tasks']['compared'], False)
+        self.assertEqual(res['about'], 'Abstraction ladder study 3 analysis under the plan study/analysis3/PLAN.md. Generated; do not edit.')
+        self.assertNotIn('draft', analyze3.__doc__.splitlines()[0])
+        self.assertEqual(set(res['descriptive']['perStratum']), {'anchor', 'csl', 'category', 'size', 'forwardAggregates'})
+
+
+class ForwardAggregateTests(Workspace):
+    def test_the_forward_aggregates_are_reported_with_their_tasks_and_ratio(self):
+        tasks, directions = simulate3.tasks_of_shape()
+        expected = {t['id'] for t in tasks if t['set'] == 'core' and t['category'] == 'E' and directions[t['id']]['direction'] == 'forward'}
+        facts = self.bundle(vendor_error_rate=0.0)
+        folder = Path(facts['bundle'])
+        calls = {'delta': 9, 'epsilon': 9, 'gamma': 19}  # federation over GraphQL Adapters: (1 + 9) / (1 + 19) = 0.5 on every pair
+        for path in sorted(folder.glob('runs/*/result.json')):
+            record = json.loads(path.read_text(encoding='utf-8'))
+            if record['taskId'] in expected and record['scenario'] in calls:
+                edit_json(path, lambda r: r.update(toolCalls=calls[r['scenario']]))
+        simulate2.write_scores(folder)
+        facts = reseal(facts)
+        *_, records, _, _ = data3.load(facts['bundle'], facts['sums'], facts['runId'], facts['checksum'], facts['corpus'])
+        self.assertEqual({r['task'] for r in records if r['forwardAggregate']}, expected)
+        self.assertEqual(run_cli(args_for(facts, self.root / 'out'))[0], 0)
+        res = json.loads((self.root / 'out' / 'results.json').read_text(encoding='utf-8'))
+        self.assertEqual(res['descriptive']['perStratum']['forwardAggregates'], {'tasks': 10, 'p1Ratio': 0.5})
+
+    def test_a_group_with_no_complete_runs_is_not_estimable(self):
+        group = analyze3.per_stratum([], MODELS)['forwardAggregates']
+        self.assertEqual((group['tasks'], group['estimable']), (0, False))
 
 
 class AllRunsMissingTests(Workspace):

@@ -2,8 +2,8 @@
 
 The counting rules, the void-block rule, the vendor-error rule and the reading of a run are study 2's and are imported unchanged from
 study/analysis2/data2.py (load_strata, load_bundle, counting). What is new here: the analysis plan whose hash the manifest must name is
-study/analysis3/PLAN.md; the directions map of corpus 3 is read and checked; each record carries its forward-against-reverse group and
-its join-width group; and a run with a zero cost takes the smallest positive cost of the bundle's scored runs (PLAN.md, section 3).
+study/analysis3/PLAN.md; the directions map of corpus 3 is read and checked; each record carries its forward-against-reverse group, its
+join-width group and whether its task is a forward aggregate; and a run with a zero cost takes the smallest positive cost of the bundle's scored runs (PLAN.md, section 3).
 
 Cost. Each run's cost, its archived attempts' cost and each void attempt's cost are priced again here, each request on its own (decision L1
 of the Job study3_openai_long_context): a request whose input total is above the threshold of its model's long-context rates pays them in
@@ -81,6 +81,12 @@ def join_group(category, required):
     return 'one' if len(required) == 1 else 'several'
 
 
+def forward_aggregate(task_set, category, direction):
+    """Whether a task is a forward aggregate, reported as its own descriptive group (decision G1 of the Job study3_analysis3_groups): a core
+    task of category E that starts from missions, direction forward. The far-side aggregates are E too, but reverse."""
+    return task_set == 'core' and category == 'E' and direction == 'forward'
+
+
 def load_strata(corpus_dir, manifest):
     """Study 2's strata of every task, plus corpus 3's directions map, read field by field and checked against the tasks."""
     strata, facts = data2.load_strata(corpus_dir, manifest)
@@ -99,7 +105,8 @@ def load_strata(corpus_dir, manifest):
             raise VerificationError('task %s has no list of required systems' % task)
         entry.update(direction=direction, csl=csl, anchor=anchor, requiredSystems=sorted(required),
                      cslGroup=direction if direction in ('forward', 'reverse') else None,
-                     joinGroup=join_group(entry['category'], required))
+                     joinGroup=join_group(entry['category'], required),
+                     forwardAggregate=forward_aggregate(entry['set'], entry['category'], direction))
     return strata, facts
 
 
@@ -107,7 +114,7 @@ def annotate(records, strata):
     """Copy each task's direction, csl kind, anchor and groups onto its records."""
     for record in records:
         entry = strata[record['task']]
-        record.update({name: entry[name] for name in ('direction', 'csl', 'anchor', 'cslGroup', 'joinGroup')})
+        record.update({name: entry[name] for name in ('direction', 'csl', 'anchor', 'cslGroup', 'joinGroup', 'forwardAggregate')})
     return records
 
 

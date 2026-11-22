@@ -186,7 +186,8 @@ def study_records(seed, effects=NULL, accuracy='near', missing=0.02, plan_seed=N
     for task in core:
         d = directions[task['id']]
         entries[task['id']] = dict(d, category=task['category'], cslGroup=d['direction'] if d['direction'] in ('forward', 'reverse') else None,
-                                   joinGroup=data3.join_group(task['category'], d['requiredSystems']))
+                                   joinGroup=data3.join_group(task['category'], d['requiredSystems']),
+                                   forwardAggregate=data3.forward_aggregate(task['set'], task['category'], d['direction']))
     ids = [t['id'] for t in core]
     index = {t: i for i, t in enumerate(ids)}
     shared = rng.standard_normal((len(ids), 2))
@@ -219,7 +220,7 @@ def study_records(seed, effects=NULL, accuracy='near', missing=0.02, plan_seed=N
                             'session': 's-2' if later else 's-1', 'orderInBlock': order, 'outcome': 'vendor_error' if vendor_error else 'correct' if correct else 'wrong_answer',
                             'correct': correct, 'toolCalls': calls, 'cost': math.exp(values['cost']), 'seconds': math.exp(3.5 + 0.3 * rng.standard_normal()),
                             'direction': entry['direction'], 'csl': entry['csl'], 'anchor': entry['anchor'], 'cslGroup': entry['cslGroup'],
-                            'joinGroup': entry['joinGroup']})
+                            'joinGroup': entry['joinGroup'], 'forwardAggregate': entry['forwardAggregate']})
     return records, {t: entries[t]['direction'] for t in ids}
 
 
