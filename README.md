@@ -107,6 +107,7 @@ The governance framework was taken in these commits of this repository:
 | Comitas 0.9.0 | `9cec5df07fa7b65af2e7b99d7952ab706a8fe76f` | comitas commit `a45fb8bd85416873e150202fb80dbcc7387f3622` |
 | Comitas 0.9.1 | `70aa17c5875898723ae982e6654e2083f9b44a84` | comitas commit `4a101ae1208e3ae19d69f11329ad8b46278335bf` |
 | Comitas 0.9.2 | `66af10e0a783707db55d8916534dd6e2bc06460d` | comitas commit `b6c48223dd5e43d2667d82dae42066a18eade7f7` |
+| Comitas 0.10.1 | `2e4e06d50bcf9a80326668ce7e3d8337cb86197b` | comitas commit `e2fcce8df20c0bc6e52aa55accc0625f6873040c` |
 
 ## Contributions
 
