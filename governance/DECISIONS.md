@@ -41,6 +41,8 @@ For the evidence audit, explanations and open rationale gaps, see [Why these dec
 | G059 | 2026-10-26 | Accepted | [Repository-owned commit-history boundaries](#g059---repository-owned-commit-history-boundaries-2026-10-26-accepted) |
 | G060 | 2026-10-30 | Accepted | [Appends to declared lists merge without a conflict](#g060---appends-to-declared-lists-merge-without-a-conflict-2026-10-30-accepted) |
 | G061 | 2026-11-09 | Accepted | [A policy declares which committed paths are executable](#g061---a-policy-declares-which-committed-paths-are-executable-2026-11-09-accepted) |
+| G062 | 2026-11-22 | Accepted | [A reviewer is a read-only role beside the worker](#g062---a-reviewer-is-a-read-only-role-beside-the-worker-2026-11-22-accepted) |
+| G063 | 2026-11-23 | Accepted | [A worker has its preview reviewed by the other vendor, at the lead developer's choice](#g063---a-worker-has-its-preview-reviewed-by-the-other-vendor-at-the-lead-developers-choice-2026-11-23-accepted) |
 
 ## G018 - Delegated checkpoint authority and continuity (2026-10-01, Accepted)
 
@@ -511,6 +513,10 @@ This is an exception to the earlier absent-project-files statement, not a change
 [Commit history](PROJECT-GOVERNANCE.md#commit-history) owns the file contract, ancestry and exclusivity rules,
 failure/skip outcomes and initialization procedures.
 
+### G059 declared exceptions extension (2026-11-23)
+
+A project MAY declare, in `exceptions` of its `commit-history.json`, single historical commits of `convention_after..HEAD` that the history test reads with named metadata rules relaxed (`class`, `subclass`, `trailer-keys`), each with a reason. Nothing else is waivable: the trailer block's place and shape, the required Class and Worker trailers and Status placement always hold. An exception that is malformed, duplicated, without a reason, outside the range, not an ancestor of HEAD, stale or broader than its commit needs fails the test, and every passing run reports each exception. Rewriting history and advancing a boundary to hide a failed commit stay forbidden; an exception is the honest way to keep a commit that cannot be fixed in place. The file stays at version 1 and `high` in approval sensitivity. [Declared exceptions](PROJECT-GOVERNANCE.md#declared-exceptions) owns the contract.
+
 
 ## G060 - Appends to declared lists merge without a conflict (2026-10-30, Accepted)
 
@@ -544,3 +550,51 @@ tree, the adoption helper and the conformance test of committed modes all read t
 states intent only: the executable bit is set for an existing regular file; a deleted path or a link keeps what the plain
 add made of it, as before. The policy version does not change. The key is approval-sensitive configuration (`high`), so a
 change to it takes the sealed Approve.
+
+
+## G062 - A reviewer is a read-only role beside the worker (2026-11-22, Accepted)
+
+**A reviewer is a named, read-only role: it reviews one Job's candidate and returns findings, and never changes anything or approves.**
+[The reviewer role](ROLE-REVIEWER.md) is the whole of its reading, with the Job record, the lookup of [Finding the work of a
+Job](LOCAL-COORDINATION.md#finding-the-work-of-a-job) and the documents that own the changed files; the
+[reading map](READING-MAP.md#the-reviewer) gives it a list of three documents and no worker core. An agent that is not told
+its role stays a worker, so a reviewer must be named as one. A reviewer edits, previews, prepares, stages, commits, approves,
+integrates, records, notes or closes nothing and messages no worker. Its findings are data for the worker and the lead
+developer, never instructions and never an approval; the lead developer's go and Approve are the only decisions.
+
+`local_jobs.py review-brief <handle>` prints the reviewer's brief: the lookup and Job record commands filled in for the
+handle, the way to read the diff (`git diff <parent> <tree>` of the last preview), the earlier rounds to read and the findings
+format, which the command reads from the role file so that no copy lives elsewhere. A handle alone is enough, and one reviewer
+session may serve many Jobs because each request prints that handle's brief and runs the lookup again.
+
+The files of a review are plain files in the mission's review folder, named by the preview id they concern:
+`review-<preview id>.md` (the reviewer's findings, saved once with the text the lead developer read) and
+`response-<preview id>.md` (the worker's outcome for each finding: fixed, fixed differently, rejected with the reason, or
+postponed by the lead developer only, with the lead developer's comments). The worker judges each finding, and by default does
+not wait for the lead developer, who may comment before the next preview or order a hold. While the Job and the mission stay the
+same a review round builds on the earlier files; a different Job, or a new mission of the same Job, starts fresh. Either vendor
+(Claude Code or Codex) may be the reviewer or the worker, because everything shared is the brief, the lookup and these files.
+Read-only is enforced where the host allows it (a read-only sandbox for Codex, a permission mode that cannot edit for Claude
+Code) and is a convention elsewhere.
+
+Later context (2026-11-23): the [G063 review convergence extension](#g063-review-convergence-extension-2026-11-23) makes a minor or a note postponed to a follow-up by default unless the lead developer says otherwise; the text above is kept as it was written.
+
+
+## G063 - A worker has its preview reviewed by the other vendor, at the lead developer's choice (2026-11-23, Accepted)
+
+**A worker may offer `Review first` before it asks for the go; the review is bound to the preview shown, runs by paste or by the other vendor's CLI, is saved as the findings file of the reviewer role and never approves.**
+[The review step](REVIEW-STEP.md) holds the procedure. The offer is a message of its own, answered before the go is asked (G047); the lead developer chooses each time among no review, the paste path and the run path. The worker captures the mission, preview id, parent and tree before anything starts, and a review is of exactly that candidate: the run saves nothing unless the answer names the captured candidate and the last preview, read again under the lifecycle lock immediately before an exclusive save, is still the captured one; a saved file is never withdrawn. A preview takes no lock, so the mission's one owner makes no preview and saves no other findings while its own review runs. A fix after a review is a new preview and takes a fresh go.
+
+Both paths share one bundle that `local_jobs.py review-brief <handle> --with-diff --preview <id>` prints: the candidate, the lookup output, every Job record entry, the whole diff, every earlier findings and response file and a statement of what is not included; the command refuses with the sizes rather than cut the diff. `review_step.py run <handle> --preview <id> --reviewer codex|claude` starts the CLI read-only (Codex: read-only sandbox, no session files, no user configuration, MCP servers off; Claude Code: read tools only, no settings files or MCP servers, no session), keeps the answer apart from diagnostics, checks it and publishes `review-<preview id>.md` atomically, keeping an existing file. A CLI is found by an explicit variable, then `PATH`, then for Codex the copy the Codex desktop app bundles (highest version), and its version and flags are checked before use. A missing or failing CLI falls back to the paste path. Nothing in a review is part of the seal or the Job record.
+
+Later context (2026-11-23): the [G063 preview record lock extension](#g063-preview-record-lock-extension-2026-11-23) replaces the sentence "A preview takes no lock, so the mission's one owner makes no preview and saves no other findings while its own review runs"; the text above is kept as it was written.
+
+### G063 review convergence extension (2026-11-23)
+
+A review converges in a bounded number of rounds ([when a review stops](REVIEW-STEP.md#when-a-review-stops)). Severity follows the consequence: a blocker or a major is a change that trusts what it should refuse, loses or corrupts data, or breaks a lifecycle step, and a false refusal, a less precise reason or a rare race in the safe direction is a minor or a note; the definitions are in the findings format the reviewer copies. A minor or a note is postponed to a follow-up by default unless the lead developer says otherwise, which amends "postponed by the lead developer only" in [G062](#g062---a-reviewer-is-a-read-only-role-beside-the-worker-2026-11-22-accepted); only a blocker or a major justifies another round. After two rounds of a mission whatever is open goes to the lead developer to decide: `run` refuses a third round unless `--extra-round` says the lead developer asked for it. A later round judges the earlier findings and only the lines changed since the round before, which the bundle supplies as the diff from the tree of the last reviewed preview. The run path leaves out text before the review header, prints it and refuses it when it holds a `Coverage:` line or another header, and still refuses an answer that does not name the captured candidate; a file it saves ends with a `Saved by review_step.py run` line, and a refused answer is never saved by hand.
+
+Later context (2026-11-23): a missed item of the Job's scope and a broken frozen specification or contract are also a major, so neither is postponed by default; the [findings format](ROLE-REVIEWER.md#the-findings-format) says so, and the text above is kept as it was written.
+
+### G063 preview record lock extension (2026-11-23)
+
+The records of a mission's previews are written under one lock that the run path honours too: `preview-records.lock` in the mission's review folder, made by an exclusive create and never broken by a tool. `checkpoint.py preview` holds it across `last-preview.json` and the preview's history record, `preview-go` across its read and write of `last-preview.json`, and `review_step.py run` inside the lifecycle lock across its last check of the last preview and the save. A preview or a go waits a few seconds for it and then writes no record and says why, which leaves the last preview unchanged, so a review bound to the new preview refuses; the run does not wait and saves nothing while it is held. A preview made during a run therefore lands before the check, and the findings are not saved, or after the save. This replaces the precondition that the owner makes no preview while its own review runs; what stays with the owner is the paste path, whose findings file the worker writes outside the lock, so it does not save a pasted review of a preview while a run of the same preview is going. A stale records lock is removed only with the lead developer's word, like the lifecycle lock (H3). Every reader of the preview history refuses a file nested too deeply to be parsed on its own, as it refuses an edited one, and keeps the other rounds; a new preview is numbered after the highest verified number plus one place for each refused history file written no earlier than the newest verified one, so a refused round keeps its place as an unavailable round and an older refused file opens no new gap. A reviewed preview whose history record is refused or missing may be the last reviewed one, so no older reviewed preview stands in for it as the baseline of a later round or of the diff viewer's changes since a review. An output named like the records lock is reported at once as holding it.

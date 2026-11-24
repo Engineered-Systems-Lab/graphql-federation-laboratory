@@ -1,4 +1,11 @@
 {
   "version": 1,
-  "convention_after": "8e5ad2e1372d4f75da9a47a89a5d20569258917e"
+  "convention_after": "8e5ad2e1372d4f75da9a47a89a5d20569258917e",
+  "exceptions": [
+    {
+      "commit": "66af10e0a783707db55d8916534dd6e2bc06460d",
+      "rules": ["subclass"],
+      "reason": "The Comitas 0.9.2 upgrade, taken by hand, labels Subclass `continuity`, a check id that is not a registered subclass; the commit is pushed and cited by full id, so it stays as it is."
+    }
+  ]
 }

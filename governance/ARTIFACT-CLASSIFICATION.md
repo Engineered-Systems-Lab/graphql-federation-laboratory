@@ -80,7 +80,9 @@ Editing a row is a governance change. It validates with continuity, the classifi
 | `governance/RATIONALE.md` | record | record-only | - | - | conformance, mission-control-generator | rationale | yes | - |
 | `governance/READING-MAP.md` | governance | governance | - | yes | conformance, guidance | agent-guidance | yes | medium |
 | `governance/README.md` | governance | governance | - | yes | conformance, guidance | - | yes | - |
+| `governance/REVIEW-STEP.md` | governance | governance | - | yes | conformance, guidance | agent-guidance | yes | medium |
 | `governance/ROLE-COORDINATOR.md` | governance | governance | - | yes | conformance, guidance | agent-guidance | yes | medium |
+| `governance/ROLE-REVIEWER.md` | governance | governance | - | yes | conformance, guidance | agent-guidance | yes | medium |
 | `governance/ROLE-WORKER.md` | governance | governance | - | yes | conformance, guidance | agent-guidance | yes | medium |
 | `governance/VERSION` | governance | governance | - | - | conformance, guidance | - | - | - |
 | `governance/WORKER-HAZARDS.md` | governance | governance | - | - | conformance, guidance | agent-guidance | yes | medium |
@@ -145,6 +147,8 @@ Editing a row is a governance change. It validates with continuity, the classifi
 | `governance/tests/coordination/test_local_jobs.py` | tooling | tooling | - | - | conformance, jobs | - | - | - |
 | `governance/tests/coordination/test_local_jobs_claim.py` | tooling | tooling | - | - | conformance, jobs | - | - | - |
 | `governance/tests/coordination/test_local_jobs_concurrency.py` | tooling | tooling | - | - | conformance, jobs | - | - | - |
+| `governance/tests/coordination/test_local_jobs_where.py` | tooling | tooling | - | - | conformance, jobs | - | - | - |
+| `governance/tests/coordination/test_review_step.py` | tooling | tooling | - | - | conformance, jobs | - | - | - |
 | `governance/tests/extensions/__init__.py` | tooling | tooling | - | - | - | - | - | medium |
 | `governance/tests/extensions/diff_viewer/__init__.py` | tooling | tooling | - | - | - | diff-viewer | - | medium |
 | `governance/tests/extensions/diff_viewer/test_render.py` | tooling | tooling | - | - | diff-viewer | diff-viewer | - | - |
@@ -169,6 +173,7 @@ Editing a row is a governance change. It validates with continuity, the classifi
 | `governance/tests/lifecycle/test_checkpoint_reconcile.py` | tooling | tooling | - | - | reconcile | - | - | medium |
 | `governance/tests/lifecycle/test_commit_history_conformance.py` | tooling | tooling | - | - | selector | checkpoint | - | - |
 | `governance/tests/lifecycle/test_early_approval.py` | tooling | tooling | - | - | early-approval | checkpoint | - | medium |
+| `governance/tests/lifecycle/test_early_approval_preview_record.py` | tooling | tooling | - | - | early-approval, jobs | checkpoint | - | medium |
 | `governance/tests/lifecycle/test_review_render.py` | tooling | tooling | - | - | review | checkpoint | - | medium |
 | `governance/tests/run_tests.py` | tooling | tooling | - | - | test-runner | checkpoint | - | medium |
 | `governance/tests/support/__init__.py` | tooling | tooling | - | - | - | - | - | medium |
@@ -204,9 +209,11 @@ Editing a row is a governance change. It validates with continuity, the classifi
 | `governance/tools/lifecycle/checkpoint_state.py` | tooling | tooling | - | - | symbol-map | checkpoint | - | high |
 | `governance/tools/lifecycle/commit_metadata.py` | tooling | tooling | - | - | selector | checkpoint | - | medium |
 | `governance/tools/lifecycle/early_approval.py` | tooling | tooling | - | - | early-approval | checkpoint | - | high |
+| `governance/tools/lifecycle/preview_record.py` | tooling | tooling | - | - | early-approval, jobs | checkpoint | - | medium |
 | `governance/tools/lifecycle/review_render.py` | tooling | tooling | - | - | review | checkpoint | - | medium |
 | `governance/tools/local_jobs.py` | tooling | tooling | - | - | conformance, jobs | - | - | - |
 | `governance/tools/repo_paths.py` | tooling | tooling | - | - | - | checkpoint | - | - |
+| `governance/tools/review_step.py` | tooling | tooling | - | - | conformance, jobs | - | - | - |
 | `governance/tools/run_tests.py` | tooling | tooling | - | - | test-runner | checkpoint | - | medium |
 | `governance/tools/runtime_guard.py` | tooling | tooling | - | - | governance-runtime | - | - | high |
 | `governance/tools/show_classification.py` | tooling | tooling | - | - | classification | checkpoint | - | - |
@@ -214,6 +221,7 @@ Editing a row is a governance change. It validates with continuity, the classifi
 | `governance/tools/support/adoption.py` | tooling | tooling | - | - | governance-runtime | - | - | - |
 | `governance/tools/support/link_retarget.py` | tooling | tooling | - | - | link-retarget | checkpoint | - | medium |
 | `governance/tools/support/local_state.py` | tooling | tooling | - | - | - | checkpoint | - | medium |
+| `governance/tools/support/mission_layout.py` | tooling | tooling | - | - | worktrees | checkpoint | - | medium |
 | `governance/tools/support/timing_record.py` | tooling | tooling | - | - | timings | checkpoint | - | - |
 | `governance/tools/timing_record.py` | tooling | tooling | - | - | timings | checkpoint | - | - |
 | `governance/tools/validate_continuity.py` | tooling | tooling | - | - | continuity | - | - | medium |

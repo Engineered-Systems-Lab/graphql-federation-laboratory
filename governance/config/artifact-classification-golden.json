@@ -301,6 +301,22 @@
       "why": "the one source of what a worker reads, and when",
       "approval_sensitivity": "medium"
     },
+    "governance/REVIEW-STEP.md": {
+      "class": "governance",
+      "profile": "governance",
+      "boundary": [],
+      "bound": true,
+      "invariants": [
+        "conformance",
+        "guidance"
+      ],
+      "subclass": [
+        "agent-guidance"
+      ],
+      "reachable": true,
+      "why": "review step; carries the offer, the paste and run paths and the reviewer command lines",
+      "approval_sensitivity": "medium"
+    },
     "governance/ROLE-COORDINATOR.md": {
       "class": "governance",
       "profile": "governance",
@@ -315,6 +331,22 @@
       ],
       "reachable": true,
       "why": "Coordinator entry point; carries the delegation, release and takeover rules",
+      "approval_sensitivity": "medium"
+    },
+    "governance/ROLE-REVIEWER.md": {
+      "class": "governance",
+      "profile": "governance",
+      "boundary": [],
+      "bound": true,
+      "invariants": [
+        "conformance",
+        "guidance"
+      ],
+      "subclass": [
+        "agent-guidance"
+      ],
+      "reachable": true,
+      "why": "reviewer entry point; carries the read-only rules and the findings format",
       "approval_sensitivity": "medium"
     },
     "governance/ROLE-WORKER.md": {

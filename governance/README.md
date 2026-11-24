@@ -7,6 +7,8 @@ Governance describes how this repository is managed, validated, recorded, decide
 | [Agent orientation](AGENT-ORIENTATION.md) | The short common entry every agent reads first: roles, vocabulary, shortcuts and where each kind of truth lives; no rules of its own |
 | [Coordinator role](ROLE-COORDINATOR.md) | What only the Coordinator does: R and SR, delegation, the horizon rule, release, takeover and recovery |
 | [Worker role](ROLE-WORKER.md) | What only a worker does: the Job, the mission worktree, validation scope and the preview waiver |
+| [Review step](REVIEW-STEP.md) | How a worker has its preview reviewed before the go: the offer, the paste and run paths, the command lines and what is saved |
+| [Reviewer role](ROLE-REVIEWER.md) | What a read-only reviewer does: one review, the findings format and where the review files live |
 | [Constraints](CONSTRAINTS.md) | Active operating rules and frozen-artifact precedence |
 | [Decisions](DECISIONS.md) | Complete standing registry; IDs and history stay together |
 | [Rationale](RATIONALE.md) | Explanations and evidence; non-normative |
@@ -40,3 +42,7 @@ The [devlog](../devlog/README.md) is the historical, non-normative record of pro
 ## Mission Control
 
 Mission Control is an optional [extension](extensions/README.md): it can be removed without touching the core. [Mission Control v1 design](extensions/mission_control/MISSION-CONTROL-V1-DESIGN.md) records the read-only repository observation design under G030. The [generator](extensions/mission_control/README.md) produces five self-contained derived datasets, which are generated locally and never committed, and the implemented [read-only terminal](extensions/mission_control/ui/README.md) browses the local copy. Neither the datasets nor the UI supplies live transaction state or governing authority.
+
+## Diff viewer
+
+The diff viewer is an optional [extension](extensions/README.md): it can be removed without touching the core. Its [README](extensions/diff_viewer/README.md) says how a worker renders the exact candidate of a preview or a sealed review as one readable HTML page in the mission's review folder, where the link to it goes in the message that asks for the go or the Approve, and how the page compares the rounds of a mission that was previewed more than once. The page is deleted with the mission's review folder and grants no approval.
