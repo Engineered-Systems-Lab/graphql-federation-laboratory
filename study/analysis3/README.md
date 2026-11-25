@@ -28,7 +28,7 @@ The statistics packages are study 1's pins ([study/analysis/requirements.txt](..
 The raw bundle stays outside the repository and is read-only. Copy the run folder somewhere outside every checkout, then run from the repository root with the study environment's Python (the one `STUDY_MCP_PYTHON` names), in Git Bash:
 
 ```sh
-"$STUDY_MCP_PYTHON" -B study/analysis3/analyze3.py --bundle '<copy>/study-3' --sums '<archive>/SHA256SUMS-study-3.txt' --bundle-checksum '<sha256 of the bundle>' --corpus-dir study/corpus3 --out '<folder outside the repository>' --study2-scores study/evidence/study-2/scores.csv
+"$STUDY_MCP_PYTHON" -B study/analysis3/analyze3.py --run-id '<run id>' --bundle '<copy>/<run id>' --sums '<archive>/SHA256SUMS-<run id>.txt' --bundle-checksum '<sha256 of the bundle>' --corpus-dir study/corpus3 --out '<folder outside the repository>' --study2-scores study/evidence/study-2/scores.csv
 ```
 
 Any verification failure stops it with `STOP` and exit code 2, and nothing is written. An unusable fit does not stop it: the family switches to its prespecified fallback, and a family that cannot be estimated either way is reported as not estimable. The output folder must be outside the repository and must not exist yet. The same inputs give the same bytes.
@@ -36,10 +36,10 @@ Any verification failure stops it with `STOP` and exit code 2, and nothing is wr
 The legacy-load reader takes the same copy and a copy of the launch kit's `legacy-load` folder from the state folder of the run ([the launch kit](../launch/README.md#the-legacy-load-record)). It writes `legacy-load.json` and `legacy-load.md` into a new folder outside the repository, and stops with `STOP` and exit code 2 as the analysis does:
 
 ```sh
-"$STUDY_MCP_PYTHON" -B study/analysis3/legacy3.py --bundle '<copy>/study-3' --sums '<archive>/SHA256SUMS-study-3.txt' --bundle-checksum '<sha256 of the bundle>' --corpus-dir study/corpus3 --legacy-dir '<copy of the state folder>/legacy-load' --out '<folder outside the repository>'
+"$STUDY_MCP_PYTHON" -B study/analysis3/legacy3.py --run-id '<run id>' --bundle '<copy>/<run id>' --sums '<archive>/SHA256SUMS-<run id>.txt' --bundle-checksum '<sha256 of the bundle>' --corpus-dir study/corpus3 --legacy-dir '<copy of the state folder>/legacy-load' --out '<folder outside the repository>'
 ```
 
-A block it cannot count is reported with its reasons, and every other output is still written. The analysis runs without the reader, and `analyze3.py`'s own results point to `legacy3.py` for the legacy load, with the command line above.
+A block it cannot count is reported with its reasons, and every other output is still written. The analysis runs without the reader, and `analyze3.py`'s own results point to `legacy3.py` for the legacy load, with the command line above. Its `tables.md` also prints the verified inputs, which runs count and the spend by arm, as `results.json` records them.
 
 The power and validation calculations write to a file outside the repository:
 

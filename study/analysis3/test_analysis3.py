@@ -6,6 +6,8 @@ import contextlib
 import io
 import json
 import math
+import re
+import shlex
 import sys
 import tempfile
 import unittest
@@ -19,6 +21,7 @@ sys.path.insert(0, str(HERE))
 
 import analyze3  # noqa: E402
 import data3  # noqa: E402
+import legacy3  # noqa: E402
 import power3  # noqa: E402
 import simulate3  # noqa: E402
 import stats3  # noqa: E402
@@ -420,11 +423,13 @@ class OutputTests(Workspace):
         facts = self.bundle(effects=simulate3.effects_at(100))
         self.assertEqual(run_cli(args_for(facts, self.root / 'out'))[0], 0)
         res = json.loads((self.root / 'out' / 'results.json').read_text(encoding='utf-8'))
-        command = next(line for line in (HERE / 'README.md').read_text(encoding='utf-8').splitlines() if 'analysis3/legacy3.py --bundle' in line)
+        command = next(line for line in (HERE / 'README.md').read_text(encoding='utf-8').splitlines() if 'analysis3/legacy3.py --run-id' in line)
         legacy = res['descriptive']['legacyLoad']
         self.assertEqual(set(legacy), {'status', 'measure'})
         self.assertIn('Reported by legacy3.py', legacy['status'])
-        self.assertIn('`%s`' % command, legacy['status'])
+        run = facts['runId']
+        self.assertIn('`%s`' % command.replace("'<run id>'", shlex.quote(run)).replace('<run id>', run), legacy['status'],
+                      "the README's command line with the run id the analysis read")
         self.assertIn('## Descriptive: legacy load\n\n%s\n' % legacy['status'], (self.root / 'out' / 'tables.md').read_text(encoding='utf-8'))
         self.assertEqual(set(res['confirmatory']), {'floors', 'effort', 'csl'})
         self.assertEqual(set(res['cslGroupAccuracy']['groups']), {'forward', 'reverse', 'one', 'several'})
@@ -432,6 +437,111 @@ class OutputTests(Workspace):
         self.assertEqual(res['about'], 'Abstraction ladder study 3 analysis under the plan study/analysis3/PLAN.md. Generated; do not edit.')
         self.assertNotIn('draft', analyze3.__doc__.splitlines()[0])
         self.assertEqual(set(res['descriptive']['perStratum']), {'anchor', 'csl', 'category', 'size', 'forwardAggregates'})
+
+
+def section_rows(text, heading):
+    """The table rows of one section of tables.md, as lists of cells, header and rule left out."""
+    lines = text.split('\n## ')
+    body = next(part for part in lines if part.split('\n', 1)[0] == heading[3:])
+    rows = [line for line in body.splitlines() if line.startswith('| ')]
+    return [[cell.strip() for cell in row.strip('|').split(' | ')] for row in rows[2:]]
+
+
+class LegacyCommandAndInputSectionsTests(Workspace):
+    """The legacy-load command names the run the analysis read, and tables.md prints the verification, the counting and the spend of
+    results.json as they stand, in the plan's order."""
+    VERIFICATION = '## Inputs: the verification (PLAN.md, section 1)'
+    COUNTING = '## Inputs: which runs count (PLAN.md, section 3)'
+    SPEND = '## Descriptive: spend by arm (USD, prices of the manifest)'
+
+    def run_analysis(self, run_id, give_run_id, **options):
+        facts = self.bundle(name=run_id, run_id=run_id, **options)
+        argv = args_for(facts, self.root / ('out-' + run_id))
+        if not give_run_id:
+            at = argv.index('--run-id')
+            del argv[at:at + 2]
+        code, _, err = run_cli(argv)
+        self.assertEqual(code, 0, err)
+        out = self.root / ('out-' + run_id)
+        return json.loads((out / 'results.json').read_text(encoding='utf-8')), (out / 'tables.md').read_text(encoding='utf-8')
+
+    def check_command(self, res, text, run_id):
+        status = res['descriptive']['legacyLoad']['status']
+        self.assertIn('## Descriptive: legacy load\n\n%s\n' % status, text)
+        self.check_status(status, run_id)
+
+    def check_status(self, status, run_id):
+        opening = re.match('[^`]*(`+)', status)
+        fence = opening.group(1)
+        self.assertTrue(status.endswith(fence) and len(fence) > max(map(len, re.findall('`+', run_id)), default=0),
+                        'the code span is closed by its own delimiter, longer than any backticks of the run id')
+        tokens = shlex.split(status[opening.end():-len(fence)])
+        self.assertEqual(tokens[:3], ['$STUDY_MCP_PYTHON', '-B', 'study/analysis3/legacy3.py'])
+        args = legacy3.build_parser().parse_args(tokens[3:])
+        self.assertEqual(args.run_id, run_id, "legacy3.py's own parser reads the run id the analysis read")
+        self.assertEqual((args.bundle, args.sums), ('<copy>/%s' % run_id, '<archive>/SHA256SUMS-%s.txt' % run_id))
+        self.assertEqual((args.bundle_checksum, args.corpus_dir, args.legacy_dir, args.out),
+                         ('<sha256 of the bundle>', 'study/corpus3', '<copy of the state folder>/legacy-load', '<folder outside the repository>'))
+
+    def check_sections(self, res, text):
+        headings = [line for line in text.splitlines() if line.startswith('## ')]
+        self.assertEqual(headings[:3], [self.VERIFICATION, self.COUNTING, '## Confirmatory: the accuracy floor (federation minus the arm, points; '
+                                                                         'one-sided 0.025; margin -10)'])
+        self.assertLess(headings.index('## Descriptive: time per run (ratios of geometric means)'), headings.index(self.SPEND))
+        self.assertEqual(headings[-2:], [self.SPEND, '## Descriptive: legacy load'])
+
+        def recorded(value):
+            return value if isinstance(value, str) else json.dumps(value)
+
+        bundle, corpus = res['inputs']['bundle'], res['inputs']['corpus']
+        self.assertEqual((set(analyze3.BUNDLE_LABELS), set(analyze3.CORPUS_LABELS)), (set(bundle), set(corpus)), 'every recorded fact is printed')
+        rows = section_rows(text, self.VERIFICATION)
+        self.assertEqual([r[1] for r in rows], [recorded(bundle[k]) for k in analyze3.BUNDLE_LABELS] + [recorded(corpus[k]) for k in analyze3.CORPUS_LABELS])
+        self.assertEqual([r[0] for r in rows], ['bundle: ' + v for v in analyze3.BUNDLE_LABELS.values()] + ['corpus: ' + v for v in analyze3.CORPUS_LABELS.values()])
+        for name in ('run', 'bundleChecksum', 'sumsFile', 'sumsFileSha256', 'corpusFreeze', 'planHash'):
+            self.assertIn(bundle[name], [r[1] for r in rows], name)
+
+        counting = res['counting']
+        rows = section_rows(text, self.COUNTING)
+        plain = list(analyze3.COUNTING_LABELS)
+        self.assertEqual((set(plain) | {'zeroCost'}, set(analyze3.ZERO_COST_LABELS)), (set(counting), set(counting['zeroCost'])), 'every count is printed')
+        self.assertEqual(len(rows), len(plain) + len(counting['zeroCost']))
+        for row, key in zip(rows, plain):
+            value = counting[key]
+            self.assertEqual(row[1], (', '.join(value) or 'none') if isinstance(value, list) else str(value), key)
+        zero = counting['zeroCost']
+        self.assertEqual(rows[len(plain)][1], str(zero['runsWithZeroCost']))
+        if zero['replacedBy'] is None:
+            self.assertEqual(rows[len(plain) + 1][1], 'none')
+        else:
+            self.assertEqual(float(rows[len(plain) + 1][1]), zero['replacedBy'])
+
+        spend = res['descriptive']['spend']
+        rows = section_rows(text, self.SPEND)
+        self.assertEqual(set(spend), set(data3.ALL_ARMS))
+        self.assertEqual([r[0] for r in rows], [analyze3.NAMES[a] for a in data3.ALL_ARMS])
+        for row, entry in zip(rows, (spend[a] for a in data3.ALL_ARMS)):
+            self.assertEqual([float(c) for c in row[1:]], [entry['countedRuns'], entry['archivedAttempts'], entry['voidAttempts']])
+
+    def test_a_run_id_with_quotes_spaces_backticks_or_a_leading_hyphen_parses_back_whole(self):
+        for run_id in ("operator's-run", 'run "two"', 'a run', '-archive-test', '--x', 'run`tick', 'a``b`'):
+            self.check_status(analyze3.legacy_load(run_id), run_id)
+        self.assertIn(' --run-id study3-scored-1 ', analyze3.legacy_load('study3-scored-1'), 'an ordinary run id keeps the form of C1')
+        self.assertTrue(analyze3.legacy_load('study3-scored-1').endswith("'<folder outside the repository>'`"))
+
+    def test_the_default_run_id_is_named_in_the_command_and_the_sections_are_printed(self):
+        res, text = self.run_analysis('study-3', give_run_id=False)
+        self.assertEqual(res['inputs']['bundle']['run'], 'study-3')
+        self.check_command(res, text, 'study-3')
+        self.check_sections(res, text)
+
+    def test_another_run_id_is_named_in_the_command_and_a_zero_cost_is_printed(self):
+        res, text = self.run_analysis('study3-scored-1', give_run_id=True, zero_cost_runs=2)
+        self.assertEqual(res['inputs']['bundle']['run'], 'study3-scored-1')
+        self.assertEqual(res['counting']['zeroCost']['runsWithZeroCost'], 2)
+        self.assertIsNotNone(res['counting']['zeroCost']['replacedBy'])
+        self.check_command(res, text, 'study3-scored-1')
+        self.check_sections(res, text)
 
 
 class ForwardAggregateTests(Workspace):

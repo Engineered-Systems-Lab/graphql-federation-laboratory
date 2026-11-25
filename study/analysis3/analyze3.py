@@ -14,6 +14,8 @@ import argparse
 import csv
 import json
 import math
+import re
+import shlex
 import statistics
 import sys
 from pathlib import Path
@@ -28,13 +30,38 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 ARMS = data3.SQUARE_ARMS
 NAMES = data3.ARM_NAMES
-LEGACY_LOAD = ("Reported by legacy3.py, a separate command with its own inputs, not by this analysis (README): "
-               "`\"$STUDY_MCP_PYTHON\" -B study/analysis3/legacy3.py --bundle '<copy>/study-3' --sums '<archive>/SHA256SUMS-study-3.txt' "
-               "--bundle-checksum '<sha256 of the bundle>' --corpus-dir study/corpus3 --legacy-dir '<copy of the state folder>/legacy-load' "
-               "--out '<folder outside the repository>'`")
 OUTCOME_NAMES = {'toolCalls': '1 + tool calls per run', 'cost': 'cost per run (USD)'}
 GROUP_NAMES = {'forward': 'forward', 'reverse': 'reverse', 'one': 'one system', 'several': 'several systems'}
+# The labels of the verified facts in `inputs` (PLAN.md, section 1), in the order tables.md prints them.
+BUNDLE_LABELS = {'run': 'run', 'files': 'files in the copy, each checked against the sums', 'bundleChecksum': 'bundle checksum (recomputed, equal to the one given)',
+                 'writtenAt': 'bundle written at', 'sumsFile': 'sums file', 'sumsFileSha256': 'SHA-256 of the sums file',
+                 'scoringContract': 'scorer contract version', 'scorerSha256': "scorer's SHA-256", 'corpusFreeze': "manifest's corpus hash",
+                 'harnessCommit': 'harness commit', 'treeDirty': 'harness tree dirty', 'planHash': "manifest's run plan hash (planHash)"}
+CORPUS_LABELS = {'corpusFreeze': 'corpus hash (SHA-256 of the corpus manifest)', 'tasksJsonSha256': 'SHA-256 of tasks.json', 'tasks': 'tasks'}
+# The labels of `counting` (PLAN.md, section 3): study 2's, with study 3's words for the runs that enter the families and for Direct Access.
+COUNTING_LABELS = dict(analyze2.COUNTING_LABELS, primary='core runs of the four full arms in the confirmatory analyses (vendor errors left out)',
+                       primaryVendorErrorsMissing='vendor errors there, missing',
+                       directAccess='runs of Direct Access (descriptive, outside the confirmatory families)')
+ZERO_COST_LABELS = {'runsWithZeroCost': 'scored runs with a zero cost', 'replacedBy': 'the cost they were given instead (USD, the smallest positive cost)'}
 r6 = analyze2.r6
+
+
+def legacy_load(run_id):
+    """Where the legacy load is reported: legacy3.py's command line for the run this analysis read (README), with its own placeholders.
+    Every argument is quoted whole; a run id that starts with a hyphen is joined to its option with '=', so it is not read as an option; and
+    the code span's delimiter is longer than any run of backticks in the command."""
+    run = ('--run-id=%s' if run_id.startswith('-') else '--run-id %s') % shlex.quote(run_id)
+    command = ("\"$STUDY_MCP_PYTHON\" -B study/analysis3/legacy3.py %s --bundle %s --sums %s "
+               "--bundle-checksum '<sha256 of the bundle>' --corpus-dir study/corpus3 --legacy-dir '<copy of the state folder>/legacy-load' "
+               "--out '<folder outside the repository>'"
+               % (run, shlex.quote('<copy>/%s' % run_id), shlex.quote('<archive>/SHA256SUMS-%s.txt' % run_id)))
+    fence = '`' * (1 + max((len(m) for m in re.findall('`+', command)), default=0))
+    return 'Reported by legacy3.py, a separate command with its own inputs, not by this analysis (README): %s%s%s' % (fence, command, fence)
+
+
+def fact(value):
+    """A recorded fact as results.json holds it: true, false and null in its own words, everything else as written."""
+    return json.dumps(value) if value is None or isinstance(value, bool) else str(value)
 table = analyze2.table
 
 
@@ -137,7 +164,7 @@ def analyse(args):
         'descriptive': {'cells': analyze2.cell_counts(core, data3.ALL_ARMS, models), 'outcomes': analyze2.outcome_table(core, data3.ALL_ARMS),
                         'measures': attempt(analyze2.measures, square, models, conditions), 'perStratum': per_stratum(rows, models),
                         'spend': analyze2.spend(recorded, blocks), 'schedule': analyze2.schedule_facts(manifest, blocks),
-                        'legacyLoad': {'status': LEGACY_LOAD,'measure': 'requests to Missions, Personnel and Assets per run and arm, descriptive, ratios with intervals'}},
+                        'legacyLoad': {'status': legacy_load(args.run_id), 'measure': 'requests to Missions, Personnel and Assets per run and arm, descriptive, ratios with intervals'}},
         'exploratory': {'tables': attempt(analyze2.exploratory, records, models), 'honestGap': attempt(analyze2.honest_gap, square, models),
                         'study2Tasks': study2_comparison(args.study2_scores, rows, models)},
     })
@@ -155,6 +182,16 @@ def verdict(entry):
 def tables_md(res):
     c = res['confirmatory']
     parts = ['# Abstraction ladder study 3: analysis tables', '', 'Generated by study/analysis3/analyze3.py from a verified copy of %s. Do not edit by hand.' % res['inputs']['bundle']['run'], '']
+    bundle, corpus = res['inputs']['bundle'], res['inputs']['corpus']
+    parts += ['## Inputs: the verification (PLAN.md, section 1)', '',
+              'Every check of the plan passed before a number was computed; a failure stops the analysis and writes nothing. The facts as recorded:', '',
+              table(['', 'Recorded'], [['bundle: %s' % label, fact(bundle[k])] for k, label in BUNDLE_LABELS.items()]
+                    + [['corpus: %s' % label, fact(corpus[k])] for k, label in CORPUS_LABELS.items()]), '']
+    counting = res['counting']
+    parts += ['## Inputs: which runs count (PLAN.md, section 3)', '',
+              table(['', 'Runs or blocks'], [[label, (', '.join(counting[k]) or 'none') if isinstance(counting[k], list) else fact(counting[k])]
+                                             for k, label in COUNTING_LABELS.items()]
+                    + [[label, 'none' if counting['zeroCost'][k] is None else fact(counting['zeroCost'][k])] for k, label in ZERO_COST_LABELS.items()]), '']
     rows = []
     for comparator, f in c['floors'].items():
         rows.append([NAMES[comparator], '%+.1f' % (100 * f['estimate']) if f['estimable'] else 'not estimable',
@@ -195,6 +232,11 @@ def tables_md(res):
     parts += ['## Descriptive: time per run (ratios of geometric means)', '']
     parts += [table(['', 'Comparison', 'Ratio [95% CI]'], [[r['id'], r['label'], '%.2f [%.2f, %.2f]' % (r['ratio'], r['low'], r['high'])] for r in block['ratios'] if r['id'] in ('P1', 'P2')]), '']\
         if block.get('estimable') else ['Not estimable: %s' % block.get('reason'), '']
+    parts += ['## Descriptive: spend by arm (USD, prices of the manifest)', '',
+              'Each run at its recorded cost: the zero-cost rule does not change the spend (PLAN.md, section 3).', '',
+              table(['Arm', 'Counted runs', 'Archived attempts (operational only)', 'Void attempts (operational only)'],
+                    [[NAMES[a], '%.6f' % v['countedRuns'], '%.6f' % v['archivedAttempts'], '%.6f' % v['voidAttempts']]
+                     for a, v in ((a, res['descriptive']['spend'][a]) for a in data3.ALL_ARMS)]), '']
     parts += ['## Descriptive: legacy load', '', res['descriptive']['legacyLoad']['status'], '']
     return '\n'.join(parts) + '\n'
 
