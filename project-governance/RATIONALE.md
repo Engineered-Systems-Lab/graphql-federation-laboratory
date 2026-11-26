@@ -76,6 +76,7 @@ The rows and sections for D001 to D049 were carried from the lab's rationale (th
 | D073 | explicit | The direction of the router's legacy load was not predicted, and a third family would take power; see Study 3 design. |
 | D074 | explicit | The lead developer's reason: an end to the study 1, 2 and 3 work rather than more questions now; see Study 3 design. |
 | D041 page totals revision | explicit | The lead developer chose option (a) of G1 to G4 in their own words (page fields with totals, the old lists deprecated, Personnel untouched, the reference code unchanged, the motive stated); the development failures that motivated it are source-stated; see Federation graph page totals. |
+| D071 scored-set extension | explicit | The lead developer asked to resolve which of two committed sources names study 3's scored set, as a dated extension to D071; the corpus Job's decisions C2, C3 and C7, taken before the freeze, give the full list; see Study 3 scored set. |
 
 ## Fair comparisons: D002, D003, D005, D006
 
@@ -689,3 +690,26 @@ No revisit condition supplies execution authority.
 **Evidence.** The [frozen analysis plan](../study/analysis3/PLAN.md); [corpus 3](../study/corpus3/README.md), frozen with it; the [freeze record](../study/evidence/study-3-freeze/freeze-record-20261122.json). The study's decision record, with its questions, recommendations and power calculation, stays private in the provenance repository. These decisions were recorded on 2026-11-21, at the freeze, after the work that applied them, as the Job `study3_freeze` was scoped to do (its decision Z5). This explanation grants no approval and implements nothing.
 
 **Revisit when.** A later study is designed (these decisions are study 3's), strand 2 is taken up as a study of its own, or the scored run cannot be made as they say and the lead developer must decide again.
+
+## Study 3 scored set: D071 scored-set extension
+
+**Rationale status.** Explicit.
+
+**Decision / what we do.** Record the corpus Job's decisions C2, C3 and C7 (2026-11-13, before the freeze) as project decisions, and name the frozen `tasks.json` as study 3's scored set, binding where it differs from D071's wording; D071's own text is unchanged.
+
+**Why.** The reasons are labeled by who gave them.
+- Supplied by the lead developer (2026-11-26, in the Coordinator session of the Job `study3_scored_set`): the start of the work ("shouldn't we resolve that for once?"), its form ("Scope it as a dated extension to D071") and the Job's decisions K1 to K4 ("K1 as (a). You are including the questions along with my answers, right?", "K2 as (c), and fix (or clarify) line 231 too", "K3 a", "K4 a"); and the answers to C2, C3 and C7 of 2026-11-13, as the extension quotes them.
+- Source-stated: two committed sources differed on the scored set and no committed rule named which binds. D071 reads "every checked pool question plus the new CSL questions"; the corpus 3 README calls the frozen `tasks.json` "the whole scored set, with no draw (decisions C2 and C7)", and its 113 tasks also hold 4 new forward tasks, which are not CSL, and the 6 ambiguity tasks, reported apart. The design page stated both with no ruling (the lead developer's "State both, no ruling", in the Job `study3_design`), and the Job `study3_overview` stopped on the difference. The decisions behind the full list were taken before the freeze but were recorded only in the private provenance repository. The register asks that a decision be superseded explicitly rather than silently rewritten.
+- Source-stated (the Job's approved scope): a dated extension records them as project decisions and names the scored set, so later pages cite one rule.
+
+**Alternatives.** Decided by the lead developer on 2026-11-26, one at a time.
+- K1: naming the scored set from the frozen files only, with the decisions cited by letter and no text (option b), not chosen: the Coordinator's recommendation was that it names a rule with no decision behind it. Option (a) was chosen, with each decision's question added at the lead developer's request. The recommendations of C2, C3 and C7 and the alternatives the corpus Job did not take are left out, and stay in its private record.
+- K2: one later-context sentence on line 50 of the design page only (option a), or no page change, with the overview and the findings page citing the extension (option b); the lead developer chose (c), option (a) plus a wording clarification of the size line, whose closing clause contradicted the sentence before it.
+- K3: the preview only, with no review (option b), not chosen.
+- K4: no devlog entry (option b), not chosen.
+
+**Tradeoffs or costs.** The extension is written after the scored run, so it is not pre-registration: it records decisions taken before the freeze and changes no run, plan rule, corpus file, family, threshold or figure. The reasoning behind C2, C3 and C7 stays private, so it cannot be read in the repository. D071's wording stays narrower than the scored set, so a reader takes D071 with this extension.
+
+**Evidence.** D071 and [the extension](DECISIONS.md#d071-scored-set-extension-2026-11-26); [corpus 3](../study/corpus3/README.md#files); the [freeze record](../study/evidence/study-3-freeze/freeze-record-20261122.json), with the SHA-256 of `tasks.json`; [section 3 of the frozen analysis plan](../study/analysis3/PLAN.md#3-which-runs-count); the [design page](../docs/STUDY-3-DESIGN.md#the-corpus); the machine-local Job record of `study3_scored_set`, read at main `7218cf5`. The corpus Job's decision record stays private in the provenance repository. This explanation grants no approval and implements nothing.
+
+**Revisit when.** A later study is designed with a scored set of its own, or a source is found that contradicts the decisions' text.

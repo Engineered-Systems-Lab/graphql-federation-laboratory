@@ -493,6 +493,20 @@ Decision 3 of the lead developer for Abstraction ladder study 3, answered on 202
 
 Decision 4 of the lead developer for Abstraction ladder study 3, answered on 2026-11-10 as "Yes, whole pool"; recorded in the study's decision record, which stays private in the provenance repository with study 3's working notes; recorded as a project decision on 2026-11-22, at the freeze (the Job `study3_freeze`). There is no draw: every checked pool question plus the new CSL questions, one run per question, arm and model; forward against reverse is tested one-sided. Checked first: any pool question set aside at study 2's answerability check stays out. The [frozen analysis plan](../study/analysis3/PLAN.md#11-power) gives the power at this size, and its [CSL family](../study/analysis3/PLAN.md#7-the-csl-family-confirmatory) the one-sided test. See [the explanatory rationale](RATIONALE.md#study-3-design-d068-d074).
 
+### D071 scored-set extension (2026-11-26)
+
+Written on 2026-11-26, after study 3's scored run, to record decisions taken before the freeze (the Job `study3_scored_set`). It records three decisions of the corpus Job `study3_corpus3`, each asked and answered one at a time on 2026-11-13; their record stays private in the provenance repository. Each gives the question as the corpus Job asked it, the lead developer's answer and the option chosen:
+
+- **Decision C2**, "Which of the 76", answered "Yes, all 76": all 76 of study 2's pool tasks; none was set aside at study 2's answerability check.
+- **Decision C3**, "How many new questions, and of which CSL kind", answered "27 plus 3-system": 27 new tasks in the reverse group, plus 3 to 4 new forward questions that read all three systems.
+- **Decision C7**, "The ambiguity set (6)", answered "Yes, as in study 2": the ambiguity set is carried and run as in study 2, reported apart, outside the effort families.
+
+**The scored set.** Study 3's scored set is the frozen `study/corpus3/tasks.json` that the [freeze record](../study/evidence/study-3-freeze/freeze-record-20261122.json) names, with the SHA-256 recorded there, `3879f7e7231c0170c7ef26643121cec2599636103cbd8b7249891158c4f518cd`: study 2's 76 pool tasks, the 31 new tasks (27 in the reverse group and 4 forward tasks that read all three systems), then study 2's 6 ambiguity tasks, reported apart ([corpus 3](../study/corpus3/README.md#files)). The core set is the 107 pool and new tasks, without the 6 ambiguity tasks, as the freeze record's dry-run plan gives the scored set: "113 tasks: 107 core, 6 ambiguity". The confirmatory families are as [section 3 of the frozen analysis plan](../study/analysis3/PLAN.md#3-which-runs-count) says: effort counts every scored run of the four full arms on the core set, and the ambiguity set and Direct Access never enter the confirmatory families.
+
+**D071's wording.** D071's sentence "every checked pool question plus the new CSL questions" states the no-draw rule. This extension gives the full list and binds where the two differ. D071's own text is unchanged.
+
+This extension changes no run, plan rule, corpus file, family, threshold or figure. See [the explanatory rationale](RATIONALE.md#study-3-scored-set-d071-scored-set-extension).
+
 ## D072 - Study 3 decision 5: study 2's guide, unchanged (2026-11-10, Accepted)
 
 Decision 5 of the lead developer for Abstraction ladder study 3, answered on 2026-11-10 as "Keep it as is"; recorded in the study's decision record, which stays private in the provenance repository with study 3's working notes; recorded as a project decision on 2026-11-22, at the freeze (the Job `study3_freeze`). Study 3 uses study 2's frozen guide, `study/guide2/GUIDE.md`, unchanged; its SHA-256 is in the [freeze record](../study/evidence/study-3-freeze/freeze-record-20261122.json), and the [frozen analysis plan](../study/analysis3/PLAN.md) analyses the arms that read it. See [the explanatory rationale](RATIONALE.md#study-3-design-d068-d074).
