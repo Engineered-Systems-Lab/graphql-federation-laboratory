@@ -60,3 +60,6 @@ study/guide2/check/relay/* -text whitespace=cr-at-eol
 
 # The analysis tables of study 2 are kept byte for byte as study/analysis2/analyze2.py wrote them, and that file ends with a blank line.
 study/evidence/study-2/tables.md whitespace=-blank-at-eof
+
+# The analysis tables of study 3 are kept byte for byte as study/analysis3/analyze3.py wrote them, and that file ends with a blank line.
+study/evidence/study-3/tables.md whitespace=-blank-at-eof

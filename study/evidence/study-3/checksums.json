@@ -1,0 +1,52 @@
+{
+ "about": "Checksums that tie the committed evidence of study 3's scored run study3-scored-1 to the raw run folder and its archive kept outside the repository, and its analysis and legacy-load outputs to the runs that wrote them. bundleChecksum is the runner's checksum over the bundle's file list (study/harness/runner.py, write_bundle); bundleJsonSha256, the archive, sums-file and evidence-file digests are SHA-256 of the exact bytes as the run, the archive and the scripts wrote them (LF). scores.csv and manifest.json are byte copies of the run folder's files, from a copy verified against the per-file sums file on 2026-11-25. results.json, tables.md and figures/effort.svg are the output of study/analysis3/analyze3.py at commit 72d39c2b3153de19c54f8994d397070d00f19063 under the frozen PLAN.md, run twice on 2026-11-26 with byte-identical outputs. legacy-load.json and legacy-load.md are the output of study/analysis3/legacy3.py at the same commit, run twice on 2026-11-26 with byte-identical outputs, on the same copy and a checked copy of the run's legacy-load folder. The archive zip holds the results folder of the scored run, its rehearsal, the two carried preflight runs, the harness's MCP call logs and the three per-file sums files; the setup zip holds the run's configuration, logs and state, the legacy-load folder included, and SHA256SUMS-setup; the unlisted sums file gives the sums of the 178 archived files that no per-file sums file lists.",
+ "runs": {
+  "study3-scored-1": {
+   "archive": {
+    "name": "lab-results-study3-2026-11-25.zip",
+    "members": 6151,
+    "sha256": "039aeb4885f392f99e8402b50322b8cb3cd5ee31a0990f8c22fd0abeb7f71b58"
+   },
+   "setupArchive": {
+    "name": "setup-study3-2026-11-25.zip",
+    "members": 166,
+    "sha256": "bf303fb3679a8edb7fd2cf281cdb0fc5f95a680f110c4c8fc4410159c1056621"
+   },
+   "unlistedSumsFile": {
+    "name": "SHA256SUMS-unlisted-study3",
+    "lines": 178,
+    "sha256": "cef932c82a85fd671e9c30b88bfedace22cb4d4a710ec9182504ffaa519c0626"
+   },
+   "bundleChecksum": "457ce298d1426a4d762bd217dd314a302e8da7ec9b73061c0a1c4e6a64133f06",
+   "bundleJsonSha256": "80ec1fdc9f3afe21ed6c5268e2a8675d914ce29df31eff1e3902a1ae039c434b",
+   "bundleWrittenAt": "2026-11-25T05:42:33.552+00:00",
+   "status": "complete",
+   "evidenceFiles": {
+    "manifest.json": "fbc49e891647b2eb32b832e840c200152f1bd0ae54e04fe5bb1b1be8c2e19a19",
+    "scores.csv": "4b6913e195d4de657713a187936576d8a8f97b5f307b0c7c4eb043df8db4c152"
+   },
+   "filesInRun": 3422,
+   "sumsFile": {
+    "name": "SHA256SUMS-study3-scored-1.txt",
+    "sha256": "c6da89d8beee91671c947238f05ec1d0cbd40c4397fb77a66428ead72308fb9c"
+   },
+   "analysis": {
+    "commit": "72d39c2b3153de19c54f8994d397070d00f19063",
+    "planSha256": "85c06abbc7e668aeeb2da337c8bf3cb9166d3113e299593e782e5536f02d5a8f",
+    "outputFiles": {
+     "figures/effort.svg": "098d47becf495e7819e2673a8569a7033032d7a5cab051a10bd89e7ed885379c",
+     "results.json": "42824465113de8e4a518aae07fada874fa42960f2adefdc6336fd9e4803bb0a8",
+     "tables.md": "51970a0684059baeada1f5659ee944e4709565cf636ba1ebaa1f678a9cd668e5"
+    }
+   },
+   "legacyLoad": {
+    "commit": "72d39c2b3153de19c54f8994d397070d00f19063",
+    "sessions": 34,
+    "outputFiles": {
+     "legacy-load.json": "b268ec7d6e1bcfce84ca772d618384605eb41e37da87ca38a7873be8c0f1ee91",
+     "legacy-load.md": "1d2a19be2e212b2f335f6c8f2c24a77bd82c0e818f259ae3ba9dd8b7df08912e"
+    }
+   }
+  }
+ }
+}

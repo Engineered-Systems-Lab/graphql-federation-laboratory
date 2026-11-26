@@ -1,0 +1,1144 @@
+{
+  "about": "The legacy-load reader of study 3 (PLAN.md section 10): requests to Missions, Personnel and Assets per run and arm. Descriptive only; it supports no confirmatory claim.",
+  "ambiguitySet": {
+    "arms": {
+      "alpha": {
+        "raw": {
+          "connected": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "noConnection": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "refused": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "status": {
+            "assets": 60,
+            "missions": 63,
+            "personnel": 102
+          },
+          "timeout": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unclassified": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unplaced": 13
+        },
+        "requests": {
+          "assets": 60,
+          "missions": 63,
+          "personnel": 102
+        },
+        "runs": 12
+      },
+      "beta": {
+        "raw": {
+          "connected": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "noConnection": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "refused": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "status": {
+            "assets": 5,
+            "missions": 10,
+            "personnel": 11
+          },
+          "timeout": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unclassified": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unplaced": 0
+        },
+        "requests": {
+          "assets": 5,
+          "missions": 10,
+          "personnel": 11
+        },
+        "runs": 12
+      },
+      "delta": {
+        "requests": {
+          "assets": 39,
+          "missions": 11,
+          "personnel": 9
+        },
+        "runs": 12
+      },
+      "epsilon": {
+        "requests": {
+          "assets": 20,
+          "missions": 13,
+          "personnel": 6
+        },
+        "runs": 12
+      },
+      "gamma": {
+        "requests": {
+          "assets": 11,
+          "missions": 10,
+          "personnel": 12
+        },
+        "runs": 12
+      }
+    },
+    "note": "the ambiguity set's runs in the countable blocks and their requests (the raw arms' also by kind), apart from the core set and from its total"
+  },
+  "blockInitialization": {
+    "alpha": {
+      "blocks": 1,
+      "perSession": null,
+      "requests": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "sessions": 0
+    },
+    "beta": {
+      "blocks": 4,
+      "perSession": null,
+      "requests": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "sessions": 0
+    },
+    "delta": {
+      "blocks": 4,
+      "perSession": {
+        "assets": 0.0,
+        "missions": 3.0,
+        "personnel": 13.0
+      },
+      "requests": {
+        "assets": 0,
+        "missions": 12,
+        "personnel": 52
+      },
+      "sessions": 4
+    },
+    "epsilon": {
+      "blocks": 4,
+      "perSession": {
+        "assets": 0.0,
+        "missions": 3.0,
+        "personnel": 13.0
+      },
+      "requests": {
+        "assets": 0,
+        "missions": 12,
+        "personnel": 52
+      },
+      "sessions": 4
+    },
+    "gamma": {
+      "blocks": 4,
+      "perSession": {
+        "assets": 0.0,
+        "missions": 0.0,
+        "personnel": 0.0
+      },
+      "requests": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "sessions": 4
+    }
+  },
+  "blocks": {
+    "r1-beta": {
+      "arm": "beta",
+      "countable": true,
+      "sessions": []
+    },
+    "r1-delta": {
+      "arm": "delta",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 3,
+            "personnel": 13
+          },
+          "name": "20261124T225131324684Z-delta",
+          "nearBoundary": 4,
+          "offset": 0.079479,
+          "snapshotRead": true,
+          "unattributed": {
+            "assets": 2,
+            "missions": 2,
+            "personnel": 3
+          }
+        }
+      ]
+    },
+    "r1-epsilon": {
+      "arm": "epsilon",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 3,
+            "personnel": 13
+          },
+          "name": "20261125T000208124522Z-epsilon",
+          "nearBoundary": 6,
+          "offset": 0.081385,
+          "snapshotRead": true,
+          "unattributed": {
+            "assets": 2,
+            "missions": 2,
+            "personnel": 3
+          }
+        }
+      ]
+    },
+    "r1-gamma": {
+      "arm": "gamma",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "name": "20261124T231753997430Z-gamma",
+          "nearBoundary": 3,
+          "offset": 0.082637,
+          "snapshotRead": null,
+          "unattributed": {
+            "assets": 2,
+            "missions": 2,
+            "personnel": 3
+          }
+        }
+      ]
+    },
+    "r2-beta": {
+      "arm": "beta",
+      "countable": true,
+      "sessions": []
+    },
+    "r2-delta": {
+      "arm": "delta",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 3,
+            "personnel": 13
+          },
+          "name": "20261125T002828285404Z-delta",
+          "nearBoundary": 7,
+          "offset": 0.080869,
+          "snapshotRead": true,
+          "unattributed": {
+            "assets": 3,
+            "missions": 2,
+            "personnel": 2
+          }
+        }
+      ]
+    },
+    "r2-epsilon": {
+      "arm": "epsilon",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 3,
+            "personnel": 13
+          },
+          "name": "20261125T005515919996Z-epsilon",
+          "nearBoundary": 6,
+          "offset": 0.080745,
+          "snapshotRead": true,
+          "unattributed": {
+            "assets": 3,
+            "missions": 2,
+            "personnel": 2
+          }
+        }
+      ]
+    },
+    "r2-gamma": {
+      "arm": "gamma",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "name": "20261125T014947663308Z-gamma",
+          "nearBoundary": 4,
+          "offset": 0.083784,
+          "snapshotRead": null,
+          "unattributed": {
+            "assets": 3,
+            "missions": 2,
+            "personnel": 2
+          }
+        }
+      ]
+    },
+    "r3-beta": {
+      "arm": "beta",
+      "countable": true,
+      "sessions": []
+    },
+    "r3-delta": {
+      "arm": "delta",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 3,
+            "personnel": 13
+          },
+          "name": "20261124T190925815814Z-delta",
+          "nearBoundary": 5,
+          "offset": 0.077216,
+          "snapshotRead": true,
+          "unattributed": {
+            "assets": 2,
+            "missions": 2,
+            "personnel": 3
+          }
+        }
+      ]
+    },
+    "r3-epsilon": {
+      "arm": "epsilon",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 3,
+            "personnel": 13
+          },
+          "name": "20261124T180102857840Z-epsilon",
+          "nearBoundary": 6,
+          "offset": 0.082083,
+          "snapshotRead": true,
+          "unattributed": {
+            "assets": 2,
+            "missions": 2,
+            "personnel": 3
+          }
+        }
+      ]
+    },
+    "r3-gamma": {
+      "arm": "gamma",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "name": "20261124T182821282603Z-gamma",
+          "nearBoundary": 4,
+          "offset": 0.078675,
+          "snapshotRead": null,
+          "unattributed": {
+            "assets": 2,
+            "missions": 2,
+            "personnel": 3
+          }
+        }
+      ]
+    },
+    "r4-beta": {
+      "arm": "beta",
+      "countable": true,
+      "sessions": []
+    },
+    "r4-delta": {
+      "arm": "delta",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 3,
+            "personnel": 13
+          },
+          "name": "20261124T214345944655Z-delta",
+          "nearBoundary": 7,
+          "offset": 0.080038,
+          "snapshotRead": true,
+          "unattributed": {
+            "assets": 3,
+            "missions": 2,
+            "personnel": 2
+          }
+        }
+      ]
+    },
+    "r4-epsilon": {
+      "arm": "epsilon",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 3,
+            "personnel": 13
+          },
+          "name": "20261124T211711597438Z-epsilon",
+          "nearBoundary": 5,
+          "offset": 0.079722,
+          "snapshotRead": true,
+          "unattributed": {
+            "assets": 3,
+            "missions": 2,
+            "personnel": 2
+          }
+        }
+      ]
+    },
+    "r4-gamma": {
+      "arm": "gamma",
+      "countable": true,
+      "sessions": [
+        {
+          "initialization": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "name": "20261124T200800711118Z-gamma",
+          "nearBoundary": 4,
+          "offset": 0.078209,
+          "snapshotRead": null,
+          "unattributed": {
+            "assets": 3,
+            "missions": 2,
+            "personnel": 2
+          }
+        }
+      ]
+    },
+    "ref-alpha": {
+      "arm": "alpha",
+      "countable": true,
+      "sessions": []
+    }
+  },
+  "nearBoundary": {
+    "r1-delta": 4,
+    "r1-epsilon": 6,
+    "r1-gamma": 3,
+    "r2-delta": 7,
+    "r2-epsilon": 6,
+    "r2-gamma": 4,
+    "r3-delta": 5,
+    "r3-epsilon": 6,
+    "r3-gamma": 4,
+    "r4-delta": 7,
+    "r4-epsilon": 5,
+    "r4-gamma": 4
+  },
+  "notCountable": {},
+  "perQuestion": {
+    "all": {
+      "arms": {
+        "alpha": {
+          "estimable": true,
+          "estimate": 31.182243,
+          "high": 34.107593,
+          "low": 28.303738,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "beta": {
+          "estimable": true,
+          "estimate": 5.183468,
+          "high": 6.242995,
+          "low": 4.2211,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "delta": {
+          "estimable": true,
+          "estimate": 8.197052,
+          "high": 9.311818,
+          "low": 7.10362,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "epsilon": {
+          "estimable": true,
+          "estimate": 8.877226,
+          "high": 10.081182,
+          "low": 7.73013,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "gamma": {
+          "estimable": true,
+          "estimate": 12.536923,
+          "high": 19.990954,
+          "low": 7.73728,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        }
+      },
+      "attempted": 10000,
+      "ratios": {
+        "beta/alpha": {
+          "estimable": true,
+          "estimate": 0.166231,
+          "high": 0.195926,
+          "low": 0.139371,
+          "usable": 10000
+        },
+        "delta/alpha": {
+          "estimable": true,
+          "estimate": 0.262876,
+          "high": 0.307101,
+          "low": 0.223232,
+          "usable": 10000
+        },
+        "epsilon/alpha": {
+          "estimable": true,
+          "estimate": 0.284688,
+          "high": 0.334406,
+          "low": 0.241622,
+          "usable": 10000
+        },
+        "federation/beta": {
+          "estimable": true,
+          "estimate": 1.646994,
+          "high": 2.03815,
+          "low": 1.348002,
+          "usable": 10000
+        },
+        "federation/gamma": {
+          "estimable": true,
+          "estimate": 0.68096,
+          "high": 1.109846,
+          "low": 0.420277,
+          "usable": 10000
+        },
+        "gamma/alpha": {
+          "estimable": true,
+          "estimate": 0.402053,
+          "high": 0.632189,
+          "low": 0.251896,
+          "usable": 10000
+        }
+      }
+    },
+    "assets": {
+      "arms": {
+        "alpha": {
+          "estimable": true,
+          "estimate": 7.168224,
+          "high": 8.317757,
+          "low": 6.130841,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "beta": {
+          "estimable": true,
+          "estimate": 0.495129,
+          "high": 0.648473,
+          "low": 0.348475,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "delta": {
+          "estimable": true,
+          "estimate": 2.736009,
+          "high": 3.874486,
+          "low": 1.681158,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "epsilon": {
+          "estimable": true,
+          "estimate": 3.070004,
+          "high": 4.322844,
+          "low": 1.88962,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "gamma": {
+          "estimable": true,
+          "estimate": 0.914988,
+          "high": 1.200005,
+          "low": 0.64786,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        }
+      },
+      "attempted": 10000,
+      "ratios": {
+        "beta/alpha": {
+          "estimable": true,
+          "estimate": 0.069073,
+          "high": 0.098041,
+          "low": 0.045652,
+          "usable": 10000
+        },
+        "delta/alpha": {
+          "estimable": true,
+          "estimate": 0.381686,
+          "high": 0.570484,
+          "low": 0.222634,
+          "usable": 10000
+        },
+        "epsilon/alpha": {
+          "estimable": true,
+          "estimate": 0.42828,
+          "high": 0.644154,
+          "low": 0.251367,
+          "usable": 10000
+        },
+        "federation/beta": {
+          "estimable": true,
+          "estimate": 5.863135,
+          "high": 8.434824,
+          "low": 3.791658,
+          "usable": 10000
+        },
+        "federation/gamma": {
+          "estimable": true,
+          "estimate": 3.172727,
+          "high": 4.364323,
+          "low": 2.187153,
+          "usable": 10000
+        },
+        "gamma/alpha": {
+          "estimable": true,
+          "estimate": 0.127645,
+          "high": 0.180264,
+          "low": 0.084629,
+          "usable": 10000
+        }
+      }
+    },
+    "missions": {
+      "arms": {
+        "alpha": {
+          "estimable": true,
+          "estimate": 8.21028,
+          "high": 8.948598,
+          "low": 7.485981,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "beta": {
+          "estimable": true,
+          "estimate": 2.346815,
+          "high": 3.002065,
+          "low": 1.763947,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "delta": {
+          "estimable": true,
+          "estimate": 3.470772,
+          "high": 3.881056,
+          "low": 3.103806,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "epsilon": {
+          "estimable": true,
+          "estimate": 3.754668,
+          "high": 4.191126,
+          "low": 3.3549,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "gamma": {
+          "estimable": true,
+          "estimate": 7.134272,
+          "high": 14.471039,
+          "low": 3.397213,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        }
+      },
+      "attempted": 10000,
+      "ratios": {
+        "beta/alpha": {
+          "estimable": true,
+          "estimate": 0.285839,
+          "high": 0.363872,
+          "low": 0.21768,
+          "usable": 10000
+        },
+        "delta/alpha": {
+          "estimable": true,
+          "estimate": 0.422735,
+          "high": 0.475996,
+          "low": 0.375672,
+          "usable": 10000
+        },
+        "epsilon/alpha": {
+          "estimable": true,
+          "estimate": 0.457313,
+          "high": 0.517774,
+          "low": 0.403851,
+          "usable": 10000
+        },
+        "federation/beta": {
+          "estimable": true,
+          "estimate": 1.539414,
+          "high": 1.955265,
+          "low": 1.247151,
+          "usable": 10000
+        },
+        "federation/gamma": {
+          "estimable": true,
+          "estimate": 0.506389,
+          "high": 1.027649,
+          "low": 0.249995,
+          "usable": 10000
+        },
+        "gamma/alpha": {
+          "estimable": true,
+          "estimate": 0.868944,
+          "high": 1.74923,
+          "low": 0.412653,
+          "usable": 10000
+        }
+      }
+    },
+    "personnel": {
+      "arms": {
+        "alpha": {
+          "estimable": true,
+          "estimate": 15.803738,
+          "high": 18.00479,
+          "low": 13.686799,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "beta": {
+          "estimable": true,
+          "estimate": 2.341524,
+          "high": 3.143895,
+          "low": 1.653707,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "delta": {
+          "estimable": true,
+          "estimate": 1.99027,
+          "high": 2.672916,
+          "low": 1.368225,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "epsilon": {
+          "estimable": true,
+          "estimate": 2.052554,
+          "high": 2.659279,
+          "low": 1.494094,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        },
+        "gamma": {
+          "estimable": true,
+          "estimate": 4.487663,
+          "high": 6.737515,
+          "low": 2.638641,
+          "runs": 214,
+          "runsLeftOut": 0,
+          "usable": 10000
+        }
+      },
+      "attempted": 10000,
+      "ratios": {
+        "beta/alpha": {
+          "estimable": true,
+          "estimate": 0.148163,
+          "high": 0.193565,
+          "low": 0.109587,
+          "usable": 10000
+        },
+        "delta/alpha": {
+          "estimable": true,
+          "estimate": 0.125937,
+          "high": 0.161597,
+          "low": 0.092039,
+          "usable": 10000
+        },
+        "epsilon/alpha": {
+          "estimable": true,
+          "estimate": 0.129878,
+          "high": 0.158973,
+          "low": 0.101771,
+          "usable": 10000
+        },
+        "federation/beta": {
+          "estimable": true,
+          "estimate": 0.863289,
+          "high": 1.102265,
+          "low": 0.65517,
+          "usable": 10000
+        },
+        "federation/gamma": {
+          "estimable": true,
+          "estimate": 0.450438,
+          "high": 0.731601,
+          "low": 0.28952,
+          "usable": 10000
+        },
+        "gamma/alpha": {
+          "estimable": true,
+          "estimate": 0.283962,
+          "high": 0.427773,
+          "low": 0.170068,
+          "usable": 10000
+        }
+      }
+    }
+  },
+  "rawArms": {
+    "alpha": {
+      "connected": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "noConnection": {
+        "assets": 14,
+        "missions": 13,
+        "personnel": 19
+      },
+      "refused": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "status": {
+        "assets": 1534,
+        "missions": 1757,
+        "personnel": 3382
+      },
+      "timeout": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "unclassified": {
+        "assets": 0,
+        "missions": 4,
+        "personnel": 8
+      },
+      "unplaced": 280
+    },
+    "beta": {
+      "connected": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "noConnection": {
+        "assets": 23,
+        "missions": 8,
+        "personnel": 36
+      },
+      "refused": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "status": {
+        "assets": 106,
+        "missions": 500,
+        "personnel": 499
+      },
+      "timeout": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "unclassified": {
+        "assets": 0,
+        "missions": 0,
+        "personnel": 0
+      },
+      "unplaced": 0
+    }
+  },
+  "rawArmsNote": "the raw arms' requests by kind on the scored runs of the core set, vendor errors missing (PLAN.md section 10.3)",
+  "schema": 1,
+  "sessionsRead": 34,
+  "tier": "descriptive",
+  "totalWithInitialization": {
+    "alpha": {
+      "coreRuns": 214,
+      "note": "the requests of the scored runs of the core set (vendor errors missing; PLAN.md section 10.3) in the countable blocks, with the block initialization and the unattributed requests, over those runs; the ambiguity set and the vendor errors are reported apart",
+      "perCoreRun": {
+        "assets": 7.168224,
+        "missions": 8.21028,
+        "personnel": 15.803738
+      },
+      "requests": {
+        "assets": 1534,
+        "missions": 1757,
+        "personnel": 3382
+      }
+    },
+    "beta": {
+      "coreRuns": 214,
+      "note": "the requests of the scored runs of the core set (vendor errors missing; PLAN.md section 10.3) in the countable blocks, with the block initialization and the unattributed requests, over those runs; the ambiguity set and the vendor errors are reported apart",
+      "perCoreRun": {
+        "assets": 0.495327,
+        "missions": 2.336449,
+        "personnel": 2.331776
+      },
+      "requests": {
+        "assets": 106,
+        "missions": 500,
+        "personnel": 499
+      }
+    },
+    "delta": {
+      "coreRuns": 214,
+      "note": "the requests of the scored runs of the core set (vendor errors missing; PLAN.md section 10.3) in the countable blocks, with the block initialization and the unattributed requests, over those runs; the ambiguity set and the vendor errors are reported apart",
+      "perCoreRun": {
+        "assets": 2.78972,
+        "missions": 3.551402,
+        "personnel": 2.266355
+      },
+      "requests": {
+        "assets": 597,
+        "missions": 760,
+        "personnel": 485
+      }
+    },
+    "epsilon": {
+      "coreRuns": 214,
+      "note": "the requests of the scored runs of the core set (vendor errors missing; PLAN.md section 10.3) in the countable blocks, with the block initialization and the unattributed requests, over those runs; the ambiguity set and the vendor errors are reported apart",
+      "perCoreRun": {
+        "assets": 3.126168,
+        "missions": 3.836449,
+        "personnel": 2.331776
+      },
+      "requests": {
+        "assets": 669,
+        "missions": 821,
+        "personnel": 499
+      }
+    },
+    "gamma": {
+      "coreRuns": 214,
+      "note": "the requests of the scored runs of the core set (vendor errors missing; PLAN.md section 10.3) in the countable blocks, with the block initialization and the unattributed requests, over those runs; the ambiguity set and the vendor errors are reported apart",
+      "perCoreRun": {
+        "assets": 0.957944,
+        "missions": 7.294393,
+        "personnel": 4.490654
+      },
+      "requests": {
+        "assets": 205,
+        "missions": 1561,
+        "personnel": 961
+      }
+    }
+  },
+  "unattributed": {
+    "alpha": {
+      "assets": 0,
+      "missions": 0,
+      "personnel": 0
+    },
+    "beta": {
+      "assets": 0,
+      "missions": 0,
+      "personnel": 0
+    },
+    "delta": {
+      "assets": 10,
+      "missions": 8,
+      "personnel": 10
+    },
+    "epsilon": {
+      "assets": 10,
+      "missions": 8,
+      "personnel": 10
+    },
+    "gamma": {
+      "assets": 10,
+      "missions": 8,
+      "personnel": 10
+    }
+  },
+  "vendorErrors": {
+    "arms": {
+      "alpha": {
+        "raw": {
+          "connected": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "noConnection": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "refused": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "status": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "timeout": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unclassified": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unplaced": 0
+        },
+        "requests": {
+          "assets": 0,
+          "missions": 0,
+          "personnel": 0
+        },
+        "runs": 0
+      },
+      "beta": {
+        "raw": {
+          "connected": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "noConnection": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "refused": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "status": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "timeout": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unclassified": {
+            "assets": 0,
+            "missions": 0,
+            "personnel": 0
+          },
+          "unplaced": 0
+        },
+        "requests": {
+          "assets": 0,
+          "missions": 0,
+          "personnel": 0
+        },
+        "runs": 0
+      },
+      "delta": {
+        "requests": {
+          "assets": 0,
+          "missions": 0,
+          "personnel": 0
+        },
+        "runs": 0
+      },
+      "epsilon": {
+        "requests": {
+          "assets": 0,
+          "missions": 0,
+          "personnel": 0
+        },
+        "runs": 0
+      },
+      "gamma": {
+        "requests": {
+          "assets": 0,
+          "missions": 0,
+          "personnel": 0
+        },
+        "runs": 0
+      }
+    },
+    "note": "the core runs that failed at the vendor twice, missing from the figures and the total (PLAN.md section 10.3): their runs in the countable blocks and their requests (the raw arms' also by kind), apart"
+  }
+}
