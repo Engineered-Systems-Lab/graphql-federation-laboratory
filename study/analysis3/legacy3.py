@@ -30,8 +30,10 @@ Adapters and over Guided Direct Access, and of each arm over Direct Access. The 
 included, so a cell whose every run is missing empties its figure. 95 percent percentile intervals from section 4's resampling:
 whole core tasks with replacement, stratified by direction, 10,000 replicates, seed 20261118. A replicate with an empty cell or a zero
 denominator is unusable; with more than 1 percent unusable, or an empty cell or a zero denominator in the full sample, the figure is
-reported as not estimable. Beside them: the block initialization load, a total that includes it, the unattributed requests, the requests
-near a boundary and the blocks that are not countable.
+reported as not estimable. Beside them: the block initialization load, a total that includes it (on the scored runs of the core set,
+vendor errors missing, as section 10.3 counts), the unattributed requests, the requests near a boundary, the blocks that are not
+countable and the raw arms' requests by kind on the core set; the ambiguity set's runs and requests, and the vendor errors', apart.
+legacy-load.md prints each of them.
 
 Blindness. From a transcript the reader keeps only the first event's time, each tool event's tool name, the host and port of its URL and
 its status or failure kind; it reads the status from the start of the result text and never keeps question, argument or answer text. With
@@ -493,27 +495,48 @@ def compute(records, strata, bundle, legacy_dir, replicates=REPLICATES, seed=SEE
     counts, blocks = place(records, bundle, sessions)
     planned = [r for r in records if r.get('set', 'core') == 'core']
     rows = [r for r in planned if r['outcome'] != 'vendor_error']
+    # PLAN 10.3: the legacy load counts the scored runs of the core set, and a vendor error is missing. The runs outside them are
+    # reported apart, each group as its own counts: the ambiguity set, and the core runs that failed at the vendor twice.
+    apart = {'ambiguitySet': [r for r in records if r.get('set', 'core') != 'core'],
+             'vendorErrors': [r for r in planned if r['outcome'] == 'vendor_error']}
     tasks = sorted({r['task'] for r in rows})
     stratum_of = {task: strata[task]['direction'] for task in tasks}
     per_question = {system: estimates(rows, counts, tasks, stratum_of, system, replicates, seed, planned) for system in SYSTEMS + (ALL,)}
+
+    def counted(group, arm):
+        return [r for r in group if r['arm'] == arm and counts[r['runKey']]['requests'] is not None]
+
+    def requests_of(runs):
+        return {s: sum(counts[r['runKey']]['requests'][s] for r in runs) for s in SYSTEMS}
+
+    def raw_of(runs):
+        tally = {kind: {s: sum(counts[r['runKey']]['raw'][kind][s] for r in runs) for s in SYSTEMS} for kind in RAW_KINDS}
+        tally['unplaced'] = sum(counts[r['runKey']]['raw']['unplaced'] for r in runs)
+        return tally
     initialization, total, unattributed, raw = {}, {}, {}, {}
+    beside = {name: {} for name in apart}
     for arm in ARMS:
         own = [b for b in blocks.values() if b['arm'] == arm and b['countable']]
-        runs = [r for r in records if r['arm'] == arm and counts[r['runKey']]['requests'] is not None]
+        runs = counted(rows, arm)
         init = {s: sum(b['initialization'][s] for b in own) for s in SYSTEMS}
         loose = {s: sum(b['unattributed'][s] for b in own) for s in SYSTEMS}
-        placed = {s: sum(counts[r['runKey']]['requests'][s] for r in runs) for s in SYSTEMS}
+        placed = requests_of(runs)
         sessions_counted = sum(len(b['sessions']) for b in own) if arm in GRAPHQL_ARMS else 0
         initialization[arm] = {'blocks': len(own), 'sessions': sessions_counted, 'requests': init,
                                'perSession': {s: init[s] / sessions_counted for s in SYSTEMS} if sessions_counted else None}
         unattributed[arm] = loose
         whole = {s: placed[s] + init[s] + loose[s] for s in SYSTEMS}
-        total[arm] = {'runs': len(runs), 'requests': whole, 'perRun': {s: whole[s] / len(runs) for s in SYSTEMS} if runs else None,
-                      'note': 'every request of the countable blocks: the runs, the block initialization and the unattributed ones'}
+        total[arm] = {'coreRuns': len(runs), 'requests': whole,
+                      'perCoreRun': {s: whole[s] / len(runs) for s in SYSTEMS} if runs else None,
+                      'note': 'the requests of the scored runs of the core set (vendor errors missing; PLAN.md section 10.3) in the countable '
+                              'blocks, with the block initialization and the unattributed requests, over those runs; the ambiguity set and '
+                              'the vendor errors are reported apart'}
+        for name, group in apart.items():
+            own_runs = counted(group, arm)
+            beside[name][arm] = dict({'runs': len(own_runs), 'requests': requests_of(own_runs)},
+                                     **({'raw': raw_of(own_runs)} if arm in RAW_ARMS else {}))
         if arm in RAW_ARMS:
-            raw[arm] = {kind: {s: sum(counts[r['runKey']]['raw'][kind][s] for r in records if r['arm'] == arm) for s in SYSTEMS}
-                        for kind in RAW_KINDS}
-            raw[arm]['unplaced'] = sum(counts[r['runKey']]['raw']['unplaced'] for r in records if r['arm'] == arm)
+            raw[arm] = raw_of(runs)
     return r6({
         'schema': 1, 'tier': 'descriptive',
         'about': 'The legacy-load reader of study 3 (PLAN.md section 10): requests to Missions, Personnel and Assets per run and arm. '
@@ -526,6 +549,12 @@ def compute(records, strata, bundle, legacy_dir, replicates=REPLICATES, seed=SEE
                          if facts['arm'] in GRAPHQL_ARMS},
         'notCountable': {block: facts['problems'] for block, facts in sorted(blocks.items()) if not facts['countable']},
         'rawArms': raw,
+        'rawArmsNote': "the raw arms' requests by kind on the scored runs of the core set, vendor errors missing (PLAN.md section 10.3)",
+        'ambiguitySet': {'note': "the ambiguity set's runs in the countable blocks and their requests (the raw arms' also by kind), "
+                                 'apart from the core set and from its total', 'arms': beside['ambiguitySet']},
+        'vendorErrors': {'note': 'the core runs that failed at the vendor twice, missing from the figures and the total (PLAN.md section '
+                                 "10.3): their runs in the countable blocks and their requests (the raw arms' also by kind), apart",
+                         'arms': beside['vendorErrors']},
         'blocks': {block: {'arm': facts['arm'], 'countable': facts['countable'], 'sessions': facts['sessions']}
                    for block, facts in sorted(blocks.items())},
         'sessionsRead': len(sessions),
@@ -534,19 +563,56 @@ def compute(records, strata, bundle, legacy_dir, replicates=REPLICATES, seed=SEE
 
 # ------------------------------------------------------------------------------------------------------------------ the output
 def tables(result):
-    lines = ['# Legacy load (descriptive)', '', result['about'], '', '## Mean requests per scored run (95 percent interval)', '',
-             '| System | ' + ' | '.join(data3.ARM_NAMES[a] for a in ARMS) + ' |', '| --- |' + ' --- |' * len(ARMS)]
+    """legacy-load.md: the per-question figures and their ratios, and everything PLAN 10.6 reports beside them, from legacy-load.json."""
+    names = [data3.ARM_NAMES[a] for a in ARMS]
+    raw_names = [data3.ARM_NAMES[a] for a in RAW_ARMS]
+
+    def grid(first, columns, rows):
+        return (['| %s | %s |' % (first, ' | '.join(columns)), '| --- |' + ' --- |' * len(columns)]
+                + ['| %s |' % ' | '.join(str(c) for c in row) for row in rows])
 
     def cell(entry):
         if not entry.get('estimable'):
             return 'not estimable'
         return '%.2f (%.2f to %.2f)' % (entry['estimate'], entry['low'], entry['high'])
-    for system in SYSTEMS + (ALL,):
-        lines.append('| %s | %s |' % (system, ' | '.join(cell(result['perQuestion'][system]['arms'][a]) for a in ARMS)))
-    lines += ['', '## Ratios of the means (95 percent interval)', '', '| System | ' + ' | '.join(name for name, _, _ in RATIOS) + ' |',
-              '| --- |' + ' --- |' * len(RATIOS)]
-    for system in SYSTEMS + (ALL,):
-        lines.append('| %s | %s |' % (system, ' | '.join(cell(result['perQuestion'][system]['ratios'][name]) for name, _, _ in RATIOS)))
+
+    def systems_rows(value_of):
+        return [[system] + [value_of(arm, system) for arm in ARMS] for system in SYSTEMS]
+    lines = ['# Legacy load (descriptive)', '', result['about'], '', '## Mean requests per scored run of the core set (95 percent interval)', '']
+    lines += grid('System', names, [[system] + [cell(result['perQuestion'][system]['arms'][a]) for a in ARMS] for system in SYSTEMS + (ALL,)])
+    lines += ['', '## Ratios of the means (95 percent interval)', '']
+    lines += grid('System', [name for name, _, _ in RATIOS],
+                  [[system] + [cell(result['perQuestion'][system]['ratios'][name]) for name, _, _ in RATIOS] for system in SYSTEMS + (ALL,)])
+    init = result['blockInitialization']
+    lines += ['', '## Block initialization load (requests before the first scored run of each stack start, countable blocks)', '']
+    lines += grid('System', names, systems_rows(lambda a, s: '%d' % init[a]['requests'][s] + (
+        ' (%.2f per stack start)' % init[a]['perSession'][s] if init[a]['perSession'] else '')))
+    lines += ['| stack starts | %s |' % ' | '.join('%d' % init[a]['sessions'] for a in ARMS)]
+    total = result['totalWithInitialization']
+    lines += ['', '## Total with initialization, core set (per scored run of the core set in a countable block)', '',
+              'The requests of the scored runs of the core set in the countable blocks, with the block initialization and the unattributed '
+              'requests of those blocks, over those runs. A run of a block that is not countable is not in it (see the blocks that are not '
+              'countable, below). The ambiguity set and the vendor errors are not in it; their counts follow below.', '']
+    lines += grid('System', names, systems_rows(lambda a, s: ('no core run in a countable block' if total[a]['perCoreRun'] is None else
+                                                              '%.2f' % total[a]['perCoreRun'][s]) + ' (%d requests)' % total[a]['requests'][s]))
+    lines += ['| core runs in countable blocks | %s |' % ' | '.join('%d' % total[a]['coreRuns'] for a in ARMS)]
+    lines += ['', '## Unattributed requests (outside every run window, after the first)', '']
+    lines += grid('System', names, systems_rows(lambda a, s: '%d' % result['unattributed'][a][s]))
+    def raw_kinds(tally):
+        """The raw arms' requests by kind, from {raw arm: tally}."""
+        return grid('Kind', raw_names, [[kind] + [', '.join('%s %d' % (s, tally[a][kind][s]) for s in SYSTEMS) for a in RAW_ARMS]
+                                        for kind in RAW_KINDS] + [['unplaced'] + ['%d' % tally[a]['unplaced'] for a in RAW_ARMS]])
+    for key, heading in (('ambiguitySet', 'Apart: the ambiguity set'), ('vendorErrors', 'Apart: the core runs that failed at the vendor twice')):
+        group = result[key]['arms']
+        lines += ['', '## %s (runs in countable blocks and their requests, not in the figures or the total)' % heading, '']
+        lines += grid('System', names, systems_rows(lambda a, s: '%d' % group[a]['requests'][s]))
+        lines += ['| runs in countable blocks | %s |' % ' | '.join('%d' % group[a]['runs'] for a in ARMS)]
+        lines += ['', "Their raw arms' requests by kind:", '']
+        lines += raw_kinds({a: group[a]['raw'] for a in RAW_ARMS})
+    lines += ['', "## The raw arms' requests by kind, core set (vendor errors missing)", '']
+    lines += raw_kinds(result['rawArms'])
+    lines += ['', '## Requests near a boundary, per block', '']
+    lines += ['- %s: %d' % (block, n) for block, n in result['nearBoundary'].items()] or ['- none']
     lines += ['', '## Blocks that are not countable', '']
     lines += ['- %s: %s' % (block, '; '.join(problems)) for block, problems in result['notCountable'].items()] or ['- none']
     return '\n'.join(lines) + '\n'

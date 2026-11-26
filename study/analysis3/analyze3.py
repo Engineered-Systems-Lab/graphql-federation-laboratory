@@ -41,9 +41,38 @@ CORPUS_LABELS = {'corpusFreeze': 'corpus hash (SHA-256 of the corpus manifest)',
 # The labels of `counting` (PLAN.md, section 3): study 2's, with study 3's words for the runs that enter the families and for Direct Access.
 COUNTING_LABELS = dict(analyze2.COUNTING_LABELS, primary='core runs of the four full arms in the confirmatory analyses (vendor errors left out)',
                        primaryVendorErrorsMissing='vendor errors there, missing',
-                       directAccess='runs of Direct Access (descriptive, outside the confirmatory families)')
+                       directAccess='runs of Direct Access (descriptive and exploratory, outside the confirmatory families)')
 ZERO_COST_LABELS = {'runsWithZeroCost': 'scored runs with a zero cost', 'replacedBy': 'the cost they were given instead (USD, the smallest positive cost)'}
 r6 = analyze2.r6
+# Study 3's own tiers for study 2's secondary measures (PLAN.md, section 10; D069): time per run on P1 and P2 is descriptive, with
+# intervals and no p-value; everything else of the block is exploratory, with its unadjusted p-values.
+EXPLORATORY = 'exploratory: unadjusted p-values, outside the Holm families, no confirmatory claim (PLAN.md, section 10)'
+TIME_TIER = ('descriptive: time per run on P1 and P2, ratios of geometric means with 95 percent intervals, no p-value and no claim '
+             '(D069; PLAN.md, section 10)')
+NO_P_EXPLORATORY = 'exploratory: no p-value, no confirmatory claim (PLAN.md, section 10)'
+TIME_COMPARISONS = ('P1', 'P2')
+FIGURE_TITLE = 'Confirmatory: federation over each comparison arm'
+
+
+def measures(rows, models, conditions):
+    """Study 2's secondary measures (cost, time and tool calls, on all runs and on correct runs only) under study 3's tiers: the time ratios
+    on P1 and P2 move, without their p-values, to `timeOnP1AndP2`, descriptive; cost, tool calls and the rest of time stay exploratory.
+    No figure, interval or p-value changes."""
+    out = analyze2.measures(rows, models, conditions)
+    del out['tier']
+    for outcome in analyze2.MEASURES:
+        out[outcome]['tier'] = EXPLORATORY
+    time = {'tier': TIME_TIER}
+    for subset in ('allRuns', 'correctOnly'):
+        entry = out['seconds'][subset]
+        if not entry.get('estimable'):
+            time[subset] = {'estimable': False, 'reason': entry.get('reason')}
+            continue
+        time[subset] = {'estimable': True, 'observations': entry['observations'], 'scale': entry['scale'],
+                        'ratios': [{k: v for k, v in r.items() if k != 'p'} for r in entry['ratios'] if r['id'] in TIME_COMPARISONS]}
+        entry['ratios'] = [r for r in entry['ratios'] if r['id'] not in TIME_COMPARISONS]
+    out['timeOnP1AndP2'] = time
+    return out
 
 
 def legacy_load(run_id):
@@ -130,7 +159,7 @@ def study2_comparison(path, rows, models):
     shared = sorted(set(before) & set(after))
     if not shared:
         return {'compared': False, 'reason': 'no task is in both studies'}
-    return {'compared': True, 'tier': analyze2.EXPLORATORY, 'tasks': len(shared), 'study2P1Ratio': math.exp(statistics.fmean(before[t] for t in shared)),
+    return {'compared': True, 'tier': NO_P_EXPLORATORY, 'tasks': len(shared), 'study2P1Ratio': math.exp(statistics.fmean(before[t] for t in shared)),
             'study3P1Ratio': math.exp(statistics.fmean(after[t] for t in shared))}
 
 
@@ -162,7 +191,7 @@ def analyse(args):
         'cslGroupAccuracy': {'tier': 'descriptive', 'groups': group_accuracy(square)},
         'sensitivity': sensitivity(square, models, stratum_of, args.replicates),
         'descriptive': {'cells': analyze2.cell_counts(core, data3.ALL_ARMS, models), 'outcomes': analyze2.outcome_table(core, data3.ALL_ARMS),
-                        'measures': attempt(analyze2.measures, square, models, conditions), 'perStratum': per_stratum(rows, models),
+                        'measures': attempt(measures, square, models, conditions), 'perStratum': per_stratum(rows, models),
                         'spend': analyze2.spend(recorded, blocks), 'schedule': analyze2.schedule_facts(manifest, blocks),
                         'legacyLoad': {'status': legacy_load(args.run_id), 'measure': 'requests to Missions, Personnel and Assets per run and arm, descriptive, ratios with intervals'}},
         'exploratory': {'tables': attempt(analyze2.exploratory, records, models), 'honestGap': attempt(analyze2.honest_gap, square, models),
@@ -177,6 +206,11 @@ def verdict(entry):
     if entry['rejected']:
         return 'significant, not claimed: the accuracy floor is not cleared'
     return 'not significant'
+
+
+def time_heading():
+    """The heading of tables.md's time section: the tier of `timeOnP1AndP2`, as results.json writes it, with a capital first letter."""
+    return TIME_TIER[0].upper() + TIME_TIER[1:]
 
 
 def tables_md(res):
@@ -227,10 +261,10 @@ def tables_md(res):
                     if entry.get('estimable') else 'not estimable: %s' % entry.get('reason'))
             rows.append(['%s, %s' % (name, OUTCOME_NAMES[outcome]), text])
     parts += ['## Sensitivity', '', table(['Analysis', 'Result'], rows), '']
-    measures = res['descriptive']['measures']
-    block = measures['seconds']['allRuns'] if 'seconds' in measures else measures
-    parts += ['## Descriptive: time per run (ratios of geometric means)', '']
-    parts += [table(['', 'Comparison', 'Ratio [95% CI]'], [[r['id'], r['label'], '%.2f [%.2f, %.2f]' % (r['ratio'], r['low'], r['high'])] for r in block['ratios'] if r['id'] in ('P1', 'P2')]), '']\
+    measures_ = res['descriptive']['measures']
+    block = measures_['timeOnP1AndP2']['allRuns'] if 'timeOnP1AndP2' in measures_ else measures_
+    parts += ['## %s' % time_heading(), '', 'On all runs; results.json also holds them on correct runs only.', '']
+    parts += [table(['', 'Comparison', 'Ratio [95% CI]'], [[r['id'], r['label'], '%.2f [%.2f, %.2f]' % (r['ratio'], r['low'], r['high'])] for r in block['ratios']]), '']\
         if block.get('estimable') else ['Not estimable: %s' % block.get('reason'), '']
     parts += ['## Descriptive: spend by arm (USD, prices of the manifest)', '',
               'Each run at its recorded cost: the zero-cost rule does not change the spend (PLAN.md, section 3).', '',
@@ -249,7 +283,7 @@ def figure(res):
         return None
     top = max(2.0, math.ceil(2 * max(i[3] for i in items)) / 2)
     ticks = [round(0.5 * k, 1) for k in range(int(2 * top) + 1)]
-    return svg.interval_plot('Federation over each comparison arm', 'ratio of geometric means (95% interval); below 1 is less effort', items, 0, top, ticks)
+    return svg.interval_plot(FIGURE_TITLE, 'ratio of geometric means (95% interval); below 1 is less effort', items, 0, top, ticks)
 
 
 def main(argv=None):

@@ -439,6 +439,66 @@ class OutputTests(Workspace):
         self.assertEqual(set(res['descriptive']['perStratum']), {'anchor', 'csl', 'category', 'size', 'forwardAggregates'})
 
 
+class TierLabelTests(Workspace):
+    """F2 (D2 (a)) and the audit's label fixes: study 3's own tiers in results.json, equal to tables.md's headings, and no figure changed."""
+
+    def test_time_on_p1_and_p2_is_descriptive_without_p_values_and_the_rest_stays_exploratory(self):
+        facts = self.bundle(effects=simulate3.effects_at(100))
+        self.assertEqual(run_cli(args_for(facts, self.root / 'out'))[0], 0)
+        res = json.loads((self.root / 'out' / 'results.json').read_text(encoding='utf-8'))
+        text = (self.root / 'out' / 'tables.md').read_text(encoding='utf-8')
+        m = res['descriptive']['measures']
+        self.assertNotIn('tier', m, 'no block-level tier: each part carries its own')
+        time = m['timeOnP1AndP2']
+        self.assertEqual(time['tier'], analyze3.TIME_TIER)
+        self.assertTrue(time['tier'].startswith('descriptive: ') and 'D069' in time['tier'] and 'PLAN.md, section 10' in time['tier'])
+        for outcome in ('cost', 'seconds', 'toolCalls'):
+            self.assertEqual(m[outcome]['tier'], analyze3.EXPLORATORY)
+            self.assertTrue(m[outcome]['tier'].startswith('exploratory: ') and m[outcome]['tier'].endswith('(PLAN.md, section 10)'))
+        self.assertNotIn('section 7', json.dumps(res), "study 2's plan section is cited nowhere")
+        for subset in ('allRuns', 'correctOnly'):
+            self.assertEqual([r['id'] for r in time[subset]['ratios']], ['P1', 'P2'])
+            self.assertTrue(all('p' not in r and {'ratio', 'low', 'high'} <= set(r) for r in time[subset]['ratios']), 'intervals, no p-value')
+            self.assertEqual([r['id'] for r in m['seconds'][subset]['ratios']], ['S1', 'S2', 'S3', 'S4', 'S5'])
+            self.assertTrue(all('p' in r for r in m['seconds'][subset]['ratios']))
+        heading = '## ' + time['tier'][0].upper() + time['tier'][1:]
+        self.assertIn('\n%s\n' % heading, text, "the tier in results.json is tables.md's heading")
+        self.assertEqual(section_rows(text, heading), [[r['id'], r['label'], '%.2f [%.2f, %.2f]' % (r['ratio'], r['low'], r['high'])]
+                                                       for r in time['allRuns']['ratios']])
+        self.assertNotIn('Descriptive: time per run (ratios of geometric means)', text)
+        # The audit's labels (M5, M7).
+        self.assertIn('| runs of Direct Access (descriptive and exploratory, outside the confirmatory families) |', text)
+        self.assertIn('>Confirmatory: federation over each comparison arm<', (self.root / 'out' / 'figures' / 'effort.svg').read_text(encoding='utf-8'))
+
+    def test_the_tiers_change_no_figure_interval_or_p_value(self):
+        facts = self.bundle(effects=simulate3.effects_at(100))
+        records = data3.load(facts['bundle'], facts['sums'], facts['runId'], facts['checksum'], facts['corpus'])[4]
+        square = [r for r in records if r['set'] == 'core' and r['arm'] in data3.SQUARE_ARMS]
+        conditions = stats2.planned_conditions(square)
+        old = analyze3.analyze2.measures(square, sorted(MODELS), conditions)
+        new = analyze3.measures(square, sorted(MODELS), conditions)
+        for outcome in ('cost', 'toolCalls'):
+            self.assertEqual(dict(new[outcome], tier=None), dict(old[outcome], tier=None))
+        for subset in ('allRuns', 'correctOnly'):
+            before = old['seconds'][subset]['ratios']
+            self.assertEqual(new['timeOnP1AndP2'][subset]['ratios'], [{k: v for k, v in r.items() if k != 'p'} for r in before if r['id'] in ('P1', 'P2')])
+            self.assertEqual(new['seconds'][subset]['ratios'], [r for r in before if r['id'] not in ('P1', 'P2')])
+            self.assertEqual(new['seconds'][subset]['geometricMeans'], old['seconds'][subset]['geometricMeans'])
+
+    def test_the_study_2_comparison_holds_no_p_value_and_says_so(self):
+        facts = self.bundle(effects=simulate3.effects_at(100))
+        records = data3.load(facts['bundle'], facts['sums'], facts['runId'], facts['checksum'], facts['corpus'])[4]
+        rows = [r for r in records if r['set'] == 'core' and r['arm'] in data3.SQUARE_ARMS and r['correct'] is not None]
+        path = self.root / 'scores.csv'
+        with open(path, 'w', encoding='utf-8', newline='') as handle:
+            handle.write('taskId,scenario,model,row,toolCalls,category\n')
+            handle.writelines('%s,%s,%s,%s,%d,%s\n' % (r['task'], r['arm'], r['model'], r['row'], r['toolCalls'], r['category']) for r in rows)
+        out = analyze3.study2_comparison(path, rows, sorted(MODELS))
+        self.assertTrue(out['compared'])
+        self.assertEqual(out['tier'], 'exploratory: no p-value, no confirmatory claim (PLAN.md, section 10)')
+        self.assertFalse(any(key.startswith('p') and key != 'study2P1Ratio' for key in out))
+
+
 def section_rows(text, heading):
     """The table rows of one section of tables.md, as lists of cells, header and rule left out."""
     lines = text.split('\n## ')
@@ -487,7 +547,7 @@ class LegacyCommandAndInputSectionsTests(Workspace):
         headings = [line for line in text.splitlines() if line.startswith('## ')]
         self.assertEqual(headings[:3], [self.VERIFICATION, self.COUNTING, '## Confirmatory: the accuracy floor (federation minus the arm, points; '
                                                                          'one-sided 0.025; margin -10)'])
-        self.assertLess(headings.index('## Descriptive: time per run (ratios of geometric means)'), headings.index(self.SPEND))
+        self.assertLess(headings.index('## ' + analyze3.time_heading()), headings.index(self.SPEND))
         self.assertEqual(headings[-2:], [self.SPEND, '## Descriptive: legacy load'])
 
         def recorded(value):

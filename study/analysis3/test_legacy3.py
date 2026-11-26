@@ -226,7 +226,7 @@ class ReaderTests(Workspace):
         self.assertEqual(init['gamma']['requests'], {'missions': 2, 'personnel': 0, 'assets': 0})
         self.assertEqual(result['unattributed']['epsilon'], {'missions': 0, 'personnel': 2, 'assets': 2})
         total = result['totalWithInitialization']['delta']
-        self.assertEqual(total['runs'], 24)
+        self.assertEqual(total['coreRuns'], 24)
         self.assertEqual(total['requests'], {'missions': 2, 'personnel': 24 * 2 + 22 + 2, 'assets': 2})
         self.assertEqual(result['blockInitialization']['alpha']['requests'], {'missions': 0, 'personnel': 0, 'assets': 0})
         self.assertEqual(result['nearBoundary']['delta-r1'], 1, 'the request 0.1 s after the last run, within the 0.3 s bound')
@@ -235,6 +235,105 @@ class ReaderTests(Workspace):
         self.assertEqual(raw['noConnection']['assets'], 12)
         self.assertEqual(raw['unclassified']['missions'], 12)
         self.assertEqual(raw['unplaced'], 12, 'the allow-list refusal has no system')
+
+    def test_the_total_and_the_raw_kinds_count_the_core_set_and_the_rest_is_reported_apart(self):
+        """F1 (D1 (a)): the total with initialization and the raw arms' kinds count the scored runs of the core set, vendor errors missing
+        (PLAN 10.3); the ambiguity set and the vendor errors are their own counts, and the three together are every request."""
+        whole = Study(self.root / 'whole').compute()
+        study = Study(self.root / 'split')
+        for record in study.records:
+            if record['task'] == 'T6':
+                record['set'] = 'ambiguity'
+        vendor = next(r for r in study.records if r['arm'] == 'delta' and r['task'] == 'T1' and r['model'] == 'model-a' and r['row'] == 1)
+        vendor['outcome'] = 'vendor_error'
+        result = study.compute()
+        total = result['totalWithInitialization']['delta']
+        self.assertEqual(total['coreRuns'], 24 - 4 - 1, 'T6 (2 models, 2 rows) is the ambiguity set; one core run failed at the vendor')
+        self.assertEqual(total['requests'], {'missions': 2, 'personnel': 19 * 2 + 22 + 2, 'assets': 2})
+        self.assertEqual(total['perCoreRun'], {s: round(v / 19, 6) for s, v in total['requests'].items()})
+        self.assertNotIn('runs', total)
+        self.assertIn('core set', total['note'])
+        amb, err = result['ambiguitySet']['arms'], result['vendorErrors']['arms']
+        self.assertEqual((amb['delta']['runs'], amb['delta']['requests']), (4, {'missions': 0, 'personnel': 8, 'assets': 0}))
+        self.assertEqual((err['delta']['runs'], err['delta']['requests']), (1, {'missions': 0, 'personnel': 2, 'assets': 0}))
+        self.assertIn('ambiguity set', result['ambiguitySet']['note'])
+        for arm in legacy3.ARMS:
+            for s in legacy3.SYSTEMS:
+                parts = (result['totalWithInitialization'][arm]['requests'][s] + amb[arm]['requests'][s] + err[arm]['requests'][s])
+                self.assertEqual(parts, whole['totalWithInitialization'][arm]['requests'][s], (arm, s))
+        raw = result['rawArms']['alpha']
+        self.assertEqual(raw['connected'], {'missions': 10, 'personnel': 0, 'assets': 0}, 'the 10 core runs of alpha')
+        self.assertEqual(raw['unplaced'], 10)
+        self.assertEqual(amb['alpha']['raw']['connected'], {'missions': 2, 'personnel': 0, 'assets': 0}, 'the ambiguity set, apart')
+        self.assertEqual(amb['alpha']['runs'], 2)
+        self.assertIn('core set', result['rawArmsNote'])
+        self.assertEqual(result['blockInitialization'], whole['blockInitialization'], 'the block initialization does not change')
+        self.assertEqual(result['unattributed'], whole['unattributed'])
+        self.assertEqual(result['nearBoundary'], whole['nearBoundary'])
+
+    def test_the_markdown_prints_every_figure_of_plan_10_6(self):
+        study = Study(self.root)
+        for record in study.records:
+            if record['task'] == 'T6':
+                record['set'] = 'ambiguity'
+        result = study.compute()
+        text = legacy3.tables(result)
+        self.assertEqual(text, legacy3.tables(study.compute()), 'the same bytes twice')
+        headings = [line for line in text.splitlines() if line.startswith('## ')]
+        self.assertEqual(headings, ['## Mean requests per scored run of the core set (95 percent interval)',
+                                    '## Ratios of the means (95 percent interval)',
+                                    '## Block initialization load (requests before the first scored run of each stack start, countable blocks)',
+                                    '## Total with initialization, core set (per scored run of the core set in a countable block)',
+                                    '## Unattributed requests (outside every run window, after the first)',
+                                    '## Apart: the ambiguity set (runs in countable blocks and their requests, not in the figures or the total)',
+                                    '## Apart: the core runs that failed at the vendor twice (runs in countable blocks and their requests, not in '
+                                    'the figures or the total)',
+                                    "## The raw arms' requests by kind, core set (vendor errors missing)",
+                                    '## Requests near a boundary, per block',
+                                    '## Blocks that are not countable'])
+        total = result['totalWithInitialization']
+        self.assertIn('| core runs in countable blocks | %s |' % ' | '.join(str(total[a]['coreRuns']) for a in legacy3.ARMS), text)
+        self.assertIn('| personnel | %s |' % ' | '.join('%.2f (%d requests)' % (total[a]['perCoreRun']['personnel'], total[a]['requests']['personnel'])
+                                                        for a in legacy3.ARMS), text)
+        self.assertIn('| runs in countable blocks | %s |' % ' | '.join(str(result['ambiguitySet']['arms'][a]['runs']) for a in legacy3.ARMS), text)
+        # The raw arms' requests by kind of each group apart, as legacy-load.json holds them (scope item 1, the F1 sub-rule).
+        ambiguity = text.split('## Apart: the ambiguity set')[1].split('\n## ')[0]
+        self.assertIn("Their raw arms' requests by kind:", ambiguity)
+        self.assertIn('| connected | missions 2, personnel 0, assets 0 | missions 4, personnel 0, assets 0 |', ambiguity)
+        self.assertIn('| unplaced | 2 | 4 |', ambiguity)
+        vendor = text.split('## Apart: the core runs that failed at the vendor twice')[1].split('\n## ')[0]
+        self.assertIn('| connected | missions 0, personnel 0, assets 0 | missions 0, personnel 0, assets 0 |', vendor)
+        self.assertIn('| stack starts | 0 | 0 | 2 | 2 | 2 |', text)
+        self.assertIn('| personnel | 0 | 0 | 0 (0.00 per stack start) | 22 (11.00 per stack start) | 22 (11.00 per stack start) |', text)
+        self.assertIn('| connected | missions 10, personnel 0, assets 0 | missions 20, personnel 0, assets 0 |', text)
+        self.assertIn('- delta-r1: %d' % result['nearBoundary']['delta-r1'], text)
+
+    def test_an_arm_with_no_core_run_still_shows_its_requests_in_the_markdown(self):
+        """The total keeps the start-up load visible (PLAN 10.6) even when no core run of an arm counts and the rate per run is undefined."""
+        study = Study(self.root)
+        for record in study.records:
+            if record['arm'] == 'delta':
+                record['outcome'] = 'vendor_error'
+        result = study.compute()
+        total = result['totalWithInitialization']['delta']
+        self.assertEqual((total['coreRuns'], total['perCoreRun']), (0, None))
+        self.assertEqual(total['requests'], {'missions': 2, 'personnel': 24, 'assets': 2})
+        rows = {line.split(' | ')[0][2:]: line.strip('|').split(' | ')[4].strip() for line in
+                legacy3.tables(result).split('## Total with initialization')[1].split('\n## ')[0].splitlines() if line.startswith('| ')}
+        self.assertEqual((rows['missions'], rows['personnel'], rows['assets'], rows['core runs in countable blocks']),
+                         ('no core run in a countable block (2 requests)', 'no core run in a countable block (24 requests)',
+                          'no core run in a countable block (2 requests)', '0'))
+
+    def test_the_markdown_says_the_core_runs_it_counts_are_those_of_the_countable_blocks(self):
+        """An arm whose blocks are all not countable had core runs: the markdown names the countable blocks, never "no core run" alone."""
+        result = Study(self.root, missing=('gamma-r1', 'gamma-r2')).compute()
+        self.assertEqual(result['totalWithInitialization']['gamma']['coreRuns'], 0)
+        text = legacy3.tables(result)
+        total = text.split('## Total with initialization')[1].split('\n## ')[0]
+        self.assertIn('A run of a block that is not countable is not in it', total)
+        self.assertIn('| missions | 2.00 (24 requests) | 2.00 (48 requests) | no core run in a countable block (0 requests) |', total)
+        self.assertIn('| core runs in countable blocks | 12 | 24 | 0 | 24 | 24 |', total)
+        self.assertNotRegex(text, r'\| (core runs|runs) \|')
 
     def test_an_arm_is_the_equal_weight_mean_of_its_cells(self):
         study = Study(self.root)
@@ -253,7 +352,7 @@ class ReaderTests(Workspace):
         self.assertIn('at the start', result['notCountable']['gamma-r1'][0])
         delta = result['perQuestion']['personnel']['arms']['delta']
         self.assertEqual((delta['runs'], delta['runsLeftOut']), (12, 12))
-        self.assertEqual(result['totalWithInitialization']['delta']['runs'], 12)
+        self.assertEqual(result['totalWithInitialization']['delta']['coreRuns'], 12)
         self.assertEqual(result['blockInitialization']['delta']['blocks'], 1)
 
     def test_a_missing_partial_unsaved_or_altered_log_makes_a_block_not_countable(self):
