@@ -470,6 +470,53 @@ class TierLabelTests(Workspace):
         self.assertIn('| runs of Direct Access (descriptive and exploratory, outside the confirmatory families) |', text)
         self.assertIn('>Confirmatory: federation over each comparison arm<', (self.root / 'out' / 'figures' / 'effort.svg').read_text(encoding='utf-8'))
 
+    def test_the_headings_name_p1_and_p2_in_full(self):
+        """study3_heading_names: every heading that uses P1 or P2 names the comparisons, in the lead developer's wording."""
+        facts = self.bundle(effects=simulate3.effects_at(100))
+        self.assertEqual(run_cli(args_for(facts, self.root / 'out'))[0], 0)
+        res = json.loads((self.root / 'out' / 'results.json').read_text(encoding='utf-8'))
+        headings = [line for line in (self.root / 'out' / 'tables.md').read_text(encoding='utf-8').splitlines() if line.startswith('## ')]
+        effort, csl = res['confirmatory']['effort'], res['confirmatory']['csl']
+        expected = ['## Confirmatory: 1 + tool calls per run (federation, Apollo and Cosmo weighted equally, over GraphQL Adapters (P1) and over '
+                    'Guided Direct Access (P2); Holm over P1 and P2; method: %s)' % effort['toolCalls']['method'],
+                    '## Confirmatory: cost per run (USD) (federation, Apollo and Cosmo weighted equally, over GraphQL Adapters (P1) and over '
+                    'Guided Direct Access (P2); Holm over P1 and P2; method: %s)' % effort['cost']['method'],
+                    '## Confirmatory: the CSL family (tool calls of federation, Apollo and Cosmo weighted equally, over GraphQL Adapters (P1); '
+                    'one-sided 0.05; Holm over the two; method: %s)' % csl['method'],
+                    '## Descriptive: time per run of federation, Apollo and Cosmo weighted equally, over GraphQL Adapters (P1) and over Guided Direct '
+                    'Access (P2), ratios of geometric means with 95 percent intervals, no p-value and no claim (D069; PLAN.md, section 10)']
+        self.assertEqual([h for h in headings if 'P1' in h or 'P2' in h], expected)
+        tier = res['descriptive']['measures']['timeOnP1AndP2']['tier']
+        self.assertEqual(expected[-1], '## ' + tier[0].upper() + tier[1:], "the time heading is results.json's tier, capitalised")
+        self.assertEqual(expected[-1], '## ' + analyze3.time_heading())
+        self.assertFalse(any('federation over the arm' in h for h in headings))
+
+    def test_the_comparison_labels_say_weighted_equally_in_every_output(self):
+        """study3_heading_names: the labels of P1 and P2 say "Apollo and Cosmo weighted equally" in results.json, tables.md and the figure,
+        one text in both outputs; stats3.py and analyze2.py keep their own labels."""
+        facts = self.bundle(effects=simulate3.effects_at(100))
+        self.assertEqual(run_cli(args_for(facts, self.root / 'out'))[0], 0)
+        out = self.root / 'out'
+        texts = {name: (out / name).read_text(encoding='utf-8') for name in ('results.json', 'tables.md', 'figures/effort.svg')}
+        for name, text in texts.items():
+            self.assertNotIn('mean of Apollo and Cosmo', text, name)
+        labels = {'P1': 'Federation (Apollo and Cosmo weighted equally) over GraphQL Adapters',
+                  'P2': 'Federation (Apollo and Cosmo weighted equally) over Guided Direct Access'}
+        res = json.loads(texts['results.json'])
+        effort = res['confirmatory']['effort']
+        time = res['descriptive']['measures']['timeOnP1AndP2']
+        printed = [(outcome, [{'id': e['id'], 'label': e['label']} for e in family['comparisons']]) for outcome, family in effort.items()]
+        printed += [('time %s' % subset, [{'id': r['id'], 'label': r['label']} for r in time[subset]['ratios']]) for subset in ('allRuns', 'correctOnly')]
+        for name, rows in printed:
+            self.assertEqual(rows, [{'id': k, 'label': v} for k, v in labels.items()], name)
+        headings = [line for line in texts['tables.md'].splitlines() if line.startswith('## ')]
+        sections = [h for h in headings if h.startswith('## Confirmatory: ') and 'Holm over P1 and P2' in h] + ['## ' + analyze3.time_heading()]
+        self.assertEqual(len(sections), 3)
+        for heading in sections:
+            self.assertEqual([row[:2] for row in section_rows(texts['tables.md'], heading)], [list(item) for item in labels.items()], heading)
+        self.assertIn('mean of Apollo and Cosmo', stats3.COMPARISONS[0][2], 'the label of stats3.py is unchanged')
+        self.assertIn('mean of Apollo and Cosmo', analyze3.analyze2.PLANNED[0][1], 'the label of analyze2.py is unchanged')
+
     def test_the_tiers_change_no_figure_interval_or_p_value(self):
         facts = self.bundle(effects=simulate3.effects_at(100))
         records = data3.load(facts['bundle'], facts['sums'], facts['runId'], facts['checksum'], facts['corpus'])[4]

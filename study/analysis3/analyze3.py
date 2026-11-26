@@ -47,11 +47,24 @@ r6 = analyze2.r6
 # Study 3's own tiers for study 2's secondary measures (PLAN.md, section 10; D069): time per run on P1 and P2 is descriptive, with
 # intervals and no p-value; everything else of the block is exploratory, with its unadjusted p-values.
 EXPLORATORY = 'exploratory: unadjusted p-values, outside the Holm families, no confirmatory claim (PLAN.md, section 10)'
-TIME_TIER = ('descriptive: time per run on P1 and P2, ratios of geometric means with 95 percent intervals, no p-value and no claim '
-             '(D069; PLAN.md, section 10)')
+TIME_TIER = ('descriptive: time per run of federation, Apollo and Cosmo weighted equally, over GraphQL Adapters (P1) and over Guided Direct Access (P2), '
+             'ratios of geometric means with 95 percent intervals, no p-value and no claim (D069; PLAN.md, section 10)')
 NO_P_EXPLORATORY = 'exploratory: no p-value, no confirmatory claim (PLAN.md, section 10)'
 TIME_COMPARISONS = ('P1', 'P2')
 FIGURE_TITLE = 'Confirmatory: federation over each comparison arm'
+# Study 3's words for federation in the comparison labels it prints: stats3.COMPARISONS and study 2's analyze2.PLANNED say "mean of Apollo
+# and Cosmo", which can read as an average of raw times or tool calls; the outputs say how the two arms are weighted instead.
+LABEL_PHRASE = ('mean of Apollo and Cosmo', 'Apollo and Cosmo weighted equally')
+
+
+def relabel(value):
+    """The results with every comparison label (a `label` value) saying LABEL_PHRASE's second text in place of its first; nothing else
+    changes, and the labels of stats3.py and analyze2.py stay as they are."""
+    if isinstance(value, dict):
+        return {k: v.replace(*LABEL_PHRASE) if k == 'label' and isinstance(v, str) else relabel(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [relabel(v) for v in value]
+    return value
 
 
 def measures(rows, models, conditions):
@@ -233,7 +246,8 @@ def tables_md(res):
     parts += ['## Confirmatory: the accuracy floor (federation minus the arm, points; one-sided 0.025; margin -10)', '',
               table(['Against', 'Difference', 'Lower bound', 'Floor'], rows), '']
     for outcome, family in c['effort'].items():
-        parts += ['## Confirmatory: %s (federation over the arm; Holm over P1 and P2; method: %s)' % (OUTCOME_NAMES[outcome], family['method']), '']
+        parts += ['## Confirmatory: %s (federation, Apollo and Cosmo weighted equally, over GraphQL Adapters (P1) and over Guided Direct Access (P2); '
+                  'Holm over P1 and P2; method: %s)' % (OUTCOME_NAMES[outcome], family['method']), '']
         if family['method'] == 'notEstimable':
             parts += ['Not estimable: %s.' % '; '.join(family['problems']), '']
             continue
@@ -243,7 +257,8 @@ def tables_md(res):
                         [[e['id'], e['label'], '%.3f [%.3f, %.3f]' % (e['ratio'], e['low'], e['high']), '%.4f' % e['p'], '%.4f' % e['pHolm'], verdict(e)]
                          for e in family['comparisons']]), '']
     csl = c['csl']
-    parts += ['## Confirmatory: the CSL family (P1 tool calls; one-sided 0.05; Holm over the two; method: %s)' % csl['method'], '']
+    parts += ['## Confirmatory: the CSL family (tool calls of federation, Apollo and Cosmo weighted equally, over GraphQL Adapters (P1); one-sided 0.05; '
+              'Holm over the two; method: %s)' % csl['method'], '']
     if csl['method'] == 'notEstimable':
         parts += ['Not estimable: %s.' % '; '.join(csl['problems']), '']
     else:
@@ -300,7 +315,7 @@ def main(argv=None):
     if out.exists():
         parser.error('--out must not exist yet: a file of an earlier run would stand beside the new outputs')
     try:
-        res = analyse(args)
+        res = relabel(analyse(args))
     except data3.VerificationError as error:
         print('STOP: %s' % error, file=sys.stderr)
         return 2
