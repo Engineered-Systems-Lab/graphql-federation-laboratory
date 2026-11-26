@@ -4,6 +4,8 @@ Study 2 report: study2-scored-1
 
 Status: results of Abstraction ladder study 2 (run `study2-scored-1`), written on 2026-11-07 from the committed outputs in [study/evidence/study-2](../study/evidence/study-2/tables.md) at lab commit `279b9b4`. It states the facts of the run and of its analysis under the frozen [analysis plan](../study/analysis2/PLAN.md). The primary analysis was not estimable, so this report makes no confirmatory accuracy claim. Every number below is copied from `tables.md` or `results.json` as they are written, unless the text says how it was derived; each result carries the label its output gives it. The report recommends nothing: what follows from it is the lead developer's decision.
 
+Study 3's results are in [its report](STUDY-3-REPORT.md) (later context, 2026-11-26).
+
 ## Summary
 
 - **The primary GEE is not estimable, and study 2 makes no confirmatory accuracy claim.** There is no P1 or P2 verdict, no equivalence at ±10 percentage points and no Holm family of S1 to S6. The cause the analysis names is separation: GPT-6.1 Sol's cells in the four full arms are all right or all wrong (in the data, 48 of 48 correct in each). The lead developer decided after the stop to keep it and to suspend judgement on accuracy; see [the honesty note](#honesty-note).
