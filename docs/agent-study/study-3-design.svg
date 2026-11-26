@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 576" width="760" height="576" role="img" aria-labelledby="s3-title s3-desc">
+<title id="s3-title">Study 3 design: federation against GraphQL Adapters and Guided Direct Access on effort, with accuracy as a floor</title>
+<desc id="s3-desc">The design of Abstraction ladder study 3 (run study3-scored-1), drawn from its design page. Federation, Apollo Federation and Cosmo Federation weighted equally, is compared with GraphQL Adapters (P1) and with Guided Direct Access (P2), which reads study 2's guide unchanged; Direct Access is a reference block outside the confirmatory families. Tool calls are the primary family and cost a second family, each with Holm over P1 and P2; the CSL family is two one-sided tests on P1 tool calls, forward against reverse on 54 tasks and join width on 91 tasks; accuracy is a floor of 10 percentage points that gates every claim; time and the legacy load are descriptive. The scored set is 113 tasks: 107 core, study 2's 76 pool tasks and 31 new, and 6 ambiguity tasks reported apart; by the fields direction and csl 30 reverse, 24 forward, 4 link integrity (direction none) and 55 other none. The runs follow study 2's Williams square and halves, 904 runs in the four full arms, plus a Direct Access block of 226, 1,130 runs. No results are shown.</desc>
+<style>
+text{font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;font-size:12px;fill:#1f2328}
+.t{font-size:16px;font-weight:600}
+.h{font-size:13px;font-weight:600}
+.b{font-weight:600}
+.s{font-size:11px}
+.m{fill:#57606a}
+.panel{fill:#f7f8fa;stroke:#c9ced6}
+.card{fill:#ffffff;stroke:#c9ced6}
+.ref{fill:#eef0f3;stroke:#6e7781}
+.arrow{stroke:#57606a;fill:none}
+.head{fill:#57606a}
+.ka{fill:#dbeafe;stroke:#3b6fb6}
+.kb{fill:#fde2cf;stroke:#c2622d}
+.kc{fill:#dcf2e4;stroke:#2f8a57}
+.kd{fill:#ece3fb;stroke:#7a52c2}
+@media (prefers-color-scheme: dark){
+text{fill:#e6edf3}
+.m{fill:#9da7b3}
+.panel{fill:#161b22;stroke:#3d444d}
+.card{fill:#0d1117;stroke:#3d444d}
+.ref{fill:#21262d;stroke:#8b949e}
+.arrow{stroke:#9da7b3}
+.head{fill:#9da7b3}
+.ka{fill:#1b2a40;stroke:#7fa8e0}
+.kb{fill:#3a2617;stroke:#e39a6a}
+.kc{fill:#16301f;stroke:#6cc394}
+.kd{fill:#2a2140;stroke:#b195ea}
+}
+</style>
+<rect class="panel" x="0.5" y="0.5" width="759" height="575" rx="8"/>
+<text class="t" x="20" y="32">Study 3 (study3-scored-1): federation's effort against two arms, accuracy as a floor</text>
+<text class="m" x="20" y="52">Study 2's five arms, system prompt, harness tools and limits, with claude-sonnet-5-5 and gpt-6.1-sol</text>
+<text class="m" x="20" y="68">at medium effort. Arms are named; the internal identifier follows in grey.</text>
+<rect class="card" x="20" y="84" width="330" height="262" rx="6"/>
+<text class="h" x="32" y="106">The planned comparisons</text>
+<rect class="kc" x="32" y="118" width="306" height="58" rx="5"/>
+<text class="b" x="44" y="138">Federation <tspan class="s m">the two arms weighted equally</tspan></text>
+<text class="s" x="44" y="154">0.5 &#215; Apollo Federation <tspan class="m">Delta</tspan></text>
+<text class="s" x="44" y="168">+ 0.5 &#215; Cosmo Federation <tspan class="m">Epsilon</tspan></text>
+<line class="arrow" x1="105" y1="176" x2="105" y2="198" stroke-width="1.5"/>
+<path class="head" d="M105 206 L100 196 L110 196 Z"/>
+<text class="b" x="113" y="196">P1</text>
+<line class="arrow" x1="265" y1="176" x2="265" y2="198" stroke-width="1.5"/>
+<path class="head" d="M265 206 L260 196 L270 196 Z"/>
+<text class="b" x="273" y="196">P2</text>
+<rect class="ka" x="32" y="208" width="148" height="54" rx="5"/>
+<text class="b" x="44" y="228">GraphQL Adapters</text>
+<text class="s m" x="44" y="243">Gamma</text>
+<text class="s" x="44" y="256">the four adapters</text>
+<rect class="kb" x="190" y="208" width="148" height="54" rx="5"/>
+<text class="b" x="202" y="228">Guided Direct Access</text>
+<text class="s m" x="202" y="243">Beta</text>
+<text class="s" x="202" y="256">study 2's guide, unchanged</text>
+<rect class="ref" x="32" y="274" width="306" height="58" rx="5"/>
+<text class="b" x="44" y="294">Direct Access <tspan class="s m">Alpha</tspan></text>
+<text class="s" x="44" y="310">the reference block, outside the confirmatory</text>
+<text class="s" x="44" y="324">families</text>
+<rect class="card" x="366" y="84" width="374" height="262" rx="6"/>
+<text class="h" x="378" y="106">The measures, and how they are read</text>
+<text class="b" x="378" y="130">The gate: accuracy as a floor</text>
+<text class="s" x="378" y="145">federation minus the arm, core set: bound above &#8722;10 points;</text>
+<text class="s" x="378" y="159">a result is claimed only where federation clears it</text>
+<text class="b" x="378" y="184">Family 1, primary: 1 + tool calls</text>
+<text class="s" x="378" y="199">P1 and P2, two-sided, Holm over the two</text>
+<text class="b" x="378" y="224">Family 2: cost per run</text>
+<text class="s" x="378" y="239">P1 and P2, two-sided, Holm over the two</text>
+<text class="b" x="378" y="264">The CSL family: P1 tool calls, one-sided</text>
+<text class="s" x="378" y="279">forward against reverse (54 tasks); join width (91 tasks),</text>
+<text class="s" x="378" y="293">an association, not a cause; Holm over the two</text>
+<text class="b" x="378" y="318">Descriptive, no claim</text>
+<text class="s" x="378" y="333">time per run; the load on the legacy systems</text>
+<rect class="card" x="20" y="362" width="720" height="156" rx="6"/>
+<text class="h" x="32" y="384">The scored set: 113 tasks, with no draw (the D071 scored-set extension)</text>
+<rect class="ka" x="32" y="396" width="463" height="30" rx="4"/>
+<text class="s" x="42" y="415">Core: study 2's pool, 76</text>
+<rect class="kc" x="499" y="396" width="189" height="30" rx="4"/>
+<text class="s" x="509" y="415">Core: new, 31</text>
+<rect class="ref" x="692" y="396" width="36" height="30" rx="4"/>
+<text class="s" x="706" y="415">6</text>
+<text class="s m" x="32" y="442">By group, from the fields direction and csl</text>
+<rect class="kb" x="32" y="450" width="182" height="30" rx="4"/>
+<text class="s" x="42" y="469">Reverse, 30</text>
+<rect class="ka" x="218" y="450" width="145" height="30" rx="4"/>
+<text class="s" x="228" y="469">Forward, 24</text>
+<rect class="kd" x="367" y="450" width="24" height="30" rx="4"/>
+<text class="s" x="376" y="469">4</text>
+<rect class="ref" x="395" y="450" width="333" height="30" rx="4"/>
+<text class="s" x="405" y="469">None, 55</text>
+<text class="s m" x="32" y="496">Widths in proportion to the tasks. 6: the ambiguity set, reported apart. 4: link integrity (direction none, csl link-integrity).</text>
+<text class="s m" x="32" y="510">None: direction none, other than link integrity. The core set is the 107 pool and new tasks; 14 of the 113 are in category D.</text>
+<text x="20" y="542">Schedule: study 2's Williams square of 4 rounds of 4 blocks, with its halves, then the Direct Access block.</text>
+<text class="b" x="20" y="564">study3-scored-1 as planned: 904 runs in the four full arms + 226 in the Direct Access block = 1,130 runs</text>
+</svg>
