@@ -179,9 +179,9 @@ On correct runs only (`results.json`, `descriptive.measures.timeOnP1AndP2.correc
 
 ### Descriptive: spend by arm
 
-USD, prices of the manifest; each run at its recorded cost.
+USD, prices of the manifest; each run at its recorded cost. The headings now name the spend in USD and were relabelled on 2026-11-27 UTC from `Counted runs`, `Archived attempts (operational only)` and `Void attempts (operational only)` in `tables.md`.
 
-| Arm | Counted runs | Archived attempts (operational only) | Void attempts (operational only) |
+| Arm | Counted-run spend (USD) | Archived-attempt spend (USD, operational only) | Void-attempt spend (USD, operational only) |
 | --- | --- | --- | --- |
 | Guided Direct Access | 15.081647 | 0.000000 | 0.000000 |
 | GraphQL Adapters | 15.682256 | 0.000000 | 0.000000 |
