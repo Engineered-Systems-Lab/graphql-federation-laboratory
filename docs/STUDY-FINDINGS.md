@@ -1,6 +1,6 @@
-# The two agent studies: results across study 1 and study 2
+# The three agent studies: results across studies 1 to 3
 
-Status: a non-normative page of the results of Abstraction ladder study 1 and study 2 side by side, written on 2026-11-08 from the two reports only: [study 1's report](AGENT-STUDY-REPORT.md) (runs study-1 and gamma-prime-1) and [study 2's report](STUDY-2-REPORT.md) (run `study2-scored-1`). The reports govern, and where this page differs from them, they win. It holds no new number, analysis or interpretation: every figure is copied from a report as written, with its interval where the report gives one and under the label the report gives it, and links to the section it comes from. It recommends nothing. The design of both studies is in [the study overview](STUDY-OVERVIEW.md). Study 3's results are in [the study 3 report](STUDY-3-REPORT.md) and are not on this page (later context, 2026-11-26).
+Status: a non-normative page of the results of Abstraction ladder studies 1 to 3 side by side. The original page was written on 2026-11-08 from [study 1's report](AGENT-STUDY-REPORT.md) (runs study-1 and gamma-prime-1) and [study 2's report](STUDY-2-REPORT.md) (run `study2-scored-1`). Study 3's results were added on 2026-11-27 (UTC) from [its report](STUDY-3-REPORT.md) (strand 1, run `study3-scored-1`). The three reports govern where this page differs from them. The three reports are the page's only sources for results. Every figure is copied as its report writes it, with its interval where given and under its result label. Each figure links to its source section. The page adds no figures, analysis, interpretation or recommendation. The studies' designs are in [the study overview](STUDY-OVERVIEW.md).
 
 ## What study 1 established
 
@@ -66,20 +66,50 @@ The report also gives these ratios for correct runs only, and S1 and S2 for each
 - **The honest-gap rate on category D (exploratory):** each of the four full arms was honest in 12 of 12 runs of the tasks that need the stopped service, and in 4 of 4 runs of the over-reporting controls. The arms cannot be compared on it: every cell is separated (all honest), and its GEE is not estimable ([the honest-gap rate](STUDY-2-REPORT.md#exploratory-the-honest-gap-rate-on-category-d)).
 - **Direct Access (exploratory):** 36 and 27 of 48 correct. It ran as one block, last in the schedule, so its counts are confounded with that time window, and its comparison with each arm is not estimable ([exploratory results](STUDY-2-REPORT.md#exploratory-results)).
 
-## Where the two reports agree
+## What study 3 claims, and what it leaves open
+
+Study 3 asks whether federation reduces agent effort on cross-system lookups. The confirmatory effort families cover tool calls and cost. Each comparison is gated by an accuracy floor. The report covers strand 1 and records strand 2 as postponed ([Summary](STUDY-3-REPORT.md#summary), [The question](STUDY-3-REPORT.md#the-question), [What study 3 does and does not show](STUDY-3-REPORT.md#what-study-3-does-and-does-not-show)).
+
+- **Accuracy floor (confirmatory gate).** With a margin of -10 percentage points, federation cleared the floor against GraphQL Adapters (difference +1.6, lower bound -0.1) and Guided Direct Access (difference +1.1, lower bound -0.3). Whether federation is more accurate remains open ([The accuracy floor](STUDY-3-REPORT.md#confirmatory-the-accuracy-floor), [What stays open](STUDY-3-REPORT.md#what-study-3-does-and-does-not-show)).
+- **Tool calls and cost (confirmatory, Holm over P1 and P2 within each family).** Federation, with Apollo Federation and Cosmo Federation weighted equally, had a lower geometric mean of 1 + tool calls per run than GraphQL Adapters (P1) and a higher one than Guided Direct Access (P2). Its geometric mean cost per run was lower than both comparison arms'. The report claims all four results. The table below gives the ratios and intervals ([The effort families](STUDY-3-REPORT.md#confirmatory-the-effort-families)).
+- **Cross-system lookup family (confirmatory).** The report claims both tests on tool calls for federation over GraphQL Adapters (P1), one-sided at 0.05 with Holm over the two. For "Advantage smaller on reverse questions than on forward questions", the difference of log ratios was +0.183, with one-sided 95% bound +0.064. For "Advantage larger on questions that read several systems than on one", it was -0.257, with bound -0.172. The report limits the join-width result to an association within this corpus, with direction contributing to it. The test cannot isolate join width as a cause ([The CSL family](STUDY-3-REPORT.md#confirmatory-the-csl-family)).
+- **Descriptive and sensitivity results.** Accuracy in each cross-system lookup group, time per run, spend by arm and legacy-system load are descriptive. The sensitivity analyses support no claim of their own ([Summary](STUDY-3-REPORT.md#summary), [Sensitivity](STUDY-3-REPORT.md#sensitivity)).
+- **Exploratory and not estimable.** Other arm pairs, the model pair, the ambiguity set, task categories and sizes, calculation tool use and the subset of study 2 tasks are exploratory. Direct Access against the arms, size-stratum comparisons and the honest-gap comparison are not estimable ([Summary](STUDY-3-REPORT.md#summary), [What stays open](STUDY-3-REPORT.md#what-study-3-does-and-does-not-show)).
+
+## Where the reports agree
 
 Each pair below is two results under their own labels, from two studies that differ in their conditions. It is not a replication and not a pooled result.
 
 - **The cost of a Claude run.** Study 1, secondary outcome: Claude over GPT 2.17 [1.82, 2.59] ([secondary outcomes](AGENT-STUDY-REPORT.md#secondary-outcomes)). Study 2, exploratory with unadjusted p: S5 2.19 [2.11, 2.28], p 0.0000 ([the exploratory measures](STUDY-2-REPORT.md#exploratory-cost-time-and-tool-calls)).
 - **Raw access lowest in accuracy.** Study 1, confirmatory model: Alpha 60.9 percent [43.6, 75.9], the lowest of the four scenarios in the model, and Alpha against Delta is the one difference that holds after correction ([accuracy by scenario](AGENT-STUDY-REPORT.md#confirmatory-accuracy-by-scenario)); Gamma as built was lower descriptively and is used in no test. Study 2, descriptive: Direct Access 36/48 and 27/48, lower than every full arm's counts, from one block, last, with no estimable comparison ([the core set](STUDY-2-REPORT.md#descriptive-correct-answers-and-outcomes-in-the-core-set)).
 
+### Study 2 and study 3 effort comparisons
+
+Each row gives two ratios of geometric means with 95 percent intervals. A ratio below 1 means the federation side has the lower geometric mean. For P1 the point estimates for cost and 1 + tool calls are below 1 in each report. For P2 the cost estimates are below 1 and the 1 + tool calls estimates are above 1 in each report. The result tiers differ as shown in the column headings. For study 2's exploratory effort ratios, P1 and P2 name the contrasts only. Its planned P1 and P2 comparisons concern accuracy ([the question](STUDY-2-REPORT.md#the-question), [the exploratory measures](STUDY-2-REPORT.md#exploratory-cost-time-and-tool-calls)).
+
+| Comparison | Measure per run | Study 2 exploratory, unadjusted p ([source](STUDY-2-REPORT.md#exploratory-cost-time-and-tool-calls)) | Study 3 confirmatory, Holm p, accuracy floor cleared ([source](STUDY-3-REPORT.md#confirmatory-the-effort-families)) |
+| --- | --- | --- | --- |
+| P1 — Federation over GraphQL Adapters | Cost | 0.85 [0.77, 0.94], p 0.0020 | 0.771 [0.716, 0.830], p 0.0000, claimed |
+| P1 — Federation over GraphQL Adapters | 1 + tool calls | 0.79 [0.72, 0.86], p 0.0000 | 0.727 [0.689, 0.767], p 0.0000, claimed |
+| P2 — Federation over Guided Direct Access | Cost | 0.77 [0.68, 0.87], p 0.0000 | 0.846 [0.767, 0.932], p 0.0008, claimed |
+| P2 — Federation over Guided Direct Access | 1 + tool calls | 1.29 [1.10, 1.52], p 0.0016 | 1.287 [1.156, 1.433], p 0.0000, claimed |
+
+Study 2 labels the federation side "mean of Apollo and Cosmo" ([Study 2 exploratory measures](STUDY-2-REPORT.md#exploratory-cost-time-and-tool-calls)).
+
+Study 3 labels it "Apollo and Cosmo weighted equally" ([Study 3 effort families](STUDY-3-REPORT.md#confirmatory-the-effort-families)).
+
 ## Why the studies are not pooled
 
-Study 2's report says that study 2 is not a replication of study 1 and that its accuracy is not pooled with study 1's ([the question](STUDY-2-REPORT.md#the-question)). The conditions that differ:
+Study 2's report says that study 2 is not a replication of study 1 and that its accuracy is not pooled with study 1's ([the question](STUDY-2-REPORT.md#the-question)). The table puts the conditions of all three studies side by side.
 
-| | Study 1 | Study 2 |
-| --- | --- | --- |
-| Missions backend | a simulator ([the testbed](AGENT-STUDY-REPORT.md#correction-2026-10-21-the-study-testbed)) | the real Missions service on Oracle ([design](STUDY-2-REPORT.md#design)) |
-| Scored tasks | 16 | 48 core tasks, and 6 in a separate ambiguity set |
-| The `calculate` tool | no calculation tool ([the overview](STUDY-OVERVIEW.md#at-a-glance); study 1's report names none) | in every arm ([departures](STUDY-2-REPORT.md#departures-and-run-conditions)) |
-| Network | a commercial VPN, exit Ashburn, USA ([run conditions](AGENT-STUDY-REPORT.md#run-conditions)) | NordVPN off, the machine's direct connection ([departures](STUDY-2-REPORT.md#departures-and-run-conditions)) |
+| | Study 1 | Study 2 | Study 3 |
+| --- | --- | --- | --- |
+| Missions backend | a simulator ([the testbed](AGENT-STUDY-REPORT.md#correction-2026-10-21-the-study-testbed)) | the real Missions service on Oracle ([design](STUDY-2-REPORT.md#design)) | the real Missions service on Oracle ([run conditions](STUDY-3-REPORT.md#departures-and-run-conditions)) |
+| Scored tasks | 16 | 48 core tasks, and 6 in a separate ambiguity set | 107 core tasks, and 6 in a separate ambiguity set ([design](STUDY-3-REPORT.md#design)) |
+| The `calculate` tool | no calculation tool ([the overview](STUDY-OVERVIEW.md#at-a-glance); study 1's report names none) | in every arm ([departures](STUDY-2-REPORT.md#departures-and-run-conditions)) | in every arm ([design](STUDY-3-REPORT.md#design)) |
+| Network | a commercial VPN, exit Ashburn, USA ([run conditions](AGENT-STUDY-REPORT.md#run-conditions)) | NordVPN off, the machine's direct connection ([departures](STUDY-2-REPORT.md#departures-and-run-conditions)) | direct connection, NordVPN off ([run conditions](STUDY-3-REPORT.md#departures-and-run-conditions)) |
+| Primary outcome | correctness ([honesty note](AGENT-STUDY-REPORT.md#honesty-note)) | accuracy ([the question](STUDY-2-REPORT.md#the-question)) | effort, with tool calls primary and cost a second confirmatory family. Accuracy serves as a floor ([design](STUDY-3-REPORT.md#design)) |
+
+Study 2 and study 3 share the 48 core tasks scored in study 2. Study 3 ran the full checked pool and new tasks ([design](STUDY-3-REPORT.md#design), [study 2's tasks](STUDY-3-REPORT.md#descriptive-and-exploratory-results-from-resultsjson)).
+
+Study 3 also used a different warm-up for Apollo Federation and Cosmo Federation. It read the Personnel snapshot before the first scored run ([departures and run conditions](STUDY-3-REPORT.md#departures-and-run-conditions)).
